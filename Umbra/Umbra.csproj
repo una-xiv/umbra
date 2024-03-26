@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+	<Import Project="..\Dalamud.Plugin.Bootstrap.targets" />
+
+	<PropertyGroup>
+		<TargetFramework>net8.0-windows</TargetFramework>
+		<Platforms>x64</Platforms>
+		<Nullable>enable</Nullable>
+		<LangVersion>latest</LangVersion>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<ProduceReferenceAssembly>false</ProduceReferenceAssembly>
+		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+		<OutputPath>..\out\$(Configuration)\</OutputPath>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<Authors>Una</Authors>
+		<Company>-</Company>
+		<Version>0.0.0.1</Version>
+		<Description>Umbra UI</Description>
+		<Copyright>-</Copyright>
+		<PackageProjectUrl>https://github.com/una-xiv/umbra</PackageProjectUrl>
+		<PackageLicenseExpression>AGPL-3.0-or-later</PackageLicenseExpression>
+		<IsPackable>false</IsPackable>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Content Include="Umbra.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="images\icon.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="images\shadow.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Umbra.Common\Umbra.Common.csproj" />
+		<ProjectReference Include="..\Umbra.Drawing\Umbra.Drawing.csproj" />
+		<ProjectReference Include="..\Umbra.Game\Umbra.Game.csproj" />
+	</ItemGroup>
+</Project>

@@ -1,0 +1,14 @@
+{
+  "Author": "Una",
+  "Name": "Umbra XIV",
+  "Description": "Adds quality of life improvements to the game and consolidates common UI elements and actions into a single uniform interface.",
+  "InternalName": "Umbra",
+  "Punchline":  "Ain't you a pretty little thing?",
+  "RepoUrl": "https://github.com/una-xiv/umbra",
+  "Tags": [
+    "ui",
+	"marker",
+	"markers",
+	"toolbar"
+  ]
+}

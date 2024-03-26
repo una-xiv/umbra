@@ -1,0 +1,48 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29709.97
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Umbra", "Umbra\Umbra.csproj", "{13C812E9-0D42-4B95-8646-40EEBF30636F}"
+	ProjectSection(ProjectDependencies) = postProject
+		{d6f5ae81-8c52-4de1-9b17-1b253dc5b569} = {d6f5ae81-8c52-4de1-9b17-1b253dc5b569}
+		{56bda3dd-7770-4412-93e7-79ff05559e36} = {56bda3dd-7770-4412-93e7-79ff05559e36}
+		{c3154267-fc9d-4522-872d-f7f89b3731fc} = {c3154267-fc9d-4522-872d-f7f89b3731fc}
+	EndProjectSection
+EndProject
+Project("{fe0b83c5-6a8e-45f2-8d93-d042f0334272}") = "Umbra.Drawing", "Umbra.Drawing\Umbra.Drawing.csproj", "{d6f5ae81-8c52-4de1-9b17-1b253dc5b569}"
+EndProject
+Project("{26495231-af23-4aa0-95e5-42833eac1db2}") = "Umbra.Common", "Umbra.Common\Umbra.Common.csproj", "{56bda3dd-7770-4412-93e7-79ff05559e36}"
+EndProject
+Project("{d76ab56e-9f51-46f4-948e-5fb870539f81}") = "Umbra.Game", "Umbra.Game\Umbra.Game.csproj", "{c3154267-fc9d-4522-872d-f7f89b3731fc}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{13C812E9-0D42-4B95-8646-40EEBF30636F}.Debug|x64.ActiveCfg = Debug|x64
+		{13C812E9-0D42-4B95-8646-40EEBF30636F}.Debug|x64.Build.0 = Debug|x64
+		{13C812E9-0D42-4B95-8646-40EEBF30636F}.Release|x64.ActiveCfg = Release|x64
+		{13C812E9-0D42-4B95-8646-40EEBF30636F}.Release|x64.Build.0 = Release|x64
+		{d6f5ae81-8c52-4de1-9b17-1b253dc5b569}.Debug|x64.ActiveCfg = Debug|x64
+		{d6f5ae81-8c52-4de1-9b17-1b253dc5b569}.Debug|x64.Build.0 = Debug|x64
+		{d6f5ae81-8c52-4de1-9b17-1b253dc5b569}.Release|x64.ActiveCfg = Release|x64
+		{d6f5ae81-8c52-4de1-9b17-1b253dc5b569}.Release|x64.Build.0 = Release|x64
+		{56bda3dd-7770-4412-93e7-79ff05559e36}.Debug|x64.ActiveCfg = Debug|x64
+		{56bda3dd-7770-4412-93e7-79ff05559e36}.Debug|x64.Build.0 = Debug|x64
+		{56bda3dd-7770-4412-93e7-79ff05559e36}.Release|x64.ActiveCfg = Release|x64
+		{56bda3dd-7770-4412-93e7-79ff05559e36}.Release|x64.Build.0 = Release|x64
+		{c3154267-fc9d-4522-872d-f7f89b3731fc}.Debug|x64.ActiveCfg = Debug|x64
+		{c3154267-fc9d-4522-872d-f7f89b3731fc}.Debug|x64.Build.0 = Debug|x64
+		{c3154267-fc9d-4522-872d-f7f89b3731fc}.Release|x64.ActiveCfg = Release|x64
+		{c3154267-fc9d-4522-872d-f7f89b3731fc}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B17E85B1-5F60-4440-9F9A-3DDE877E8CDF}
+	EndGlobalSection
+EndGlobal
