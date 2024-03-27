@@ -1,14 +1,14 @@
-/* Umbra.Drawing | (c) 2024 by Una      ____ ___        ___.
+﻿/* Umbra.Interface | (c) 2024 by Una    ____ ___        ___.
  * Licensed under the terms of AGPL-3  |    |   \ _____ \_ |__ _______ _____
  *                                     |    |   //     \ | __ \\_  __ \\__  \
  * https://github.com/una-xiv/umbra    |    |  /|  Y Y  \| \_\ \|  | \/ / __ \_
  *                                     |______//__|_|  /____  /|__|   (____  /
- *     Umbra.Drawing is free software: you can       \/     \/             \/
+ *     Umbra.Interface is free software: you can    \/     \/             \/
  *     redistribute it and/or modify it under the terms of the GNU Affero
  *     General Public License as published by the Free Software Foundation,
  *     either version 3 of the License, or (at your option) any later version.
  *
- *     Umbra.Common is distributed in the hope that it will be useful,
+ *     Umbra.Interface is distributed in the hope that it will be useful,
  *     but WITHOUT ANY WARRANTY; without even the implied warranty of
  *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *     GNU Affero General Public License for more details.
@@ -21,9 +21,9 @@ using Dalamud.Interface.GameFonts;
 using Dalamud.Interface.ManagedFontAtlas;
 using Umbra.Common;
 
-namespace Umbra.Drawing;
+namespace Umbra.Interface;
 
-public static class FontRepository
+public class FontRepository
 {
     private static readonly Dictionary<Font, IFontHandle> FontHandles = [];
 
@@ -60,8 +60,7 @@ public static class FontRepository
     [WhenFrameworkAsyncCompiling]
     internal static async Task LoadFonts()
     {
-        // Await all.
-        List<Task<IFontHandle>> awaitable = [
+        List<Task<IFontHandle>> tasks = [
             CreateFontFromStyle(Font.AxisExtraSmall, new(GameFontFamily.Axis, 12)),
             CreateFontFromStyle(Font.AxisSmall,      new(GameFontFamilyAndSize.Axis96)),
             CreateFontFromStyle(Font.Axis,           new(GameFontFamilyAndSize.Axis12)),
@@ -71,14 +70,14 @@ public static class FontRepository
             CreateFontFromStyle(Font.Miedinger,      new(GameFontFamilyAndSize.MiedingerMid12) { Bold = true }),
             CreateFontFromStyle(Font.MiedingerLarge, new(GameFontFamily.MiedingerMid, 28f)),
 
-            CreateFontFromDalamudAsset(Font.MonospaceSmall,   DalamudAsset.InconsolataRegular, new() { SizePx = 10 }),
-            CreateFontFromDalamudAsset(Font.Monospace,        DalamudAsset.InconsolataRegular, new() { SizePx = 14 }),
-            CreateFontFromDalamudAsset(Font.MonospaceLarge,   DalamudAsset.InconsolataRegular, new() { SizePx = 18 }),
+            CreateFontFromDalamudAsset(Font.MonospaceSmall,   DalamudAsset.InconsolataRegular,   new() { SizePx = 10 }),
+            CreateFontFromDalamudAsset(Font.Monospace,        DalamudAsset.InconsolataRegular,   new() { SizePx = 14 }),
+            CreateFontFromDalamudAsset(Font.MonospaceLarge,   DalamudAsset.InconsolataRegular,   new() { SizePx = 18 }),
             CreateFontFromDalamudAsset(Font.FontAwesomeSmall, DalamudAsset.FontAwesomeFreeSolid, new() { SizePx = 10 }),
             CreateFontFromDalamudAsset(Font.FontAwesome,      DalamudAsset.FontAwesomeFreeSolid, new() { SizePx = 14 }),
         ];
 
-        await Task.WhenAll(awaitable);
+        await Task.WhenAll(tasks);
 
         // Assign Axis14 as default.
         FontHandles[Font.Default] = FontHandles[Font.Axis];
@@ -101,7 +100,10 @@ public static class FontRepository
 
     private static Task<IFontHandle> CreateFontFromDalamudAsset(Font font, DalamudAsset asset, SafeFontConfig config)
     {
-        FontHandles[font] = Framework.DalamudPlugin.UiBuilder.FontAtlas.NewDelegateFontHandle(e => e.OnPreBuild(tk => tk.AddDalamudAssetFont(asset, config)));
+        FontHandles[font] =
+            Framework.DalamudPlugin.UiBuilder.FontAtlas.NewDelegateFontHandle(
+                e => e.OnPreBuild(tk => tk.AddDalamudAssetFont(asset, config))
+            );
 
         return FontHandles[font].WaitAsync();
     }

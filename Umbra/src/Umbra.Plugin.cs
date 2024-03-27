@@ -85,5 +85,6 @@ internal sealed class Plugin : IDalamudPlugin
         Framework.RegisterAssembly(Assembly.GetExecutingAssembly());
         Framework.RegisterAssembly(typeof(Drawing.EntryPoint).Assembly);
         Framework.RegisterAssembly(typeof(Game.EntryPoint).Assembly);
+        Framework.RegisterAssembly(typeof(Interface.EntryPoint).Assembly);
     }
 }

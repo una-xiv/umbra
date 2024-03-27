@@ -8,6 +8,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Umbra", "Umbra\Umbra.csproj
 		{d6f5ae81-8c52-4de1-9b17-1b253dc5b569} = {d6f5ae81-8c52-4de1-9b17-1b253dc5b569}
 		{56bda3dd-7770-4412-93e7-79ff05559e36} = {56bda3dd-7770-4412-93e7-79ff05559e36}
 		{c3154267-fc9d-4522-872d-f7f89b3731fc} = {c3154267-fc9d-4522-872d-f7f89b3731fc}
+		{a11cec40-08e7-4731-a3c0-8d009371e398} = {a11cec40-08e7-4731-a3c0-8d009371e398}
 	EndProjectSection
 EndProject
 Project("{fe0b83c5-6a8e-45f2-8d93-d042f0334272}") = "Umbra.Drawing", "Umbra.Drawing\Umbra.Drawing.csproj", "{d6f5ae81-8c52-4de1-9b17-1b253dc5b569}"
@@ -16,6 +17,9 @@ Project("{26495231-af23-4aa0-95e5-42833eac1db2}") = "Umbra.Common", "Umbra.Commo
 EndProject
 Project("{d76ab56e-9f51-46f4-948e-5fb870539f81}") = "Umbra.Game", "Umbra.Game\Umbra.Game.csproj", "{c3154267-fc9d-4522-872d-f7f89b3731fc}"
 EndProject
+Project("{c13c141b-d0db-4efc-91a7-e6850f6212ba}") = "Umbra.Interface", "Umbra.Interface\Umbra.Interface.csproj", "{a11cec40-08e7-4731-a3c0-8d009371e398}"
+EndProject
+
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -38,6 +42,10 @@ Global
 		{c3154267-fc9d-4522-872d-f7f89b3731fc}.Debug|x64.Build.0 = Debug|x64
 		{c3154267-fc9d-4522-872d-f7f89b3731fc}.Release|x64.ActiveCfg = Release|x64
 		{c3154267-fc9d-4522-872d-f7f89b3731fc}.Release|x64.Build.0 = Release|x64
+		{a11cec40-08e7-4731-a3c0-8d009371e398}.Debug|x64.ActiveCfg = Debug|x64
+		{a11cec40-08e7-4731-a3c0-8d009371e398}.Debug|x64.Build.0 = Debug|x64
+		{a11cec40-08e7-4731-a3c0-8d009371e398}.Release|x64.ActiveCfg = Release|x64
+		{a11cec40-08e7-4731-a3c0-8d009371e398}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
