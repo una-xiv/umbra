@@ -47,7 +47,7 @@ class MyClass
     [OnDraw]
     public void OnDraw()
     {
-        _myButton.Render(ImGui.GetWindowDrawList(), new Vector2(100, 100));
+        _myButton.Render(ImGui.GetForegroundDrawList(), new Vector2(100, 100));
     }
 }
 ```
