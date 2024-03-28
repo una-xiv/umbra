@@ -15,6 +15,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using Dalamud.Interface.Internal;
 using Dalamud.IoC;
@@ -29,7 +30,12 @@ namespace Umbra.Interface;
 public class ImageRepository
 {
     [PluginService] private ITextureProvider TextureProvider { get; set; } = null!;
-    [PluginService] private IDataManager DataManager { get; set; } = null!;
+    [PluginService] private IDataManager     DataManager     { get; set; } = null!;
+
+    private static readonly Dictionary<string, IDalamudTextureWrap> LocalTextureCache = [];
+    private static readonly Dictionary<string, Image<Rgba32>>       LocalImageCache   = [];
+    private static readonly Dictionary<uint, IDalamudTextureWrap>   IconCache         = [];
+    private static readonly Dictionary<uint, TexFile>               IconFileCache     = [];
 
     private static ImageRepository Instance { get; set; } = null!;
 
@@ -37,6 +43,15 @@ public class ImageRepository
     internal static void Initialize()
     {
         Framework.DalamudPlugin.Inject(Instance = new());
+    }
+
+    [WhenFrameworkDisposing(executionOrder: int.MaxValue)]
+    internal static void Dispose()
+    {
+        LocalTextureCache.Clear();
+        LocalImageCache.Clear();
+        IconCache.Clear();
+        IconFileCache.Clear();
     }
 
     /// <summary>
@@ -47,14 +62,21 @@ public class ImageRepository
     /// <exception cref="InvalidOperationException"></exception>
     public static IDalamudTextureWrap GetLocalTexture(string path)
     {
+        if (LocalTextureCache.TryGetValue(path, out var cachedTexture)) return cachedTexture;
+
         if (Instance.TextureProvider == null)
             throw new InvalidOperationException("AssetManager has not been initialized.");
 
-        var pathInfo = new FileInfo(Path.Combine(Path.GetDirectoryName(Framework.DalamudPlugin.AssemblyLocation.FullName)!, path));
-        var texture  = Instance.TextureProvider.GetTextureFromFile(pathInfo);
+        var pathInfo = new FileInfo(
+            Path.Combine(Path.GetDirectoryName(Framework.DalamudPlugin.AssemblyLocation.FullName)!, path)
+        );
 
-        return texture
-            ?? throw new InvalidOperationException($"Failed to load texture \"{path}\".");
+        var texture = Instance.TextureProvider.GetTextureFromFile(pathInfo)
+         ?? throw new InvalidOperationException($"Failed to load texture \"{path}\".");
+
+        LocalTextureCache[path] = texture;
+
+        return texture;
     }
 
     /// <summary>
@@ -62,9 +84,17 @@ public class ImageRepository
     /// </summary>
     public static Image<Rgba32> GetLocalImage(string path)
     {
-        var pathInfo = new FileInfo(Path.Combine(Path.GetDirectoryName(Framework.DalamudPlugin.AssemblyLocation.FullName)!, path));
+        if (LocalImageCache.TryGetValue(path, out var cachedImage)) return cachedImage;
 
-        return Image.Load<Rgba32>(pathInfo.FullName);
+        var pathInfo = new FileInfo(
+            Path.Combine(Path.GetDirectoryName(Framework.DalamudPlugin.AssemblyLocation.FullName)!, path)
+        );
+
+        var image = Image.Load<Rgba32>(pathInfo.FullName);
+
+        LocalImageCache[path] = image;
+
+        return image;
     }
 
     /// <summary>
@@ -75,11 +105,17 @@ public class ImageRepository
     /// <exception cref="InvalidOperationException"></exception>
     public static IDalamudTextureWrap GetIcon(uint iconId)
     {
+        if (IconCache.TryGetValue(iconId, out var cachedIcon)) return cachedIcon;
+
         if (Instance.TextureProvider == null)
             throw new InvalidOperationException("AssetManager has not been initialized.");
 
-        return Instance.TextureProvider.GetIcon(iconId)
-            ?? throw new InvalidOperationException($"Failed to load icon #{iconId}.");
+        var icon = Instance.TextureProvider.GetIcon(iconId)
+         ?? throw new InvalidOperationException($"Failed to load icon #{iconId}.");
+
+        IconCache[iconId] = icon;
+
+        return icon;
     }
 
     /// <summary>
@@ -90,14 +126,20 @@ public class ImageRepository
     /// <exception cref="InvalidOperationException"></exception>
     public static TexFile GetIconFile(uint iconId)
     {
+        if (IconFileCache.TryGetValue(iconId, out var cachedIconFile)) return cachedIconFile;
+
         if (Instance.DataManager == null || Instance.TextureProvider == null)
             throw new InvalidOperationException("AssetManager has not been initialized.");
 
         string iconPath = Instance.TextureProvider.GetIconPath(iconId)
-            ?? throw new InvalidOperationException($"Failed to get icon path for #{iconId}.");
+         ?? throw new InvalidOperationException($"Failed to get icon path for #{iconId}.");
 
-        return Instance.DataManager.GetFile<TexFile>(iconPath)
-            ?? throw new InvalidOperationException($"Failed to load icon file for #{iconId}.");
+        var iconFile = Instance.DataManager.GetFile<TexFile>(iconPath)
+         ?? throw new InvalidOperationException($"Failed to load icon file for #{iconId}.");
+
+        IconFileCache[iconId] = iconFile;
+
+        return iconFile;
     }
 
     /// <summary>

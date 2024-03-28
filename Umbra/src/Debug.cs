@@ -1,4 +1,3 @@
-using Dalamud.Plugin.Services;
 using ImGuiNET;
 using Umbra.Common;
 using Umbra.Interface;
@@ -41,6 +40,7 @@ public sealed class UmbraDebug
             OutlineWidth    = 2,
         },
         children: [
+            new("BG1", anchor: Anchor.None, padding: new(16), style: new() { BackgroundColor = 0x600000FF }),
             new(
                 "TL",
                 anchor: Anchor.TopLeft,
@@ -60,13 +60,14 @@ public sealed class UmbraDebug
                         size: new(100, 100),
                         style: TmpStyle,
                         margin: new(0),
-                        padding: new(4)
+                        padding: new(4),
+                        isVisible: false
                     ),
                     new(
                         "TL3",
                         anchor: Anchor.TopLeft,
                         size: new(100, 100),
-                        style: new() { Image = new(14), Shadow = new(size: 64, inset: new(6)) },
+                        style: new() { Image = new(14), ImageRounding = 16, ImageBlackAndWhite = true, ImageContrast = 0.5f, ImageBrightness = 1.5f },
                         margin: new(0),
                         padding: new(4),
                         text: "I has icon"
@@ -75,7 +76,7 @@ public sealed class UmbraDebug
                         "TL4",
                         anchor: Anchor.TopLeft,
                         size: new(100, 100),
-                        style: new() { Image = new("images\\icon.png"), Shadow = new(size: 64, inset: new(6)) },
+                        style: new() { Image = new("images\\icon.png"), Shadow = new(size: 64, inset: new(6)), ImageRounding = 64, ImageBlackAndWhite = true, ImageContrast = 0.5f, ImageBrightness = 1.5f},
                         margin: new(0),
                         padding: new(4)
                     ),
@@ -112,7 +113,11 @@ public sealed class UmbraDebug
                 size: new(100, 100),
                 style: TmpStyle,
                 margin: new(0),
-                padding: new(4)
+                padding: new(4),
+                children: [
+                    new ("MC2-1", anchor: Anchor.MiddleLeft, size: new(32, 92), style: TmpStyle),
+                    new ("MC2-2", anchor: Anchor.MiddleLeft, size: new(32, 32), style: TmpStyle),
+                ]
             ),
             new(
                 "MR1",
@@ -158,7 +163,7 @@ public sealed class UmbraDebug
                     new(
                         "BR3",
                         anchor: Anchor.BottomCenter,
-                        size: new(100, 0),
+                        size: new(100),
                         fit: true,
                         style: TmpStyle,
                         margin: new(0),
@@ -177,25 +182,27 @@ public sealed class UmbraDebug
                             new(
                                 "BTL1",
                                 anchor: Anchor.MiddleLeft,
-                                size: new(100, 200),
+                                size: new(150, 200),
                                 style: TmpStyle,
                                 margin: new(0),
                                 padding: new(4),
-                                text: "BTL1"
+                                text: "BTL1",
+                                isVisible: false
                             ),
                             new(
                                 "BTL2",
-                                anchor: Anchor.MiddleCenter,
-                                size: new(300, 150),
+                                anchor: Anchor.MiddleLeft,
+                                size: new(150, 150),
                                 style: TmpStyle,
                                 margin: new(0),
                                 padding: new(4),
-                                text: "BTL2"
+                                text: "BTL2",
+                                isVisible: true
                             ),
                             new(
                                 "BTL3",
-                                anchor: Anchor.MiddleRight,
-                                size: new(100, 100),
+                                anchor: Anchor.MiddleLeft,
+                                size: new(150, 100),
                                 style: TmpStyle,
                                 margin: new(0),
                                 padding: new(4),
@@ -208,17 +215,20 @@ public sealed class UmbraDebug
         ]
     );
 
-    public UmbraDebug(IDataManager dm)
+    public UmbraDebug()
     {
         // Element.EnableDebug();
+        // uint id = 14;
+        // _el.Get("TL.TL3").OnClick += () => {
+        //     id++;
+        //     _el.Get("TL.TL3").Style.Image = new (id);
+        // };
     }
 
     [OnDraw]
     public void OnDraw()
     {
         var s = ImGui.GetIO().DisplaySize;
-        var x = s.X / 2;
-        var y = s.Y / 2;
 
         // _el.Render(ImGui.GetBackgroundDrawList(), new(s.X - 64, s.Y - 64));
     }

@@ -18,8 +18,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
-using ImGuiNET;
-using Umbra.Common;
 
 namespace Umbra.Interface;
 
@@ -157,6 +155,12 @@ public partial class Element
         BoundingBox = new(Position, Position + ComputedSize.ToVector2());
         ContentBox  = new(BoundingBox.Min    + Padding.TopLeft, BoundingBox.Max - Padding.BottomRight);
 
+        GetAnchoredChildren(Anchor.None).ForEach(
+            (child) => {
+                child.Size = ContentBox.Size;
+                child.ComputeLayout(ContentBox.Min);
+            });
+
         IsDirty = false;
     }
 
@@ -164,7 +168,7 @@ public partial class Element
     {
         if (IsDirty || ComputedSize.IsEmpty) return true;
 
-        return _children.Any(child => child.ShouldRevalidate());
+        return _children.Any(child => child.IsVisible && child.ShouldRevalidate());
     }
 
     private void CalculateAnchoredChildPositions(Anchor childAnchor)
@@ -205,8 +209,18 @@ public partial class Element
 
         if (childAnchor.IsBottom()) y += ComputedSize.Height;
 
+        var maxHeight = 0;
+        if (childAnchor.IsMiddle()) {
+            maxHeight = GetMaxSizeOfChildren(children).Height;
+        }
+
         foreach (Element child in children) {
-            child.ComputeLayout(new(x, y));
+            var yOffset = 0;
+            if (child.Anchor.IsMiddle() && child.ComputedSize.Height < maxHeight) {
+                yOffset = (maxHeight - child.ComputedSize.Height) / 2;
+            }
+
+            child.ComputeLayout(new(x, y + yOffset));
 
             switch (Flow) {
                 case Flow.Horizontal:
@@ -257,6 +271,6 @@ public partial class Element
 
     private List<Element> GetAnchoredChildren(Anchor a)
     {
-        return _children.Where(child => child.Anchor == a).ToList();
+        return _children.Where(child => child.IsVisible && child.Anchor == a).ToList();
     }
 }

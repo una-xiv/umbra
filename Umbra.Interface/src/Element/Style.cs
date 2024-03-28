@@ -18,50 +18,62 @@ namespace Umbra.Interface;
 
 public class Style
 {
-    public uint?           ForegroundColor { get; set; }
-    public uint?           BackgroundColor { get; set; }
-    public Gradient?       Gradient        { get; set; }
-    public uint?           BorderColor     { get; set; }
-    public int?            BorderWidth     { get; set; }
-    public int?            BorderRadius    { get; set; }
-    public RoundedCorners? RoundedCorners  { get; set; }
-    public Anchor?         TextAlign       { get; set; }
-    public Font?           Font            { get; set; }
-    public Shadow?         Shadow          { get; set; }
-    public uint?           OutlineColor    { get; set; }
-    public sbyte?          OutlineWidth    { get; set; }
-    public ImageReference? Image           { get; set; }
+    public uint?           ForegroundColor;
+    public uint?           BackgroundColor;
+    public Gradient?       Gradient;
+    public uint?           BorderColor;
+    public int?            BorderWidth;
+    public int?            BorderRadius;
+    public RoundedCorners? RoundedCorners;
+    public Anchor?         TextAlign;
+    public Font?           Font;
+    public Shadow?         Shadow;
+    public uint?           OutlineColor;
+    public sbyte?          OutlineWidth;
+    public ImageReference? Image;
+    public float?          ImageRounding;
+    public float?          ImageGrayscale;
+    public bool?           ImageBlackAndWhite;
+    public float?          ImageBrightness;
+    public float?          ImageContrast;
 
-    public uint GetForegroundColor(Element element) =>
-        ForegroundColor ?? element.Parent?.Style.GetForegroundColor(element.Parent) ?? 0xFFFFFFFF;
+    public Style()
+    {
+    }
 
-    public uint GetBackgroundColor(Element element) =>
-        BackgroundColor ?? element.Parent?.Style.GetBackgroundColor(element.Parent) ?? 0;
+    public Style(Style other)
+    {
+        ForegroundColor    = other.ForegroundColor;
+        BackgroundColor    = other.BackgroundColor;
+        Gradient           = other.Gradient;
+        BorderColor        = other.BorderColor;
+        BorderWidth        = other.BorderWidth;
+        BorderRadius       = other.BorderRadius;
+        RoundedCorners     = other.RoundedCorners;
+        TextAlign          = other.TextAlign;
+        Font               = other.Font;
+        Shadow             = other.Shadow;
+        OutlineColor       = other.OutlineColor;
+        OutlineWidth       = other.OutlineWidth;
+        Image              = other.Image;
+        ImageRounding      = other.ImageRounding;
+        ImageGrayscale     = other.ImageGrayscale;
+        ImageBlackAndWhite = other.ImageBlackAndWhite;
+        ImageBrightness    = other.ImageBrightness;
+        ImageContrast      = other.ImageContrast;
+    }
 
-    public Gradient GetGradient(Element element) =>
-        Gradient ?? element.Parent?.Style.GetGradient(element.Parent) ?? new Gradient(0);
-
-    public uint GetBorderColor(Element element) =>
-        BorderColor ?? element.Parent?.Style.GetBorderColor(element.Parent) ?? 0xFFFFFFFF;
-
-    public int GetBorderWidth(Element element) =>
-        BorderWidth ?? element.Parent?.Style.GetBorderWidth(element.Parent) ?? 0;
-
-    public int GetBorderRadius(Element element) =>
-        BorderRadius ?? element.Parent?.Style.GetBorderRadius(element.Parent) ?? 0;
-
-    public RoundedCorners GetRoundedCorners(Element element) =>
-        RoundedCorners ?? element.Parent?.Style.GetRoundedCorners(element.Parent) ?? Interface.RoundedCorners.All;
-
-    public Anchor GetTextAlign(Element element) =>
-        TextAlign ?? element.Parent?.Style.GetTextAlign(element.Parent) ?? Anchor.TopLeft;
-
-    public Font GetFont(Element element) =>
-        Font ?? element.Parent?.Style.GetFont(element.Parent) ?? Interface.Font.Default;
-
-    public uint GetOutlineColor(Element element) =>
-        OutlineColor ?? element.Parent?.Style.GetOutlineColor(element.Parent) ?? 0x80000000;
-
-    public sbyte GetOutlineWidth(Element element) =>
-        OutlineWidth ?? element.Parent?.Style.GetOutlineWidth(element.Parent) ?? 0;
+    /// <summary>
+    /// Merges inheritable properties from another style into this style.
+    /// </summary>
+    /// <param name="other"></param>
+    internal void Merge(Style other)
+    {
+        ForegroundColor    ??= other.ForegroundColor;
+        BorderColor        ??= other.BorderColor;
+        TextAlign          ??= other.TextAlign;
+        Font               ??= other.Font;
+        OutlineColor       ??= other.OutlineColor;
+        OutlineWidth       ??= other.OutlineWidth;
+    }
 }

@@ -53,30 +53,31 @@ public partial class Element
 
     private void SetupInteractive(ImDrawListPtr drawList)
     {
-        if (!IsInteractive) return;
+        if (!IsVisible || !IsInteractive) return;
 
         ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding,    Vector2.Zero);
         ImGui.PushStyleVar(ImGuiStyleVar.FramePadding,     Vector2.Zero);
         ImGui.PushStyleVar(ImGuiStyleVar.WindowBorderSize, 0);
         ImGui.PushStyleVar(ImGuiStyleVar.FrameBorderSize,  0);
 
+        Vector2  boundingBoxSize   = BoundingBox.Size.ToVector2();
         Element? interactiveParent = GetInteractiveParent();
         _isInWindowOrInteractiveParent = IsInWindowDrawList(drawList) || interactiveParent != null;
 
         if (_isInWindowOrInteractiveParent) {
             ImGui.SetCursorScreenPos(BoundingBox.Min);
-            ImGui.BeginChild(FullyQualifiedName, BoundingBox.Size, false, InteractiveWindowFlags);
+            ImGui.BeginChild(FullyQualifiedName, boundingBoxSize, false, InteractiveWindowFlags);
             ImGui.SetCursorScreenPos(ContentBox.Min);
         } else {
             ImGui.SetNextWindowPos(BoundingBox.Min, ImGuiCond.Always);
-            ImGui.SetNextWindowSize(BoundingBox.Size, ImGuiCond.Always);
+            ImGui.SetNextWindowSize(boundingBoxSize, ImGuiCond.Always);
             ImGui.Begin(FullyQualifiedName, InteractiveWindowFlags);
         }
 
         bool wasHovered = IsMouseOver;
 
         ImGui.SetCursorScreenPos(BoundingBox.Min);
-        ImGui.InvisibleButton($"{FullyQualifiedName}##Button", ContentBox.Size);
+        ImGui.InvisibleButton($"{FullyQualifiedName}##Button", ContentBox.Size.ToVector2());
         IsMouseOver = ImGui.IsItemHovered();
         IsFocused   = ImGui.IsItemFocused();
 
@@ -104,9 +105,9 @@ public partial class Element
         }
     }
 
-    private void EndInteractive(ImDrawListPtr drawList)
+    private void EndInteractive()
     {
-        if (!IsInteractive) return;
+        if (!IsVisible || !IsInteractive) return;
 
         if (_isInWindowOrInteractiveParent) {
             ImGui.EndChild();

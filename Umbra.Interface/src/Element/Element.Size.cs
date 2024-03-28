@@ -70,7 +70,7 @@ public partial class Element
             // based on the size of this element and our parent. Layout
             // calculation hasn't fully completed yet, so it's safe to just
             // return the current computed size.
-            return ComputedSize;
+            return ComputedSize.IsFixed ? ComputedSize : Size;
         }
 
         if (!IsDirty && ComputedSize.IsFixed) return ComputedSize;
@@ -122,7 +122,7 @@ public partial class Element
         if (Text == null) return Size;
         if (Size.IsFixed) return Size;
 
-        Font font = Style.GetFont(this);
+        Font font = _computedStyle.Font ?? Font.Default;
         FontRepository.PushFont(font);
 
         Vector2 textSize = Size.ShouldSpanHorizontally

@@ -25,11 +25,6 @@ public partial class Element
     /// </summary>
     public readonly string Id;
 
-    /// <summary>
-    /// The visual style to apply to this element.
-    /// </summary>
-    public readonly Style Style;
-
     private Flow    _flow;
     private Anchor  _anchor;
     private Size    _size;
@@ -39,6 +34,7 @@ public partial class Element
     private int     _sortIndex;
     private bool    _stretch;
     private bool    _fit;
+    private bool    _isVisible;
 
     public Element(
         string         id,
@@ -52,6 +48,7 @@ public partial class Element
         int            sortIndex = 0,
         bool           stretch   = false,
         bool           fit       = false,
+        bool           isVisible = true,
         List<Element>? children  = null
     )
     {
@@ -66,6 +63,7 @@ public partial class Element
         _sortIndex = sortIndex;
         _stretch   = stretch;
         _fit       = fit;
+        _isVisible = isVisible;
 
         children?.ForEach(AddChild);
     }
@@ -75,6 +73,16 @@ public partial class Element
         set {
             if (_sortIndex == value) return;
             _sortIndex   = value;
+            IsDirty      = true;
+            ComputedSize = Size.Auto;
+        }
+    }
+
+    public bool IsVisible {
+        get => _isVisible;
+        set {
+            if (_isVisible == value) return;
+            _isVisible   = value;
             IsDirty      = true;
             ComputedSize = Size.Auto;
         }

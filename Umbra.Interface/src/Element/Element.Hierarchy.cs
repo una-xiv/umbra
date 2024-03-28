@@ -22,38 +22,22 @@ namespace Umbra.Interface;
 
 public partial class Element
 {
+    /// <summary>
+    /// A reference to the parent element of this element.
+    /// </summary>
     public Element? Parent;
 
-    private readonly List<Element> _children = [];
-
+    /// <summary>
+    /// An immutable list of all children of this element.
+    /// </summary>
     public IEnumerable<Element> Children => _children;
 
+    /// <summary>
+    /// A list of all siblings of this element.
+    /// </summary>
     public List<Element> Siblings => Parent?._children.Where(c => c.Id != Id && c.Anchor == Anchor).ToList() ?? [];
 
-    /// <summary>
-    /// Returns the previous sibling of the given element.
-    /// </summary>
-    /// <param name="child">The element to get the previous sibling of.</param>
-    /// <returns>The previous sibling element or NULL if no such element exists.</returns>
-    public Element? GetPrevSibling(Element child)
-    {
-        int index = _children.IndexOf(child);
-
-        return index is -1 or 0 ? null : _children[index - 1];
-    }
-
-    /// <summary>
-    /// Returns the next sibling of the given element.
-    /// </summary>
-    /// <param name="child">The element to get the next sibling of.</param>
-    /// <returns>The next sibling element or NULL if no such element exists.</returns>
-    public Element? GetNextSibling(Element child)
-    {
-        int index = _children.IndexOf(child);
-        if (index == -1 || index == _children.Count - 1) return null;
-
-        return _children[index + 1];
-    }
+    private readonly List<Element> _children = [];
 
     /// <summary>
     /// Adds the given child element to this element.
@@ -62,7 +46,7 @@ public partial class Element
     public void AddChild(Element child)
     {
         // Check if a child with the same ID already exists.
-        if (_children.Any(x => x.Id == child.Id))
+        if (Id != "" && _children.Any(x => x.Id == child.Id))
             throw new InvalidOperationException($"Element with ID '{child.Id}' already exists in '{Id}'.");
 
         child.Parent?.RemoveChild(child);
