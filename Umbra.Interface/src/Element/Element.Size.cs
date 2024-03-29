@@ -65,6 +65,8 @@ public partial class Element
     /// </summary>
     private Size CalculateSize()
     {
+        BeforeCompute();
+
         if (_isCalculatingSize) {
             // Recursive invocation may occur when a sibling has a dynamic size
             // based on the size of this element and our parent. Layout
@@ -85,8 +87,8 @@ public partial class Element
         _isCalculatingSize = true;
 
         Size computedSize = Size.Max(CalculateOwnSize(), CalculateSizeBasedOnFlowAndChildren());
-        int  width        = computedSize.Width + Margin.Horizontal;
-        int  height       = computedSize.Height + Margin.Vertical;
+        int  width        = computedSize.Width + Margin.Horizontal + Padding.Horizontal;
+        int  height       = computedSize.Height + Margin.Vertical + Padding.Vertical;
 
         if (Fit) {
             if (Flow == Flow.Horizontal) {
@@ -99,10 +101,10 @@ public partial class Element
         if (Stretch && Parent != null) {
             switch (Flow) {
                 case Flow.Horizontal when Parent.Size.Width > 0:
-                    width = Math.Max(width, Parent.Size.Width - GetTotalSizeOfChildren(Siblings).Width);
+                    width = Math.Max(width, Parent.Size.Width - GetTotalSizeOfChildren(Siblings, Parent.Gap).Width);
                     break;
                 case Flow.Vertical when Parent.Size.Height > 0:
-                    height = Math.Max(height, Parent.Size.Height - GetTotalSizeOfChildren(Siblings).Height);
+                    height = Math.Max(height, Parent.Size.Height - GetTotalSizeOfChildren(Siblings, Parent.Gap).Height);
                     break;
                 case Flow.None:
                 default:
@@ -132,8 +134,8 @@ public partial class Element
         FontRepository.PopFont(font);
 
         return new(
-            Size.Width  == 0 ? (int)textSize.X + Padding.Horizontal : Size.Width,
-            Size.Height == 0 ? (int)textSize.Y + Padding.Vertical : Size.Height
+            (Size.Width  == 0 ? (int)textSize.X + Padding.Horizontal : Size.Width) + Margin.Horizontal,
+            (Size.Height == 0 ? (int)textSize.Y + Padding.Vertical : Size.Height) + Margin.Vertical
         );
     }
 
@@ -154,16 +156,24 @@ public partial class Element
     /// <summary>
     /// Returns the total combined size of all given children.
     /// </summary>
-    private static Size GetTotalSizeOfChildren(IReadOnlyCollection<Element> children)
+    private Size GetTotalSizeOfChildren(IReadOnlyCollection<Element> children, int? gap = null)
     {
         if (children.Count == 0) return new();
 
+        gap ??= Gap;
+
         foreach (var child in children) child.CalculateSize();
 
-        return new(
-            children.Sum(child => child.ComputedSize.Width),
-            children.Sum(child => child.ComputedSize.Height)
-        );
+        int width = children.Sum(child => child.ComputedSize.Width);
+        int height = children.Sum(child => child.ComputedSize.Height);
+
+        if (Flow == Flow.Horizontal) {
+            width += (children.Count - 1) * gap.Value;
+        } else {
+            height += (children.Count - 1) * gap.Value;
+        }
+
+        return new(width, height);
     }
 
     /// <summary>

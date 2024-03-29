@@ -45,10 +45,17 @@ public partial class Element
             pos.Y += rect.Height - textSize.Y;
         }
 
+        if (_computedStyle.TextOffset.HasValue) {
+            pos += _computedStyle.TextOffset.Value;
+        }
+
         sbyte outlineWidth = _computedStyle.OutlineWidth ?? 0;
 
         if (outlineWidth > 0) {
-            uint outlineColor = _computedStyle.OutlineColor ?? 0x80000000;
+            uint  outlineColor = _computedStyle.OutlineColor ?? 0xFF000000;
+            float opacity      = Style.Opacity               ?? 1;
+
+            if (opacity < 1) outlineColor = outlineColor.ApplyAlphaComponent(opacity / (outlineWidth * 3));
 
             for (int i = -outlineWidth; i <= outlineWidth; i++) {
                 for (int j = -outlineWidth; j <= outlineWidth; j++) {
@@ -58,7 +65,7 @@ public partial class Element
             }
         }
 
-        drawList.AddText(pos, _computedStyle.ForegroundColor ?? 0xFFFFFFFF, Text);
+        drawList.AddText(pos, (_computedStyle.TextColor ?? 0xFFFFFFFF).ApplyAlphaComponent(_computedStyle.Opacity ?? 1), Text);
 
         FontRepository.PopFont(font);
     }

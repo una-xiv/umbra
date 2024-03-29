@@ -32,6 +32,7 @@ public partial class Element
     private Spacing _margin;
     private string? _text;
     private int     _sortIndex;
+    private int     _gap;
     private bool    _stretch;
     private bool    _fit;
     private bool    _isVisible;
@@ -48,6 +49,7 @@ public partial class Element
         int            sortIndex = 0,
         bool           stretch   = false,
         bool           fit       = false,
+        int            gap       = 0,
         bool           isVisible = true,
         List<Element>? children  = null
     )
@@ -63,6 +65,7 @@ public partial class Element
         _sortIndex = sortIndex;
         _stretch   = stretch;
         _fit       = fit;
+        _gap       = gap;
         _isVisible = isVisible;
 
         children?.ForEach(AddChild);
@@ -98,4 +101,9 @@ public partial class Element
             ComputedSize = Size.Auto;
         }
     }
+
+    /// <summary>
+    /// Invoked before computing the layout of this element.
+    /// </summary>
+    protected virtual void BeforeCompute() { }
 }

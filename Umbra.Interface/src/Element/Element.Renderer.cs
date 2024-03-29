@@ -23,6 +23,8 @@ namespace Umbra.Interface;
 
 public partial class Element
 {
+    public event Action<Element>? OnRender;
+
     /// <summary>
     /// Renders the element and its children at the given position.
     /// </summary>
@@ -40,7 +42,10 @@ public partial class Element
             RenderShadow(drawList);
             RenderBackground(drawList);
             RenderImage(drawList);
+            RenderBorders(drawList);
             RenderText(drawList);
+
+            OnRender?.Invoke(this);
 
             foreach (var child in Children) {
                 child.Render(drawList, null);

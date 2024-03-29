@@ -33,7 +33,7 @@ public partial class Element
         Rect    rect   = ContentBox;
         Spacing offset = _computedStyle.Shadow.Inset;
         Side    side   = _computedStyle.Shadow.Side;
-        uint    color  = _computedStyle.Shadow.Color;
+        uint    color  = _computedStyle.Shadow.Color.ApplyAlphaComponent(_computedStyle.Opacity ?? 1);
         int     size   = _computedStyle.Shadow.Size;
 
         const float uv0 = 0.0f;

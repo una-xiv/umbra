@@ -16,6 +16,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Numerics;
 using Dalamud.Interface.Internal;
 using ImGuiNET;
 using SixLabors.ImageSharp.Processing;
@@ -39,7 +40,10 @@ public partial class Element
         drawList.AddImage(
             img.Value,
             rect.Min,
-            rect.Max
+            rect.Max,
+            Vector2.Zero,
+            Vector2.One,
+            0xFFFFFFFF.ApplyAlphaComponent(_computedStyle.Opacity ?? 1)
         );
     }
 

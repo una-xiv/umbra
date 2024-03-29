@@ -1,3 +1,6 @@
+using Dalamud.Game.Text;
+using Dalamud.Game.Text.SeStringHandling;
+using Dalamud.Interface;
 using ImGuiNET;
 using Umbra.Common;
 using Umbra.Interface;
@@ -8,15 +11,15 @@ namespace Umbra;
 public sealed class UmbraDebug
 {
     private static readonly Style TmpStyle = new() {
-        BorderColor     = 0x80FFAA77,
-        BorderRadius    = 4,
-        BorderWidth     = 2,
-        Gradient        = new(0),
-        Font            = Font.MiedingerLarge,
-        ForegroundColor = 0xFF00AA00,
-        TextAlign       = Anchor.MiddleCenter,
-        OutlineWidth    = 1,
-        OutlineColor    = 0xFF000000
+        BackgroundBorderColor = 0x80FFAA77,
+        BackgroundRounding    = 4,
+        BackgroundBorderWidth = 2,
+        Gradient              = new(0),
+        Font                  = Font.MiedingerLarge,
+        TextColor             = 0xFF00AA00,
+        TextAlign             = Anchor.MiddleCenter,
+        OutlineWidth          = 1,
+        OutlineColor          = 0xFF000000
     };
 
     private readonly Element _el = new(
@@ -27,20 +30,20 @@ public sealed class UmbraDebug
         padding: new(0),
         text: "Hello World!",
         style: new() {
-            ForegroundColor = 0xFF00FFFF,
-            BackgroundColor = 0xFF212021,
-            Gradient        = new(0x50AACCFF, 0x30FFCCAA),
-            BorderRadius    = 8,
-            BorderColor     = 0xFF0000FF,
-            BorderWidth     = 1,
-            RoundedCorners  = RoundedCorners.All,
-            TextAlign       = Anchor.BottomCenter,
-            Font            = Font.AxisLarge,
-            OutlineColor    = 0xFF000000,
-            OutlineWidth    = 2,
+            TextColor             = 0xFF00FFFF,
+            BackgroundColor       = 0xFF212021,
+            Gradient              = new(0x50AACCFF, 0x30FFCCAA),
+            BackgroundRounding    = 8,
+            BackgroundBorderColor = 0xFF0000FF,
+            BackgroundBorderWidth = 1,
+            RoundedCorners        = RoundedCorners.All,
+            TextAlign             = Anchor.BottomCenter,
+            Font                  = Font.AxisLarge,
+            OutlineColor          = 0xFF000000,
+            OutlineWidth          = 2,
         },
         children: [
-            new("BG1", anchor: Anchor.None, padding: new(16), style: new() { BackgroundColor = 0x600000FF }),
+            new("BG1", anchor: Anchor.None, padding: new(16), style: new() { BackgroundColor = 0x200000FF }),
             new(
                 "TL",
                 anchor: Anchor.TopLeft,
@@ -49,10 +52,25 @@ public sealed class UmbraDebug
                     new(
                         "TL1",
                         anchor: Anchor.TopLeft,
-                        size: new(100, 100),
+                        size: new(0, 100),
                         style: TmpStyle,
                         margin: new(0),
-                        padding: new(4)
+                        padding: new(8, 4),
+                        gap: 4,
+                        children: [
+                            new(
+                                "TL1-1",
+                                padding: new(16),
+                                gap: 6,
+                                children: [
+                                    new ButtonElement("MyButton1", "Click me quickly!", FontAwesomeIcon.Home),
+                                    new ButtonElement("MyButton2", "Awesome button",    14u),
+                                    new ButtonElement("MyButton3", "Awesome button",    SeIconChar.Clock),
+                                    new ButtonElement("MyButton4", "Text Only!"),
+                                    new ButtonElement("MyButton5", null, 66001u),
+                                ]
+                            ),
+                        ]
                     ),
                     new(
                         "TL2",
@@ -67,7 +85,10 @@ public sealed class UmbraDebug
                         "TL3",
                         anchor: Anchor.TopLeft,
                         size: new(100, 100),
-                        style: new() { Image = new(14), ImageRounding = 16, ImageBlackAndWhite = true, ImageContrast = 0.5f, ImageBrightness = 1.5f },
+                        style: new() {
+                            Opacity       = 0.25f, Image = new(14), ImageRounding = 16, ImageBlackAndWhite = true,
+                            ImageContrast = 0.5f, ImageBrightness = 1.5f
+                        },
                         margin: new(0),
                         padding: new(4),
                         text: "I has icon"
@@ -76,7 +97,10 @@ public sealed class UmbraDebug
                         "TL4",
                         anchor: Anchor.TopLeft,
                         size: new(100, 100),
-                        style: new() { Image = new("images\\icon.png"), Shadow = new(size: 64, inset: new(6)), ImageRounding = 64, ImageBlackAndWhite = true, ImageContrast = 0.5f, ImageBrightness = 1.5f},
+                        style: new() {
+                            Image = new("images\\icon.png"), Shadow = new(size: 64, inset: new(6)), ImageRounding = 64,
+                            ImageBlackAndWhite = true, ImageContrast = 0.5f, ImageBrightness = 1.5f
+                        },
                         margin: new(0),
                         padding: new(4)
                     ),
@@ -115,8 +139,8 @@ public sealed class UmbraDebug
                 margin: new(0),
                 padding: new(4),
                 children: [
-                    new ("MC2-1", anchor: Anchor.MiddleLeft, size: new(32, 92), style: TmpStyle),
-                    new ("MC2-2", anchor: Anchor.MiddleLeft, size: new(32, 32), style: TmpStyle),
+                    new("MC2-1", anchor: Anchor.MiddleLeft, size: new(32, 92), style: TmpStyle),
+                    new("MC2-2", anchor: Anchor.MiddleLeft, size: new(32, 32), style: TmpStyle),
                 ]
             ),
             new(
@@ -131,7 +155,10 @@ public sealed class UmbraDebug
                 "MR2",
                 anchor: Anchor.MiddleRight,
                 size: new(100, 100),
-                style: TmpStyle,
+                style: new() {
+                    BorderWidth = new(1, 0, 4, 0),
+                    BorderColor = new(0xFF00FF00, 0, 0xFFFF0000, 0)
+                },
                 margin: new(0),
                 padding: new(4)
             ),
@@ -215,14 +242,28 @@ public sealed class UmbraDebug
         ]
     );
 
+    private Element _el2 = new(
+        id: "RootTest2",
+        size: new(0, 0),
+        padding: new(8, 8),
+        gap: 8,
+        children: [
+            new("C1", size: new(100, 100), margin: new(left: 8)),
+            new("C2", size: new(100, 100)),
+            new("C3", size: new(100, 100)),
+            new("C4", size: new(100, 100), margin: new(right: 8)),
+        ]
+    );
+
     public UmbraDebug()
     {
         // Element.EnableDebug();
-        // uint id = 14;
-        // _el.Get("TL.TL3").OnClick += () => {
-        //     id++;
-        //     _el.Get("TL.TL3").Style.Image = new (id);
-        // };
+        uint id = 14;
+
+        _el.Get("TL.TL3").OnClick += () => {
+            id++;
+            _el.Get("TL.TL3").Style.Image = new(id);
+        };
     }
 
     [OnDraw]
@@ -231,5 +272,6 @@ public sealed class UmbraDebug
         var s = ImGui.GetIO().DisplaySize;
 
         // _el.Render(ImGui.GetBackgroundDrawList(), new(s.X - 64, s.Y - 64));
+        // _el2.Render(ImGui.GetBackgroundDrawList(), new(64, 64));
     }
 }

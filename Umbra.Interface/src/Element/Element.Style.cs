@@ -27,7 +27,7 @@ public partial class Element
     /// <summary>
     /// The visual style to apply to this element.
     /// </summary>
-    public readonly Style Style;
+    public Style Style;
 
     private Style _computedStyle = new();
 

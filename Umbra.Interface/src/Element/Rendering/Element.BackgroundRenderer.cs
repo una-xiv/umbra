@@ -28,9 +28,11 @@ public partial class Element
             drawList.AddRectFilled(
                 rect.Min,
                 rect.Max,
-                _computedStyle.BackgroundColor.Value,
-                _computedStyle.BorderRadius ?? 0,
-                _computedStyle.RoundedCorners is not null ? (ImDrawFlags)_computedStyle.RoundedCorners.Value : ImDrawFlags.None
+                _computedStyle.BackgroundColor.Value.ApplyAlphaComponent(_computedStyle.Opacity ?? 1),
+                _computedStyle.BackgroundRounding ?? 0,
+                _computedStyle.RoundedCorners is not null
+                    ? (ImDrawFlags)_computedStyle.RoundedCorners.Value
+                    : ImDrawFlags.None
             );
         }
 
@@ -40,21 +42,23 @@ public partial class Element
             drawList.AddRectFilledMultiColor(
                 rect.Min,
                 rect.Max,
-                gradient.TopLeft,
-                gradient.TopRight,
-                gradient.BottomRight,
-                gradient.BottomLeft
+                gradient.TopLeft.ApplyAlphaComponent(Style.Opacity     ?? 1),
+                gradient.TopRight.ApplyAlphaComponent(Style.Opacity    ?? 1),
+                gradient.BottomRight.ApplyAlphaComponent(_computedStyle.Opacity ?? 1),
+                gradient.BottomLeft.ApplyAlphaComponent(Style.Opacity  ?? 1)
             );
         }
 
-        if (Style is { BorderColor: > 0, BorderWidth: > 0 }) {
+        if (Style is { BackgroundBorderColor: > 0, BackgroundBorderWidth: > 0 }) {
             drawList.AddRect(
                 rect.Min,
                 rect.Max,
-                _computedStyle.BorderColor ?? 0,
-                _computedStyle.BorderRadius ?? 0,
-                _computedStyle.RoundedCorners is not null ? (ImDrawFlags)_computedStyle.RoundedCorners.Value : ImDrawFlags.None,
-                _computedStyle.BorderWidth ?? 0
+                (_computedStyle.BackgroundBorderColor ?? 0u).ApplyAlphaComponent(_computedStyle.Opacity ?? 1),
+                _computedStyle.BackgroundRounding ?? 0,
+                _computedStyle.RoundedCorners is not null
+                    ? (ImDrawFlags)_computedStyle.RoundedCorners.Value
+                    : ImDrawFlags.None,
+                _computedStyle.BackgroundBorderWidth ?? 0
             );
         }
     }

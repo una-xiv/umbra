@@ -16,26 +16,14 @@
 
 namespace Umbra.Interface;
 
-public enum Anchor
+public class SideValue<T>(T top, T right, T bottom, T left)
 {
-    TopLeft,
-    TopCenter,
-    TopRight,
-    MiddleLeft,
-    MiddleCenter,
-    MiddleRight,
-    BottomLeft,
-    BottomCenter,
-    BottomRight,
-    None,
-}
+    public T Top    = top;
+    public T Right  = right;
+    public T Bottom = bottom;
+    public T Left   = left;
 
-public static class AnchorExtensions
-{
-    public static bool IsLeft(this   Anchor anchor) => anchor is Anchor.TopLeft or Anchor.MiddleLeft or Anchor.BottomLeft;
-    public static bool IsCenter(this Anchor anchor) => anchor is Anchor.TopCenter or Anchor.MiddleCenter or Anchor.BottomCenter;
-    public static bool IsRight(this  Anchor anchor) => anchor is Anchor.TopRight or Anchor.MiddleRight or Anchor.BottomRight;
-    public static bool IsTop(this    Anchor anchor) => anchor is Anchor.TopLeft or Anchor.TopCenter or Anchor.TopRight;
-    public static bool IsMiddle(this Anchor anchor) => anchor is Anchor.MiddleLeft or Anchor.MiddleCenter or Anchor.MiddleRight;
-    public static bool IsBottom(this Anchor anchor) => anchor is Anchor.BottomLeft or Anchor.BottomCenter or Anchor.BottomRight;
+    public SideValue(T value) : this(value, value, value, value) { }
+
+    public SideValue(T vertical, T horizontal) : this(vertical, horizontal, vertical, horizontal) { }
 }

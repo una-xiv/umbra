@@ -47,14 +47,25 @@ public static class ServiceActivator
 
         object[] parameters = constructor.GetParameters().Select(p => ResolveType(type, p.ParameterType)).ToArray();
 
-        object instance = Activator.CreateInstance(type, parameters)
-         ?? throw new InvalidOperationException($"Failed to create instance of {type.Name}.");
+        try {
+            object instance = Activator.CreateInstance(type, parameters)
+               ?? throw new InvalidOperationException($"Failed to create instance of {type.Name}.");
 
-        CircularReferenceCheck.Remove(alias);
+            if (registerInstance) ServiceContainer.Instances[alias] = instance;
 
-        if (registerInstance) ServiceContainer.Instances[alias] = instance;
-
-        return instance;
+            return instance;
+        } catch (Exception e) {
+            if (e.InnerException != null) {
+                throw new InvalidOperationException(
+                    $"Failed to create instance of {type.Name}: {e.InnerException.Message} {e.InnerException.StackTrace}"
+                );
+            }
+            throw new InvalidOperationException(
+                $"Failed to create instance of {type.Name}: {e.Message} {e.StackTrace}"
+            );
+        } finally {
+            CircularReferenceCheck.Remove(alias);
+        }
     }
 
     private static object ResolveType(MemberInfo sourceType, Type type)

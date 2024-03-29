@@ -49,11 +49,13 @@ public partial class Element
     /// </summary>
     public bool IsFocused { get; private set; }
 
+    public bool IsDisabled { get; set; }
+
     private bool _isInWindowOrInteractiveParent = false;
 
     private void SetupInteractive(ImDrawListPtr drawList)
     {
-        if (!IsVisible || !IsInteractive) return;
+        if (IsDisabled || !IsVisible || !IsInteractive) return;
 
         ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding,    Vector2.Zero);
         ImGui.PushStyleVar(ImGuiStyleVar.FramePadding,     Vector2.Zero);
@@ -107,7 +109,7 @@ public partial class Element
 
     private void EndInteractive()
     {
-        if (!IsVisible || !IsInteractive) return;
+        if (IsDisabled || !IsVisible || !IsInteractive) return;
 
         if (_isInWindowOrInteractiveParent) {
             ImGui.EndChild();

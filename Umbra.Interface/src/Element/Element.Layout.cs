@@ -18,6 +18,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using Umbra.Common;
 
 namespace Umbra.Interface;
 
@@ -107,6 +108,20 @@ public partial class Element
     }
 
     /// <summary>
+    /// Defines the space between elements in the flow direction.
+    /// </summary>
+    public int Gap {
+        get => _gap;
+        set {
+            if (_gap == value) return;
+
+            _gap         = value;
+            IsDirty      = true;
+            ComputedSize = Size.Auto;
+        }
+    }
+
+    /// <summary>
     /// The absolute position of this element.
     /// </summary>
     public Vector2 Position { get; private set; }
@@ -152,14 +167,23 @@ public partial class Element
         CalculateAnchoredChildPositions(Anchor.BottomCenter);
         CalculateAnchoredChildPositions(Anchor.BottomRight);
 
-        BoundingBox = new(Position, Position + ComputedSize.ToVector2());
-        ContentBox  = new(BoundingBox.Min    + Padding.TopLeft, BoundingBox.Max - Padding.BottomRight);
+        BoundingBox = new(
+            Position + Margin.TopLeft,
+            Position + ComputedSize.ToVector2() - Margin.BottomRight
+        );
 
-        GetAnchoredChildren(Anchor.None).ForEach(
-            (child) => {
-                child.Size = ContentBox.Size;
-                child.ComputeLayout(ContentBox.Min);
-            });
+        ContentBox = new(
+            BoundingBox.Min + Padding.TopLeft,
+            BoundingBox.Max - Padding.BottomRight
+        );
+
+        GetAnchoredChildren(Anchor.None)
+            .ForEach(
+                (child) => {
+                    child.Size = ContentBox.Size;
+                    child.ComputeLayout(ContentBox.Min);
+                }
+            );
 
         IsDirty = false;
     }
@@ -210,12 +234,14 @@ public partial class Element
         if (childAnchor.IsBottom()) y += ComputedSize.Height;
 
         var maxHeight = 0;
+
         if (childAnchor.IsMiddle()) {
             maxHeight = GetMaxSizeOfChildren(children).Height;
         }
 
         foreach (Element child in children) {
             var yOffset = 0;
+
             if (child.Anchor.IsMiddle() && child.ComputedSize.Height < maxHeight) {
                 yOffset = (maxHeight - child.ComputedSize.Height) / 2;
             }
@@ -228,11 +254,19 @@ public partial class Element
                         ? x - child.ComputedSize.Width
                         : x + child.ComputedSize.Width;
 
+                    if (children.Last() != child) {
+                        x += Gap;
+                    }
+
                     break;
                 case Flow.Vertical:
                     y = childAnchor.IsBottom()
                         ? y - child.ComputedSize.Height
                         : y + child.ComputedSize.Height;
+
+                    if (children.Last() != child) {
+                        y += Gap;
+                    }
 
                     break;
                 case Flow.None:

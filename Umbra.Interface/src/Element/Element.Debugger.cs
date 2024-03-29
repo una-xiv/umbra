@@ -48,8 +48,8 @@ public partial class Element
             OnRightClick += () => Logger.Info($"{FullyQualifiedName} Right-clicked");
         }
 
-        uint boundingBoxColor = IsMouseOver ? 0xCC00FFFF : 0x2000CCCC;
-        uint contentBoxColor  = IsMouseOver ? 0xCC44FF44 : 0x2000CC00;
+        uint boundingBoxColor = IsMouseOver ? 0xCC00FFFF : 0x6000CCCC;
+        uint contentBoxColor  = IsMouseOver ? 0xCC44FF44 : 0x6000CC00;
 
         ImGui.GetForegroundDrawList().AddRect(BoundingBox.Min, BoundingBox.Max, boundingBoxColor);
         ImGui.GetForegroundDrawList().AddRect(ContentBox.Min,  ContentBox.Max,  contentBoxColor);
