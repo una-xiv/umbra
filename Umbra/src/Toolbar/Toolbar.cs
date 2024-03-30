@@ -1,4 +1,4 @@
-/* Umbra | (c) 2024 by Una              ____ ___        ___.
+﻿/* Umbra | (c) 2024 by Una              ____ ___        ___.
  * Licensed under the terms of AGPL-3  |    |   \ _____ \_ |__ _______ _____
  *                                     |    |   //     \ | __ \\_  __ \\__  \
  * https://github.com/una-xiv/umbra    |    |  /|  Y Y  \| \_\ \|  | \/ / __ \_
@@ -14,15 +14,15 @@
  *     GNU Affero General Public License for more details.
  */
 
-using System.Linq;
+using System.Numerics;
 using ImGuiNET;
 using Umbra.Common;
-using Umbra.Drawing;
+using Umbra.Interface;
 
-namespace Umbra;
+namespace Umbra.Toolbar;
 
 [Service]
-internal sealed partial class Toolbar
+internal partial class Toolbar
 {
     [ConfigVariable(
         "Toolbar.IsTopAligned",
@@ -43,104 +43,27 @@ internal sealed partial class Toolbar
     )]
     private static int Height { get; set; } = 32;
 
-    private const uint TopColor    = 0xFF2F2E2F;
-    private const uint BottomColor = 0xFF212021;
-
-    private int _y;
-
-    public Toolbar(IToolbarWidget[] widgetList)
+    public Toolbar()
     {
-        foreach (var widget in widgetList) {
-            RelocateWidget(widget.Element);
-        }
+        _element.Get("Left").AddChild(new ButtonElement("L1", "Left Button"));
+        _element.Get("Middle").AddChild(new ButtonElement("M1", "Middle Button"));
+        _element.Get("Right").AddChild(new ButtonElement("R1", "Right Button"));
     }
 
     [OnDraw]
     public void OnDraw()
     {
-        UpdateWidgetContainers();
-        UpdateToolbarSize();
-        UpdateToolbarPosition();
+        Vector2 displaySize = ImGui.GetMainViewport().Size;
+        float   yPosition   = IsTopAligned ? ImGui.GetMainViewport().WorkPos.Y : displaySize.Y;
 
-        // Logger.Info($"Height: {Height}");
+        _element.Anchor = IsTopAligned ? Anchor.TopLeft : Anchor.BottomLeft;
+        _element.Size   = new((int)displaySize.X, Height);
 
-        ImDrawListPtr drawList = ImGui.GetBackgroundDrawList();
+        _element.Get<GradientElement>().Gradient = Gradient.Vertical(
+            IsTopAligned ? Color2 : Color1,
+            IsTopAligned ? Color1 : Color2
+        );
 
-        _toolbarBackgroundElement.Render(drawList, new(0, _y));
-        _toolbarLeftWidgetContainer.Render(drawList, new(0, _y));
-        _toolbarCenterWidgetContainer.Render(drawList, new(0, _y));
-        _toolbarRightWidgetContainer.Render(drawList, new(0, _y));
-    }
-
-    private void UpdateWidgetContainers()
-    {
-        _toolbarLeftWidgetContainer
-            .Children.ToList()
-            .ForEach(
-                child => {
-                    if (!child.Anchor.HasFlag(Anchor.Left)) {
-                        _toolbarLeftWidgetContainer.RemoveChild(child);
-                        RelocateWidget(child);
-                    }
-                }
-            );
-
-        _toolbarCenterWidgetContainer
-            .Children.ToList()
-            .ForEach(
-                child => {
-                    if (!child.Anchor.HasFlag(Anchor.Center)) {
-                        _toolbarCenterWidgetContainer.RemoveChild(child);
-                        RelocateWidget(child);
-                    }
-                }
-            );
-
-        _toolbarRightWidgetContainer
-            .Children.ToList()
-            .ForEach(
-                child => {
-                    if (!child.Anchor.HasFlag(Anchor.Right)) {
-                        _toolbarRightWidgetContainer.RemoveChild(child);
-                        RelocateWidget(child);
-                    }
-                }
-            );
-    }
-
-    private void RelocateWidget(Element element)
-    {
-        if (element.Anchor.HasFlag(Anchor.Left))
-            _toolbarLeftWidgetContainer.AddChild(element);
-        else if (element.Anchor.HasFlag(Anchor.Center))
-            _toolbarCenterWidgetContainer.AddChild(element);
-        else if (element.Anchor.HasFlag(Anchor.Right)) _toolbarRightWidgetContainer.AddChild(element);
-    }
-
-    private void UpdateToolbarPosition()
-    {
-        _y = (int)(IsTopAligned ? ImGui.GetMainViewport().WorkPos.Y : ImGui.GetIO().DisplaySize.Y - Height);
-    }
-
-    private void UpdateToolbarSize()
-    {
-        var screenWidth = ImGui.GetIO().DisplaySize.X;
-        var toolbarSize = new Size(screenWidth, Height);
-
-        _toolbarBackgroundElement.Size               = toolbarSize;
-        _toolbarBackgroundElement.Get("Border").Size = new(screenWidth, 1);
-
-        // Update widget container sizes.
-        _toolbarLeftWidgetContainer.Size   = toolbarSize;
-        _toolbarCenterWidgetContainer.Size = toolbarSize;
-        _toolbarRightWidgetContainer.Size  = toolbarSize;
-
-        // Configure gradients & border based on alignment.
-        _toolbarBackgroundElement.Get("Border").Anchor =
-            IsTopAligned ? Anchor.Bottom | Anchor.Left : Anchor.Top | Anchor.Left;
-
-        _toolbarBackgroundElement.GetNode<RectNode>().Gradients = IsTopAligned
-            ? new(BottomColor, BottomColor, TopColor, TopColor)
-            : new(TopColor, TopColor, BottomColor, BottomColor);
+        _element.Render(ImGui.GetBackgroundDrawList(), new(0, yPosition));
     }
 }

@@ -28,6 +28,8 @@ public partial class Element
     public event Action? OnRightClick;
     public event Action? OnMouseEnter;
     public event Action? OnMouseLeave;
+    public event Action? OnMouseDown;
+    public event Action? OnMouseUp;
 
     /// <summary>
     /// True if the element has any interactive event listeners attached to it.
@@ -43,6 +45,11 @@ public partial class Element
     /// True if the mouse cursor is currently inside the bounding box of the element.
     /// </summary>
     public bool IsMouseOver { get; private set; }
+
+    /// <summary>
+    /// True if one of the mouse buttons in held down while the cursor is over the element.
+    /// </summary>
+    public bool IsMouseDown { get; private set; }
 
     /// <summary>
     /// True if this element currently has focus.
@@ -89,20 +96,38 @@ public partial class Element
                 break;
             case true when !IsMouseOver:
                 OnMouseLeave?.Invoke();
+
+                if (IsMouseDown) {
+                    OnMouseUp?.Invoke();
+                }
+
                 break;
         }
 
         if (IsMouseOver) {
-            if (ImGui.IsMouseClicked(ImGuiMouseButton.Left)) {
-                OnClick?.Invoke();
-            }
-
-            if (ImGui.IsMouseClicked(ImGuiMouseButton.Middle)) {
-                OnMiddleClick?.Invoke();
-            }
-
-            if (ImGui.IsMouseClicked(ImGuiMouseButton.Right)) {
-                OnRightClick?.Invoke();
+            if (ImGui.IsMouseDown(ImGuiMouseButton.Left)) {
+                if (!IsMouseDown) {
+                    OnMouseDown?.Invoke();
+                    OnClick?.Invoke();
+                    IsMouseDown = true;
+                }
+            } else if (ImGui.IsMouseDown(ImGuiMouseButton.Middle)) {
+                if (!IsMouseDown) {
+                    OnMouseDown?.Invoke();
+                    OnMiddleClick?.Invoke();
+                    IsMouseDown = true;
+                }
+            } else if (ImGui.IsMouseDown(ImGuiMouseButton.Right)) {
+                if (!IsMouseDown) {
+                    OnMouseDown?.Invoke();
+                    OnRightClick?.Invoke();
+                    IsMouseDown = true;
+                }
+            } else {
+                if (IsMouseDown) {
+                    OnMouseUp?.Invoke();
+                    IsMouseDown = false;
+                }
             }
         }
     }

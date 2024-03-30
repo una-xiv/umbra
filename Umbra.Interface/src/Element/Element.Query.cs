@@ -22,11 +22,34 @@ namespace Umbra.Interface;
 public partial class Element
 {
     /// <summary>
+    /// A tag that can be used to find this element in an element tree.
+    /// </summary>
+    public string? Tag;
+
+    /// <summary>
     /// The fully qualified name of this element.
     /// </summary>
     public string FullyQualifiedName => Parent == null ? Id : $"{Parent.FullyQualifiedName}.{Id}";
 
     private readonly Dictionary<string, Element> _queryCache = [];
+
+    /// <summary>
+    /// Returns a list of all children of this element that have the given tag.
+    /// </summary>
+    public List<Element> FindByTag(string tag, bool recursive = false)
+    {
+        List<Element> taggedChildren = [];
+
+        foreach (Element child in _children) {
+            if (child.Tag == tag) {
+                taggedChildren.Add(child);
+            }
+
+            if (recursive) taggedChildren.AddRange(child.FindByTag(tag, true));
+        }
+
+        return taggedChildren;
+    }
 
     /// <summary>
     /// Finds a child of this element by its ID.
@@ -92,6 +115,27 @@ public partial class Element
     {
         return Find(id)
          ?? throw new KeyNotFoundException($"Element '{id}' not found in '{FullyQualifiedName}'.");
+    }
+
+    /// <summary>
+    /// Same as <see cref="Get(string)"/>, but casts the result to the given type.
+    /// </summary>
+    public T Get<T>(string id) where T : Element
+    {
+        return (T) Get(id);
+    }
+
+    /// <summary>
+    /// Returns the first child of this element that is of the given type.
+    /// </summary>
+    /// <exception cref="KeyNotFoundException"></exception>
+    public T Get<T>() where T : Element
+    {
+        foreach (Element child in _children) {
+            if (child is T t) return t;
+        }
+
+        throw new KeyNotFoundException($"Element of type '{typeof(T).Name}' not found in '{FullyQualifiedName}'.");
     }
 
     private void RemoveQueryCacheForChild(Element element)

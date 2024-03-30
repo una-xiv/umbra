@@ -19,6 +19,8 @@ using System.Collections.Generic;
 using System.Numerics;
 using Dalamud.Interface.Internal;
 using ImGuiNET;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
 
 namespace Umbra.Interface;
@@ -28,7 +30,7 @@ public partial class Element
     private static readonly Dictionary<string, IDalamudTextureWrap> ProcessedImageCache = [];
 
     private string ProcessedImageCacheKey =>
-        $"{_computedStyle.Image!.Value.Path ?? _computedStyle.Image!.Value.IconId!.Value.ToString()}_{_computedStyle.ImageRounding}_{_computedStyle.ImageBlackAndWhite}_{_computedStyle.ImageGrayscale}_{_computedStyle.ImageBrightness}_{_computedStyle.ImageContrast}";
+        $"{_computedStyle.Image}_{_computedStyle.ImageRounding}_{_computedStyle.ImageBlackAndWhite}_{_computedStyle.ImageGrayscale}_{_computedStyle.ImageBrightness}_{_computedStyle.ImageContrast}";
 
     private void RenderImage(ImDrawListPtr drawList)
     {
@@ -50,15 +52,25 @@ public partial class Element
     private IntPtr? GetImageToRender()
     {
         if (_computedStyle.Image == null) return null;
-        if (false       == RequiresImageProcessing()) return GetImagePtr();
+
+        if (false == RequiresImageProcessing()) return GetImagePtr();
 
         if (ProcessedImageCache.TryGetValue(ProcessedImageCacheKey, out IDalamudTextureWrap? processedImage)) {
             return processedImage.ImGuiHandle;
         }
 
-        using var image = _computedStyle.Image.Value.IconId is > 0
-            ? ImageRepository.GetIconFile(_computedStyle.Image.Value.IconId!.Value).GetImage()
-            : ImageRepository.GetLocalImage(_computedStyle.Image.Value.Path!);
+        Image<Rgba32> image;
+
+        switch (_computedStyle.Image) {
+            case uint iconId and > 0:
+                image = ImageRepository.GetIconFile(iconId).GetImage();
+                break;
+            case string { Length: > 0 } path:
+                image = ImageRepository.GetLocalImage(path);
+                break;
+            default:
+                return null;
+        }
 
         image.Mutate(
             ctx => {
@@ -95,18 +107,19 @@ public partial class Element
     {
         if (_computedStyle.Image == null) return null;
 
-        uint? iconId = _computedStyle.Image.Value.IconId;
-
-        if (iconId is > 0) {
-            return ImageRepository.GetIcon(iconId.Value).ImGuiHandle;
-        }
-
-        string? path = _computedStyle.Image.Value.Path;
-        return path is { Length: > 0 } ? ImageRepository.GetLocalTexture(path).ImGuiHandle : IntPtr.Zero;
+        return _computedStyle.Image switch {
+            uint iconId and > 0         => ImageRepository.GetIcon(iconId).ImGuiHandle,
+            string { Length: > 0 } path => ImageRepository.GetLocalTexture(path).ImGuiHandle,
+            _                           => null
+        };
     }
 
     private bool RequiresImageProcessing()
     {
-        return _computedStyle.ImageRounding > 0 || _computedStyle.ImageBlackAndWhite == true || _computedStyle.ImageGrayscale > 0 || _computedStyle.ImageBrightness > 0 || _computedStyle.ImageContrast > 0;
+        return _computedStyle.ImageRounding   > 0
+         || _computedStyle.ImageBlackAndWhite == true
+         || _computedStyle.ImageGrayscale     > 0
+         || _computedStyle.ImageBrightness    > 0
+         || _computedStyle.ImageContrast      > 0;
     }
 }

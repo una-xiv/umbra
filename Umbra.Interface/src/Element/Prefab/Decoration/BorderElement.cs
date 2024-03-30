@@ -16,18 +16,31 @@
 
 namespace Umbra.Interface;
 
-public class Gradient(uint topLeft, uint topRight, uint bottomLeft, uint bottomRight)
+public class BorderElement : Element
 {
-    public uint TopLeft     { get; set; } = topLeft;
-    public uint TopRight    { get; set; } = topRight;
-    public uint BottomLeft  { get; set; } = bottomLeft;
-    public uint BottomRight { get; set; } = bottomRight;
+    public uint Color;
+    public int  Rounding;
+    public int  Thickness;
 
-    public Gradient(uint color) : this(color, color, color, color) { }
-    public Gradient(uint topColor, uint bottomColor) : this(topColor, topColor, bottomColor, bottomColor) { }
+    public BorderElement(
+        string id = "", uint color = 0xFF3F3F3F, int rounding = 0, int thickness = 1, Spacing padding = new()
+    ) : base(
+        id,
+        padding: padding
+    )
+    {
+        Color     = color;
+        Rounding  = rounding;
+        Thickness = thickness;
+        Anchor    = Anchor.None;
 
-    public static Gradient Vertical(uint top, uint bottom) => new Gradient(top, top, bottom, bottom);
-    public static Gradient Horizontal(uint left, uint right) => new Gradient(left, right, left, right);
+        Style.BackgroundColor = 0;
+    }
 
-    public bool HasValue => TopLeft != 0 || TopRight != 0 || BottomLeft != 0 || BottomRight != 0;
+    protected override void BeforeCompute()
+    {
+        Style.BackgroundBorderColor = Color;
+        Style.BackgroundBorderWidth = Thickness;
+        Style.BackgroundRounding    = Rounding;
+    }
 }

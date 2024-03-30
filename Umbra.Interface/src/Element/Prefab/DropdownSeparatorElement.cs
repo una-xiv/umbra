@@ -16,18 +16,19 @@
 
 namespace Umbra.Interface;
 
-public class Gradient(uint topLeft, uint topRight, uint bottomLeft, uint bottomRight)
+public class DropdownSeparatorElement : Element
 {
-    public uint TopLeft     { get; set; } = topLeft;
-    public uint TopRight    { get; set; } = topRight;
-    public uint BottomLeft  { get; set; } = bottomLeft;
-    public uint BottomRight { get; set; } = bottomRight;
+    public DropdownSeparatorElement() : base("")
+    {
+        Padding = new(0, 4);
 
-    public Gradient(uint color) : this(color, color, color, color) { }
-    public Gradient(uint topColor, uint bottomColor) : this(topColor, topColor, bottomColor, bottomColor) { }
+        Style.BorderWidth = new(top: 1, bottom: 1, left: 0, right: 0);
+        Style.BorderColor = new(top: 0xFF090909, bottom: 0xFF3F3F3F, left: 0, right: 0);
+    }
 
-    public static Gradient Vertical(uint top, uint bottom) => new Gradient(top, top, bottom, bottom);
-    public static Gradient Horizontal(uint left, uint right) => new Gradient(left, right, left, right);
-
-    public bool HasValue => TopLeft != 0 || TopRight != 0 || BottomLeft != 0 || BottomRight != 0;
+    protected override void AfterCompute()
+    {
+        ComputedSize = new(Parent!.ComputedSize.Width - Padding.Horizontal, 1);
+        ComputeBoundingBox();
+    }
 }

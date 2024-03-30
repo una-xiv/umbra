@@ -16,20 +16,17 @@
 
 namespace Umbra.Interface;
 
-public struct ImageReference
+public class GradientElement(string id = "", Gradient? gradient = null, Spacing padding = new())
+    : Element(
+        id,
+        anchor: Anchor.None,
+        padding: padding
+    )
 {
-    public string? Path { get; set; }
-    public uint? IconId { get; set; }
+    public Gradient? Gradient = gradient;
 
-    public ImageReference(string path)
+    protected override void BeforeCompute()
     {
-        Path = path;
-        IconId = null;
-    }
-
-    public ImageReference(uint iconId)
-    {
-        Path = null;
-        IconId = iconId;
+        Style.Gradient = Gradient;
     }
 }

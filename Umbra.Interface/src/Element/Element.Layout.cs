@@ -134,17 +134,17 @@ public partial class Element
     /// additional <see cref="Margin"/>. If any side is set to <see cref="Size.Auto"/>, the computed size will be
     /// calculated based on the size of the children of this element.
     /// </remarks>
-    public Size ComputedSize { get; private set; }
+    public Size ComputedSize { get; protected set; }
 
     /// <summary>
     /// The computed bounding box of the entire element, excluding padding.
     /// </summary>
-    public Rect BoundingBox { get; private set; }
+    public Rect BoundingBox { get; protected set; }
 
     /// <summary>
     /// The computed bounding box of the element, including padding.
     /// </summary>
-    public Rect ContentBox { get; private set; }
+    public Rect ContentBox { get; protected set; }
 
     /// <summary>
     /// Computes the layout and position of this element and its children.
@@ -152,6 +152,8 @@ public partial class Element
     /// <param name="rootPosition"></param>
     public void ComputeLayout(Vector2 rootPosition)
     {
+        DoBeforeCompute();
+
         var pos = CalculatePosition(rootPosition);
         if (!ShouldRevalidate() && Position == pos) return;
 
@@ -167,15 +169,7 @@ public partial class Element
         CalculateAnchoredChildPositions(Anchor.BottomCenter);
         CalculateAnchoredChildPositions(Anchor.BottomRight);
 
-        BoundingBox = new(
-            Position + Margin.TopLeft,
-            Position + ComputedSize.ToVector2() - Margin.BottomRight
-        );
-
-        ContentBox = new(
-            BoundingBox.Min + Padding.TopLeft,
-            BoundingBox.Max - Padding.BottomRight
-        );
+        ComputeBoundingBox();
 
         GetAnchoredChildren(Anchor.None)
             .ForEach(
@@ -186,6 +180,20 @@ public partial class Element
             );
 
         IsDirty = false;
+        DoAfterCompute();
+    }
+
+    protected void ComputeBoundingBox()
+    {
+        BoundingBox = new(
+            Position                            + Margin.TopLeft,
+            Position + ComputedSize.ToVector2() - Margin.BottomRight
+        );
+
+        ContentBox = new(
+            BoundingBox.Min + Padding.TopLeft,
+            BoundingBox.Max - Padding.BottomRight
+        );
     }
 
     private bool ShouldRevalidate()
@@ -193,6 +201,18 @@ public partial class Element
         if (IsDirty || ComputedSize.IsEmpty) return true;
 
         return _children.Any(child => child.IsVisible && child.ShouldRevalidate());
+    }
+
+    private void DoBeforeCompute()
+    {
+        BeforeCompute();
+        _children.ForEach(child => child.DoBeforeCompute());
+    }
+
+    private void DoAfterCompute()
+    {
+        AfterCompute();
+        _children.ForEach(child => child.DoAfterCompute());
     }
 
     private void CalculateAnchoredChildPositions(Anchor childAnchor)

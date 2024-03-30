@@ -42,4 +42,8 @@
 		<ProjectReference Include="..\Umbra.Game\Umbra.Game.csproj" />
 		<ProjectReference Include="..\Umbra.Interface\Umbra.Interface.csproj" />
 	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="src\Toolbar\Widgets\MailIndicator\" />
+	</ItemGroup>
 </Project>

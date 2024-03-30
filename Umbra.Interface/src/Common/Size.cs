@@ -24,6 +24,8 @@ public readonly struct Size(int width = 0, int height = 0) : IComparable
     public int Width  { get; } = width;
     public int Height { get; } = height;
 
+    public Size(int size) : this(size, size) { }
+
     public static Size Auto => new();
 
     public bool    IsEmpty                => Width == 0 && Height == 0;

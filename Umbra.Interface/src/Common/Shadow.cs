@@ -18,8 +18,8 @@ namespace Umbra.Interface;
 
 public class Shadow(uint color = 0xFFFFFFFF, int size = 64, Spacing? inset = null, Side side = Side.All)
 {
-    public readonly uint    Color = color;
-    public readonly int     Size  = size;
-    public readonly Spacing Inset = inset ?? new(-4, -4, -4, -4);
-    public readonly Side    Side  = side;
+    public uint    Color = color;
+    public int     Size  = size;
+    public Spacing Inset = inset ?? new(-4, -4, -4, -4);
+    public Side    Side  = side;
 }

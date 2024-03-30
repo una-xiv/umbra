@@ -104,10 +104,13 @@ public class Style
     public sbyte? OutlineWidth;
 
     /// <summary>
-    /// A reference to an image to render within the element. Images are drawn
-    /// on top of any background color or gradient and below text.
+    /// A reference to an image to render. The type of image is determined based on the value type:
+    /// <list type="bullet">
+    /// <item>A <see cref="uint"/> will render a game icon with the given ID.</item>
+    /// <item>A <see cref="string"/> will render an image from a local file.</item>
+    /// </list>
     /// </summary>
-    public ImageReference? Image;
+    public object? Image;
 
     /// <summary>
     /// Defines the corner rounding of the image.

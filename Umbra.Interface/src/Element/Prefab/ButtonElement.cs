@@ -91,27 +91,21 @@ public class ButtonElement : Element
             BackgroundBorderWidth = 1,
         };
 
-        AddChild(
-            new(
-                "InnerBorder",
-                anchor: Anchor.None,
-                padding: new(1),
-                style: new() {
-                    BackgroundColor       = 0,
-                    BackgroundRounding    = 3,
-                    BackgroundBorderColor = 0xFF3F3F3F,
-                    BackgroundBorderWidth = 1,
-                }
-            )
-        );
-
+        AddChild(new BorderElement(rounding: 3, padding: new(1)));
         AddChild(_bodyElement);
+
+        OnMouseEnter += HandleMouseEnter;
+        OnMouseLeave += HandleMouseLeave;
+        OnMouseDown  += HandleMouseDown;
+        OnMouseUp    += HandleMouseUp;
     }
 
     protected override void BeforeCompute()
     {
         var iconElement  = _bodyElement.Get("Icon");
         var labelElement = _bodyElement.Get("Label");
+
+        Get<BorderElement>().Style.Opacity = IsDisabled ? 0.33f : 1.0f;
 
         if (Icon is null) {
             iconElement.IsVisible = false;
@@ -122,9 +116,12 @@ public class ButtonElement : Element
         }
 
         if (Label is not null) {
+            _bodyElement.Padding   = new(0, 8, 0, 4);
             labelElement.IsVisible = true;
             labelElement.Text      = Label;
-            _bodyElement.Padding   = new(0, 8, 0, 4);
+
+            labelElement.Style.TextColor    = IsDisabled ? 0xFF6F6F6F : 0xFFC0C0C0;
+            labelElement.Style.OutlineColor = IsDisabled ? 0x25000000 : 0xA0000000;
         } else {
             labelElement.IsVisible = false;
             _bodyElement.Padding   = new(0, 4);
@@ -137,8 +134,23 @@ public class ButtonElement : Element
                 iconElement.Text  = fontAwesomeIcon.ToIconString();
                 break;
             case uint iconId:
-                iconElement.Size  = new(20, 20);
-                iconElement.Style = new() { Image = new(iconId) };
+                iconElement.Size = new(20, 20);
+
+                iconElement.Style = new() {
+                    Image          = iconId,
+                    ImageGrayscale = IsDisabled ? 1.0f : 0,
+                    Opacity        = IsDisabled ? 0.66f : 1.0f,
+                };
+
+                break;
+            case string iconStr:
+                iconElement.Size = new(20, 20);
+
+                iconElement.Style = new() {
+                    Image          = iconStr,
+                    ImageGrayscale = IsDisabled ? 1.0f : 0,
+                    Opacity        = IsDisabled ? 0.66f : 1.0f,
+                };
 
                 break;
             case SeIconChar iconChar:
@@ -149,6 +161,33 @@ public class ButtonElement : Element
             default:
                 iconElement.Style = new();
                 break;
+        }
+    }
+
+    private void HandleMouseEnter()
+    {
+        Get<BorderElement>().Color                 = 0xFF6F6F6F;
+        Get<BorderElement>().Style.BackgroundColor = 0xFF313131;
+    }
+
+    private void HandleMouseLeave()
+    {
+        Get<BorderElement>().Color                 = 0xFF3F3F3F;
+        Get<BorderElement>().Style.BackgroundColor = 0;
+    }
+
+    private void HandleMouseDown()
+    {
+        Get<BorderElement>().Color                 = 0xFF9F9F9F;
+        Get<BorderElement>().Style.BackgroundColor = 0xFF3A3A3A;
+    }
+
+    private void HandleMouseUp()
+    {
+        if (IsMouseOver) {
+            HandleMouseEnter();
+        } else {
+            HandleMouseLeave();
         }
     }
 }

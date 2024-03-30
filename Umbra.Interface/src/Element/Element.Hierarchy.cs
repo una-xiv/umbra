@@ -46,7 +46,7 @@ public partial class Element
     public void AddChild(Element child)
     {
         // Check if a child with the same ID already exists.
-        if (Id != "" && _children.Any(x => x.Id == child.Id))
+        if (child.Id != "" && _children.Any(x => x.Id == child.Id))
             throw new InvalidOperationException($"Element with ID '{child.Id}' already exists in '{Id}'.");
 
         child.Parent?.RemoveChild(child);

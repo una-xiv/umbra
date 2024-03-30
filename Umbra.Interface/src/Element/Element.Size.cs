@@ -65,8 +65,6 @@ public partial class Element
     /// </summary>
     private Size CalculateSize()
     {
-        BeforeCompute();
-
         if (_isCalculatingSize) {
             // Recursive invocation may occur when a sibling has a dynamic size
             // based on the size of this element and our parent. Layout
@@ -75,7 +73,10 @@ public partial class Element
             return ComputedSize.IsFixed ? ComputedSize : Size;
         }
 
-        if (!IsDirty && ComputedSize.IsFixed) return ComputedSize;
+        if (!ShouldRevalidate()) return ComputedSize;
+
+        // Always calculate the size of child elements in case of a required
+        // reflow due to layout changes.
 
         if (Size.IsFixed) {
             return ComputedSize = new(
@@ -87,8 +88,8 @@ public partial class Element
         _isCalculatingSize = true;
 
         Size computedSize = Size.Max(CalculateOwnSize(), CalculateSizeBasedOnFlowAndChildren());
-        int  width        = computedSize.Width + Margin.Horizontal + Padding.Horizontal;
-        int  height       = computedSize.Height + Margin.Vertical + Padding.Vertical;
+        int  width        = computedSize.Width  + Margin.Horizontal + Padding.Horizontal;
+        int  height       = computedSize.Height + Margin.Vertical   + Padding.Vertical;
 
         if (Fit) {
             if (Flow == Flow.Horizontal) {
@@ -135,8 +136,31 @@ public partial class Element
 
         return new(
             (Size.Width  == 0 ? (int)textSize.X + Padding.Horizontal : Size.Width) + Margin.Horizontal,
-            (Size.Height == 0 ? (int)textSize.Y + Padding.Vertical : Size.Height) + Margin.Vertical
+            (Size.Height == 0 ? (int)textSize.Y + Padding.Vertical : Size.Height)  + Margin.Vertical
         );
+    }
+
+    private Vector2? _cachedTextSize;
+    private string?  _cachedTextSizeKey;
+
+    public Size GetTextSize()
+    {
+        if (string.IsNullOrEmpty(Text)) return new(0);
+
+        var cachedTextSizeKey = $"{Text}_{_computedStyle.Font}";
+
+        if (_cachedTextSizeKey == cachedTextSizeKey)
+            return new((int)_cachedTextSize!.Value.X, (int)_cachedTextSize.Value.Y);
+
+        Font font = _computedStyle.Font ?? Font.Default;
+        FontRepository.PushFont(font);
+
+        _cachedTextSize    = ImGui.CalcTextSize(Text);
+        _cachedTextSizeKey = cachedTextSizeKey;
+
+        FontRepository.PopFont(font);
+
+        return new((int)_cachedTextSize.Value.X, (int)_cachedTextSize.Value.Y);
     }
 
     /// <summary>
@@ -164,7 +188,7 @@ public partial class Element
 
         foreach (var child in children) child.CalculateSize();
 
-        int width = children.Sum(child => child.ComputedSize.Width);
+        int width  = children.Sum(child => child.ComputedSize.Width);
         int height = children.Sum(child => child.ComputedSize.Height);
 
         if (Flow == Flow.Horizontal) {

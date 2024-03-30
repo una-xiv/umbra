@@ -51,6 +51,7 @@ public partial class Element
         bool           fit       = false,
         int            gap       = 0,
         bool           isVisible = true,
+        string?        tag       = null,
         List<Element>? children  = null
     )
     {
@@ -67,6 +68,7 @@ public partial class Element
         _fit       = fit;
         _gap       = gap;
         _isVisible = isVisible;
+        Tag        = tag;
 
         children?.ForEach(AddChild);
     }
@@ -106,4 +108,9 @@ public partial class Element
     /// Invoked before computing the layout of this element.
     /// </summary>
     protected virtual void BeforeCompute() { }
+
+    /// <summary>
+    /// Invoked after computing the layout of this element.
+    /// </summary>
+    protected virtual void AfterCompute() { }
 }
