@@ -36,7 +36,7 @@ public sealed class GearsetRepository : IDisposable
 
     public List<Gearset> GetGearsets()
     {
-        return new List<Gearset>(_validGearsets.Values);
+        return [.._validGearsets.Values];
     }
 
     public void Dispose()
@@ -74,7 +74,7 @@ public sealed class GearsetRepository : IDisposable
     /// <exception cref="KeyNotFoundException"></exception>
     public unsafe void EquipGearset(ushort id)
     {
-        if (!_gearsets.ContainsKey(id)) {
+        if (!_gearsets.TryGetValue(id, out _)) {
             throw new KeyNotFoundException($"Gearset #{id} does not exist.");
         }
 
@@ -93,9 +93,7 @@ public sealed class GearsetRepository : IDisposable
     {
         return _validGearsets
             .Values
-            .Where(g => g.Category == gearset.Category && g.Id < gearset.Id)
-            .OrderByDescending(g => g.Id)
-            .FirstOrDefault()
+            .Where(g => g.Category == gearset.Category && g.Id < gearset.Id).MaxBy(g => g.Id)
             ?.Id;
     }
 
@@ -108,9 +106,7 @@ public sealed class GearsetRepository : IDisposable
     {
         return _validGearsets
             .Values
-            .Where(g => g.Category == gearset.Category && g.Id > gearset.Id)
-            .OrderBy(g => g.Id)
-            .FirstOrDefault()
+            .Where(g => g.Category == gearset.Category && g.Id > gearset.Id).MinBy(g => g.Id)
             ?.Id;
     }
 
@@ -124,6 +120,9 @@ public sealed class GearsetRepository : IDisposable
         if (newId == -1) {
             Logger.Error($"Failed to create gearset.");
         }
+
+        _gearsets[(ushort)newId].Sync();
+        EquipGearset((ushort)newId);
     }
 
     public unsafe void UpdateEquippedGearset()
@@ -134,6 +133,7 @@ public sealed class GearsetRepository : IDisposable
         if (gsm == null) return;
 
         gsm->UpdateGearset(CurrentGearset.Id);
+        OnGearsetChanged?.Invoke(CurrentGearset);
     }
 
     public unsafe void DeleteEquippedGearset()
@@ -141,17 +141,23 @@ public sealed class GearsetRepository : IDisposable
         if (null == CurrentGearset) return;
 
         int? newId = FindNextIdInCategory(CurrentGearset)
-         ?? FindPrevIdInCategory(CurrentGearset)
-         ?? FindFirstValidGearsetIdExceptFor(CurrentGearset)
-         ?? null;
+             ?? FindPrevIdInCategory(CurrentGearset)
+             ?? FindFirstValidGearsetIdExceptFor(CurrentGearset)
+             ?? null;
 
         RaptureGearsetModule* gsm = RaptureGearsetModule.Instance();
         if (gsm == null) return;
 
-        gsm->DeleteGearset(CurrentGearset.Id);
+        ushort idToRemove = CurrentGearset.Id;
+        gsm->DeleteGearset(idToRemove);
 
         if (null != newId) {
             gsm->EquipGearset((int)newId);
+            CurrentGearset = _gearsets[(ushort)newId];
+            OnGearsetChanged?.Invoke(CurrentGearset);
+            Logger.Info($"Successfully deleted {idToRemove} and equipped a new gearset with ID {CurrentGearset.Id}.");
+        } else {
+            Logger.Error("Failed to grab a valid gearset ID to equip.");
         }
     }
 
@@ -172,8 +178,14 @@ public sealed class GearsetRepository : IDisposable
     }
 
     [OnTick(interval: 250)]
-    public void OnTick()
+    public unsafe void OnTick()
     {
+        // Update current first.
+        var gsm = RaptureGearsetModule.Instance();
+        if (gsm == null) return;
+
+        CurrentGearset = _gearsets[(ushort)gsm->CurrentGearsetIndex];
+
         foreach (var gearset in _gearsets.Values) {
             gearset.Sync();
 
@@ -187,12 +199,11 @@ public sealed class GearsetRepository : IDisposable
     {
         if (null == CurrentGearset) return;
 
-        var oldId = CurrentGearset.Id;
+        ushort oldId = CurrentGearset.Id;
 
-        Logger.Info($"Attempting to reassign gearset #{oldId} to #{newId}...");
+        Logger.Debug($"Attempting to reassign gearset #{oldId} to #{newId}...");
 
-        if (newId < 0
-         || newId > 99) {
+        if (newId is < 0 or > 99) {
             Logger.Warning($"Cannot reassign gearset #{oldId} to #{newId}. The new ID exceeds the bounds of 0~99.");
             return;
         }
@@ -200,11 +211,10 @@ public sealed class GearsetRepository : IDisposable
         RaptureGearsetModule* gsm = RaptureGearsetModule.Instance();
         RaptureHotbarModule*  hbm = RaptureHotbarModule.Instance();
 
-        if (null == gsm
-         || null == hbm)
+        if (null == gsm || null == hbm)
             return;
 
-        var assignedId = gsm->ReassignGearsetId(oldId, newId);
+        int assignedId = gsm->ReassignGearsetId(oldId, newId);
 
         if (assignedId < 0) {
             Logger.Error($"Failed to assign gearset #{oldId} to #{newId}. (Error: {assignedId})");
@@ -213,6 +223,7 @@ public sealed class GearsetRepository : IDisposable
 
         CurrentGearset = _gearsets[(ushort)newId];
         hbm->ReassignGearsetId(oldId, newId);
+        OnGearsetChanged?.Invoke(CurrentGearset);
     }
 
     private int? FindFirstValidGearsetIdExceptFor(Gearset gearset)

@@ -15,6 +15,8 @@
  */
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Numerics;
 using ImGuiNET;
 using Umbra.Common;
@@ -25,6 +27,8 @@ public partial class Element
 {
     public event Action<Element>? OnRender;
 
+    private readonly List<ImDrawListPtr> _drawLists = [];
+
     /// <summary>
     /// Renders the element and its children at the given position.
     /// </summary>
@@ -32,7 +36,10 @@ public partial class Element
     /// <param name="position">The screen coordinates.</param>
     public void Render(ImDrawListPtr drawList, Vector2? position)
     {
+        if (!IsVisible) return;
         if (null != position) ComputeLayout(position.Value);
+
+        _drawLists.Add(drawList);
 
         ComputeStyle();
 
@@ -47,15 +54,62 @@ public partial class Element
 
             OnRender?.Invoke(this);
 
+            if (IsInWindowDrawList(drawList)) BeginDraw(drawList);
+
+            var childDrawList = _drawLists.Last();
+
             foreach (var child in Children) {
-                child.Render(drawList, null);
+                if (child.IsVisible) child.Render(childDrawList, null);
             }
+
+            if (IsInWindowDrawList(drawList)) EndDraw(drawList);
+
+            Draw(drawList);
 
             EndInteractive();
         } catch (Exception e) {
             Logger.Warning($"Rendering of element '{FullyQualifiedName}' failed: {e.Message}");
         }
 
+        if (IsVisibleSince == 0) {
+            IsVisibleSince = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+        }
+
         RenderDebugger();
+        _drawLists.Remove(drawList);
+    }
+
+    /// <summary>
+    /// Invoked after the base rendering has been completed and before any
+    /// children are rendered. This allows for custom rendering of ImGUI
+    /// frames. Note that this only works when rendering inside a window.
+    /// </summary>
+    protected virtual void BeginDraw(ImDrawListPtr drawList) { }
+
+    /// <summary>
+    /// Invoked after the base rendering has been completed and after all
+    /// children have been rendered. This allows for closing any ImGUI frames
+    /// that have been opened in the <see cref="BeginDraw"/> method.
+    /// </summary>
+    protected virtual void EndDraw(ImDrawListPtr drawList) { }
+
+    /// <summary>
+    /// Invoked after the base rendering has been completed. This allows for
+    /// custom rendering of ImGUI components within this element. Note that
+    /// this method is invoked AFTER the children have been rendered, meaning
+    /// that custom elements are drawn ON TOP of the children. This is by
+    /// design to allow for custom elements to "style" the appearance of the
+    /// ImGUI components.
+    /// </summary>
+    protected virtual void Draw(ImDrawListPtr drawList) { }
+
+    protected void PushDrawList(ImDrawListPtr drawList)
+    {
+        _drawLists.Add(drawList);
+    }
+
+    protected void PopDrawList()
+    {
+        _drawLists.RemoveAt(_drawLists.Count - 1);
     }
 }

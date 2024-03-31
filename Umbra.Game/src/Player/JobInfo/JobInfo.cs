@@ -16,10 +16,11 @@
 
 namespace Umbra.Game;
 
-public class JobInfo(byte id, string name, short level, byte xpPercent)
+public class JobInfo(byte id, string name, short level, byte xpPercent, bool isMaxLevel)
 {
-    public byte   Id        { get; }      = id;
-    public string Name      { get; }      = name;
-    public short  Level     { get; set; } = level;
-    public byte   XpPercent { get; set; } = xpPercent;
+    public byte   Id         { get; }      = id;
+    public string Name       { get; }      = name;
+    public short  Level      { get; set; } = level;
+    public byte   XpPercent  { get; set; } = xpPercent;
+    public bool   IsMaxLevel { get; set; } = isMaxLevel;
 }

@@ -18,7 +18,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
-using Umbra.Common;
 
 namespace Umbra.Interface;
 
@@ -146,6 +145,8 @@ public partial class Element
     /// </summary>
     public Rect ContentBox { get; protected set; }
 
+    public event Action? OnBeforeCompute;
+
     /// <summary>
     /// Computes the layout and position of this element and its children.
     /// </summary>
@@ -200,11 +201,13 @@ public partial class Element
     {
         if (IsDirty || ComputedSize.IsEmpty) return true;
 
-        return _children.Any(child => child.IsVisible && child.ShouldRevalidate());
+        return _children.Any(child => child.ShouldRevalidate());
     }
 
     private void DoBeforeCompute()
     {
+        OnBeforeCompute?.Invoke();
+
         BeforeCompute();
         _children.ForEach(child => child.DoBeforeCompute());
     }
@@ -275,7 +278,7 @@ public partial class Element
                         : x + child.ComputedSize.Width;
 
                     if (children.Last() != child) {
-                        x += Gap;
+                        x += childAnchor.IsRight() ? -Gap : Gap;
                     }
 
                     break;
@@ -285,7 +288,7 @@ public partial class Element
                         : y + child.ComputedSize.Height;
 
                     if (children.Last() != child) {
-                        y += Gap;
+                        y += childAnchor.IsBottom() ? -Gap : Gap;
                     }
 
                     break;
@@ -325,6 +328,6 @@ public partial class Element
 
     private List<Element> GetAnchoredChildren(Anchor a)
     {
-        return _children.Where(child => child.IsVisible && child.Anchor == a).ToList();
+        return _children.Where(child => child._isVisible && child._anchor == a).ToList();
     }
 }

@@ -14,6 +14,8 @@
  *     GNU Affero General Public License for more details.
  */
 
+using System.Numerics;
+using ImGuiNET;
 using Umbra.Common;
 using Umbra.Interface;
 
@@ -25,6 +27,8 @@ internal partial class Toolbar
     private const uint Color2      = 0xFF212021;
     private const int  ItemSpacing = 6;
 
+    private float _yPosition;
+
     private readonly Element _element = new(
         id: "Toolbar",
         anchor: Anchor.TopLeft,
@@ -33,9 +37,28 @@ internal partial class Toolbar
         children: [
             new GradientElement(gradient: Gradient.Vertical(Color1, Color2)),
             new BorderElement(padding: new(-1), color: 0xFF505050),
-            new ("Left", anchor: Anchor.MiddleLeft, gap: ItemSpacing, padding: new(left: ItemSpacing)),
-            new ("Middle", anchor: Anchor.MiddleCenter, gap: ItemSpacing),
-            new ("Right", anchor: Anchor.MiddleRight, gap: ItemSpacing, padding: new(right: ItemSpacing)),
+            new("Left", anchor: Anchor.MiddleLeft, gap: ItemSpacing, padding: new(left: ItemSpacing)),
+            new("Middle", anchor: Anchor.MiddleCenter, gap: ItemSpacing),
+            new("Right", anchor: Anchor.MiddleRight, gap: ItemSpacing, padding: new(right: ItemSpacing)),
         ]
     );
+
+    private void UpdateToolbar()
+    {
+        Vector2 displaySize = ImGui.GetMainViewport().Size;
+        _yPosition = IsTopAligned ? ImGui.GetMainViewport().WorkPos.Y : displaySize.Y;
+
+        _element.Anchor = IsTopAligned ? Anchor.TopLeft : Anchor.BottomLeft;
+        _element.Size   = new((int)displaySize.X, Height);
+
+        _element.Get<GradientElement>().Gradient = Gradient.Vertical(
+            IsTopAligned ? Color2 : Color1,
+            IsTopAligned ? Color1 : Color2
+        );
+    }
+
+    private void RenderToolbar()
+    {
+        _element.Render(ImGui.GetBackgroundDrawList(), new(0, _yPosition));
+    }
 }

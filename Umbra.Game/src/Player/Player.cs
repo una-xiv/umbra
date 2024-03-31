@@ -63,6 +63,11 @@ public class Player
     public bool IsOccupied { get; private set; }
 
     /// <summary>
+    /// True if the player is currently watching a cutscene.
+    /// </summary>
+    public bool IsInCutscene { get; private set; }
+
+    /// <summary>
     /// True if the player is currently dead.
     /// </summary>
     public bool IsDead { get; private set; }
@@ -123,6 +128,7 @@ public class Player
         IsOccupied           = _condition[ConditionFlag.BetweenAreas] || _condition[ConditionFlag.BetweenAreas51] || _condition[ConditionFlag.Occupied] || _condition[ConditionFlag.Occupied30] || _condition[ConditionFlag.Occupied33] || _condition[ConditionFlag.Occupied38] || _condition[ConditionFlag.Occupied39] || _condition[ConditionFlag.OccupiedInCutSceneEvent] || _condition[ConditionFlag.OccupiedInEvent] || _condition[ConditionFlag.OccupiedInQuestEvent] || _condition[ConditionFlag.OccupiedSummoningBell];
         IsJumping            = _condition[ConditionFlag.Jumping] || _condition[ConditionFlag.Jumping61];
         IsBoundByDuty        = _condition[ConditionFlag.BoundByDuty] || _condition[ConditionFlag.BoundByDuty56] || _condition[ConditionFlag.BoundByDuty95];
+        IsInCutscene         = _condition[ConditionFlag.OccupiedInCutSceneEvent] || _condition[ConditionFlag.WatchingCutscene] || _condition[ConditionFlag.WatchingCutscene78] || _condition[ConditionFlag.BetweenAreas] || _condition[ConditionFlag.BetweenAreas51];
         CanUseTeleportAction = !IsDead && !IsCasting && !IsInCombat && !IsJumping && !IsOccupied && !IsBoundByDuty;
         HomeWorldName        =_clientState.LocalPlayer.HomeWorld.GameData!.Name.ToString();
         CurrentWorldName     =_clientState.LocalPlayer.CurrentWorld.GameData!.Name.ToString();

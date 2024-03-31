@@ -34,12 +34,13 @@ public sealed class MainMenuItem : IDisposable
     public uint?            CommandId   { get; set; }
     public short            SortIndex   { get; set; }
     public bool             IsDisabled  { get; set; }
-    public SeIconChar?      IconChar    { get; set; }
+    public object?          Icon        { get; set; }
     public uint?            IconColor   { get; set; }
     public Action?          OnUpdate;
     public Action?          OnDisposed;
     public string?          MetadataKey { get; set; }
-    public string           Id          => $"{Type}-{SortIndex}-{Name.Replace(" ", "")}";
+
+    public string Id => $"{Type}-{SortIndex}-{Name.Replace(" ", "")}";
 
     public void Dispose()
     {

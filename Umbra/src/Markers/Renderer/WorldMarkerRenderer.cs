@@ -22,7 +22,7 @@ using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Common.Component.BGCollision;
 using ImGuiNET;
 using Umbra.Common;
-using Umbra.Drawing;
+using Umbra.Interface;
 using Umbra.Game;
 
 namespace Umbra.Markers;
@@ -59,12 +59,12 @@ public sealed class WorldMarkerRenderer(IGameGui gameGui, Player player, ClipRec
             return;
         }
 
-        var clipRect = new ClipRect(
+        var r = new Rect(
             new(screenPosition.X - 32, screenPosition.Y - 32),
             new(screenPosition.X + 32, screenPosition.Y + 32)
         );
 
-        if (clipRectProvider.FindClipRectsIntersectingWith(clipRect).Count > 0) {
+        if (clipRectProvider.FindClipRectsIntersectingWith(r).Count > 0) {
             return;
         }
 
@@ -72,7 +72,7 @@ public sealed class WorldMarkerRenderer(IGameGui gameGui, Player player, ClipRec
         var element  = BuildElement(marker, distance);
 
         if (EnableDistanceBasedOpacity) {
-            element.Opacity = Math.Clamp(
+            element.Style.Opacity = Math.Clamp(
                 1 - (distance - marker.MaxFadeDistance) / (marker.MinFadeDistance - marker.MaxFadeDistance),
                 marker.MinOpacity,
                 marker.MaxOpacity
@@ -82,16 +82,16 @@ public sealed class WorldMarkerRenderer(IGameGui gameGui, Player player, ClipRec
         if (OcclusionTestEnabled
          && distance <= marker.MaxFadeDistance
          && IsMarkerOccluded(marker.Position)) {
-            element.Opacity = 0.65f;
+            element.Style.Opacity = 0.65f;
         }
 
-        element.Render(ImGui.GetBackgroundDrawList(), new(screenPosition.X, screenPosition.Y - 64));
+        element.Render(ImGui.GetBackgroundDrawList(), screenPosition with { Y = screenPosition.Y - 64 });
 
         if (marker.OnClick != null
          && distance       < 55) {
-            var rect = new ClipRect(
+            var rect = new Rect(
                 new(screenPosition.X - 32, screenPosition.Y - 64),
-                new(screenPosition.X + 32, screenPosition.Y)
+                screenPosition with { X = screenPosition.X + 32 }
             );
 
             if (rect.Contains(ImGui.GetMousePos())) {
@@ -129,73 +129,74 @@ public sealed class WorldMarkerRenderer(IGameGui gameGui, Player player, ClipRec
         return Vector3.Distance(pos, hit.Point) < Vector3.Distance(pos, position);
     }
 
-    private Element BuildElement(WorldMarkerObject marker, float distance)
+    private static Element BuildElement(WorldMarkerObject marker, float distance)
     {
-        return new Element(
-            direction: Direction.Vertical,
-            anchor: Anchor.Top | Anchor.Center,
+        return new(
+            id: "",
+            flow: Flow.Vertical,
+            anchor: Anchor.TopCenter,
             children: [
                 new(
-                    direction: Direction.Horizontal,
-                    anchor: Anchor.Top | Anchor.Left,
-                    size: new(512, 0),
+                    id: "IconContainer",
+                    flow: Flow.Horizontal,
+                    anchor: Anchor.TopCenter,
+                    fit: true,
                     gap: 6,
                     children: marker
                         .IconIds[..Math.Min(marker.IconIds.Count, 3)].Select(
                             iconId => new Element(
-                                anchor: Anchor.Top | Anchor.Center,
+                                id: "",
+                                anchor: Anchor.TopCenter,
                                 size: new(32, 32),
-                                nodes: [
-                                    new IconNode(iconId: iconId)
-                                ]
+                                style: new() {
+                                    Image = iconId
+                                }
                             )
                         )
                         .ToList()
                 ),
                 new(
                     id: "LabelContainer",
-                    direction: Direction.Vertical,
-                    anchor: Anchor.Top | Anchor.Left,
-                    size: new(512, 0),
+                    flow: Flow.Vertical,
+                    anchor: Anchor.TopCenter,
                     gap: distance >= marker.MaxFadeDistance ? 2 : 1,
                     children: [
                         ..marker
                             .Text[..Math.Min(marker.Text.Count, 4)]
                             .Select(
                                 text => new Element(
-                                    direction: Direction.Vertical,
-                                    anchor: Anchor.Top | Anchor.Left,
+                                    id: "",
+                                    flow: Flow.Vertical,
+                                    anchor: Anchor.TopCenter,
                                     size: new(512, 0),
                                     gap: 1,
                                     isVisible: text.Label?.Length > 0 || text.SubLabel?.Length > 0,
                                     children: [
                                         new(
-                                            anchor: Anchor.Top | Anchor.Left,
+                                            id: "",
+                                            anchor: Anchor.TopCenter,
                                             fit: true,
-                                            nodes: [
-                                                new TextNode(
-                                                    text: text.Label ?? "",
-                                                    color: 0xDDFFFFFF,
-                                                    outlineColor: 0x70000000,
-                                                    outlineSize: 1,
-                                                    align: Align.TopCenter,
-                                                    font: Font.AxisSmall
-                                                )
-                                            ]
+                                            text: text.Label,
+                                            style: new() {
+                                                Font         = Font.AxisSmall,
+                                                TextColor    = 0xDDFFFFFF,
+                                                TextAlign    = Anchor.TopCenter,
+                                                OutlineColor = 0x70000000,
+                                                OutlineWidth = 1,
+                                            }
                                         ) { IsVisible = text.Label?.Length > 0 },
                                         new(
-                                            anchor: Anchor.Top | Anchor.Left,
+                                            id: "",
+                                            anchor: Anchor.TopCenter,
                                             fit: true,
-                                            nodes: [
-                                                new TextNode(
-                                                    text: text.SubLabel ?? "",
-                                                    color: 0xA0FFFFFF,
-                                                    outlineColor: 0x70000000,
-                                                    outlineSize: 1,
-                                                    align: Align.TopCenter,
-                                                    font: Font.AxisExtraSmall
-                                                )
-                                            ]
+                                            text: text.SubLabel,
+                                            style: new() {
+                                                Font         = Font.AxisExtraSmall,
+                                                TextColor    = 0xA0FFFFFF,
+                                                TextAlign    = Anchor.TopCenter,
+                                                OutlineColor = 0x70000000,
+                                                OutlineWidth = 1,
+                                            }
                                         ) {
                                             IsVisible = text.SubLabel?.Length > 0 && distance >= marker.MaxFadeDistance
                                         }
@@ -205,19 +206,16 @@ public sealed class WorldMarkerRenderer(IGameGui gameGui, Player player, ClipRec
                             .ToList(),
                         new Element(
                             id: "Distance",
-                            anchor: Anchor.Top | Anchor.Left,
+                            anchor: Anchor.TopCenter,
                             fit: true,
-                            nodes: [
-                                new TextNode(
-                                    text: $"{distance:F1} yalms",
-                                    color: 0xA0FFFFFF,
-                                    outlineColor: 0x70000000,
-                                    outlineSize: 1,
-                                    align: Align.TopCenter,
-                                    font: Font.AxisExtraSmall,
-                                    margin: new(4, 0, 0)
-                                )
-                            ]
+                            text: $"{distance:F1} yalms",
+                            style: new() {
+                                Font         = Font.AxisExtraSmall,
+                                TextColor    = 0xA0FFFFFF,
+                                TextAlign    = Anchor.TopCenter,
+                                OutlineColor = 0x70000000,
+                                OutlineWidth = 1,
+                            }
                         )
                     ]
                 )

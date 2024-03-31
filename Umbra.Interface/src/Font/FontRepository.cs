@@ -67,8 +67,8 @@ public class FontRepository
             CreateFontFromStyle(Font.AxisLarge,      new(GameFontFamilyAndSize.Axis14)),
             CreateFontFromStyle(Font.Jupiter,        new(GameFontFamilyAndSize.Jupiter23)),
             CreateFontFromStyle(Font.MiedingerSmall, new(GameFontFamilyAndSize.MiedingerMid10)),
-            CreateFontFromStyle(Font.Miedinger,      new(GameFontFamilyAndSize.MiedingerMid12) { Bold = true }),
-            CreateFontFromStyle(Font.MiedingerLarge, new(GameFontFamily.MiedingerMid, 28f)),
+            CreateFontFromStyle(Font.Miedinger,      new(GameFontFamilyAndSize.MiedingerMid14) { Bold = true }),
+            CreateFontFromStyle(Font.MiedingerLarge, new(GameFontFamily.MiedingerMid, 42f)),
 
             CreateFontFromDalamudAsset(Font.MonospaceSmall,   DalamudAsset.InconsolataRegular,   new() { SizePx = 10 }),
             CreateFontFromDalamudAsset(Font.Monospace,        DalamudAsset.InconsolataRegular,   new() { SizePx = 14 }),

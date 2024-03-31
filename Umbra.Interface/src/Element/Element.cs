@@ -52,6 +52,7 @@ public partial class Element
         int            gap       = 0,
         bool           isVisible = true,
         string?        tag       = null,
+        string?        tooltip   = null,
         List<Element>? children  = null
     )
     {
@@ -69,6 +70,10 @@ public partial class Element
         _gap       = gap;
         _isVisible = isVisible;
         Tag        = tag;
+        Tooltip    = tooltip;
+
+        BoundingBox = new();
+        ContentBox  = new();
 
         children?.ForEach(AddChild);
     }
@@ -87,9 +92,10 @@ public partial class Element
         get => _isVisible;
         set {
             if (_isVisible == value) return;
-            _isVisible   = value;
-            IsDirty      = true;
-            ComputedSize = Size.Auto;
+            _isVisible     = value;
+            IsDirty        = true;
+            ComputedSize   = Size.Auto;
+            IsVisibleSince = 0;
         }
     }
 
@@ -104,6 +110,21 @@ public partial class Element
         }
     }
 
+    public void Invalidate()
+    {
+        IsDirty            = true;
+        ComputedSize       = Size.Auto;
+        BoundingBox        = Rect.Empty;
+        ContentBox         = Rect.Empty;
+        _cachedTextSize    = null;
+        _cachedTextSizeKey = null;
+    }
+
+    /// <summary>
+    /// Defines a tooltip text that is displayed when the mouse hovers over this element.
+    /// </summary>
+    public string? Tooltip;
+
     /// <summary>
     /// Invoked before computing the layout of this element.
     /// </summary>
@@ -113,4 +134,6 @@ public partial class Element
     /// Invoked after computing the layout of this element.
     /// </summary>
     protected virtual void AfterCompute() { }
+
+    protected long IsVisibleSince;
 }

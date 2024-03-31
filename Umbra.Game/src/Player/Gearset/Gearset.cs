@@ -27,14 +27,15 @@ public sealed class Gearset(ushort id, Player player)
 
     public bool IsValid { get; private set; }
 
-    public string          Name      { get; private set; } = string.Empty;
-    public byte            JobId     { get; private set; }
-    public short           ItemLevel { get; private set; }
-    public bool            IsCurrent { get; private set; }
-    public GearsetCategory Category  { get; private set; } = GearsetCategory.None;
-    public short           JobLevel  { get; private set; }
-    public byte            JobXp     { get; private set; }
-    public string          JobName   { get; private set; } = string.Empty;
+    public string          Name       { get; private set; } = string.Empty;
+    public byte            JobId      { get; private set; }
+    public short           ItemLevel  { get; private set; }
+    public bool            IsCurrent  { get; private set; }
+    public GearsetCategory Category   { get; private set; } = GearsetCategory.None;
+    public short           JobLevel   { get; private set; }
+    public byte            JobXp      { get; private set; }
+    public string          JobName    { get; private set; } = string.Empty;
+    public bool            IsMaxLevel { get; private set; }
 
     public event Action? OnCreated;
     public event Action? OnChanged;
@@ -48,19 +49,17 @@ public sealed class Gearset(ushort id, Player player)
         RaptureGearsetModule* gsm         = RaptureGearsetModule.Instance();
         PlayerState*          playerState = PlayerState.Instance();
 
-        if (gsm         == null
-         || playerState == null) {
+        if (gsm         == null || playerState == null) {
             if (IsValid) OnRemoved?.Invoke();
             IsValid = false;
             return;
         }
 
         var gearset = gsm->GetGearset(Id);
-
-        if (gearset == null
-         || !gsm->IsValidGearset(Id)) {
+        if (gearset == null || !gsm->IsValidGearset(Id)) {
             if (IsValid) OnRemoved?.Invoke();
-            IsValid = false;
+            IsValid   = false;
+            IsCurrent = false;
             return;
         }
 
@@ -68,14 +67,15 @@ public sealed class Gearset(ushort id, Player player)
         IsValid = true;
 
         // Intermediate values.
-        bool   isChanged = false;
-        string name      = Marshal.PtrToStringAnsi((IntPtr)gearset->Name) ?? "Unknown Gearset";
-        byte   jobId     = gearset->ClassJob;
-        short  itemLevel = gearset->ItemLevel;
-        bool   isCurrent = gsm->CurrentGearsetIndex == Id;
-        byte   jobXp     = player.GetJobInfo(jobId).XpPercent;
-        string jobName   = player.GetJobInfo(jobId).Name;
-        short  jobLevel  = player.GetJobInfo(jobId).Level;
+        bool   isChanged  = false;
+        string name       = Marshal.PtrToStringAnsi((IntPtr)gearset->Name) ?? "Unknown Gearset";
+        byte   jobId      = gearset->ClassJob;
+        short  itemLevel  = gearset->ItemLevel;
+        bool   isCurrent  = gsm->CurrentGearsetIndex == Id;
+        byte   jobXp      = player.GetJobInfo(jobId).XpPercent;
+        string jobName    = player.GetJobInfo(jobId).Name;
+        short  jobLevel   = player.GetJobInfo(jobId).Level;
+        bool   isMaxLevel = player.GetJobInfo(jobId).IsMaxLevel;
 
         // Check for changes.
         if (Name != name) {
@@ -96,6 +96,11 @@ public sealed class Gearset(ushort id, Player player)
         if (IsCurrent != isCurrent) {
             IsCurrent = isCurrent;
             isChanged = true;
+        }
+
+        if (IsMaxLevel != isMaxLevel) {
+            IsMaxLevel = isMaxLevel;
+            isChanged  = true;
         }
 
         if (JobXp != jobXp) {

@@ -14,12 +14,6 @@
  *     GNU Affero General Public License for more details.
  */
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using ImGuiNET;
-
 namespace Umbra.Interface;
 
 public partial class Element

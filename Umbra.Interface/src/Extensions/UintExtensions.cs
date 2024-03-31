@@ -32,4 +32,13 @@ public static class UintExtensions
 
         return ((uint)alpha << 24) | ((uint)red << 16) | ((uint)green << 8) | blue;
     }
+
+    public static uint ApplyBrightness(this uint value, float brightness)
+    {
+        var red   = (byte)(((value >> 16) & 0xFF) * Math.Clamp(brightness, 0f, 2f));
+        var green = (byte)(((value >> 8)  & 0xFF) * Math.Clamp(brightness, 0f, 2f));
+        var blue  = (byte)((value         & 0xFF) * Math.Clamp(brightness, 0f, 1f));
+
+        return (value & 0xFF000000) | ((uint)red << 16) | ((uint)green << 8) | blue;
+    }
 }

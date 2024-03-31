@@ -40,21 +40,21 @@ public sealed class MainMenuRepository : IMainMenuRepository
 
         dataManager.GetExcelSheet<MainCommandCategory>()!.ToList().ForEach(cmd => {
             if (cmd.Name == "" || null == Enum.GetName(typeof(MenuCategory), cmd.RowId)) return;
-            Categories[(MenuCategory)cmd.RowId] = new MainMenuCategory((MenuCategory)cmd.RowId, cmd.Name);
+            Categories[(MenuCategory)cmd.RowId] = new ((MenuCategory)cmd.RowId, cmd.Name);
         });
 
         Categories.Values.ToList().ForEach(category => {
             dataManager.GetExcelSheet<MainCommand>()!.Where(cmd => cmd.MainCommandCategory?.Row == (uint)category.Category).ToList().ForEach(cmd => {
-                category.AddItem(new MainMenuItem(cmd.Name, cmd.SortID, cmd.RowId));
+                category.AddItem(new (cmd.Name, cmd.SortID, cmd.RowId) { Icon = cmd.Icon > 0 ? (uint)cmd.Icon : null});
             });
         });
 
         // Add Dalamud items to the system menu.
-        Categories[MenuCategory.System].AddItem(new MainMenuItem(-998));
-        Categories[MenuCategory.System].AddItem(new MainMenuItem("Umbra Settings", -999, "/umbra config") { IconChar = SeIconChar.BoxedLetterU, IconColor = 0xFF40A0AC });
-        Categories[MenuCategory.System].AddItem(new MainMenuItem(-1000));
-        Categories[MenuCategory.System].AddItem(new MainMenuItem("Dalamud Settings", -1001, "/xlsettings") { IconChar = SeIconChar.BoxedLetterD, IconColor = 0xFF4055AC });
-        Categories[MenuCategory.System].AddItem(new MainMenuItem("Dalamud Plugins", -1002, "/xlplugins") { IconChar = SeIconChar.BoxedLetterD, IconColor = 0xFF4055AC });
+        Categories[MenuCategory.System].AddItem(new (-998));
+        Categories[MenuCategory.System].AddItem(new ("Umbra Settings", -999, "/umbra") { Icon = SeIconChar.BoxedLetterU, IconColor = 0xFF40A0AC });
+        Categories[MenuCategory.System].AddItem(new (-1000));
+        Categories[MenuCategory.System].AddItem(new ("Dalamud Settings", -1001, "/xlsettings") { Icon = SeIconChar.BoxedLetterD, IconColor = 0xFF5151FF });
+        Categories[MenuCategory.System].AddItem(new ("Dalamud Plugins", -1002, "/xlplugins") { Icon = SeIconChar.BoxedLetterD, IconColor = 0xFF5151FF });
     }
 
     public List<MainMenuCategory> GetCategories()
@@ -108,12 +108,12 @@ public sealed class MainMenuRepository : IMainMenuRepository
                     continue;
                 }
 
-                if (! category.Items.Any(item => item.Type == MainMenuItemType.Separator)) {
-                    category.AddItem(new MainMenuItem(sortIndex));
+                if (category.Items.All(item => item.Type != MainMenuItemType.Separator)) {
+                    category.AddItem(new(sortIndex));
                     sortIndex++;
                 }
 
-                category.AddItem(new MainMenuItem(name, sortIndex, () => {
+                category.AddItem(new(name, sortIndex, () => {
                     unsafe {
                         Telepo.Instance()->Teleport(aetheryte.AetheryteId, aetheryte.SubIndex);
                     }

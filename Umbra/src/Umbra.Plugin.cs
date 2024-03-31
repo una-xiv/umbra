@@ -83,7 +83,6 @@ internal sealed class Plugin : IDalamudPlugin
         Framework.AddLogTarget(new DefaultLogTarget(PluginLog, ChatGui));
 
         Framework.RegisterAssembly(Assembly.GetExecutingAssembly());
-        Framework.RegisterAssembly(typeof(Drawing.EntryPoint).Assembly);
         Framework.RegisterAssembly(typeof(Game.EntryPoint).Assembly);
         Framework.RegisterAssembly(typeof(Interface.EntryPoint).Assembly);
     }

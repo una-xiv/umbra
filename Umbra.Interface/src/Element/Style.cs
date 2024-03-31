@@ -72,6 +72,12 @@ public class Style
     public uint? TextColor;
 
     /// <summary>
+    /// Wraps text to the next line if it exceeds the width of the element.
+    /// This requires the element to have a fixed width.
+    /// </summary>
+    public bool? TextWrap;
+
+    /// <summary>
     /// Defines "box shadow" properties for the element. Set to NULL to disable
     /// the shadow effect.
     /// </summary>
@@ -111,6 +117,16 @@ public class Style
     /// </list>
     /// </summary>
     public object? Image;
+
+    /// <summary>
+    /// Defines the offset position of the image within the element.
+    /// </summary>
+    public Vector2? ImageOffset;
+
+    /// <summary>
+    /// Defines the UV coordinates of the image.
+    /// </summary>
+    public Vector4? ImageUVs;
 
     /// <summary>
     /// Defines the corner rounding of the image.
@@ -158,6 +174,7 @@ public class Style
         RoundedCorners        = other.RoundedCorners;
         TextAlign             = other.TextAlign;
         TextOffset            = other.TextOffset;
+        TextWrap              = other.TextWrap;
         Font                  = other.Font;
         Shadow                = other.Shadow;
         OutlineColor          = other.OutlineColor;
@@ -168,6 +185,8 @@ public class Style
         ImageBlackAndWhite    = other.ImageBlackAndWhite;
         ImageBrightness       = other.ImageBrightness;
         ImageContrast         = other.ImageContrast;
+        ImageOffset           = other.ImageOffset;
+        ImageUVs              = other.ImageUVs;
         Opacity               = other.Opacity;
     }
 
@@ -186,6 +205,9 @@ public class Style
 
         if (Opacity != null && other.Opacity != null) {
             Opacity *= other.Opacity.Value;
+        }
+        if (Opacity == null && other.Opacity != null) {
+            Opacity = other.Opacity;
         }
     }
 }

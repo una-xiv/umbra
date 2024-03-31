@@ -14,56 +14,67 @@
  *     GNU Affero General Public License for more details.
  */
 
-using System.Numerics;
-using ImGuiNET;
+using System.Collections.Generic;
 using Umbra.Common;
+using Umbra.Game;
 using Umbra.Interface;
 
 namespace Umbra.Toolbar;
 
 [Service]
-internal partial class Toolbar
+internal partial class Toolbar(Player player, IToolbarWidget[] widgets)
 {
+    public const int Height = 32;
+
     [ConfigVariable(
         "Toolbar.IsTopAligned",
         "Toolbar Settings",
         "Place the toolbar at the top of the screen.",
         "Aligns the toolbar to the top of the screen rather than the bottom."
     )]
-    private static bool IsTopAligned { get; set; } = false;
+    public static bool IsTopAligned { get; set; } = false;
 
-    [ConfigVariable(
-        "Toolbar.Height",
-        "Toolbar Settings",
-        "Toolbar Height",
-        "Defines the height of the toolbar in pixels.",
-        min: 24,
-        max: 48,
-        step: 1
-    )]
-    private static int Height { get; set; } = 32;
-
-    public Toolbar()
-    {
-        _element.Get("Left").AddChild(new ButtonElement("L1", "Left Button"));
-        _element.Get("Middle").AddChild(new ButtonElement("M1", "Middle Button"));
-        _element.Get("Right").AddChild(new ButtonElement("R1", "Right Button"));
-    }
+    private readonly List<IToolbarWidget> _widgets = [..widgets];
 
     [OnDraw]
     public void OnDraw()
     {
-        Vector2 displaySize = ImGui.GetMainViewport().Size;
-        float   yPosition   = IsTopAligned ? ImGui.GetMainViewport().WorkPos.Y : displaySize.Y;
+        if (player.IsInCutscene) {
+            _element.IsVisible = false;
+            return;
+        }
 
-        _element.Anchor = IsTopAligned ? Anchor.TopLeft : Anchor.BottomLeft;
-        _element.Size   = new((int)displaySize.X, Height);
+        _element.IsVisible = true;
+        UpdateToolbar();
 
-        _element.Get<GradientElement>().Gradient = Gradient.Vertical(
-            IsTopAligned ? Color2 : Color1,
-            IsTopAligned ? Color1 : Color2
-        );
+        foreach (var widget in _widgets) {
+            AssignWidgetContainer(widget);
+            widget.OnDraw();
+        }
 
-        _element.Render(ImGui.GetBackgroundDrawList(), new(0, yPosition));
+        RenderToolbar();
+    }
+
+    [OnTick(interval: 23)]
+    public void OnTick()
+    {
+        foreach (var widget in _widgets) {
+            widget.OnUpdate();
+        }
+    }
+
+    private void AssignWidgetContainer(IToolbarWidget widget)
+    {
+        Element left   = _element.Get("Left"),
+                middle = _element.Get("Middle"),
+                right  = _element.Get("Right");
+
+        if (widget.Element.Anchor.IsLeft() && widget.Element.Parent != left) {
+            left.AddChild(widget.Element);
+        } else if (widget.Element.Anchor.IsCenter() && widget.Element.Parent != middle) {
+            middle.AddChild(widget.Element);
+        } else if (widget.Element.Anchor.IsRight() && widget.Element.Parent != right) {
+            right.AddChild(widget.Element);
+        }
     }
 }

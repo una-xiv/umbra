@@ -17,7 +17,6 @@
 using System;
 using System.Numerics;
 using ImGuiNET;
-using Umbra.Common;
 
 namespace Umbra.Interface;
 
@@ -35,7 +34,8 @@ public partial class Element
     /// True if the element has any interactive event listeners attached to it.
     /// </summary>
     public bool IsInteractive =>
-        null != OnClick
+        null != Tooltip
+     || null != OnClick
      || null != OnMiddleClick
      || null != OnRightClick
      || null != OnMouseEnter
@@ -58,11 +58,20 @@ public partial class Element
 
     public bool IsDisabled { get; set; }
 
-    private bool _isInWindowOrInteractiveParent = false;
+    private bool _isInWindowOrInteractiveParent;
+    private bool _didStartInteractive;
+    private long _mouseOverStartTime;
 
     private void SetupInteractive(ImDrawListPtr drawList)
     {
+        _didStartInteractive = false;
         if (IsDisabled || !IsVisible || !IsInteractive) return;
+
+        // Debounce the interactive state to prevent unintentional clicks
+        // when toggling visibility on elements on the same position.
+        if (DateTimeOffset.Now.ToUnixTimeMilliseconds() - IsVisibleSince < 100) return;
+
+        _didStartInteractive = true;
 
         ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding,    Vector2.Zero);
         ImGui.PushStyleVar(ImGuiStyleVar.FramePadding,     Vector2.Zero);
@@ -90,9 +99,26 @@ public partial class Element
         IsMouseOver = ImGui.IsItemHovered();
         IsFocused   = ImGui.IsItemFocused();
 
+        if (Tooltip != null && IsMouseOver && _mouseOverStartTime < DateTimeOffset.Now.ToUnixTimeMilliseconds() - 500) {
+            ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, new Vector2(8, 6));
+            ImGui.PushStyleVar(ImGuiStyleVar.WindowRounding, 6);
+            ImGui.PushStyleColor(ImGuiCol.Border,   0xFF3F3F3F);
+            ImGui.PushStyleColor(ImGuiCol.WindowBg, 0xFF252525);
+            ImGui.PushStyleColor(ImGuiCol.Text,     0xFFCACACA);
+            ImGui.BeginTooltip();
+            ImGui.SetCursorPos(new(8, 4));
+            FontRepository.Get(Font.Axis).Push();
+            ImGui.TextUnformatted(Tooltip);
+            FontRepository.Get(Font.Axis).Pop();
+            ImGui.EndTooltip();
+            ImGui.PopStyleColor(3);
+            ImGui.PopStyleVar(2);
+        }
+
         switch (wasHovered) {
             case false when IsMouseOver:
                 OnMouseEnter?.Invoke();
+                _mouseOverStartTime = DateTimeOffset.Now.ToUnixTimeMilliseconds();
                 break;
             case true when !IsMouseOver:
                 OnMouseLeave?.Invoke();
@@ -134,7 +160,7 @@ public partial class Element
 
     private void EndInteractive()
     {
-        if (IsDisabled || !IsVisible || !IsInteractive) return;
+        if (!_didStartInteractive) return;
 
         if (_isInWindowOrInteractiveParent) {
             ImGui.EndChild();

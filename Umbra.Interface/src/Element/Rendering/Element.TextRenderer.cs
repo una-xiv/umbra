@@ -21,6 +21,9 @@ namespace Umbra.Interface;
 
 public partial class Element
 {
+    private static uint _globalWrappedTextFrameId = 10_000_000;
+    private uint _wrappedTextFrameId;
+
     private void RenderText(ImDrawListPtr drawList)
     {
         if (Text == null) return;
@@ -28,10 +31,15 @@ public partial class Element
         Font font = _computedStyle.Font ?? Font.Default;
         FontRepository.PushFont(font);
 
-        Rect    rect     = ContentBox;
-        Vector2 textSize = ImGui.CalcTextSize(Text);
-        Vector2 pos      = new(rect.X1, rect.Y1);
-        Anchor  align    = _computedStyle.TextAlign ?? Anchor.MiddleLeft;
+        bool shouldWrap = Size.Width > 0 && _computedStyle.TextWrap == true;
+
+        Vector2 textSize = shouldWrap
+            ? ImGui.CalcTextSize(Text, (float)(Size.Width - Padding.Horizontal))
+            : ImGui.CalcTextSize(Text);
+
+        Rect    rect  = ContentBox;
+        Vector2 pos   = new(rect.X1, rect.Y1);
+        Anchor  align = _computedStyle.TextAlign ?? Anchor.MiddleLeft;
 
         if (align.IsCenter()) {
             pos.X += (rect.Width - textSize.X) / 2;
@@ -49,11 +57,30 @@ public partial class Element
             pos += _computedStyle.TextOffset.Value;
         }
 
+        // Round position to prevent subpixel rendering.
+        pos = new((int)pos.X, (int)pos.Y);
+
+        if (shouldWrap) {
+            if (0 == _wrappedTextFrameId) {
+                _wrappedTextFrameId = _globalWrappedTextFrameId++;
+            }
+
+            ImGui.SetCursorScreenPos(ContentBox.Min);
+            ImGui.BeginChildFrame(_wrappedTextFrameId, textSize, ImGuiWindowFlags.NoMouseInputs | ImGuiWindowFlags.NoInputs);
+            ImGui.PushStyleColor(ImGuiCol.Text, _computedStyle.TextColor ?? 0xFFC0C0C0);
+            ImGui.TextWrapped(Text);
+            ImGui.PopStyleColor();
+            ImGui.EndChildFrame();
+
+            FontRepository.PopFont(font);
+            return;
+        }
+
         sbyte outlineWidth = _computedStyle.OutlineWidth ?? 0;
 
         if (outlineWidth > 0) {
             uint  outlineColor = _computedStyle.OutlineColor ?? 0xFF000000;
-            float opacity      = Style.Opacity               ?? 1;
+            float opacity      = _computedStyle.Opacity      ?? 1;
 
             if (opacity < 1) outlineColor = outlineColor.ApplyAlphaComponent(opacity / (outlineWidth * 3));
 
@@ -65,7 +92,11 @@ public partial class Element
             }
         }
 
-        drawList.AddText(pos, (_computedStyle.TextColor ?? 0xFFFFFFFF).ApplyAlphaComponent(_computedStyle.Opacity ?? 1), Text);
+        drawList.AddText(
+            pos,
+            (_computedStyle.TextColor ?? 0xFFFFFFFF).ApplyAlphaComponent(_computedStyle.Opacity ?? 1),
+            Text
+        );
 
         FontRepository.PopFont(font);
     }

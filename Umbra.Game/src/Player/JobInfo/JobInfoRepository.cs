@@ -41,12 +41,12 @@ public sealed class JobInfoRepository : IDisposable
             .ForEach(
                 cj => {
                     _expArrayId[(byte)cj.RowId] = cj.ExpArrayIndex;
-
                     _jobInfos[(byte)cj.RowId] = new(
                         (byte)cj.RowId,
                         cj.Name.ToString(),
-                        0, // Level
-                        0  // XP percent
+                        0,    // Level
+                        0,    // XP percent
+                        false // Is max level
                     );
                 }
             );
@@ -74,22 +74,23 @@ public sealed class JobInfoRepository : IDisposable
 
             // Blue Mage hack.
             if (jobInfo is { Id: 36, Level: 80 }) {
-                jobInfo.XpPercent = 0;
+                jobInfo.XpPercent  = 0;
+                jobInfo.IsMaxLevel = true;
                 continue;
             }
 
             var grow = _dataManager.GetExcelSheet<ParamGrow>()!.GetRow((uint)jobInfo.Level);
 
-            if (grow           == null
-             || grow.ExpToNext == 0) {
-                jobInfo.XpPercent = 0;
+            // Hardcoded max level.
+            if (jobInfo.Level == 90 || grow == null || grow.ExpToNext == 0) {
+                jobInfo.XpPercent  = 0;
+                jobInfo.IsMaxLevel = true;
                 continue;
             }
 
-            var currentXp  = ps->ClassJobExpArray[_expArrayId[jobInfo.Id]];
-            var xpRequired = grow.ExpToNext;
-
-            jobInfo.XpPercent = (byte)(currentXp / (float)xpRequired * 100);
+            int currentXp = ps->ClassJobExpArray[_expArrayId[jobInfo.Id]];
+            jobInfo.XpPercent  = (byte)(currentXp / (float)grow.ExpToNext * 100);
+            jobInfo.IsMaxLevel = false;
         }
     }
 }

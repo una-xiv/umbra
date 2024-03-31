@@ -37,14 +37,25 @@ public partial class Element
         IntPtr? img = GetImageToRender();
         if (null == img) return;
 
-        Rect rect = ContentBox;
+        Rect    rect   = ContentBox;
+        Vector2 offset = _computedStyle.ImageOffset ?? new();
+
+        Vector2 uv1 = _computedStyle.ImageUVs != null
+            ? new(_computedStyle.ImageUVs.Value.X, _computedStyle.ImageUVs.Value.Y)
+            : Vector2.Zero;
+
+        Vector2 uv2 = _computedStyle.ImageUVs != null
+            ? new(_computedStyle.ImageUVs.Value.Z, _computedStyle.ImageUVs.Value.W)
+            : Vector2.One;
+
+
 
         drawList.AddImage(
             img.Value,
-            rect.Min,
-            rect.Max,
-            Vector2.Zero,
-            Vector2.One,
+            rect.Min + offset,
+            rect.Max + offset,
+            uv1,
+            uv2,
             0xFFFFFFFF.ApplyAlphaComponent(_computedStyle.Opacity ?? 1)
         );
     }

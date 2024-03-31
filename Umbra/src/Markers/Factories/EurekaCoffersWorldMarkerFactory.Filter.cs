@@ -20,7 +20,6 @@ using System.Numerics;
 using System.Text.RegularExpressions;
 using Dalamud.Game.Text;
 using Dalamud.Game.Text.SeStringHandling;
-using Umbra.Common;
 
 namespace Umbra.Markers;
 
@@ -28,23 +27,21 @@ internal sealed partial class EurekaCoffersWorldMarkerFactory
 {
     private void OnChatMessage(XivChatType type, uint senderId, SeString sender, SeString message)
     {
-        var msg = message.TextValue.ToString().Trim();
+        string msg = message.TextValue.Trim();
 
         if (false == msg.StartsWith("You sense something ")) {
             return;
         }
 
-        Logger.Info($"Eureka coffer message: {msg}");
-
-        string pattern = @"You sense something\s*(?<dist>far(?:,\s*far)?)?(?:\s*immediately)?\s*to the (?<dir>\w+)\.";
+        var pattern = @"You sense something\s*(?<dist>far(?:,\s*far)?)?(?:\s*immediately)?\s*to the (?<dir>\w+)\.";
         var    result  = Regex.Match(msg, pattern, RegexOptions.IgnoreCase);
 
         if (!result.Success) {
             return;
         }
 
-        var direction   = result.Groups["dir"].Value;
-        var distanceTxt = result.Groups["dist"].Value;
+        string direction   = result.Groups["dir"].Value;
+        string distanceTxt = result.Groups["dist"].Value;
 
         int minDistance = distanceTxt switch {
             "far"      => 100,

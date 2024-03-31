@@ -1,0 +1,197 @@
+﻿/* Umbra | (c) 2024 by Una              ____ ___        ___.
+ * Licensed under the terms of AGPL-3  |    |   \ _____ \_ |__ _______ _____
+ *                                     |    |   //     \ | __ \\_  __ \\__  \
+ * https://github.com/una-xiv/umbra    |    |  /|  Y Y  \| \_\ \|  | \/ / __ \_
+ *                                     |______//__|_|  /____  /|__|   (____  /
+ *     Umbra is free software: you can redistribute  \/     \/             \/
+ *     it and/or modify it under the terms of the GNU Affero General Public
+ *     License as published by the Free Software Foundation, either version 3
+ *     of the License, or (at your option) any later version.
+ *
+ *     Umbra UI is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU Affero General Public License for more details.
+ */
+
+using System.Linq;
+using System.Numerics;
+using Dalamud.Game.ClientState.Aetherytes;
+using Dalamud.Plugin.Services;
+using Dalamud.Utility;
+using FFXIVClientStructs.FFXIV.Client.Game.UI;
+using FFXIVClientStructs.FFXIV.Client.UI.Agent;
+using Umbra.Common;
+using Umbra.Game;
+using Umbra.Interface;
+
+namespace Umbra.Toolbar.Widgets.Companion;
+
+[Service]
+internal partial class FlagWidget : IToolbarWidget
+{
+    [ConfigVariable(
+        "Toolbar.Widget.Flag.Enabled",
+        "Toolbar Widgets",
+        "Show flag widget",
+        "Shows a widget when the flag marker is set that allows you to teleport to a nearby aetheryte."
+    )]
+    private static bool Enabled { get; set; } = true;
+
+    private readonly IAetheryteList _aetheryteList;
+    private readonly IZoneManager   _zoneManager;
+    private readonly Player         _player;
+    private readonly Element        _name;
+    private readonly Element        _info;
+    private readonly Element        _icon;
+
+    private AetheryteEntry? _aetheryteEntry;
+    private string?         _aetheryteKey;
+
+    public FlagWidget(IAetheryteList aetheryteList, IZoneManager zoneManager, Player player)
+    {
+        _aetheryteList = aetheryteList;
+        _zoneManager   = zoneManager;
+        _player        = player;
+
+        _name = Element.Get("Container.Text.Name");
+        _info = Element.Get("Container.Text.Info");
+        _icon = Element.Get("Container.Icon");
+
+        Element.OnClick      += OnClick;
+        Element.OnRightClick += OnRightClick;
+        Element.OnMouseEnter += OnMouseEnter;
+        Element.OnMouseLeave += OnMouseLeave;
+
+        zoneManager.ZoneChanged += _ => {
+            _aetheryteKey   = null;
+            _aetheryteEntry = null;
+        };
+
+        Element.Tooltip = $"Left-click:     Teleport\nRight-click:  Remove flag marker";
+    }
+
+    public void OnDraw()
+    {
+        if (!Enabled) {
+            Element.IsVisible = false;
+            return;
+        }
+
+        UpdateWidgetButtonState();
+
+        if (IsFlagMarkerSet()) UpdateWidgetInfoState();
+    }
+
+    public void OnUpdate()
+    {
+    }
+
+    [OnTick(interval: 2000)]
+    public void OnTick()
+    {
+        if (!Enabled || !IsFlagMarkerSet()) return;
+        if (!_zoneManager.HasCurrentZone) return;
+
+        // Periodically update the widget info.
+        _aetheryteKey = null;
+    }
+
+    private unsafe void OnClick()
+    {
+        if (!IsFlagMarkerSet() || !_player.CanUseTeleportAction) return;
+        if (_aetheryteEntry == null) return;
+
+        Telepo* tp = Telepo.Instance();
+        if (tp == null) return;
+
+        tp->Teleport(_aetheryteEntry.AetheryteId, _aetheryteEntry.SubIndex);
+    }
+
+    private static void OnRightClick()
+    {
+        if (!IsFlagMarkerSet()) return;
+
+        RemoveFlagMarker();
+    }
+
+    private void OnMouseEnter()
+    {
+        Element.Get<BorderElement>().Color     = 0xFF6A6A6A;
+        Element.Get<BackgroundElement>().Color = 0xFF232223;
+    }
+
+    private void OnMouseLeave()
+    {
+        Element.Get<BorderElement>().Color     = 0xFF3F3F3F;
+        Element.Get<BackgroundElement>().Color = 0xFF1A1A1A;
+    }
+
+    private static unsafe bool IsFlagMarkerSet()
+    {
+        AgentMap* map = AgentMap.Instance();
+        if (map == null) return false;
+
+        return map->IsFlagMarkerSet == 1;
+    }
+
+    private static unsafe void RemoveFlagMarker()
+    {
+        AgentMap* map = AgentMap.Instance();
+        if (map == null) return;
+
+        map->IsFlagMarkerSet = 0;
+    }
+
+    private void UpdateWidgetButtonState()
+    {
+        if (!IsFlagMarkerSet()) {
+            Element.IsVisible = false;
+            _aetheryteEntry   = null;
+            _aetheryteKey     = null;
+            return;
+        }
+
+        Element.IsVisible = true;
+
+        _icon.Style.ImageGrayscale = _player.CanUseTeleportAction && _aetheryteEntry != null ? 0 : 1;
+        Element.Style.Opacity      = _player.CanUseTeleportAction ? 1 : 0.5f;
+    }
+
+    private unsafe void UpdateWidgetInfoState()
+    {
+        AgentMap* map = AgentMap.Instance();
+        if (map == null) return;
+
+        var cacheKey =
+            $"{_zoneManager.CurrentZone.Id}_{map->FlagMapMarker.MapId}_{map->FlagMapMarker.XFloat}_{map->FlagMapMarker.YFloat}";
+
+        if (_aetheryteKey == cacheKey) return;
+
+        Zone    zone = _zoneManager.GetZone(map->FlagMapMarker.MapId);
+        Vector2 pos  = MapUtil.WorldToMap(new(map->FlagMapMarker.XFloat, map->FlagMapMarker.YFloat), zone.MapSheet);
+
+        _aetheryteKey = cacheKey;
+        _name.Text    = $"{zone.Name} at <{pos.X:F1}, {pos.Y:F1}>";
+
+        _aetheryteEntry = _aetheryteList
+            .Where(a => a.TerritoryId == zone.TerritoryId)
+            .MinBy(
+                a => Vector2.Distance(
+                    new(a.AetheryteData.GameData!.AetherstreamX, a.AetheryteData.GameData!.AetherstreamY),
+                    new(map->FlagMapMarker.XFloat, map->FlagMapMarker.YFloat)
+                )
+            );
+
+        if (_aetheryteEntry == null) {
+            _info.Text = "No Aetheryte to teleport to";
+            return;
+        }
+
+        var placeName = _aetheryteEntry.AetheryteData.GameData!.PlaceName.Value!.Name.ToString();
+
+        _info.Text = placeName == zone.Name
+            ? $"Teleport nearby for {_aetheryteEntry.GilCost} gil"
+            : $"Teleport to {placeName} for {_aetheryteEntry.GilCost} gil";
+    }
+}

@@ -99,8 +99,10 @@ public class DropdownButtonElement : Element
         UpdateSize();
         UpdateIcon();
 
+        Style.Opacity = IsDisabled ? 0.5f : 1;
+
         _labelElement.Text   = Label;
-        _keyBindElement.Text = KeyBind != null ? $"[{KeyBind}]" : "";
+        _keyBindElement.Text = !string.IsNullOrEmpty(KeyBind) ? $"[{KeyBind}]" : "";
     }
 
     private void UpdateSize()
@@ -134,7 +136,7 @@ public class DropdownButtonElement : Element
                 return;
             case SeIconChar iconChar:
                 _iconElement.Style.Font       = Font.AxisLarge;
-                _iconElement.Style.TextOffset = new(0, -1);
+                _iconElement.Style.TextOffset = new(2, 0);
                 _iconElement.Style.TextAlign  = Anchor.MiddleCenter;
                 _iconElement.Style.TextColor  = IconColor;
                 _iconElement.Text             = iconChar.ToIconString();

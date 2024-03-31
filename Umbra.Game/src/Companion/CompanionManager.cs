@@ -25,28 +25,31 @@ namespace Umbra.Game;
 [Service]
 public sealed class CompanionManager
 {
-    private const uint GysahlGreensIconId = 4868;
-    private const uint FollowActionIconId = 902;
-    private const uint FreeStanceIconId = 906;
+    private const uint GysahlGreensIconId   = 4868;
+    private const uint FollowActionIconId   = 902;
+    private const uint FreeStanceIconId     = 906;
     private const uint DefenderStanceIconId = 903;
     private const uint AttackerStanceIconId = 904;
-    private const uint HealerStanceIconId = 905;
+    private const uint HealerStanceIconId   = 905;
 
-    public bool HasGysahlGreens { get; private set; }
-    public string CompanionName { get; private set; } = string.Empty;
-    public float TimeLeft { get; private set; }
-    public ushort Level { get; private set; }
-    public uint CurrentXp { get; private set; }
-    public uint RequiredXp { get; private set; }
-    public uint IconId { get; private set; } = 25218;
-    public string ActiveCommand { get; private set; } = string.Empty;
+    public bool   HasGysahlGreens { get; private set; }
+    public string CompanionName   { get; private set; } = string.Empty;
+    public float  TimeLeft        { get; private set; }
+    public ushort Level           { get; private set; }
+    public uint   CurrentXp       { get; private set; }
+    public uint   RequiredXp      { get; private set; }
+    public uint   IconId          { get; private set; } = 25218;
+    public string ActiveCommand   { get; private set; } = string.Empty;
+    public bool   IsActive        { get; private set; }
 
     private readonly IDataManager _dataManager;
-    private readonly Player _player;
+    private readonly IObjectTable _objectTable;
+    private readonly Player       _player;
 
-    public CompanionManager(IDataManager dataManager, Player player)
+    public CompanionManager(IDataManager dataManager, IObjectTable objectTable, Player player)
     {
         _dataManager = dataManager;
+        _objectTable = objectTable;
         _player      = player;
 
         OnTick();
@@ -64,6 +67,9 @@ public sealed class CompanionManager
         var rank = _dataManager.GetExcelSheet<BuddyRank>()!.GetRow(buddy.Rank);
         if (rank == null) return;
 
+        uint objectId = ui->Buddy.Companion.ObjectID;
+
+        IsActive        = objectId > 0 && null != _objectTable.SearchById(objectId);
         HasGysahlGreens = _player.HasItemInInventory(GysahlGreensIconId);
         CompanionName   = buddy.Name;
         TimeLeft        = buddy.TimeLeft;
@@ -71,7 +77,8 @@ public sealed class CompanionManager
         CurrentXp       = buddy.CurrentXP;
         RequiredXp      = rank.ExpRequired;
         IconId          = GetIconId(buddy);
-        ActiveCommand   = buddy.ActiveCommand switch {
+
+        ActiveCommand = buddy.ActiveCommand switch {
             3 => "Idle",
             4 => "Smart",
             5 => "Tank",
@@ -81,14 +88,15 @@ public sealed class CompanionManager
         };
     }
 
-    public bool CanSummonCompanion()
+    public bool CanSummon()
     {
-        return HasGysahlGreens && ! _player.IsBoundByDuty && ! _player.IsOccupied && ! _player.IsCasting && ! _player.IsDead;
+        return HasGysahlGreens
+         && _player is { IsBoundByDuty: false, IsOccupied: false, IsCasting: false, IsDead: false };
     }
 
     public void Summon()
     {
-        if (! CanSummonCompanion()) {
+        if (!CanSummon()) {
             Logger.Warning("Cannot summon companion at this time.");
             return;
         }
@@ -96,8 +104,20 @@ public sealed class CompanionManager
         _player.UseInventoryItem(GysahlGreensIconId);
     }
 
-    public static unsafe void SwitchBehavior()
+    public unsafe void Dismiss()
     {
+        if (TimeLeft < 1) return;
+
+        ActionManager* am = ActionManager.Instance();
+        if (am == null) return;
+
+        am->UseAction(ActionType.BuddyAction, 2);
+    }
+
+    public unsafe void SwitchBehavior()
+    {
+        if (TimeLeft < 1) return;
+
         UIState* ui = UIState.Instance();
         if (ui == null) return;
 
@@ -119,12 +139,12 @@ public sealed class CompanionManager
         if (buddy.Rank == 0) return 4; // Free
 
         return currentCommand switch {
-            3 => 4, // Follow -> Free Stance
+            3 => 4,                                                           // Follow -> Free Stance
             4 => buddy.DefenderLevel > 0 ? 5 : FindNextValidActiveCommand(5), // Free Stance -> Defender Stance
             5 => buddy.AttackerLevel > 0 ? 6 : FindNextValidActiveCommand(6), // Defender Stance -> Attacker Stance
-            6 => buddy.HealerLevel > 0 ? 7 : FindNextValidActiveCommand(7), // Attacker Stance -> Healer Stance
-            7 => 3, // Healer Stance -> Follow
-            _ => 3, // Unknown -> Follow
+            6 => buddy.HealerLevel   > 0 ? 7 : FindNextValidActiveCommand(7), // Attacker Stance -> Healer Stance
+            7 => 3,                                                           // Healer Stance -> Follow
+            _ => 3,                                                           // Unknown -> Follow
         };
     }
 
@@ -134,13 +154,12 @@ public sealed class CompanionManager
             return 25218; // Gysahl Greens.
         }
 
-        return info.ActiveCommand switch
-        {
-            3 => FollowActionIconId, // Follow
-            4 => FreeStanceIconId, // Free Stance
+        return info.ActiveCommand switch {
+            3 => FollowActionIconId,   // Follow
+            4 => FreeStanceIconId,     // Free Stance
             5 => DefenderStanceIconId, // Defender Stance
             6 => AttackerStanceIconId, // Attacker Stance
-            7 => HealerStanceIconId, // Healer Stance
+            7 => HealerStanceIconId,   // Healer Stance
             _ => 25218,
         };
     }

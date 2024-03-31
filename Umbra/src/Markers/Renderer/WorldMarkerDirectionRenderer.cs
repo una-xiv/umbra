@@ -21,7 +21,7 @@ using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using ImGuiNET;
 using Umbra.Common;
-using Umbra.Drawing;
+using Umbra.Interface;
 using Umbra.Game;
 
 namespace Umbra.Markers;
@@ -77,7 +77,7 @@ public sealed class WorldMarkerDirectionRenderer(
         var x = displaySize.X / 2 + MathF.Cos(angle) * ((displaySize.Y / 2) - Radius);
         var y = displaySize.Y / 2 + MathF.Sin(angle) * ((displaySize.Y / 2) - Radius);
 
-        var bounds = new ClipRect(new(x - (wSize / 2), y - (wSize / 2)), new(x + (wSize / 2), y + (wSize / 2)));
+        var bounds = new Rect(new(x - (wSize / 2), y - (wSize / 2)), new(x + (wSize / 2), y + (wSize / 2)));
 
         if (clipRectProvider.FindClipRectsIntersectingWith(bounds).Count > 0) {
             return;

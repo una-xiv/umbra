@@ -14,6 +14,7 @@
  *     GNU Affero General Public License for more details.
  */
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -136,6 +137,20 @@ public partial class Element
         }
 
         throw new KeyNotFoundException($"Element of type '{typeof(T).Name}' not found in '{FullyQualifiedName}'.");
+    }
+
+    /// <summary>
+    /// Find the first element of the given type with the specified ID.
+    /// </summary>
+    public T? FindFirst<T>(string id) where T : Element
+    {
+        if (id.Contains('.')) {
+            throw new ArgumentException("ID cannot contain dots when using Find. Use Get() instead.");
+        }
+
+        if (Id == id) return (T) this;
+
+        return _children.Select(child => child.FindFirst<T>(id)).OfType<T>().FirstOrDefault();
     }
 
     private void RemoveQueryCacheForChild(Element element)

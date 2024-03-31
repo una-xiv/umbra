@@ -91,8 +91,8 @@ public partial class Element
         int  width        = computedSize.Width  + Margin.Horizontal + Padding.Horizontal;
         int  height       = computedSize.Height + Margin.Vertical   + Padding.Vertical;
 
-        if (Fit) {
-            if (Flow == Flow.Horizontal) {
+        if (Fit && null != Parent) {
+            if (Parent.Flow == Flow.Horizontal) {
                 height = Math.Max(height, GetMaxSizeOfChildren(Siblings).Height);
             } else {
                 width = Math.Max(width, GetMaxSizeOfChildren(Siblings).Width);
@@ -122,8 +122,11 @@ public partial class Element
     /// </summary>
     private Size CalculateOwnSize()
     {
+        if (!IsVisible) return new(0);
         if (Text == null) return Size;
         if (Size.IsFixed) return Size;
+
+        ComputeStyle();
 
         Font font = _computedStyle.Font ?? Font.Default;
         FontRepository.PushFont(font);
@@ -145,6 +148,7 @@ public partial class Element
 
     public Size GetTextSize()
     {
+        if (!IsVisible) return new(0);
         if (string.IsNullOrEmpty(Text)) return new(0);
 
         var cachedTextSizeKey = $"{Text}_{_computedStyle.Font}";

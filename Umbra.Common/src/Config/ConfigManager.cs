@@ -74,13 +74,19 @@ public static class ConfigManager
             }
 
             if (!EqualityComparer<object>.Default.Equals(cvar.Default, defaultValue)) {
-                throw new System.Exception($"Config variable {id} has conflicting default values.");
+                throw new($"Config variable {id} has conflicting default values.");
             }
 
             cvar.Properties.Add(prop);
         }
 
         Load();
+    }
+
+    [WhenFrameworkDisposing]
+    public static void WhenFrameworkDisposing()
+    {
+        Cvars.Clear();
     }
 
     public static List<string> GetCategories()
@@ -98,12 +104,28 @@ public static class ConfigManager
     public static void Set(string id, object? value, bool persist = true)
     {
         if (!Cvars.TryGetValue(id, out Cvar? cvar)) {
-            throw new System.Exception($"Config variable {id} does not exist.");
+            throw new($"Config variable {id} does not exist.");
         }
 
         cvar.Value = value;
 
         foreach (var prop in cvar.Properties) {
+            if (prop.PropertyType.IsEnum) {
+                value = Enum.Parse(prop.PropertyType, value!.ToString()!);
+            } else if (prop.PropertyType == typeof(int)
+                    && value is long longValue) {
+                value = (int)longValue;
+            } else if (prop.PropertyType == typeof(float)
+                    && value is double doubleValue) {
+                value = (float)doubleValue;
+            } else if (prop.PropertyType == typeof(bool)
+                    && value is int intValue) {
+                value = intValue != 0;
+            } else if (prop.PropertyType == typeof(uint)
+                    && value is not uint) {
+                value = Convert.ToUInt32(value);
+            }
+
             prop.SetValue(null, value);
         }
 
@@ -116,7 +138,7 @@ public static class ConfigManager
     public static T? Get<T>(string id)
     {
         if (!Cvars.TryGetValue(id, out Cvar? cvar)) {
-            throw new System.Exception($"Config variable {id} does not exist.");
+            throw new($"Config variable {id} does not exist.");
         }
 
         return (T?)cvar.Value;

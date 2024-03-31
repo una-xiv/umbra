@@ -3,7 +3,7 @@
  *                                     |    |   //     \ | __ \\_  __ \\__  \
  * https://github.com/una-xiv/umbra    |    |  /|  Y Y  \| \_\ \|  | \/ / __ \_
  *                                     |______//__|_|  /____  /|__|   (____  /
- *     Umbra.Game is free software: you can          \/     \/             \/ 
+ *     Umbra.Game is free software: you can          \/     \/             \/
  *     redistribute it and/or modify it under the terms of the GNU Affero
  *     General Public License as published by the Free Software Foundation,
  *     either version 3 of the License, or (at your option) any later version.
@@ -21,6 +21,8 @@ namespace Umbra.Game;
 public interface IZoneManager
 {
     public event Action<Zone> ZoneChanged;
+
+    public bool HasCurrentZone { get; }
 
     public Zone CurrentZone { get; }
 
