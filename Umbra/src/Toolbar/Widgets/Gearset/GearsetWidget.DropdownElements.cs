@@ -117,6 +117,7 @@ internal partial class GearsetWidget
                 padding: new(left: 6, right: 6, bottom: 6),
                 flow: Flow.Horizontal,
                 gap: 6,
+                fit: true,
                 children: [
                     new GradientElement(gradient: Gradient.Vertical(0x303599FF, 0), padding: new(0, -6)),
                     BuildColumn(
@@ -146,6 +147,17 @@ internal partial class GearsetWidget
         ]
     );
 
+    private Element LeftColumn => _dropdownElement.Get("Columns.Left");
+    private Element MiddleColumn => _dropdownElement.Get("Columns.Middle");
+    private Element RightColumn => _dropdownElement.Get("Columns.Right");
+    private Element TankGroup => _dropdownElement.Get("Columns.Left.Tank");
+    private Element HealerGroup => _dropdownElement.Get("Columns.Left.Healer");
+    private Element MeleeGroup => _dropdownElement.Get("Columns.Left.Melee");
+    private Element RangedGroup => _dropdownElement.Get("Columns.Middle.Ranged");
+    private Element CasterGroup => _dropdownElement.Get("Columns.Middle.Caster");
+    private Element CrafterGroup => _dropdownElement.Get("Columns.Right.Crafter");
+    private Element GathererGroup => _dropdownElement.Get("Columns.Right.Gatherer");
+
     private static Element BuildColumn(string id, List<Element> groups)
     {
         return new(
@@ -155,7 +167,7 @@ internal partial class GearsetWidget
             flow: Flow.Vertical,
             gap: 6,
             children: groups
-        );
+        ) { IsVisible = false };
     }
 
     private static Element BuildGroup(string id, string title)

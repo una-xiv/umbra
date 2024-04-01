@@ -15,6 +15,8 @@
  */
 
 using System.Collections.Generic;
+using System.Linq;
+using Lumina.Excel.GeneratedSheets2;
 using Umbra.Common;
 using Umbra.Game;
 using Umbra.Interface;
@@ -110,6 +112,26 @@ internal partial class GearsetWidget : IToolbarWidget
     {
         if (null  == _gearsetRepository.CurrentGearset) return;
         if (false == _dropdownElement.IsVisible) return;
+
+        int tankCount     = TankGroup.Get("List").Children.Count();
+        int healerCount   = HealerGroup.Get("List").Children.Count();
+        int meleeCount    = MeleeGroup.Get("List").Children.Count();
+        int rangedCount   = RangedGroup.Get("List").Children.Count();
+        int casterCount   = CasterGroup.Get("List").Children.Count();
+        int crafterCount  = CrafterGroup.Get("List").Children.Count();
+        int gathererCount = GathererGroup.Get("List").Children.Count();
+
+        TankGroup.IsVisible     = tankCount     > 0;
+        HealerGroup.IsVisible   = healerCount   > 0;
+        MeleeGroup.IsVisible    = meleeCount    > 0;
+        RangedGroup.IsVisible   = rangedCount   > 0;
+        CasterGroup.IsVisible   = casterCount   > 0;
+        CrafterGroup.IsVisible  = crafterCount  > 0;
+        GathererGroup.IsVisible = gathererCount > 0;
+
+        LeftColumn.IsVisible   = tankCount    > 0 || healerCount   > 0 || meleeCount > 0;
+        MiddleColumn.IsVisible = rangedCount  > 0 || casterCount   > 0;
+        RightColumn.IsVisible  = crafterCount > 0 || gathererCount > 0;
 
         Game.Gearset gearset = _gearsetRepository.CurrentGearset;
         uint         color   = GearsetCategoryRepository.GetCategoryColor(gearset.Category);
