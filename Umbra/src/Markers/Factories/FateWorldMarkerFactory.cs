@@ -34,7 +34,7 @@ internal sealed class FateWorldMarkerFactory(IZoneManager zoneManager) : IWorldM
         "Show FATE markers",
         "Shows world markers for FATEs in the current zone."
     )]
-    private static bool Enabled { get; set; } = true;
+    private static bool Enabled { get; set; } = false;
 
     private readonly List<WorldMarker> _worldMarkers = [];
 
