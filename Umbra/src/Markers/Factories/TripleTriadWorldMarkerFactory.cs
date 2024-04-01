@@ -29,13 +29,13 @@ namespace Umbra.Markers;
 [Service]
 internal sealed class TripleTriadWorldMarkerFactory : IWorldMarkerFactory
 {
-    [ConfigVariable("Markers.TripleTriad.Enabled", "Enabled Markers", "Show unobtained TripleTriad card markers")]
+    [ConfigVariable("Markers.TripleTriad.Enabled", "Enabled Markers", "Show unobtained Triple Triad card markers")]
     private static bool Enabled { get; set; } = true;
 
     [ConfigVariable(
         "Markers.TripleTriad.ShowLockedCards",
         "Marker Settings",
-        "Show Locked TripleTriad Cards",
+        "Show Locked Triple Triad Cards",
         "Show markers for unobtained cards that require a quest to unlock."
     )]
     private static bool ShowLockedCards { get; set; } = false;

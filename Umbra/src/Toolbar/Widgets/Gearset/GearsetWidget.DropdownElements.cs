@@ -114,7 +114,7 @@ internal partial class GearsetWidget
             ),
             new(
                 id: "Columns",
-                padding: new(0, 6),
+                padding: new(left: 6, right: 6, bottom: 6),
                 flow: Flow.Horizontal,
                 gap: 6,
                 children: [

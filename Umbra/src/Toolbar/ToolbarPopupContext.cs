@@ -75,8 +75,18 @@ internal sealed class ToolbarPopupContext
 
         Vector2 position = GetActivatorPosition() + GetPopupDrawPositionOffset();
         Vector2 winSize  = new(_activeElement.BoundingBox.Width, _activeElement.BoundingBox.Height);
+        Vector2 offset   = new();
 
-        ImGui.SetNextWindowPos(position);
+        if (_activeElement.Anchor.IsRight()) {
+            offset.X = _activeElement.BoundingBox.Width / 2;
+
+            // Clamp to the edge of the screen in case the dropdown is too close to the right edge of the screen.
+            if (position.X + offset.X + _activeElement.BoundingBox.Width > ImGui.GetIO().DisplaySize.X) {
+                offset.X = ImGui.GetIO().DisplaySize.X - position.X - _activeElement.BoundingBox.Width - 16;
+            }
+        }
+
+        ImGui.SetNextWindowPos(position + offset);
         ImGui.SetNextWindowSize(winSize);
         ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding,    Vector2.Zero);
         ImGui.PushStyleVar(ImGuiStyleVar.WindowRounding,   0f);
@@ -86,7 +96,7 @@ internal sealed class ToolbarPopupContext
 
         _activeElement.Render(
             ImGui.GetWindowDrawList(),
-            _activeElement.Anchor.IsTop() ? position : position - GetPopupDrawPositionOffset()
+            position - GetPopupDrawPositionOffset() + offset
         );
 
         if (!ImGui.IsWindowFocused(ImGuiFocusedFlags.RootAndChildWindows)) {

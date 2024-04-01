@@ -44,6 +44,7 @@ internal partial class LocationWidget
                 id: "Header",
                 flow: Flow.Vertical,
                 size: new(0, 80),
+                fit: true,
                 children: [
                     new GradientElement(
                         id: "BG",

@@ -175,7 +175,7 @@ public sealed class WorldMarkerRenderer(IGameGui gameGui, Player player, ClipRec
                                         new(
                                             id: "",
                                             anchor: Anchor.TopCenter,
-                                            fit: true,
+                                            size: new(512, 0),
                                             text: text.Label,
                                             style: new() {
                                                 Font         = Font.AxisSmall,
@@ -188,7 +188,7 @@ public sealed class WorldMarkerRenderer(IGameGui gameGui, Player player, ClipRec
                                         new(
                                             id: "",
                                             anchor: Anchor.TopCenter,
-                                            fit: true,
+                                            size: new(512, 0),
                                             text: text.SubLabel,
                                             style: new() {
                                                 Font         = Font.AxisExtraSmall,
