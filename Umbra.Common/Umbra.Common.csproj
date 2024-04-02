@@ -22,7 +22,7 @@
 		<Authors>Una</Authors>
 		<Company></Company>
 		<Version>1.0.0.0</Version>
-		<Description>Umbra Drawing Library</Description>
+		<Description>Umbra Common Library</Description>
 		<Copyright></Copyright>
 		<PackageProjectUrl>https://github.com/una-xiv/umbra</PackageProjectUrl>
 		<PackageLicenseExpression>AGPL-3.0-or-later</PackageLicenseExpression>
