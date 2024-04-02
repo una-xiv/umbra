@@ -108,8 +108,8 @@ internal partial class LocationWidget : IToolbarWidget
         for (int i = 0; i < 6; i++) {
             var el = _dropdownElement.Get("ForecastList.Forecast" + (i));
 
-            if (i < zone.WeatherForecast.Count) {
-                WeatherForecast forecast = zone.WeatherForecast[i];
+            if (i + 1 < zone.WeatherForecast.Count) {
+                WeatherForecast forecast = zone.WeatherForecast[i + 1];
                 el.IsVisible               = true;
                 el.Get("Icon").Style.Image = forecast.IconId;
                 el.Get("Text.Name").Text   = forecast.Name;
