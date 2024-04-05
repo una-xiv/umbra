@@ -18,6 +18,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using ImGuiNET;
 
 namespace Umbra.Interface;
 
@@ -328,6 +329,14 @@ public partial class Element
 
     private List<Element> GetAnchoredChildren(Anchor a)
     {
-        return _children.Where(child => child._isVisible && child._anchor == a).ToList();
+        List<Element> result = [];
+
+        foreach (Element t in _children) {
+            if (t.IsVisible && t.Anchor == a) {
+                result.Add(t);
+            }
+        }
+
+        return result;
     }
 }

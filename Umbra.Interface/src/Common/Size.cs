@@ -19,11 +19,8 @@ using System.Numerics;
 
 namespace Umbra.Interface;
 
-public readonly struct Size(int width = 0, int height = 0) : IComparable
+public readonly record struct Size(int Width = 0, int Height = 0) : IComparable
 {
-    public int Width  { get; } = width;
-    public int Height { get; } = height;
-
     public Size(int size) : this(size, size) { }
 
     public static Size Auto => new();
@@ -36,8 +33,6 @@ public readonly struct Size(int width = 0, int height = 0) : IComparable
 
     public static Size operator +(Size  a, Size b) => new Size(a.Width + b.Width, a.Height + b.Height);
     public static Size operator -(Size  a, Size b) => new Size(a.Width - b.Width, a.Height - b.Height);
-    public static bool operator ==(Size a, Size b) => a.Width == b.Width && a.Height == b.Height;
-    public static bool operator !=(Size a, Size b) => a.Width != b.Width || a.Height != b.Height;
     public static bool operator <(Size  a, Size b) => a.Width < b.Width && a.Height  < b.Height;
     public static bool operator >(Size  a, Size b) => a.Width > b.Width && a.Height  > b.Height;
 
@@ -50,9 +45,6 @@ public readonly struct Size(int width = 0, int height = 0) : IComparable
 
         return 0;
     }
-
-    public override bool Equals(object? obj) => obj is Size size && this == size;
-    public override int  GetHashCode()       => HashCode.Combine(Width, Height);
 
     public static Size Max(Size a, Size b)
     {

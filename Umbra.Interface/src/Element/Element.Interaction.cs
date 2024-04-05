@@ -84,6 +84,8 @@ public partial class Element
         Element? interactiveParent = GetInteractiveParent();
         _isInWindowOrInteractiveParent = IsInWindowDrawList(drawList) || interactiveParent != null;
 
+        ImGui.SetNextWindowViewport(ImGui.GetMainViewport().ID);
+
         if (_isInWindowOrInteractiveParent) {
             ImGui.SetCursorScreenPos(BoundingBox.Min);
             ImGui.BeginChild(FullyQualifiedName, boundingBoxSize, false, InteractiveWindowFlags);
