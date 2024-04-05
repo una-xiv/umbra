@@ -31,7 +31,7 @@ internal sealed class ToolbarPopupContext
     {
         dropdownElement.IsVisible = false;
 
-        activator.OnMouseEnter += () => {
+        activator.OnDelayedMouseEnter += () => {
             if (_activeElement != null) {
                 Activate(dropdownElement, activator);
             }

@@ -29,6 +29,7 @@ public partial class Element
     public event Action? OnMouseLeave;
     public event Action? OnMouseDown;
     public event Action? OnMouseUp;
+    public event Action? OnDelayedMouseEnter;
 
     /// <summary>
     /// True if the element has any interactive event listeners attached to it.
@@ -60,6 +61,7 @@ public partial class Element
 
     private bool _isInWindowOrInteractiveParent;
     private bool _didStartInteractive;
+    private bool _didStartDelayedMouseEnter;
     private long _mouseOverStartTime;
 
     private void SetupInteractive(ImDrawListPtr drawList)
@@ -100,7 +102,7 @@ public partial class Element
         IsFocused   = ImGui.IsItemFocused();
 
         if (Tooltip != null && IsMouseOver && _mouseOverStartTime < DateTimeOffset.Now.ToUnixTimeMilliseconds() - 500) {
-            ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, new Vector2(8, 6));
+            ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding,  new Vector2(8, 6));
             ImGui.PushStyleVar(ImGuiStyleVar.WindowRounding, 6);
             ImGui.PushStyleColor(ImGuiCol.Border,   0xFF3F3F3F);
             ImGui.PushStyleColor(ImGuiCol.WindowBg, 0xFF252525);
@@ -122,6 +124,7 @@ public partial class Element
                 break;
             case true when !IsMouseOver:
                 OnMouseLeave?.Invoke();
+                _didStartDelayedMouseEnter = false;
 
                 if (IsMouseDown) {
                     OnMouseUp?.Invoke();
@@ -131,6 +134,13 @@ public partial class Element
         }
 
         if (IsMouseOver) {
+            if (_mouseOverStartTime < DateTimeOffset.Now.ToUnixTimeMilliseconds() - 250) {
+                if (!_didStartDelayedMouseEnter) {
+                    OnDelayedMouseEnter?.Invoke();
+                    _didStartDelayedMouseEnter = true;
+                }
+            }
+
             if (ImGui.IsMouseDown(ImGuiMouseButton.Left)) {
                 if (!IsMouseDown) {
                     OnMouseDown?.Invoke();

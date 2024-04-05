@@ -15,7 +15,7 @@
  */
 
 using Umbra.Common;
-using Umbra.Markers;
+using Umbra.Interface;
 
 namespace Umbra.Toolbar.Widgets.MainMenu;
 
@@ -36,6 +36,9 @@ internal sealed partial class WorldMarkerMenuWidget : IToolbarWidget
 
         ConfigManager.GetVariablesFromCategory("Enabled Markers").ForEach(cvar =>
             _dropdownElement.Get("Container").AddChild(CreateMarkerButton(cvar)));
+
+        Element.OnMouseEnter += OnMouseEnter;
+        Element.OnMouseLeave += OnMouseLeave;
     }
 
     public void OnDraw()
@@ -50,5 +53,17 @@ internal sealed partial class WorldMarkerMenuWidget : IToolbarWidget
 
     public void OnUpdate()
     {
+    }
+
+    private void OnMouseEnter()
+    {
+        Element.Get<BorderElement>().Color     = 0xFF6A6A6A;
+        Element.Get<BackgroundElement>().Color = 0xFF232223;
+    }
+
+    private void OnMouseLeave()
+    {
+        Element.Get<BorderElement>().Color     = 0xFF3F3F3F;
+        Element.Get<BackgroundElement>().Color = 0xFF1A1A1A;
     }
 }
