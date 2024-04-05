@@ -52,7 +52,7 @@
     "CVAR.Group.EnabledWidgets": "Enabled Widgets",
     "CVAR.Group.EnabledMarkers": "Enabled Markers",
     "CVAR.Window.EnableClipping.Name": "Enable window clipping",
-    "CVAR.Window.EnableClipping.Description": "Allows windows to render behind native game windows. This may have a slight performance cost and may not work properly for all native game windows.",
+    "CVAR.Window.EnableClipping.Description": "Allows windows to render behind native game windows. This may have a slight performance cost and may not work properly for all native game windows. Note that this feature does not work when Multi-monitor support is enabled in Dalamud settings.",
     "CVAR.Window.WindowManager.PlaySoundEffects.Name": "Play sound effects",
     "CVAR.Window.WindowManager.PlaySoundEffects.Description": "If enabled, plays the default UI sound effects when opening and closing Umbra windows.",
     "CVAR.WindowManager.HonorEscapeKey.Name": "Allow pressing ESC to close focused windows",

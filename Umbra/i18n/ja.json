@@ -52,7 +52,7 @@
     "CVAR.Group.EnabledWidgets": "有効なウィジェット",
     "CVAR.Group.EnabledMarkers": "有効なマーカー",
     "CVAR.Window.EnableClipping.Name": "ウィンドウクリッピングを有効にする",
-    "CVAR.Window.EnableClipping.Description": "ウィンドウをネイティブゲームウィンドウの後ろにレンダリングできるようにします。これにはわずかなパフォーマンスコストがかかる場合があり、すべてのネイティブゲームウィンドウで正常に動作しない場合があります。",
+    "CVAR.Window.EnableClipping.Description": "ウィンドウをネイティブのゲームウィンドウの後ろにレンダリングできるようにします。これにはわずかなパフォーマンスコストがかかる場合があり、すべてのネイティブのゲームウィンドウで正常に機能しない場合があります。 Dalamud の設定でマルチモニターサポートが有効になっている場合、この機能は機能しません。",
     "CVAR.Window.WindowManager.PlaySoundEffects.Name": "サウンド効果を再生する",
     "CVAR.Window.WindowManager.PlaySoundEffects.Description": "有効にすると、Umbraウィンドウを開くときと閉じるときにデフォルトのUIサウンド効果が再生されます。",
     "CVAR.WindowManager.HonorEscapeKey.Name": "フォーカスされたウィンドウを閉じるためにESCキーを押すことを許可する",

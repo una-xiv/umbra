@@ -52,7 +52,7 @@
     "CVAR.Group.EnabledWidgets": "Aktivierte Widgets",
     "CVAR.Group.EnabledMarkers": "Aktivierte Marker",
     "CVAR.Window.EnableClipping.Name": "Fensterausschnitt aktivieren",
-    "CVAR.Window.EnableClipping.Description": "Ermöglicht es Fenstern, hinter den nativen Spiel-Fenstern zu rendern. Dies kann eine leichte Leistungseinbuße verursachen und funktioniert möglicherweise nicht korrekt für alle nativen Spiel-Fenster.",
+    "CVAR.Window.EnableClipping.Description": "Ermöglicht es Fenstern, sich hinter nativen Spiel-Fenstern zu rendern. Dies kann mit einer leichten Leistungseinbuße verbunden sein und funktioniert möglicherweise nicht ordnungsgemäß für alle nativen Spiel-Fenster. Beachten Sie, dass diese Funktion nicht funktioniert, wenn die Multi-Monitor-Unterstützung in den Dalamud-Einstellungen aktiviert ist.",
     "CVAR.Window.WindowManager.PlaySoundEffects.Name": "Soundeffekte abspielen",
     "CVAR.Window.WindowManager.PlaySoundEffects.Description": "Wenn aktiviert, werden die Standard-UI-Soundeffekte beim Öffnen und Schließen von Umbra-Fenstern abgespielt.",
     "CVAR.WindowManager.HonorEscapeKey.Name": "ESC-Taste zum Schließen von fokussierten Fenstern erlauben",

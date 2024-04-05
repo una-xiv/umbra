@@ -52,7 +52,7 @@
 "CVAR.Group.EnabledWidgets": "Widgets activés",
 "CVAR.Group.EnabledMarkers": "Marqueurs activés",
 "CVAR.Window.EnableClipping.Name": "Activer le rognage de fenêtre",
-"CVAR.Window.EnableClipping.Description": "Permet aux fenêtres de se rendre derrière les fenêtres de jeu natives. Cela peut avoir un léger coût en performance et peut ne pas fonctionner correctement pour toutes les fenêtres de jeu natives.",
+"CVAR.Window.EnableClipping.Description": "Permet aux fenêtres de se rendre derrière les fenêtres de jeu natives. Cela peut entraîner une légère perte de performances et peut ne pas fonctionner correctement pour toutes les fenêtres de jeu natives. Notez que cette fonctionnalité ne fonctionne pas lorsque la prise en charge multi-écrans est activée dans les paramètres de Dalamud.",
 "CVAR.Window.WindowManager.PlaySoundEffects.Name": "Jouer les effets sonores",
 "CVAR.Window.WindowManager.PlaySoundEffects.Description": "S'il est activé, joue les effets sonores de l'interface utilisateur par défaut lors de l'ouverture et de la fermeture des fenêtres Umbra.",
 "CVAR.WindowManager.HonorEscapeKey.Name": "Autoriser la touche Échap pour fermer les fenêtres focalisées",
