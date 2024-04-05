@@ -27,6 +27,14 @@ internal partial class Toolbar(Player player, IToolbarWidget[] widgets)
     public const int Height = 32;
 
     [ConfigVariable(
+        "Toolbar.Enabled",
+        "Toolbar Settings",
+        "Enable the toolbar",
+        "Whether to display the toolbar. Use the \"/umbra\" command to open the settings window if you decide to disable the toolbar."
+    )]
+    private static bool Enabled { get; set; } = true;
+
+    [ConfigVariable(
         "Toolbar.IsTopAligned",
         "Toolbar Settings",
         "Place the toolbar at the top of the screen.",
@@ -39,7 +47,7 @@ internal partial class Toolbar(Player player, IToolbarWidget[] widgets)
     [OnDraw]
     public void OnDraw()
     {
-        if (player.IsInCutscene) {
+        if (!Enabled || player.IsInCutscene) {
             _element.IsVisible = false;
             return;
         }
