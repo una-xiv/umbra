@@ -95,7 +95,7 @@ internal sealed partial class ConfigWindow
                 new(
                     id: "Text",
                     anchor: Anchor.MiddleCenter,
-                    text: category,
+                    text: I18N.Translate($"CVAR.Group.{category}"),
                     style: new() {
                         Font         = Font.Axis,
                         TextColor    = 0xFFC0C0C0,
@@ -198,7 +198,7 @@ internal sealed partial class ConfigWindow
                     children: [
                         new(
                             id: "Name",
-                            text: cvar.Name,
+                            text: I18N.Translate($"CVAR.{cvar.Id}.Name"),
                             anchor: Anchor.TopLeft,
                             style: new() {
                                 Font         = Font.Axis,
@@ -210,7 +210,7 @@ internal sealed partial class ConfigWindow
                         ),
                         new(
                             id: "Description",
-                            text: cvar.Description,
+                            text: I18N.Translate($"CVAR.{cvar.Id}.Description"),
                             anchor: Anchor.TopLeft,
                             size: new(250, 0),
                             style: new() {
@@ -221,7 +221,7 @@ internal sealed partial class ConfigWindow
                                 OutlineColor = 0x60000000,
                                 OutlineWidth = 1
                             }
-                        )
+                        ) { IsVisible = I18N.Has($"CVAR.{cvar.Id}.Description")}
                     ]
                 ),
             ]

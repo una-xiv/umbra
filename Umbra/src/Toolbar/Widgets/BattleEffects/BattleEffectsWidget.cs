@@ -23,12 +23,7 @@ namespace Umbra.Toolbar.Widgets.MainMenu;
 [Service]
 internal sealed partial class BattleEffectsWidget : IToolbarWidget
 {
-    [ConfigVariable(
-        "Toolbar.Widget.BattleEffects.Enabled",
-        "Toolbar Widgets",
-        "Show battle effects widget",
-        "Display a widget that allows you to control the visibility of various battle effects."
-    )]
+    [ConfigVariable("Toolbar.Widget.BattleEffects.Enabled", "Toolbar Widgets")]
     private static bool Enabled { get; set; } = true;
 
     private readonly IGameConfig _gameConfig;

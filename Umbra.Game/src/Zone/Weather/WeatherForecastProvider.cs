@@ -152,14 +152,33 @@ public class WeatherForecastProvider(IDataManager dataManager)
         TimeSpan timeDifference = forecastTime - DateTime.UtcNow;
         double   totalMinutes   = timeDifference.TotalMinutes;
 
-        if (totalMinutes <= 0.01) return "Now";
-        if (totalMinutes < 1) return "In a minute";
-        if (totalMinutes < 60) return $"{Math.Round(totalMinutes)} minute{(totalMinutes != 1 ? "s" : "")}";
+        switch (totalMinutes) {
+            case <= 0.01:
+                return I18N.Translate("WeatherForecast.Now");
+            case < 1:
+                return $"{I18N.Translate("WeatherForecast.LessThan")} {I18N.Translate("WeatherForecast.AMinute")}";
+            case < 2:
+                return $"{I18N.Translate("WeatherForecast.AMinute")}";
+            case < 60:
+                return $"{I18N.Translate("WeatherForecast.XMinutes", (int)totalMinutes)}";
+        }
 
-        int hours            = (int)(totalMinutes / 60);
-        int remainingMinutes = (int)(totalMinutes % 60);
-        if (remainingMinutes == 0) return $"{hours} hour{(hours > 1 ? "s" : "")}";
+        var hours            = (int)(totalMinutes / 60);
+        var remainingMinutes = (int)(totalMinutes % 60);
 
-        return $"{hours} hour{(hours > 1 ? "s" : "")} and {remainingMinutes} minute{(remainingMinutes > 1 ? "s" : "")}";
+        if (remainingMinutes == 0)
+            return hours == 1
+                ? I18N.Translate("WeatherForecast.AnHour")
+                : I18N.Translate("WeatherForecast.XHours", hours);
+
+        string hoursStr = hours == 1
+            ? I18N.Translate("WeatherForecast.AnHour")
+            : I18N.Translate("WeatherForecast.XHours", hours);
+
+        string minutesStr = remainingMinutes == 1
+            ? I18N.Translate("WeatherForecast.AMinute")
+            : I18N.Translate("WeatherForecast.XMinutes", remainingMinutes);
+
+        return $"{hoursStr} {I18N.Translate("WeatherForecast.And")} {minutesStr}";
     }
 }

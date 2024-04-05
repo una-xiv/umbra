@@ -23,12 +23,7 @@ namespace Umbra.Toolbar.Widgets.Location;
 [Service]
 internal partial class LocationWidget : IToolbarWidget
 {
-    [ConfigVariable(
-        "Toolbar.Widget.Location.Enabled",
-        "Toolbar Widgets",
-        "Show the location and weather widget",
-        "Shows the current location and weather in the center of the toolbar."
-    )]
+    [ConfigVariable("Toolbar.Widget.Location.Enabled", "ToolbarWidgets")]
     private static bool Enabled { get; set; } = true;
 
     private readonly Player       _player;
@@ -77,7 +72,7 @@ internal partial class LocationWidget : IToolbarWidget
         }
 
         Element.Get("Weather.Name").Text = weatherName;
-        Element.Get("Weather.Info").Text = weather.TimeString;
+        Element.Get("Weather.Info").Text = weather.TimeString[..1].ToUpper() + weather.TimeString[1..];
         Element.Get("Icon").Style.Image  = weather.IconId;
     }
 
@@ -113,7 +108,7 @@ internal partial class LocationWidget : IToolbarWidget
                 el.IsVisible               = true;
                 el.Get("Icon").Style.Image = forecast.IconId;
                 el.Get("Text.Name").Text   = forecast.Name;
-                el.Get("Text.Info").Text   = $"In {forecast.TimeString}";
+                el.Get("Text.Info").Text   = $"{I18N.Translate("WeatherForecast.In")} {forecast.TimeString}.";
             } else {
                 el.IsVisible = false;
             }

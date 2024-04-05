@@ -64,7 +64,7 @@ internal partial class CompanionWidget
                             ),
                             new(
                                 "Status",
-                                text: "Idle",
+                                text: "",
                                 size: new(0, 13),
                                 style: new() {
                                     Font         = Font.AxisExtraSmall,

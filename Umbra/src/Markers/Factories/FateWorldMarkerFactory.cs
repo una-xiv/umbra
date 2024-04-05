@@ -28,12 +28,7 @@ namespace Umbra.Markers;
 [Service]
 internal sealed class FateWorldMarkerFactory(IZoneManager zoneManager) : IWorldMarkerFactory
 {
-    [ConfigVariable(
-        "Markers.Fate.Enabled",
-        "Enabled Markers",
-        "Show FATE markers",
-        "Shows world markers for FATEs in the current zone."
-    )]
+    [ConfigVariable("Markers.Fate.Enabled", "EnabledMarkers")]
     private static bool Enabled { get; set; } = false;
 
     private readonly List<WorldMarker> _worldMarkers = [];

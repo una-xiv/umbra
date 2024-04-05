@@ -27,45 +27,57 @@ namespace Umbra.Game;
 
 public sealed class Zone
 {
-    public readonly uint Id;
-    public readonly TerritoryType Type;
-    public readonly uint TerritoryId;
-    public readonly string Name;
-    public readonly string SubName;
-    public readonly string RegionName;
-    public readonly Vector2 Offset;
-    public readonly ushort SizeFactor;
-    public readonly Sheet.Map MapSheet;
-    public readonly List<ZoneMarker> StaticMarkers;
-    public readonly List<ZoneMarker> DynamicMarkers;
+    public readonly uint                  Id;
+    public readonly TerritoryType         Type;
+    public readonly uint                  TerritoryId;
+    public readonly string                Name;
+    public readonly string                SubName;
+    public readonly string                RegionName;
+    public readonly Vector2               Offset;
+    public readonly ushort                SizeFactor;
+    public readonly Sheet.Map             MapSheet;
+    public readonly List<ZoneMarker>      StaticMarkers;
+    public readonly List<ZoneMarker>      DynamicMarkers;
     public readonly List<WeatherForecast> WeatherForecast;
-    public string CurrentDistrictName => _closestAreaMarker?.Name ?? "";
+
+    public string           CurrentDistrictName => _closestAreaMarker?.Name ?? "";
     public WeatherForecast? CurrentWeather;
 
-    private readonly Player _player;
-    private readonly IDataManager _dataManager;
-    private readonly ZoneMarkerFactory _markerFactory;
+    private readonly Player                  _player;
+    private readonly IDataManager            _dataManager;
+    private readonly ZoneMarkerFactory       _markerFactory;
     private readonly WeatherForecastProvider _forecastProvider;
 
     private ZoneMarker? _closestAreaMarker;
 
-    public Zone(IDataManager dataManager, WeatherForecastProvider forecastProvider, ZoneMarkerFactory markerFactory, Player player, uint zoneId)
+    public Zone(
+        IDataManager            dataManager,
+        WeatherForecastProvider forecastProvider,
+        ZoneMarkerFactory       markerFactory,
+        Player                  player,
+        uint                    zoneId
+    )
     {
         _player           = player;
         _dataManager      = dataManager;
         _markerFactory    = markerFactory;
         _forecastProvider = forecastProvider;
 
-        Id              = zoneId;
-        MapSheet        = dataManager.GetExcelSheet<Sheet.Map>()!.GetRow(zoneId)!;
-        Type            = (TerritoryType) MapSheet.TerritoryType.Value!.TerritoryIntendedUse;
-        TerritoryId     = MapSheet.TerritoryType.Row;
-        Name            = MapSheet.PlaceName.Value!.Name.ToString();
-        SubName         = MapSheet.PlaceNameSub.Value!.Name.ToString();
-        RegionName      = MapSheet.PlaceNameRegion.Value!.Name.ToString();
-        Offset          = new Vector2(MapSheet.OffsetX, MapSheet.OffsetY);
-        SizeFactor      = MapSheet.SizeFactor;
-        StaticMarkers   = dataManager.GetExcelSheet<Sheet.MapMarker>()!.Where(m => m.RowId == MapSheet.MapMarkerRange && m.X > 0 && m.Y > 0).Select(m => markerFactory.FromMapMarkerSheet(MapSheet, m)).ToList();
+        Id          = zoneId;
+        MapSheet    = dataManager.GetExcelSheet<Sheet.Map>()!.GetRow(zoneId)!;
+        Type        = (TerritoryType)MapSheet.TerritoryType.Value!.TerritoryIntendedUse;
+        TerritoryId = MapSheet.TerritoryType.Row;
+        Name        = MapSheet.PlaceName.Value!.Name.ToString();
+        SubName     = MapSheet.PlaceNameSub.Value!.Name.ToString();
+        RegionName  = MapSheet.PlaceNameRegion.Value!.Name.ToString();
+        Offset      = new(MapSheet.OffsetX, MapSheet.OffsetY);
+        SizeFactor  = MapSheet.SizeFactor;
+
+        StaticMarkers = dataManager.GetExcelSheet<Sheet.MapMarker>()!
+            .Where(m => m.RowId == MapSheet.MapMarkerRange && m.X > 0 && m.Y > 0)
+            .Select(m => markerFactory.FromMapMarkerSheet(MapSheet, m))
+            .ToList();
+
         DynamicMarkers  = [];
         WeatherForecast = [];
 
@@ -88,19 +100,102 @@ public sealed class Zone
 
         lock (DynamicMarkers) {
             DynamicMarkers.Clear();
-            DynamicMarkers.AddRange(map->ActiveLevequest.ToList().Where(m => m.MapId == Id).Select(m => _markerFactory.FromMapMarkerData(MapSheet, m)).ToList());
-            DynamicMarkers.AddRange(map->CustomTalk.ToList().SelectMany(i => i.MarkerData.ToList()).Where(m => m.MapId == Id).Select(m => _markerFactory.FromMapMarkerData(MapSheet, m)).ToList());
-            DynamicMarkers.AddRange(map->GemstoneTraders.ToList().SelectMany(i => i.MarkerData.ToList()).Where(m => m.MapId == Id).Select(m => _markerFactory.FromMapMarkerData(MapSheet, m)).ToList());
-            DynamicMarkers.AddRange(map->GuildLeveAssignments.ToList().SelectMany(i => i.MarkerData.ToList()).Where(m => m.MapId == Id).Select(m => _markerFactory.FromMapMarkerData(MapSheet, m)).ToList());
-            DynamicMarkers.AddRange(map->HousingDataSpan.ToArray().SelectMany(i => i.MarkerData.ToList()).Where(m => m.MapId == Id).Select(m => _markerFactory.FromMapMarkerData(MapSheet, m)).ToList());
-            DynamicMarkers.AddRange(map->LevequestDataSpan.ToArray().SelectMany(i => i.MarkerData.ToList()).Where(m => m.MapId == Id).Select(m => _markerFactory.FromMapMarkerData(MapSheet, m)).ToList());
-            DynamicMarkers.AddRange(map->QuestDataSpan.ToArray().SelectMany(i => i.MarkerData.ToList()).Where(m => m.MapId == Id).Select(m => _markerFactory.FromMapMarkerData(MapSheet, m)).ToList());
-            DynamicMarkers.AddRange(map->TripleTriad.ToList().SelectMany(i => i.MarkerData.ToList()).Where(m => m.MapId == Id).Select(m => _markerFactory.FromMapMarkerData(MapSheet, m)).ToList());
-            DynamicMarkers.AddRange(map->UnacceptedQuests.ToList().SelectMany(i => i.MarkerData.ToList()).Where(m => m.MapId == Id).Select(m => _markerFactory.FromMapMarkerData(MapSheet, m)).ToList());
+
+            DynamicMarkers.AddRange(
+                map->ActiveLevequest
+                    .ToList()
+                    .Where(m => m.MapId == Id)
+                    .Select(m => _markerFactory.FromMapMarkerData(MapSheet, m))
+                    .ToList()
+            );
+
+            DynamicMarkers.AddRange(
+                map->CustomTalk
+                    .ToList()
+                    .SelectMany(i => i.MarkerData.ToList())
+                    .Where(m => m.MapId == Id)
+                    .Select(m => _markerFactory.FromMapMarkerData(MapSheet, m))
+                    .ToList()
+            );
+
+            DynamicMarkers.AddRange(
+                map->GemstoneTraders
+                    .ToList()
+                    .SelectMany(i => i.MarkerData.ToList())
+                    .Where(m => m.MapId == Id)
+                    .Select(m => _markerFactory.FromMapMarkerData(MapSheet, m))
+                    .ToList()
+            );
+
+            DynamicMarkers.AddRange(
+                map->GuildLeveAssignments
+                    .ToList()
+                    .SelectMany(i => i.MarkerData.ToList())
+                    .Where(m => m.MapId == Id)
+                    .Select(m => _markerFactory.FromMapMarkerData(MapSheet, m))
+                    .ToList()
+            );
+
+            DynamicMarkers.AddRange(
+                map->HousingDataSpan
+                    .ToArray()
+                    .SelectMany(i => i.MarkerData.ToList())
+                    .Where(m => m.MapId == Id)
+                    .Select(m => _markerFactory.FromMapMarkerData(MapSheet, m))
+                    .ToList()
+            );
+
+            DynamicMarkers.AddRange(
+                map->LevequestDataSpan
+                    .ToArray()
+                    .SelectMany(i => i.MarkerData.ToList())
+                    .Where(m => m.MapId == Id)
+                    .Select(m => _markerFactory.FromMapMarkerData(MapSheet, m))
+                    .ToList()
+            );
+
+            DynamicMarkers.AddRange(
+                map->QuestDataSpan
+                    .ToArray()
+                    .SelectMany(i => i.MarkerData.ToList())
+                    .Where(m => m.MapId == Id)
+                    .Select(m => _markerFactory.FromMapMarkerData(MapSheet, m))
+                    .ToList()
+            );
+
+            DynamicMarkers.AddRange(
+                map->TripleTriad
+                    .ToList()
+                    .SelectMany(i => i.MarkerData.ToList())
+                    .Where(m => m.MapId == Id)
+                    .Select(m => _markerFactory.FromMapMarkerData(MapSheet, m))
+                    .ToList()
+            );
+
+            DynamicMarkers.AddRange(
+                map->UnacceptedQuests
+                    .ToList()
+                    .SelectMany(i => i.MarkerData.ToList())
+                    .Where(m => m.MapId == Id)
+                    .Select(m => _markerFactory.FromMapMarkerData(MapSheet, m))
+                    .ToList()
+            );
         }
 
         var playerPos = _player.Position.ToVector2();
-        ZoneMarker? marker = StaticMarkers.Concat(DynamicMarkers).Where(m => m.Name != "" && (m.Type == ZoneMarkerType.Pin || m.Type == ZoneMarkerType.Settlement || m.Type == ZoneMarkerType.Area || m.Type == ZoneMarkerType.Aetheryte || m.Type == ZoneMarkerType.Aethernet)).OrderBy(m => Vector2.Distance(playerPos, m.WorldPosition.ToVector2())).FirstOrDefault();
+
+        ZoneMarker? marker = StaticMarkers
+            .Concat(DynamicMarkers)
+            .Where(
+                m => m.Name != ""
+                 && m.Type is ZoneMarkerType.Pin
+                        or ZoneMarkerType.Settlement
+                        or ZoneMarkerType.Area
+                        or ZoneMarkerType.Aetheryte
+                        or ZoneMarkerType.Aethernet
+            )
+            .OrderBy(m => Vector2.Distance(playerPos, m.WorldPosition.ToVector2()))
+            .FirstOrDefault();
 
         if (_closestAreaMarker?.Name != marker?.Name) {
             _closestAreaMarker = marker;
@@ -108,21 +203,23 @@ public sealed class Zone
 
         lock (WeatherForecast) {
             WeatherForecast.Clear();
-            var weatherRate = _dataManager.GetExcelSheet<Sheet.WeatherRate>()!.GetRow(MapSheet.TerritoryType.Value!.WeatherRate);
+
+            var weatherRate =
+                _dataManager.GetExcelSheet<Sheet.WeatherRate>()!.GetRow(MapSheet.TerritoryType.Value!.WeatherRate);
 
             if (weatherRate != null) {
                 WeatherForecast.AddRange(_forecastProvider.GetForecast(weatherRate, 6));
 
                 if (WeatherForecast.Count > 0) {
-                    var time = WeatherForecast[0].Time;
-                    var timeString = "Continuously";
+                    var    time       = WeatherForecast[0].Time;
+                    string timeString = I18N.Translate("WeatherForecast.Always");
 
                     if (WeatherForecast.Count > 1) {
-                        time = WeatherForecast[1].Time;
+                        time       = WeatherForecast[1].Time;
                         timeString = WeatherForecast[1].TimeString;
                     }
 
-                    CurrentWeather = new WeatherForecast(time, timeString, WeatherForecast[0].Name, WeatherForecast[0].IconId);
+                    CurrentWeather = new(time, timeString, WeatherForecast[0].Name, WeatherForecast[0].IconId);
                 }
             }
         }

@@ -30,20 +30,10 @@ namespace Umbra.Markers;
 [Service]
 public sealed class WorldMarkerRenderer(IGameGui gameGui, Player player, ClipRectProvider clipRectProvider)
 {
-    [ConfigVariable(
-        "Markers.OcclusionTest.Enabled",
-        "Marker Settings",
-        "Enable occlusion testing for world markers",
-        "Enforces a minimum opacity for markers that are not in line of sight of the player character."
-    )]
+    [ConfigVariable("Markers.OcclusionTest.Enabled", "MarkerSettings")]
     private static bool OcclusionTestEnabled { get; set; } = true;
 
-    [ConfigVariable(
-        "Markers.DistanceOpacity.Enabled",
-        "Marker Settings",
-        "Enable distance-based fading",
-        "Fades out world markers when the player is closing in to the marker position. The actual distance may differ between marker types."
-    )]
+    [ConfigVariable("Markers.DistanceOpacity.Enabled", "MarkerSettings")]
     private static bool EnableDistanceBasedOpacity { get; set; } = true;
 
     public void Render(List<WorldMarkerObject> markers)

@@ -29,15 +29,10 @@ namespace Umbra.Markers;
 [Service]
 internal sealed class TripleTriadWorldMarkerFactory : IWorldMarkerFactory
 {
-    [ConfigVariable("Markers.TripleTriad.Enabled", "Enabled Markers", "Show unobtained Triple Triad card markers")]
+    [ConfigVariable("Markers.TripleTriad.Enabled", "EnabledMarkers")]
     private static bool Enabled { get; set; } = true;
 
-    [ConfigVariable(
-        "Markers.TripleTriad.ShowLockedCards",
-        "Marker Settings",
-        "Show Locked Triple Triad Cards",
-        "Show markers for unobtained cards that require a quest to unlock."
-    )]
+    [ConfigVariable("Markers.TripleTriad.ShowLockedCards", "MarkerSettings")]
     private static bool ShowLockedCards { get; set; } = false;
 
     private readonly Dictionary<uint, List<Card>> _cardLocations = [];
@@ -59,10 +54,7 @@ internal sealed class TripleTriadWorldMarkerFactory : IWorldMarkerFactory
                 (resident) => {
                     var card = _dataManager.GetExcelSheet<TripleTriadCard>()!.GetRow(resident.RowId);
 
-                    if (card                 == null
-                     || card.Name.ToString() == string.Empty)
-                        return;
-
+                    if (card == null || card.Name.ToString() == string.Empty) return;
                     if (ui->IsTripleTriadCardUnlocked((ushort)card.RowId)) return;
 
                     // Only show cards that we can infer a valid location from.

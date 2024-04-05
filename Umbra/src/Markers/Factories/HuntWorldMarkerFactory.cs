@@ -20,7 +20,7 @@ namespace Umbra.Markers;
 [Service]
 internal sealed class HuntWorldMarkerFactory(IDataManager dataManager) : IWorldMarkerFactory
 {
-    [ConfigVariable("Markers.Hunt.Enabled", "Enabled Markers", "Show hunt markers (C, B, A, S, SS ranks)")]
+    [ConfigVariable("Markers.Hunt.Enabled", "EnabledMarkers")]
     private static bool Enabled { get; set; } = true;
 
     private readonly Dictionary<uint, NotoriousMonster?> _notoriousMonstersCache = [];

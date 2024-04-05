@@ -29,7 +29,7 @@ internal sealed partial class ConfigWindow : Window
 
     public ConfigWindow()
     {
-        Title       = "Umbra Settings";
+        Title       = I18N.Translate("ConfigWindow.Title");
         DefaultSize = new(800, 600);
         MinSize     = new(650, 480);
         MaxSize     = new(1200, 900);

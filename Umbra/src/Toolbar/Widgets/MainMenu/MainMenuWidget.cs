@@ -24,20 +24,10 @@ namespace Umbra.Toolbar.Widgets.MainMenu;
 [Service]
 internal sealed partial class MainMenuWidget : IToolbarWidget
 {
-    [ConfigVariable(
-        "Toolbar.Widget.MainMenu.Enabled",
-        "Toolbar Widgets",
-        "Show main menu",
-        "Display the main menu."
-    )]
+    [ConfigVariable("Toolbar.Widget.MainMenu.Enabled", "ToolbarWidgets")]
     private static bool Enabled { get; set; } = true;
 
-    [ConfigVariable(
-        "Toolbar.Widget.MainMenu.ShowIcons",
-        "Toolbar Settings",
-        "Show icons in main menus",
-        "Display game icons to the left of the main menu items."
-    )]
+    [ConfigVariable("Toolbar.Widget.MainMenu.ShowIcons", "ToolbarSettings")]
     private static bool ShowIcons { get; set; } = false;
 
     private readonly ToolbarPopupContext _popupContext;
