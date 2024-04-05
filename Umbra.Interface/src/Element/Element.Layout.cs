@@ -201,8 +201,11 @@ public partial class Element
     private bool ShouldRevalidate()
     {
         if (IsDirty || ComputedSize.IsEmpty) return true;
+        if (_children.Count == 0) return false;
 
-        return _children.Any(child => child.ShouldRevalidate());
+        foreach (Element t in _children) if (t.ShouldRevalidate()) return true;
+
+        return false;
     }
 
     private void DoBeforeCompute()
@@ -329,6 +332,8 @@ public partial class Element
 
     private List<Element> GetAnchoredChildren(Anchor a)
     {
+        if (_children.Count == 0) return [];
+
         List<Element> result = [];
 
         foreach (Element t in _children) {

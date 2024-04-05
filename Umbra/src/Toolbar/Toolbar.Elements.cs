@@ -51,7 +51,7 @@ internal partial class Toolbar
         Vector2 displayPos  = viewport.Pos;
 
         _xPosition = displayPos.X;
-        _yPosition = displayPos.Y + (IsTopAligned ? ImGui.GetMainViewport().WorkPos.Y : displaySize.Y);
+        _yPosition = displayPos.Y + (IsTopAligned ? 0 : displaySize.Y);
 
         _element.Anchor = IsTopAligned ? Anchor.TopLeft : Anchor.BottomLeft;
         _element.Size   = new((int)displaySize.X, Height);

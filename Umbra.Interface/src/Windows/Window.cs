@@ -21,10 +21,7 @@ namespace Umbra.Interface;
 
 public abstract partial class Window : IDisposable
 {
-    [ConfigVariable(
-        "Window.EnableClipping",
-        "WindowSettings"
-    )]
+    [ConfigVariable("Window.EnableClipping", "WindowSettings")]
     private static bool EnableClipping { get; set; } = true;
 
     public event Action? OnClose;

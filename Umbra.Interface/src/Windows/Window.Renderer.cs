@@ -27,6 +27,7 @@ public abstract partial class Window
             return;
         }
 
+        ImGui.SetNextWindowViewport(ImGui.GetMainViewport().ID);
         ImGui.SetNextWindowSizeConstraints(MinSize.ToVector2(), MaxSize.ToVector2());
         ImGui.SetNextWindowSize(DefaultSize.ToVector2(), ImGuiCond.FirstUseEver);
         ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding,    new Vector2(0, 0));

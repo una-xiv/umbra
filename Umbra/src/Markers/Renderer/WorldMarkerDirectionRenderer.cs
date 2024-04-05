@@ -61,9 +61,11 @@ public sealed class WorldMarkerDirectionRenderer(
         float wSize = 64;
 
         var displaySize = ImGui.GetIO().DisplaySize;
+        var displayPos  = ImGui.GetMainViewport().Pos;
+
         // Move the marker to the edge of the screen if it's outside the screen.
-        var x = displaySize.X / 2 + MathF.Cos(angle) * ((displaySize.Y / 2) - Radius);
-        var y = displaySize.Y / 2 + MathF.Sin(angle) * ((displaySize.Y / 2) - Radius);
+        float x = displayPos.X + (displaySize.X / 2 + MathF.Cos(angle) * ((displaySize.Y / 2) - Radius));
+        float y = displayPos.Y + (displaySize.Y / 2 + MathF.Sin(angle) * ((displaySize.Y / 2) - Radius));
 
         var bounds = new Rect(new(x - (wSize / 2), y - (wSize / 2)), new(x + (wSize / 2), y + (wSize / 2)));
 
