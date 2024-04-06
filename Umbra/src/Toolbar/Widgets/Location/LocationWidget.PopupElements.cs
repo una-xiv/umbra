@@ -78,7 +78,7 @@ internal partial class LocationWidget
                                         margin: new(right: 12),
                                         text: "Zone Name Here",
                                         style: new() {
-                                            Font         = Font.Jupiter,
+                                            Font         = Font.AxisLarge,
                                             TextAlign    = Anchor.BottomLeft,
                                             TextColor    = 0xFFC0C0C0,
                                             TextOffset   = new(0, 4),
