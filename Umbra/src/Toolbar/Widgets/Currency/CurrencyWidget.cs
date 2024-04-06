@@ -41,6 +41,8 @@ internal partial class CurrencyWidget : IToolbarWidget
     private readonly Player              _player;
     private readonly ToolbarPopupContext _ctx;
 
+    private int _lastCurrencyCount = 0;
+
     public CurrencyWidget(IDataManager dataManager, Player player, ToolbarPopupContext ctx)
     {
         _dataManager = dataManager;
@@ -96,9 +98,17 @@ internal partial class CurrencyWidget : IToolbarWidget
             var trackedItem = _dataManager.GetExcelSheet<Item>()!.GetRow(TrackedCurrencyId);
 
             if (null != trackedItem) {
+                int currencyCount = _player.GetItemCount(TrackedCurrencyId);
+
+                if (_lastCurrencyCount != currencyCount) {
+                    _lastCurrencyCount          = currencyCount;
+                    Element.Get("Text").Padding = new(left: -16);
+                    Element.Get("Text").Animate(new Animation<OutElastic>(500) { Padding = new(left: 0) });
+                }
+
                 Element.Get("Icon").Style.Image = (uint)trackedItem.Icon;
                 Element.Get("Icon").Text        = "";
-                Element.Get("Text").Text        = $"{_player.GetItemCount(TrackedCurrencyId):N0} {trackedItem.Name}";
+                Element.Get("Text").Text        = $"{currencyCount:N0} {trackedItem.Name}";
             }
         }
 

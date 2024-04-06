@@ -53,6 +53,9 @@ public readonly struct Spacing(int top = 0, int right = 0, int bottom = 0, int l
     public static bool operator !=(Spacing a, Spacing b) =>
         a.Top != b.Top || a.Right != b.Right || a.Bottom != b.Bottom || a.Left != b.Left;
 
+    public static Spacing operator *(double multiplier, Spacing spacing) =>
+        new((int)(spacing.Top * multiplier), (int)(spacing.Right * multiplier), (int)(spacing.Bottom * multiplier), (int)(spacing.Left * multiplier));
+
     public override bool Equals(object? obj) => obj is Spacing size && this == size;
     public override int  GetHashCode()       => HashCode.Combine(Top, Right, Bottom, Left);
 }

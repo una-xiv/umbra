@@ -85,7 +85,7 @@ internal static class Scheduler
     {
         return Framework
             .Assemblies.SelectMany(assembly => assembly.GetTypes())
-            .SelectMany(type => type.GetMethods())
+            .SelectMany(type => type.GetMethods(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public))
             .Where(method => method.GetCustomAttribute<OnTickAttribute>() != null)
             .Select(
                 method => {
@@ -103,7 +103,7 @@ internal static class Scheduler
         return [
             .. Framework
                 .Assemblies.SelectMany(assembly => assembly.GetTypes())
-                .SelectMany(type => type.GetMethods())
+                .SelectMany(type => type.GetMethods(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public))
                 .Where(method => method.GetCustomAttribute<OnDrawAttribute>() != null)
                 .Select(
                     method => {

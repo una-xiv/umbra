@@ -18,6 +18,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using Dalamud.Interface.Animation;
 using ImGuiNET;
 
 namespace Umbra.Interface;
@@ -208,9 +209,21 @@ public partial class Element
         return false;
     }
 
+    private IAnimation? _animation;
+
+    public void Animate(IAnimation animation, bool once = true)
+    {
+        _animation = animation;
+        _animation.Assign(this, once);
+    }
+
     private void DoBeforeCompute()
     {
         OnBeforeCompute?.Invoke();
+
+        if (false == _animation?.Advance()) {
+            _animation = null;
+        }
 
         BeforeCompute();
         _children.ForEach(child => child.DoBeforeCompute());
@@ -327,7 +340,7 @@ public partial class Element
             y -= size.Height;
         }
 
-        return new(x, y);
+        return new Vector2(x, y) + _offset;
     }
 
     private List<Element> GetAnchoredChildren(Anchor a)

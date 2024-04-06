@@ -28,7 +28,12 @@ using Umbra.Game;
 namespace Umbra.Markers;
 
 [Service]
-public sealed class WorldMarkerRenderer(IGameGui gameGui, Player player, ClipRectProvider clipRectProvider)
+public sealed class WorldMarkerRenderer(
+    IGameGui         gameGui,
+    GameCamera       gameCamera,
+    Player           player,
+    ClipRectProvider clipRectProvider
+)
 {
     [ConfigVariable("Markers.OcclusionTest.Enabled", "MarkerSettings")]
     private static bool OcclusionTestEnabled { get; set; } = true;
@@ -70,9 +75,9 @@ public sealed class WorldMarkerRenderer(IGameGui gameGui, Player player, ClipRec
         }
 
         if (OcclusionTestEnabled
-         && distance <= marker.MaxFadeDistance
-         && IsMarkerOccluded(marker.Position)) {
-            element.Style.Opacity = 0.65f;
+            && distance > 30
+            && IsMarkerOccluded(marker.Position)) {
+            element.Style.Opacity = 0.45f;
         }
 
         element.Render(ImGui.GetBackgroundDrawList(), screenPosition with { Y = screenPosition.Y - 64 });
@@ -107,11 +112,9 @@ public sealed class WorldMarkerRenderer(IGameGui gameGui, Player player, ClipRec
         }
     }
 
-    private static unsafe bool IsMarkerOccluded(Vector3 position)
+    private bool IsMarkerOccluded(Vector3 position)
     {
-        var cm  = FFXIVClientStructs.FFXIV.Client.Game.Control.CameraManager.Instance();
-        var obj = cm->GetActiveCamera()->CameraBase.SceneCamera.Object.Position;
-        var pos = new Vector3(obj.X, obj.Y, obj.Z);
+        var pos = gameCamera.CameraPosition;
         var dir = Vector3.Normalize(position - pos);
 
         if (false == BGCollisionModule.Raycast(pos, dir, out var hit)) return false;
@@ -133,7 +136,8 @@ public sealed class WorldMarkerRenderer(IGameGui gameGui, Player player, ClipRec
                     fit: true,
                     gap: 6,
                     children: marker
-                        .IconIds[..Math.Min(marker.IconIds.Count, 3)].Select(
+                        .IconIds[..Math.Min(marker.IconIds.Count, 3)]
+                        .Select(
                             iconId => new Element(
                                 id: "",
                                 anchor: Anchor.TopCenter,

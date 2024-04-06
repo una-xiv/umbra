@@ -136,7 +136,7 @@ public partial class Element
         }
 
         if (IsMouseOver) {
-            if (_mouseOverStartTime < DateTimeOffset.Now.ToUnixTimeMilliseconds() - 250) {
+            if (_mouseOverStartTime < DateTimeOffset.Now.ToUnixTimeMilliseconds() - 50) {
                 if (!_didStartDelayedMouseEnter) {
                     OnDelayedMouseEnter?.Invoke();
                     _didStartDelayedMouseEnter = true;

@@ -42,6 +42,7 @@ internal partial class FlagWidget : IToolbarWidget
 
     private AetheryteEntry? _aetheryteEntry;
     private string?         _aetheryteKey;
+    private string?         _lastMarkerKey;
 
     public FlagWidget(IAetheryteList aetheryteList, IZoneManager zoneManager, Player player)
     {
@@ -78,9 +79,7 @@ internal partial class FlagWidget : IToolbarWidget
         if (IsFlagMarkerSet()) UpdateWidgetInfoState();
     }
 
-    public void OnUpdate()
-    {
-    }
+    public void OnUpdate() { }
 
     [OnTick(interval: 2000)]
     public void OnTick()
@@ -163,6 +162,12 @@ internal partial class FlagWidget : IToolbarWidget
 
         if (_aetheryteKey == cacheKey) return;
 
+        if (_lastMarkerKey != cacheKey) {
+            _lastMarkerKey = cacheKey;
+            _icon.Padding  = new(-16);
+            _icon.Animate(new Animation<InOutCirc>(500) { Padding = new(0) });
+        }
+
         Zone    zone = _zoneManager.GetZone(map->FlagMapMarker.MapId);
         Vector2 pos  = MapUtil.WorldToMap(new(map->FlagMapMarker.XFloat, map->FlagMapMarker.YFloat), zone.MapSheet);
 
@@ -186,7 +191,7 @@ internal partial class FlagWidget : IToolbarWidget
         var placeName = _aetheryteEntry.AetheryteData.GameData!.PlaceName.Value!.Name.ToString();
 
         _info.Text = placeName == zone.Name
-            ? I18N.Translate("LocationWidget.TeleportNearbyForGil", _aetheryteEntry.GilCost.ToString("D"))
+            ? I18N.Translate("LocationWidget.TeleportNearbyForGil",  _aetheryteEntry.GilCost.ToString("D"))
             : I18N.Translate("LocationWidget.TeleportToPlaceForGil", placeName, _aetheryteEntry.GilCost.ToString("D"));
     }
 }

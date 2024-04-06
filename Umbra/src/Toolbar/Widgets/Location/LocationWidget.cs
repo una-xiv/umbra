@@ -29,6 +29,8 @@ internal partial class LocationWidget : IToolbarWidget
     private readonly Player       _player;
     private readonly IZoneManager _zoneManager;
 
+    private uint _lastWeatherIconId = 0;
+
     public LocationWidget(Player player, IZoneManager zoneManager, ToolbarPopupContext ctx)
     {
         _player      = player;
@@ -74,6 +76,13 @@ internal partial class LocationWidget : IToolbarWidget
         Element.Get("Weather.Name").Text = weatherName;
         Element.Get("Weather.Info").Text = weather.TimeString[..1].ToUpper() + weather.TimeString[1..];
         Element.Get("Icon").Style.Image  = weather.IconId;
+
+        if (_lastWeatherIconId != weather.IconId) {
+            _lastWeatherIconId                = weather.IconId;
+            Element.Get("Icon").Padding       = new(-16); // Enlarges the icon without causing a reflow.
+            Element.Get("Icon").Style.Opacity = 0;
+            Element.Get("Icon").Animate(new Animation<InOutCirc>(300) { Padding = new(0), Opacity = 1 });
+        }
     }
 
     private void UpdateDropdownWidget()

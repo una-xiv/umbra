@@ -57,6 +57,16 @@ public partial class Element
         }
     }
 
+    public Vector2 Offset {
+        get => _offset;
+        set {
+            if (_offset == value) return;
+
+            _offset = value;
+            IsDirty = true;
+        }
+    }
+
     // Circular reference check.
     private bool _isCalculatingSize;
 

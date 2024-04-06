@@ -15,6 +15,7 @@
  */
 
 using System.Collections.Generic;
+using System.Numerics;
 
 namespace Umbra.Interface;
 
@@ -36,6 +37,7 @@ public partial class Element
     private bool    _stretch;
     private bool    _fit;
     private bool    _isVisible;
+    private Vector2 _offset;
 
     public Element(
         string         id,
@@ -53,6 +55,7 @@ public partial class Element
         bool           isVisible = true,
         string?        tag       = null,
         string?        tooltip   = null,
+        Vector2?       offset    = null,
         List<Element>? children  = null
     )
     {
@@ -71,6 +74,7 @@ public partial class Element
         _isVisible = isVisible;
         Tag        = tag;
         Tooltip    = tooltip;
+        _offset    = offset ?? Vector2.Zero;
 
         BoundingBox = new();
         ContentBox  = new();

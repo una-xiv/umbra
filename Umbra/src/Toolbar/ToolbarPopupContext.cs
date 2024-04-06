@@ -14,6 +14,7 @@
  *     GNU Affero General Public License for more details.
  */
 
+using System;
 using System.Numerics;
 using ImGuiNET;
 using Umbra.Common;
@@ -48,10 +49,21 @@ internal sealed class ToolbarPopupContext
 
     public void Activate(DropdownElement dropdownElement, Element activator)
     {
+        if (_activeElement == dropdownElement) return;
+
         _activeElement = dropdownElement;
         _activator     = activator;
 
         _activeElement.IsVisible = true;
+        _activeElement.ComputeLayout(new());
+
+        _activeElement.Offset        = Toolbar.Toolbar.IsTopAligned ? new(0, -32) : new(0, 32);
+        _activeElement.Style.Opacity = 0;
+
+        _activeElement.Animate(new Animation<OutCirc>(300) {
+            Offset  = new(0),
+            Opacity = 1
+        });
     }
 
     public void Clear()
