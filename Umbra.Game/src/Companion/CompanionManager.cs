@@ -79,8 +79,8 @@ public sealed class CompanionManager
         IconId          = GetIconId(buddy);
 
         ActiveCommand = buddy.ActiveCommand switch {
-            3 => I18N.Translate("CompanionWidget.Free"),
-            4 => I18N.Translate("CompanionWidget.Follow"),
+            3 => I18N.Translate("CompanionWidget.Follow"),
+            4 => I18N.Translate("CompanionWidget.Free"),
             5 => I18N.Translate("CompanionWidget.Tank"),
             6 => I18N.Translate("CompanionWidget.DPS"),
             7 => I18N.Translate("CompanionWidget.Heal"),
