@@ -28,8 +28,7 @@ public enum Font
     AxisSmall,
     Axis,
     AxisLarge,
-
-    Jupiter,
+    AxisExtraLarge,
 
     MiedingerSmall,
     Miedinger,

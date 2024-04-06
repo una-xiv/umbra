@@ -61,7 +61,7 @@ internal partial class GearsetWidget
                                 text: "",
                                 size: new(0, 25),
                                 style: new() {
-                                    Font         = Font.AxisLarge,
+                                    Font         = Font.AxisExtraLarge,
                                     TextAlign    = Anchor.TopLeft,
                                     TextColor    = 0xFFC0C0C0,
                                     TextOffset   = new(0, -2),
