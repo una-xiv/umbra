@@ -95,10 +95,12 @@ internal partial class CurrencyWidget
         button.OnClick += () => {
             if (TrackedCurrencyId == itemId) {
                 ConfigManager.Set("Toolbar.Widget.Currencies.TrackedCurrencyId", 0);
-                return;
+            } else {
+                ConfigManager.Set("Toolbar.Widget.Currencies.TrackedCurrencyId", itemId);
             }
 
-            ConfigManager.Set("Toolbar.Widget.Currencies.TrackedCurrencyId", itemId);
+            // Close the popup after clicking a currency.
+            _ctx.Clear();
         };
 
         return button;

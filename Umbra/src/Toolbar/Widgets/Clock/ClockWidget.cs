@@ -15,6 +15,7 @@
  */
 
 using System;
+using Dalamud.Game.Text;
 using Umbra.Common;
 using Umbra.Interface;
 
@@ -23,20 +24,10 @@ namespace Umbra.Toolbar.Widgets.Clock;
 [Service]
 internal partial class ClockWidget : IToolbarWidget
 {
-    [ConfigVariable(
-        "Toolbar.Widget.Clock.Enabled",
-        "Toolbar Widgets",
-        "Show clock",
-        "Display a clock widget that shows Eorzea and local time. Local and server time can be toggled when clicked."
-    )]
+    [ConfigVariable("Toolbar.Widget.Clock.Enabled", "ToolbarWidgets")]
     private static bool Enabled { get; set; } = true;
 
-    [ConfigVariable(
-        "Toolbar.Widget.Clock.Vertical",
-        "Toolbar Settings",
-        "Stack the clocks vertically",
-        "Display the clocks vertically and a bit smaller."
-    )]
+    [ConfigVariable("Toolbar.Widget.Clock.Vertical", "ToolbarSettings")]
     private static bool UseVerticalClocks { get; set; } = true;
 
     private bool _isShowingServerTime;
@@ -66,6 +57,29 @@ internal partial class ClockWidget : IToolbarWidget
 
             if (isModified || _isFirstFrame) {
                 _isFirstFrame = false;
+
+                switch (Framework.DalamudPlugin.UiLanguage) {
+                    case "de":
+                        Element.Get("ET.Container.Prefix").Text = SeIconChar.EorzeaTimeDe.ToIconString();
+                        Element.Get("LT.Container.Prefix").Text = SeIconChar.LocalTimeDe.ToIconString();
+                        Element.Get("ST.Container.Prefix").Text = SeIconChar.ServerTimeDe.ToIconString();
+                        break;
+                    case "fr":
+                        Element.Get("ET.Container.Prefix").Text = SeIconChar.EorzeaTimeFr.ToIconString();
+                        Element.Get("LT.Container.Prefix").Text = SeIconChar.LocalTimeFr.ToIconString();
+                        Element.Get("ST.Container.Prefix").Text = SeIconChar.ServerTimeFr.ToIconString();
+                        break;
+                    case "jp":
+                        Element.Get("ET.Container.Prefix").Text = SeIconChar.EorzeaTimeJa.ToIconString();
+                        Element.Get("LT.Container.Prefix").Text = SeIconChar.LocalTimeJa.ToIconString();
+                        Element.Get("ST.Container.Prefix").Text = SeIconChar.ServerTimeJa.ToIconString();
+                        break;
+                    default:
+                        Element.Get("ET.Container.Prefix").Text = SeIconChar.EorzeaTimeEn.ToIconString();
+                        Element.Get("LT.Container.Prefix").Text = SeIconChar.LocalTimeEn.ToIconString();
+                        Element.Get("ST.Container.Prefix").Text = SeIconChar.ServerTimeEn.ToIconString();
+                        break;
+                }
 
                 Element.Get("LT.Container.Prefix").Style.TextOffset = UseVerticalClocks ? new(0, -2) : new(0, -1);
                 Element.Get("LT.Container.Time").Style.TextOffset   = UseVerticalClocks ? new(0, -2) : new(0, -1);

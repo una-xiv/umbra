@@ -27,6 +27,7 @@ internal partial class Toolbar
     private const uint Color2      = 0xFF212021;
     private const int  ItemSpacing = 6;
 
+    private float _xPosition;
     private float _yPosition;
 
     private readonly Element _element = new(
@@ -45,8 +46,12 @@ internal partial class Toolbar
 
     private void UpdateToolbar()
     {
-        Vector2 displaySize = ImGui.GetMainViewport().Size;
-        _yPosition = IsTopAligned ? ImGui.GetMainViewport().WorkPos.Y : displaySize.Y;
+        var     viewport    = ImGui.GetMainViewport();
+        Vector2 displaySize = viewport.Size;
+        Vector2 displayPos  = viewport.Pos;
+
+        _xPosition = displayPos.X;
+        _yPosition = displayPos.Y + (IsTopAligned ? 0 : displaySize.Y);
 
         _element.Anchor = IsTopAligned ? Anchor.TopLeft : Anchor.BottomLeft;
         _element.Size   = new((int)displaySize.X, Height);
@@ -59,6 +64,6 @@ internal partial class Toolbar
 
     private void RenderToolbar()
     {
-        _element.Render(ImGui.GetBackgroundDrawList(), new(0, _yPosition));
+        _element.Render(ImGui.GetBackgroundDrawList(), new(_xPosition, _yPosition));
     }
 }

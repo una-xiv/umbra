@@ -24,7 +24,7 @@ namespace Umbra.Markers;
 [Service]
 internal sealed class FlagWorldMarkerFactory(IZoneManager ZoneManager) : IWorldMarkerFactory
 {
-    [ConfigVariable("Markers.Flag.Enabled", "Enabled Markers", "Show flag marker")]
+    [ConfigVariable("Markers.Flag.Enabled", "EnabledMarkers")]
     private static bool Enabled { get; set; } = true;
 
     public unsafe List<WorldMarker> GetMarkers()

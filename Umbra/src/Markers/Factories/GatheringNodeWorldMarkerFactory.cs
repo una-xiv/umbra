@@ -28,7 +28,7 @@ namespace Umbra.Markers.Factories;
 [Service]
 public class GatheringNodeWorldMarkerFactory(IDataManager dataManager, IObjectTable objectTable) : IWorldMarkerFactory
 {
-    [ConfigVariable("Markers.Flag.Enabled", "Enabled Markers", "Show gathering nodes")]
+    [ConfigVariable("Markers.GatheringNodes.Enabled", "EnabledMarkers")]
     private static bool Enabled { get; set; } = true;
 
     private readonly List<GatheringNode> _gatheringNodes = [];

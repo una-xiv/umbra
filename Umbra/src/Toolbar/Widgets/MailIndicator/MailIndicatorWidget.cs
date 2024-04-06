@@ -25,12 +25,7 @@ namespace Umbra.Toolbar.Widgets.MailIndicator;
 [Service]
 internal class MailIndicatorWidget : IToolbarWidget
 {
-    [ConfigVariable(
-        "Toolbar.Widget.MailIndicator.Enabled",
-        "Toolbar Widgets",
-        "Show unread mail indicator",
-        "Display a mail indicator when there are unread messages waiting for you."
-    )]
+    [ConfigVariable("Toolbar.Widget.MailIndicator.Enabled", "ToolbarWidgets")]
     private static bool Enabled { get; set; } = true;
 
     public Element Element { get; } = new(
@@ -72,7 +67,10 @@ internal class MailIndicatorWidget : IToolbarWidget
         if (ipl == null) return;
 
         Element.IsVisible = ipl->NumLetters > 0;
-        Element.Tooltip = $"You have {ipl->NumLetters} new message{(ipl->NumLetters > 1 ? "s" : "")}";
+
+        Element.Tooltip = ipl->NumLetters == 1
+            ? I18N.Translate("MailWidget.Singular.Tooltip")
+            : I18N.Translate("MailWidget.Plural.Tooltip", ipl->NumLetters);
     }
 
     [StructLayout(LayoutKind.Explicit)]

@@ -15,20 +15,13 @@
  */
 
 using System;
-using System.Numerics;
-using ImGuiNET;
 using Umbra.Common;
 
 namespace Umbra.Interface;
 
 public abstract partial class Window : IDisposable
 {
-    [ConfigVariable(
-        "window.enableClipping",
-        "Window Settings",
-        "Enable window clipping",
-        "Allows windows to render behind native game windows. This may have a slight performance cost and may not work properly for all native game windows."
-    )]
+    [ConfigVariable("Window.EnableClipping", "WindowSettings")]
     private static bool EnableClipping { get; set; } = true;
 
     public event Action? OnClose;

@@ -16,7 +16,6 @@
 
 using Umbra.Common;
 using Umbra.Interface;
-using Umbra.Markers;
 
 namespace Umbra.Toolbar.Widgets.MainMenu;
 
@@ -86,7 +85,7 @@ internal sealed partial class WorldMarkerMenuWidget
                     id: "Label",
                     anchor: Anchor.MiddleLeft,
                     size: new(0, 24),
-                    text: cvar.Name,
+                    text: I18N.Translate($"CVAR.{cvar.Id}.Name"),
                     padding: new(right: 8),
                     style: new() {
                         Font         = Font.Axis,

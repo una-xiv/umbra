@@ -51,10 +51,10 @@ public sealed class MainMenuRepository : IMainMenuRepository
 
         // Add Dalamud items to the system menu.
         Categories[MenuCategory.System].AddItem(new (-998));
-        Categories[MenuCategory.System].AddItem(new ("Umbra Settings", -999, "/umbra") { Icon = SeIconChar.BoxedLetterU, IconColor = 0xFF40A0AC });
+        Categories[MenuCategory.System].AddItem(new (I18N.Translate("MainMenu.UmbraSettings"), -999, "/umbra") { Icon = SeIconChar.BoxedLetterU, IconColor = 0xFF40A0AC });
         Categories[MenuCategory.System].AddItem(new (-1000));
-        Categories[MenuCategory.System].AddItem(new ("Dalamud Settings", -1001, "/xlsettings") { Icon = SeIconChar.BoxedLetterD, IconColor = 0xFF5151FF });
-        Categories[MenuCategory.System].AddItem(new ("Dalamud Plugins", -1002, "/xlplugins") { Icon = SeIconChar.BoxedLetterD, IconColor = 0xFF5151FF });
+        Categories[MenuCategory.System].AddItem(new (I18N.Translate("MainMenu.DalamudSettings"), -1001, "/xlsettings") { Icon = SeIconChar.BoxedLetterD, IconColor = 0xFF5151FF });
+        Categories[MenuCategory.System].AddItem(new (I18N.Translate("MainMenu.DalamudPlugins"), -1002, "/xlplugins") { Icon = SeIconChar.BoxedLetterD, IconColor = 0xFF5151FF });
     }
 
     public List<MainMenuCategory> GetCategories()

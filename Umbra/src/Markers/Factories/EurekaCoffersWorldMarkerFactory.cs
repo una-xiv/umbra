@@ -27,12 +27,7 @@ namespace Umbra.Markers;
 [Service]
 internal sealed partial class EurekaCoffersWorldMarkerFactory : IWorldMarkerFactory, IDisposable
 {
-    [ConfigVariable(
-        "Markers.EurekaCoffers.Enabled",
-        "Enabled Markers",
-        "Show eureka coffers",
-        "Shows possible Eureka Bunny Coffers after using the Lucky Carrot based on the direction and distance in the chat message that appears after using the item."
-    )]
+    [ConfigVariable("Markers.EurekaCoffers.Enabled", "EnabledMarkers")]
     private static bool Enabled { get; set; } = true;
 
     private const uint LuckyCarrotItemId = 2002482;

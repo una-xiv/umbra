@@ -27,20 +27,10 @@ namespace Umbra.Interface;
 [Service]
 public sealed partial class WindowManager : IDisposable
 {
-    [ConfigVariable(
-        "WindowManager.PlaySoundEffects",
-        "Window Settings",
-        "Play sound effects when opening and closing windows",
-        "Plays the default UI sound effects when opening and closing Umbra windows."
-    )]
+    [ConfigVariable("WindowManager.PlaySoundEffects", "WindowSettings")]
     private static bool PlaySoundEffects { get; set; } = true;
 
-    [ConfigVariable(
-        "WindowManager.HonorEscapeKey",
-        "Window Settings",
-        "Allow pressing ESC to close focused windows",
-        "Intercepts the escape key when an Umbra window is focused to close it."
-    )]
+    [ConfigVariable("WindowManager.HonorEscapeKey", "WindowSettings")]
     private static bool HonorEscapeKey { get; set; } = true;
 
     private const uint SfxOpen  = 23u;

@@ -26,12 +26,7 @@ namespace Umbra.Toolbar.Widgets.Companion;
 [Service]
 internal partial class CompanionWidget : IToolbarWidget
 {
-    [ConfigVariable(
-        "Toolbar.Widget.Companion.Enabled",
-        "Toolbar Widgets",
-        "Show companion",
-        "Shows a chocobo companion widget that allows you to summon and change the behavior of your companion."
-    )]
+    [ConfigVariable("Toolbar.Widget.Companion.Enabled", "ToolbarWidgets")]
     private static bool Enabled { get; set; } = true;
 
     private readonly CompanionManager _companion;
@@ -59,8 +54,7 @@ internal partial class CompanionWidget : IToolbarWidget
         }
 
         Element.IsVisible = true;
-
-        Element.Tooltip = $"Left-click:               Summon\nRight-click:            Change stance\nShift-Right-click: Dismiss\nMiddle-click:        Open companion window";
+        Element.Tooltip   = I18N.Translate("CompanionWidget.Tooltip");
 
         if (_companion is { IsActive: true, TimeLeft: > 0 }) {
             string xp = _companion.Level < 20

@@ -14,6 +14,7 @@
  *     GNU Affero General Public License for more details.
  */
 
+using System;
 using System.Numerics;
 using ImGuiNET;
 using Umbra.Common;
@@ -31,7 +32,7 @@ internal sealed class ToolbarPopupContext
     {
         dropdownElement.IsVisible = false;
 
-        activator.OnMouseEnter += () => {
+        activator.OnDelayedMouseEnter += () => {
             if (_activeElement != null) {
                 Activate(dropdownElement, activator);
             }
@@ -48,10 +49,21 @@ internal sealed class ToolbarPopupContext
 
     public void Activate(DropdownElement dropdownElement, Element activator)
     {
+        if (_activeElement == dropdownElement) return;
+
         _activeElement = dropdownElement;
         _activator     = activator;
 
         _activeElement.IsVisible = true;
+        _activeElement.ComputeLayout(new());
+
+        _activeElement.Offset        = Toolbar.Toolbar.IsTopAligned ? new(0, -32) : new(0, 32);
+        _activeElement.Style.Opacity = 0;
+
+        _activeElement.Animate(new Animation<OutCirc>(300) {
+            Offset  = new(0),
+            Opacity = 1
+        });
     }
 
     public void Clear()
@@ -72,7 +84,6 @@ internal sealed class ToolbarPopupContext
         }
 
         UpdatePopupAnchor();
-
         Vector2 position = GetActivatorPosition() + GetPopupDrawPositionOffset();
         Vector2 winSize  = new(_activeElement.BoundingBox.Width, _activeElement.BoundingBox.Height);
         Vector2 offset   = new();
@@ -84,6 +95,8 @@ internal sealed class ToolbarPopupContext
             if (position.X + offset.X + _activeElement.BoundingBox.Width > ImGui.GetIO().DisplaySize.X) {
                 offset.X = ImGui.GetIO().DisplaySize.X - position.X - _activeElement.BoundingBox.Width - 16;
             }
+
+            offset.X += ImGui.GetMainViewport().Pos.X;
         }
 
         ImGui.SetNextWindowPos(position + offset);
@@ -92,6 +105,7 @@ internal sealed class ToolbarPopupContext
         ImGui.PushStyleVar(ImGuiStyleVar.WindowRounding,   0f);
         ImGui.PushStyleVar(ImGuiStyleVar.WindowBorderSize, 0f);
 
+        ImGui.SetNextWindowViewport(ImGui.GetMainViewport().ID);
         ImGui.Begin("##Dropdown", DropdownWindowFlags);
 
         _activeElement.Render(
@@ -112,9 +126,14 @@ internal sealed class ToolbarPopupContext
     {
         if (_activator == null) return new();
 
-        float y = Toolbar.Toolbar.IsTopAligned
-            ? Toolbar.Toolbar.Height
-            : ImGui.GetIO().DisplaySize.Y - Toolbar.Toolbar.Height;
+        Vector2 displayPos = ImGui.GetMainViewport().Pos;
+
+        float y = displayPos.Y
+          + (
+                Toolbar.Toolbar.IsTopAligned
+                    ? Toolbar.Toolbar.Height
+                    : ImGui.GetIO().DisplaySize.Y - Toolbar.Toolbar.Height
+            );
 
         if (_activator.Anchor.IsLeft()) {
             return new(_activator.BoundingBox.X1, y);

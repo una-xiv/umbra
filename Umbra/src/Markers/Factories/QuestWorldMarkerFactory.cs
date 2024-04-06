@@ -24,7 +24,7 @@ namespace Umbra.Markers;
 [Service]
 internal sealed class QuestWorldMarkerFactory(IZoneManager zoneManager) : IWorldMarkerFactory
 {
-    [ConfigVariable("Markers.Quest.Enabled", "Enabled Markers", "Show quest objective markers")]
+    [ConfigVariable("Markers.Quest.Enabled", "EnabledMarkers")]
     private static bool Enabled { get; set; } = true;
 
     public List<WorldMarker> GetMarkers()

@@ -18,6 +18,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using Dalamud.Interface.Animation;
+using ImGuiNET;
 
 namespace Umbra.Interface;
 
@@ -200,13 +202,28 @@ public partial class Element
     private bool ShouldRevalidate()
     {
         if (IsDirty || ComputedSize.IsEmpty) return true;
+        if (_children.Count == 0) return false;
 
-        return _children.Any(child => child.ShouldRevalidate());
+        foreach (Element t in _children) if (t.ShouldRevalidate()) return true;
+
+        return false;
+    }
+
+    private IAnimation? _animation;
+
+    public void Animate(IAnimation animation, bool once = true)
+    {
+        _animation = animation;
+        _animation.Assign(this, once);
     }
 
     private void DoBeforeCompute()
     {
         OnBeforeCompute?.Invoke();
+
+        if (false == _animation?.Advance()) {
+            _animation = null;
+        }
 
         BeforeCompute();
         _children.ForEach(child => child.DoBeforeCompute());
@@ -323,11 +340,21 @@ public partial class Element
             y -= size.Height;
         }
 
-        return new(x, y);
+        return new Vector2(x, y) + _offset;
     }
 
     private List<Element> GetAnchoredChildren(Anchor a)
     {
-        return _children.Where(child => child._isVisible && child._anchor == a).ToList();
+        if (_children.Count == 0) return [];
+
+        List<Element> result = [];
+
+        foreach (Element t in _children) {
+            if (t.IsVisible && t.Anchor == a) {
+                result.Add(t);
+            }
+        }
+
+        return result;
     }
 }

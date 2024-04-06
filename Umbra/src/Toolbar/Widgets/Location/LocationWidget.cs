@@ -23,16 +23,13 @@ namespace Umbra.Toolbar.Widgets.Location;
 [Service]
 internal partial class LocationWidget : IToolbarWidget
 {
-    [ConfigVariable(
-        "Toolbar.Widget.Location.Enabled",
-        "Toolbar Widgets",
-        "Show the location and weather widget",
-        "Shows the current location and weather in the center of the toolbar."
-    )]
+    [ConfigVariable("Toolbar.Widget.Location.Enabled", "ToolbarWidgets")]
     private static bool Enabled { get; set; } = true;
 
     private readonly Player       _player;
     private readonly IZoneManager _zoneManager;
+
+    private uint _lastWeatherIconId = 0;
 
     public LocationWidget(Player player, IZoneManager zoneManager, ToolbarPopupContext ctx)
     {
@@ -77,8 +74,15 @@ internal partial class LocationWidget : IToolbarWidget
         }
 
         Element.Get("Weather.Name").Text = weatherName;
-        Element.Get("Weather.Info").Text = weather.TimeString;
+        Element.Get("Weather.Info").Text = weather.TimeString[..1].ToUpper() + weather.TimeString[1..];
         Element.Get("Icon").Style.Image  = weather.IconId;
+
+        if (_lastWeatherIconId != weather.IconId) {
+            _lastWeatherIconId                = weather.IconId;
+            Element.Get("Icon").Padding       = new(-16); // Enlarges the icon without causing a reflow.
+            Element.Get("Icon").Style.Opacity = 0;
+            Element.Get("Icon").Animate(new Animation<InOutCirc>(300) { Padding = new(0), Opacity = 1 });
+        }
     }
 
     private void UpdateDropdownWidget()
@@ -113,7 +117,7 @@ internal partial class LocationWidget : IToolbarWidget
                 el.IsVisible               = true;
                 el.Get("Icon").Style.Image = forecast.IconId;
                 el.Get("Text.Name").Text   = forecast.Name;
-                el.Get("Text.Info").Text   = $"In {forecast.TimeString}";
+                el.Get("Text.Info").Text   = $"{I18N.Translate("WeatherForecast.In")} {forecast.TimeString}.";
             } else {
                 el.IsVisible = false;
             }

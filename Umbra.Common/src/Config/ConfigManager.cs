@@ -49,14 +49,6 @@ public static class ConfigManager
                 Cvars[id] = cvar;
             }
 
-            if (attr.Name != null) {
-                cvar.Name = attr.Name;
-            }
-
-            if (attr.Description != null) {
-                cvar.Description = attr.Description;
-            }
-
             if (attr.Category != null) {
                 cvar.Category = attr.Category;
             }
@@ -91,13 +83,20 @@ public static class ConfigManager
 
     public static List<string> GetCategories()
     {
-        return Cvars.Values.Select(cvar => cvar.Category).Where(c => c != null).Distinct().OrderBy(c => c).ToList()!;
+        return Cvars
+            .Values
+            .Select(cvar => cvar.Category)
+            .Where(c => c != null && I18N.Has($"CVAR.Group.{c}"))
+            .Distinct()
+            .OrderBy(c => c)
+            .ToList()!;
     }
 
     public static List<Cvar> GetVariablesFromCategory(string category)
     {
         return Cvars
-            .Values.Where(cvar => cvar.Category == category && cvar.Name != null && cvar.Category != null)
+            .Values
+            .Where(cvar => cvar.Category == category && I18N.Has($"CVAR.{cvar.Id}.Name") && cvar.Category != null)
             .ToList();
     }
 
@@ -205,8 +204,6 @@ public class Cvar(string id, object? defaultValue)
     public readonly   string             Id      = id;
     public readonly   object?            Default = defaultValue;
     public            string?            Category;
-    public            string?            Name;
-    public            string?            Description;
     public            object?            Value = defaultValue;
     public            float?             Min;
     public            float?             Max;

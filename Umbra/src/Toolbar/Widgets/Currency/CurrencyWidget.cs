@@ -30,25 +30,24 @@ namespace Umbra.Toolbar.Widgets.Gearset;
 [Service]
 internal partial class CurrencyWidget : IToolbarWidget
 {
-    [ConfigVariable(
-        "Toolbar.Widget.Currencies.Enabled",
-        "Toolbar Widgets",
-        "Show currency widget",
-        "Display a widget that allows you to quickly see an overview of your currencies."
-    )]
+    [ConfigVariable("Toolbar.Widget.Currencies.Enabled", "ToolbarWidgets")]
     private static bool Enabled { get; set; } = true;
 
     [ConfigVariable("Toolbar.Widget.Currencies.TrackedCurrencyId")]
     private static uint TrackedCurrencyId { get; set; }
 
-    private readonly List<uint>   _currencyIds;
-    private readonly IDataManager _dataManager;
-    private readonly Player       _player;
+    private readonly List<uint>          _currencyIds;
+    private readonly IDataManager        _dataManager;
+    private readonly Player              _player;
+    private readonly ToolbarPopupContext _ctx;
+
+    private int _lastCurrencyCount = 0;
 
     public CurrencyWidget(IDataManager dataManager, Player player, ToolbarPopupContext ctx)
     {
         _dataManager = dataManager;
         _player      = player;
+        _ctx         = ctx;
 
         _currencyIds = [
             1,                          // Gil
@@ -92,16 +91,24 @@ internal partial class CurrencyWidget : IToolbarWidget
         Element.IsVisible = true;
 
         if (0 == TrackedCurrencyId) {
-            Element.Get("Text").Text        = "Currencies";
+            Element.Get("Text").Text        = I18N.Translate("CurrencyWidget.Name");
             Element.Get("Icon").Text        = FontAwesomeIcon.Coins.ToIconString();
             Element.Get("Icon").Style.Image = null;
         } else {
             var trackedItem = _dataManager.GetExcelSheet<Item>()!.GetRow(TrackedCurrencyId);
 
             if (null != trackedItem) {
+                int currencyCount = _player.GetItemCount(TrackedCurrencyId);
+
+                if (_lastCurrencyCount != currencyCount) {
+                    _lastCurrencyCount          = currencyCount;
+                    Element.Get("Text").Padding = new(left: -16);
+                    Element.Get("Text").Animate(new Animation<OutElastic>(500) { Padding = new(left: 0) });
+                }
+
                 Element.Get("Icon").Style.Image = (uint)trackedItem.Icon;
-                Element.Get("Icon").Text = "";
-                Element.Get("Text").Text = $"{_player.GetItemCount(TrackedCurrencyId):N0} {trackedItem.Name}";
+                Element.Get("Icon").Text        = "";
+                Element.Get("Text").Text        = $"{currencyCount:N0} {trackedItem.Name}";
             }
         }
 

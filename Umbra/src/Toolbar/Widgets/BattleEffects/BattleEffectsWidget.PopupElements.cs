@@ -14,6 +14,7 @@
  *     GNU Affero General Public License for more details.
  */
 
+using Umbra.Common;
 using Umbra.Interface;
 
 namespace Umbra.Toolbar.Widgets.MainMenu;
@@ -26,7 +27,7 @@ internal sealed partial class BattleEffectsWidget
         children: [
             new(
                 id: "Header",
-                text: "Battle effect visibility",
+                text: I18N.Translate("BattleEffectsWidget.Title"),
                 size: new(0, 16),
                 padding: new(top: 8),
                 fit: true,
@@ -43,10 +44,10 @@ internal sealed partial class BattleEffectsWidget
                 padding: new(8, 0),
                 flow: Flow.Vertical,
                 children: [
-                    CreateEffectControllerRow("Self",   "Self"),
-                    CreateEffectControllerRow("Party",  "Party Members"),
-                    CreateEffectControllerRow("Others", "Other Players"),
-                    CreateEffectControllerRow("PvP",    "PvP Enemies"),
+                    CreateEffectControllerRow("Self",   I18N.Translate("BattleEffectsWidget.Self")),
+                    CreateEffectControllerRow("Party",  I18N.Translate("BattleEffectsWidget.Party")),
+                    CreateEffectControllerRow("Others", I18N.Translate("BattleEffectsWidget.Others")),
+                    CreateEffectControllerRow("PvP",    I18N.Translate("BattleEffectsWidget.PvP")),
                 ]
             ),
         ]
@@ -83,9 +84,12 @@ internal sealed partial class BattleEffectsWidget
                     padding: new(right: 8),
                     anchor: Anchor.TopLeft,
                     children: [
-                        new ButtonElement("None",    "None",    isGhost: true) { Anchor = Anchor.MiddleLeft },
-                        new ButtonElement("Limited", "Limited", isGhost: true) { Anchor = Anchor.MiddleLeft },
-                        new ButtonElement("Full",    "Full",    isGhost: true) { Anchor = Anchor.MiddleLeft },
+                        new ButtonElement("None", I18N.Translate("BattleEffectsWidget.None"), isGhost: true)
+                            { Anchor = Anchor.MiddleLeft },
+                        new ButtonElement("Limited", I18N.Translate("BattleEffectsWidget.Limited"), isGhost: true)
+                            { Anchor = Anchor.MiddleLeft },
+                        new ButtonElement("Full", I18N.Translate("BattleEffectsWidget.Full"), isGhost: true)
+                            { Anchor = Anchor.MiddleLeft },
                     ]
                 )
             ]

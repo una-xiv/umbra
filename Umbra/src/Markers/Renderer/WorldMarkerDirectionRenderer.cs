@@ -34,22 +34,10 @@ public sealed class WorldMarkerDirectionRenderer(
     Player           player
 )
 {
-    [ConfigVariable(
-        "Markers.Direction.Enabled",
-        "Marker Settings",
-        "Show direction markers",
-        "Shows the direction towards markers if it is off-screen."
-    )]
+    [ConfigVariable("Markers.Direction.Enabled", "MarkerSettings")]
     private static bool Enabled { get; set; } = true;
 
-    [ConfigVariable(
-        "Markers.Direction.Radius",
-        "Marker Settings",
-        "Direction marker radius",
-        "Defines the radius around the player character in which direction markers are shown.",
-        min: 64,
-        max: 600
-    )]
+    [ConfigVariable("Markers.Direction.Radius", "MarkerSettings", min: 64, max: 600)]
     private static int Radius { get; set; } = 300;
 
     public void Render(List<WorldMarkerObject> markers)
@@ -73,9 +61,11 @@ public sealed class WorldMarkerDirectionRenderer(
         float wSize = 64;
 
         var displaySize = ImGui.GetIO().DisplaySize;
+        var displayPos  = ImGui.GetMainViewport().Pos;
+
         // Move the marker to the edge of the screen if it's outside the screen.
-        var x = displaySize.X / 2 + MathF.Cos(angle) * ((displaySize.Y / 2) - Radius);
-        var y = displaySize.Y / 2 + MathF.Sin(angle) * ((displaySize.Y / 2) - Radius);
+        float x = displayPos.X + (displaySize.X / 2 + MathF.Cos(angle) * ((displaySize.Y / 2) - Radius));
+        float y = displayPos.Y + (displaySize.Y / 2 + MathF.Sin(angle) * ((displaySize.Y / 2) - Radius));
 
         var bounds = new Rect(new(x - (wSize / 2), y - (wSize / 2)), new(x + (wSize / 2), y + (wSize / 2)));
 

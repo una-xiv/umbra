@@ -15,8 +15,8 @@
  */
 
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
-using Lumina.Excel.GeneratedSheets2;
 using Umbra.Common;
 using Umbra.Game;
 using Umbra.Interface;
@@ -26,12 +26,7 @@ namespace Umbra.Toolbar.Widgets.Gearset;
 [Service]
 internal partial class GearsetWidget : IToolbarWidget
 {
-    [ConfigVariable(
-        "Toolbar.Widget.Gearset.Enabled",
-        "Toolbar Widgets",
-        "Show gearset switcher",
-        "Display a widget that allows you to switch between gearsets."
-    )]
+    [ConfigVariable("Toolbar.Widget.Gearset.Enabled", "ToolbarWidgets")]
     private static bool Enabled { get; set; } = true;
 
     private readonly GearsetRepository                    _gearsetRepository;
@@ -77,6 +72,7 @@ internal partial class GearsetWidget : IToolbarWidget
         UpdateWidget();
 
         if (_dropdownElement.IsVisible) {
+            Stopwatch sw = new Stopwatch();
             UpdateDropdown();
         }
     }

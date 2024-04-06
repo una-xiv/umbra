@@ -15,6 +15,7 @@
  */
 
 using System.Collections.Generic;
+using Umbra.Common;
 using Umbra.Interface;
 
 namespace Umbra.Toolbar.Widgets.Gearset;
@@ -57,7 +58,7 @@ internal partial class GearsetWidget
                         children: [
                             new(
                                 id: "Name",
-                                text: "Gearset Name",
+                                text: "",
                                 size: new(0, 25),
                                 style: new() {
                                     Font         = Font.Jupiter,
@@ -70,7 +71,7 @@ internal partial class GearsetWidget
                             ),
                             new(
                                 id: "Job",
-                                text: "Job",
+                                text: "",
                                 size: new(0, 20),
                                 padding: new(left: 2),
                                 style: new() {
@@ -87,12 +88,12 @@ internal partial class GearsetWidget
                                 size: new(0, 18),
                                 gap: 4,
                                 children: [
-                                    new ButtonElement("Update",    "Update",    isSmall: true),
-                                    new ButtonElement("Duplicate", "Duplicate", isSmall: true),
-                                    new ButtonElement("MoveUp",    "Move up",   isSmall: true),
-                                    new ButtonElement("MoveDown",  "Move Down", isSmall: true),
-                                    new ButtonElement("Delete", "Delete", isSmall: true, isGhost: true)
-                                        { Tooltip = "Right-click to delete.\n(No confirmation!)" },
+                                    new ButtonElement("Update",    I18N.Translate("GearsetWidget.Update"),    isSmall: true),
+                                    new ButtonElement("Duplicate", I18N.Translate("GearsetWidget.Duplicate"), isSmall: true),
+                                    new ButtonElement("MoveUp",    I18N.Translate("GearsetWidget.MoveUp"),   isSmall: true),
+                                    new ButtonElement("MoveDown",  I18N.Translate("GearsetWidget.MoveDown"), isSmall: true),
+                                    new ButtonElement("Delete", I18N.Translate("GearsetWidget.Delete"), isSmall: true, isGhost: true)
+                                        { Tooltip = I18N.Translate("GearsetWidget.Delete.Tooltip") },
                                 ]
                             )
                         ]
@@ -123,23 +124,23 @@ internal partial class GearsetWidget
                     BuildColumn(
                         "Left",
                         [
-                            BuildGroup("Tank",   "Tank"),
-                            BuildGroup("Healer", "Healer"),
-                            BuildGroup("Melee",  "Melee")
+                            BuildGroup("Tank",   I18N.Translate("GearsetWidget.Tank")),
+                            BuildGroup("Healer", I18N.Translate("GearsetWidget.Healer")),
+                            BuildGroup("Melee",  I18N.Translate("GearsetWidget.Melee")),
                         ]
                     ),
                     BuildColumn(
                         "Middle",
                         [
-                            BuildGroup("Ranged", "Physical Ranged"),
-                            BuildGroup("Caster", "Magic Ranged"),
+                            BuildGroup("Ranged", I18N.Translate("GearsetWidget.PhysicalRanged")),
+                            BuildGroup("Caster", I18N.Translate("GearsetWidget.MagicalRanged")),
                         ]
                     ),
                     BuildColumn(
                         "Right",
                         [
-                            BuildGroup("Crafter",  "Crafter"),
-                            BuildGroup("Gatherer", "Gatherer"),
+                            BuildGroup("Crafter",  I18N.Translate("GearsetWidget.Crafter")),
+                            BuildGroup("Gatherer", I18N.Translate("GearsetWidget.Gatherer")),
                         ]
                     ),
                 ]

@@ -67,9 +67,7 @@ public class ImageRepository
         if (Instance.TextureProvider == null)
             throw new InvalidOperationException("AssetManager has not been initialized.");
 
-        var pathInfo = new FileInfo(
-            Path.Combine(Path.GetDirectoryName(Framework.DalamudPlugin.AssemblyLocation.FullName)!, path)
-        );
+        var pathInfo = new FileInfo(Path.Combine(Framework.DalamudPlugin.AssemblyLocation.DirectoryName!, path));
 
         var texture = Instance.TextureProvider.GetTextureFromFile(pathInfo)
          ?? throw new InvalidOperationException($"Failed to load texture \"{path}\".");
@@ -86,11 +84,8 @@ public class ImageRepository
     {
         if (LocalImageCache.TryGetValue(path, out var cachedImage)) return cachedImage;
 
-        var pathInfo = new FileInfo(
-            Path.Combine(Path.GetDirectoryName(Framework.DalamudPlugin.AssemblyLocation.FullName)!, path)
-        );
-
-        var image = Image.Load<Rgba32>(pathInfo.FullName);
+        var pathInfo = new FileInfo(Path.Combine(Framework.DalamudPlugin.AssemblyLocation.DirectoryName!, path));
+        var image    = Image.Load<Rgba32>(pathInfo.FullName);
 
         LocalImageCache[path] = image;
 

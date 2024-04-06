@@ -26,12 +26,10 @@ internal partial class Toolbar(Player player, IToolbarWidget[] widgets)
 {
     public const int Height = 32;
 
-    [ConfigVariable(
-        "Toolbar.IsTopAligned",
-        "Toolbar Settings",
-        "Place the toolbar at the top of the screen.",
-        "Aligns the toolbar to the top of the screen rather than the bottom."
-    )]
+    [ConfigVariable("Toolbar.Enabled", "ToolbarSettings")]
+    private static bool Enabled { get; set; } = true;
+
+    [ConfigVariable("Toolbar.IsTopAligned", "ToolbarSettings")]
     public static bool IsTopAligned { get; set; } = false;
 
     private readonly List<IToolbarWidget> _widgets = [..widgets];
@@ -39,7 +37,7 @@ internal partial class Toolbar(Player player, IToolbarWidget[] widgets)
     [OnDraw]
     public void OnDraw()
     {
-        if (player.IsInCutscene) {
+        if (!Enabled || player.IsInCutscene) {
             _element.IsVisible = false;
             return;
         }

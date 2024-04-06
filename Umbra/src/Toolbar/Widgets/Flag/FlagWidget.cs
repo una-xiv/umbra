@@ -30,12 +30,7 @@ namespace Umbra.Toolbar.Widgets.Companion;
 [Service]
 internal partial class FlagWidget : IToolbarWidget
 {
-    [ConfigVariable(
-        "Toolbar.Widget.Flag.Enabled",
-        "Toolbar Widgets",
-        "Show flag widget",
-        "Shows a widget when the flag marker is set that allows you to teleport to a nearby aetheryte."
-    )]
+    [ConfigVariable("Toolbar.Widget.Flag.Enabled", "ToolbarWidgets")]
     private static bool Enabled { get; set; } = true;
 
     private readonly IAetheryteList _aetheryteList;
@@ -47,6 +42,7 @@ internal partial class FlagWidget : IToolbarWidget
 
     private AetheryteEntry? _aetheryteEntry;
     private string?         _aetheryteKey;
+    private string?         _lastMarkerKey;
 
     public FlagWidget(IAetheryteList aetheryteList, IZoneManager zoneManager, Player player)
     {
@@ -68,7 +64,7 @@ internal partial class FlagWidget : IToolbarWidget
             _aetheryteEntry = null;
         };
 
-        Element.Tooltip = $"Left-click:     Teleport\nRight-click:  Remove flag marker";
+        Element.Tooltip = I18N.Translate("LocationWidget.Tooltip");
     }
 
     public void OnDraw()
@@ -83,9 +79,7 @@ internal partial class FlagWidget : IToolbarWidget
         if (IsFlagMarkerSet()) UpdateWidgetInfoState();
     }
 
-    public void OnUpdate()
-    {
-    }
+    public void OnUpdate() { }
 
     [OnTick(interval: 2000)]
     public void OnTick()
@@ -168,6 +162,12 @@ internal partial class FlagWidget : IToolbarWidget
 
         if (_aetheryteKey == cacheKey) return;
 
+        if (_lastMarkerKey != cacheKey) {
+            _lastMarkerKey = cacheKey;
+            _icon.Padding  = new(-16);
+            _icon.Animate(new Animation<InOutCirc>(500) { Padding = new(0) });
+        }
+
         Zone    zone = _zoneManager.GetZone(map->FlagMapMarker.MapId);
         Vector2 pos  = MapUtil.WorldToMap(new(map->FlagMapMarker.XFloat, map->FlagMapMarker.YFloat), zone.MapSheet);
 
@@ -184,14 +184,14 @@ internal partial class FlagWidget : IToolbarWidget
             );
 
         if (_aetheryteEntry == null) {
-            _info.Text = "No Aetheryte to teleport to";
+            _info.Text = I18N.Translate("LocationWidget.NoAetheryteNearby");
             return;
         }
 
         var placeName = _aetheryteEntry.AetheryteData.GameData!.PlaceName.Value!.Name.ToString();
 
         _info.Text = placeName == zone.Name
-            ? $"Teleport nearby for {_aetheryteEntry.GilCost} gil"
-            : $"Teleport to {placeName} for {_aetheryteEntry.GilCost} gil";
+            ? I18N.Translate("LocationWidget.TeleportNearbyForGil",  _aetheryteEntry.GilCost.ToString("D"))
+            : I18N.Translate("LocationWidget.TeleportToPlaceForGil", placeName, _aetheryteEntry.GilCost.ToString("D"));
     }
 }
