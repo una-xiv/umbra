@@ -68,7 +68,7 @@ public sealed class Gearset(ushort id, Player player)
 
         // Intermediate values.
         bool   isChanged  = false;
-        string name       = Marshal.PtrToStringAnsi((IntPtr)gearset->Name) ?? "Unknown Gearset";
+        string name       = Marshal.PtrToStringUTF8((IntPtr)gearset->Name) ?? "Unknown Gearset";
         byte   jobId      = gearset->ClassJob;
         short  itemLevel  = gearset->ItemLevel;
         bool   isCurrent  = gsm->CurrentGearsetIndex == Id;
