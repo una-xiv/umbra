@@ -110,7 +110,7 @@ public sealed class ClipRectProvider
 
             if (null == unit || !unit->IsVisible || null == unit->WindowNode) continue;
 
-            string? name = Marshal.PtrToStringAnsi(new IntPtr(unit->Name));
+            string? name = Marshal.PtrToStringUTF8(new IntPtr(unit->Name));
             if (name == "_FocusTargetInfo" || name == "JobHudNotice") continue;
 
             iterator((IntPtr)unit, name ?? string.Empty);

@@ -53,7 +53,7 @@ internal sealed class HuntWorldMarkerFactory(IDataManager dataManager) : IWorldM
 
             if (nm == null) continue;
 
-            var name = Marshal.PtrToStringAnsi((nint)bc->Character.GameObject.Name) ?? "???";
+            var name = Marshal.PtrToStringUTF8((nint)bc->Character.GameObject.Name) ?? "???";
             var rank = _rankPrefixes[nm.Rank];
             var p    = bc->Character.GameObject.Position;
 
