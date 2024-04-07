@@ -17,7 +17,23 @@ automatic layout calculation, event handling, and rendering of widgets. The libr
 class, which can be used as a standalone container or as a base class for custom UI components. Its API roughly
 resembles that of HTML and CSS, but is more limited in scope due to the immediate mode nature of ImGui.
 
-Although the library could be used standalone, it is primarily developed to be used in conjunction with the Umbra
+The motivation behind this library is to abstract away the complexity of dynamic layout composition and separation of
+concerns between functional and presentational code. For example, you declare interface elements once and then update
+their properties based on user input or other factors. The library takes care of the layout and rendering, so you don't
+have to worry about the details of how the elements are positioned and sized. This takes a similar concept to the
+"declarative UI" approach used in web development, where you define the structure of the UI and let the framework handle
+the rendering.
+
+Elements are composed of a tree structure, where each element can have children. The layout of the elements is then
+determined based on the Anchor and Flow properties of the elements. Elements themselves contain properties that directly
+affect their layout, such as size, margin, padding, visibility, and more. The graphical appearance of the elements is
+determined by the Style property, which holds a reference to a Style object. The Style object contains properties that
+affect the appearance of the element, such as color, font, outline, background, and more. Modifications to the Style
+object typically don't trigger a "reflow" of the element, meaning that the layout is not recalculated when the Style
+object is modified. This is useful for creating dynamic UIs where the layout is fixed, but the appearance can change
+dynamically based on user interaction or other factors.
+
+> Although the library could be used standalone, it is primarily developed to be used in conjunction with the Umbra
 Framework.
 
 ## Quick Start
@@ -121,6 +137,18 @@ var textElement = element.Get("child1.child2.myTextElement");
 textElement.Text = "Hello, World!";
 ```
 
+## Tagged Elements
+
+Elements can be tagged with a string value. This is useful for grouping elements together or for querying elements
+based on a specific tag. An element can hold a single tag for performance reasons. The tag can be set using the `Tag`
+property of the element. You can use the `FindByTag` method to query for elements that have the specified tag. This
+operation is not recursive by default, but can be made recursive by setting the `recursive` parameter to `true`.
+
+```csharp
+// Hide all elements tagged with "buttons" in the tree.
+element.FindByTag("buttons", recursive: true).ForEach(button => button.IsVisible = false);
+```
+
 ## Events
 
 Element become interactive once one or more event listeners are attached. The following events are supported:
@@ -140,3 +168,54 @@ Any property that affects text rendering can be inherited from parent elements, 
 font, color, outline, etc. at the root element and have it applied to all children, unless they override it. Properties
 that affect the background color, gradients, image processing, etc. are not inherited because they are considered to be
 more specific to a single element rather than a group of elements.
+
+Rendering of styled elements is done in multiple passes, depending on which properties have values. The render order is
+defined as follows:
+
+1. Shadow 
+2. Background (Solid and gradients)
+3. Image (Icons and textures)
+4. Borders (BackgroundBorder and individual edges)
+5. Text
+
+You find see the implementation of this in the `Element.Renderer.cs` file. The rendering implementations themselves are
+separated in in several files located in the `Element/Rendering` directory.
+
+## Animation
+
+The `Element` class has built-in support for animating properties. This is done by using the `Animate` method, which
+accepts an instance of the `Animation` class. The `Animation` class consists of animatable properties, such as `Offset`,
+`Size`, `Padding`, `Margin`, any color or gradient style properties and more.
+
+The `Animation` class takes in an easing function as a generic type parameter and a duration in milliseconds. The easing
+function determines how the animation progresses over time. The library relies on the easing function from Dalamud but
+uses custom wrappers to allow them to be used as typed parameters for a cleaner API.
+
+The properties in the `Animation` class define the "end goal" of the element. This means that if your element currently
+has an offset of `(0, 0)` and the animation class defines an offset of `(250, 0)`, the element will animate from `(0, 0)`
+to `(250, 0)` over the specified duration and be interpolated based on the configured easing function.
+
+```csharp
+using Umbra.Interface;
+
+// Create a simple 32x32 red block.
+Element element = new(
+    id     : "MyElement",
+    size   : new (32, 32),
+    offset : new (0, 0),
+    style  : new Style { BackgroundColor = 0xFF0000FF }
+);
+
+// Animate the element to move 250 pixels to the right over 500 milliseconds.
+element.Animate(new Animation<OutElastic>(500) {
+    Offset = new (250, 0)
+});
+```
+
+As soon as you start rendering the element, the animation will be updated automatically. The animation will be stopped
+once it reaches its end goal. If you wish to repeat the animation, you can set the "once" parameter to `false` in the
+`Animate` method, which is `true` by default.
+
+Note that some properties, such as padding and margin in particular may not always work due to the configured anchors
+and flows. If your goal is to simply move an element from one place to another, you should use the `Offset` property
+instead, which always triggers a layout reflow.
