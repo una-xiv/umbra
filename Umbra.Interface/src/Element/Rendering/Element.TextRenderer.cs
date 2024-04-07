@@ -14,6 +14,7 @@
  *     GNU Affero General Public License for more details.
  */
 
+using System;
 using System.Numerics;
 using ImGuiNET;
 
@@ -34,7 +35,7 @@ public partial class Element
         bool shouldWrap = Size.Width > 0 && _computedStyle.TextWrap == true;
 
         Vector2 textSize = shouldWrap
-            ? ImGui.CalcTextSize(Text, (float)(Size.Width - Padding.Horizontal))
+            ? ImGui.CalcTextSize(Text, (float)Math.Max(16, Size.Width - Padding.Horizontal))
             : ImGui.CalcTextSize(Text);
 
         Rect    rect  = ContentBox;
@@ -66,7 +67,7 @@ public partial class Element
             }
 
             ImGui.SetCursorScreenPos(ContentBox.Min);
-            ImGui.BeginChildFrame(_wrappedTextFrameId, textSize, ImGuiWindowFlags.NoMouseInputs | ImGuiWindowFlags.NoInputs);
+            ImGui.BeginChildFrame(_wrappedTextFrameId, textSize, ImGuiWindowFlags.NoMouseInputs | ImGuiWindowFlags.NoInputs | ImGuiWindowFlags.AlwaysAutoResize | ImGuiWindowFlags.NoScrollbar);
             ImGui.PushStyleColor(ImGuiCol.Text, _computedStyle.TextColor?.Value ?? 0xFFC0C0C0);
             ImGui.TextWrapped(Text);
             ImGui.PopStyleColor();

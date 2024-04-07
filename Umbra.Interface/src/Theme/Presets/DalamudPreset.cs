@@ -53,7 +53,7 @@ public class DalamudPreset : IThemePreset, ILiveThemePreset
         TextMuted           = ImGui.GetColorU32(ImGuiCol.TextDisabled);
         TextOutline         = ImGui.GetColorU32(ImGuiCol.Border).ApplyAlphaComponent(0.55f);
         TextOutlineLight    = ImGui.GetColorU32(ImGuiCol.Border).ApplyAlphaComponent(0.85f);
-        HighlightBackground = ImGui.GetColorU32(ImGuiCol.TabHovered);
+        HighlightBackground = ImGui.GetColorU32(ImGuiCol.TabActive);
         HighlightForeground = ImGui.GetColorU32(ImGuiCol.Text);
         HighlightOutline    = ImGui.GetColorU32(ImGuiCol.Border).ApplyAlphaComponent(0.55f);
         Accent              = ImGui.GetColorU32(ImGuiCol.TabActive).ApplyAlphaComponent(0.35f);
