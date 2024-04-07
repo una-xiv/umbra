@@ -97,6 +97,8 @@
     "CVAR.Markers.DistanceOpacity.Description": "Wenn aktiviert, wird die Transparenz von Weltmarkern basierend auf dem Abstand zum Marker angepasst. Die tatsächlichen Verblassungsabstände werden von den Markerarten selbst gesteuert.",
     "CVAR.Markers.EurekaCoffers.Enabled.Name": "Eureka-Truhen-Marker anzeigen",
     "CVAR.Markers.EurekaCoffers.Enabled.Description": "Zeigt mögliche Eureka Bunny Truhen nach der Verwendung der Glückskarotte an. Welche Truhen angezeigt werden, hängt von Ihrem Standort und dem Text ab, der nach der Verwendung der Glückskarotte angezeigt wird.",
+    "CVAR.Markers.EurekaCoffers.AddMapMarkers.Name": "Kartenmarkierungen für entdeckte Eureka-Truhen hinzufügen",
+    "CVAR.Markers.EurekaCoffers.AddMapMarkers.Description": "Fügt Kartenmarkierungen für erkannte Standorte von Eureka-Bunny-Truhen hinzu. Beachten Sie, dass diese Funktion nicht verfügbar ist, wenn das Eureka-Linker-Plugin ebenfalls installiert und aktiviert ist, da es eine ähnliche Funktionalität bietet.",
     "CVAR.Markers.Fate.Enabled.Name": "FATE-Marker anzeigen",
     "CVAR.Markers.Fate.Enabled.Description": "Zeigt Weltmarker für FATEs in der aktuellen Zone an.",
     "CVAR.Markers.Flag.Enabled.Name": "Flaggen-Marker anzeigen",

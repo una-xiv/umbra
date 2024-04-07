@@ -114,12 +114,13 @@ public sealed class WorldMarkerRenderer(
 
     private bool IsMarkerOccluded(Vector3 position)
     {
-        var pos = gameCamera.CameraPosition;
-        var dir = Vector3.Normalize(position - pos);
+        var markerPos = position + new Vector3(0, 1.8f, 0);
+        var cameraPos = gameCamera.CameraPosition;
+        var dir       = Vector3.Normalize(markerPos - cameraPos);
 
-        if (false == BGCollisionModule.Raycast(pos, dir, out var hit)) return false;
+        if (false == BGCollisionModule.Raycast(cameraPos, dir, out var hit)) return false;
 
-        return Vector3.Distance(pos, hit.Point) < Vector3.Distance(pos, position);
+        return Vector3.Distance(cameraPos, hit.Point) < Vector3.Distance(cameraPos, markerPos);
     }
 
     private static Element BuildElement(WorldMarkerObject marker, float distance)

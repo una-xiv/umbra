@@ -21,9 +21,12 @@ namespace Umbra.Markers;
 
 internal sealed partial class EurekaCoffersWorldMarkerFactory
 {
+    // Coffer positions borrowed from Eureka Linker plugin by Infi, electr0sheep.
+    // https://github.com/Infiziert90/EurekaTrackerAutoPopper
+    // High level bunnies are omitted from the list.
     private static readonly Dictionary<uint, List<Vector3>> CofferPositions = new() {
         {
-            763, new List<Vector3> {
+            763, [
                 // Pagos
                 new(-737.83690f, -677.9246f, 143.3176f),
                 new(-651.98720f, -688.063f, 085.1839f),
@@ -55,10 +58,10 @@ internal sealed partial class EurekaCoffersWorldMarkerFactory
                 new(530.784900f, -720.4700f, 230.5152f),
                 new(543.909000f, -730.7676f, 355.7726f),
                 new(631.058800f, -730.9005f, 317.3849f),
-                new(643.954300f, -702.8303f, 117.7415f),
-            }
+                new(643.954300f, -702.8303f, 117.7415f)
+            ]
         }, {
-            795, new List<Vector3> {
+            795, [
                 // Pyros
                 new(-469.810200f, 659.1795f, 441.7094f),
                 new(-464.448400f, 660.6446f, 419.2033f),
@@ -89,10 +92,10 @@ internal sealed partial class EurekaCoffersWorldMarkerFactory
                 new(432.9954000f, 731.984f, 568.7686f),
                 new(448.9699000f, 725.0576f, 457.0699f),
                 new(460.4148000f, 723.1206f, 311.0332f),
-                new(469.0294000f, 726.3409f, 535.0562f),
-            }
+                new(469.0294000f, 726.3409f, 535.0562f)
+            ]
         }, {
-            827, new List<Vector3> {
+            827, [
                 // Hydatos
                 new(-933.61840f, 523.23627f, -736.6334f),
                 new(-920.34970f, 505.9977f, -172.3633f),
@@ -123,8 +126,8 @@ internal sealed partial class EurekaCoffersWorldMarkerFactory
                 new(832.605500f, 513.5617f, -520.9632f),
                 new(843.430500f, 494.44394f, -7.3525977f),
                 new(851.303200f, 517.4547f, -883.74927f),
-                new(872.144700f, 518.4930f, -237.8645f),
-            }
+                new(872.144700f, 518.4930f, -237.8645f)
+            ]
         }
     };
 }

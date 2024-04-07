@@ -97,6 +97,8 @@
     "CVAR.Markers.DistanceOpacity.Description": "有効にすると、ワールドマーカーの不透明度がマーカータイプ自体によって制御される距離に基づいて調整されます。実際のフェーディング距離はマーカータイプ自体で制御されます。",
     "CVAR.Markers.EurekaCoffers.Enabled.Name": "ユーレカ宝箱マーカーを表示する",
     "CVAR.Markers.EurekaCoffers.Enabled.Description": "ラッキーキャロットを使用した後に表示される可能性のあるユーレカバニー宝箱を表示します。表示される宝箱はあなたの位置とラッキーキャロットを使用した後に表示されるテキストに基づきます。",
+    "CVAR.Markers.EurekaCoffers.AddMapMarkers.Name": "検出されたユーレカ宝箱のマップマーカーを追加",
+    "CVAR.Markers.EurekaCoffers.AddMapMarkers.Description": "検出されたユーレカバニーコフィアの場所のマップマーカーを追加します。Eureka Linker プラグインもインストールおよび有効化されている場合、この機能は利用できません。なぜなら、それも同様の機能を提供するからです。",
     "CVAR.Markers.Fate.Enabled.Name": "FATE マーカーを表示する",
     "CVAR.Markers.Fate.Enabled.Description": "現在のゾーンのFATE用のワールドマーカーを表示します。",
     "CVAR.Markers.Flag.Enabled.Name": "フラッグマーカーを表示する",

@@ -97,6 +97,8 @@
     "CVAR.Markers.DistanceOpacity.Description": "If enabled, the opacity of world markers is adjusted based on the distance to the marker. The actual fading distances are controlled by the marker types themselves.",
     "CVAR.Markers.EurekaCoffers.Enabled.Name": "Show Eureka coffer markers",
     "CVAR.Markers.EurekaCoffers.Enabled.Description": "Shows possible Eureka Bunny Coffers after using the Lucky Carrot. Which coffers are shown is based on your location and the text that appears after using the lucky carrot.",
+    "CVAR.Markers.EurekaCoffers.AddMapMarkers.Name": "Add map markers for detected Eureka coffers",
+    "CVAR.Markers.EurekaCoffers.AddMapMarkers.Description": "Adds map markers for detected Eureka Bunny Coffer locations. Note that this feature is unavailable if the Eureka Linker plugin is also installed and enabled, since it also provides similar functionality.",
     "CVAR.Markers.Fate.Enabled.Name": "Show FATE markers",
     "CVAR.Markers.Fate.Enabled.Description": "Shows world markers for FATEs in the current zone.",
     "CVAR.Markers.Flag.Enabled.Name": "Show flag marker",

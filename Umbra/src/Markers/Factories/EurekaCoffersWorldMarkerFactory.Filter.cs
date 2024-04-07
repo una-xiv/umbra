@@ -93,5 +93,7 @@ internal sealed partial class EurekaCoffersWorldMarkerFactory
         } else if (direction.Equals("northwest", StringComparison.OrdinalIgnoreCase)) {
             _detectedCofferPositions = coffers.Where(c => c.Z <= playerPos.Z && c.X <= playerPos.X).ToList();
         }
+
+        AddMapMarkers();
     }
 }

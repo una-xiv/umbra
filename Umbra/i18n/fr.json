@@ -97,6 +97,8 @@
     "CVAR.Markers.DistanceOpacity.Description": "Si activé, l'opacité des marqueurs mondiaux est ajustée en fonction de la distance par rapport au marqueur. Les distances de fondu réelles sont contrôlées par les types de marqueurs eux-mêmes.",
     "CVAR.Markers.EurekaCoffers.Enabled.Name": "Afficher les marqueurs de coffres Eureka",
     "CVAR.Markers.EurekaCoffers.Enabled.Description": "Affiche les possibles marqueurs de coffres Eureka Bunny après avoir utilisé la Carotte Chanceuse. Les coffres affichés dépendent de votre emplacement et du texte qui apparaît après avoir utilisé la carotte chanceuse.",
+    "CVAR.Markers.EurekaCoffers.AddMapMarkers.Name": "Ajouter des marqueurs de carte pour les coffres Eureka détectés",
+    "CVAR.Markers.EurekaCoffers.AddMapMarkers.Description": "Ajoute des marqueurs de carte pour les emplacements des coffres de lapin Eureka détectés. Notez que cette fonctionnalité n'est pas disponible si le plugin Eureka Linker est également installé et activé, car il offre également une fonctionnalité similaire.",
     "CVAR.Markers.Fate.Enabled.Name": "Afficher les marqueurs de FATE",
     "CVAR.Markers.Fate.Enabled.Description": "Affiche les marqueurs mondiaux pour les FATEs dans la zone actuelle.",
     "CVAR.Markers.Flag.Enabled.Name": "Afficher le marqueur de drapeau",

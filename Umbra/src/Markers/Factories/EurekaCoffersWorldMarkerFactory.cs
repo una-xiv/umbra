@@ -18,7 +18,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using Dalamud.Game.ClientState.Fates;
 using Dalamud.Plugin.Services;
+using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using Umbra.Common;
 using Umbra.Game;
 
@@ -30,6 +32,9 @@ internal sealed partial class EurekaCoffersWorldMarkerFactory : IWorldMarkerFact
     [ConfigVariable("Markers.EurekaCoffers.Enabled", "EnabledMarkers")]
     private static bool Enabled { get; set; } = true;
 
+    [ConfigVariable("Markers.EurekaCoffers.AddMapMarkers", "MarkerSettings")]
+    private static bool EnableMapMarkers { get; set; } = false;
+
     private const uint LuckyCarrotItemId = 2002482;
     private const int  MinFateRespawn    = 530;
     private const int  MaxFateRespawn    = 1000;
@@ -37,9 +42,9 @@ internal sealed partial class EurekaCoffersWorldMarkerFactory : IWorldMarkerFact
     private long _lastBunnyFateSpawnTime;
 
     private static readonly Dictionary<uint, Vector3> BunnyFateSpawnPositions = new() {
-        { 763, new Vector3(-166.60582f, -737.8845f, 295.7869f) },   // Pagos
-        { 795, new Vector3(143.62721f,  707.92615f, 230.7047f) },   // Pyros
-        { 827, new Vector3(-381.98996f, 499.92233f, -470.78052f) }, // Hydatos.
+        { 763, new (-167.355f, -737.6541f, 303.0736f) }, // Pagos
+        { 795, new (122.938f, 706.2372f, 236.9468f) },   // Pyros
+        { 827, new (-370.0691f, 499.4355f, -477.2511f) },// Hydatos.
     };
 
     private static readonly Dictionary<uint, uint> BunnyFateIds = new() {
@@ -54,6 +59,7 @@ internal sealed partial class EurekaCoffersWorldMarkerFactory : IWorldMarkerFact
     private readonly Player       _player;
 
     private List<Vector3> _detectedCofferPositions = [];
+    private bool          _hasPlacedMapMarkers;
 
     public EurekaCoffersWorldMarkerFactory(
         IZoneManager zoneManager, IChatGui chatGui, IFateTable fateTable, Player player
@@ -77,15 +83,18 @@ internal sealed partial class EurekaCoffersWorldMarkerFactory : IWorldMarkerFact
         if (false == Enabled
          || !CofferPositions.ContainsKey(_zoneManager.CurrentZone.TerritoryId)) {
             _lastBunnyFateSpawnTime = 0;
+            ResetMapMarkers();
+
             return [];
         }
 
-        bool isFateRunning                        = IsBunnyFateActive();
-        if (isFateRunning) _lastBunnyFateSpawnTime = DateTimeOffset.Now.ToUnixTimeSeconds();
+        if (BunnyFate() is not null) _lastBunnyFateSpawnTime = DateTimeOffset.Now.ToUnixTimeSeconds();
 
         // If the player doesn't have the Lucky Carrot, but is in Eureka, show the bunny fate spawn marker.
         if (false == _player.HasItemInInventory(LuckyCarrotItemId)) {
             _detectedCofferPositions.Clear();
+            ResetMapMarkers();
+
             return GetBunnyFateSpawnMarker();
         }
 
@@ -95,7 +104,7 @@ internal sealed partial class EurekaCoffersWorldMarkerFactory : IWorldMarkerFact
                     Position        = position,
                     IconId          = 60356,
                     MinOpacity      = 0f,
-                    MaxOpacity      = 1,
+                    MaxOpacity      = Vector3.Distance(_player.Position, position) > 200 ? 0.30f : 1,
                     MinFadeDistance = 1,
                     MaxFadeDistance = 5,
                 }
@@ -109,10 +118,12 @@ internal sealed partial class EurekaCoffersWorldMarkerFactory : IWorldMarkerFact
             return [];
         }
 
-        string? subLabel = null;
+        string? subLabel  = null;
+        Fate?   bunnyFate = BunnyFate();
 
-        if (_lastBunnyFateSpawnTime > 0) {
-            var currentTime    = DateTimeOffset.Now.ToUnixTimeSeconds();
+        if (bunnyFate is null && _lastBunnyFateSpawnTime > 0) {
+            long currentTime = DateTimeOffset.Now.ToUnixTimeSeconds();
+
             var minRespawnTime = TimeSpan.FromSeconds(_lastBunnyFateSpawnTime + MinFateRespawn - currentTime);
             var maxRespawnTime = TimeSpan.FromSeconds(_lastBunnyFateSpawnTime + MaxFateRespawn - currentTime);
 
@@ -125,8 +136,12 @@ internal sealed partial class EurekaCoffersWorldMarkerFactory : IWorldMarkerFact
             }
         }
 
+        if (bunnyFate is not null) {
+            subLabel = $@"{bunnyFate.Progress}% - {TimeSpan.FromSeconds(bunnyFate.TimeRemaining):mm\:ss} remaining";
+        }
+
         return [
-            new WorldMarker {
+            new() {
                 Position        = position,
                 IconId          = 60723,
                 Label           = "Bunny Fate",
@@ -139,12 +154,59 @@ internal sealed partial class EurekaCoffersWorldMarkerFactory : IWorldMarkerFact
         ];
     }
 
-    private bool IsBunnyFateActive()
+    private Fate? BunnyFate()
     {
-        if (!BunnyFateIds.TryGetValue(_zoneManager.CurrentZone.TerritoryId, out uint fateId)) {
-            return false;
+        return BunnyFateIds.TryGetValue(_zoneManager.CurrentZone.TerritoryId, out uint fateId)
+            ? _fateTable.FirstOrDefault(fate => fate.FateId == fateId)
+            : null;
+    }
+
+    private unsafe void AddMapMarkers()
+    {
+        if (!EnableMapMarkers) {
+            ResetMapMarkers();
+            return;
         }
 
-        return _fateTable.Any(fate => fate.FateId == fateId);
+        if (Framework.DalamudPlugin.InstalledPlugins.Any(plugin => plugin is {
+            InternalName: "eurekaTrackerAutoPopper",
+            IsLoaded: true
+        })) {
+            // Don't show map markers if the Eureka Tracker Auto Popper plugin is loaded.
+            Logger.Debug("Eureka Linker plugin is loaded. Not adding map markers.");
+            return;
+        }
+
+        AgentMap* map = AgentMap.Instance();
+        if (null == map) return;
+
+        map->ResetMapMarkers();
+        map->ResetMiniMapMarkers();
+
+        foreach (var pos in _detectedCofferPositions) {
+            var mapPos = pos;
+
+            if (_zoneManager.CurrentZone.TerritoryId == 827) {
+                mapPos.Z += 475; // Offset for Hydatos.
+            }
+
+            map->AddMapMarker(mapPos, 60356);
+            map->AddMiniMapMarker(pos, 60356);
+        }
+
+        _hasPlacedMapMarkers = true;
+    }
+
+    private unsafe void ResetMapMarkers()
+    {
+        if (false == _hasPlacedMapMarkers) return;
+
+        AgentMap* map = AgentMap.Instance();
+        if (null == map) return;
+
+        map->ResetMapMarkers();
+        map->ResetMiniMapMarkers();
+
+        _hasPlacedMapMarkers = false;
     }
 }
