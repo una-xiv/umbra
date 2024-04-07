@@ -16,16 +16,16 @@
 
 using System.Numerics;
 using ImGuiNET;
-using Umbra.Common;
 using Umbra.Interface;
 
 namespace Umbra.Toolbar;
 
 internal partial class Toolbar
 {
-    private const uint Color1      = 0xFF2F2F2F;
-    private const uint Color2      = 0xFF212021;
-    private const int  ItemSpacing = 6;
+    private readonly Color _color1 = Theme.Color(ThemeColor.BackgroundLight);
+    private readonly Color _color2 = Theme.Color(ThemeColor.Background);
+
+    private const int ItemSpacing = 6;
 
     private float _xPosition;
     private float _yPosition;
@@ -36,8 +36,8 @@ internal partial class Toolbar
         size: new(0, Height),
         flow: Flow.Horizontal,
         children: [
-            new GradientElement(gradient: Gradient.Vertical(Color1, Color2)),
-            new BorderElement(padding: new(-1), color: 0xFF505050),
+            new GradientElement(gradient: new(0u)),
+            new BorderElement(padding: new(-1), color: Theme.Color(ThemeColor.Border)),
             new("Left", anchor: Anchor.MiddleLeft, gap: ItemSpacing, padding: new(left: ItemSpacing)),
             new("Middle", anchor: Anchor.MiddleCenter, gap: ItemSpacing),
             new("Right", anchor: Anchor.MiddleRight, gap: ItemSpacing, padding: new(right: ItemSpacing)),
@@ -57,8 +57,8 @@ internal partial class Toolbar
         _element.Size   = new((int)displaySize.X, Height);
 
         _element.Get<GradientElement>().Gradient = Gradient.Vertical(
-            IsTopAligned ? Color2 : Color1,
-            IsTopAligned ? Color1 : Color2
+            IsTopAligned ? _color2 : _color1,
+            IsTopAligned ? _color1 : _color2
         );
     }
 

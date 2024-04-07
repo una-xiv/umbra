@@ -76,8 +76,8 @@ internal partial class CurrencyWidget : IToolbarWidget
         BuildCurrencyItemList();
         AlignCurrencyRows();
 
-        Element.OnMouseEnter += () => Element.Style.TextColor = 0xFFFFFFFF;
-        Element.OnMouseLeave += () => Element.Style.TextColor = 0xFFC0C0C0;
+        Element.OnMouseEnter += () => Element.Style.TextColor = Theme.Color(ThemeColor.TextLight);
+        Element.OnMouseLeave += () => Element.Style.TextColor = Theme.Color(ThemeColor.Text);
         Element.OnRightClick += OnRightClick;
     }
 

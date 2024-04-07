@@ -53,12 +53,12 @@ internal sealed partial class WorldMarkerMenuWidget : IToolbarWidget
     private void OnMouseEnter()
     {
         Element.Get<BorderElement>().Color     = 0xFF6A6A6A;
-        Element.Get<BackgroundElement>().Color = 0xFF232223;
+        Element.Get<BackgroundElement>().Color = Theme.Color(ThemeColor.Background);
     }
 
     private void OnMouseLeave()
     {
-        Element.Get<BorderElement>().Color     = 0xFF3F3F3F;
-        Element.Get<BackgroundElement>().Color = 0xFF1A1A1A;
+        Element.Get<BorderElement>().Color     = Theme.Color(ThemeColor.Border);
+        Element.Get<BackgroundElement>().Color = Theme.Color(ThemeColor.BackgroundDark);
     }
 }

@@ -36,6 +36,9 @@ internal sealed partial class ConfigWindow : Window
 
         _selectedCategory = ConfigManager.GetCategories().First();
         ConfigManager.GetCategories().ForEach(AddCategory);
+
+        BuildAppearanceButton();
+        BuildAppearancePanel();
     }
 
     protected override void OnDraw(int instanceId)

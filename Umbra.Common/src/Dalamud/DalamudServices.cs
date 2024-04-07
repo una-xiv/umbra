@@ -83,6 +83,9 @@ internal sealed class DalamudServices
     private IKeyState KeyState { get; init; } = null!;
 
     [PluginService]
+    private INotificationManager NotificationManager { get; init; } = null!;
+
+    [PluginService]
     private IObjectTable ObjectTable { get; init; } = null!;
 
     [PluginService]

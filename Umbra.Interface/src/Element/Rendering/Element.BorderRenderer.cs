@@ -31,7 +31,7 @@ public partial class Element
             drawList.AddLine(
                 rect.Min,
                 new (rect.Max.X, rect.Min.Y),
-                _computedStyle.BorderColor.Top.ApplyAlphaComponent(_computedStyle.Opacity ?? 1),
+                _computedStyle.BorderColor.Top.ApplyAlpha(_computedStyle.Opacity ?? 1),
                 width.Top
             );
         }
@@ -40,7 +40,7 @@ public partial class Element
             drawList.AddLine(
                 new (rect.Min.X, rect.Max.Y),
                 rect.Max,
-                _computedStyle.BorderColor.Bottom.ApplyAlphaComponent(_computedStyle.Opacity ?? 1),
+                _computedStyle.BorderColor.Bottom.ApplyAlpha(_computedStyle.Opacity ?? 1),
                 width.Bottom
             );
         }
@@ -49,7 +49,7 @@ public partial class Element
             drawList.AddLine(
                 rect.Min,
                 new (rect.Min.X, rect.Max.Y),
-                _computedStyle.BorderColor.Left.ApplyAlphaComponent(_computedStyle.Opacity ?? 1),
+                _computedStyle.BorderColor.Left.ApplyAlpha(_computedStyle.Opacity ?? 1),
                 width.Left
             );
         }
@@ -58,7 +58,7 @@ public partial class Element
             drawList.AddLine(
                 new (rect.Max.X, rect.Min.Y),
                 rect.Max,
-                _computedStyle.BorderColor.Right.ApplyAlphaComponent(_computedStyle.Opacity ?? 1),
+                _computedStyle.BorderColor.Right.ApplyAlpha(_computedStyle.Opacity ?? 1),
                 width.Right
             );
         }

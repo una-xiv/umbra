@@ -29,7 +29,7 @@ internal partial class CurrencyWidget
         size: new(0, 28),
         padding: new(left: 6),
         gap: 6,
-        style: new() { TextColor = 0xFFC0C0C0 },
+        style: new() { TextColor = Theme.Color(ThemeColor.Text) },
         children: [
             new(
                 id: "Icon",
@@ -39,7 +39,7 @@ internal partial class CurrencyWidget
                 style: new() {
                     Font         = Font.FontAwesome,
                     TextAlign    = Anchor.MiddleCenter,
-                    OutlineColor = 0xFF000000,
+                    OutlineColor = Theme.Color(ThemeColor.TextOutlineLight),
                     OutlineWidth = 1,
                     TextOffset   = new(0, -1)
                 }
@@ -52,7 +52,7 @@ internal partial class CurrencyWidget
                 style: new() {
                     Font         = Font.Axis,
                     TextAlign    = Anchor.MiddleLeft,
-                    OutlineColor = 0xFF000000,
+                    OutlineColor = Theme.Color(ThemeColor.TextOutlineLight),
                     OutlineWidth = 1,
                     TextOffset   = new(0, -1)
                 }

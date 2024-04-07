@@ -67,7 +67,7 @@ public partial class Element
 
             ImGui.SetCursorScreenPos(ContentBox.Min);
             ImGui.BeginChildFrame(_wrappedTextFrameId, textSize, ImGuiWindowFlags.NoMouseInputs | ImGuiWindowFlags.NoInputs);
-            ImGui.PushStyleColor(ImGuiCol.Text, _computedStyle.TextColor ?? 0xFFC0C0C0);
+            ImGui.PushStyleColor(ImGuiCol.Text, _computedStyle.TextColor?.Value ?? 0xFFC0C0C0);
             ImGui.TextWrapped(Text);
             ImGui.PopStyleColor();
             ImGui.EndChildFrame();
@@ -79,7 +79,7 @@ public partial class Element
         sbyte outlineWidth = _computedStyle.OutlineWidth ?? 0;
 
         if (outlineWidth > 0) {
-            uint  outlineColor = _computedStyle.OutlineColor ?? 0xFF000000;
+            uint  outlineColor = _computedStyle.OutlineColor?.Value ?? 0xFF000000;
             float opacity      = _computedStyle.Opacity      ?? 1;
 
             if (opacity < 1) outlineColor = outlineColor.ApplyAlphaComponent(opacity / (outlineWidth * 3));
@@ -94,7 +94,7 @@ public partial class Element
 
         drawList.AddText(
             pos,
-            (_computedStyle.TextColor ?? 0xFFFFFFFF).ApplyAlphaComponent(_computedStyle.Opacity ?? 1),
+            (_computedStyle.TextColor?.Value ?? 0xFFFFFFFF).ApplyAlphaComponent(_computedStyle.Opacity ?? 1),
             Text
         );
 

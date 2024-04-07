@@ -54,11 +54,11 @@ internal sealed class ToolbarPopupContext
         _activeElement = dropdownElement;
         _activator     = activator;
 
-        _activeElement.IsVisible = true;
-        _activeElement.ComputeLayout(new());
-
         _activeElement.Offset        = Toolbar.Toolbar.IsTopAligned ? new(0, -32) : new(0, 32);
         _activeElement.Style.Opacity = 0;
+
+        _activeElement.IsVisible = true;
+        _activeElement.ComputeLayout(new(0, 0));
 
         _activeElement.Animate(new Animation<OutCirc>(300) {
             Offset  = new(0),

@@ -82,13 +82,13 @@ internal partial class GearsetWidget : IToolbarWidget
     private void OnWidgetMouseEnter()
     {
         Element.Get<BorderElement>().Color     = 0xFF6A6A6A;
-        Element.Get<BackgroundElement>().Color = 0xFF232223;
+        Element.Get<BackgroundElement>().Color = Theme.Color(ThemeColor.Background);
     }
 
     private void OnWidgetMouseLeave()
     {
-        Element.Get<BorderElement>().Color     = 0xFF3F3F3F;
-        Element.Get<BackgroundElement>().Color = 0xFF1A1A1A;
+        Element.Get<BorderElement>().Color     = Theme.Color(ThemeColor.Border);
+        Element.Get<BackgroundElement>().Color = Theme.Color(ThemeColor.BackgroundDark);
     }
 
     private void UpdateWidget()
@@ -179,7 +179,7 @@ internal partial class GearsetWidget : IToolbarWidget
             element.Get<BorderElement>().Color     = gsCol.ApplyBrightness(1.25f);
         } else {
             element.Get<BackgroundElement>().Color = 0x10C0C0C0;
-            element.Get<BorderElement>().Color     = 0xFF3F3F3F;
+            element.Get<BorderElement>().Color     = Theme.Color(ThemeColor.Border);
         }
 
         if (gearset.IsMaxLevel) {

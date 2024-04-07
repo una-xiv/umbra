@@ -30,7 +30,7 @@ public static class ConfigManager
 
     private static Timer? _debounceTimer;
 
-    [WhenFrameworkCompiling]
+    [WhenFrameworkCompiling(executionOrder: int.MinValue)]
     public static void GatherConfigVariableUsages()
     {
         var props = Framework
@@ -106,8 +106,6 @@ public static class ConfigManager
             throw new($"Config variable {id} does not exist.");
         }
 
-        cvar.Value = value;
-
         foreach (var prop in cvar.Properties) {
             if (prop.PropertyType.IsEnum) {
                 value = Enum.Parse(prop.PropertyType, value!.ToString()!);
@@ -127,6 +125,8 @@ public static class ConfigManager
 
             prop.SetValue(null, value);
         }
+
+        cvar.Value = value;
 
         if (persist) {
             _debounceTimer?.Dispose();

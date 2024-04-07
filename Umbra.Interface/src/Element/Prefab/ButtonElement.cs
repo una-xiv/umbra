@@ -14,6 +14,7 @@
  *     GNU Affero General Public License for more details.
  */
 
+using System;
 using Dalamud.Game.Text;
 using Dalamud.Interface;
 
@@ -56,7 +57,7 @@ public class ButtonElement : Element
     private readonly Style _seIconCharStyle = new() {
         Font      = Font.AxisLarge,
         TextAlign = Anchor.MiddleCenter,
-        TextColor = 0xFFFFFFFF,
+        TextColor = Theme.Color(ThemeColor.Text),
     };
 
     private readonly Element _bodyElement = new(
@@ -84,7 +85,7 @@ public class ButtonElement : Element
     );
 
     public ButtonElement(
-        string id, string? label = null, object? icon = null, bool isSmall = false, bool isGhost = false
+        string id, string? label = null, object? icon = null, bool isSmall = false, bool isGhost = false, Action? onClick = null
     ) : base(id)
     {
         Label   = label;
@@ -92,16 +93,18 @@ public class ButtonElement : Element
         IsSmall = isSmall;
         IsGhost = isGhost;
 
+        if (onClick is not null) OnClick += onClick;
+
         Flow = Flow.Horizontal;
         Size = new(0, isSmall ? 18 : 28);
 
         Style = new() {
-            TextColor             = 0xFFC0C0C0,
-            OutlineColor          = 0xFF000000,
-            OutlineWidth          = 1,
+            TextColor    = Theme.Color(ThemeColor.Text),
+            OutlineColor = Theme.Color(ThemeColor.TextOutline),
+            OutlineWidth = 1,
         };
 
-        AddChild(new BackgroundElement(color: 0xFF212021, edgeColor: 0xFF101010, edgeThickness: 1, rounding: 4));
+        AddChild(new BackgroundElement(color: Theme.Color(ThemeColor.Background), edgeColor: Theme.Color(ThemeColor.BorderDark), edgeThickness: 1, rounding: 4));
         AddChild(new BorderElement(rounding: 3, padding: new(1)));
         AddChild(_bodyElement);
 
@@ -142,8 +145,8 @@ public class ButtonElement : Element
             labelElement.Text      = Label;
 
             labelElement.Style.Font         = IsSmall ? Font.AxisSmall : Font.Axis;
-            labelElement.Style.TextColor    = IsDisabled ? 0xFF6F6F6F : 0xFFC0C0C0;
-            labelElement.Style.OutlineColor = IsDisabled ? 0x25000000 : 0xA0000000;
+            labelElement.Style.TextColor    = IsDisabled ? Theme.Color(ThemeColor.TextMuted) : Theme.Color(ThemeColor.Text);
+            labelElement.Style.OutlineColor = IsDisabled ? Theme.Color(ThemeColor.TextOutline) : Theme.Color(ThemeColor.TextOutlineLight);
         } else {
             labelElement.IsVisible = false;
             _bodyElement.Padding   = new(0, 4);
@@ -188,24 +191,24 @@ public class ButtonElement : Element
 
     private void HandleMouseEnter()
     {
-        Get<BorderElement>().Color                 = 0xFF6F6F6F;
-        Get<BorderElement>().Style.BackgroundColor = 0xFF313131;
+        Get<BorderElement>().Color                 = Theme.Color(ThemeColor.BorderLight);
+        Get<BorderElement>().Style.BackgroundColor = Theme.Color(ThemeColor.BackgroundLight);
 
-        if (IsGhost) _bodyElement.Get("Label").Style.TextColor = 0xFFFFFFFF;
+        if (IsGhost) _bodyElement.Get("Label").Style.TextColor = Theme.Color(ThemeColor.TextLight);
     }
 
     private void HandleMouseLeave()
     {
-        Get<BorderElement>().Color                 = 0xFF3F3F3F;
+        Get<BorderElement>().Color                 = Theme.Color(ThemeColor.Border);
         Get<BorderElement>().Style.BackgroundColor = 0;
 
-        if (IsGhost) _bodyElement.Get("Label").Style.TextColor = 0xFFC0C0C0;
+        if (IsGhost) _bodyElement.Get("Label").Style.TextColor = Theme.Color(ThemeColor.Text);
     }
 
     private void HandleMouseDown()
     {
-        Get<BorderElement>().Color                 = 0xFF9F9F9F;
-        Get<BorderElement>().Style.BackgroundColor = 0xFF3A3A3A;
+        Get<BorderElement>().Color                 = Theme.Color(ThemeColor.BorderLight);
+        Get<BorderElement>().Style.BackgroundColor = Theme.Color(ThemeColor.BackgroundActive);
     }
 
     private void HandleMouseUp()

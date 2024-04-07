@@ -175,7 +175,7 @@ public sealed class WorldMarkerRenderer(
                                                 Font         = Font.AxisSmall,
                                                 TextColor    = 0xDDFFFFFF,
                                                 TextAlign    = Anchor.TopCenter,
-                                                OutlineColor = 0x70000000,
+                                                OutlineColor = Theme.Color(ThemeColor.TextOutline),
                                                 OutlineWidth = 1,
                                             }
                                         ) { IsVisible = text.Label?.Length > 0 },
@@ -188,7 +188,7 @@ public sealed class WorldMarkerRenderer(
                                                 Font         = Font.AxisExtraSmall,
                                                 TextColor    = 0xA0FFFFFF,
                                                 TextAlign    = Anchor.TopCenter,
-                                                OutlineColor = 0x70000000,
+                                                OutlineColor = Theme.Color(ThemeColor.TextOutline),
                                                 OutlineWidth = 1,
                                             }
                                         ) {
@@ -207,7 +207,7 @@ public sealed class WorldMarkerRenderer(
                                 Font         = Font.AxisExtraSmall,
                                 TextColor    = 0xA0FFFFFF,
                                 TextAlign    = Anchor.TopCenter,
-                                OutlineColor = 0x70000000,
+                                OutlineColor = Theme.Color(ThemeColor.TextOutline),
                                 OutlineWidth = 1,
                             }
                         )

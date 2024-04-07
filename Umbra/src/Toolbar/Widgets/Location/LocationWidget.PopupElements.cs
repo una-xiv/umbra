@@ -37,7 +37,7 @@ internal partial class LocationWidget
                 size: new(1, 0),
                 style: new() {
                     BorderWidth = new(left: 1, right: 0, bottom: 0, top: 0),
-                    BorderColor = new(left: 0xFF707070, right: 0, top: 0, bottom: 0),
+                    BorderColor = new(left: Theme.Color(ThemeColor.BorderLight), right: 0, top: 0, bottom: 0),
                 }
             ),
             new(
@@ -80,9 +80,9 @@ internal partial class LocationWidget
                                         style: new() {
                                             Font         = Font.AxisExtraLarge,
                                             TextAlign    = Anchor.BottomLeft,
-                                            TextColor    = 0xFFC0C0C0,
+                                            TextColor    = Theme.Color(ThemeColor.Text),
                                             TextOffset   = new(0, 1),
-                                            OutlineColor = 0xAA000000,
+                                            OutlineColor = Theme.Color(ThemeColor.TextOutline),
                                             OutlineWidth = 1,
                                         }
                                     ),
@@ -95,9 +95,9 @@ internal partial class LocationWidget
                                         style: new() {
                                             Font         = Font.Axis,
                                             TextAlign    = Anchor.TopLeft,
-                                            TextColor    = 0xFFA0A0A0,
+                                            TextColor    = Theme.Color(ThemeColor.TextMuted),
                                             TextOffset   = new(0, 3),
-                                            OutlineColor = 0x80000000,
+                                            OutlineColor = Theme.Color(ThemeColor.TextOutline),
                                             OutlineWidth = 1,
                                         }
                                     ),
@@ -152,9 +152,9 @@ internal partial class LocationWidget
                             style: new() {
                                 Font         = Font.Axis,
                                 TextAlign    = Anchor.BottomLeft,
-                                TextColor    = 0xFFC0C0C0,
+                                TextColor    = Theme.Color(ThemeColor.Text),
                                 TextOffset   = new(0, 4),
-                                OutlineColor = 0xAA000000,
+                                OutlineColor = Theme.Color(ThemeColor.TextOutline),
                                 OutlineWidth = 1,
                             }
                         ),
@@ -165,9 +165,9 @@ internal partial class LocationWidget
                             style: new() {
                                 Font         = Font.AxisSmall,
                                 TextAlign    = Anchor.TopLeft,
-                                TextColor    = 0xFFA0A0A0,
+                                TextColor    = Theme.Color(ThemeColor.TextMuted),
                                 TextOffset   = new(0, 4),
-                                OutlineColor = 0x80000000,
+                                OutlineColor = Theme.Color(ThemeColor.TextOutline),
                                 OutlineWidth = 1,
                             }
                         ),

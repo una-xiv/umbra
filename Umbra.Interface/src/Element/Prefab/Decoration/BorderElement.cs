@@ -18,19 +18,19 @@ namespace Umbra.Interface;
 
 public class BorderElement : Element
 {
-    public uint           Color;
+    public Color          Color;
     public int            Rounding;
     public int            Thickness;
     public RoundedCorners Corners;
 
     public BorderElement(
-        string id = "", uint color = 0xFF3F3F3F, int rounding = 0, int thickness = 1, Spacing padding = new(), RoundedCorners corners = RoundedCorners.All
+        string id = "", Color? color = null, int rounding = 0, int thickness = 1, Spacing padding = new(), RoundedCorners corners = RoundedCorners.All
     ) : base(
         id,
         padding: padding
     )
     {
-        Color     = color;
+        Color     = color ?? Theme.Color(ThemeColor.Border);
         Rounding  = rounding;
         Thickness = thickness;
         Corners   = corners;

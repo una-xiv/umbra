@@ -69,8 +69,8 @@ internal partial class CurrencyWidget
                     size: new(0, 20),
                     style: new() {
                         Font         = Font.Axis,
-                        TextColor    = 0xFFC0C0C0,
-                        OutlineColor = 0xAA000000,
+                        TextColor    = Theme.Color(ThemeColor.Text),
+                        OutlineColor = Theme.Color(ThemeColor.TextOutline),
                         OutlineWidth = 1,
                     }
                 ),
@@ -82,16 +82,16 @@ internal partial class CurrencyWidget
                     style: new() {
                         Font         = Font.Axis,
                         TextAlign    = Anchor.MiddleRight,
-                        TextColor    = 0xFFA0A0A0,
-                        OutlineColor = 0x80000000,
+                        TextColor    = Theme.Color(ThemeColor.TextMuted),
+                        OutlineColor = Theme.Color(ThemeColor.TextOutline),
                         OutlineWidth = 1,
                     }
                 )
             ]
         );
 
-        button.OnMouseEnter += () => button.Get("Name").Style.TextColor = 0xFFFFFFFF;
-        button.OnMouseLeave += () => button.Get("Name").Style.TextColor = 0xFFC0C0C0;
+        button.OnMouseEnter += () => button.Get("Name").Style.TextColor = Theme.Color(ThemeColor.TextLight);
+        button.OnMouseLeave += () => button.Get("Name").Style.TextColor = Theme.Color(ThemeColor.Text);
         button.OnClick += () => {
             if (TrackedCurrencyId == itemId) {
                 ConfigManager.Set("Toolbar.Widget.Currencies.TrackedCurrencyId", 0);

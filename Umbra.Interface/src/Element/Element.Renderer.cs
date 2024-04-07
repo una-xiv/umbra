@@ -68,7 +68,7 @@ public partial class Element
 
             EndInteractive();
         } catch (Exception e) {
-            Logger.Warning($"Rendering of element '{FullyQualifiedName}' failed: {e.Message}");
+            Logger.Warning($"Rendering of element '{FullyQualifiedName}' failed: {e.Message} - {e.StackTrace ?? ""}");
         }
 
         if (IsVisibleSince == 0) {

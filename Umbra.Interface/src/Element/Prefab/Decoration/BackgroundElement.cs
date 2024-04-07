@@ -18,17 +18,17 @@ namespace Umbra.Interface;
 
 public class BackgroundElement : Element
 {
-    public uint           Color;
-    public uint           EdgeColor;
+    public Color          Color;
+    public Color          EdgeColor;
     public int            EdgeThickness;
     public int            Rounding;
     public RoundedCorners Corners;
 
     public BackgroundElement(
         string         id            = "",
-        uint           color         = 0xFF3F3F3F,
+        Color?         color         = null,
         int            edgeThickness = 1,
-        uint           edgeColor     = 0,
+        Color?         edgeColor     = null,
         int            rounding      = 0,
         RoundedCorners corners       = RoundedCorners.All,
         Spacing        padding       = new()
@@ -37,8 +37,8 @@ public class BackgroundElement : Element
         padding: padding
     )
     {
-        Color         = color;
-        EdgeColor     = edgeColor;
+        Color         = color ?? new();
+        EdgeColor     = edgeColor ?? new();
         EdgeThickness = edgeThickness;
         Rounding      = rounding;
         Corners       = corners;

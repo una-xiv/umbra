@@ -24,7 +24,7 @@ public partial class Element
     {
         var rect = ContentBox;
 
-        if (_computedStyle.BackgroundColor is > 0) {
+        if (null != _computedStyle.BackgroundColor && _computedStyle.BackgroundColor.Value != 0u) {
             drawList.AddRectFilled(
                 rect.Min,
                 rect.Max,
@@ -42,18 +42,18 @@ public partial class Element
             drawList.AddRectFilledMultiColor(
                 rect.Min,
                 rect.Max,
-                gradient.TopLeft.ApplyAlphaComponent(Style.Opacity     ?? 1),
-                gradient.TopRight.ApplyAlphaComponent(Style.Opacity    ?? 1),
-                gradient.BottomRight.ApplyAlphaComponent(_computedStyle.Opacity ?? 1),
-                gradient.BottomLeft.ApplyAlphaComponent(Style.Opacity  ?? 1)
+                gradient.TopLeft.ApplyAlpha(_computedStyle.Opacity     ?? 1),
+                gradient.TopRight.ApplyAlpha(_computedStyle.Opacity    ?? 1),
+                gradient.BottomRight.ApplyAlpha(_computedStyle.Opacity ?? 1),
+                gradient.BottomLeft.ApplyAlpha(_computedStyle.Opacity  ?? 1)
             );
         }
 
-        if (Style is { BackgroundBorderColor: > 0, BackgroundBorderWidth: > 0 }) {
+        if (Style is { BackgroundBorderColor.Value: > 0, BackgroundBorderWidth: > 0 }) {
             drawList.AddRect(
                 rect.Min,
                 rect.Max,
-                (_computedStyle.BackgroundBorderColor ?? 0u).ApplyAlphaComponent(_computedStyle.Opacity ?? 1),
+                (_computedStyle.BackgroundBorderColor ?? 0u).ApplyAlpha(_computedStyle.Opacity ?? 1),
                 _computedStyle.BackgroundRounding ?? 0,
                 _computedStyle.RoundedCorners is not null
                     ? (ImDrawFlags)_computedStyle.RoundedCorners.Value

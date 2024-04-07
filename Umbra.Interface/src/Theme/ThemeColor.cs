@@ -16,19 +16,22 @@
 
 namespace Umbra.Interface;
 
-public class DropdownSeparatorElement : Element
+public enum ThemeColor : byte
 {
-    public DropdownSeparatorElement() : base("")
-    {
-        Padding = new(0, 4);
-
-        Style.BorderWidth = new(top: 1, bottom: 1, left: 0, right: 0);
-        Style.BorderColor = new(top: Theme.Color(ThemeColor.BorderDark), bottom: Theme.Color(ThemeColor.Border), left: 0, right: 0);
-    }
-
-    protected override void AfterCompute()
-    {
-        ComputedSize = new(Parent!.ComputedSize.Width - Padding.Horizontal, 1);
-        ComputeBoundingBox();
-    }
+    Background          = 0,
+    BackgroundDark      = 1,
+    BackgroundLight     = 2,
+    BackgroundActive    = 3,
+    Border              = 4,
+    BorderDark          = 5,
+    BorderLight         = 6,
+    Text                = 7,
+    TextLight           = 8,
+    TextMuted           = 9,
+    TextOutline         = 10,
+    TextOutlineLight    = 11,
+    HighlightBackground = 12,
+    HighlightForeground = 13,
+    HighlightOutline    = 14,
+    Accent              = 15,
 }

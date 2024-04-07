@@ -21,14 +21,14 @@ namespace Umbra.Interface;
 public class DropdownElement : Element
 {
     private readonly BackgroundElement _background = new(
-        color: 0xFF212021,
-        edgeColor: 0xFF3F3F3F,
+        color: Theme.Color(ThemeColor.Background),
+        edgeColor: Theme.Color(ThemeColor.Border),
         edgeThickness: 1,
         rounding: 8
     );
 
     private readonly GradientElement _gradient = new(
-        gradient: Gradient.Vertical(0, 0xFF2F2F2F),
+        gradient: Gradient.Vertical(0, Theme.Color(ThemeColor.BackgroundLight)),
         padding: new(left: 1, right: 1, bottom: 1)
     );
 
@@ -57,7 +57,7 @@ public class DropdownElement : Element
     {
         if (Anchor.IsTop()) {
             _background.Corners = RoundedCorners.Bottom;
-            _gradient.Gradient  = Gradient.Vertical(0xFF2F2F2F, 0);
+            _gradient.Gradient  = Gradient.Vertical(Theme.Color(ThemeColor.BackgroundLight), 0);
             _gradient.Padding   = new(left: 1, right: 1, bottom: 1);
             Style.Shadow!.Side  = Side.Left | Side.Bottom | Side.Right;
             Style.Shadow.Inset  = new(top: 16, left: 4, right: 4, bottom: 4);
@@ -65,7 +65,7 @@ public class DropdownElement : Element
         }
 
         _background.Corners = RoundedCorners.Top;
-        _gradient.Gradient  = Gradient.Vertical(0, 0xFF2F2F2F);
+        _gradient.Gradient  = Gradient.Vertical(0, Theme.Color(ThemeColor.BackgroundLight));
         _gradient.Padding   = new(left: 1, right: 1, top: 1);
         Style.Shadow!.Side  = Side.Left | Side.Top | Side.Right;
         Style.Shadow.Inset  = new(top: 4, left: 4, right: 4, bottom: 16);

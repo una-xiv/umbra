@@ -43,8 +43,8 @@ internal partial class ClockWidget
             flow: Flow.Horizontal,
             size: new(0, 28),
             children: [
-                new BackgroundElement(color: 0xFF1A1A1A, edgeColor: 0xFF101010, edgeThickness: 1, rounding: 4),
-                new BorderElement(color: 0xFF3F3F3F, rounding: 3, padding: new(1)),
+                new BackgroundElement(color: Theme.Color(ThemeColor.BackgroundDark), edgeColor: Theme.Color(ThemeColor.BorderDark), edgeThickness: 1, rounding: 4),
+                new BorderElement(color: Theme.Color(ThemeColor.Border), rounding: 3, padding: new(1)),
                 new(
                     "Container",
                     anchor: Anchor.MiddleCenter,
@@ -59,8 +59,8 @@ internal partial class ClockWidget
                                 Font         = Font.AxisSmall,
                                 TextAlign    = Anchor.MiddleLeft,
                                 TextOffset   = textOffset,
-                                TextColor    = 0xFF707070,
-                                OutlineColor = 0x90000000,
+                                TextColor    = Theme.Color(ThemeColor.TextMuted),
+                                OutlineColor = Theme.Color(ThemeColor.TextOutline),
                                 OutlineWidth = 1,
                             }
                         ),
@@ -69,10 +69,10 @@ internal partial class ClockWidget
                             text: "00:00",
                             style: new() {
                                 Font         = Font.AxisSmall,
-                                TextColor    = 0xFFC0C0C0,
+                                TextColor    = Theme.Color(ThemeColor.Text),
                                 TextAlign    = Anchor.MiddleLeft,
                                 TextOffset   = textOffset,
-                                OutlineColor = 0x90000000,
+                                OutlineColor = Theme.Color(ThemeColor.TextOutline),
                                 OutlineWidth = 1,
                             }
                         )

@@ -60,8 +60,8 @@ internal sealed partial class VolumeWidget
                     style: new() {
                         Font         = Font.AxisExtraSmall,
                         TextAlign    = Anchor.BottomCenter,
-                        TextColor    = 0xFFC0C0C0,
-                        OutlineColor = 0x80000000,
+                        TextColor    = Theme.Color(ThemeColor.Text),
+                        OutlineColor = Theme.Color(ThemeColor.TextOutline),
                         OutlineWidth = 1,
                         TextOffset   = new(0, -1)
                     }
@@ -75,8 +75,8 @@ internal sealed partial class VolumeWidget
                     style: new() {
                         Font         = Font.AxisExtraSmall,
                         TextAlign    = Anchor.MiddleCenter,
-                        TextColor    = 0xFF909090,
-                        OutlineColor = 0x80000000,
+                        TextColor    = Theme.Color(ThemeColor.TextMuted),
+                        OutlineColor = Theme.Color(ThemeColor.TextOutline),
                         OutlineWidth = 1,
                         TextOffset   = new(0, -1)
                     }

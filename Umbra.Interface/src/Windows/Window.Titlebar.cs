@@ -27,17 +27,17 @@ public abstract partial class Window
         flow: Flow.Horizontal,
         children: [
             new(
-                padding: new(0, 2),
+                padding: new(0, 1),
                 anchor: Anchor.None,
                 id: "BorderBottom",
                 style: new() {
-                    BorderColor = new(top: 0, left: 0, right: 0, bottom: 0xFF151515),
+                    BorderColor = new(top: 0, left: 0, right: 0, bottom: Theme.Color(ThemeColor.BorderDark)),
                     BorderWidth = new(top: 0, left: 0, right: 0, bottom: 1)
                 }
             ),
             new BackgroundElement(
                 id: "Background",
-                color: 0xFF2F3A3F,
+                color: Theme.Color(ThemeColor.Accent),
                 rounding: 8,
                 corners: RoundedCorners.Top
             ),
@@ -46,7 +46,7 @@ public abstract partial class Window
                 anchor: Anchor.None,
                 padding: new(left: 1, right: 1, top: 1, bottom: 0),
                 style: new() {
-                    BackgroundBorderColor = 0x504A90E2,
+                    BackgroundBorderColor = Theme.Color(ThemeColor.Accent),
                     BackgroundBorderWidth = 1,
                     BackgroundRounding    = 6,
                     RoundedCorners        = RoundedCorners.Top,
@@ -54,7 +54,7 @@ public abstract partial class Window
             ),
             new GradientElement(
                 id: "Gradient",
-                gradient: Gradient.Vertical(0, 0xFF212021),
+                gradient: Gradient.Vertical(0, Theme.Color(ThemeColor.Background)),
                 padding: new(left: 1, right: 1, top: 7, bottom: 0)
             ),
             new(
@@ -66,9 +66,9 @@ public abstract partial class Window
                 text: "Unnamed Window",
                 style: new() {
                     Font         = Font.Axis,
-                    TextColor    = 0xFFC0C0C0,
+                    TextColor    = Theme.Color(ThemeColor.Text),
                     TextAlign    = Anchor.MiddleLeft,
-                    OutlineColor = 0xFF000000,
+                    OutlineColor = Theme.Color(ThemeColor.TextOutline),
                     OutlineWidth = 1
                 }
             ),
@@ -78,8 +78,8 @@ public abstract partial class Window
                 anchor: Anchor.MiddleRight,
                 margin: new(right: 6, top: 1),
                 children: [
-                    new BackgroundElement(color: 0xAA292829, edgeColor: 0xAA101010, rounding: 4),
-                    new BorderElement(color: 0xAA3A3A3A, padding: new(1), rounding: 3),
+                    new BackgroundElement(color: Theme.Color(ThemeColor.BackgroundLight), edgeColor: Theme.Color(ThemeColor.BorderDark), rounding: 4),
+                    new BorderElement(color: Theme.Color(ThemeColor.Border), padding: new(1), rounding: 3),
                     new(
                         id: "CloseIcon",
                         anchor: Anchor.MiddleLeft,
@@ -87,9 +87,9 @@ public abstract partial class Window
                         text: "×",
                         style: new() {
                             Font         = Font.Axis,
-                            TextColor    = 0xFFC0C0C0,
+                            TextColor    = Theme.Color(ThemeColor.Text),
                             TextAlign    = Anchor.MiddleCenter,
-                            OutlineColor = 0xFF000000,
+                            OutlineColor = Theme.Color(ThemeColor.TextOutline),
                             OutlineWidth = 1
                         }
                     )
@@ -100,14 +100,13 @@ public abstract partial class Window
 
     private Element           CloseButton       => _titlebar.Get("CloseButton");
     private Element           TitlebarHighlight => _titlebar.Get("Highlight");
-    private GradientElement   TitlebarGradient  => _titlebar.Get<GradientElement>("Gradient");
     private BackgroundElement TitlebarBg        => _titlebar.Get<BackgroundElement>("Background");
 
     private void BindCloseButtonEvents()
     {
         CloseButton.OnClick      += () => OnClose?.Invoke();
-        CloseButton.OnMouseEnter += () => CloseButton.Get("CloseIcon").Style.TextColor = 0xFFFFFFFF;
-        CloseButton.OnMouseLeave += () => CloseButton.Get("CloseIcon").Style.TextColor = 0xFFC0C0C0;
+        CloseButton.OnMouseEnter += () => CloseButton.Get("CloseIcon").Style.TextColor = Theme.Color(ThemeColor.TextLight);
+        CloseButton.OnMouseLeave += () => CloseButton.Get("CloseIcon").Style.TextColor = Theme.Color(ThemeColor.Text);
     }
 
     private void RenderTitlebar()
@@ -119,10 +118,10 @@ public abstract partial class Window
 
         if (IsFocused) {
             TitlebarHighlight.IsVisible = true;
-            TitlebarBg.Color            = 0xFF2F373A;
+            TitlebarBg.Color            = Theme.Color(ThemeColor.Accent);
         } else {
             TitlebarHighlight.IsVisible = false;
-            TitlebarBg.Color            = 0xFF2F2F2F;
+            TitlebarBg.Color            = Theme.Color(ThemeColor.BackgroundLight);
         }
 
         _titlebar.Render(ImGui.GetWindowDrawList(), ImGui.GetWindowPos() + new Vector2(1, 1));

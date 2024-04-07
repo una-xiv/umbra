@@ -120,45 +120,60 @@ public class Animation<T>(uint duration) : IAnimation
 
         Easing.Update();
 
-        if (null != Margin) _element.Margin   = _startMargin  + Easing.Value * (Margin.Value  - _startMargin);
-        if (null != Padding) _element.Padding = _startPadding + Easing.Value * (Padding.Value - _startPadding);
+        if (null != Margin) _element.Margin   = _startMargin  + Easing.Value        * (Margin.Value  - _startMargin);
+        if (null != Padding) _element.Padding = _startPadding + Easing.Value        * (Padding.Value - _startPadding);
         if (null != Offset) _element.Offset   = _startOffset  + (float)Easing.Value * (Offset.Value  - _startOffset);
-        if (null != Size) _element.Size       = _startSize    + Easing.Value * (Size.Value    - _startSize);
+        if (null != Size) _element.Size       = _startSize    + Easing.Value        * (Size.Value    - _startSize);
         if (null != Gap) _element.Gap         = _startGap     + (int)(Easing.Value * (Gap.Value - _element.Gap));
 
         if (null != Opacity)
             _element.Style.Opacity = _startStyleOpacity + (float)Easing.Value * (Opacity.Value - _startStyleOpacity);
 
         if (null != BackgroundColor && null != _startStyleBackgroundColor)
-            _element.Style.BackgroundColor = (uint)(_startStyleBackgroundColor.Value + Easing.Value * (BackgroundColor.Value - _startStyleBackgroundColor.Value));
+            _element.Style.BackgroundColor = (uint)(_startStyleBackgroundColor.Value
+              + Easing.Value * (BackgroundColor.Value - _startStyleBackgroundColor.Value));
 
         if (null != Gradient && null != _startStyleGradient) {
-            _element.Style.Gradient!.TopLeft     = (uint)(_startStyleGradient.TopLeft     + Easing.Value * (Gradient.TopLeft     - _startStyleGradient.TopLeft));
-            _element.Style.Gradient!.TopRight    = (uint)(_startStyleGradient.TopRight    + Easing.Value * (Gradient.TopRight    - _startStyleGradient.TopRight));
-            _element.Style.Gradient!.BottomLeft  = (uint)(_startStyleGradient.BottomLeft  + Easing.Value * (Gradient.BottomLeft  - _startStyleGradient.BottomLeft));
-            _element.Style.Gradient!.BottomRight = (uint)(_startStyleGradient.BottomRight + Easing.Value * (Gradient.BottomRight - _startStyleGradient.BottomRight));
+            _element.Style.Gradient!.TopLeft = (uint)(_startStyleGradient.TopLeft.Value
+              + Easing.Value * (Gradient.TopLeft.Value - _startStyleGradient.TopLeft.Value));
+
+            _element.Style.Gradient!.TopRight = (uint)(_startStyleGradient.TopRight.Value
+              + Easing.Value * (Gradient.TopRight.Value - _startStyleGradient.TopRight.Value));
+
+            _element.Style.Gradient!.BottomLeft = (uint)(_startStyleGradient.BottomLeft.Value
+              + Easing.Value * (Gradient.BottomLeft.Value - _startStyleGradient.BottomLeft.Value));
+
+            _element.Style.Gradient!.BottomRight = (uint)(_startStyleGradient.BottomRight.Value
+              + Easing.Value * (Gradient.BottomRight.Value - _startStyleGradient.BottomRight.Value));
         }
 
         if (null != BackgroundBorderColor && null != _startStyleBackgroundBorderColor)
-            _element.Style.BackgroundBorderColor = (uint)(_startStyleBackgroundBorderColor.Value + Easing.Value * (BackgroundBorderColor.Value - _startStyleBackgroundBorderColor.Value));
+            _element.Style.BackgroundBorderColor = (uint)(_startStyleBackgroundBorderColor.Value
+              + Easing.Value * (BackgroundBorderColor.Value - _startStyleBackgroundBorderColor.Value));
 
         if (null != BackgroundBorderWidth && null != _startStyleBackgroundBorderWidth)
-            _element.Style.BackgroundBorderWidth = (int)(_startStyleBackgroundBorderWidth.Value + Easing.Value * (BackgroundBorderWidth.Value - _startStyleBackgroundBorderWidth.Value));
+            _element.Style.BackgroundBorderWidth = (int)(_startStyleBackgroundBorderWidth.Value
+              + Easing.Value * (BackgroundBorderWidth.Value - _startStyleBackgroundBorderWidth.Value));
 
         if (null != BackgroundRounding && null != _startStyleBackgroundRounding)
-            _element.Style.BackgroundRounding = (int)(_startStyleBackgroundRounding.Value + Easing.Value * (BackgroundRounding.Value - _startStyleBackgroundRounding.Value));
+            _element.Style.BackgroundRounding = (int)(_startStyleBackgroundRounding.Value
+              + Easing.Value * (BackgroundRounding.Value - _startStyleBackgroundRounding.Value));
 
         if (null != TextColor && null != _startStyleTextColor)
-            _element.Style.TextColor = (uint)(_startStyleTextColor.Value + Easing.Value * (TextColor.Value - _startStyleTextColor.Value));
+            _element.Style.TextColor = (uint)(_startStyleTextColor.Value
+              + Easing.Value * (TextColor.Value - _startStyleTextColor.Value));
 
         if (null != OutlineColor && null != _startStyleOutlineColor)
-            _element.Style.OutlineColor = (uint)(_startStyleOutlineColor.Value + Easing.Value * (OutlineColor.Value - _startStyleOutlineColor.Value));
+            _element.Style.OutlineColor = (uint)(_startStyleOutlineColor.Value
+              + Easing.Value * (OutlineColor.Value - _startStyleOutlineColor.Value));
 
         if (null != TextOffset && null != _startStyleTextOffset)
-            _element.Style.TextOffset = _startStyleTextOffset.Value + (float)Easing.Value * (TextOffset.Value - _startStyleTextOffset.Value);
+            _element.Style.TextOffset = _startStyleTextOffset.Value
+              + (float)Easing.Value * (TextOffset.Value - _startStyleTextOffset.Value);
 
         if (null != ImageUVs && null != _startStyleImageUVs)
-            _element.Style.ImageUVs = _startStyleImageUVs.Value + (float)Easing.Value * (ImageUVs.Value - _startStyleImageUVs.Value);
+            _element.Style.ImageUVs = _startStyleImageUVs.Value
+              + (float)Easing.Value * (ImageUVs.Value - _startStyleImageUVs.Value);
 
         if (Easing.IsDone) {
             if (_playOnce) {

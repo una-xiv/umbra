@@ -26,8 +26,8 @@ internal partial class GearsetWidget
         sortIndex: -999,
         size: new(0, 28),
         children: [
-            new BackgroundElement(color: 0xFF1A1A1A, edgeColor: 0xFF101010, edgeThickness: 1, rounding: 4),
-            new BorderElement(color: 0xFF3F3F3F, rounding: 3, padding: new(1)),
+            new BackgroundElement(color: Theme.Color(ThemeColor.BackgroundDark), edgeColor: Theme.Color(ThemeColor.BorderDark), edgeThickness: 1, rounding: 4),
+            new BorderElement(color: Theme.Color(ThemeColor.Border), rounding: 3, padding: new(1)),
             new(
                 "Container",
                 size: new(0, 28),
@@ -58,10 +58,10 @@ internal partial class GearsetWidget
                                 size: new(0, 13),
                                 style: new() {
                                     Font         = Font.AxisExtraSmall,
-                                    TextColor    = 0xFFC0C0C0,
+                                    TextColor    = Theme.Color(ThemeColor.Text),
                                     TextAlign    = Anchor.BottomLeft,
                                     TextOffset   = new(0, 1),
-                                    OutlineColor = 0x80000000,
+                                    OutlineColor = Theme.Color(ThemeColor.TextOutline),
                                     OutlineWidth = 1,
                                 }
                             ),
@@ -71,10 +71,10 @@ internal partial class GearsetWidget
                                 size: new(0, 13),
                                 style: new() {
                                     Font         = Font.AxisExtraSmall,
-                                    TextColor    = 0xFF909090,
+                                    TextColor    = Theme.Color(ThemeColor.TextMuted),
                                     TextAlign    = Anchor.TopLeft,
                                     TextOffset   = new(0, -1),
-                                    OutlineColor = 0x80000000,
+                                    OutlineColor = Theme.Color(ThemeColor.TextOutline),
                                     OutlineWidth = 1,
                                 }
                             )

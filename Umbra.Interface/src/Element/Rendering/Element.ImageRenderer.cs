@@ -48,8 +48,6 @@ public partial class Element
             ? new(_computedStyle.ImageUVs.Value.Z, _computedStyle.ImageUVs.Value.W)
             : Vector2.One;
 
-
-
         drawList.AddImage(
             img.Value,
             rect.Min + offset,

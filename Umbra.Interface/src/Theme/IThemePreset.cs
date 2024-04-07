@@ -16,19 +16,27 @@
 
 namespace Umbra.Interface;
 
-public class DropdownSeparatorElement : Element
+public interface IThemePreset
 {
-    public DropdownSeparatorElement() : base("")
-    {
-        Padding = new(0, 4);
+    /// <summary>
+    /// The name of this theme preset.
+    /// </summary>
+    public string Name { get; }
 
-        Style.BorderWidth = new(top: 1, bottom: 1, left: 0, right: 0);
-        Style.BorderColor = new(top: Theme.Color(ThemeColor.BorderDark), bottom: Theme.Color(ThemeColor.Border), left: 0, right: 0);
-    }
-
-    protected override void AfterCompute()
-    {
-        ComputedSize = new(Parent!.ComputedSize.Width - Padding.Horizontal, 1);
-        ComputeBoundingBox();
-    }
+    public uint Background          { get; }
+    public uint BackgroundDark      { get; }
+    public uint BackgroundLight     { get; }
+    public uint BackgroundActive    { get; }
+    public uint Border              { get; }
+    public uint BorderDark          { get; }
+    public uint BorderLight         { get; }
+    public uint Text                { get; }
+    public uint TextLight           { get; }
+    public uint TextMuted           { get; }
+    public uint TextOutline         { get; }
+    public uint TextOutlineLight    { get; }
+    public uint HighlightBackground { get; }
+    public uint HighlightForeground { get; }
+    public uint HighlightOutline    { get; }
+    public uint Accent              { get; }
 }

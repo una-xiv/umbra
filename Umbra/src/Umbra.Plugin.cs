@@ -64,11 +64,7 @@ internal sealed class Plugin : IDalamudPlugin
                         Logger.Error(
                             $"Umbra failed to initialize: {task.Exception.InnerException?.Message ?? task.Exception.Message}"
                         );
-
-                        return;
                     }
-
-                    Logger.Info("Welcome to Umbra.");
                 }
             );
     }

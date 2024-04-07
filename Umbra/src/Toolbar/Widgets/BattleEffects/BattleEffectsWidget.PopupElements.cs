@@ -34,8 +34,8 @@ internal sealed partial class BattleEffectsWidget
                 style: new() {
                     Font         = Font.AxisLarge,
                     TextAlign    = Anchor.MiddleCenter,
-                    TextColor    = 0xFFC0C0C0,
-                    OutlineColor = 0xFF000000,
+                    TextColor    = Theme.Color(ThemeColor.Text),
+                    OutlineColor = Theme.Color(ThemeColor.TextOutlineLight),
                     OutlineWidth = 1
                 }
             ),
@@ -70,9 +70,9 @@ internal sealed partial class BattleEffectsWidget
                     style: new() {
                         Font         = Font.Axis,
                         TextAlign    = Anchor.MiddleRight,
-                        TextColor    = 0xFFC0C0C0,
+                        TextColor    = Theme.Color(ThemeColor.Text),
                         TextOffset   = new(0, -1),
-                        OutlineColor = 0x80000000,
+                        OutlineColor = Theme.Color(ThemeColor.TextOutline),
                         OutlineWidth = 1
                     }
                 ),

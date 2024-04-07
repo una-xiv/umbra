@@ -23,7 +23,7 @@ public class Style
     /// <summary>
     /// Defines the filled background color of the element.
     /// </summary>
-    public uint? BackgroundColor;
+    public Color? BackgroundColor;
 
     /// <summary>
     /// Defines the gradient color settings of this element. These colors are
@@ -35,7 +35,7 @@ public class Style
     /// Defines the border color of the background rectangle. This border
     /// follows the same shape as the background rectangle.
     /// </summary>
-    public uint? BackgroundBorderColor;
+    public Color? BackgroundBorderColor;
 
     /// <summary>
     /// Defines the line thickness of the background border.
@@ -57,7 +57,7 @@ public class Style
     /// that this border is separate from the background border and does not
     /// have rounded corners.
     /// </summary>
-    public SideValue<uint>? BorderColor;
+    public SideValue<Color>? BorderColor;
 
     /// <summary>
     /// Defines the line thickness of the border. This can be set for each edge
@@ -69,7 +69,7 @@ public class Style
     /// <summary>
     /// Defines the color of the text.
     /// </summary>
-    public uint? TextColor;
+    public Color? TextColor;
 
     /// <summary>
     /// Wraps text to the next line if it exceeds the width of the element.
@@ -102,7 +102,7 @@ public class Style
     /// <summary>
     /// Defines the outline color of the text.
     /// </summary>
-    public uint? OutlineColor;
+    public Color? OutlineColor;
 
     /// <summary>
     /// Defines the outline width of the text.

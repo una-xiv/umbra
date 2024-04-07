@@ -45,8 +45,8 @@ internal partial class GearsetWidget
                         margin: new(left: 12),
                         anchor: Anchor.MiddleLeft,
                         children: [
-                            new BackgroundElement(color: 0xFF101010, rounding: 6),
-                            new BorderElement(color: 0xFF3F3F3F, rounding: 5, padding: new(1)),
+                            new BackgroundElement(color: Theme.Color(ThemeColor.BorderDark), rounding: 6),
+                            new BorderElement(color: Theme.Color(ThemeColor.Border), rounding: 5, padding: new(1)),
                             new("Image", size: new(60, 60), anchor: Anchor.MiddleCenter, margin: new(left: 12)),
                         ]
                     ),
@@ -63,9 +63,9 @@ internal partial class GearsetWidget
                                 style: new() {
                                     Font         = Font.AxisExtraLarge,
                                     TextAlign    = Anchor.TopLeft,
-                                    TextColor    = 0xFFC0C0C0,
+                                    TextColor    = Theme.Color(ThemeColor.Text),
                                     TextOffset   = new(0, -2),
-                                    OutlineColor = 0x80000000,
+                                    OutlineColor = Theme.Color(ThemeColor.TextOutline),
                                     OutlineWidth = 1
                                 }
                             ),
@@ -77,9 +77,9 @@ internal partial class GearsetWidget
                                 style: new() {
                                     Font         = Font.Axis,
                                     TextAlign    = Anchor.TopLeft,
-                                    TextColor    = 0xFF909090,
+                                    TextColor    = Theme.Color(ThemeColor.TextMuted),
                                     TextOffset   = new(0, -1),
-                                    OutlineColor = 0x80000000,
+                                    OutlineColor = Theme.Color(ThemeColor.TextOutline),
                                     OutlineWidth = 1
                                 }
                             ),
@@ -106,8 +106,8 @@ internal partial class GearsetWidget
                         style: new() {
                             Font         = Font.MiedingerLarge,
                             TextAlign    = Anchor.MiddleRight,
-                            TextColor    = 0xFFC0C0C0,
-                            OutlineColor = 0xFF000000,
+                            TextColor    = Theme.Color(ThemeColor.Text),
+                            OutlineColor = Theme.Color(ThemeColor.TextOutlineLight),
                             OutlineWidth = 1
                         }
                     )
@@ -186,9 +186,9 @@ internal partial class GearsetWidget
                     style: new() {
                         Font         = Font.AxisLarge,
                         TextAlign    = Anchor.MiddleCenter,
-                        TextColor    = 0xFFC0C0C0,
+                        TextColor    = Theme.Color(ThemeColor.Text),
                         TextOffset   = new(0, 1),
-                        OutlineColor = 0x80000000,
+                        OutlineColor = Theme.Color(ThemeColor.TextOutline),
                         OutlineWidth = 1
                     }
                 ),
@@ -212,15 +212,15 @@ internal partial class GearsetWidget
             flow: Flow.Horizontal,
             gap: 5,
             children: [
-                new BackgroundElement(color: 0x10FFFFFF, rounding: 6, edgeColor: 0xFF000000, edgeThickness: 1),
-                new BorderElement(color: 0xFF3F3F3F, rounding: 5, padding: new(1)),
+                new BackgroundElement(color: 0x10FFFFFF, rounding: 6, edgeColor: Theme.Color(ThemeColor.BorderDark), edgeThickness: 1),
+                new BorderElement(color: Theme.Color(ThemeColor.Border), rounding: 5, padding: new(1)),
                 new(
                     id: "Icon",
                     size: new(CellHeight - 8, CellHeight - 8),
                     margin: new(left: 4),
                     anchor: Anchor.MiddleLeft,
                     children: [
-                        new BackgroundElement(color: 0xFF101010, edgeColor: 0xFF101010, edgeThickness: 1, rounding: 4),
+                        new BackgroundElement(color: Theme.Color(ThemeColor.BorderDark), edgeColor: Theme.Color(ThemeColor.BorderDark), edgeThickness: 1, rounding: 4),
                         new(
                             "Image",
                             size: new(CellHeight - 12, CellHeight - 12),
@@ -248,9 +248,9 @@ internal partial class GearsetWidget
                             style: new() {
                                 Font         = Font.Axis,
                                 TextAlign    = Anchor.BottomLeft,
-                                TextColor    = 0xFFC0C0C0,
+                                TextColor    = Theme.Color(ThemeColor.Text),
                                 TextOffset   = new(0, 2),
-                                OutlineColor = 0x80000000,
+                                OutlineColor = Theme.Color(ThemeColor.TextOutline),
                                 OutlineWidth = 1
                             }
                         ),
@@ -261,9 +261,9 @@ internal partial class GearsetWidget
                             style: new() {
                                 Font         = Font.AxisSmall,
                                 TextAlign    = Anchor.TopLeft,
-                                TextColor    = 0xFF909090,
+                                TextColor    = Theme.Color(ThemeColor.TextMuted),
                                 TextOffset   = new(1, 0),
-                                OutlineColor = 0x80000000,
+                                OutlineColor = Theme.Color(ThemeColor.TextOutline),
                                 OutlineWidth = 1
                             }
                         )
@@ -277,8 +277,8 @@ internal partial class GearsetWidget
                     style: new() {
                         Font         = Font.Miedinger,
                         TextAlign    = Anchor.TopRight,
-                        TextColor    = 0xFFC0C0C0,
-                        OutlineColor = 0xFF000000,
+                        TextColor    = Theme.Color(ThemeColor.Text),
+                        OutlineColor = Theme.Color(ThemeColor.TextOutlineLight),
                         OutlineWidth = 1
                     }
                 ),
@@ -293,7 +293,7 @@ internal partial class GearsetWidget
                             size: new(CellWidth - 80, 5),
                             anchor: Anchor.BottomRight,
                             style: new() {
-                                BackgroundColor = 0xFF151515,
+                                BackgroundColor = Theme.Color(ThemeColor.BackgroundDark),
                             },
                             children: [
                                 new(
@@ -312,8 +312,8 @@ internal partial class GearsetWidget
             ]
         );
 
-        el.OnMouseEnter += () => el.Get<BackgroundElement>().EdgeColor = 0xFF505050;
-        el.OnMouseLeave += () => el.Get<BackgroundElement>().EdgeColor = 0xFF000000;
+        el.OnMouseEnter += () => el.Get<BackgroundElement>().EdgeColor = Theme.Color(ThemeColor.BorderLight);
+        el.OnMouseLeave += () => el.Get<BackgroundElement>().EdgeColor = Theme.Color(ThemeColor.BorderDark);
         el.OnClick      += () => _gearsetRepository.EquipGearset(gearset.Id);
 
         return el;

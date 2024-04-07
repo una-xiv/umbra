@@ -27,8 +27,13 @@ public class DropdownButtonElement : Element
     public uint?   IconColor;
     public string? KeyBind;
 
-    private readonly BackgroundElement _highlightElement = new(color: 0x305FCFFF, rounding: 4, padding: new(-2, 1));
-    private readonly Element _iconElement = new("Icon", size: new(18), margin: new(0, 4), anchor: Anchor.MiddleLeft);
+    private readonly BackgroundElement _highlightElement = new(
+        color: Theme.Color(ThemeColor.HighlightBackground),
+        rounding: 4,
+        padding: new(-2, 1)
+    );
+
+    private readonly Element _iconElement  = new("Icon", size: new(18), margin: new(0, 4), anchor: Anchor.MiddleLeft);
     private readonly Element _labelElement = new("Label", size: new(0, 18), anchor: Anchor.MiddleLeft);
 
     private readonly Element _keyBindElement = new(
@@ -66,17 +71,17 @@ public class DropdownButtonElement : Element
         _labelElement.Style = new() {
             Font         = Font.Axis,
             TextAlign    = Anchor.MiddleLeft,
-            TextColor    = 0xFFC0C0C0,
+            TextColor    = Theme.Color(ThemeColor.Text),
             TextOffset   = new(0, -1),
-            OutlineColor = 0xFF000000,
+            OutlineColor = Theme.Color(ThemeColor.TextOutlineLight),
             OutlineWidth = 1,
         };
 
         _keyBindElement.Style = new() {
             Font         = Font.AxisSmall,
             TextAlign    = Anchor.MiddleRight,
-            TextColor    = 0xFF909090,
-            OutlineColor = 0x80000000,
+            TextColor    = Theme.Color(ThemeColor.TextMuted),
+            OutlineColor = Theme.Color(ThemeColor.TextOutline),
             OutlineWidth = 1,
         };
 
@@ -84,13 +89,15 @@ public class DropdownButtonElement : Element
         _highlightElement.Style.Opacity = 0;
 
         OnMouseEnter += () => {
-            _highlightElement.Style.Opacity = 1;
-            _labelElement.Style.TextColor   = 0xFFFFFFFF;
+            _highlightElement.Style.Opacity  = 1;
+            _labelElement.Style.TextColor    = Theme.Color(ThemeColor.HighlightForeground);
+            _labelElement.Style.OutlineColor = Theme.Color(ThemeColor.HighlightOutline);
         };
 
         OnMouseLeave += () => {
-            _highlightElement.Style.Opacity = 0;
-            _labelElement.Style.TextColor   = 0xFFC0C0C0;
+            _highlightElement.Style.Opacity  = 0;
+            _labelElement.Style.TextColor    = Theme.Color(ThemeColor.Text);
+            _labelElement.Style.OutlineColor = Theme.Color(ThemeColor.TextOutline);
         };
     }
 

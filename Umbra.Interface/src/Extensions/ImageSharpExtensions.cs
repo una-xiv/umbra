@@ -58,7 +58,7 @@ public static class ImageSharpExtensions
             AlphaCompositionMode = PixelAlphaCompositionMode.DestOut
         });
 
-        foreach (IPath path in corners) context = context.Fill(Color.Red, path);
+        foreach (IPath path in corners) context = context.Fill(SixLabors.ImageSharp.Color.Red, path);
 
         return context;
     }

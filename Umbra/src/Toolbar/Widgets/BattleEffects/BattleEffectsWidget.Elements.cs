@@ -27,8 +27,8 @@ internal sealed partial class BattleEffectsWidget
         anchor: Anchor.MiddleRight,
         sortIndex: int.MinValue + 2,
         children: [
-            new BackgroundElement(color: 0xFF1A1A1A, edgeColor: 0xFF101010, edgeThickness: 1, rounding: 4),
-            new BorderElement(color: 0xFF3F3F3F, rounding: 3, padding: new(1)),
+            new BackgroundElement(color: Theme.Color(ThemeColor.BackgroundDark), edgeColor: Theme.Color(ThemeColor.BorderDark), edgeThickness: 1, rounding: 4),
+            new BorderElement(color: Theme.Color(ThemeColor.Border), rounding: 3, padding: new(1)),
             new(
                 id: "Icon",
                 anchor: Anchor.None,
@@ -36,8 +36,8 @@ internal sealed partial class BattleEffectsWidget
                 style: new() {
                     Font         = Font.FontAwesome,
                     TextAlign    = Anchor.MiddleCenter,
-                    TextColor    = 0xFFC0C0C0,
-                    OutlineColor = 0xFF000000,
+                    TextColor    = Theme.Color(ThemeColor.Text),
+                    OutlineColor = Theme.Color(ThemeColor.TextOutlineLight),
                     OutlineWidth = 1,
                     TextOffset   = new(0, -1)
                 }

@@ -47,6 +47,7 @@ public class OverflowContainer : Element
         ImGui.PushStyleVar(ImGuiStyleVar.FramePadding,    new Vector2(0, 0));
         ImGui.PushStyleVar(ImGuiStyleVar.FrameBorderSize, 0);
         ImGui.PushStyleVar(ImGuiStyleVar.FrameRounding,   0);
+        ImGui.PushStyleColor(ImGuiCol.FrameBg, 0);
         ImGui.BeginChildFrame(_childIdCounter, ContentBox.Size.ToVector2(), ImGuiWindowFlags.None);
 
         // Reset the cursor pos to the top left of the child frame.
@@ -66,6 +67,7 @@ public class OverflowContainer : Element
 
         ImGui.SetCursorPos(new(0, totalHeight));
         ImGui.EndChildFrame();
+        ImGui.PopStyleColor();
         ImGui.PopStyleVar(3);
         PopDrawList();
     }

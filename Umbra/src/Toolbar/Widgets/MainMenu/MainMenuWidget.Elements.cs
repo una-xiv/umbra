@@ -45,16 +45,16 @@ internal sealed partial class MainMenuWidget
             padding: new(0, 4),
             style: new() {
                 Font         = Font.Axis,
-                TextColor    = 0xFFC0C0C0,
+                TextColor    = Theme.Color(ThemeColor.Text),
                 TextAlign    = Anchor.MiddleCenter,
                 TextOffset   = new(0, -1),
-                OutlineColor = 0x90000000,
+                OutlineColor = Theme.Color(ThemeColor.TextOutline),
                 OutlineWidth = 1,
             }
         );
 
-        button.OnMouseEnter += () => button.Style.TextColor = 0xFFFFFFFF;
-        button.OnMouseLeave += () => button.Style.TextColor = 0xFFC0C0C0;
+        button.OnMouseEnter += () => button.Style.TextColor = Theme.Color(ThemeColor.TextLight);
+        button.OnMouseLeave += () => button.Style.TextColor = Theme.Color(ThemeColor.Text);
 
         Element.AddChild(button);
 
@@ -115,7 +115,7 @@ internal sealed partial class MainMenuWidget
             id: $"MainMenu_{_buttonId++}",
             label: item.Name,
             icon: item.Icon,
-            iconColor: item.IconColor ?? 0xFFFFFFFF,
+            iconColor: item.IconColor ?? Theme.Color(ThemeColor.TextLight),
             keyBind: string.IsNullOrEmpty(item.Shortkey) ? null : item.Shortkey
         ) {
             Tag        = "MenuItem",

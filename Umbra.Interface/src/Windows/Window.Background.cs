@@ -30,14 +30,14 @@ public abstract partial class Window
     private readonly Element _windowBackground = new(
         id: "WindowBackground",
         style: new() {
-            BackgroundColor       = 0xFF212021,
+            BackgroundColor       = Theme.Color(ThemeColor.Background),
             RoundedCorners        = RoundedCorners.All,
             BackgroundRounding    = 8,
             BackgroundBorderWidth = 1,
-            BackgroundBorderColor = 0xFF151515
+            BackgroundBorderColor = Theme.Color(ThemeColor.BorderDark)
         },
         children: [
-            new BorderElement(color: 0xFF2F2F2F, padding: new(top: 33, left: 1, right: 1, bottom: 1), rounding: 7, corners: RoundedCorners.Bottom)
+            new BorderElement(color: Theme.Color(ThemeColor.Border), padding: new(top: 33, left: 1, right: 1, bottom: 1), rounding: 7, corners: RoundedCorners.Bottom)
         ]
     );
 

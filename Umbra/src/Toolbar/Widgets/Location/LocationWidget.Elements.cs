@@ -39,9 +39,9 @@ internal partial class LocationWidget
                         style: new() {
                             Font         = Font.AxisSmall,
                             TextAlign    = Anchor.BottomRight,
-                            TextColor    = 0xFFC0C0C0,
+                            TextColor    = Theme.Color(ThemeColor.Text),
                             TextOffset   = new(0, 0),
-                            OutlineColor = 0xAA000000,
+                            OutlineColor = Theme.Color(ThemeColor.TextOutline),
                             OutlineWidth = 1,
                         }
                     ),
@@ -52,9 +52,9 @@ internal partial class LocationWidget
                         style: new() {
                             Font         = Font.AxisExtraSmall,
                             TextAlign    = Anchor.TopRight,
-                            TextColor    = 0xFFA0A0A0,
+                            TextColor    = Theme.Color(ThemeColor.TextMuted),
                             TextOffset   = new(0, -1),
-                            OutlineColor = 0x80000000,
+                            OutlineColor = Theme.Color(ThemeColor.TextOutline),
                             OutlineWidth = 1,
                         }
                     ),
@@ -79,9 +79,9 @@ internal partial class LocationWidget
                         style: new() {
                             Font         = Font.AxisSmall,
                             TextAlign    = Anchor.BottomLeft,
-                            TextColor    = 0xFFC0C0C0,
+                            TextColor    = Theme.Color(ThemeColor.Text),
                             TextOffset   = new(0, 0),
-                            OutlineColor = 0xAA000000,
+                            OutlineColor = Theme.Color(ThemeColor.TextOutline),
                             OutlineWidth = 1,
                         }
                     ),
@@ -92,9 +92,9 @@ internal partial class LocationWidget
                         style: new() {
                             Font         = Font.AxisExtraSmall,
                             TextAlign    = Anchor.TopLeft,
-                            TextColor    = 0xFFA0A0A0,
+                            TextColor    = Theme.Color(ThemeColor.TextMuted),
                             TextOffset   = new(0, -1),
-                            OutlineColor = 0x80000000,
+                            OutlineColor = Theme.Color(ThemeColor.TextOutline),
                             OutlineWidth = 1,
                         }
                     ),

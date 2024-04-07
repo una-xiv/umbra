@@ -16,19 +16,10 @@
 
 namespace Umbra.Interface;
 
-public class DropdownSeparatorElement : Element
+internal interface ILiveThemePreset
 {
-    public DropdownSeparatorElement() : base("")
-    {
-        Padding = new(0, 4);
-
-        Style.BorderWidth = new(top: 1, bottom: 1, left: 0, right: 0);
-        Style.BorderColor = new(top: Theme.Color(ThemeColor.BorderDark), bottom: Theme.Color(ThemeColor.Border), left: 0, right: 0);
-    }
-
-    protected override void AfterCompute()
-    {
-        ComputedSize = new(Parent!.ComputedSize.Width - Padding.Horizontal, 1);
-        ComputeBoundingBox();
-    }
+    /// <summary>
+    /// Invoked periodically to update the preset color values.
+    /// </summary>
+    public void Update();
 }

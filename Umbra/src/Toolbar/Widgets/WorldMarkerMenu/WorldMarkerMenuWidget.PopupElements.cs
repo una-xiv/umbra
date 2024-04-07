@@ -34,8 +34,8 @@ internal sealed partial class WorldMarkerMenuWidget
                     Font         = Font.AxisLarge,
                     TextAlign    = Anchor.MiddleCenter,
                     TextOffset   = new(0, -1),
-                    TextColor    = 0xFFC0C0C0,
-                    OutlineColor = 0x80000000,
+                    TextColor    = Theme.Color(ThemeColor.Text),
+                    OutlineColor = Theme.Color(ThemeColor.TextOutline),
                     OutlineWidth = 1,
                 }
             ),
@@ -63,8 +63,8 @@ internal sealed partial class WorldMarkerMenuWidget
                     anchor: Anchor.MiddleLeft,
                     size: new(24, 24),
                     children: [
-                        new BackgroundElement(color: 0xFF2F2F2F, edgeColor: 0xFF2F2F2F, edgeThickness: 1, rounding: 4),
-                        new BorderElement(color: 0xFF101010, padding: new(1), rounding: 3),
+                        new BackgroundElement(color: Theme.Color(ThemeColor.BackgroundLight), edgeColor: Theme.Color(ThemeColor.BackgroundLight), edgeThickness: 1, rounding: 4),
+                        new BorderElement(color: Theme.Color(ThemeColor.BorderDark), padding: new(1), rounding: 3),
                         new(
                             id: "Check",
                             size: new(24, 24),
@@ -74,8 +74,8 @@ internal sealed partial class WorldMarkerMenuWidget
                                 Font         = Font.FontAwesome,
                                 TextAlign    = Anchor.MiddleCenter,
                                 TextOffset   = new(0, -1),
-                                TextColor    = 0xFFC0C0C0,
-                                OutlineColor = 0x80000000,
+                                TextColor    = Theme.Color(ThemeColor.Text),
+                                OutlineColor = Theme.Color(ThemeColor.TextOutline),
                                 OutlineWidth = 1,
                             }
                         )
@@ -91,8 +91,8 @@ internal sealed partial class WorldMarkerMenuWidget
                         Font         = Font.Axis,
                         TextAlign    = Anchor.MiddleLeft,
                         TextOffset   = new(0, -1),
-                        TextColor    = 0xFFC0C0C0,
-                        OutlineColor = 0x80000000,
+                        TextColor    = Theme.Color(ThemeColor.Text),
+                        OutlineColor = Theme.Color(ThemeColor.TextOutline),
                         OutlineWidth = 1,
                     }
                 )
@@ -105,8 +105,8 @@ internal sealed partial class WorldMarkerMenuWidget
         };
 
         button.OnClick      += () => ConfigManager.Set(cvar.Id, !(bool)cvar.Value!);
-        button.OnMouseEnter += () => button.Get("Label").Style.TextColor = 0xFFFFFFFF;
-        button.OnMouseLeave += () => button.Get("Label").Style.TextColor = 0xFFC0C0C0;
+        button.OnMouseEnter += () => button.Get("Label").Style.TextColor = Theme.Color(ThemeColor.TextLight);
+        button.OnMouseLeave += () => button.Get("Label").Style.TextColor = Theme.Color(ThemeColor.Text);
 
         return button;
     }

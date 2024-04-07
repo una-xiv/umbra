@@ -16,18 +16,18 @@
 
 namespace Umbra.Interface;
 
-public class Gradient(uint topLeft, uint topRight, uint bottomLeft, uint bottomRight)
+public class Gradient(Color topLeft, Color topRight, Color bottomLeft, Color bottomRight)
 {
-    public uint TopLeft     { get; set; } = topLeft;
-    public uint TopRight    { get; set; } = topRight;
-    public uint BottomLeft  { get; set; } = bottomLeft;
-    public uint BottomRight { get; set; } = bottomRight;
+    public Color TopLeft     { get; set; } = topLeft;
+    public Color TopRight    { get; set; } = topRight;
+    public Color BottomLeft  { get; set; } = bottomLeft;
+    public Color BottomRight { get; set; } = bottomRight;
 
-    public Gradient(uint color) : this(color, color, color, color) { }
-    public Gradient(uint topColor, uint bottomColor) : this(topColor, topColor, bottomColor, bottomColor) { }
+    public Gradient(Color color) : this(color, color, color, color) { }
+    public Gradient(Color topColor, Color bottomColor) : this(topColor, topColor, bottomColor, bottomColor) { }
 
-    public static Gradient Vertical(uint top, uint bottom) => new Gradient(top, top, bottom, bottom);
-    public static Gradient Horizontal(uint left, uint right) => new Gradient(left, right, left, right);
+    public static Gradient Vertical(Color   top,  Color bottom) => new(top, top, bottom, bottom);
+    public static Gradient Horizontal(Color left, Color right)  => new(left, right, left, right);
 
     public bool HasValue => TopLeft != 0 || TopRight != 0 || BottomLeft != 0 || BottomRight != 0;
 }
