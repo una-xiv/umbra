@@ -93,6 +93,8 @@
     "CVAR.Markers.Direction.Enabled.Description": "Display direction indicators of world markers that are currently out of view.",
     "CVAR.Markers.Direction.Radius.Name": "Direction indicator edge padding",
     "CVAR.Markers.Direction.Radius.Description": "The padding from the edge of the screen in pixels to display the direction indicators.",
+    "CVAR.Markers.Direction.UseCircularPositioning.Name": "Use circular positioning for direction markers",
+    "CVAR.Markers.Direction.UseCircularPositioning.Description": "If enabled, direction markers are positioned based on the screen height only, making them appear in a circle around the center of the screen.",
     "CVAR.Markers.OcclusionTest.Enabled.Name": "Enable occlusion testing",
     "CVAR.Markers.OcclusionTest.Description": "If enabled, the visibility of world markers is tested against the game's occlusion system to make markers slightly transparent when not in direct line of sight. This may have a slight performance cost and may not work for all world objects.",
     "CVAR.Markers.DistanceOpacity.Enabled.Name": "Enable distance-based opacity",

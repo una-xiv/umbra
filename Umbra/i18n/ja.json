@@ -93,6 +93,8 @@
     "CVAR.Markers.Direction.Enabled.Description": "現在視界外にあるワールドマーカーの方向インジケータを表示します。",
     "CVAR.Markers.Direction.Radius.Name": "方向インジケータの端の余白",
     "CVAR.Markers.Direction.Radius.Description": "画面の端から方向インジケータを表示するピクセルの余白。",
+    "CVAR.Markers.Direction.UseCircularPositioning.Name": "方向マーカーの円形配置を使用する",
+    "CVAR.Markers.Direction.UseCircularPositioning.Description": "有効にすると、方向マーカーは画面の高さに基づいて配置され、画面の中心を中心に円形に表示されます。",
     "CVAR.Markers.OcclusionTest.Enabled.Name": "遮蔽テストを有効にする",
     "CVAR.Markers.OcclusionTest.Description": "有効にすると、ワールドマーカーの可視性がゲームの遮蔽システムに対してテストされ、直接の視界にない場合はマーカーがわずかに透明になります。これにはわずかなパフォーマンスコストがかかり、すべてのワールドオブジェクトで機能しない場合があります。",
     "CVAR.Markers.DistanceOpacity.Enabled.Name": "距離に基づく不透明度を有効にする",

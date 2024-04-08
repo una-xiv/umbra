@@ -40,6 +40,9 @@ public sealed class WorldMarkerDirectionRenderer(
     [ConfigVariable("Markers.Direction.Radius", "MarkerSettings", min: 64, max: 600)]
     private static int Radius { get; set; } = 300;
 
+    [ConfigVariable("Markers.Direction.UseCircularPositioning", "MarkerSettings")]
+    private static bool UseCircularPositioning { get; set; } = false;
+
     public void Render(List<WorldMarkerObject> markers)
     {
         if (!Enabled) return;
@@ -63,9 +66,10 @@ public sealed class WorldMarkerDirectionRenderer(
         var displaySize = ImGui.GetIO().DisplaySize;
         var displayPos  = ImGui.GetMainViewport().Pos;
 
-        // Move the marker to the edge of the screen if it's outside the screen.
-        float x = displayPos.X + (displaySize.X / 2 + MathF.Cos(angle) * ((displaySize.Y / 2) - Radius));
-        float y = displayPos.Y + (displaySize.Y / 2 + MathF.Sin(angle) * ((displaySize.Y / 2) - Radius));
+        // Move the marker to the edge of the screen.
+        float dX = UseCircularPositioning ? displaySize.Y : displaySize.X;
+        float x  = displayPos.X + (displaySize.X / 2 + MathF.Cos(angle) * ((dX / 2) - Radius));
+        float y  = displayPos.Y + (displaySize.Y / 2 + MathF.Sin(angle) * ((displaySize.Y / 2) - Radius));
 
         var bounds = new Rect(new(x - (wSize / 2), y - (wSize / 2)), new(x + (wSize / 2), y + (wSize / 2)));
 

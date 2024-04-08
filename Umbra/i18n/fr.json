@@ -93,6 +93,8 @@
     "CVAR.Markers.Direction.Enabled.Description": "Affiche les indicateurs de direction des marqueurs mondiaux qui sont actuellement hors de vue.",
     "CVAR.Markers.Direction.Radius.Name": "Marge de bord des indicateurs de direction",
     "CVAR.Markers.Direction.Radius.Description": "La marge à partir du bord de l'écran en pixels pour afficher les indicateurs de direction.",
+    "CVAR.Markers.Direction.UseCircularPositioning.Name": "Utiliser le positionnement circulaire pour les marqueurs de direction",
+    "CVAR.Markers.Direction.UseCircularPositioning.Description": "Si activé, les marqueurs de direction sont positionnés uniquement en fonction de la hauteur de l'écran, les faisant apparaître en cercle autour du centre de l'écran.",
     "CVAR.Markers.OcclusionTest.Enabled.Name": "Activer les tests d'occultation",
     "CVAR.Markers.OcclusionTest.Description": "Si activé, la visibilité des marqueurs mondiaux est testée par rapport au système d'occultation du jeu pour rendre les marqueurs légèrement transparents lorsqu'ils ne sont pas en ligne de mire directe. Cela peut avoir un léger coût en performance et peut ne pas fonctionner pour tous les objets du monde.",
     "CVAR.Markers.DistanceOpacity.Enabled.Name": "Activer l'opacité basée sur la distance",

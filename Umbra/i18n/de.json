@@ -93,6 +93,8 @@
     "CVAR.Markers.Direction.Enabled.Description": "Zeigt Richtungsindikatoren von Weltmarkern an, die sich derzeit außerhalb des Sichtfelds befinden.",
     "CVAR.Markers.Direction.Radius.Name": "Richtungs-Marker Randabstand",
     "CVAR.Markers.Direction.Radius.Description": "Der Abstand vom Bildschirmrand in Pixeln, um die Richtungs-Marker anzuzeigen.",
+    "CVAR.Markers.Direction.UseCircularPositioning.Name": "Kreisförmige Positionierung für Richtungsanzeigen verwenden",
+    "CVAR.Markers.Direction.UseCircularPositioning.Description": "Wenn aktiviert, werden Richtungsanzeigen nur basierend auf der Bildschirmhöhe positioniert, sodass sie in einem Kreis um das Zentrum des Bildschirms erscheinen.",
     "CVAR.Markers.OcclusionTest.Enabled.Name": "Sichtbarkeitstest aktivieren",
     "CVAR.Markers.OcclusionTest.Description": "Wenn aktiviert, wird die Sichtbarkeit von Weltmarkern gegen das Okklusionssystem des Spiels getestet, um Marker leicht transparent zu machen, wenn sie nicht direkt im Sichtfeld sind. Dies kann eine leichte Leistungseinbuße verursachen und funktioniert möglicherweise nicht für alle Spielobjekte.",
     "CVAR.Markers.DistanceOpacity.Enabled.Name": "Abstandsabhängige Transparenz aktivieren",
