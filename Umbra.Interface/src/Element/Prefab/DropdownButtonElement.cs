@@ -30,7 +30,8 @@ public class DropdownButtonElement : Element
     private readonly BackgroundElement _highlightElement = new(
         color: Theme.Color(ThemeColor.HighlightBackground),
         rounding: 4,
-        padding: new(-2, 1)
+        padding: new(-2, 1),
+        opacity: 0
     );
 
     private readonly Element _iconElement  = new("Icon", size: new(18), margin: new(0, 4), anchor: Anchor.MiddleLeft);
@@ -85,17 +86,17 @@ public class DropdownButtonElement : Element
             OutlineWidth = 1,
         };
 
-        Style.BackgroundColor           = 0;
-        _highlightElement.Style.Opacity = 0;
+        Style.BackgroundColor     = new();
+        _highlightElement.Opacity = 0;
 
         OnMouseEnter += () => {
-            _highlightElement.Style.Opacity  = 1;
+            _highlightElement.Opacity        = 1;
             _labelElement.Style.TextColor    = Theme.Color(ThemeColor.HighlightForeground);
             _labelElement.Style.OutlineColor = Theme.Color(ThemeColor.HighlightOutline);
         };
 
         OnMouseLeave += () => {
-            _highlightElement.Style.Opacity  = 0;
+            _highlightElement.Opacity        = 0;
             _labelElement.Style.TextColor    = Theme.Color(ThemeColor.Text);
             _labelElement.Style.OutlineColor = Theme.Color(ThemeColor.TextOutline);
         };

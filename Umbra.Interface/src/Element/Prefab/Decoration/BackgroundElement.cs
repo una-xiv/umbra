@@ -21,6 +21,7 @@ public class BackgroundElement : Element
     public Color          Color;
     public Color          EdgeColor;
     public int            EdgeThickness;
+    public float          Opacity;
     public int            Rounding;
     public RoundedCorners Corners;
 
@@ -29,6 +30,7 @@ public class BackgroundElement : Element
         Color?         color         = null,
         int            edgeThickness = 1,
         Color?         edgeColor     = null,
+        float          opacity       = 1,
         int            rounding      = 0,
         RoundedCorners corners       = RoundedCorners.All,
         Spacing        padding       = new()
@@ -37,9 +39,10 @@ public class BackgroundElement : Element
         padding: padding
     )
     {
-        Color         = color ?? new();
+        Color         = color     ?? new();
         EdgeColor     = edgeColor ?? new();
         EdgeThickness = edgeThickness;
+        Opacity       = opacity;
         Rounding      = rounding;
         Corners       = corners;
         Anchor        = Anchor.None;
@@ -50,6 +53,7 @@ public class BackgroundElement : Element
         Style.BackgroundColor       = Color;
         Style.BackgroundBorderColor = EdgeColor;
         Style.BackgroundBorderWidth = EdgeThickness;
+        Style.Opacity               = Opacity;
         Style.BackgroundRounding    = Rounding;
         Style.RoundedCorners        = Corners;
     }

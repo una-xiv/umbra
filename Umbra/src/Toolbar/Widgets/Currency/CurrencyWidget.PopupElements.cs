@@ -53,6 +53,12 @@ internal partial class CurrencyWidget
             gap: 6,
             sortIndex: _sortIndex,
             children: [
+                new BackgroundElement(
+                    color: Theme.Color(ThemeColor.HighlightBackground),
+                    rounding: 4,
+                    padding: new(top: 2, bottom: 2, left: -2, right: -6),
+                    opacity: 0
+                ),
                 new(
                     id: "Icon",
                     anchor: Anchor.MiddleLeft,
@@ -90,19 +96,30 @@ internal partial class CurrencyWidget
             ]
         );
 
-        button.OnMouseEnter += () => button.Get("Name").Style.TextColor = Theme.Color(ThemeColor.TextLight);
-        button.OnMouseLeave += () => button.Get("Name").Style.TextColor = Theme.Color(ThemeColor.Text);
+        BindInteractiveEventsTo(button, itemId);
+
+        return button;
+    }
+
+    private void BindInteractiveEventsTo(Element button, uint itemId)
+    {
+        button.OnMouseEnter += () => {
+            button.Get("Name").Style.TextColor      = Theme.Color(ThemeColor.HighlightForeground);
+            button.Get("Name").Style.OutlineColor   = Theme.Color(ThemeColor.HighlightOutline);
+            button.Get<BackgroundElement>().Opacity = 1;
+        };
+
+        button.OnMouseLeave += () => {
+            button.Get("Name").Style.TextColor        = Theme.Color(ThemeColor.Text);
+            button.Get("Name").Style.OutlineColor     = Theme.Color(ThemeColor.TextOutline);
+            button.Get<BackgroundElement>().Opacity   = 0;
+        };
+
         button.OnClick += () => {
-            if (TrackedCurrencyId == itemId) {
-                ConfigManager.Set("Toolbar.Widget.Currencies.TrackedCurrencyId", 0);
-            } else {
-                ConfigManager.Set("Toolbar.Widget.Currencies.TrackedCurrencyId", itemId);
-            }
+            ConfigManager.Set("Toolbar.Widget.Currencies.TrackedCurrencyId", TrackedCurrencyId == itemId ? 0 : itemId);
 
             // Close the popup after clicking a currency.
             _ctx.Clear();
         };
-
-        return button;
     }
 }

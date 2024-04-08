@@ -142,24 +142,24 @@ internal partial class CurrencyWidget : IToolbarWidget
         if (_player.GrandCompanyId == 2) target.AddChild(CreateCurrencyRow(21)); // Twin Adder
         if (_player.GrandCompanyId == 3) target.AddChild(CreateCurrencyRow(22)); // Immortal Flames
 
-        target.AddChild(new DropdownSeparatorElement { SortIndex = _sortIndex++ });
+        target.AddChild(new DropdownSeparatorElement { SortIndex = _sortIndex++, Padding = new(left: 2, right: 6)});
         target.AddChild(CreateCurrencyRow(27));    // Allied Seals
         target.AddChild(CreateCurrencyRow(10307)); // Centurio Seals
         target.AddChild(CreateCurrencyRow(26533)); // Sacks of Nuts
-        target.AddChild(new DropdownSeparatorElement { SortIndex = _sortIndex++ });
+        target.AddChild(new DropdownSeparatorElement { SortIndex = _sortIndex++, Padding = new(left: 2, right: 6) });
         target.AddChild(CreateCurrencyRow(GetLimitedTomestoneId()));    // Limited Tomestones
         target.AddChild(CreateCurrencyRow(GetNonLimitedTomestoneId())); // Non-limited Tomestones
         target.AddChild(CreateCurrencyRow(28));                         // Poetics
-        target.AddChild(new DropdownSeparatorElement { SortIndex = _sortIndex++ });
+        target.AddChild(new DropdownSeparatorElement { SortIndex = _sortIndex++, Padding = new(left: 2, right: 6) });
         target.AddChild(CreateCurrencyRow(25));    // Wolf Marks
         target.AddChild(CreateCurrencyRow(36656)); // Trophy Crystals
-        target.AddChild(new DropdownSeparatorElement { SortIndex = _sortIndex++ });
+        target.AddChild(new DropdownSeparatorElement { SortIndex = _sortIndex++, Padding = new(left: 2, right: 6) });
         target.AddChild(CreateCurrencyRow(33913)); // Purple Crafter Scrips
         target.AddChild(CreateCurrencyRow(33914)); // Purple Gatherer Scrips
         target.AddChild(CreateCurrencyRow(25199)); // White Crafter Scrips
         target.AddChild(CreateCurrencyRow(25200)); // White Gatherer Scrips
         target.AddChild(CreateCurrencyRow(28063)); // Skybuilders Scrips
-        target.AddChild(new DropdownSeparatorElement { SortIndex = _sortIndex++ });
+        target.AddChild(new DropdownSeparatorElement { SortIndex = _sortIndex++, Padding = new(left: 2, right: 6) });
         target.AddChild(CreateCurrencyRow(26807)); // Bicolor Gemstones
     }
 
