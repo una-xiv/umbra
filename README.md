@@ -260,9 +260,10 @@ Map (and minimap) markers are also added for the detected coffer locations if th
 Settings window under the `Marker Settings` tab.
 
 > [!IMPORTANT]
-> This feature is unavailable if you also have the Eureka Linker plugin installed and enabled. This plugin
-> also provides features that use map markers, which would cause conflicting behavior if both are enabled. Enabling this
-> setting and having Eureka Linker enabled will cause Umbra to disable this feature automatically.
+> This feature is unavailable if you also have the [Eureka Linker](https://github.com/Infiziert90/EurekaTrackerAutoPopper)
+> plugin installed and enabled. This plugin also provides features that use map markers, which would cause conflicting
+> behavior if both are enabled. Enabling this setting and having Eureka Linker enabled will cause Umbra to disable this
+> feature automatically.
 
 ### Quest Objectives
 
