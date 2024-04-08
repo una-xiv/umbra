@@ -61,6 +61,8 @@
     "CVAR.Toolbar.Enabled.Description": "Whether to display the toolbar. Use the \"/umbra\" command to open the settings window if you decide to disable the toolbar.",
     "CVAR.Toolbar.IsTopAligned.Name": "Place the toolbar at the top of the screen.",
     "CVAR.Toolbar.IsTopAligned.Description": "Aligns the toolbar to the top of the screen rather than the bottom.",
+    "CVAR.Toolbar.ItemSpacing.Name": "Toolbar widget spacing",
+    "CVAR.Toolbar.ItemSpacing.Description": "Defines the distance between toolbar widgets in pixels.",
     "CVAR.Toolbar.Widget.BattleEffects.Enabled.Name": "Show battle effects widget",
     "CVAR.Toolbar.Widget.BattleEffects.Enabled.Description": "Display a widget that allows you to control the visibility of various battle effects.",
     "CVAR.Toolbar.Widget.Clock.Enabled.Name": "Show clock widget",

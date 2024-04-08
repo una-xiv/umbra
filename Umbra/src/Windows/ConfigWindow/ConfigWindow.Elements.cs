@@ -153,6 +153,10 @@ internal sealed partial class ConfigWindow
                     if (cvar.Default is bool) {
                         panel.AddChild(CreateBooleanOption(cvar));
                     }
+
+                    if (cvar is { Default: int, Min: not null, Max: not null }) {
+                        panel.AddChild(CreateIntegerOption(cvar));
+                    }
                 }
             );
 
@@ -161,7 +165,70 @@ internal sealed partial class ConfigWindow
         Body.AddChild(panel);
     }
 
-    private Element CreateBooleanOption(Cvar cvar)
+    private static Element CreateIntegerOption(Cvar cvar)
+    {
+        Element el = new(
+            id: Slugify(cvar.Id),
+            flow: Flow.Vertical,
+            anchor: Anchor.TopLeft,
+            padding: new(left: 38, bottom: 4),
+            gap: 10,
+            children: [
+                new(
+                    id: "Text",
+                    flow: Flow.Vertical,
+                    anchor: Anchor.TopLeft,
+                    gap: 4,
+                    children: [
+                        new(
+                            id: "Name",
+                            text: I18N.Translate($"CVAR.{cvar.Id}.Name"),
+                            anchor: Anchor.TopLeft,
+                            style: new() {
+                                Font         = Font.Axis,
+                                TextColor    = Theme.Color(ThemeColor.Text),
+                                TextAlign    = Anchor.MiddleLeft,
+                                OutlineColor = Theme.Color(ThemeColor.TextOutline),
+                                OutlineWidth = 1
+                            }
+                        ),
+                        new(
+                            id: "Description",
+                            text: I18N.Translate($"CVAR.{cvar.Id}.Description"),
+                            anchor: Anchor.TopLeft,
+                            size: new(250, 0),
+                            style: new() {
+                                Font         = Font.AxisSmall,
+                                TextColor    = Theme.Color(ThemeColor.TextMuted),
+                                TextAlign    = Anchor.TopLeft,
+                                TextWrap     = true,
+                                OutlineColor = Theme.Color(ThemeColor.TextOutline),
+                                OutlineWidth = 1
+                            }
+                        ) { IsVisible = I18N.Has($"CVAR.{cvar.Id}.Description") }
+                    ]
+                ),
+                new IntegerInputElement(
+                    id: Slugify(cvar.Id),
+                    value: (int)cvar.Value!,
+                    minValue: (int)cvar.Min!,
+                    maxValue: (int)cvar.Max!,
+                    anchor: Anchor.TopLeft
+                )
+            ]
+        );
+
+        el.OnBeforeCompute += () => {
+            el.Get("Text.Description").Size = new((int)(ImGui.GetWindowSize().X - 60), 0);
+            el.Get<IntegerInputElement>().Value = (int)cvar.Value!;
+        };
+
+        el.Get<IntegerInputElement>().OnValueChanged += value => ConfigManager.Set(cvar.Id, value);
+
+        return el;
+    }
+
+    private static Element CreateBooleanOption(Cvar cvar)
     {
         Element el = new(
             id: Slugify(cvar.Id),
@@ -252,7 +319,7 @@ internal sealed partial class ConfigWindow
         return el;
     }
 
-    private Element CreateThemeColorOption(string name)
+    private static Element CreateThemeColorOption(string name)
     {
         Element el = new(
             id: name,

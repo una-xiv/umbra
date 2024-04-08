@@ -20,7 +20,7 @@ using ImGuiNET;
 
 namespace Umbra.Interface;
 
-public class VerticalSliderElement : Element
+public class IntegerInputElement : Element
 {
     public int Value    { get; set; }
     public int MinValue { get; set; }
@@ -28,55 +28,44 @@ public class VerticalSliderElement : Element
 
     public event Action<int>? OnValueChanged;
 
-    public VerticalSliderElement(
-        string id, Size size, Anchor anchor, int value = 50, int minValue = 0, int maxValue = 100
+    public IntegerInputElement(
+        string id, Anchor anchor, int value = 50, int minValue = 0, int maxValue = 100
     ) : base(id)
     {
-        Size     = size;
         Anchor   = anchor;
         Value    = value;
         MinValue = minValue;
         MaxValue = maxValue;
-    }
-
-    protected override void AfterCompute()
-    {
-        ComputedSize = new(Parent!.ComputedSize.Width - Padding.Horizontal, 1);
-        ComputeBoundingBox();
+        Size     = new(0, 32);
     }
 
     protected override void Draw(ImDrawListPtr drawList)
     {
         int value = Value;
 
-        ImGui.PushID($"VS_{Id}");
+        ImGui.PushID($"II_{Id}");
         ImGui.SetCursorScreenPos(ContentBox.Min);
 
-        ImGui.PushStyleVar(ImGuiStyleVar.GrabRounding,  8);
-        ImGui.PushStyleVar(ImGuiStyleVar.GrabMinSize,   16);
-        ImGui.PushStyleVar(ImGuiStyleVar.FrameRounding, 8);
-        ImGui.PushStyleColor(ImGuiCol.SliderGrab,       0xFFA0A0A0);
-        ImGui.PushStyleColor(ImGuiCol.SliderGrabActive, 0xFFFFFFFF);
-        ImGui.PushStyleColor(ImGuiCol.FrameBg,          0x80101010);
-        ImGui.PushStyleColor(ImGuiCol.FrameBgHovered,   0x80151515);
-        ImGui.PushStyleColor(ImGuiCol.FrameBgActive,    0xD0101010);
+        ImGui.PushStyleVar(ImGuiStyleVar.FramePadding, new Vector2(8, 4));
+        ImGui.PushStyleVar(ImGuiStyleVar.FrameRounding, 5);
+        ImGui.PushStyleColor(ImGuiCol.Text,           Theme.Color(ThemeColor.Text));
+        ImGui.PushStyleColor(ImGuiCol.FrameBg,        Theme.Color(ThemeColor.BackgroundActive));
+        ImGui.PushStyleColor(ImGuiCol.FrameBgHovered, Theme.Color(ThemeColor.BackgroundLight));
+        ImGui.PushStyleColor(ImGuiCol.FrameBgActive,  Theme.Color(ThemeColor.BackgroundActive));
 
-        if (ImGui.VSliderInt(
-                "",
-                Size.ToVector2() - new Vector2(0, Padding.Vertical),
-                ref value,
-                MinValue,
-                MaxValue,
-                ""
-            )) {
+        ImGui.SetNextItemWidth(Parent!.ContentBox.Width);
+
+        if (ImGui.InputInt("", ref value, 1, 10)) {
+            value = Math.Clamp(value, MinValue, MaxValue);
+
             if (Value != value) {
                 Value = value;
                 OnValueChanged?.Invoke(Value);
             }
         }
 
-        ImGui.PopStyleColor(5);
-        ImGui.PopStyleVar(3);
+        ImGui.PopStyleColor(4);
+        ImGui.PopStyleVar(2);
         ImGui.PopID();
     }
 }

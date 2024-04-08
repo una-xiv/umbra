@@ -16,6 +16,7 @@
 
 using System.Numerics;
 using ImGuiNET;
+using Umbra.Common;
 using Umbra.Interface;
 
 namespace Umbra.Toolbar;
@@ -25,7 +26,8 @@ internal partial class Toolbar
     private readonly Color _color1 = Theme.Color(ThemeColor.BackgroundLight);
     private readonly Color _color2 = Theme.Color(ThemeColor.Background);
 
-    private const int ItemSpacing = 6;
+    [ConfigVariable("Toolbar.ItemSpacing", "ToolbarSettings", min: 1, max: 32)]
+    private static int ItemSpacing { get; set; } = 6;
 
     private float _xPosition;
     private float _yPosition;
@@ -49,6 +51,10 @@ internal partial class Toolbar
         var     viewport    = ImGui.GetMainViewport();
         Vector2 displaySize = viewport.Size;
         Vector2 displayPos  = viewport.Pos;
+
+        _element.Get("Left").Gap   = ItemSpacing;
+        _element.Get("Middle").Gap = ItemSpacing;
+        _element.Get("Right").Gap  = ItemSpacing;
 
         _xPosition = displayPos.X;
         _yPosition = displayPos.Y + (IsTopAligned ? 0 : displaySize.Y);

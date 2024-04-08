@@ -61,6 +61,8 @@
     "CVAR.Toolbar.Enabled.Description": "ツールバーを表示するかどうか。ツールバーを無効にすることを決定した場合は、「/umbra」コマンドを使用して設定ウィンドウを開きます。",
     "CVAR.Toolbar.IsTopAligned.Name": "ツールバーを画面の上部に配置する",
     "CVAR.Toolbar.IsTopAligned.Description": "ツールバーを画面の下部ではなく上部に配置します。",
+    "CVAR.Toolbar.ItemSpacing.Name": "ツールバーウィジェットの間隔",
+    "CVAR.Toolbar.ItemSpacing.Description": "ピクセル単位でツールバーウィジェット間の距離を定義します。",
     "CVAR.Toolbar.Widget.BattleEffects.Enabled.Name": "バトルエフェクトウィジェットを表示する",
     "CVAR.Toolbar.Widget.BattleEffects.Enabled.Description": "さまざまなバトルエフェクトの表示状態を制御するウィジェットを表示します。",
     "CVAR.Toolbar.Widget.Clock.Enabled.Name": "時計ウィジェットを表示する",
