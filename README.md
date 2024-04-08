@@ -1,118 +1,341 @@
-﻿![](https://raw.githubusercontent.com/una-xiv/umbra/main/Umbra/images/icon.png)
+![](docs/images/header.png)
 
-Umbra is a Dalamud Plugin for Final Fantasy XIV that consolidates commonly used HUD elements into a single uniform
+**Umbra** is a Dalamud Plugin for Final Fantasy XIV that consolidates commonly used HUD elements into a single uniform
 interface. It also provides 3D world markers for several points of interest, such as hunt marks, gathering nodes, and
 more.
+
+The settings window can be opened by typing `/umbra` in the chat window, or by clicking the `Umbra Settings` item in the
+system menu on the toolbar (if enabled).
+
+## Table of Contents
+
+1. [Toolbar](#toolbar)
+   1. [Main Menu](#main-menu)
+   2. [Added features](#added-features)
+   3. [Currencies Menu](#currencies-menu)
+   4. [Location and Weather](#location-and-weather)
+   5. [Other widgets](#other-widgets)
+2. [World Markers](#world-markers)
+   1. [3D Markers](#3d-markers)
+   2. [Direction Indicator](#direction-indicator)
+   3. [Marker Types](#marker-types)
+3. [Theme Configuration](#theme-configuration)
+   1. [Applying presets](#applying-presets)
+   2. [Importing and Exporting](#importing-and-exporting)
+   3. [Customizing the color scheme](#customizing-the-color-scheme)
 
 ---
 
 # Toolbar
 
-The plugin provides a set of widgets that can be enabled or disabled individually. The widgets are displayed in a
-toolbar at the top or bottom of the screen. The position of the toolbar can be configured in the settings window under
-the "Toolbar Settings" tab.
+Umbra provides a toolbar that can be used to quickly access commonly used features, such as the main menu, location and
+weather, a gearset switcher and more. The toolbar can be either docked to the top or bottom of the screen, or it can be
+disabled if you prefer not to use it.
 
-If you don't like the toolbar, you can also disable it entirely and access the plugin configuration window by using the
-`/umbra` command in the chat.
+## Main Menu
 
-## Widgets
+![](docs/images/toolbar-left.png)
 
-|                                                                                                                                                                                                                                                                                                                                                                                                                                | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |
-|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| <h3>Main Menu</h3>The main menu is a replacement of the default main menu that is presented as a menu bar in the toolbar. It provides access to the same features as the default main menu, but in a more compact and uniform way.                                                                                                                                                                                             | ![](https://github.com/una-xiv/umbra/blob/main/docs/images/main-menu.gif?raw=true)                                                                                                                                                                                                                                                                                                                                       |
-|                                                                                                                                                                                                                                                                                                                                                                                                                                |                                                                                                                                                                                                                                                                                                                                                                                                                          |
-| <h3>Currencies</h3> The currencies widget gives you quick access to a list of all your currencies. Clicking a currency in the menu will show it on the toolbar. Clicking the tracked currency again will revert back to the default toolbar button.                                                                                                                                                                            | ![](https://github.com/una-xiv/umbra/blob/main/docs/images/currencies.gif?raw=true)                                                                                                                                                                                                                                                                                                                                      |
-|                                                                                                                                                                                                                                                                                                                                                                                                                                |                                                                                                                                                                                                                                                                                                                                                                                                                          |
-| <h3>Weather and Location</h3>In the center of the toolbar, you can see the current weather and your current location. The sub-text shown under the location is inferred from nearby map markers, such as place names, settlements, Aetherytes, etc. Clicking on the widget opens the weather forecast for the next couple of hours. Sequential weathers of the same type that occur after one another are hidden from the list. | ![](https://github.com/una-xiv/umbra/blob/main/docs/images/location.gif?raw=true)                                                                                                                                                                                                                                                                                                                                        |
-|                                                                                                                                                                                                                                                                                                                                                                                                                                |                                                                                                                                                                                                                                                                                                                                                                                                                          |
-| <h3>Flag widget</h3>The flag widget will show up on the right hand side of the toolbar whenever a flag is set. Left-clicking the widget will initiate a teleport to the nearest Aetheryte, if the flag is set in an area where there is an unlocked Aetheryte nearby. Right-clicking the widget will clear the flag. The widget will be grayed out if you are unable to initiate the teleport action.                          | ![](https://github.com/una-xiv/umbra/blob/main/docs/images/flag.png?raw=true)![](https://github.com/una-xiv/umbra/blob/main/docs/images/flag2.png?raw=true)                                                                                                                                                                                                                                                              |
-|                                                                                                                                                                                                                                                                                                                                                                                                                                |                                                                                                                                                                                                                                                                                                                                                                                                                          |
-| <h3>Gearset switcher</h3>The gearset switcher is also shown on the right hand side of the toolbar and shows your currently equipped gearset, as well as the job icons and its itemlevel. Clicking the widget will open up a drawer with all your gearsets, neatly categorized based on job roles. There are controls available that allow updating, creating and moving gearsets around. Renaming gearsets should still be done in the native interface. | ![](https://github.com/una-xiv/umbra/blob/main/docs/images/gearset.png?raw=true) ![](https://github.com/una-xiv/umbra/blob/main/docs/images/gearset2.png?raw=true)                                                                                                                                                                                                                                                       |
-|                                                                                                                                                                                                                                                                                                                                                                                                                                |                                                                                                                                                                                                                                                                                                                                                                                                                          |
-| <h3>Companion widget</h3>The companion widget allows you to summon, dismiss and change the stance of your companion. Left-click to summon, right-click to change stance, middle click to open the companion window and shift-or-control + right-click to dismiss. The widget will only show a Gysahl Greens icon if your companion is not summoned. | ![](https://github.com/una-xiv/umbra/blob/main/docs/images/companion.png?raw=true) ![](https://github.com/una-xiv/umbra/blob/main/docs/images/companion2.png?raw=true)                                                                                                                                                                                                                                                   |
-|                                                                                                                                                                                                                                                                                                                                                                                                                                |                                                                                                                                                                                                                                                                                                                                                                                                                          |
-| <h3>Misc widgets</h3>The last widgets consist list of active world markers that allows you to quickly toggle specific world markers on or off, a battle VFX switcher to quickly tune the visual effects of yourself, party members, others and PVP enemies, a volume control and a clock. Clicking the local time toggles server time and vice-versa. | ![](https://github.com/una-xiv/umbra/blob/main/docs/images/misc.png?raw=true)                                                                                                                                                                                                                                                                                                                                            |
+The main menu serves as a replacement for the main menu button list. It is docked to the left side of the toolbar and
+allows quick access to the game's native features, as well as some extras provided by Umbra. The main menu opens
+sub-menus when clicked, or on hover if a sub-menu is already opened. This mimics the behavior or most operating system
+menu bars in applications.
+
+### Added features
+
+Three options have been added to the `System` menu:
+
+- **Dalamud Plugins** - Opens the Dalamud Plugins window
+- **Dalamud Settings** - Opens the Dalamud Settings window
+- **Umbra Settings** - Opens the Umbra Settings window
+
+Two static options have been added to the `Travel` menu:
+
+- **Teleport** - Opens the teleport window.
+- **Return** - Casts the return spell, if allowed at time of invocation.
+
+Aetheryte locations that are registered as Favored Destinations automatically
+show up in the `Travel` menu to give you quick access to them.
+
+### Currencies Menu
+
+The currencies widget sits next to the main menu and gives you quick access to an overview of your currencies in the
+form of a sub-menu, similar to the main menu items. Clicking a currency will track it by replacing the "Currencies"
+label and icon with the selected currency. This allows you to quickly see how much of a specific currency you have
+without having to open the currency window. Clicking the tracked currency again in the sub-menu will untrack it and
+revert back to the default "Currencies" button.
+
+![](docs/images/currencies.gif)
+
+## Location and Weather
+
+![](docs/images/toolbar-center.png)
+
+The location and weather widget sits in the center of the toolbar and displays the current zone and weather. Clicking
+the widget will open a weather-forecast pop-up that shows the weather for the next couple of hours.
+
+![](docs/images/location.gif)
+
+## Other widgets
+
+![](docs/images/toolbar-right.png)
+
+All other widgets are docked to the right side of the toolbar.
+
+### Flag Marker
+
+![](docs/images/flag.png) ![](docs/images/flag2.png)
+
+The flag marker widget only shows up if a flag marker has been set. Clicking the widget while it is active does one of
+the following:
+
+- **Left click** - Teleport to an aetheryte that is near the flag.
+- **Right click** - Remove the marker. This will also hide the widget until a new flag has been set.
+
+The widget will be shown in a disabled state (grayed out & slightly transparent) if one of the following conditions are
+true:
+
+- There is no nearby Aetheryte to teleport to.
+- Your character is currently in a state in which it is unable to cast the Teleport action.
+
+Removing the flag by right clicking the widget is still possible in the disabled state.
+
+### Gearset Switcher
+
+![](docs/images/gearset.png)
+
+The gearset switcher widget allows you to quickly switch between your gearsets. Clicking the widget will open a popup
+that lists all your saved gearsets, categorized by job role. Clicking a gearset will equip it, if the game allows it at
+the time.
+
+The popup also shows a set of buttons that allows you to perform some actions with the currently equipped gearset:
+
+- **`Update`** - Updates the currently equipped gearset with the current gear.
+- **`Duplicate`** - Creates a new gearset based on the currently equipped gear. (Same as new)
+- **`Delete`** - Deletes the current gearset (right-click only, to prevent accidental deletion).
+- **`Move Up`** - Move the gearset up one slot within the list it is shown in.
+- **`Move Down`** - Move the gearset down one slot within the list it is shown in.
+
+![](docs/images/gearset2.png)
+
+### Companion Widget
+
+The companion widget allows quick access to your Chocobo. The widget can be shown in several states:
+
+#### Gysahl Greens (Disabled)
+
+If the widget shows a disabled state (grayed out), it means that your Chocobo is unavailable, or you are unable to use
+Gysahl Greens due to your character being mounted or otherwise occupied, or you don't have any Gysahl Greens in your
+inventory.
+
+#### Gysahl Greens (Enabled)
+
+![](docs/images/companion.png)
+
+If the widget only shows a Gysahl Greens icon and is not grayed out, you can left-click the widget to summon your
+Chocobo. This uses one Gysahl Greens from your inventory.
+
+#### Summoned state
+
+![](docs/images/companion2.png)
+
+Once your Chocobo has been summoned as it physically present in the game world, the widget will show its name, the
+current stance, it's remaining time and XP (if below level 20).
+
+If your chocobo has been summoned, but is not active (e.g. when you are mounted or in a sanctuary), the widget only
+shows the current stance icon. Text elements are hidden in this state. This lets you know that your Chocobo is still
+active and will return to your side once you are back in the open world and not mounted.
+
+### Misc Widgets
+
+![](docs/images/misc.png)
+
+Miscellaneous widgets are shown to the far right. These consist of the following:
+
+#### World Marker Visibility
+
+Clicking the world marker visibility widget will open a sub-menu that allows you to quickly toggle the visible world
+markers on and off. This is useful if you are quickly looking for a specific point of interest and don't want to open
+the Umbra settings window.
+
+#### Battle Effects Intensity
+
+Clicking the battle effects intensity widget will open a sub-menu that allows you to quickly toggle the intensity of
+battle effects for your character, party members, other players and PvP enemies. These options mimic the ones that are
+otherwise available through the Character Configuration window.
+
+#### Unread Mail Indicator
+
+Whenever you receive new mail, an unread mail indicator will show up in the same area as the other miscellaneous
+widgets to let you know that you have unread mail. Once you have read all pending messages, the indicator will
+disappear again.
+
+#### Volume Control
+
+The volume control widget allows you to quickly adjust the volume of the game, as well as specific channels. The widget
+has the following controls:
+
+- **Left-click** - Open the volume control popup that contains sliders for several audio channels.
+- **Right-click** - Mute/unmute the game audio entirely.
+
+#### Time
+
+Last but not least is the time widget. This widget always shows Eorzea time and either your local time or the server
+time. The latter can be toggled by left-clicking on the local or server time.
+
+The time widget can also be configured to show in a horizontal layout, which will show the Eorzea time on the left and
+the local/server time on the right. This can be configured through the Umbra Settings window under the
+`Toolbar Settings` tab.
+
+---
 
 # World Markers
 
-World Markers are 3D markers that are displayed in the game world. They can guide you to specific points of interest, 
-such as quest objectives, gathering nodes, flag, hunt marks, and more. Each marker type can be toggled individually via
-either the plugin configuration window or using the "World Markers" widget in the toolbar.
+Umbra provides a system that renders physical markers for several points of interest in the game world. Presentation of
+these markers are divided into two categories: **3D Marker** and **Direction Indicator**.
 
-## Marker positioning
+## 3D Markers
 
-Regular markers only consist of 2D map coordinates. The plugin will try to project these coordinates onto the 3D world
-using terrain raycasting. This means that the markers will be placed on the ground, but they may not always be perfectly
-aligned with the actual terrain. This is especially noticeable on steep terrain with lots of mountains or buildings. The
-plugin tries to mitigate this somewhat by performing a 2-pass raycast, where the first pass is done upwards until it
-hits something, then going back down. This way, most markers will be placed on the ground level in case the marker is
-inside a building or a cave.
+3D markers are rendered in the game world and consist of an icon, a label, an optional sub-label and a distance
+indicator.
 
-## Direction indicator
+![](docs/images/markers2.png)
 
-When a world marker is out of view, a direction indicator is placed around the center of the screen to let you know in
-which direction the marker is located, relative to your camera's viewing angle. You can disable this feature in the
-"Marker Settings" tab of the plugin configuration window.
+If multiple markers are close to each other, they will be consolidated into a single marker. Consolidated markers will
+show a maximum of three combined markers. If there are more than three markers in the same spot, the remaining markers
+will not be shown. This should never happen in practice as there is no scenario in which more than three markers are
+shown in the same spot.
 
-## Marker Fading
+In this example, both the flag marker and an unobtained Tripe Triad card are shown as a single 3D marker:
 
-When you get close to a marker, it will start to fade out. This is to prevent the markers from obstructing your view
-when you are close to the marker. You can disable this feature in the "Marker Settings" tab of the plugin configuration
-window.
+![](docs/images/markers3.png)
 
-Note that the actual distance at which the markers start to fade out is not configurable but is determined by the marker
-type itself. For example, flag markers will start to fade out at around 30 yalms, while Eureka Bunny coffers remain
-fully visible until you are right next to them.
 
-## Marker types
+### Fading Behavior
 
-The plugin currently supports the following marker types:
+3D markers will start to fade out once your character is within a certain distance of the marker. This distance is
+determined by the marker type themselves and cannot be configured. The fading behavior is intended to prevent cluttering
+the screen when the information is no longer relevant.
 
-### Quest Objectives
+An example of different fading behaviors can be seen when comparing the Flag marker to Eureka Bunny coffers. The Flag
+marker starts to fade out when you are within 50 yalms of the flag, while the Eureka Bunny coffers start to fade out
+when you are literally on top of them. This is because the flag is a general point of interest, while the coffers are
+specific points of interest that you need to find.
 
-Quest objectives are available for _active_ quests in the current zone. The plugin will automatically show markers for
-all objectives of the quest, as long as the quest is active and the objectives are in the current zone.
+Another factor that determines whether a flag is transparent or opaque is whether it is occluded by other objects or the
+terrain. If the camera has no clear line of sight to the marker, it will be shown as transparent and ignore distance
+fading. This is to let you know that the marker is there, but might be behind a wall or cliff. This option can be
+toggled in the Umbra Settings window under the `Marker Settings` tab.
+
+## Direction Indicator
+
+When a 3D marker is currently out of view (behind the camera), a direction indicator will be shown to help you locate
+the marker. These indicators are shown in a circular fashion around the player or edge of the screen. The distance from
+the edge of the screen is configurable in the Umbra Settings window under the `Marker Settings` tab.
+
+![](docs/images/markers1.png)
+
+## Marker Types
+
+Umbra provides markers for the following points of interest:
 
 ### Flag marker
 
-Whenever a flag is set in the current zone the player is in, a flag marker will be shown. The flag marker will be
-removed when the flag is cleared.
-
-### Gathering Nodes
-
-Gathering nodes are shown if you are in in a gathering job. The plugin will show markers for all gathering nodes in the
-nearby vicinity, similarly to how the game shows them on the minimap.
-
-### Hunt Marks
-
-Hunt marks are shown for all notorious monsters that have a rank (B/A/S/SS). Note that the plugin relies on the game's
-internal object list to show these markers. This means that only S-rank mobs are always visible across the entire map,
-but anything lower than that will only be shown if the player is near the mob. This is similar to how the game shows
-these markers on the minimap.
+The flag world marker is shown whenever a flag is set and is in the same zone as your character.
 
 ### Eureka Bunny Coffers
 
-Eureka Bunny Coffers are shown _after_ you have participated in the bunny FATE and have used the `Lucky Carrot` item.
-After using the `Lucky Carrot`, the plugin scans the text that shows the direction and distance to the treasure and
-determines which possible coffers it may be referring to.
+When you are in Eureka and farming bunny FATEs, Umbra will help you locate a treasure coffer after you have used the
+`Lucky Carrot`. By parsing the message that shows up when you use the Lucky Carrot, Umbra will show world markers for
+the treasure coffers based on the direction and distance that is inferred from the message.
 
-For example, when the message `You sense something far to the south` is shown, we can infer the distance by looking at
-the `far` word, meaning it is between 100 and 200 yalms away. The direction is determined by the `south` word, so the
-plugin only shows known coffer locations that are in the southern direction of the player.
+For example, when the message says `You sense something far to the north`, Umbra knows that the treasure coffer is
+between 100 and 200 yalms to the north of your current position. Only markers that match the detected direction and
+distance will be shown. Continuously using the `Lucky Carrot` and moving in the specified direction will eventually
+narrow down the visible coffer markers to a single one.
 
-By repeatedly using the `Lucky Carrot`, and moving towards the coffer as you would normally would, the plugin will
-eventually narrow down the possible locations to a single one.
+#### Map & Minimap markers
 
-### FATEs
+Map (and minimap) markers are also added for the detected coffer locations if this option is enabled via the Umbra
+Settings window under the `Marker Settings` tab.
 
-FATE markers are shown for all FATEs in the current zone. The plugin will show markers for all FATEs that are currently
-active. It will show the name of the FATE, as well as its state (e.g. "Preparing", "Running", etc.), the progression
-and how much time is left until the FATE ends.
+> [!IMPORTANT]
+> This feature is unavailable if you also have the Eureka Linker plugin installed and enabled. This plugin
+> also provides features that use map markers, which would cause conflicting behavior if both are enabled. Enabling this
+> setting and having Eureka Linker enabled will cause Umbra to disable this feature automatically.
 
-This feature is particularly useful for Eureka and Bozja zones where FATEs are the primary source of progression.
+### Quest Objectives
 
-### Unobtained Triple Triad cards
+Objective markers are shown for currently active quests in the current zone. These consist of talking to NPCs,
+interacting with objects, combat areas and handing in items and finishing quests. There are no markers for quests that
+you have not already accepted.
 
-For the Triple Triad enthusiasts, the plugin can show markers for all Triple Triad cards that you have not yet obtained.
-There is also an option to hide markers for cards that are locked behind quests that you have not yet completed. This
-can also be configured in the "Marker Settings" tab in the configuration window.
+Note that markers are not shown if the objective is not in the same zone as your character.
+
+### Gathering Nodes
+
+When you're currently in a Gathering job, nearby nodes are shown as markers. Gathering node markers are only visible if
+you are in close proximity to them, similar to how the game shows these nodes on your minimap.
+
+### Hunt marks (Notorious Monsters)
+
+Hunt marks are shown as markers when you are in a zone where a hunt mark is active. The markers are only shown if the
+hunt mark is within a certain range of your character, similarly to how the game shows these marks on your minimap. An
+exception of this is an `S` rank monster, which is always shown, regardless of the distance to your character.
+
+### FATE markers
+
+FATE markers are shown for all active fates in your current zone. This is particularly useful when you are in Eureka or
+Bozja where FATE hunting is the primary source of progression. Markers should the status of the FATE (e.g. `Running`),
+the time it has remaining and, if somebody is currently participating in the FATE, the progress percentage of the FATE.
+
+### Unobtained Triple Triad Cards
+
+Unobtained Tripe Triad cards are shown when they are obtained through an NPC via a Triple Triad Match or a vendor. There
+is an additional option to also show Triple Triad cards that are unobtainable because they are locked for your character
+due to unmet requirements. When this option is enabled, a marker _may_ lead you to a place where an NPC does not exist,
+or has an option to buy or win the card from. This option is disabled by default.
+
+---
+
+# Theme Configuration
+
+Umbra allows you to customize the appearance of the UI by adjusting its color scheme. You can access the appearance
+configuration by opening the Umbra Settings window and navigating to the `Umbra Appearance` tab.
+
+![](docs/images/theme.png)
+
+## Applying presets
+
+Umbra comes with three built-in presets that you can click to apply them to your current color scheme.
+
+### Dalamud
+
+The Dalamud preset applies the color scheme that you currently have configured in Dalamud. Note that some elements might
+need slight adjustments since there are no available color values for some elements. These include the `Muted Text` and
+the different `Outline` colors. Highlight and Accent colors are derived from the Tab colors in Dalamud.
+
+### Dark
+
+This is the default theme that Umbra uses when it is first installed.
+
+### Light
+
+The Light theme is a light-colored theme that is easier on the eyes in bright environments.
+
+## Importing and Exporting
+
+The current color scheme can be imported or exported using the two buttons in the top-right hand corner of the window.
+
+When exporting, the current color scheme will be put in your clipboard as a Base64-encoded string. You can then share
+this string with others to import. A notification will appear when the color scheme as been added to your clipboard.
+
+When importing, Umbra expects a valid exported string to be present in your clipboard. If the import process fails, a
+notification will show up that tells you that something went wrong.
+
+## Customizing the color scheme
+
+The colors listed in this window all describe what they are and what they are used for. Clicking on the color swatch to
+the left of an item opens up the color picker in which you can adjust the color to your liking.
+
+All modifications made to the color scheme are stored automatically, so there is no need to manually save your changes.
