@@ -113,7 +113,7 @@ public sealed partial class WindowManager : IDisposable
     }
 
     [OnDraw]
-    public void OnDraw()
+    internal void OnDraw()
     {
         if (_isDisposing) return;
 
