@@ -25,7 +25,7 @@ using Umbra.Common;
 namespace Umbra.Game;
 
 [Service]
-public sealed class ChatSender : IChatSender
+internal sealed class ChatSender : IChatSender
 {
     private static class Signatures
     {

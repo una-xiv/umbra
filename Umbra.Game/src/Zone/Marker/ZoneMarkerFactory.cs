@@ -28,7 +28,7 @@ using Sheet = Lumina.Excel.GeneratedSheets;
 namespace Umbra.Game;
 
 [Service]
-public sealed class ZoneMarkerFactory(IDataManager dataManager)
+internal sealed class ZoneMarkerFactory(IDataManager dataManager)
 {
     // https://xivapi.com/docs/Icons?set=icons060000
     private readonly Dictionary<ZoneMarkerType, uint[]> _typeToIconMap = new()

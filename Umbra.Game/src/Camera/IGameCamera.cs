@@ -1,4 +1,4 @@
-/* Umbra.Game | (c) 2024 by Una         ____ ___        ___.
+﻿/* Umbra.Game | (c) 2024 by Una         ____ ___        ___.
  * Licensed under the terms of AGPL-3  |    |   \ _____ \_ |__ _______ _____
  *                                     |    |   //     \ | __ \\_  __ \\__  \
  * https://github.com/una-xiv/umbra    |    |  /|  Y Y  \| \_\ \|  | \/ / __ \_
@@ -14,17 +14,14 @@
  *     GNU Affero General Public License for more details.
  */
 
-using System;
+
+using System.Numerics;
 
 namespace Umbra.Game;
 
-public interface IZoneManager
+public interface IGameCamera
 {
-    public event Action<IZone> ZoneChanged;
-
-    public bool HasCurrentZone { get; }
-
-    public IZone CurrentZone { get; }
-
-    public IZone GetZone(uint zoneId);
+    Vector3 CameraPosition { get; }
+    float   CameraAzimuth  { get; }
+    float   CameraAltitude { get; }
 }

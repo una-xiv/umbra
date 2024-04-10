@@ -35,7 +35,7 @@ internal partial class FlagWidget : IToolbarWidget
 
     private readonly IAetheryteList _aetheryteList;
     private readonly IZoneManager   _zoneManager;
-    private readonly Player         _player;
+    private readonly IPlayer         _player;
     private readonly Element        _name;
     private readonly Element        _info;
     private readonly Element        _icon;
@@ -44,7 +44,7 @@ internal partial class FlagWidget : IToolbarWidget
     private string?         _aetheryteKey;
     private string?         _lastMarkerKey;
 
-    public FlagWidget(IAetheryteList aetheryteList, IZoneManager zoneManager, Player player)
+    public FlagWidget(IAetheryteList aetheryteList, IZoneManager zoneManager, IPlayer player)
     {
         _aetheryteList = aetheryteList;
         _zoneManager   = zoneManager;
@@ -168,7 +168,7 @@ internal partial class FlagWidget : IToolbarWidget
             _icon.Animate(new Animation<InOutCirc>(500) { Padding = new(0) });
         }
 
-        Zone    zone = _zoneManager.GetZone(map->FlagMapMarker.MapId);
+        IZone   zone = _zoneManager.GetZone(map->FlagMapMarker.MapId);
         Vector2 pos  = MapUtil.WorldToMap(new(map->FlagMapMarker.XFloat, map->FlagMapMarker.YFloat), zone.MapSheet);
 
         _aetheryteKey = cacheKey;

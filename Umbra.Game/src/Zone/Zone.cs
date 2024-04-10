@@ -25,25 +25,26 @@ using Sheet = Lumina.Excel.GeneratedSheets;
 
 namespace Umbra.Game;
 
-public sealed class Zone
+internal sealed class Zone : IZone
 {
-    public readonly uint                  Id;
-    public readonly TerritoryType         Type;
-    public readonly uint                  TerritoryId;
-    public readonly string                Name;
-    public readonly string                SubName;
-    public readonly string                RegionName;
-    public readonly Vector2               Offset;
-    public readonly ushort                SizeFactor;
-    public readonly Sheet.Map             MapSheet;
-    public readonly List<ZoneMarker>      StaticMarkers;
-    public readonly List<ZoneMarker>      DynamicMarkers;
-    public readonly List<WeatherForecast> WeatherForecast;
+    public uint                  Id                  { get; private set; }
+    public TerritoryType         Type                { get; private set; }
+    public uint                  TerritoryId         { get; private set; }
+    public string                Name                { get; private set; }
+    public string                SubName             { get; private set; }
+    public string                RegionName          { get; private set; }
+    public Vector2               Offset              { get; private set; }
+    public ushort                SizeFactor          { get; private set; }
+    public Sheet.Map             MapSheet            { get; private set; }
+    public List<ZoneMarker>      StaticMarkers       { get; private set; }
+    public List<ZoneMarker>      DynamicMarkers      { get; private set; }
+    public List<WeatherForecast> WeatherForecast     { get; private set; }
+    public WeatherForecast?      CurrentWeather      { get; private set; }
 
-    public string           CurrentDistrictName => _closestAreaMarker?.Name ?? "";
-    public WeatherForecast? CurrentWeather;
+    public string                CurrentDistrictName => _closestAreaMarker?.Name ?? "";
 
-    private readonly Player                  _player;
+
+    private readonly IPlayer                 _player;
     private readonly IDataManager            _dataManager;
     private readonly ZoneMarkerFactory       _markerFactory;
     private readonly WeatherForecastProvider _forecastProvider;
@@ -54,7 +55,7 @@ public sealed class Zone
         IDataManager            dataManager,
         WeatherForecastProvider forecastProvider,
         ZoneMarkerFactory       markerFactory,
-        Player                  player,
+        IPlayer                 player,
         uint                    zoneId
     )
     {
@@ -84,7 +85,7 @@ public sealed class Zone
         Update();
     }
 
-    public unsafe void Update()
+    internal unsafe void Update()
     {
         AgentMap* agentMap = AgentMap.Instance();
         if (agentMap == null || agentMap->CurrentMapId == 0) return;

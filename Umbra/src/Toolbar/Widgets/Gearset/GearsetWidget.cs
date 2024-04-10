@@ -15,7 +15,6 @@
  */
 
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using Umbra.Common;
 using Umbra.Game;
@@ -29,13 +28,18 @@ internal partial class GearsetWidget : IToolbarWidget
     [ConfigVariable("Toolbar.Widget.Gearset.Enabled", "ToolbarWidgets")]
     private static bool Enabled { get; set; } = true;
 
-    private readonly GearsetRepository                    _gearsetRepository;
+    private readonly IGearsetRepository                   _gearsetRepository;
+    private readonly IGearsetCategoryRepository           _categoryRepository;
     private readonly Dictionary<ushort, Element>          _gearsetElements = [];
     private readonly Dictionary<GearsetCategory, Element> _gearsetGroups   = [];
 
-    public GearsetWidget(GearsetRepository gearsetRepository, ToolbarPopupContext popupContext)
+    public GearsetWidget(
+        IGearsetRepository  gearsetRepository, IGearsetCategoryRepository categoryRepository,
+        ToolbarPopupContext popupContext
+    )
     {
-        _gearsetRepository = gearsetRepository;
+        _gearsetRepository  = gearsetRepository;
+        _categoryRepository = categoryRepository;
 
         popupContext.RegisterDropdownActivator(Element, _dropdownElement);
 
@@ -72,7 +76,6 @@ internal partial class GearsetWidget : IToolbarWidget
         UpdateWidget();
 
         if (_dropdownElement.IsVisible) {
-            Stopwatch sw = new Stopwatch();
             UpdateDropdown();
         }
     }
@@ -130,7 +133,7 @@ internal partial class GearsetWidget : IToolbarWidget
         RightColumn.IsVisible  = crafterCount > 0 || gathererCount > 0;
 
         Game.Gearset gearset = _gearsetRepository.CurrentGearset;
-        uint         color   = GearsetCategoryRepository.GetCategoryColor(gearset.Category);
+        uint         color   = _categoryRepository.GetCategoryColor(gearset.Category);
 
         _dropdownElement.Get("Columns").Get<GradientElement>().Gradient =
             Gradient.Vertical(color.ApplyAlphaComponent(0.25f), 0);
@@ -166,7 +169,7 @@ internal partial class GearsetWidget : IToolbarWidget
     {
         if (!_gearsetElements.TryGetValue(gearset.Id, out Element? element)) return;
 
-        uint gsCol = GearsetCategoryRepository.GetCategoryColor(gearset.Category);
+        uint gsCol = _categoryRepository.GetCategoryColor(gearset.Category);
 
         element.SortIndex                                  = gearset.Id;
         element.Get("Icon").Get<BackgroundElement>().Color = gsCol;

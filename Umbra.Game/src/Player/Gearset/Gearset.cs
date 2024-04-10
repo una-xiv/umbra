@@ -21,7 +21,7 @@ using FFXIVClientStructs.FFXIV.Client.UI.Misc;
 
 namespace Umbra.Game;
 
-public sealed class Gearset(ushort id, Player player)
+public sealed class Gearset(ushort id, IGearsetCategoryRepository categoryRepository, IPlayer player)
 {
     public ushort Id { get; } = id;
 
@@ -67,7 +67,7 @@ public sealed class Gearset(ushort id, Player player)
         IsValid = true;
 
         // Intermediate values.
-        bool   isChanged  = false;
+        var    isChanged  = false;
         string name       = Marshal.PtrToStringUTF8((IntPtr)gearset->Name) ?? "Unknown Gearset";
         byte   jobId      = gearset->ClassJob;
         short  itemLevel  = gearset->ItemLevel;
@@ -85,7 +85,7 @@ public sealed class Gearset(ushort id, Player player)
 
         if (JobId != jobId) {
             JobId    = jobId;
-            Category = GearsetCategoryRepository.GetCategoryFromJobId(jobId);
+            Category = categoryRepository.GetCategoryFromJobId(jobId);
         }
 
         if (ItemLevel != itemLevel) {

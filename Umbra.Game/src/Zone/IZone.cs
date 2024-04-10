@@ -1,4 +1,4 @@
-/* Umbra.Game | (c) 2024 by Una         ____ ___        ___.
+﻿/* Umbra.Game | (c) 2024 by Una         ____ ___        ___.
  * Licensed under the terms of AGPL-3  |    |   \ _____ \_ |__ _______ _____
  *                                     |    |   //     \ | __ \\_  __ \\__  \
  * https://github.com/una-xiv/umbra    |    |  /|  Y Y  \| \_\ \|  | \/ / __ \_
@@ -14,40 +14,26 @@
  *     GNU Affero General Public License for more details.
  */
 
-using System;
 using System.Collections.Generic;
-using Dalamud.Plugin.Services;
+using System.Numerics;
 using Lumina.Excel.GeneratedSheets;
-using Umbra.Common;
 
 namespace Umbra.Game;
 
-[Service]
-internal sealed class ZoneFactory(
-    IDataManager dataManager,
-    IPlayer player,
-    WeatherForecastProvider weatherForecastProvider,
-    ZoneMarkerFactory markerFactory) : IDisposable
+public interface IZone
 {
-    private readonly Dictionary<uint, Zone> _zoneCache = [];
-
-    public void Dispose()
-    {
-    }
-
-    public Zone GetZone(uint zoneId)
-    {
-        if (_zoneCache.TryGetValue(zoneId, out var cachedZone)) return cachedZone;
-
-        if (null == dataManager.GetExcelSheet<Map>()!.GetRow(zoneId))
-        {
-            throw new InvalidOperationException($"Zone {zoneId} does not exist");
-        }
-
-        var zone = new Zone(dataManager, weatherForecastProvider, markerFactory, player, zoneId);
-
-        _zoneCache[zoneId] = zone;
-
-        return zone;
-    }
+    public uint                  Id                  { get; }
+    public TerritoryType         Type                { get; }
+    public uint                  TerritoryId         { get; }
+    public string                Name                { get; }
+    public string                SubName             { get; }
+    public string                RegionName          { get; }
+    public Vector2               Offset              { get; }
+    public ushort                SizeFactor          { get; }
+    public Map                   MapSheet            { get; }
+    public List<ZoneMarker>      StaticMarkers       { get; }
+    public List<ZoneMarker>      DynamicMarkers      { get; }
+    public List<WeatherForecast> WeatherForecast     { get; }
+    public WeatherForecast?      CurrentWeather      { get; }
+    public string                CurrentDistrictName { get; }
 }

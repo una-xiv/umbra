@@ -23,7 +23,7 @@ using Umbra.Common;
 namespace Umbra.Game;
 
 [Service]
-public sealed class GearsetRepository : IDisposable
+internal sealed class GearsetRepository : IGearsetRepository, IDisposable
 {
     public event Action<Gearset>? OnGearsetCreated;
     public event Action<Gearset>? OnGearsetChanged;
@@ -46,10 +46,10 @@ public sealed class GearsetRepository : IDisposable
         CurrentGearset = null;
     }
 
-    public GearsetRepository(Player player)
+    public GearsetRepository(IGearsetCategoryRepository categoryRepository, IPlayer player)
     {
         for (ushort i = 0; i < 100; i++) {
-            var gearset = new Gearset(i, player);
+            var gearset = new Gearset(i, categoryRepository, player);
 
             _gearsets.Add(i, gearset);
 

@@ -24,7 +24,7 @@ using Umbra.Common;
 namespace Umbra.Game;
 
 [Service]
-public class Player
+internal sealed class Player : IPlayer
 {
     /// <summary>
     /// The player's current position in the world.
@@ -162,9 +162,7 @@ public class Player
     public unsafe int GetItemCount(uint itemId)
     {
         InventoryManager* im = InventoryManager.Instance();
-        if (im == null) return 0;
-
-        return im->GetInventoryItemCount(itemId);
+        return im == null ? 0 : im->GetInventoryItemCount(itemId);
     }
 
     /// <summary>

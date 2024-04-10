@@ -23,7 +23,7 @@ using Umbra.Common;
 namespace Umbra.Game;
 
 [Service]
-public sealed class CompanionManager
+internal sealed class CompanionManager : ICompanionManager
 {
     private const uint GysahlGreensIconId   = 4868;
     private const uint FollowActionIconId   = 902;

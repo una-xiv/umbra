@@ -25,7 +25,7 @@ using Umbra.Common;
 namespace Umbra.Game;
 
 [Service]
-public sealed class JobInfoRepository : IDisposable
+internal sealed class JobInfoRepository : IDisposable
 {
     private readonly Dictionary<byte, JobInfo> _jobInfos   = [];
     private readonly Dictionary<byte, sbyte>   _expArrayId = [];

@@ -56,13 +56,13 @@ internal sealed partial class EurekaCoffersWorldMarkerFactory : IWorldMarkerFact
     private readonly IZoneManager _zoneManager;
     private readonly IChatGui     _chatGui;
     private readonly IFateTable   _fateTable;
-    private readonly Player       _player;
+    private readonly IPlayer      _player;
 
     private List<Vector3> _detectedCofferPositions = [];
     private bool          _hasPlacedMapMarkers;
 
     public EurekaCoffersWorldMarkerFactory(
-        IZoneManager zoneManager, IChatGui chatGui, IFateTable fateTable, Player player
+        IZoneManager zoneManager, IChatGui chatGui, IFateTable fateTable, IPlayer player
     )
     {
         _zoneManager = zoneManager;

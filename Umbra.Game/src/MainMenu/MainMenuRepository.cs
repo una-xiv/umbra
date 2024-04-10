@@ -26,35 +26,66 @@ using Lumina.Excel.GeneratedSheets;
 namespace Umbra.Game;
 
 [Service]
-public sealed class MainMenuRepository : IMainMenuRepository
+internal sealed class MainMenuRepository : IMainMenuRepository
 {
     public readonly Dictionary<MenuCategory, MainMenuCategory> Categories = [];
 
     private readonly IAetheryteList _aetheryteList;
-    private readonly Player _player;
+    private readonly IPlayer        _player;
 
-    public MainMenuRepository(IDataManager dataManager, IAetheryteList aetheryteList, Player player)
+    public MainMenuRepository(IDataManager dataManager, IAetheryteList aetheryteList, IPlayer player)
     {
         _aetheryteList = aetheryteList;
         _player        = player;
 
-        dataManager.GetExcelSheet<MainCommandCategory>()!.ToList().ForEach(cmd => {
-            if (cmd.Name == "" || null == Enum.GetName(typeof(MenuCategory), cmd.RowId)) return;
-            Categories[(MenuCategory)cmd.RowId] = new ((MenuCategory)cmd.RowId, cmd.Name);
-        });
+        dataManager.GetExcelSheet<MainCommandCategory>()!
+            .ToList()
+            .ForEach(
+                cmd => {
+                    if (cmd.Name == "" || null == Enum.GetName(typeof(MenuCategory), cmd.RowId)) return;
+                    Categories[(MenuCategory)cmd.RowId] = new((MenuCategory)cmd.RowId, cmd.Name);
+                }
+            );
 
-        Categories.Values.ToList().ForEach(category => {
-            dataManager.GetExcelSheet<MainCommand>()!.Where(cmd => cmd.MainCommandCategory?.Row == (uint)category.Category).ToList().ForEach(cmd => {
-                category.AddItem(new (cmd.Name, cmd.SortID, cmd.RowId) { Icon = cmd.Icon > 0 ? (uint)cmd.Icon : null});
-            });
-        });
+        Categories
+            .Values.ToList()
+            .ForEach(
+                category => {
+                    dataManager.GetExcelSheet<MainCommand>()!
+                        .Where(cmd => cmd.MainCommandCategory?.Row == (uint)category.Category)
+                        .ToList()
+                        .ForEach(
+                            cmd => {
+                                category.AddItem(
+                                    new(cmd.Name, cmd.SortID, cmd.RowId) { Icon = cmd.Icon > 0 ? (uint)cmd.Icon : null }
+                                );
+                            }
+                        );
+                }
+            );
 
         // Add Dalamud items to the system menu.
-        Categories[MenuCategory.System].AddItem(new (-998));
-        Categories[MenuCategory.System].AddItem(new (I18N.Translate("MainMenu.UmbraSettings"), -999, "/umbra") { Icon = SeIconChar.BoxedLetterU, IconColor = 0xFF40A0AC });
-        Categories[MenuCategory.System].AddItem(new (-1000));
-        Categories[MenuCategory.System].AddItem(new (I18N.Translate("MainMenu.DalamudSettings"), -1001, "/xlsettings") { Icon = SeIconChar.BoxedLetterD, IconColor = 0xFF5151FF });
-        Categories[MenuCategory.System].AddItem(new (I18N.Translate("MainMenu.DalamudPlugins"), -1002, "/xlplugins") { Icon = SeIconChar.BoxedLetterD, IconColor = 0xFF5151FF });
+        Categories[MenuCategory.System].AddItem(new(-998));
+
+        Categories[MenuCategory.System]
+            .AddItem(
+                new(I18N.Translate("MainMenu.UmbraSettings"), -999, "/umbra")
+                    { Icon = SeIconChar.BoxedLetterU, IconColor = 0xFF40A0AC }
+            );
+
+        Categories[MenuCategory.System].AddItem(new(-1000));
+
+        Categories[MenuCategory.System]
+            .AddItem(
+                new(I18N.Translate("MainMenu.DalamudSettings"), -1001, "/xlsettings")
+                    { Icon = SeIconChar.BoxedLetterD, IconColor = 0xFF5151FF }
+            );
+
+        Categories[MenuCategory.System]
+            .AddItem(
+                new(I18N.Translate("MainMenu.DalamudPlugins"), -1002, "/xlplugins")
+                    { Icon = SeIconChar.BoxedLetterD, IconColor = 0xFF5151FF }
+            );
     }
 
     public List<MainMenuCategory> GetCategories()
@@ -65,7 +96,7 @@ public sealed class MainMenuRepository : IMainMenuRepository
     public MainMenuCategory GetCategory(MenuCategory category)
     {
         return Categories.GetValueOrDefault(category)
-            ?? throw new Exception($"Category {category} not found.");
+         ?? throw new Exception($"Category {category} not found.");
     }
 
     [OnTick(interval: 500)]
@@ -99,6 +130,7 @@ public sealed class MainMenuRepository : IMainMenuRepository
                 usedNames.Add(key);
 
                 var existingItem = category.Items.FirstOrDefault(item => item.MetadataKey == key);
+
                 if (existingItem != null) {
                     if (existingItem.Name != name) {
                         existingItem.Name = name;
@@ -113,23 +145,34 @@ public sealed class MainMenuRepository : IMainMenuRepository
                     sortIndex++;
                 }
 
-                category.AddItem(new(name, sortIndex, () => {
-                    unsafe {
-                        Telepo.Instance()->Teleport(aetheryte.AetheryteId, aetheryte.SubIndex);
+                category.AddItem(
+                    new(
+                        name,
+                        sortIndex,
+                        () => {
+                            unsafe {
+                                Telepo.Instance()->Teleport(aetheryte.AetheryteId, aetheryte.SubIndex);
+                            }
+                        }
+                    ) {
+                        MetadataKey = $"Aetheryte:{aetheryte.AetheryteId}",
+                        IsDisabled  = !_player.CanUseTeleportAction
                     }
-                }) {
-                    MetadataKey = $"Aetheryte:{aetheryte.AetheryteId}",
-                    IsDisabled = !_player.CanUseTeleportAction
-                } );
+                );
+
                 sortIndex++;
             }
         }
 
-        category.Items.ToList().ForEach(item => {
-            if (item.MetadataKey != null && !usedNames.Contains(item.MetadataKey)) {
-                category.RemoveItem(item);
-            }
-        });
+        category
+            .Items.ToList()
+            .ForEach(
+                item => {
+                    if (item.MetadataKey != null && !usedNames.Contains(item.MetadataKey)) {
+                        category.RemoveItem(item);
+                    }
+                }
+            );
 
         if (usedNames.Count == 0 && category.Items.Any(item => item.Type == MainMenuItemType.Separator)) {
             category.RemoveItem(category.Items.First(item => item.Type == MainMenuItemType.Separator));

@@ -31,7 +31,7 @@ public sealed class WorldMarkerDirectionRenderer(
     IGameGui         gameGui,
     ITextureProvider textureProvider,
     ClipRectProvider clipRectProvider,
-    Player           player
+    IPlayer          player
 )
 {
     [ConfigVariable("Markers.Direction.Enabled", "MarkerSettings")]

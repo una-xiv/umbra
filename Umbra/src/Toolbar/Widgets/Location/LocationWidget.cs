@@ -26,12 +26,12 @@ internal partial class LocationWidget : IToolbarWidget
     [ConfigVariable("Toolbar.Widget.Location.Enabled", "ToolbarWidgets")]
     private static bool Enabled { get; set; } = true;
 
-    private readonly Player       _player;
+    private readonly IPlayer       _player;
     private readonly IZoneManager _zoneManager;
 
     private uint _lastWeatherIconId = 0;
 
-    public LocationWidget(Player player, IZoneManager zoneManager, ToolbarPopupContext ctx)
+    public LocationWidget(IPlayer player, IZoneManager zoneManager, ToolbarPopupContext ctx)
     {
         _player      = player;
         _zoneManager = zoneManager;
@@ -55,7 +55,7 @@ internal partial class LocationWidget : IToolbarWidget
 
     private void UpdateToolbarWidget()
     {
-        Zone             zone    = _zoneManager.CurrentZone;
+        IZone            zone    = _zoneManager.CurrentZone;
         WeatherForecast? weather = zone.CurrentWeather;
 
         (string zoneName, string distName) = GetLocationNames();
@@ -89,7 +89,7 @@ internal partial class LocationWidget : IToolbarWidget
     {
         if (!_dropdownElement.IsVisible) return;
 
-        Zone             zone    = _zoneManager.CurrentZone;
+        IZone            zone    = _zoneManager.CurrentZone;
         WeatherForecast? weather = zone.CurrentWeather;
 
         if (null == weather) return;

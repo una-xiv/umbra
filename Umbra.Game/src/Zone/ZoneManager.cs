@@ -21,15 +21,15 @@ using Umbra.Common;
 namespace Umbra.Game;
 
 [Service]
-public sealed class ZoneManager(ZoneFactory factory) : IZoneManager
+internal sealed class ZoneManager(ZoneFactory factory) : IZoneManager
 {
-    public event Action<Zone>? ZoneChanged;
+    public event Action<IZone>? ZoneChanged;
 
     private Zone? _zone = null;
 
     public bool HasCurrentZone => _zone != null;
 
-    public Zone CurrentZone {
+    public IZone CurrentZone {
         get {
             if (null == _zone) {
                 throw new InvalidOperationException("Zone not initialized");
@@ -39,13 +39,13 @@ public sealed class ZoneManager(ZoneFactory factory) : IZoneManager
         }
     }
 
-    public Zone GetZone(uint zoneId)
+    public IZone GetZone(uint zoneId)
     {
         return factory.GetZone(zoneId);
     }
 
     [OnTick]
-    public unsafe void OnTick()
+    internal unsafe void OnTick()
     {
         AgentMap* agentMap = AgentMap.Instance();
         if (agentMap == null || agentMap->CurrentMapId == 0) return;

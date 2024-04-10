@@ -53,26 +53,22 @@ public class Color
         Value = (uint)((a << 24) | (b << 16) | (g << 8) | r);
     }
 
-    public byte Blue
-    {
+    public byte Blue {
         get => (byte)((Value >> 16) & 0xFF);
         set => Value = (Value & 0xFF00FFFF) | ((uint)value << 16);
     }
 
-    public byte Green
-    {
+    public byte Green {
         get => (byte)((Value >> 8) & 0xFF);
         set => Value = (Value & 0xFFFF00FF) | ((uint)value << 8);
     }
 
-    public byte Red
-    {
+    public byte Red {
         get => (byte)(Value & 0xFF);
         set => Value = (Value & 0xFFFFFF00) | value;
     }
 
-    public byte Alpha
-    {
+    public byte Alpha {
         get => (byte)((Value >> 24) & 0xFF);
         set => Value = (Value & 0x00FFFFFF) | ((uint)value << 24);
     }
@@ -92,11 +88,11 @@ public class Color
     public Color ApplyAlpha(float a)
     {
         var alpha = (byte)(((Value >> 24) & 0xFF) * Math.Clamp(a, 0f, 1f));
-        var red   = (byte)((Value >> 16) & 0xFF);
+        var blue  = (byte)((Value >> 16) & 0xFF);
         var green = (byte)((Value >> 8)  & 0xFF);
-        var blue  = (byte)(Value         & 0xFF);
+        var red   = (byte)(Value         & 0xFF);
 
-        Value = ((uint)alpha << 24) | ((uint)red << 16) | ((uint)green << 8) | blue;
+        Value = ((uint)alpha << 24) | ((uint)blue << 16) | ((uint)green << 8) | red;
 
         return this;
     }
@@ -107,34 +103,34 @@ public class Color
     /// <param name="brightness"></param>
     public Color ApplyBrightness(float brightness)
     {
-        var red   = (byte)(((Value >> 16) & 0xFF) * Math.Clamp(brightness, 0f, 2f));
+        var blue  = (byte)(((Value >> 16) & 0xFF) * Math.Clamp(brightness, 0f, 2f));
         var green = (byte)(((Value >> 8)  & 0xFF) * Math.Clamp(brightness, 0f, 2f));
-        var blue  = (byte)((Value         & 0xFF) * Math.Clamp(brightness, 0f, 1f));
+        var red   = (byte)((Value         & 0xFF) * Math.Clamp(brightness, 0f, 1f));
 
-        Value = (Value & 0xFF000000) | ((uint)red << 16) | ((uint)green << 8) | blue;
+        Value = (Value & 0xFF000000) | ((uint)blue << 16) | ((uint)green << 8) | red;
 
         return this;
     }
 
-    public static implicit operator uint(Color color) => color.Value;
-    public static implicit operator int(Color  color) => (int)color.Value;
+    public static implicit operator uint(Color   color) => color.Value;
+    public static implicit operator int(Color    color) => (int)color.Value;
     public static implicit operator uint?(Color? color) => color?.Value;
     public static implicit operator int?(Color?  color) => (int?)color?.Value;
-    public static implicit operator Color(uint   value) => new (value);
-    public static implicit operator Color(int    value) => new ((uint)value);
+    public static implicit operator Color(uint   value) => new(value);
+    public static implicit operator Color(int    value) => new((uint)value);
 
-    public static Color operator *(Color color, Color color2) => new (color.Name, color.Value * color2.Value);
-    public static Color operator *(Color color, uint  value)  => new (color.Name, color.Value * value);
-    public static Color operator *(uint value, Color color)  => new (color.Name, color.Value * value);
-    public static Color operator /(Color color, Color color2) => new (color.Name, color.Value / color2.Value);
-    public static Color operator /(Color color, uint  value)  => new (color.Name, color.Value / value);
-    public static Color operator /(uint value, Color color)  => new (color.Name, color.Value / value);
-    public static Color operator +(Color color, Color color2) => new (color.Name, color.Value + color2.Value);
-    public static Color operator +(Color color, uint  value)  => new (color.Name, color.Value + value);
-    public static Color operator +(uint value, Color color)  => new (color.Name, color.Value + value);
-    public static Color operator -(Color color, Color color2) => new (color.Name, color.Value - color2.Value);
-    public static Color operator -(Color color, uint  value)  => new (color.Name, color.Value - value);
-    public static Color operator -(uint value, Color color)  => new (color.Name, color.Value - value);
+    public static Color operator *(Color color, Color color2) => new(color.Name, color.Value * color2.Value);
+    public static Color operator *(Color color, uint  value)  => new(color.Name, color.Value * value);
+    public static Color operator *(uint  value, Color color)  => new(color.Name, color.Value * value);
+    public static Color operator /(Color color, Color color2) => new(color.Name, color.Value / color2.Value);
+    public static Color operator /(Color color, uint  value)  => new(color.Name, color.Value / value);
+    public static Color operator /(uint  value, Color color)  => new(color.Name, color.Value / value);
+    public static Color operator +(Color color, Color color2) => new(color.Name, color.Value + color2.Value);
+    public static Color operator +(Color color, uint  value)  => new(color.Name, color.Value + value);
+    public static Color operator +(uint  value, Color color)  => new(color.Name, color.Value + value);
+    public static Color operator -(Color color, Color color2) => new(color.Name, color.Value - color2.Value);
+    public static Color operator -(Color color, uint  value)  => new(color.Name, color.Value - value);
+    public static Color operator -(uint  value, Color color)  => new(color.Name, color.Value - value);
 
     public static bool operator >(Color color, Color color2) => color.Value == color2.Value;
 

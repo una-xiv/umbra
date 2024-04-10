@@ -24,7 +24,7 @@ using Umbra.Common;
 namespace Umbra.Game;
 
 [Service]
-public class WeatherForecastProvider(IDataManager dataManager)
+internal class WeatherForecastProvider(IDataManager dataManager)
 {
     private const double Seconds       = 1;
     private const double Minutes       = 60 * Seconds;

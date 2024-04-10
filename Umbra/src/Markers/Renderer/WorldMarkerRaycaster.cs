@@ -29,9 +29,9 @@ public sealed class WorldMarkerRaycaster
     private readonly Dictionary<string, CachedMarkerPosition> _cachedMarkerPositions = [];
 
     private readonly IZoneManager _zoneManager;
-    private readonly Player       _player;
+    private readonly IPlayer       _player;
 
-    public WorldMarkerRaycaster(Player player, IZoneManager zoneManager)
+    public WorldMarkerRaycaster(IPlayer player, IZoneManager zoneManager)
     {
         _player      = player;
         _zoneManager = zoneManager;
@@ -107,7 +107,7 @@ public sealed class WorldMarkerRaycaster
         return position;
     }
 
-    private void OnZoneChanged(Zone _)
+    private void OnZoneChanged(IZone _)
     {
         _cachedMarkerPositions.Clear();
     }

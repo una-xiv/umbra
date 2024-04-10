@@ -29,11 +29,11 @@ internal partial class CompanionWidget : IToolbarWidget
     [ConfigVariable("Toolbar.Widget.Companion.Enabled", "ToolbarWidgets")]
     private static bool Enabled { get; set; } = true;
 
-    private readonly CompanionManager _companion;
+    private readonly ICompanionManager _companion;
     private readonly Element          _text;
     private readonly Element          _icon;
 
-    public CompanionWidget(CompanionManager companion)
+    public CompanionWidget(ICompanionManager companion)
     {
         _companion = companion;
         _text      = Element.Get("Container.Text");

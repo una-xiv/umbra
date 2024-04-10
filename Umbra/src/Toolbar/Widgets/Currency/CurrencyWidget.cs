@@ -38,12 +38,12 @@ internal partial class CurrencyWidget : IToolbarWidget
 
     private readonly List<uint>          _currencyIds;
     private readonly IDataManager        _dataManager;
-    private readonly Player              _player;
+    private readonly IPlayer              _player;
     private readonly ToolbarPopupContext _ctx;
 
     private int _lastCurrencyCount = 0;
 
-    public CurrencyWidget(IDataManager dataManager, Player player, ToolbarPopupContext ctx)
+    public CurrencyWidget(IDataManager dataManager, IPlayer player, ToolbarPopupContext ctx)
     {
         _dataManager = dataManager;
         _player      = player;

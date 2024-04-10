@@ -1,4 +1,4 @@
-/* Umbra.Game | (c) 2024 by Una         ____ ___        ___.
+﻿/* Umbra.Game | (c) 2024 by Una         ____ ___        ___.
  * Licensed under the terms of AGPL-3  |    |   \ _____ \_ |__ _______ _____
  *                                     |    |   //     \ | __ \\_  __ \\__  \
  * https://github.com/una-xiv/umbra    |    |  /|  Y Y  \| \_\ \|  | \/ / __ \_
@@ -14,17 +14,17 @@
  *     GNU Affero General Public License for more details.
  */
 
-using System;
-
 namespace Umbra.Game;
 
-public interface IZoneManager
+public interface IGearsetCategoryRepository
 {
-    public event Action<IZone> ZoneChanged;
+    /// <summary>
+    /// Returns a gearset category based on the given job ID.
+    /// </summary>
+    public GearsetCategory GetCategoryFromJobId(byte jobId);
 
-    public bool HasCurrentZone { get; }
-
-    public IZone CurrentZone { get; }
-
-    public IZone GetZone(uint zoneId);
+    /// <summary>
+    /// Returns the interface color based on the given gearset category.
+    /// </summary>
+    public uint GetCategoryColor(GearsetCategory category);
 }

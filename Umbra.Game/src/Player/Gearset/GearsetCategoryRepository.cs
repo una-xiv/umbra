@@ -23,9 +23,9 @@ using Umbra.Common;
 namespace Umbra.Game;
 
 [Service]
-public sealed class GearsetCategoryRepository
+internal sealed class GearsetCategoryRepository : IGearsetCategoryRepository
 {
-    private static readonly Dictionary<byte, GearsetCategory> GearsetCategories = [];
+    private readonly Dictionary<byte, GearsetCategory> _gearsetCategories = [];
 
     public GearsetCategoryRepository(IDataManager dataManager)
     {
@@ -33,7 +33,7 @@ public sealed class GearsetCategoryRepository
             .ToList()
             .ForEach(
                 classJob => {
-                    GearsetCategories[(byte)classJob.RowId] = classJob.ClassJobCategory.Row switch {
+                    _gearsetCategories[(byte)classJob.RowId] = classJob.ClassJobCategory.Row switch {
                         30 when classJob.Role == 1 => GearsetCategory.Tank,
                         30 when classJob.Role == 2 => GearsetCategory.Melee,
                         30 when classJob.Role == 3 => GearsetCategory.Ranged,
@@ -47,14 +47,14 @@ public sealed class GearsetCategoryRepository
             );
     }
 
-    public static GearsetCategory GetCategoryFromJobId(byte jobId)
+    public GearsetCategory GetCategoryFromJobId(byte jobId)
     {
-        return GearsetCategories.TryGetValue(jobId, out GearsetCategory category)
+        return _gearsetCategories.TryGetValue(jobId, out GearsetCategory category)
             ? category
             : GearsetCategory.None;
     }
 
-    public static uint GetCategoryColor(GearsetCategory category)
+    public uint GetCategoryColor(GearsetCategory category)
     {
         return category switch {
             GearsetCategory.Tank     => 0xFFA54A3B,

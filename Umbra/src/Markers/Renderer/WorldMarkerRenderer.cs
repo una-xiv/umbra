@@ -30,8 +30,8 @@ namespace Umbra.Markers;
 [Service]
 public sealed class WorldMarkerRenderer(
     IGameGui         gameGui,
-    GameCamera       gameCamera,
-    Player           player,
+    IGameCamera      gameCamera,
+    IPlayer          player,
     ClipRectProvider clipRectProvider
 )
 {

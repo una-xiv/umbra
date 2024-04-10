@@ -22,7 +22,7 @@ using Umbra.Interface;
 namespace Umbra.Toolbar;
 
 [Service]
-internal partial class Toolbar(Player player, IToolbarWidget[] widgets)
+internal partial class Toolbar(IPlayer player, IToolbarWidget[] widgets)
 {
     public const int Height = 32;
 
