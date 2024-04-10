@@ -26,11 +26,11 @@ public static class UintExtensions
     public static uint ApplyAlphaComponent(this uint value, float a)
     {
         var alpha = (byte)(((value >> 24) & 0xFF) * Math.Clamp(a, 0f, 1f));
-        var red   = (byte)((value >> 16) & 0xFF);
-        var green = (byte)((value >> 8) & 0xFF);
-        var blue  = (byte)(value & 0xFF);
+        var blue  = (byte)((value >> 16) & 0xFF);
+        var green = (byte)((value >> 8)  & 0xFF);
+        var red   = (byte)(value         & 0xFF);
 
-        return ((uint)alpha << 24) | ((uint)red << 16) | ((uint)green << 8) | blue;
+        return ((uint)alpha << 24) | ((uint)blue << 16) | ((uint)green << 8) | red;
     }
 
     public static uint ApplyBrightness(this uint value, float brightness)
