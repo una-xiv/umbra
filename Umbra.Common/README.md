@@ -32,7 +32,7 @@ The core features of this library are:
 
 ## Registering assemblies
 
-The static `Umbra.Common.Framework` acts as a central access point for anything that is directly related to the common
+The static `Umbra.Common.Framework` class acts as a central access point for anything that is directly related to the common
 systems of the plugin. One of the first things you should do is register all assemblies that are linked to the plugin so
 that the dependency injection system has the ability to scan all assemblies for types that should be registered as
 services.
@@ -40,9 +40,9 @@ services.
 ```csharp
 using Umbra.Common;
 
-public class MyPlugin : IPlugin
+public class MyPlugin : IDalamudPlugin
 {
-    public void Load()
+    public MyPlugin()
     {
         Framework.RegisterAssembly(Assembly.GetExecutingAssembly());
     }
