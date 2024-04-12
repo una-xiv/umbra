@@ -68,8 +68,24 @@ public sealed class WorldMarkerDirectionRenderer(
 
         // Move the marker to the edge of the screen.
         float dX = UseCircularPositioning ? displaySize.Y : displaySize.X;
-        float x  = displayPos.X + (displaySize.X / 2 + MathF.Cos(angle) * ((dX / 2) - Radius));
-        float y  = displayPos.Y + (displaySize.Y / 2 + MathF.Sin(angle) * ((displaySize.Y / 2) - Radius));
+        float dY = displaySize.Y;
+
+        gameGui.WorldToScreen(playerPos, out var center);
+
+        var cos = MathF.Cos(angle);
+        var addX = cos > 0 ? cos * (dX - center.X - Radius) : cos * (center.X - Radius);
+
+        var sin = MathF.Sin(angle);
+        var addY = sin > 0 ? sin * (dY - center.Y - Radius) : sin * (center.Y - Radius);
+
+        float x = center.X + addX;
+        float y = center.Y + addY;
+
+        x = MathF.Min(MathF.Max(x, Radius), dX - Radius);
+        y = MathF.Min(MathF.Max(y, Radius), dY - Radius);
+
+        x += displayPos.X;
+        y += displayPos.Y;
 
         var bounds = new Rect(new(x - (wSize / 2), y - (wSize / 2)), new(x + (wSize / 2), y + (wSize / 2)));
 
