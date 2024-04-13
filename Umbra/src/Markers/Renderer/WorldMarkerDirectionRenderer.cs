@@ -81,13 +81,14 @@ public sealed class WorldMarkerDirectionRenderer(
         gameGui.WorldToScreen(playerPos, out var center);
 
         var cos = MathF.Cos(angle);
-        var addX = cos > 0 ? cos * (xMax - center.X) : cos * (center.X - xMin);
-
+        var xRange = cos > 0 ? (xMax - center.X) : (center.X - xMin);
         var sin = MathF.Sin(angle);
-        var addY = sin > 0 ? sin * (yMax - center.Y ) : sin * (center.Y - yMin);
+        var yRange = sin > 0 ? (yMax - center.Y) : (center.Y - yMin);
 
-        float x = center.X + addX;
-        float y = center.Y + addY;
+        var angleForPos = MathF.Atan2(sin * xRange, cos * yRange);
+
+        float x = center.X + MathF.Cos(angleForPos) * xRange;
+        float y = center.Y + MathF.Sin(angleForPos) * yRange;
 
         x = MathF.Min(MathF.Max(x, xMin), xMax);
         y = MathF.Min(MathF.Max(y, yMin), yMax);
