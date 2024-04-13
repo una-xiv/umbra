@@ -70,19 +70,27 @@ public sealed class WorldMarkerDirectionRenderer(
         float dX = UseCircularPositioning ? displaySize.Y : displaySize.X;
         float dY = displaySize.Y;
 
+        dX = dX / 2 - Radius;
+        dY = dY / 2 - Radius;
+
+        var xMin = displaySize.X / 2 - dX;
+        var xMax = displaySize.X / 2 + dX;
+        var yMin = displaySize.Y / 2 - dY;
+        var yMax = displaySize.Y / 2 + dY;
+
         gameGui.WorldToScreen(playerPos, out var center);
 
         var cos = MathF.Cos(angle);
-        var addX = cos > 0 ? cos * (dX - center.X - Radius) : cos * (center.X - Radius);
+        var addX = cos > 0 ? cos * (xMax - center.X) : cos * (center.X - xMin);
 
         var sin = MathF.Sin(angle);
-        var addY = sin > 0 ? sin * (dY - center.Y - Radius) : sin * (center.Y - Radius);
+        var addY = sin > 0 ? sin * (yMax - center.Y ) : sin * (center.Y - yMin);
 
         float x = center.X + addX;
         float y = center.Y + addY;
 
-        x = MathF.Min(MathF.Max(x, Radius), dX - Radius);
-        y = MathF.Min(MathF.Max(y, Radius), dY - Radius);
+        x = MathF.Min(MathF.Max(x, xMin), xMax);
+        y = MathF.Min(MathF.Max(y, yMin), yMax);
 
         x += displayPos.X;
         y += displayPos.Y;
