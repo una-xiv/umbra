@@ -101,6 +101,16 @@ internal partial class CurrencyWidget
         return button;
     }
 
+    private Element CreateDropdownSeparator()
+    {
+        _sortIndex++;
+
+        return new DropdownSeparatorElement {
+            SortIndex = _sortIndex,
+            Padding   = new(left: 2, right: 6)
+        };
+    }
+
     private void BindInteractiveEventsTo(Element button, uint itemId)
     {
         button.OnMouseEnter += () => {
@@ -110,9 +120,9 @@ internal partial class CurrencyWidget
         };
 
         button.OnMouseLeave += () => {
-            button.Get("Name").Style.TextColor        = Theme.Color(ThemeColor.Text);
-            button.Get("Name").Style.OutlineColor     = Theme.Color(ThemeColor.TextOutline);
-            button.Get<BackgroundElement>().Opacity   = 0;
+            button.Get("Name").Style.TextColor      = Theme.Color(ThemeColor.Text);
+            button.Get("Name").Style.OutlineColor   = Theme.Color(ThemeColor.TextOutline);
+            button.Get<BackgroundElement>().Opacity = 0;
         };
 
         button.OnClick += () => {

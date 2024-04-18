@@ -219,6 +219,8 @@ public partial class Element
 
     private void DoBeforeCompute()
     {
+        _children.Sort((a, b) => a.SortIndex.CompareTo(b.SortIndex));
+
         OnBeforeCompute?.Invoke();
 
         if (false == _animation?.Advance()) {
@@ -237,8 +239,6 @@ public partial class Element
 
     private void CalculateAnchoredChildPositions(Anchor childAnchor)
     {
-        _children.Sort((a, b) => a.SortIndex.CompareTo(b.SortIndex));
-
         List<Element> children = GetAnchoredChildren(childAnchor);
         if (children.Count == 0) return;
 
