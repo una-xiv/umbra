@@ -18,6 +18,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using Umbra.Common;
+using Umbra.Game;
 
 namespace Umbra.Markers;
 
@@ -26,7 +27,8 @@ public sealed class WorldMarkerAggregator(
     IWorldMarkerFactory[]        worldMarkerFactories,
     WorldMarkerRaycaster         raycaster,
     WorldMarkerRenderer          markerRenderer,
-    WorldMarkerDirectionRenderer directionRenderer
+    WorldMarkerDirectionRenderer directionRenderer,
+    IPlayer                      player
 )
 {
     private readonly List<WorldMarkerObject> _markers = [];
@@ -34,6 +36,9 @@ public sealed class WorldMarkerAggregator(
     [OnDraw]
     public void OnDraw()
     {
+        // Don't draw anything if the player is occupied.
+        if (player.IsOccupied) return;
+
         _markers.Clear();
 
         // Gather & Aggregate...
