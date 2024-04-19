@@ -56,18 +56,20 @@ internal class MailIndicatorWidget : IToolbarWidget
 
     public unsafe void OnUpdate()
     {
-        Element.IsVisible = false;
+        if (!Enabled) {
+            Element.IsVisible = false;
+            return;
+        }
 
-        if (!Enabled) return;
+        var ipl = (InfoProxyLetterCount*)InfoModule.Instance()->GetInfoProxyById(InfoProxyId.Letter);
 
-        var infoModule = InfoModule.Instance();
-        if (infoModule == null) return;
-
-        var ipl = (InfoProxyLetterCount*)infoModule->GetInfoProxyById(InfoProxyId.Letter);
-        if (ipl == null) return;
+        if (ipl == null) {
+            Element.IsVisible = false;
+            return;
+        }
 
         Element.IsVisible = ipl->NumLetters > 0;
-
+        Element.IsDisabled = ipl->NumLetters == 0;
         Element.Tooltip = ipl->NumLetters == 1
             ? I18N.Translate("MailWidget.Singular.Tooltip")
             : I18N.Translate("MailWidget.Plural.Tooltip", ipl->NumLetters);
