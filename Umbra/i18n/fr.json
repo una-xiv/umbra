@@ -152,5 +152,9 @@
     "ThemeColor.HighlightOutline.Name": "Contour du texte mis en évidence",
     "ThemeColor.HighlightOutline.Description": "La couleur du contour autour du texte mis en évidence.",
     "ThemeColor.Accent.Name": "Couleur d'accentuation",
-    "ThemeColor.Accent.Description": "La couleur d'accentuation utilisée dans certains éléments."
+    "ThemeColor.Accent.Description": "La couleur d'accentuation utilisée dans certains éléments.",
+    "ThemeColor.ToolbarLight.Name": "Couleur claire de la barre d'outils",
+    "ThemeColor.ToolbarLight.Description": "La variante de couleur claire du dégradé utilisé dans la barre d'outils.",
+    "ThemeColor.ToolbarDark.Name": "Couleur sombre de la barre d'outils",
+    "ThemeColor.ToolbarDark.Description": "La variante de couleur sombre du dégradé utilisé dans la barre d'outils."
 }

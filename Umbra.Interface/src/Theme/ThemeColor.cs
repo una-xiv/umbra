@@ -34,4 +34,6 @@ public enum ThemeColor : byte
     HighlightForeground = 13,
     HighlightOutline    = 14,
     Accent              = 15,
+    ToolbarLight        = 16,
+    ToolbarDark         = 17,
 }

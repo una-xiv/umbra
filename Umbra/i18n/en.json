@@ -152,5 +152,9 @@
     "ThemeColor.HighlightOutline.Name": "Highlight Text Outline",
     "ThemeColor.HighlightOutline.Description": "The color of the outline around highlighted text.",
     "ThemeColor.Accent.Name": "Accent Color",
-    "ThemeColor.Accent.Description": "The accent color used in some elements."
+    "ThemeColor.Accent.Description": "The accent color used in some elements.",
+    "ThemeColor.ToolbarLight.Name": "Light Toolbar Color",
+    "ThemeColor.ToolbarLight.Description": "The light color variant of the gradient that is used in the toolbar.",
+    "ThemeColor.ToolbarDark.Name": "Dark Toolbar Color",
+    "ThemeColor.ToolbarDark.Description": "The dark color variant of the gradient that is used in the toolbar."
 }

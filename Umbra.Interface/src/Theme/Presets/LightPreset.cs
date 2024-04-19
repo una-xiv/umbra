@@ -35,4 +35,6 @@ public class LightPreset : IThemePreset
     public uint   HighlightForeground => 0xFFFFFFFF;
     public uint   HighlightOutline    => 0x40000000;
     public uint   Accent              => 0x307FCFFF;
+    public uint   ToolbarLight        => 0xFFE0E0E0;
+    public uint   ToolbarDark         => 0xFFD0D0D0;
 }

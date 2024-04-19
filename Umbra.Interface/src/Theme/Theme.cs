@@ -46,6 +46,8 @@ public static class Theme
         { ThemeColor.HighlightForeground, 0xFFFFFFFF },
         { ThemeColor.HighlightOutline, 0x80000000 },
         { ThemeColor.Accent, 0xFF5FCFFF },
+        { ThemeColor.ToolbarLight, 0xFF212021 },
+        { ThemeColor.ToolbarDark, 0xFF1A1A1A }
     };
 
     public static string[] ColorNames => Enum.GetNames<ThemeColor>();
@@ -97,6 +99,8 @@ public static class Theme
         SetColor(ThemeColor.HighlightBackground, preset.HighlightBackground);
         SetColor(ThemeColor.HighlightForeground, preset.HighlightForeground);
         SetColor(ThemeColor.Accent,              preset.Accent);
+        SetColor(ThemeColor.ToolbarLight,        preset.ToolbarLight);
+        SetColor(ThemeColor.ToolbarDark,         preset.ToolbarDark);
 
         UpdateColorScheme();
         SaveToConfig();

@@ -23,8 +23,8 @@ namespace Umbra.Toolbar;
 
 internal partial class Toolbar
 {
-    private readonly Color _color1 = Theme.Color(ThemeColor.BackgroundLight);
-    private readonly Color _color2 = Theme.Color(ThemeColor.Background);
+    private readonly Color _color1 = Theme.Color(ThemeColor.ToolbarLight);
+    private readonly Color _color2 = Theme.Color(ThemeColor.ToolbarDark);
 
     [ConfigVariable("Toolbar.ItemSpacing", "ToolbarSettings", min: 1, max: 32)]
     private static int ItemSpacing { get; set; } = 6;

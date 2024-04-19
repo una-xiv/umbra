@@ -152,5 +152,9 @@
     "ThemeColor.HighlightOutline.Name": "ハイライトのテキストのアウトライン",
     "ThemeColor.HighlightOutline.Description": "ハイライトされたテキストの周囲のアウトラインの色。",
     "ThemeColor.Accent.Name": "アクセントカラー",
-    "ThemeColor.Accent.Description": "一部の要素で使用されるアクセントカラー。"
+    "ThemeColor.Accent.Description": "一部の要素で使用されるアクセントカラー。",
+    "ThemeColor.ToolbarLight.Name": "明るいツールバーの色",
+    "ThemeColor.ToolbarLight.Description": "ツールバーで使用されるグラデーションの明るい色のバリアント。",
+    "ThemeColor.ToolbarDark.Name": "暗いツールバーの色",
+    "ThemeColor.ToolbarDark.Description": "ツールバーで使用されるグラデーションの暗い色のバリアント。"
 }

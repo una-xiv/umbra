@@ -152,5 +152,9 @@
     "ThemeColor.HighlightOutline.Name": "Hervorhebungstextumriss",
     "ThemeColor.HighlightOutline.Description": "Die Farbe der Umrisslinie um hervorgehobenen Text.",
     "ThemeColor.Accent.Name": "Akzentfarbe",
-    "ThemeColor.Accent.Description": "Die Akzentfarbe, die in einigen Elementen verwendet wird."
+    "ThemeColor.Accent.Description": "Die Akzentfarbe, die in einigen Elementen verwendet wird.",
+    "ThemeColor.ToolbarLight.Name": "Helle Symbolleistenfarbe",
+    "ThemeColor.ToolbarLight.Description": "Die helle Farbvariante des Farbverlaufs, der in der Symbolleiste verwendet wird.",
+    "ThemeColor.ToolbarDark.Name": "Dunkle Symbolleistenfarbe",
+    "ThemeColor.ToolbarDark.Description": "Die dunkle Farbvariante des Farbverlaufs, der in der Symbolleiste verwendet wird."
 }

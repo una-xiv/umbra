@@ -38,6 +38,8 @@ public class DalamudPreset : IThemePreset, ILiveThemePreset
     public uint HighlightForeground { get; private set; }
     public uint HighlightOutline    { get; private set; }
     public uint Accent              { get; private set; }
+    public uint ToolbarLight        { get; private set; }
+    public uint ToolbarDark         { get; private set; }
 
     public void Update()
     {
@@ -57,5 +59,7 @@ public class DalamudPreset : IThemePreset, ILiveThemePreset
         HighlightForeground = ImGui.GetColorU32(ImGuiCol.Text);
         HighlightOutline    = ImGui.GetColorU32(ImGuiCol.Border).ApplyAlphaComponent(0.55f);
         Accent              = ImGui.GetColorU32(ImGuiCol.TabActive).ApplyAlphaComponent(0.35f);
+        ToolbarLight        = ImGui.GetColorU32(ImGuiCol.FrameBgHovered);
+        ToolbarDark         = ImGui.GetColorU32(ImGuiCol.FrameBg);
     }
 }

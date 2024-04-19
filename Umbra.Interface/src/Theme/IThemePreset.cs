@@ -39,4 +39,6 @@ public interface IThemePreset
     public uint HighlightForeground { get; }
     public uint HighlightOutline    { get; }
     public uint Accent              { get; }
+    public uint ToolbarLight        { get; }
+    public uint ToolbarDark         { get; }
 }
