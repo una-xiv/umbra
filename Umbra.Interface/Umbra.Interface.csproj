@@ -30,10 +30,10 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="SixLabors.ImageSharp" Version="3.1.3" />
+	  <PackageReference Include="SixLabors.ImageSharp" Version="3.1.4" />
 	  <PackageReference Include="SixLabors.ImageSharp.Drawing" Version="2.1.2" />
 	</ItemGroup>
-	
+
     <ItemGroup>
 		<Reference Include="Dalamud">
 			<HintPath>$(DalamudLibPath)Dalamud.dll</HintPath>
@@ -56,7 +56,7 @@
 			<Private>false</Private>
 		</Reference>
     </ItemGroup>
-	
+
 	<ItemGroup>
 		<ProjectReference Include="..\Umbra.Common\Umbra.Common.csproj" />
 	</ItemGroup>

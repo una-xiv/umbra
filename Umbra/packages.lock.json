@@ -15,8 +15,8 @@
       },
       "SixLabors.ImageSharp": {
         "type": "Transitive",
-        "resolved": "3.1.3",
-        "contentHash": "wybtaqZQ1ZRZ4ZeU+9h+PaSeV14nyiGKIy7qRbDfSHzHq4ybqyOcjoifeaYbiKLO1u+PVxLBuy7MF/DMmwwbfg=="
+        "resolved": "3.1.4",
+        "contentHash": "lFIdxgGDA5iYkUMRFOze7BGLcdpoLFbR+a20kc1W7NepvzU7ejtxtWOg9RvgG7kb9tBoJ3ONYOK6kLil/dgF1w=="
       },
       "SixLabors.ImageSharp.Drawing": {
         "type": "Transitive",
@@ -30,14 +30,6 @@
       "umbra.common": {
         "type": "Project"
       },
-      "umbra.drawing": {
-        "type": "Project",
-        "dependencies": {
-          "SixLabors.ImageSharp": "[3.1.3, )",
-          "SixLabors.ImageSharp.Drawing": "[2.1.2, )",
-          "Umbra.Common": "[1.0.0, )"
-        }
-      },
       "umbra.game": {
         "type": "Project",
         "dependencies": {
@@ -47,7 +39,7 @@
       "umbra.interface": {
         "type": "Project",
         "dependencies": {
-          "SixLabors.ImageSharp": "[3.1.3, )",
+          "SixLabors.ImageSharp": "[3.1.4, )",
           "SixLabors.ImageSharp.Drawing": "[2.1.2, )",
           "Umbra.Common": "[1.0.0, )"
         }
