@@ -94,7 +94,8 @@ internal partial class ConfigWindow
             panel.Get("ColorList").Size      = panel.Size;
 
             for (var i = 0; i < panel.Get("ColorList").Children.Count(); i++) {
-                panel.Get("ColorList").Children.ElementAt(i).Size = panel.Size;
+                panel.Get("ColorList").Children.ElementAt(i).SortIndex = i;
+                panel.Get("ColorList").Children.ElementAt(i).Size      = panel.Size;
             }
         };
 
