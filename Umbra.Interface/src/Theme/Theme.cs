@@ -46,8 +46,8 @@ public static class Theme
         { ThemeColor.HighlightForeground, 0xFFFFFFFF },
         { ThemeColor.HighlightOutline, 0x80000000 },
         { ThemeColor.Accent, 0xFF5FCFFF },
-        { ThemeColor.ToolbarLight, 0xFF212021 },
-        { ThemeColor.ToolbarDark, 0xFF1A1A1A }
+        { ThemeColor.ToolbarLight, 0xFF2F2F2F },
+        { ThemeColor.ToolbarDark, 0xFF212021 }
     };
 
     public static string[] ColorNames => Enum.GetNames<ThemeColor>();
