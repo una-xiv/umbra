@@ -91,7 +91,8 @@ public class TravelDestination
             return $"{GetTerritoryName(entry.TerritoryId)} - {GetUiText(6875)}";
         }
 
-        return entry.AetheryteData.GameData!.PlaceName.Value!.Name.ToString();
+        // Unknown (most likely also private estates)
+        return $"{GetTerritoryName(entry.TerritoryId)} - {entry.AetheryteData.GameData!.PlaceName.Value!.Name}";
     }
 
     private static unsafe string GetUiText(uint id)
