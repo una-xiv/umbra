@@ -131,7 +131,7 @@ internal sealed class MainMenuRepository : IMainMenuRepository
         foreach (var dest in _travelDestinationRepository.Destinations) {
             if (dest.IsHousing && !ShowResidentialAreas) continue;
 
-            var key = $"Aetheryte:{dest.Id}:{dest.SubId}";
+            string key = dest.GetCacheKey();
             usedNames.Add(key);
 
             var existingItem = category.Items.FirstOrDefault(item => item.MetadataKey == key);
@@ -190,31 +190,5 @@ internal sealed class MainMenuRepository : IMainMenuRepository
         if (usedNames.Count == 0 && category.Items.Any(item => item.Type == MainMenuItemType.Separator)) {
             category.RemoveItem(category.Items.First(item => item.Type == MainMenuItemType.Separator));
         }
-    }
-
-    private List<AetheryteEntry> GetFavoredDestinations()
-    {
-        List<AetheryteEntry> result = [];
-
-        foreach (AetheryteEntry aetheryte in _aetheryteList) {
-            if (aetheryte.IsFavourite) {
-                result.Add(aetheryte);
-            }
-        }
-
-        return result;
-    }
-
-    private List<AetheryteEntry> GetHousingDestinations()
-    {
-        List<AetheryteEntry> result = [];
-
-        foreach (AetheryteEntry aetheryte in _aetheryteList) {
-            if (aetheryte.IsSharedHouse || aetheryte.IsAppartment) {
-                result.Add(aetheryte);
-            }
-        }
-
-        return result;
     }
 }
