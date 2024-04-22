@@ -15,13 +15,14 @@
  */
 
 using System;
+using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using Umbra.Common;
 
 namespace Umbra.Game;
 
 [Service]
-internal sealed class ZoneManager(ZoneFactory factory) : IZoneManager
+internal sealed class ZoneManager(ZoneFactory factory, IClientState clientState) : IZoneManager
 {
     public event Action<IZone>? ZoneChanged;
 
@@ -49,6 +50,9 @@ internal sealed class ZoneManager(ZoneFactory factory) : IZoneManager
     {
         AgentMap* agentMap = AgentMap.Instance();
         if (agentMap == null || agentMap->CurrentMapId == 0) return;
+
+        // Don't do anything if the local player isn't available.
+        if (clientState.LocalPlayer == null) return;
 
         if (null == _zone || _zone.Id != agentMap->CurrentMapId) {
             _zone = factory.GetZone(agentMap->CurrentMapId);

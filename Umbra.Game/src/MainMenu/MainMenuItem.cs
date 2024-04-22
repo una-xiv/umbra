@@ -27,7 +27,7 @@ namespace Umbra.Game;
 public sealed class MainMenuItem : IDisposable
 {
     public string           Name        { get; set; }
-    public string           Shortkey    { get; } = string.Empty;
+    public string           ShortKey    { get; set; } = string.Empty;
     public MainMenuItemType Type        { get; set; }
     public string?          ChatCommand { get; set; }
     public Action?          Callback    { get; set; }
@@ -86,7 +86,7 @@ public sealed class MainMenuItem : IDisposable
         if (Name.Contains('[')) {
             var tmp = Name.Split('[');
             Name     = tmp[0].Trim();
-            Shortkey = tmp[1].Replace("]", "").Trim();
+            ShortKey = $"[{tmp[1].Trim()}";
         }
     }
 
@@ -100,8 +100,7 @@ public sealed class MainMenuItem : IDisposable
                 uiModule->ExecuteMainCommand(CommandId!.Value);
                 break;
             case MainMenuItemType.ChatCommand:
-                if (ChatCommand == null
-                 || ChatCommand == "")
+                if (string.IsNullOrEmpty(ChatCommand))
                     return;
 
                 Framework.Service<IChatSender>().Send(ChatCommand);

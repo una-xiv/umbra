@@ -110,7 +110,7 @@ public class DropdownButtonElement : Element
         Style.Opacity = IsDisabled ? 0.5f : 1;
 
         _labelElement.Text   = Label;
-        _keyBindElement.Text = !string.IsNullOrEmpty(KeyBind) ? $"[{KeyBind}]" : "";
+        _keyBindElement.Text = !string.IsNullOrEmpty(KeyBind) ? KeyBind : "";
     }
 
     private void UpdateSize()

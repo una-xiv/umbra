@@ -85,6 +85,8 @@
     "CVAR.Toolbar.Widget.MainMenu.Enabled.Description": "Zeigt ein Widget an, das das Hauptmenü als separate Menüs anzeigt.",
     "CVAR.Toolbar.Widget.MainMenu.ShowIcons.Name": "Spiele-Icons im Hauptmenü anzeigen",
     "CVAR.Toolbar.Widget.MainMenu.ShowIcons.Description": "Zeigt die Spiele-Icons neben den Hauptmenüpunkten an.",
+    "CVAR.Toolbar.Widget.MainMenu.Travel.ShowResidential.Name": "Wohngebiete im Reisemenü anzeigen",
+    "CVAR.Toolbar.Widget.MainMenu.Travel.ShowResidential.Description": "Die verfügbaren Wohngebiete im Reisemenü anzeigen. Diese Elemente sind nur aktiviert, wenn Sie sich auf Ihrer Heimatwelt befinden.",
     "CVAR.Toolbar.Widget.Volume.Enabled.Name": "Lautstärke-Widget anzeigen",
     "CVAR.Toolbar.Widget.Volume.Enabled.Description": "Zeigt ein Widget an, mit dem Sie die verschiedenen Audiolaustärken des Spiels steuern können.",
     "CVAR.Toolbar.Widget.WorldMarkerMenu.Enabled.Name": "Weltmarker-Menü-Widget anzeigen",

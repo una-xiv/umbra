@@ -21,6 +21,7 @@ using Dalamud.Plugin.Services;
 using Dalamud.Utility;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
+using Lumina.Excel.GeneratedSheets2;
 using Umbra.Common;
 using Umbra.Game;
 using Umbra.Interface;
@@ -174,14 +175,14 @@ internal partial class FlagWidget : IToolbarWidget
         _aetheryteKey = cacheKey;
         _name.Text    = $"{zone.Name} at <{pos.X:F1}, {pos.Y:F1}>";
 
-        _aetheryteEntry = _aetheryteList
-            .Where(a => a.TerritoryId == zone.TerritoryId)
-            .MinBy(
-                a => Vector2.Distance(
-                    new(a.AetheryteData.GameData!.AetherstreamX, a.AetheryteData.GameData!.AetherstreamY),
-                    new(map->FlagMapMarker.XFloat, map->FlagMapMarker.YFloat)
-                )
-            );
+        var flagPos2D = new Vector2(map->FlagMapMarker.XFloat, map->FlagMapMarker.YFloat);
+
+        var marker = zone
+            .StaticMarkers
+            .Where(m => m.Type == ZoneMarkerType.Aetheryte)
+            .MinBy(m => Vector2.Distance(new(m.WorldPosition.X, m.WorldPosition.Z), flagPos2D));
+
+        _aetheryteEntry = _aetheryteList.FirstOrDefault(a => a.AetheryteId == marker.DataId);
 
         if (_aetheryteEntry == null) {
             _info.Text = I18N.Translate("LocationWidget.NoAetheryteNearby");

@@ -116,7 +116,7 @@ internal sealed partial class MainMenuWidget
             label: item.Name,
             icon: item.Icon,
             iconColor: item.IconColor ?? Theme.Color(ThemeColor.TextLight),
-            keyBind: string.IsNullOrEmpty(item.Shortkey) ? null : item.Shortkey
+            keyBind: string.IsNullOrEmpty(item.ShortKey) ? null : item.ShortKey
         ) {
             Tag        = "MenuItem",
             SortIndex  = item.SortIndex,
@@ -136,6 +136,8 @@ internal sealed partial class MainMenuWidget
         };
 
         button.OnBeforeCompute += () => {
+            button.Label      = item.Name;
+            button.KeyBind    = string.IsNullOrEmpty(item.ShortKey) ? null : item.ShortKey;
             button.IsDisabled = item.IsDisabled;
         };
 

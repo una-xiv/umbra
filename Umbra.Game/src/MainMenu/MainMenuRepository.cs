@@ -17,6 +17,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Dalamud.Game.ClientState.Aetherytes;
 using Dalamud.Game.Text;
 using Dalamud.Plugin.Services;
 using Umbra.Common;
@@ -30,13 +31,23 @@ internal sealed class MainMenuRepository : IMainMenuRepository
 {
     public readonly Dictionary<MenuCategory, MainMenuCategory> Categories = [];
 
-    private readonly IAetheryteList _aetheryteList;
-    private readonly IPlayer        _player;
+    private readonly IAetheryteList               _aetheryteList;
+    private readonly ITravelDestinationRepository _travelDestinationRepository;
+    private readonly IPlayer                      _player;
 
-    public MainMenuRepository(IDataManager dataManager, IAetheryteList aetheryteList, IPlayer player)
+    [ConfigVariable("Toolbar.Widget.MainMenu.Travel.ShowResidential", "ToolbarSettings")]
+    private static bool ShowResidentialAreas { get; set; } = false;
+
+    public MainMenuRepository(
+        IDataManager                 dataManager,
+        IAetheryteList               aetheryteList,
+        ITravelDestinationRepository travelDestinationRepository,
+        IPlayer                      player
+    )
     {
-        _aetheryteList = aetheryteList;
-        _player        = player;
+        _aetheryteList               = aetheryteList;
+        _travelDestinationRepository = travelDestinationRepository;
+        _player                      = player;
 
         dataManager.GetExcelSheet<MainCommandCategory>()!
             .ToList()
@@ -115,53 +126,55 @@ internal sealed class MainMenuRepository : IMainMenuRepository
 
         List<string> usedNames = [];
 
-        short sortIndex = 900;
+        var sortIndex = 900;
 
-        for (int i = 0; i < _aetheryteList.Length; i++) {
-            var aetheryte = _aetheryteList[i];
-            if (null == aetheryte) continue;
+        foreach (var dest in _travelDestinationRepository.Destinations) {
+            if (dest.IsHousing && !ShowResidentialAreas) continue;
 
-            if (aetheryte.IsFavourite) {
-                var info = aetheryte.AetheryteData.GameData;
-                if (null == info) continue;
+            var key = $"Aetheryte:{dest.Id}:{dest.SubId}";
+            usedNames.Add(key);
 
-                var name = $"{info.PlaceName.Value?.Name ?? "???"} ({aetheryte.GilCost} gil)";
-                var key  = $"Aetheryte:{aetheryte.AetheryteId}";
-                usedNames.Add(key);
+            var existingItem = category.Items.FirstOrDefault(item => item.MetadataKey == key);
 
-                var existingItem = category.Items.FirstOrDefault(item => item.MetadataKey == key);
-
-                if (existingItem != null) {
-                    if (existingItem.Name != name) {
-                        existingItem.Name = name;
-                    }
-
-                    existingItem.IsDisabled = !_player.CanUseTeleportAction;
-                    continue;
-                }
-
-                if (category.Items.All(item => item.Type != MainMenuItemType.Separator)) {
-                    category.AddItem(new(sortIndex));
-                    sortIndex++;
-                }
-
-                category.AddItem(
-                    new(
-                        name,
-                        sortIndex,
-                        () => {
-                            unsafe {
-                                Telepo.Instance()->Teleport(aetheryte.AetheryteId, aetheryte.SubIndex);
-                            }
-                        }
-                    ) {
-                        MetadataKey = $"Aetheryte:{aetheryte.AetheryteId}",
-                        IsDisabled  = !_player.CanUseTeleportAction
-                    }
-                );
-
+            if (category.Items.All(item => item.Type != MainMenuItemType.Separator)) {
+                category.AddItem(new((short)sortIndex));
                 sortIndex++;
             }
+
+            bool isDisabled = !_player.CanUseTeleportAction
+             || (dest.IsHousing && _player.CurrentWorldName != _player.HomeWorldName);
+
+            var gilCost = $"{dest.GilCost} gil";
+
+            if (existingItem != null) {
+                if (existingItem.Name != dest.Name) {
+                    existingItem.Name = dest.Name;
+                }
+
+                if (existingItem.ShortKey != gilCost) {
+                    existingItem.ShortKey = gilCost;
+                }
+
+                existingItem.IsDisabled = isDisabled;
+                continue;
+            }
+
+            MainMenuItem item = new(
+                dest.Name,
+                (short)(sortIndex + (dest.IsHousing ? 10 : 0)),
+                () => {
+                    unsafe {
+                        Telepo.Instance()->Teleport(dest.Id, (byte)dest.SubId);
+                    }
+                }
+            ) {
+                MetadataKey = key,
+                IsDisabled  = isDisabled,
+                ShortKey    = gilCost,
+            };
+
+            category.AddItem(item);
+            sortIndex++;
         }
 
         category
@@ -177,5 +190,31 @@ internal sealed class MainMenuRepository : IMainMenuRepository
         if (usedNames.Count == 0 && category.Items.Any(item => item.Type == MainMenuItemType.Separator)) {
             category.RemoveItem(category.Items.First(item => item.Type == MainMenuItemType.Separator));
         }
+    }
+
+    private List<AetheryteEntry> GetFavoredDestinations()
+    {
+        List<AetheryteEntry> result = [];
+
+        foreach (AetheryteEntry aetheryte in _aetheryteList) {
+            if (aetheryte.IsFavourite) {
+                result.Add(aetheryte);
+            }
+        }
+
+        return result;
+    }
+
+    private List<AetheryteEntry> GetHousingDestinations()
+    {
+        List<AetheryteEntry> result = [];
+
+        foreach (AetheryteEntry aetheryte in _aetheryteList) {
+            if (aetheryte.IsSharedHouse || aetheryte.IsAppartment) {
+                result.Add(aetheryte);
+            }
+        }
+
+        return result;
     }
 }
