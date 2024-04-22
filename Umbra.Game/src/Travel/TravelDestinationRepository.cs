@@ -1,4 +1,4 @@
-﻿/* Umbra.Game | (c) 2024 by Una         ____ ___        ___.
+/* Umbra.Game | (c) 2024 by Una         ____ ___        ___.
  * Licensed under the terms of AGPL-3  |    |   \ _____ \_ |__ _______ _____
  *                                     |    |   //     \ | __ \\_  __ \\__  \
  * https://github.com/una-xiv/umbra    |    |  /|  Y Y  \| \_\ \|  | \/ / __ \_
@@ -56,19 +56,24 @@ public class TravelDestinationRepository : ITravelDestinationRepository
     {
         if (!_zoneManager.HasCurrentZone) return;
 
-        foreach (var entry in _aetheryteList) {
-            if (!IsListedAetheryteEntry(entry)) {
+        foreach (var entry in _aetheryteList)
+        {
+            if (!IsListedAetheryteEntry(entry))
+            {
                 Destinations.RemoveAll(d => d.Id == entry.AetheryteId && d.SubId == entry.SubIndex);
                 continue;
             }
 
-            bool               isHousing   = entry.IsSharedHouse || entry.IsAppartment || _estateAetherytes.Contains(entry.AetheryteId);
-            TravelDestination? destination = Destinations.FirstOrDefault(d => d.Id == entry.AetheryteId);
+            bool isHousing = entry.IsSharedHouse || entry.IsAppartment || _estateAetherytes.Contains(entry.AetheryteId);
+            TravelDestination? destination = Destinations.FirstOrDefault(d => d.Id == entry.AetheryteId && d.SubId == entry.SubIndex);
 
-            if (destination == null) {
+            if (destination == null)
+            {
                 destination = new(entry, isHousing);
                 Destinations.Add(destination);
-            } else {
+            }
+            else
+            {
                 destination.Update(entry, isHousing);
             }
         }
