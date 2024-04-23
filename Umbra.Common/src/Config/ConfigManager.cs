@@ -45,7 +45,7 @@ public static class ConfigManager
             object? defaultValue = prop.GetValue(null);
 
             if (!Cvars.TryGetValue(id, out Cvar? cvar)) {
-                cvar      = new Cvar(id, defaultValue);
+                cvar      = new(id, defaultValue);
                 Cvars[id] = cvar;
             }
 
@@ -63,6 +63,10 @@ public static class ConfigManager
 
             if (attr.Step != 0) {
                 cvar.Step = attr.Step;
+            }
+
+            if (attr.Options.Count > 0) {
+                cvar.Options = attr.Options;
             }
 
             if (!EqualityComparer<object>.Default.Equals(cvar.Default, defaultValue)) {
@@ -143,6 +147,11 @@ public static class ConfigManager
         return (T?)cvar.Value;
     }
 
+    internal static void Persist()
+    {
+        Persist(null);
+    }
+
     private static void Persist(object? _)
     {
         var data = new Dictionary<string, object?>();
@@ -203,6 +212,7 @@ public class Cvar(string id, object? defaultValue)
 {
     public readonly   string             Id      = id;
     public readonly   object?            Default = defaultValue;
+    public            List<string>?      Options = [];
     public            string?            Category;
     public            object?            Value = defaultValue;
     public            float?             Min;

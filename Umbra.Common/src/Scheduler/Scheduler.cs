@@ -27,6 +27,8 @@ internal static class Scheduler
     private static List<TickHandler> _onTickHandlers = [];
     private static List<DrawHandler> _onDrawHandlers = [];
 
+    private static bool _isRunning;
+
     [WhenFrameworkCompiling]
     internal static void OnFrameworkCompiling()
     {
@@ -52,6 +54,7 @@ internal static class Scheduler
     {
         Framework.DalamudFramework.Update      += OnUmbraTick;
         Framework.DalamudPlugin.UiBuilder.Draw += OnUmbraDraw;
+        _isRunning                             =  true;
     }
 
     /// <summary>
@@ -61,6 +64,7 @@ internal static class Scheduler
     {
         Framework.DalamudFramework.Update      -= OnUmbraTick;
         Framework.DalamudPlugin.UiBuilder.Draw -= OnUmbraDraw;
+        _isRunning                             =  false;
     }
 
     private static void OnUmbraTick(IFramework fw)
@@ -69,6 +73,7 @@ internal static class Scheduler
             () => {
                 foreach (var handler in _onTickHandlers) {
                     handler.Invoke(fw.UpdateDelta.TotalMilliseconds);
+                    if (!_isRunning) return;
                 }
             }
         );
@@ -78,6 +83,7 @@ internal static class Scheduler
     {
         foreach (var handler in _onDrawHandlers) {
             handler.Invoke();
+            if (!_isRunning) return;
         }
     }
 

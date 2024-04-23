@@ -96,7 +96,11 @@ internal sealed partial class ConfigWindow
             children: [
                 new BackgroundElement(color: 0x30505050, edgeColor: 0xFF3F3F3F, rounding: 4),
                 new BorderElement(color: 0xAA151515, rounding: 3, padding: new(1)),
-                new GradientElement(id: "Gradient", gradient: Gradient.Horizontal(0, Theme.Color(ThemeColor.Background)), padding: new(left: 1, top: 1, right: -1, bottom: 1))
+                new GradientElement(
+                        id: "Gradient",
+                        gradient: Gradient.Horizontal(0, Theme.Color(ThemeColor.Background)),
+                        padding: new(left: 1, top: 1, right: -1, bottom: 1)
+                    )
                     { IsVisible = false },
                 new(
                     id: "Text",
@@ -130,10 +134,11 @@ internal sealed partial class ConfigWindow
             button.Get<GradientElement>("Gradient").IsVisible = isActive;
             button.Get<BorderElement>().Color = isActive ? Theme.Color(ThemeColor.Background) : 0xAA151515;
             button.Get<BackgroundElement>().EdgeColor = isActive ? 0 : 0xFF3F3F3F;
+
             button.Get<BackgroundElement>().Color =
                 isActive || button.IsMouseOver ? Theme.Color(ThemeColor.Accent) : 0x30505050;
 
-            button.Get("Text").Style.TextColor = _selectedCategory == id ? 0xFFFFFFFF :0xFFC0C0C0;
+            button.Get("Text").Style.TextColor = _selectedCategory == id ? 0xFFFFFFFF : 0xFFC0C0C0;
         };
 
         button.OnClick += () => { _selectedCategory = id; };
@@ -156,6 +161,10 @@ internal sealed partial class ConfigWindow
 
                     if (cvar is { Default: int, Min: not null, Max: not null }) {
                         panel.AddChild(CreateIntegerOption(cvar));
+                    }
+
+                    if (cvar is { Default: string, Options: not null }) {
+                        panel.AddChild(CreateSelectOption(cvar));
                     }
                 }
             );
@@ -219,7 +228,7 @@ internal sealed partial class ConfigWindow
         );
 
         el.OnBeforeCompute += () => {
-            el.Get("Text.Description").Size = new((int)(ImGui.GetWindowSize().X - 60), 0);
+            el.Get("Text.Description").Size     = new((int)(ImGui.GetWindowSize().X - 60), 0);
             el.Get<IntegerInputElement>().Value = (int)cvar.Value!;
         };
 
@@ -242,7 +251,11 @@ internal sealed partial class ConfigWindow
                     size: new(20, 20),
                     anchor: Anchor.TopLeft,
                     children: [
-                        new BackgroundElement(color: 0x30505050, edgeColor: Theme.Color(ThemeColor.Border), rounding: 5),
+                        new BackgroundElement(
+                            color: 0x30505050,
+                            edgeColor: Theme.Color(ThemeColor.Border),
+                            rounding: 5
+                        ),
                         new BorderElement(color: 0xAA151515, rounding: 3, padding: new(1)),
                         new GradientElement(
                             id: "Gradient",
@@ -319,6 +332,68 @@ internal sealed partial class ConfigWindow
         return el;
     }
 
+    private static Element CreateSelectOption(Cvar cvar)
+    {
+        Element el = new(
+            id: Slugify(cvar.Id),
+            flow: Flow.Vertical,
+            anchor: Anchor.TopLeft,
+            padding: new(left: 38, bottom: 4),
+            gap: 10,
+            children: [
+                new(
+                    id: "Text",
+                    flow: Flow.Vertical,
+                    anchor: Anchor.TopLeft,
+                    gap: 4,
+                    children: [
+                        new(
+                            id: "Name",
+                            text: I18N.Translate($"CVAR.{cvar.Id}.Name"),
+                            anchor: Anchor.TopLeft,
+                            style: new() {
+                                Font         = Font.Axis,
+                                TextColor    = Theme.Color(ThemeColor.Text),
+                                TextAlign    = Anchor.MiddleLeft,
+                                OutlineColor = Theme.Color(ThemeColor.TextOutline),
+                                OutlineWidth = 1
+                            }
+                        ),
+                        new(
+                            id: "Description",
+                            text: I18N.Translate($"CVAR.{cvar.Id}.Description"),
+                            anchor: Anchor.TopLeft,
+                            size: new(250, 0),
+                            style: new() {
+                                Font         = Font.AxisSmall,
+                                TextColor    = Theme.Color(ThemeColor.TextMuted),
+                                TextAlign    = Anchor.TopLeft,
+                                TextWrap     = true,
+                                OutlineColor = Theme.Color(ThemeColor.TextOutline),
+                                OutlineWidth = 1
+                            }
+                        ) { IsVisible = I18N.Has($"CVAR.{cvar.Id}.Description") }
+                    ]
+                ),
+                new SelectInputElement(
+                    id: Slugify(cvar.Id),
+                    value: (string)cvar.Value!,
+                    options: cvar.Options!,
+                    anchor: Anchor.TopLeft
+                )
+            ]
+        );
+
+        el.OnBeforeCompute += () => {
+            el.Get("Text.Description").Size     = new((int)(ImGui.GetWindowSize().X - 60), 0);
+            el.Get<SelectInputElement>().Value = (string)cvar.Value!;
+        };
+
+        el.Get<SelectInputElement>().OnValueChanged += value => ConfigManager.Set(cvar.Id, value);
+
+        return el;
+    }
+
     private static Element CreateThemeColorOption(string name)
     {
         Element el = new(
@@ -333,7 +408,11 @@ internal sealed partial class ConfigWindow
                     size: new(21, 21),
                     anchor: Anchor.TopLeft,
                     children: [
-                        new BackgroundElement(color: 0x30505050, edgeColor: Theme.Color(ThemeColor.Border), rounding: 5),
+                        new BackgroundElement(
+                            color: 0x30505050,
+                            edgeColor: Theme.Color(ThemeColor.Border),
+                            rounding: 5
+                        ),
                         new BorderElement(color: 0xAA151515, rounding: 3, padding: new(1)),
                         new ColorEditElement(
                             id: $"ColorPicker_{Slugify(name)}",
@@ -386,7 +465,8 @@ internal sealed partial class ConfigWindow
             el.Get("Picker").Get<ColorEditElement>().Value = Theme.GetColor(Enum.Parse<ThemeColor>(name));
         };
 
-        el.Get("Picker").Get<ColorEditElement>().OnValueChanged += value => Theme.SetColor(Enum.Parse<ThemeColor>(name), value, true);
+        el.Get("Picker").Get<ColorEditElement>().OnValueChanged +=
+            value => Theme.SetColor(Enum.Parse<ThemeColor>(name), value, true);
 
         return el;
     }

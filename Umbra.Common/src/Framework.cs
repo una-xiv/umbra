@@ -75,6 +75,13 @@ public static class Framework
         GetMethodInfoListWith<WhenFrameworkDisposingAttribute>().ForEach(method => method.Invoke(null, null));
     }
 
+    public static async void Restart()
+    {
+        Dispose();
+
+        await Compile(DalamudFramework, DalamudPlugin);
+    }
+
     /// <summary>
     /// Instantiates the given class with its dependencies injected.
     /// </summary>

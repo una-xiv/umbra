@@ -15,11 +15,13 @@
  */
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Umbra.Common;
 
-[AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
-public class ConfigVariableAttribute(string id, string? category = null, float min = float.MinValue, float max = float.MaxValue, float step = 0) : Attribute
+[AttributeUsage(AttributeTargets.Property)]
+public class ConfigVariableAttribute(string id, string? category = null, float min = float.MinValue, float max = float.MaxValue, float step = 0, string[]? options = null) : Attribute
 {
     /// <summary>
     /// The ID of the config variable used to store the value in the
@@ -61,4 +63,10 @@ public class ConfigVariableAttribute(string id, string? category = null, float m
     /// validation in the configuration UI.
     /// </summary>
     public float Step { get; } = step;
+
+    /// <summary>
+    /// A list of options for the config variable. This is used for select
+    /// input types in the configuration UI.
+    /// </summary>
+    public List<string> Options = options?.ToList() ?? [];
 }

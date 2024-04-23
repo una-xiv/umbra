@@ -22,6 +22,9 @@ namespace Umbra.Common;
 
 public static class I18N
 {
+    [ConfigVariable("General.LanguageOverride", "General", options: ["None", "en", "de", "fr", "ja"])]
+    internal static string LanguageOverride { get; set; } = "None";
+
     private static readonly Dictionary<string, Dictionary<string, string>> Translations = [];
 
     /// <summary>
@@ -48,24 +51,30 @@ public static class I18N
 
     private static Dictionary<string, string> Dict {
         get {
-            string lang = Framework.DalamudPlugin.UiLanguage;
+            string lang = string.IsNullOrEmpty(LanguageOverride) || LanguageOverride == "None"
+                ? Framework.DalamudPlugin.UiLanguage
+                : LanguageOverride;
 
             return Translations.TryGetValue(lang, out Dictionary<string, string>? translation)
-                ? translation : Translations["en"];
+                ? translation
+                : Translations["en"];
         }
     }
 
     [WhenFrameworkCompiling]
     internal static void LoadTranslations()
     {
-        FileInfo[] files = new DirectoryInfo(Path.Combine(Framework.DalamudPlugin.AssemblyLocation.DirectoryName!, "i18n")).GetFiles("*.json");
+        FileInfo[] files =
+            new DirectoryInfo(Path.Combine(Framework.DalamudPlugin.AssemblyLocation.DirectoryName!, "i18n")).GetFiles(
+                "*.json"
+            );
 
         foreach (FileInfo file in files) {
             string lang = file.Name.Replace(".json", "");
             string json = File.ReadAllText(file.FullName);
 
             Dictionary<string, string> dict = JsonConvert.DeserializeObject<Dictionary<string, string>>(json)
-              ?? throw new ($"Failed to parse translation file {file.FullName}");
+             ?? throw new($"Failed to parse translation file {file.FullName}");
 
             Translations[lang] = [];
 
