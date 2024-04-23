@@ -98,11 +98,13 @@ internal sealed partial class MainMenuWidget
             }
 
             dropdown.Get("Items").AddChild(CreateMainMenuElement(item));
+            dropdown.Get("Items").IsDirty = true;
         };
 
         category.OnItemRemoved += item => {
             if (_menuItemElements.Remove(item, out var element)) {
                 dropdown.Get("Items").RemoveChild(element);
+                dropdown.Get("Items").IsDirty = true;
             }
         };
 

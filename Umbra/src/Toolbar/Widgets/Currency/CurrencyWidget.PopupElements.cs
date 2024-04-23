@@ -56,7 +56,7 @@ internal partial class CurrencyWidget
                 new BackgroundElement(
                     color: Theme.Color(ThemeColor.HighlightBackground),
                     rounding: 4,
-                    padding: new(top: 2, bottom: 2, left: -2, right: -6),
+                    padding: new(top: 2, bottom: 2, left: -2, right: -2),
                     opacity: 0
                 ),
                 new(

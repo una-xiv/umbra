@@ -17,12 +17,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Dalamud.Game.ClientState.Aetherytes;
 using Dalamud.Game.Text;
 using Dalamud.Plugin.Services;
-using Umbra.Common;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using Lumina.Excel.GeneratedSheets;
+using Umbra.Common;
 
 namespace Umbra.Game;
 
@@ -31,7 +30,6 @@ internal sealed class MainMenuRepository : IMainMenuRepository
 {
     public readonly Dictionary<MenuCategory, MainMenuCategory> Categories = [];
 
-    private readonly IAetheryteList               _aetheryteList;
     private readonly ITravelDestinationRepository _travelDestinationRepository;
     private readonly IPlayer                      _player;
 
@@ -40,12 +38,10 @@ internal sealed class MainMenuRepository : IMainMenuRepository
 
     public MainMenuRepository(
         IDataManager                 dataManager,
-        IAetheryteList               aetheryteList,
         ITravelDestinationRepository travelDestinationRepository,
         IPlayer                      player
     )
     {
-        _aetheryteList               = aetheryteList;
         _travelDestinationRepository = travelDestinationRepository;
         _player                      = player;
 
@@ -124,27 +120,45 @@ internal sealed class MainMenuRepository : IMainMenuRepository
     {
         if (!Categories.TryGetValue(MenuCategory.Travel, out var category)) return;
 
-        List<string> usedNames = [];
+        var favorites = _travelDestinationRepository.Destinations.Where(d => !d.IsHousing).ToList();
+        var housing   = _travelDestinationRepository.Destinations.Where(d => d.IsHousing).ToList();
 
-        var sortIndex = 900;
+        SyncTravelDestinationMenuEntries(category, favorites,                           "Favorite", 900);
+        SyncTravelDestinationMenuEntries(category, ShowResidentialAreas ? housing : [], "Housing",  950);
+    }
 
-        foreach (var dest in _travelDestinationRepository.Destinations) {
-            if (dest.IsHousing && !ShowResidentialAreas) continue;
+    private void SyncTravelDestinationMenuEntries(
+        MainMenuCategory        category,
+        List<TravelDestination> destinations,
+        string                  key,
+        int                     sortIndex
+    )
+    {
+        if (destinations.Count == 0) {
+            category
+                .Items.Where(item => item.MetadataKey?.StartsWith(key) ?? false)
+                .ToList()
+                .ForEach(category.RemoveItem);
 
-            string key = dest.GetCacheKey();
-            usedNames.Add(key);
+            return;
+        }
 
-            var existingItem = category.Items.FirstOrDefault(item => item.MetadataKey == key);
+        if (null == category.Items.FirstOrDefault(item => item.MetadataKey == $"{key}:Separator")) {
+            category.AddItem(new((short)sortIndex) { MetadataKey = $"{key}:Separator" });
+            sortIndex++;
+        }
 
-            if (category.Items.All(item => item.Type != MainMenuItemType.Separator)) {
-                category.AddItem(new((short)sortIndex));
-                sortIndex++;
-            }
+        List<string> usedKeys = [$"{key}:Separator"];
+
+        foreach (var dest in destinations) {
+            var cacheKey     = $"{key}:{dest.GetCacheKey()}";
+            var gilCost      = $"{dest.GilCost} gil";
+            var existingItem = category.Items.FirstOrDefault(item => item.MetadataKey == cacheKey);
 
             bool isDisabled = !_player.CanUseTeleportAction
              || (dest.IsHousing && _player.CurrentWorldName != _player.HomeWorldName);
 
-            var gilCost = $"{dest.GilCost} gil";
+            usedKeys.Add(cacheKey);
 
             if (existingItem != null) {
                 if (existingItem.Name != dest.Name) {
@@ -159,36 +173,30 @@ internal sealed class MainMenuRepository : IMainMenuRepository
                 continue;
             }
 
-            MainMenuItem item = new(
-                dest.Name,
-                (short)(sortIndex + (dest.IsHousing ? 10 : 0)),
-                () => {
-                    unsafe {
-                        Telepo.Instance()->Teleport(dest.Id, (byte)dest.SubId);
+            category.AddItem(
+                new(
+                    dest.Name,
+                    (short)(sortIndex + (dest.IsHousing ? 10 : 0)),
+                    () => {
+                        unsafe {
+                            Telepo.Instance()->Teleport(dest.Id, (byte)dest.SubId);
+                        }
                     }
-                }
-            ) {
-                MetadataKey = key,
-                IsDisabled  = isDisabled,
-                ShortKey    = gilCost,
-            };
-
-            category.AddItem(item);
-            sortIndex++;
-        }
-
-        category
-            .Items.ToList()
-            .ForEach(
-                item => {
-                    if (item.MetadataKey != null && !usedNames.Contains(item.MetadataKey)) {
-                        category.RemoveItem(item);
-                    }
+                ) {
+                    MetadataKey = cacheKey,
+                    IsDisabled  = isDisabled,
+                    ShortKey    = gilCost,
                 }
             );
 
-        if (usedNames.Count == 0 && category.Items.Any(item => item.Type == MainMenuItemType.Separator)) {
-            category.RemoveItem(category.Items.First(item => item.Type == MainMenuItemType.Separator));
+            sortIndex++;
         }
+
+        // Remove unused items.
+        category
+            .Items
+            .Where(item => (item.MetadataKey?.StartsWith(key) ?? false) && !usedKeys.Contains(item.MetadataKey))
+            .ToList()
+            .ForEach(category.RemoveItem);
     }
 }

@@ -26,6 +26,12 @@ public class DropdownSeparatorElement : Element
         Style.BorderColor = new(top: Theme.Color(ThemeColor.BorderDark), bottom: Theme.Color(ThemeColor.Border), left: 0, right: 0);
     }
 
+    protected override void BeforeCompute()
+    {
+        ComputedSize = new();
+        Size         = new();
+    }
+
     protected override void AfterCompute()
     {
         ComputedSize = new(Parent!.ComputedSize.Width - Padding.Horizontal, 1);

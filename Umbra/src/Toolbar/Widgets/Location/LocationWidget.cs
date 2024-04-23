@@ -36,7 +36,7 @@ internal partial class LocationWidget : IToolbarWidget
         _player      = player;
         _zoneManager = zoneManager;
 
-        ctx.RegisterDropdownActivator(Element, _dropdownElement);
+        ctx.RegisterDropdownActivator(Element.Get("Icon"), _dropdownElement);
     }
 
     public void OnDraw()
