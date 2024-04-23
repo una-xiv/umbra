@@ -31,11 +31,11 @@ internal partial class LocationWidget
                 id: "Location",
                 flow: Flow.Vertical,
                 anchor: Anchor.MiddleCenter,
-                size: new(128, 28),
+                size: new(225, 28),
                 children: [
                     new(
                         id: "Name",
-                        size: new(128, 14),
+                        size: new(225, 14),
                         text: "Zone Name Here",
                         style: new() {
                             Font         = Font.AxisSmall,
@@ -48,7 +48,7 @@ internal partial class LocationWidget
                     ),
                     new(
                         id: "Info",
-                        size: new(128, 14),
+                        size: new(225, 14),
                         text: "District Name Here",
                         style: new() {
                             Font         = Font.AxisExtraSmall,
@@ -73,11 +73,11 @@ internal partial class LocationWidget
                 id: "Weather",
                 anchor: Anchor.MiddleCenter,
                 flow: Flow.Vertical,
-                size: new(128, 28),
+                size: new(225, 28),
                 children: [
                     new(
                         id: "Name",
-                        size: new(128, 14),
+                        size: new(225, 14),
                         text: "Weather Name Here",
                         style: new() {
                             Font         = Font.AxisSmall,
@@ -90,7 +90,7 @@ internal partial class LocationWidget
                     ),
                     new(
                         id: "Info",
-                        size: new(128, 14),
+                        size: new(225, 14),
                         text: "42 minutes",
                         style: new() {
                             Font         = Font.AxisExtraSmall,
