@@ -15,6 +15,7 @@
  */
 
 using System;
+using System.Diagnostics;
 using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.Plugin.Services;
 
@@ -26,6 +27,8 @@ public sealed class DefaultLogTarget(IPluginLog pluginLog, IChatGui chatGui) : I
     {
         if (null == message) return;
 
+        LogToChat(level, message);
+
         switch (level)
         {
             case LogLevel.Debug:
@@ -33,15 +36,32 @@ public sealed class DefaultLogTarget(IPluginLog pluginLog, IChatGui chatGui) : I
                 break;
             case LogLevel.Info:
                 pluginLog.Info($"{message}");
-                chatGui.Print($"{message}", "Umbra", 27);
                 break;
             case LogLevel.Warning:
                 pluginLog.Warning($"{message}");
-                chatGui.PrintError(new SeStringBuilder().AddIcon(BitmapFontIcon.Warning).AddText($"{message}").Build(), "Umbra", 28);
                 break;
             case LogLevel.Error:
                 pluginLog.Error($"{message}");
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(level), level, null);
+        }
+    }
+
+    [Conditional("DEBUG")]
+    private void LogToChat(LogLevel level, object? message)
+    {
+        switch (level) {
+            case LogLevel.Info:
+                chatGui.Print($"{message}", "Umbra", 27);
+                break;
+            case LogLevel.Warning:
+                chatGui.PrintError(new SeStringBuilder().AddIcon(BitmapFontIcon.Warning).AddText($"{message}").Build(), "Umbra", 28);
+                break;
+            case LogLevel.Error:
                 chatGui.PrintError(new SeStringBuilder().AddIcon(BitmapFontIcon.NoCircle).AddText($"{message}").Build(), "Umbra", 28);
+                break;
+            case LogLevel.Debug:
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(level), level, null);
