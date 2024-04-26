@@ -53,7 +53,7 @@ internal sealed partial class ConfigWindow
                         size: new(198, 198),
                         anchor: Anchor.BottomLeft,
                         style: new() {
-                            Image = "images\\icon.png"
+                            Image = "images\\logo.png"
                         }
                     )
                 ]
