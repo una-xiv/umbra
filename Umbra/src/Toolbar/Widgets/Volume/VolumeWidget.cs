@@ -100,6 +100,7 @@ internal sealed partial class VolumeWidget : IToolbarWidget
         if (fw == null) return;
 
         _masterSlider.Value = (int)(fw->SoundManager->MasterVolume * 100);
+        _masterSlider.Parent!.Parent!.Get("Value").Text = $"{_masterSlider.Value}%";
 
         for (byte i = 0; i < 6; i++) {
             _channelSliders[i].Value = (int)(fw->SoundManager->GetEffectiveVolume(_channelMap[i]) * 100);
