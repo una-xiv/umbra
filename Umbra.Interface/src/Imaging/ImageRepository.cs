@@ -29,8 +29,9 @@ namespace Umbra.Interface;
 
 public class ImageRepository
 {
-    [PluginService] private ITextureProvider TextureProvider { get; set; } = null!;
-    [PluginService] private IDataManager     DataManager     { get; set; } = null!;
+    [PluginService] private ITextureProvider             TextureProvider             { get; set; } = null!;
+    [PluginService] private ITextureSubstitutionProvider TextureSubstitutionProvider { get; set; } = null!;
+    [PluginService] private IDataManager                 DataManager                 { get; set; } = null!;
 
     private static readonly Dictionary<string, IDalamudTextureWrap> EmbeddedTextureCache = [];
     private static readonly Dictionary<string, Image<Rgba32>>       LocalImageCache      = [];
@@ -69,7 +70,7 @@ public class ImageRepository
             if (stream == null) continue;
 
             var imageData = new byte[stream.Length];
-            int _ = stream.Read(imageData, 0, imageData.Length);
+            int _         = stream.Read(imageData, 0, imageData.Length);
 
             IDalamudTextureWrap texture = Framework.DalamudPlugin.UiBuilder.LoadImage(imageData);
             EmbeddedTextureCache[name] = texture;
@@ -129,13 +130,17 @@ public class ImageRepository
         if (Instance.DataManager == null || Instance.TextureProvider == null)
             throw new InvalidOperationException("AssetManager has not been initialized.");
 
-        string iconPath = Instance.TextureProvider.GetIconPath(iconId)
+        string originalIconPath = Instance.TextureProvider.GetIconPath(iconId)
          ?? throw new InvalidOperationException($"Failed to get icon path for #{iconId}.");
 
-        var iconFile = Instance.DataManager.GetFile<TexFile>(iconPath)
-         ?? throw new InvalidOperationException($"Failed to load icon file for #{iconId}.");
+        string iconPath = Instance.TextureSubstitutionProvider.GetSubstitutedPath(originalIconPath);
 
-        IconFileCache[iconId] = iconFile;
+        TexFile? iconFile = Path.IsPathRooted(iconPath)
+            ? Instance.DataManager.GameData.GetFileFromDisk<TexFile>(iconPath)
+            : Instance.DataManager.GetFile<TexFile>(iconPath);
+
+        IconFileCache[iconId] = iconFile
+         ?? throw new InvalidOperationException($"Failed to load icon file for #{iconId}.");
 
         return iconFile;
     }

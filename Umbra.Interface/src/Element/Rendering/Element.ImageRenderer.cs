@@ -22,18 +22,29 @@ using ImGuiNET;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
+using Umbra.Common;
 
 namespace Umbra.Interface;
 
 public partial class Element
 {
+    [ConfigVariable("General.EnableImageProcessing", "General", requiresRestart: true)]
+    private static bool EnableImageProcessing { get; set; } = true;
+
     private static readonly Dictionary<string, IDalamudTextureWrap> ProcessedImageCache = [];
+
+    private static bool _isImageProcessingEnabled = true;
 
     private string ProcessedImageCacheKey =>
         $"{_computedStyle.Image}_{_computedStyle.ImageRounding}_{_computedStyle.ImageBlackAndWhite}_{_computedStyle.ImageGrayscale}_{_computedStyle.ImageBrightness}_{_computedStyle.ImageContrast}";
 
     private void RenderImage(ImDrawListPtr drawList)
     {
+        if (_isImageProcessingEnabled != EnableImageProcessing) {
+            _isImageProcessingEnabled = EnableImageProcessing;
+            return;
+        }
+
         IntPtr? img = GetImageToRender();
         if (null == img) return;
 

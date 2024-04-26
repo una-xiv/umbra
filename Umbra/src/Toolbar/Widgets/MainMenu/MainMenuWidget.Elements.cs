@@ -15,7 +15,6 @@
  */
 
 using System.Collections.Generic;
-using Dalamud.Game.Text;
 using Umbra.Common;
 using Umbra.Game;
 using Umbra.Interface;
@@ -24,6 +23,9 @@ namespace Umbra.Toolbar.Widgets.MainMenu;
 
 internal sealed partial class MainMenuWidget
 {
+    [ConfigVariable("General.EnableImageProcessing", "General")]
+    private static bool EnableImageProcessing { get; set; } = true;
+
     private static int _buttonId;
 
     private readonly Dictionary<MainMenuItem, Element> _menuItemElements = [];
@@ -125,12 +127,13 @@ internal sealed partial class MainMenuWidget
             IsDisabled = item.IsDisabled
         };
 
-        var iconStyle = button.Get("Icon").Style;
-
-        iconStyle.ImageGrayscale  = 0.65f;
-        iconStyle.ImageContrast   = 1.8f;
-        iconStyle.ImageBrightness = 1.2f;
-        iconStyle.ImageUVs        = new(0.15f, 0.15f, 0.85f, 0.85f);
+        if (EnableImageProcessing) {
+            var iconStyle = button.Get("Icon").Style;
+            iconStyle.ImageGrayscale  = 0.65f;
+            iconStyle.ImageContrast   = 1.8f;
+            iconStyle.ImageBrightness = 1.2f;
+            iconStyle.ImageUVs        = new(0.15f, 0.15f, 0.85f, 0.85f);
+        }
 
         button.OnClick += () => {
             item.Invoke();

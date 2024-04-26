@@ -22,6 +22,9 @@ namespace Umbra.Toolbar.Widgets.Gearset;
 
 internal partial class GearsetWidget
 {
+    [ConfigVariable("General.EnableImageProcessing", "General")]
+    private static bool EnableImageProcessing { get; set; } = true;
+
     private const int CellWidth  = 250;
     private const int CellHeight = 36;
 
@@ -226,12 +229,12 @@ internal partial class GearsetWidget
                             size: new(CellHeight - 12, CellHeight - 12),
                             anchor: Anchor.MiddleCenter,
                             margin: new(left: 4),
-                            style: new() {
+                            style: EnableImageProcessing ? new() {
                                 ImageRounding  = 4,
                                 ImageUVs       = new(.1f, .1f, .9f, .9f),
                                 ImageGrayscale = 1f,
-                                ImageOffset    = new(0, 1),
-                            }
+                                ImageOffset    = new(0, 2),
+                            } : new()
                         ),
                     ]
                 ),

@@ -21,7 +21,7 @@ using System.Linq;
 namespace Umbra.Common;
 
 [AttributeUsage(AttributeTargets.Property)]
-public class ConfigVariableAttribute(string id, string? category = null, float min = float.MinValue, float max = float.MaxValue, float step = 0, string[]? options = null) : Attribute
+public class ConfigVariableAttribute(string id, string? category = null, float min = float.MinValue, float max = float.MaxValue, float step = 0, string[]? options = null, bool requiresRestart = false) : Attribute
 {
     /// <summary>
     /// The ID of the config variable used to store the value in the
@@ -69,4 +69,9 @@ public class ConfigVariableAttribute(string id, string? category = null, float m
     /// input types in the configuration UI.
     /// </summary>
     public List<string> Options = options?.ToList() ?? [];
+
+    /// <summary>
+    /// Restarts the plugin when the config variable is changed.
+    /// </summary>
+    public bool RequiresRestart { get; } = requiresRestart;
 }

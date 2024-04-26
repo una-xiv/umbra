@@ -29,6 +29,7 @@ public static class ConfigManager
     private static readonly Dictionary<string, Cvar> Cvars = [];
 
     private static Timer? _debounceTimer;
+    private static bool   _isInitialLoad;
 
     [WhenFrameworkCompiling(executionOrder: int.MinValue)]
     public static void GatherConfigVariableUsages()
@@ -69,6 +70,10 @@ public static class ConfigManager
                 cvar.Options = attr.Options;
             }
 
+            if (attr.RequiresRestart) {
+                cvar.RequiresRestart = true;
+            }
+
             if (!EqualityComparer<object>.Default.Equals(cvar.Default, defaultValue)) {
                 throw new($"Config variable {id} has conflicting default values.");
             }
@@ -76,7 +81,9 @@ public static class ConfigManager
             cvar.Properties.Add(prop);
         }
 
+        _isInitialLoad = true;
         Load();
+        _isInitialLoad = false;
     }
 
     [WhenFrameworkDisposing]
@@ -130,7 +137,16 @@ public static class ConfigManager
             prop.SetValue(null, value);
         }
 
+        if (cvar.Value == value) return;
+
         cvar.Value = value;
+
+        if (!_isInitialLoad && cvar.RequiresRestart) {
+            _debounceTimer?.Dispose();
+            Persist();
+            Framework.Restart();
+            return;
+        }
 
         if (persist) {
             _debounceTimer?.Dispose();
@@ -219,4 +235,5 @@ public class Cvar(string id, object? defaultValue)
     public            float?             Max;
     public            float?             Step;
     internal readonly List<PropertyInfo> Properties = [];
+    public            bool               RequiresRestart;
 }
