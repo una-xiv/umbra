@@ -32,10 +32,10 @@ public class ImageRepository
     [PluginService] private ITextureProvider TextureProvider { get; set; } = null!;
     [PluginService] private IDataManager     DataManager     { get; set; } = null!;
 
-    private static readonly Dictionary<string, IDalamudTextureWrap> LocalTextureCache = [];
-    private static readonly Dictionary<string, Image<Rgba32>>       LocalImageCache   = [];
-    private static readonly Dictionary<uint, IDalamudTextureWrap>   IconCache         = [];
-    private static readonly Dictionary<uint, TexFile>               IconFileCache     = [];
+    private static readonly Dictionary<string, IDalamudTextureWrap> EmbeddedTextureCache = [];
+    private static readonly Dictionary<string, Image<Rgba32>>       LocalImageCache      = [];
+    private static readonly Dictionary<uint, IDalamudTextureWrap>   IconCache            = [];
+    private static readonly Dictionary<uint, TexFile>               IconFileCache        = [];
 
     private static ImageRepository Instance { get; set; } = null!;
 
@@ -48,33 +48,36 @@ public class ImageRepository
     [WhenFrameworkDisposing(executionOrder: int.MaxValue)]
     internal static void Dispose()
     {
-        LocalTextureCache.Clear();
+        EmbeddedTextureCache.Clear();
         LocalImageCache.Clear();
         IconCache.Clear();
         IconFileCache.Clear();
     }
 
     /// <summary>
-    /// Loads a local texture from disk relative to the plugin assembly location.
+    /// Loads an embedded texture from one of the plugin assemblies.
     /// </summary>
-    /// <param name="path"></param>
-    /// <returns></returns>
+    /// <param name="name">The logical name of the resource.</param>
+    /// <returns>An instance of <see cref="IDalamudTextureWrap"/> that wraps the resource.</returns>
     /// <exception cref="InvalidOperationException"></exception>
-    public static IDalamudTextureWrap GetLocalTexture(string path)
+    public static IDalamudTextureWrap GetEmbeddedTexture(string name)
     {
-        if (LocalTextureCache.TryGetValue(path, out var cachedTexture)) return cachedTexture;
+        if (EmbeddedTextureCache.TryGetValue(name, out var cachedTexture)) return cachedTexture;
 
-        if (Instance.TextureProvider == null)
-            throw new InvalidOperationException("AssetManager has not been initialized.");
+        foreach (var asm in Framework.Assemblies) {
+            using var stream = asm.GetManifestResourceStream(name);
+            if (stream == null) continue;
 
-        var pathInfo = new FileInfo(Path.Combine(Framework.DalamudPlugin.AssemblyLocation.DirectoryName!, path));
+            var imageData = new byte[stream.Length];
+            int _ = stream.Read(imageData, 0, imageData.Length);
 
-        var texture = Instance.TextureProvider.GetTextureFromFile(pathInfo)
-         ?? throw new InvalidOperationException($"Failed to load texture \"{path}\".");
+            IDalamudTextureWrap texture = Framework.DalamudPlugin.UiBuilder.LoadImage(imageData);
+            EmbeddedTextureCache[name] = texture;
 
-        LocalTextureCache[path] = texture;
+            return texture;
+        }
 
-        return texture;
+        throw new InvalidOperationException($"Failed to load embedded texture \"{name}\".");
     }
 
     /// <summary>

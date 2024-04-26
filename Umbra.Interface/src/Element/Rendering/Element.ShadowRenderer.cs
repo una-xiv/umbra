@@ -28,7 +28,7 @@ public partial class Element
     private void RenderShadow(ImDrawListPtr drawList)
     {
         if (null == _computedStyle.Shadow) return;
-        _shadowTexture ??= ImageRepository.GetLocalTexture("images\\shadow.png");
+        _shadowTexture ??= ImageRepository.GetEmbeddedTexture("Shadow.png");
 
         Rect    rect   = ContentBox;
         Spacing offset = _computedStyle.Shadow.Inset;

@@ -118,7 +118,7 @@ public partial class Element
 
         return _computedStyle.Image switch {
             uint iconId and > 0         => ImageRepository.GetIcon(iconId).ImGuiHandle,
-            string { Length: > 0 } path => ImageRepository.GetLocalTexture(path).ImGuiHandle,
+            string { Length: > 0 } path => ImageRepository.GetEmbeddedTexture(path).ImGuiHandle,
             _                           => null
         };
     }

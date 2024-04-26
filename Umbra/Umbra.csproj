@@ -28,12 +28,11 @@
         <Content Include="Umbra.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>
-        <Content Include="images\logo.png">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </Content>
-        <Content Include="images\shadow.png">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+        <EmbeddedResource Include="images\logo.png" LogicalName="Logo.png"/>
+        <EmbeddedResource Include="images\shadow.png" LogicalName="Shadow.png"/>
     </ItemGroup>
 
     <ItemGroup>
