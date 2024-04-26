@@ -14,6 +14,7 @@
  *     GNU Affero General Public License for more details.
  */
 
+using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using Dalamud.Game.ClientState.Aetherytes;
@@ -21,7 +22,6 @@ using Dalamud.Plugin.Services;
 using Dalamud.Utility;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
-using Lumina.Excel.GeneratedSheets2;
 using Umbra.Common;
 using Umbra.Game;
 using Umbra.Interface;
@@ -36,7 +36,7 @@ internal partial class FlagWidget : IToolbarWidget
 
     private readonly IAetheryteList _aetheryteList;
     private readonly IZoneManager   _zoneManager;
-    private readonly IPlayer         _player;
+    private readonly IPlayer        _player;
     private readonly Element        _name;
     private readonly Element        _info;
     private readonly Element        _icon;
@@ -177,13 +177,23 @@ internal partial class FlagWidget : IToolbarWidget
 
         var flagPos2D = new Vector2(map->FlagMapMarker.XFloat, map->FlagMapMarker.YFloat);
 
-        var marker = zone
+        // Find all Aetheryte markers in the current zone.
+        List<ZoneMarker> aetherytes = zone
             .StaticMarkers
             .Where(m => m.Type == ZoneMarkerType.Aetheryte)
-            .MinBy(m => Vector2.Distance(new(m.WorldPosition.X, m.WorldPosition.Z), flagPos2D));
+            .ToList();
 
-        _aetheryteEntry = _aetheryteList.FirstOrDefault(a => a.AetheryteId == marker.DataId);
+        // Find the nearest Aetheryte marker to the flag marker, or null if none are nearby.
+        ZoneMarker? marker = aetherytes.Count != 0
+            ? aetherytes.MinBy(m => Vector2.Distance(new(m.WorldPosition.X, m.WorldPosition.Z), flagPos2D))
+            : null;
 
+        // Find the AetheryteEntry that the player has actually unlocked and is able to use.
+        _aetheryteEntry = marker != null
+            ? _aetheryteList.FirstOrDefault(a => a.AetheryteId == marker.Value.DataId)
+            : null;
+
+        // Abort if there is none.
         if (_aetheryteEntry == null) {
             _info.Text = I18N.Translate("LocationWidget.NoAetheryteNearby");
             return;
