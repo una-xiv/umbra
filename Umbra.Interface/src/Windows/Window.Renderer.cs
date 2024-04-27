@@ -28,7 +28,7 @@ public abstract partial class Window
         }
 
         ImGui.SetNextWindowViewport(ImGui.GetMainViewport().ID);
-        ImGui.SetNextWindowSizeConstraints(MinSize.ToVector2(), MaxSize.ToVector2());
+        ImGui.SetNextWindowSizeConstraints(MinSize.ToVector2() * Element.ScaleFactor, MaxSize.ToVector2() * Element.ScaleFactor);
         ImGui.SetNextWindowSize(DefaultSize.ToVector2(), ImGuiCond.FirstUseEver);
         ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding,    new Vector2(0, 0));
         ImGui.PushStyleVar(ImGuiStyleVar.WindowRounding,   0);
@@ -104,8 +104,8 @@ public abstract partial class Window
         RenderWindowBackground();
         RenderTitlebar();
 
-        ImGui.SetCursorPos(new(2, 34));
-        ImGui.BeginChild($"Window_{Id}##{instanceId}_Body", ImGui.GetWindowSize() - new Vector2(4, 36), false);
+        ImGui.SetCursorPos(new Vector2(2, 34) * Element.ScaleFactor);
+        ImGui.BeginChild($"Window_{Id}##{instanceId}_Body", ImGui.GetWindowSize() - (new Vector2(4, 36) * Element.ScaleFactor), false);
 
         OnDraw(instanceId);
 

@@ -177,7 +177,7 @@ public partial class Element
         GetAnchoredChildren(Anchor.None)
             .ForEach(
                 (child) => {
-                    child.Size = ContentBox.Size;
+                    child.Size = ScaleFactor / ContentBox.Size;
                     child.ComputeLayout(ContentBox.Min);
                 }
             );
@@ -189,13 +189,13 @@ public partial class Element
     protected void ComputeBoundingBox()
     {
         BoundingBox = new(
-            Position                            + Margin.TopLeft,
-            Position + ComputedSize.ToVector2() - Margin.BottomRight
+            Position                            + ScaledMargin.TopLeft,
+            Position + ComputedSize.ToVector2() - ScaledMargin.BottomRight
         );
 
         ContentBox = new(
-            BoundingBox.Min + Padding.TopLeft,
-            BoundingBox.Max - Padding.BottomRight
+            BoundingBox.Min + ScaledPadding.TopLeft,
+            BoundingBox.Max - ScaledPadding.BottomRight
         );
     }
 
@@ -244,15 +244,15 @@ public partial class Element
 
         int x = (int)Position.X
               + (childAnchor.IsLeft()
-                    ? Padding.Left
+                    ? ScaledPadding.Left
                     : childAnchor.IsRight()
-                        ? -Padding.Right
+                        ? -ScaledPadding.Right
                         : 0),
             y = (int)Position.Y
               + (childAnchor.IsTop()
-                    ? Padding.Top
+                    ? ScaledPadding.Top
                     : childAnchor.IsBottom()
-                        ? -Padding.Bottom
+                        ? -ScaledPadding.Bottom
                         : 0);
 
         if (childAnchor.IsCenter())
@@ -295,7 +295,7 @@ public partial class Element
                         : x + child.ComputedSize.Width;
 
                     if (children.Last() != child) {
-                        x += childAnchor.IsRight() ? -Gap : Gap;
+                        x += childAnchor.IsRight() ? -ScaledGap : ScaledGap;
                     }
 
                     break;
@@ -305,7 +305,7 @@ public partial class Element
                         : y + child.ComputedSize.Height;
 
                     if (children.Last() != child) {
-                        y += childAnchor.IsBottom() ? -Gap : Gap;
+                        y += childAnchor.IsBottom() ? -ScaledGap : ScaledGap;
                     }
 
                     break;

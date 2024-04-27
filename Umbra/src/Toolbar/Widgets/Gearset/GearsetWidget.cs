@@ -173,7 +173,7 @@ internal partial class GearsetWidget : IToolbarWidget
 
         element.SortIndex                                  = gearset.Id;
         element.Get("Icon").Get<BackgroundElement>().Color = gsCol;
-        element.Get("Icon.Image").Style.Image              = gearset.JobId + 62000u;
+        element.Get("Icon.Image").Style.Image              = gearset.JobId + 62000u; // TODO: Add option to use alternate icon set.
         element.Get("Info.Name").Text                      = gearset.Name;
         element.Get("ItemLevel").Text                      = gearset.ItemLevel.ToString();
 

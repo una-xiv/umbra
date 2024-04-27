@@ -88,7 +88,7 @@ internal sealed partial class VolumeWidget
                     size: new(32, 220),
                     children: [
                         new VerticalSliderElement(id, new(16, 220), Anchor.TopCenter)
-                            { Padding = new(top: 8, bottom: 4) },
+                            { Padding = new(top: 8, bottom: 4, left: 4) },
                     ]
                 ),
             ]

@@ -63,7 +63,7 @@ public class VerticalSliderElement : Element
 
         if (ImGui.VSliderInt(
                 "",
-                Size.ToVector2() - new Vector2(0, Padding.Vertical),
+                (Size.ToVector2() - new Vector2(0, Padding.Vertical)) * ScaleFactor,
                 ref value,
                 MinValue,
                 MaxValue,

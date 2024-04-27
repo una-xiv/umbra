@@ -43,7 +43,7 @@ internal sealed partial class ConfigWindow : Window
 
     protected override void OnDraw(int instanceId)
     {
-        var size = ImGui.GetWindowSize();
+        var size = ImGui.GetWindowSize() / Element.ScaleFactor;
         var pos  = ImGui.GetWindowPos();
 
         _windowElement.Size                 = new((int)size.X, (int)size.Y);

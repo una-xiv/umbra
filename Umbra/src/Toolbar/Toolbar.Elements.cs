@@ -14,6 +14,7 @@
  *     GNU Affero General Public License for more details.
  */
 
+using System;
 using System.Numerics;
 using ImGuiNET;
 using Umbra.Common;
@@ -57,10 +58,10 @@ internal partial class Toolbar
         _element.Get("Right").Gap  = ItemSpacing;
 
         _xPosition = displayPos.X;
-        _yPosition = displayPos.Y + (IsTopAligned ? 0 : displaySize.Y);
+        _yPosition = displayPos.Y + (IsTopAligned ? ImGui.GetMainViewport().WorkPos.Y : displaySize.Y);
 
         _element.Anchor = IsTopAligned ? Anchor.TopLeft : Anchor.BottomLeft;
-        _element.Size   = new((int)displaySize.X, Height);
+        _element.Size   = new((int)(MathF.Ceiling(displaySize.X / Element.ScaleFactor)), Height);
 
         _element.Get<GradientElement>().Gradient = Gradient.Vertical(
             IsTopAligned ? _color2 : _color1,

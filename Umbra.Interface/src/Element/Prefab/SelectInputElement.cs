@@ -52,7 +52,7 @@ public class SelectInputElement : Element
         ImGui.PushStyleColor(ImGuiCol.FrameBgHovered, Theme.Color(ThemeColor.BackgroundLight));
         ImGui.PushStyleColor(ImGuiCol.FrameBgActive,  Theme.Color(ThemeColor.BackgroundActive));
 
-        ImGui.SetNextItemWidth(Parent!.ContentBox.Width);
+        ImGui.SetNextItemWidth((Parent!.ContentBox.Width / ScaleFactor) - (Parent!.Padding.Horizontal * ScaleFactor));
 
         if (ImGui.BeginCombo("", value)) {
             foreach (string option in Options) {

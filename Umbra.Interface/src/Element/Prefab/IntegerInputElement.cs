@@ -53,7 +53,7 @@ public class IntegerInputElement : Element
         ImGui.PushStyleColor(ImGuiCol.FrameBgHovered, Theme.Color(ThemeColor.BackgroundLight));
         ImGui.PushStyleColor(ImGuiCol.FrameBgActive,  Theme.Color(ThemeColor.BackgroundActive));
 
-        ImGui.SetNextItemWidth(Parent!.ContentBox.Width);
+        ImGui.SetNextItemWidth((Parent!.ContentBox.Width / ScaleFactor) - (Parent!.Padding.Horizontal * ScaleFactor));
 
         if (ImGui.InputInt("", ref value, 1, 10)) {
             value = Math.Clamp(value, MinValue, MaxValue);

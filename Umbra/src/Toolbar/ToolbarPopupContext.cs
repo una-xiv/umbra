@@ -54,7 +54,9 @@ internal sealed class ToolbarPopupContext
         _activeElement = dropdownElement;
         _activator     = activator;
 
-        _activeElement.Offset        = Toolbar.Toolbar.IsTopAligned ? new(0, -32) : new(0, 32);
+        float toolbarHeight = Toolbar.Toolbar.Height * Element.ScaleFactor;
+
+        _activeElement.Offset        = Toolbar.Toolbar.IsTopAligned ? new(0, -toolbarHeight) : new(0, toolbarHeight);
         _activeElement.Style.Opacity = 0;
 
         _activeElement.IsVisible = true;
@@ -131,8 +133,8 @@ internal sealed class ToolbarPopupContext
         float y = displayPos.Y
           + (
                 Toolbar.Toolbar.IsTopAligned
-                    ? Toolbar.Toolbar.Height
-                    : ImGui.GetIO().DisplaySize.Y - Toolbar.Toolbar.Height
+                    ? ImGui.GetMainViewport().WorkPos.Y + (Toolbar.Toolbar.Height * Element.ScaleFactor)
+                    : ImGui.GetIO().DisplaySize.Y - (Toolbar.Toolbar.Height * Element.ScaleFactor)
             );
 
         if (_activator.Anchor.IsLeft()) {

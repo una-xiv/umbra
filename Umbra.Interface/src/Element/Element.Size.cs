@@ -90,16 +90,16 @@ public partial class Element
 
         if (Size.IsFixed) {
             return ComputedSize = new(
-                Size.Width  + _margin.Horizontal,
-                Size.Height + _margin.Vertical
+                ScaledSize.Width  + ScaledMargin.Horizontal,
+                ScaledSize.Height + ScaledMargin.Vertical
             );
         }
 
         _isCalculatingSize = true;
 
         Size computedSize = Size.Max(CalculateOwnSize(), CalculateSizeBasedOnFlowAndChildren());
-        int  width        = computedSize.Width  + Margin.Horizontal + Padding.Horizontal;
-        int  height       = computedSize.Height + Margin.Vertical   + Padding.Vertical;
+        int  width        = computedSize.Width  + ScaledMargin.Horizontal + ScaledPadding.Horizontal;
+        int  height       = computedSize.Height + ScaledMargin.Vertical   + ScaledPadding.Vertical;
 
         if (Fit && null != Parent) {
             if (Parent.Flow == Flow.Horizontal) {
@@ -112,10 +112,10 @@ public partial class Element
         if (Stretch && Parent != null) {
             switch (Flow) {
                 case Flow.Horizontal when Parent.Size.Width > 0:
-                    width = Math.Max(width, Parent.Size.Width - GetTotalSizeOfChildren(Siblings, Parent.Gap).Width);
+                    width = Math.Max(width, Parent.Size.Width - GetTotalSizeOfChildren(Siblings, Parent.ScaledGap).Width);
                     break;
                 case Flow.Vertical when Parent.Size.Height > 0:
-                    height = Math.Max(height, Parent.Size.Height - GetTotalSizeOfChildren(Siblings, Parent.Gap).Height);
+                    height = Math.Max(height, Parent.Size.Height - GetTotalSizeOfChildren(Siblings, Parent.ScaledGap).Height);
                     break;
                 case Flow.None:
                 default:
@@ -133,8 +133,8 @@ public partial class Element
     private Size CalculateOwnSize()
     {
         if (!IsVisible) return new(0);
-        if (Text == null) return Size;
-        if (Size.IsFixed) return Size;
+        if (Text == null) return ScaledSize;
+        if (Size.IsFixed) return ScaledSize;
 
         ComputeStyle();
 
@@ -148,8 +148,8 @@ public partial class Element
         FontRepository.PopFont(font);
 
         return new(
-            (Size.Width  == 0 ? (int)textSize.X + Padding.Horizontal : Size.Width) + Margin.Horizontal,
-            (Size.Height == 0 ? (int)textSize.Y + Padding.Vertical : Size.Height)  + Margin.Vertical
+            (Size.Width  == 0 ? (int)textSize.X + ScaledPadding.Horizontal : ScaledSize.Width) + ScaledMargin.Horizontal,
+            (Size.Height == 0 ? (int)textSize.Y + ScaledPadding.Vertical : ScaledSize.Height)  + ScaledMargin.Vertical
         );
     }
 
@@ -198,7 +198,7 @@ public partial class Element
     {
         if (children.Count == 0) return new();
 
-        gap ??= Gap;
+        gap ??= ScaledGap;
 
         foreach (var child in children) child.CalculateSize();
 

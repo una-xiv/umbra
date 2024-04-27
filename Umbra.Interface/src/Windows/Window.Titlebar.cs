@@ -111,7 +111,7 @@ public abstract partial class Window
 
     private void RenderTitlebar()
     {
-        var sz = ImGui.GetWindowSize();
+        var sz = ImGui.GetWindowSize() / Element.ScaleFactor;
 
         _titlebar.Size              = new((int)sz.X - 2, 31);
         _titlebar.Get("Title").Text = Title;

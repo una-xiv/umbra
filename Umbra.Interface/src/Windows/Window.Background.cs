@@ -43,7 +43,7 @@ public abstract partial class Window
 
     private void RenderWindowBackground()
     {
-        var size = ImGui.GetWindowSize();
+        var size = ImGui.GetWindowSize() / Element.ScaleFactor;
         var pos  = ImGui.GetWindowPos();
 
         if (IsFocused) {
