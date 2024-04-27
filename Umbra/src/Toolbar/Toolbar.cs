@@ -34,7 +34,7 @@ internal partial class Toolbar(IPlayer player, IToolbarWidget[] widgets)
 
     private readonly List<IToolbarWidget> _widgets = [..widgets];
 
-    [OnDraw]
+    [OnDraw(executionOrder: 10)]
     public void OnDraw()
     {
         if (!Enabled || player.IsInCutscene) {
