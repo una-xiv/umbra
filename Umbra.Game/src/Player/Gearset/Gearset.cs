@@ -15,7 +15,7 @@
  */
 
 using System;
-using System.Runtime.InteropServices;
+using Dalamud.Memory;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using FFXIVClientStructs.FFXIV.Client.UI.Misc;
 
@@ -49,13 +49,14 @@ public sealed class Gearset(ushort id, IGearsetCategoryRepository categoryReposi
         RaptureGearsetModule* gsm         = RaptureGearsetModule.Instance();
         PlayerState*          playerState = PlayerState.Instance();
 
-        if (gsm         == null || playerState == null) {
+        if (gsm == null || playerState == null) {
             if (IsValid) OnRemoved?.Invoke();
             IsValid = false;
             return;
         }
 
         var gearset = gsm->GetGearset(Id);
+
         if (gearset == null || !gsm->IsValidGearset(Id)) {
             if (IsValid) OnRemoved?.Invoke();
             IsValid   = false;
@@ -68,7 +69,7 @@ public sealed class Gearset(ushort id, IGearsetCategoryRepository categoryReposi
 
         // Intermediate values.
         var    isChanged  = false;
-        string name       = Marshal.PtrToStringUTF8((IntPtr)gearset->Name) ?? "Unknown Gearset";
+        string name       = MemoryHelper.ReadSeStringNullTerminated((IntPtr)gearset->Name).ToString();
         byte   jobId      = gearset->ClassJob;
         short  itemLevel  = gearset->ItemLevel;
         bool   isCurrent  = gsm->CurrentGearsetIndex == Id;

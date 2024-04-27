@@ -15,11 +15,11 @@
  */
 
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using Dalamud.Game.ClientState.Aetherytes;
+using Dalamud.Memory;
 using Dalamud.Plugin.Services;
+using FFXIVClientStructs.FFXIV.Client.System.Framework;
 using FFXIVClientStructs.FFXIV.Client.UI.Misc;
-using Umbra.Common;
 
 namespace Umbra.Game;
 
@@ -102,7 +102,7 @@ public class TravelDestination
         }
 
         RaptureTextModule* tm =
-            FFXIVClientStructs.FFXIV.Client.System.Framework.Framework
+            Framework
                 .Instance()->GetUiModule()->GetRaptureTextModule();
 
         byte* sp = tm->GetAddonText(id);
@@ -111,7 +111,7 @@ public class TravelDestination
             return "???";
         }
 
-        return InterfaceTexts[id] = Marshal.PtrToStringUTF8(new(sp)) ?? string.Empty;
+        return InterfaceTexts[id] = MemoryHelper.ReadSeStringNullTerminated(new(sp)).ToString();
     }
 
     private static string GetTerritoryName(uint territoryId)
@@ -120,7 +120,7 @@ public class TravelDestination
             return cachedName;
         }
 
-        var territory = Framework
+        var territory = Common.Framework
             .Service<IDataManager>()
             .GetExcelSheet<Lumina.Excel.GeneratedSheets.TerritoryType>()!
             .GetRow(territoryId);

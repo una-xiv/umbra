@@ -10,6 +10,7 @@ using System.Linq;
 using System.Numerics;
 using System.Runtime.InteropServices;
 using Dalamud.Game.Text;
+using Dalamud.Memory;
 using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Client.Game.Character;
 using Lumina.Excel.GeneratedSheets;
@@ -53,7 +54,7 @@ internal sealed class HuntWorldMarkerFactory(IDataManager dataManager) : IWorldM
 
             if (nm == null) continue;
 
-            var name = Marshal.PtrToStringUTF8((nint)bc->Character.GameObject.Name) ?? "???";
+            var name = MemoryHelper.ReadSeStringNullTerminated((nint)bc->Character.GameObject.Name).ToString();
             var rank = _rankPrefixes[nm.Rank];
             var p    = bc->Character.GameObject.Position;
 

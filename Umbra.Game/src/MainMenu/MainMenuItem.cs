@@ -15,8 +15,7 @@
  */
 
 using System;
-using System.Runtime.InteropServices;
-using Dalamud.Game.Text;
+using Dalamud.Memory;
 using Dalamud.Utility;
 using FFXIVClientStructs.FFXIV.Client.UI;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
@@ -81,7 +80,7 @@ public sealed class MainMenuItem : IDisposable
         if (agentHud == null) return;
 
         ThreadSafety.AssertMainThread();
-        Name = Marshal.PtrToStringUTF8((nint)agentHud->GetMainCommandString(commandId)) ?? name;
+        Name = MemoryHelper.ReadSeStringNullTerminated((nint)agentHud->GetMainCommandString(commandId)).ToString();
 
         if (Name.Contains('[')) {
             var tmp = Name.Split('[');
@@ -100,8 +99,7 @@ public sealed class MainMenuItem : IDisposable
                 uiModule->ExecuteMainCommand(CommandId!.Value);
                 break;
             case MainMenuItemType.ChatCommand:
-                if (string.IsNullOrEmpty(ChatCommand))
-                    return;
+                if (string.IsNullOrEmpty(ChatCommand)) return;
 
                 Framework.Service<IChatSender>().Send(ChatCommand);
                 break;
