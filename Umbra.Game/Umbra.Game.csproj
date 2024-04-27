@@ -55,7 +55,7 @@
 			<Private>false</Private>
 		</Reference>
     </ItemGroup>
-	
+
 	<ItemGroup>
 		<ProjectReference Include="..\Umbra.Common\Umbra.Common.csproj" />
 	</ItemGroup>

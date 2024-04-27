@@ -35,7 +35,7 @@ public partial class Element
         bool shouldWrap = Size.Width > 0 && _computedStyle.TextWrap == true;
 
         Vector2 textSize = shouldWrap
-            ? ImGui.CalcTextSize(Text, (float)Math.Max(16, Size.Width - Padding.Horizontal))
+            ? ImGui.CalcTextSize(Text + " ", (float)Math.Max(16, Size.Width - Padding.Horizontal))
             : ImGui.CalcTextSize(Text);
 
         Rect    rect  = ContentBox;
@@ -67,11 +67,13 @@ public partial class Element
             }
 
             ImGui.SetCursorScreenPos(ContentBox.Min);
+            ImGui.PushStyleVar(ImGuiStyleVar.FramePadding, new Vector2(0, 0));
             ImGui.BeginChildFrame(_wrappedTextFrameId, textSize, ImGuiWindowFlags.NoMouseInputs | ImGuiWindowFlags.NoInputs | ImGuiWindowFlags.AlwaysAutoResize | ImGuiWindowFlags.NoScrollbar);
             ImGui.PushStyleColor(ImGuiCol.Text, _computedStyle.TextColor?.Value ?? 0xFFC0C0C0);
             ImGui.TextWrapped(Text);
             ImGui.PopStyleColor();
             ImGui.EndChildFrame();
+            ImGui.PopStyleVar();
 
             FontRepository.PopFont(font);
             return;

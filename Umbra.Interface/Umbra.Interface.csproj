@@ -55,6 +55,10 @@
 			<HintPath>$(DalamudLibPath)Lumina.dll</HintPath>
 			<Private>false</Private>
 		</Reference>
+		<Reference Include="Lumina.Excel">
+			<HintPath>$(DalamudLibPath)Lumina.Excel.dll</HintPath>
+			<Private>false</Private>
+		</Reference>
     </ItemGroup>
 
 	<ItemGroup>

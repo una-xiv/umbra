@@ -31,7 +31,7 @@ namespace Umbra.Toolbar.Widgets.Companion;
 [Service]
 internal partial class FlagWidget : IToolbarWidget
 {
-    [ConfigVariable("Toolbar.Widget.Flag.Enabled", "ToolbarWidgets")]
+    [ConfigVariable("Toolbar.Widget.Flag.Enabled", "EnabledWidgets")]
     private static bool Enabled { get; set; } = true;
 
     private readonly IAetheryteList _aetheryteList;

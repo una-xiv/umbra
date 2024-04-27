@@ -30,7 +30,7 @@ namespace Umbra.Toolbar.Widgets.Gearset;
 [Service]
 internal partial class CurrencyWidget : IToolbarWidget
 {
-    [ConfigVariable("Toolbar.Widget.Currencies.Enabled", "ToolbarWidgets")]
+    [ConfigVariable("Toolbar.Widget.Currencies.Enabled", "EnabledWidgets")]
     private static bool Enabled { get; set; } = true;
 
     [ConfigVariable("Toolbar.Widget.Currencies.TrackedCurrencyId")]

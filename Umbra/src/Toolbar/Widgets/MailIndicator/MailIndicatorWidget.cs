@@ -25,7 +25,7 @@ namespace Umbra.Toolbar.Widgets.MailIndicator;
 [Service]
 internal class MailIndicatorWidget : IToolbarWidget
 {
-    [ConfigVariable("Toolbar.Widget.MailIndicator.Enabled", "ToolbarWidgets")]
+    [ConfigVariable("Toolbar.Widget.MailIndicator.Enabled", "EnabledWidgets")]
     private static bool Enabled { get; set; } = true;
 
     public Element Element { get; } = new(

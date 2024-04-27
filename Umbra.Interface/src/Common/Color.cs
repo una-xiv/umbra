@@ -97,21 +97,6 @@ public class Color
         return this;
     }
 
-    /// <summary>
-    /// Apply the given brightness to the color value.
-    /// </summary>
-    /// <param name="brightness"></param>
-    public Color ApplyBrightness(float brightness)
-    {
-        var blue  = (byte)(((Value >> 16) & 0xFF) * Math.Clamp(brightness, 0f, 2f));
-        var green = (byte)(((Value >> 8)  & 0xFF) * Math.Clamp(brightness, 0f, 2f));
-        var red   = (byte)((Value         & 0xFF) * Math.Clamp(brightness, 0f, 1f));
-
-        Value = (Value & 0xFF000000) | ((uint)blue << 16) | ((uint)green << 8) | red;
-
-        return this;
-    }
-
     public static implicit operator uint(Color   color) => color.Value;
     public static implicit operator int(Color    color) => (int)color.Value;
     public static implicit operator uint?(Color? color) => color?.Value;

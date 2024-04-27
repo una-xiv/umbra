@@ -26,7 +26,7 @@ namespace Umbra.Toolbar.Widgets.Companion;
 [Service]
 internal partial class CompanionWidget : IToolbarWidget
 {
-    [ConfigVariable("Toolbar.Widget.Companion.Enabled", "ToolbarWidgets")]
+    [ConfigVariable("Toolbar.Widget.Companion.Enabled", "EnabledWidgets")]
     private static bool Enabled { get; set; } = true;
 
     private readonly ICompanionManager _companion;

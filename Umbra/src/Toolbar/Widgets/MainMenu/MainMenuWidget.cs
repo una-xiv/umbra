@@ -24,7 +24,7 @@ namespace Umbra.Toolbar.Widgets.MainMenu;
 [Service]
 internal sealed partial class MainMenuWidget : IToolbarWidget
 {
-    [ConfigVariable("Toolbar.Widget.MainMenu.Enabled", "ToolbarWidgets")]
+    [ConfigVariable("Toolbar.Widget.MainMenu.Enabled", "EnabledWidgets")]
     private static bool Enabled { get; set; } = true;
 
     [ConfigVariable("Toolbar.Widget.MainMenu.ShowIcons", "ToolbarSettings")]

@@ -26,7 +26,7 @@ namespace Umbra.Toolbar.Widgets.MainMenu;
 [Service]
 internal sealed partial class VolumeWidget : IToolbarWidget
 {
-    [ConfigVariable("Toolbar.Widget.Volume.Enabled", "ToolbarWidgets")]
+    [ConfigVariable("Toolbar.Widget.Volume.Enabled", "EnabledWidgets")]
     private static bool Enabled { get; set; } = true;
 
     private readonly IGameConfig                             _gameConfig;

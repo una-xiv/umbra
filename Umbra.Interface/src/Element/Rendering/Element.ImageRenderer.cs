@@ -17,6 +17,7 @@
 using System;
 using System.Collections.Generic;
 using System.Numerics;
+using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.Interface.Internal;
 using ImGuiNET;
 using SixLabors.ImageSharp;
@@ -82,6 +83,10 @@ public partial class Element
         Image<Rgba32> image;
 
         switch (_computedStyle.Image) {
+            case BitmapFontIcon _:
+                throw new InvalidOperationException(
+                    "BitmapFontIcon is not supported for image processing. Use a regular icon or local image instead."
+                );
             case uint iconId and > 0:
                 image = ImageRepository.GetIconFile(iconId).GetImage();
                 break;
@@ -126,6 +131,19 @@ public partial class Element
     private IntPtr? GetImagePtr()
     {
         if (_computedStyle.Image == null) return null;
+
+        if (_computedStyle.Image is BitmapFontIcon icon) {
+            var gfdIcon = GfdIconRepository.GetIcon(icon);
+
+            _computedStyle.ImageUVs = new(
+                gfdIcon.Uv0.X,
+                gfdIcon.Uv0.Y,
+                gfdIcon.Uv1.X,
+                gfdIcon.Uv1.Y
+            );
+
+            return gfdIcon.Texture.ImGuiHandle;
+        }
 
         return _computedStyle.Image switch {
             uint iconId and > 0         => ImageRepository.GetIcon(iconId).ImGuiHandle,

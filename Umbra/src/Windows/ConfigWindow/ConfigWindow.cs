@@ -31,8 +31,8 @@ internal sealed partial class ConfigWindow : Window
     {
         Title       = I18N.Translate("ConfigWindow.Title");
         DefaultSize = new(800, 600);
-        MinSize     = new(650, 480);
-        MaxSize     = new(1200, 900);
+        MinSize     = new(650, 500);
+        MaxSize     = new(1200, 960);
 
         _selectedCategory = ConfigManager.GetCategories().First();
         ConfigManager.GetCategories().ForEach(AddCategory);

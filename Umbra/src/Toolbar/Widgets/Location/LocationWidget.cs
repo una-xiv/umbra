@@ -23,7 +23,7 @@ namespace Umbra.Toolbar.Widgets.Location;
 [Service]
 internal partial class LocationWidget : IToolbarWidget
 {
-    [ConfigVariable("Toolbar.Widget.Location.Enabled", "ToolbarWidgets")]
+    [ConfigVariable("Toolbar.Widget.Location.Enabled", "EnabledWidgets")]
     private static bool Enabled { get; set; } = true;
 
     private readonly IPlayer       _player;

@@ -25,7 +25,7 @@ namespace Umbra.Toolbar.Widgets.Gearset;
 [Service]
 internal partial class GearsetWidget : IToolbarWidget
 {
-    [ConfigVariable("Toolbar.Widget.Gearset.Enabled", "ToolbarWidgets")]
+    [ConfigVariable("Toolbar.Widget.Gearset.Enabled", "EnabledWidgets")]
     private static bool Enabled { get; set; } = true;
 
     private readonly IGearsetRepository                   _gearsetRepository;

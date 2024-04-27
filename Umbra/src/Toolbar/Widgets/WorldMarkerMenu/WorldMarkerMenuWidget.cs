@@ -22,7 +22,7 @@ namespace Umbra.Toolbar.Widgets.MainMenu;
 [Service]
 internal sealed partial class WorldMarkerMenuWidget : IToolbarWidget
 {
-    [ConfigVariable("Toolbar.Widget.WorldMarkerMenu.Enabled", "ToolbarWidgets")]
+    [ConfigVariable("Toolbar.Widget.WorldMarkerMenu.Enabled", "EnabledWidgets")]
     private static bool Enabled { get; set; } = true;
 
     public WorldMarkerMenuWidget(ToolbarPopupContext ctx)
