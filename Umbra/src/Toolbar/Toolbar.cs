@@ -37,10 +37,15 @@ internal partial class Toolbar(IPlayer player, IToolbarWidget[] widgets)
     [OnDraw(executionOrder: 10)]
     public void OnDraw()
     {
-        if (!Enabled || player.IsInCutscene) {
+        if (!Enabled) {
             _element.IsVisible = false;
             return;
         }
+
+        // if (!Framework.DalamudPlugin.UiBuilder.DisableCutsceneUiHide && player.IsInCutscene) {
+        //     _element.IsVisible = false;
+        //     return;
+        // }
 
         _element.IsVisible = true;
         UpdateToolbar();
