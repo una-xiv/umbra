@@ -103,6 +103,11 @@ public static class ConfigManager
             .ToList()!;
     }
 
+    public static Cvar? GetCvar(string id)
+    {
+        return Cvars.GetValueOrDefault(id);
+    }
+
     public static List<Cvar> GetVariablesFromCategory(string category)
     {
         return Cvars

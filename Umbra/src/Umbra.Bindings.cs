@@ -15,6 +15,8 @@
  */
 
 using System;
+using System.Linq;
+using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.Plugin.Services;
 using Umbra.Common;
 using Umbra.Interface;
@@ -25,11 +27,13 @@ namespace Umbra;
 [Service]
 internal sealed class UmbraBindings : IDisposable
 {
+    private readonly IChatGui        _chatGui;
     private readonly ICommandManager _commandManager;
     private readonly WindowManager   _windowManager;
 
-    public UmbraBindings(ICommandManager commandManager, WindowManager windowManager)
+    public UmbraBindings(IChatGui chatGui, ICommandManager commandManager, WindowManager windowManager)
     {
+        _chatGui        = chatGui;
         _commandManager = commandManager;
         _windowManager  = windowManager;
 
@@ -37,6 +41,14 @@ internal sealed class UmbraBindings : IDisposable
             "/umbra",
             new(HandleUmbraCommand) {
                 HelpMessage = "Opens the Umbra settings window.",
+                ShowInHelp  = true,
+            }
+        );
+
+        _commandManager.AddHandler(
+            "/umbra-toggle",
+            new(HandleUmbraCommand) {
+                HelpMessage = "Toggles a specific Umbra setting. Usage: /umbra-toggle <setting>. For a list of settings, use /umbra-toggle without arguments.",
                 ShowInHelp  = true,
             }
         );
@@ -56,6 +68,44 @@ internal sealed class UmbraBindings : IDisposable
             case "/umbra":
                 _windowManager.CreateWindow<ConfigWindow>();
                 break;
+            case "/umbra-toggle":
+                string arg  = args.Trim();
+
+                if (arg == string.Empty) {
+                    ShowCvarToggleHelp();
+                    return;
+                }
+
+                Cvar?  cvar = ConfigManager.GetCvar(arg);
+
+                if (cvar is not { Default: bool }) {
+                    _chatGui.PrintError($"Invalid setting: \"{arg}\".");
+                    return;
+                }
+
+                ConfigManager.Set(cvar.Id, !(bool)cvar.Value!);
+                break;
         }
+    }
+
+    private void ShowCvarToggleHelp()
+    {
+        SeStringBuilder builder = new();
+
+        foreach (string category in ConfigManager.GetCategories()) {
+            if (!I18N.Has($"CVAR.Group.{category}")) continue;
+
+            var cvars = ConfigManager.GetVariablesFromCategory(category).Where(c => c.Default is bool && I18N.Has($"CVAR.{c.Id}.Name")).ToList();
+            if (cvars.Count == 0) continue;
+
+            builder.AddText("Category: ").AddUiForeground(I18N.Translate($"CVAR.Group.{category}"), 42).AddText("\n");
+
+            foreach (var cvar in cvars) {
+                builder.AddText("    \"").AddUiForeground(cvar.Id, 32).AddText("\" - ").AddUiForeground(I18N.Translate($"CVAR.{cvar.Id}.Name"), 4).AddText("\n");
+            }
+        }
+
+        builder.AddText("Usage: ").AddUiForeground("/umbra-toggle <setting>", 32);
+        _chatGui.Print(builder.Build());
     }
 }
