@@ -28,6 +28,12 @@ internal partial class GearsetWidget : IToolbarWidget
     [ConfigVariable("Toolbar.Widget.Gearset.Enabled", "EnabledWidgets")]
     private static bool Enabled { get; set; } = true;
 
+    [ConfigVariable("Toolbar.Widget.Gearset.UseAlternateIcons.Header", "ToolbarSettings")]
+    private static bool UseAlternateHeaderIcon { get; set; } = true;
+
+    [ConfigVariable("Toolbar.Widget.Gearset.UseAlternateIcons.Buttons", "ToolbarSettings")]
+    private static bool UseAlternateButtonIcons { get; set; } = false;
+
     private readonly IGearsetRepository                   _gearsetRepository;
     private readonly IGearsetCategoryRepository           _categoryRepository;
     private readonly Dictionary<ushort, Element>          _gearsetElements = [];
@@ -100,7 +106,7 @@ internal partial class GearsetWidget : IToolbarWidget
 
         Game.Gearset gearset = _gearsetRepository.CurrentGearset;
 
-        Element.Get("Container.Icon").Style.Image = gearset.JobId + 62000u;
+        Element.Get("Container.Icon").Style.Image = gearset.JobId + (UseAlternateButtonIcons ? 62100u : 62000u);
         Element.Get("Container.Text.Name").Text   = gearset.Name;
 
         Element.Get("Container.Text.Status").Text =
@@ -141,7 +147,7 @@ internal partial class GearsetWidget : IToolbarWidget
         _dropdownElement.Get("Header").Get<GradientElement>().Gradient =
             Gradient.Vertical(0, color.ApplyAlphaComponent(0.20f));
 
-        _dropdownElement.Get("Header.Icon.Image").Style.Image = gearset.JobId + 62100u;
+        _dropdownElement.Get("Header.Icon.Image").Style.Image = gearset.JobId + (UseAlternateHeaderIcon ? 62100u : 62000u);
         _dropdownElement.Get("Header.Info.Name").Text         = gearset.Name;
         _dropdownElement.Get("Header.Info.Job").Text          = $"Lv.{gearset.JobLevel} {gearset.JobName}";
         _dropdownElement.Get("Header.ItemLevel").Text         = gearset.ItemLevel.ToString();
@@ -173,7 +179,7 @@ internal partial class GearsetWidget : IToolbarWidget
 
         element.SortIndex                                  = gearset.Id;
         element.Get("Icon").Get<BackgroundElement>().Color = gsCol;
-        element.Get("Icon.Image").Style.Image              = gearset.JobId + 62000u; // TODO: Add option to use alternate icon set.
+        element.Get("Icon.Image").Style.Image              = gearset.JobId + (UseAlternateButtonIcons ? 62100u : 62000u);
         element.Get("Info.Name").Text                      = gearset.Name;
         element.Get("ItemLevel").Text                      = gearset.ItemLevel.ToString();
 
