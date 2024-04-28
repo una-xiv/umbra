@@ -91,6 +91,8 @@
     "CVAR.Toolbar.Widget.Gearset.Enabled.Description": "Affiche un widget qui vous permet de changer votre ensemble d'équipement actuellement équipé.",
     "CVAR.Toolbar.Widget.Location.Enabled.Name": "Afficher le widget de localisation",
     "CVAR.Toolbar.Widget.Location.Enabled.Description": "Affiche un widget qui montre votre position actuelle et la météo. Cliquer sur le widget affiche la prévision météo pour les prochaines heures dans votre position actuelle.",
+    "CVAR.Toolbar.Widget.Location.ItemSpacing.Name": "Espacement des éléments entre l'emplacement et la météo",
+    "CVAR.Toolbar.Widget.Location.ItemSpacing.Description": "Définit la distance entre les éléments d'emplacement et de météo dans le widget d'emplacement en pixels. Ceci peut être utile si vous avez la barre d'outils située en haut de l'écran et que vous avez une pince webcam sur le dessus du moniteur qui chevauche le widget.",
     "CVAR.Toolbar.Widget.MailIndicator.Enabled.Name": "Afficher le widget d'indicateur de courrier",
     "CVAR.Toolbar.Widget.MailIndicator.Enabled.Description": "Affiche un widget qui apparaît lorsque vous avez un ou plusieurs messages non lus qui vous attendent.",
     "CVAR.Toolbar.Widget.MainMenu.Enabled.Name": "Afficher le widget du menu principal",

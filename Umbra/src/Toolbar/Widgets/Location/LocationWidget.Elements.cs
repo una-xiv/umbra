@@ -32,6 +32,7 @@ internal partial class LocationWidget
                 flow: Flow.Vertical,
                 anchor: Anchor.MiddleCenter,
                 size: new(225, 28),
+                margin: new(right: ItemSpacing),
                 children: [
                     new(
                         id: "Name",

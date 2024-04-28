@@ -91,6 +91,8 @@
     "CVAR.Toolbar.Widget.Gearset.Enabled.Description": "Display a widget that allows you to change your currently equipped gearset.",
     "CVAR.Toolbar.Widget.Location.Enabled.Name": "Show location widget",
     "CVAR.Toolbar.Widget.Location.Enabled.Description": "Display a widget that shows your current location and weather. Clicking the widget shows the weather forecast for the next couple of hours in your current location.",
+    "CVAR.Toolbar.Widget.Location.ItemSpacing.Name": "Item spacing between location and weather",
+    "CVAR.Toolbar.Widget.Location.ItemSpacing.Description": "Defines the distance between the location and weather elements in the location widget in pixels. This may useful for if you have the toolbar located at the top of the screen and have webcam clamp on top of the monitor that overlaps the widget.",
     "CVAR.Toolbar.Widget.MailIndicator.Enabled.Name": "Show mail indicator widget",
     "CVAR.Toolbar.Widget.MailIndicator.Enabled.Description": "Display a widget that shows up when you have one or more unread messages waiting for you.",
     "CVAR.Toolbar.Widget.MainMenu.Enabled.Name": "Show main menu widget",

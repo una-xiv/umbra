@@ -91,6 +91,8 @@
     "CVAR.Toolbar.Widget.Gearset.Enabled.Description": "Zeigt ein Widget an, mit dem Sie Ihr aktuell ausgerüstetes Ausrüstungsset ändern können.",
     "CVAR.Toolbar.Widget.Location.Enabled.Name": "Standort-Widget anzeigen",
     "CVAR.Toolbar.Widget.Location.Enabled.Description": "Zeigt ein Widget an, das Ihren aktuellen Standort und das Wetter anzeigt. Ein Klick auf das Widget zeigt die Wettervorhersage für die nächsten Stunden an Ihrem aktuellen Standort an.",
+    "CVAR.Toolbar.Widget.Location.ItemSpacing.Name": "Abstand zwischen Ort und Wetter",
+    "CVAR.Toolbar.Widget.Location.ItemSpacing.Description": "Definiert den Abstand zwischen den Elementen Ort und Wetter im Ort-Widget in Pixeln. Dies kann nützlich sein, wenn sich die Symbolleiste oben auf dem Bildschirm befindet und eine Webcamklemme oben auf dem Monitor angebracht ist, die das Widget überlappt.",
     "CVAR.Toolbar.Widget.MailIndicator.Enabled.Name": "Mail-Anzeige-Widget anzeigen",
     "CVAR.Toolbar.Widget.MailIndicator.Enabled.Description": "Zeigt ein Widget an, das erscheint, wenn Sie eine oder mehrere ungelesene Nachrichten haben.",
     "CVAR.Toolbar.Widget.MainMenu.Enabled.Name": "Hauptmenü-Widget anzeigen",

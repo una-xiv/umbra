@@ -91,6 +91,8 @@
     "CVAR.Toolbar.Widget.Gearset.Enabled.Description": "現在装備しているギアセットを変更できるウィジェットを表示します。",
     "CVAR.Toolbar.Widget.Location.Enabled.Name": "位置ウィジェットを表示する",
     "CVAR.Toolbar.Widget.Location.Enabled.Description": "現在の位置と天候を表示するウィジェットを表示します。ウィジェットをクリックすると、現在の位置での次の数時間の天候予報が表示されます。",
+    "CVAR.Toolbar.Widget.Location.ItemSpacing.Name": "場所と天気の間のアイテム間隔",
+    "CVAR.Toolbar.Widget.Location.ItemSpacing.Description": "ピクセル単位で場所ウィジェット内の場所と天気要素の間の距離を定義します。画面の上部にツールバーが配置され、モニターの上にウェブカムクランプがあり、ウィジェットが重なる場合に便利です。",
     "CVAR.Toolbar.Widget.MailIndicator.Enabled.Name": "メールインジケーターウィジェットを表示する",
     "CVAR.Toolbar.Widget.MailIndicator.Enabled.Description": "未読のメッセージが待っているときに表示されるウィジェットを表示します。",
     "CVAR.Toolbar.Widget.MainMenu.Enabled.Name": "メインメニューウィジェットを表示する",
