@@ -19,6 +19,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using Dalamud.Game.ClientState.Fates;
+using Dalamud.Memory;
 using FFXIVClientStructs.FFXIV.Client.Game.Fate;
 using Umbra.Common;
 using Umbra.Game;
@@ -75,7 +76,7 @@ internal sealed class FateWorldMarkerFactory(IZoneManager zoneManager) : IWorldM
                     new() {
                         IconId          = fate->MapIconId,
                         Position        = fate->Location + new Vector3(0, 1.8f, 0),
-                        Label           = fate->Name.ToString(),
+                        Label           = MemoryHelper.ReadSeString(&fate->Name).ToString(),
                         SubLabel        = $"{state} - {timeLeft:mm\\:ss}{progress}",
                         MinFadeDistance = 30,
                         MaxFadeDistance = 60
