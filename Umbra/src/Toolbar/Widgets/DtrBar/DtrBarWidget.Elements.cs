@@ -30,7 +30,7 @@ internal partial class DtrBarWidget
         children: []
     );
 
-    private static Element CreateEntry(IDtrBarEntry entry)
+    private static Element CreateEntry(DtrBarEntry entry)
     {
         Element el = new(
             id: $"DtrBarWidget_{Slugify(entry.Name)}",

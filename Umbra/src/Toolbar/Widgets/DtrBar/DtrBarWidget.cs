@@ -70,6 +70,9 @@ internal partial class DtrBarWidget : IToolbarWidget
         el.IsVisible  = entry.IsVisible;
         el.IsDisabled = !entry.IsInteractive;
 
+        string? tooltipText = entry.TooltipText?.TextValue;
+        el.Tooltip = !string.IsNullOrEmpty(tooltipText) ? tooltipText : null;
+
         el.Get<SeStringElement>().SeString = entry.Text;
     }
 }

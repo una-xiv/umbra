@@ -20,19 +20,23 @@ using Dalamud.Game.Text.SeStringHandling;
 
 namespace Umbra.Game;
 
-public class DtrBarEntry(IReadOnlyDtrBarEntry entry, int sortIndex) : IDtrBarEntry
+public class DtrBarEntry(IReadOnlyDtrBarEntry entry, int sortIndex)
 {
-    public string Name          { get; private set; } = entry.Title;
-    public SeString Text          { get; private set; } = entry.Text;
-    public int    SortIndex     { get; private set; } = sortIndex;
-    public bool   IsVisible     { get; private set; } = entry is { Shown: true, UserHidden: false };
-    public bool   IsInteractive { get; private set; } = entry.HasClickAction;
+    public string    Name          { get; private set; } = entry.Title;
+    public SeString  Text          { get; private set; } = entry.Text;
+#pragma warning disable CS8766 // Nullability of reference types in return type doesn't match implicitly implemented member (possibly because of nullability attributes).
+    public SeString? TooltipText   { get; private set; } = entry.Tooltip; // Tooltip can be NULL, even though Dalamud's IReadOnlyDtrBarEntry.Tooltip is non-nullable.
+#pragma warning restore CS8766 // Nullability of reference types in return type doesn't match implicitly implemented member (possibly because of nullability attributes).
+    public int       SortIndex     { get; private set; } = sortIndex;
+    public bool      IsVisible     { get; private set; } = entry is { Shown: true, UserHidden: false };
+    public bool      IsInteractive { get; private set; } = entry.HasClickAction;
 
     private readonly Action? _onClick = () => entry.TriggerClickAction();
 
-    public void Update(IReadOnlyDtrBarEntry entry, int sortIndex)
+    internal void Update(IReadOnlyDtrBarEntry entry, int sortIndex)
     {
         Text          = entry.Text;
+        TooltipText   = entry.Tooltip;
         IsVisible     = entry is { Shown: true, UserHidden: false };
         IsInteractive = entry.HasClickAction;
         SortIndex     = sortIndex;
