@@ -38,7 +38,7 @@ public sealed class WorldMarkerDirectionRenderer(
     private static bool Enabled { get; set; } = true;
 
     [ConfigVariable("Markers.Direction.Radius", "MarkerSettings", min: 64, max: 600)]
-    private static int Radius { get; set; } = 300;
+    private static int Radius { get; set; } = 64;
 
     [ConfigVariable("Markers.Direction.UseCircularPositioning", "MarkerSettings")]
     private static bool UseCircularPositioning { get; set; } = false;
@@ -61,7 +61,7 @@ public sealed class WorldMarkerDirectionRenderer(
         var direction = new Vector2(marker.Position.X, marker.Position.Z) - new Vector2(playerPos.X, playerPos.Z);
 
         float angle = MathF.Atan2(direction.Y, direction.X) + CameraAngle;
-        float wSize = 64;
+        float wSize = 64 * Element.ScaleFactor;
 
         var displaySize = ImGui.GetIO().DisplaySize;
         var displayPos  = ImGui.GetMainViewport().Pos;
@@ -80,9 +80,9 @@ public sealed class WorldMarkerDirectionRenderer(
 
         gameGui.WorldToScreen(playerPos, out var center);
 
-        var cos = MathF.Cos(angle);
+        var cos    = MathF.Cos(angle);
         var xRange = cos > 0 ? (xMax - center.X) : (center.X - xMin);
-        var sin = MathF.Sin(angle);
+        var sin    = MathF.Sin(angle);
         var yRange = sin > 0 ? (yMax - center.Y) : (center.Y - yMin);
 
         var angleForPos = MathF.Atan2(sin * xRange, cos * yRange);
@@ -102,30 +102,31 @@ public sealed class WorldMarkerDirectionRenderer(
             return;
         }
 
-        var drawList = ImGui.GetBackgroundDrawList();
-        var opacity  = 1.0f;
+        if (textureProvider.GetIcon(marker.IconIds[0]) is { } icon) {
+            float halfSize = 12 * Element.ScaleFactor;
 
-        var icon = textureProvider.GetIcon(marker.IconIds[0]);
-
-        if (icon != null) {
-            drawList.AddImage(
-                icon.ImGuiHandle,
-                new(x - 12, y - 12),
-                new(x + 12, y + 12),
-                Vector2.Zero,
-                Vector2.One,
-                0xFFFFFFFF.ApplyAlphaComponent(opacity)
-            );
+            ImGui
+                .GetBackgroundDrawList()
+                .AddImage(
+                    icon.ImGuiHandle,
+                    new(x - halfSize, y - halfSize),
+                    new(x + halfSize, y + halfSize),
+                    Vector2.Zero,
+                    Vector2.One,
+                    0xFFFFFFFF.ApplyAlphaComponent(1.0f)
+                );
         }
 
-        var arrow = textureProvider.GetIcon(60541);
+        if (textureProvider.GetIcon(60541) is { } arrow) {
+            float halfSize = 16 * Element.ScaleFactor;
 
-        if (null != arrow) {
-            var arrowPos = new Vector2(x - 16, y - 16);
-            arrowPos.X += ((wSize / 2) - 16) * MathF.Cos(angle);
-            arrowPos.Y += ((wSize / 2) - 16) * MathF.Sin(angle);
+            var arrowPos = new Vector2(x - halfSize, y - halfSize);
+            arrowPos.X += ((wSize / 2) - halfSize) * MathF.Cos(angle);
+            arrowPos.Y += ((wSize / 2) - halfSize) * MathF.Sin(angle);
 
-            drawList.AddImageRotated(arrow.ImGuiHandle, angle, arrowPos, new(32, 32), 0xFFFFFFFF, opacity);
+            ImGui
+                .GetBackgroundDrawList()
+                .AddImageRotated(arrow.ImGuiHandle, angle, arrowPos, new(halfSize * 2, halfSize * 2));
         }
     }
 

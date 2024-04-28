@@ -37,7 +37,7 @@ public sealed class WorldMarkerAggregator(
     public void OnDraw()
     {
         // Don't draw anything if the player is occupied.
-        if (player.IsOccupied) return;
+        if (player.IsOccupied || player.IsEditingHud) return;
 
         _markers.Clear();
 
