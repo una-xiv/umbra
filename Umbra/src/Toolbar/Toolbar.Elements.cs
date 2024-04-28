@@ -53,9 +53,19 @@ internal partial class Toolbar
         Vector2 displaySize = viewport.Size;
         Vector2 displayPos  = viewport.Pos;
 
-        _element.Get("Left").Gap   = ItemSpacing;
-        _element.Get("Middle").Gap = ItemSpacing;
-        _element.Get("Right").Gap  = ItemSpacing;
+        Element left  = _element.Get("Left");
+        Element mid   = _element.Get("Middle");
+        Element right = _element.Get("Right");
+
+        left.Gap  = ItemSpacing;
+        mid.Gap   = ItemSpacing;
+        right.Gap = ItemSpacing;
+
+        left.IsVisible  = !player.IsEditingHud;
+        mid.IsVisible   = !player.IsEditingHud;
+        right.IsVisible = !player.IsEditingHud;
+
+        _element.Style.Opacity = player.IsEditingHud ? 0.80f : 1.0f;
 
         _xPosition = displayPos.X;
         _yPosition = displayPos.Y + (IsTopAligned ? ImGui.GetMainViewport().WorkPos.Y : displaySize.Y);

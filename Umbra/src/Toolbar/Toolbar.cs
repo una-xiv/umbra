@@ -56,6 +56,8 @@ internal partial class Toolbar(IPlayer player, IToolbarWidget[] widgets)
     [OnTick(interval: 23)]
     public void OnTick()
     {
+        if (!Enabled || player.IsEditingHud) return;
+
         foreach (var widget in _widgets) {
             widget.OnUpdate();
         }

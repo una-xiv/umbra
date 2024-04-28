@@ -78,6 +78,11 @@ public interface IPlayer
     public bool IsBoundByDuty { get; }
 
     /// <summary>
+    /// True if the player is currently editing the HUD layout.
+    /// </summary>
+    public bool IsEditingHud { get; }
+
+    /// <summary>
     /// True if the player can, and is allowed to, use the teleport action.
     /// </summary>
     public bool CanUseTeleportAction { get; }
