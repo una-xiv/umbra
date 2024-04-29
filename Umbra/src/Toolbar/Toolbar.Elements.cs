@@ -24,11 +24,17 @@ namespace Umbra.Toolbar;
 
 internal partial class Toolbar
 {
-    private readonly Color _color1 = Theme.Color(ThemeColor.ToolbarLight);
-    private readonly Color _color2 = Theme.Color(ThemeColor.ToolbarDark);
-
     [ConfigVariable("Toolbar.ItemSpacing", "ToolbarSettings", min: 1, max: 32)]
     private static int ItemSpacing { get; set; } = 6;
+
+    [ConfigVariable("Toolbar.MarginLeft", "ToolbarSettings", min: -1, max: 2048)]
+    private static int ToolbarLeftMargin { get; set; } = 0;
+
+    [ConfigVariable("Toolbar.MarginRight", "ToolbarSettings", min: -1, max: 2048)]
+    private static int ToolbarRightMargin { get; set; } = 0;
+
+    private readonly Color _color1 = Theme.Color(ThemeColor.ToolbarLight);
+    private readonly Color _color2 = Theme.Color(ThemeColor.ToolbarDark);
 
     private float _xPosition;
     private float _yPosition;
@@ -50,7 +56,7 @@ internal partial class Toolbar
     private void UpdateToolbar()
     {
         var     viewport    = ImGui.GetMainViewport();
-        Vector2 displaySize = viewport.Size;
+        Vector2 displaySize = ImGui.GetIO().DisplaySize;
         Vector2 displayPos  = viewport.Pos;
 
         Element left  = _element.Get("Left");
@@ -72,6 +78,7 @@ internal partial class Toolbar
 
         _element.Anchor = IsTopAligned ? Anchor.TopLeft : Anchor.BottomLeft;
         _element.Size   = new((int)(MathF.Ceiling(displaySize.X / Element.ScaleFactor)), Height);
+        _element.Padding = new(left: ToolbarLeftMargin, right: ToolbarRightMargin);
 
         _element.Get<GradientElement>().Gradient = Gradient.Vertical(
             IsTopAligned ? _color2 : _color1,

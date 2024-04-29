@@ -42,11 +42,6 @@ internal partial class Toolbar(IPlayer player, IToolbarWidget[] widgets)
             return;
         }
 
-        // if (!Framework.DalamudPlugin.UiBuilder.DisableCutsceneUiHide && player.IsInCutscene) {
-        //     _element.IsVisible = false;
-        //     return;
-        // }
-
         _element.IsVisible = true;
         UpdateToolbar();
 
