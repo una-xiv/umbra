@@ -14,7 +14,10 @@
  *     GNU Affero General Public License for more details.
  */
 
+using System;
 using System.Collections.Generic;
+using Dalamud.Plugin.Services;
+using FFXIVClientStructs.FFXIV.Component.GUI;
 using Umbra.Common;
 using Umbra.Game;
 using Umbra.Interface;
@@ -22,7 +25,7 @@ using Umbra.Interface;
 namespace Umbra.Toolbar.Widgets.DtrBar;
 
 [Service]
-internal partial class DtrBarWidget : IToolbarWidget
+internal partial class DtrBarWidget : IToolbarWidget, IDisposable
 {
     [ConfigVariable("Toolbar.Widget.DtrBar.Enabled", "EnabledWidgets")]
     private static bool Enabled { get; set; } = true;
@@ -31,9 +34,12 @@ internal partial class DtrBarWidget : IToolbarWidget
     private static int ItemSpacing { get; set; } = 6;
 
     private readonly Dictionary<string, Element> _elements = [];
+    private readonly IGameGui                    _gameGui;
 
-    public DtrBarWidget(IDtrBarEntryRepository repository)
+    public DtrBarWidget(IDtrBarEntryRepository repository, IGameGui gameGui)
     {
+        _gameGui = gameGui;
+
         repository.OnEntryAdded   += OnEntryAdded;
         repository.OnEntryRemoved += OnEntryRemoved;
         repository.OnEntryUpdated += OnEntryUpdated;
@@ -44,6 +50,12 @@ internal partial class DtrBarWidget : IToolbarWidget
     public void OnUpdate()
     {
         Element.IsVisible = Enabled;
+        ToggleNativeServerInfoBarVisibility(!Element.IsVisible);
+    }
+
+    public void Dispose()
+    {
+        ToggleNativeServerInfoBarVisibility(true);
     }
 
     private void OnEntryAdded(DtrBarEntry entry)
@@ -74,5 +86,13 @@ internal partial class DtrBarWidget : IToolbarWidget
         el.Tooltip = !string.IsNullOrEmpty(tooltipText) ? tooltipText : null;
 
         el.Get<SeStringElement>().SeString = entry.Text;
+    }
+
+    private unsafe void ToggleNativeServerInfoBarVisibility(bool isVisible)
+    {
+        var dtrBar = (AtkUnitBase*) _gameGui.GetAddonByName("_DTR");
+        if (dtrBar != null && dtrBar->IsVisible != isVisible) {
+            dtrBar->IsVisible = isVisible;
+        }
     }
 }
