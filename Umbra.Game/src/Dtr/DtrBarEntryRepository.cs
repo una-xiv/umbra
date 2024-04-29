@@ -55,8 +55,8 @@ public class DtrBarEntryRepository(IDtrBar dtrBar) : IDtrBarEntryRepository
         }
 
         foreach (string key in keysToRemove) {
-            _entries.Remove(key);
             OnEntryRemoved?.Invoke(_entries[key]);
+            _entries.Remove(key);
         }
     }
 }
