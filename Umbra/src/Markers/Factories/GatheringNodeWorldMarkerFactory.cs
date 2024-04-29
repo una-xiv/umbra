@@ -22,11 +22,13 @@ using Dalamud.Game.ClientState.Objects.Types;
 using Dalamud.Plugin.Services;
 using Lumina.Excel.GeneratedSheets;
 using Umbra.Common;
+using Umbra.Game;
 
 namespace Umbra.Markers.Factories;
 
 [Service]
-public class GatheringNodeWorldMarkerFactory(IDataManager dataManager, IObjectTable objectTable) : IWorldMarkerFactory
+public class GatheringNodeWorldMarkerFactory(IDataManager dataManager, IObjectTable objectTable, IPlayer player)
+    : IWorldMarkerFactory
 {
     [ConfigVariable("Markers.GatheringNodes.Enabled", "EnabledMarkers")]
     private static bool Enabled { get; set; } = true;
@@ -45,6 +47,7 @@ public class GatheringNodeWorldMarkerFactory(IDataManager dataManager, IObjectTa
                         IconId          = obj.IconId,
                         Label           = obj.Label,
                         SubLabel        = obj.SubLabel,
+                        ShowDirection   = obj.ShowDirection,
                         MinFadeDistance = 12,
                         MaxFadeDistance = 15,
                     }
@@ -95,10 +98,11 @@ public class GatheringNodeWorldMarkerFactory(IDataManager dataManager, IObjectTa
             .ToList()!;
 
         return new GatheringNode {
-            Position = obj.Position,
-            IconId   = (uint)(point.GatheringPointBase.Value?.GatheringType.Value?.IconMain ?? 0),
-            Label    = $"Lv.{point.GatheringPointBase.Value!.GatheringLevel} {obj.Name}",
-            SubLabel = items.Count > 0 ? $"{point.Count}x {string.Join(", ", items)}" : null,
+            Position      = obj.Position,
+            IconId        = (uint)(point.GatheringPointBase.Value?.GatheringType.Value?.IconMain ?? 0),
+            Label         = $"Lv.{point.GatheringPointBase.Value!.GatheringLevel} {obj.Name}",
+            SubLabel      = items.Count > 0 ? $"{point.Count}x {string.Join(", ", items)}" : null,
+            ShowDirection = !(!player.IsDiving && point.GatheringPointBase.Value?.GatheringType.Row == 5),
         };
     }
 
@@ -108,5 +112,6 @@ public class GatheringNodeWorldMarkerFactory(IDataManager dataManager, IObjectTa
         public uint    IconId;
         public string  Label;
         public string? SubLabel;
+        public bool    ShowDirection;
     }
 }

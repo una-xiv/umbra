@@ -72,6 +72,11 @@ public interface IPlayer
     public bool IsJumping { get; }
 
     /// <summary>
+    /// True if the player is currently diving.
+    /// </summary>
+    public bool IsDiving { get; }
+
+    /// <summary>
     /// True if the player is currently bound by duty, meaning they can't
     /// teleport or use the Duty Finder.
     /// </summary>

@@ -80,6 +80,11 @@ internal sealed class Player : IPlayer
     public bool IsJumping { get; private set; }
 
     /// <summary>
+    /// True if the player is currently diving.
+    /// </summary>
+    public bool IsDiving { get; private set; }
+
+    /// <summary>
     /// True if the player is currently bound by duty, meaning they can't
     /// teleport or use the Duty Finder.
     /// </summary>
@@ -153,6 +158,7 @@ internal sealed class Player : IPlayer
          || _condition[ConditionFlag.OccupiedSummoningBell];
 
         IsJumping = _condition[ConditionFlag.Jumping] || _condition[ConditionFlag.Jumping61];
+        IsDiving = _condition[ConditionFlag.Diving];
 
         IsBoundByDuty = _condition[ConditionFlag.BoundByDuty]
          || _condition[ConditionFlag.BoundByDuty56]
