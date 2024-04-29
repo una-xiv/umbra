@@ -14,8 +14,7 @@
  *     GNU Affero General Public License for more details.
  */
 
-using System.Collections.Generic;
-using Umbra.Game;
+using Dalamud.Interface;
 using Umbra.Interface;
 
 namespace Umbra.Toolbar.Widgets.MainMenu;
@@ -30,26 +29,17 @@ internal sealed partial class VolumeWidget
                 id: "Channels",
                 flow: Flow.Horizontal,
                 gap: 8,
-                padding: new(0, 8),
-                children: [
-                    CreateChannelWidget("Master", "Master volume"),
-                    CreateChannelWidget("BGM",    "Background music"),
-                    CreateChannelWidget("SFX",    "Sound effects"),
-                    CreateChannelWidget("VOC",    "Voice"),
-                    CreateChannelWidget("AMB",    "Ambient sound effects"),
-                    CreateChannelWidget("SYS",    "System sounds"),
-                    CreateChannelWidget("PERF",   "Performance music"),
-                ]
+                padding: new(0, 8)
             )
         ]
     );
 
-    private static Element CreateChannelWidget(string id, string tooltip)
+    private void CreateChannelWidget(string id, string tooltip, string volumeConfigName, string muteConfigName)
     {
-        return new(
+        Element el = new(
             id: id,
             flow: Flow.Vertical,
-            size: new(32, 250),
+            size: new(32, 280),
             children: [
                 new(
                     id: "Label",
@@ -91,7 +81,61 @@ internal sealed partial class VolumeWidget
                             { Padding = new(top: 8, bottom: 4, left: 4) },
                     ]
                 ),
+                new(
+                    id: "MuteButton",
+                    anchor: Anchor.TopCenter,
+                    size: new(24, 24),
+                    text: FontAwesomeIcon.VolumeMute.ToIconString(),
+                    style: new() {
+                        Font                  = Font.FontAwesome,
+                        TextAlign             = Anchor.MiddleCenter,
+                        TextOffset            = new(0, -1),
+                        TextColor             = Theme.Color(ThemeColor.Text),
+                        BackgroundColor       = Theme.Color(ThemeColor.BackgroundDark),
+                        BackgroundBorderColor = Theme.Color(ThemeColor.Border),
+                        BackgroundRounding    = 4,
+                        BackgroundBorderWidth = 1
+                    }
+                )
             ]
         );
+
+        VerticalSliderElement slider     = el.Get("Slider").Get<VerticalSliderElement>();
+        Element               muteButton = el.Get("MuteButton");
+        Element               valueLabel = el.Get("Value");
+
+        muteButton.OnMouseEnter += () => {
+            muteButton.Style.BackgroundColor       = Theme.Color(ThemeColor.BackgroundLight);
+            muteButton.Style.BackgroundBorderColor = Theme.Color(ThemeColor.BorderLight);
+        };
+
+        muteButton.OnMouseLeave += () => {
+            muteButton.Style.BackgroundColor       = Theme.Color(ThemeColor.BackgroundDark);
+            muteButton.Style.BackgroundBorderColor = Theme.Color(ThemeColor.Border);
+        };
+
+        muteButton.OnClick += () => {
+            _gameConfig.System.Set(muteConfigName, !_gameConfig.System.GetBool(muteConfigName));
+        };
+
+        slider.OnValueChanged      += (value) => { _gameConfig.System.Set(volumeConfigName, (uint)value); };
+        slider.OnBeforeCompute     += () => { slider.Value    = (int)_gameConfig.System.GetUInt(volumeConfigName); };
+        valueLabel.OnBeforeCompute += () => { valueLabel.Text = $"{_gameConfig.System.GetUInt(volumeConfigName)}%"; };
+        muteButton.OnBeforeCompute += () => muteButton.Text = GetVolumeIcon(volumeConfigName, muteConfigName);
+
+        _dropdownElement.Get("Channels").AddChild(el);
+    }
+
+    private string GetVolumeIcon(string volumeConfigName, string muteConfigName)
+    {
+        if (_gameConfig.System.GetBool(muteConfigName)) {
+            return FontAwesomeIcon.VolumeMute.ToIconString();
+        }
+
+        return _gameConfig.System.GetUInt(volumeConfigName) switch {
+            0    => FontAwesomeIcon.VolumeOff.ToIconString(),
+            < 50 => FontAwesomeIcon.VolumeDown.ToIconString(),
+            _    => FontAwesomeIcon.VolumeUp.ToIconString()
+        };
     }
 }
