@@ -18,6 +18,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Dalamud.Game.ClientState.Aetherytes;
 using Dalamud.Plugin.Services;
+using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using Lumina.Excel.GeneratedSheets2;
 using Umbra.Common;
 
@@ -33,6 +34,7 @@ public class TravelDestinationRepository : ITravelDestinationRepository
     private readonly IZoneManager   _zoneManager;
 
     private readonly List<uint> _estateAetherytes;
+    private readonly ushort?    _freeAetheryteId;
 
     public TravelDestinationRepository(
         IAetheryteList aetheryteList,
@@ -40,9 +42,10 @@ public class TravelDestinationRepository : ITravelDestinationRepository
         IZoneManager   zoneManager
     )
     {
-        _aetheryteList = aetheryteList;
-        _dataManager   = dataManager;
-        _zoneManager   = zoneManager;
+        _aetheryteList   = aetheryteList;
+        _dataManager     = dataManager;
+        _zoneManager     = zoneManager;
+        _freeAetheryteId = GetFreeAetheryteId();
 
         _estateAetherytes = _dataManager.GetExcelSheet<Aetheryte>()!
             .Where(aetheryte => aetheryte.PlaceName.Row is 1145 or 1160)
@@ -69,12 +72,12 @@ public class TravelDestinationRepository : ITravelDestinationRepository
 
             if (destination == null)
             {
-                destination = new(entry, isHousing);
+                destination = new(entry, isHousing, _freeAetheryteId == entry.AetheryteId);
                 Destinations.Add(destination);
             }
             else
             {
-                destination.Update(entry, isHousing);
+                destination.Update(entry, isHousing, _freeAetheryteId == entry.AetheryteId);
             }
         }
     }
@@ -86,6 +89,13 @@ public class TravelDestinationRepository : ITravelDestinationRepository
          || entry.IsSharedHouse
          || entry.Plot > 0
          || entry.Ward > 0
+         || _freeAetheryteId == entry.AetheryteId
          || _estateAetherytes.Contains(entry.AetheryteId);
+    }
+
+    private static unsafe ushort? GetFreeAetheryteId()
+    {
+        ushort id = PlayerState.Instance()->FreeAetheryteId;
+        return id > 0 ? id : null;
     }
 }

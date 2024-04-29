@@ -40,20 +40,20 @@ public class TravelDestination
     private static readonly Dictionary<uint, string> InterfaceTexts = [];
     private static readonly Dictionary<uint, string> TerritoryNames = [];
 
-    internal TravelDestination(AetheryteEntry entry, bool isEstate)
+    internal TravelDestination(AetheryteEntry entry, bool isEstate, bool isFree)
     {
-        Update(entry, isEstate);
+        Update(entry, isEstate, isFree);
     }
 
     /// <summary>
     /// Updates this travel destination with the data from the given aetheryte
     /// entry.
     /// </summary>
-    internal void Update(AetheryteEntry entry, bool isHousing)
+    internal void Update(AetheryteEntry entry, bool isHousing, bool isFree)
     {
         Id             = entry.AetheryteId;
         SubId          = entry.SubIndex;
-        GilCost        = entry.GilCost;
+        GilCost        = isFree ? 0 : entry.GilCost;
         Ward           = entry.Ward;
         Plot           = entry.Plot;
         IsHousing      = isHousing;
