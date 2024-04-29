@@ -60,9 +60,11 @@ internal partial class LocationWidget : IToolbarWidget
         WeatherForecast? weather = zone.CurrentWeather;
 
         (string zoneName, string distName) = GetLocationNames();
-        Element.Get("Location").Margin     = new(right: ItemSpacing);
-        Element.Get("Location.Name").Text  = zoneName;
-        Element.Get("Location.Info").Text  = distName;
+
+        Element.Get("Location").Margin                       = new(right: ItemSpacing);
+        Element.Get("Location.Name.Label").Text              = zoneName;
+        Element.Get("Location.Info").Text                    = distName;
+        Element.Get("Location.Name.SanctuaryIcon").IsVisible = zone.TerritoryIntendedUse == 0;
 
         if (weather == null) {
             // This should theoretically never happen, but just in case.

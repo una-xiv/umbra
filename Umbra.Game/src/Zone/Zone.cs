@@ -27,21 +27,22 @@ namespace Umbra.Game;
 
 internal sealed class Zone : IZone
 {
-    public uint                  Id                  { get; private set; }
-    public TerritoryType         Type                { get; private set; }
-    public uint                  TerritoryId         { get; private set; }
-    public string                Name                { get; private set; }
-    public string                SubName             { get; private set; }
-    public string                RegionName          { get; private set; }
-    public Vector2               Offset              { get; private set; }
-    public ushort                SizeFactor          { get; private set; }
-    public Sheet.Map             MapSheet            { get; private set; }
-    public List<ZoneMarker>      StaticMarkers       { get; private set; }
-    public List<ZoneMarker>      DynamicMarkers      { get; private set; }
-    public List<WeatherForecast> WeatherForecast     { get; private set; }
-    public WeatherForecast?      CurrentWeather      { get; private set; }
+    public uint                  Id                   { get; private set; }
+    public TerritoryType         Type                 { get; private set; }
+    public uint                  TerritoryId          { get; private set; }
+    public string                Name                 { get; private set; }
+    public string                SubName              { get; private set; }
+    public string                RegionName           { get; private set; }
+    public Vector2               Offset               { get; private set; }
+    public ushort                SizeFactor           { get; private set; }
+    public Sheet.Map             MapSheet             { get; private set; }
+    public List<ZoneMarker>      StaticMarkers        { get; private set; }
+    public List<ZoneMarker>      DynamicMarkers       { get; private set; }
+    public List<WeatherForecast> WeatherForecast      { get; private set; }
+    public WeatherForecast?      CurrentWeather       { get; private set; }
+    public byte                  TerritoryIntendedUse { get; private set; }
 
-    public string                CurrentDistrictName => _closestAreaMarker?.Name ?? "";
+    public string CurrentDistrictName => _closestAreaMarker?.Name ?? "";
 
 
     private readonly IPlayer                 _player;
@@ -64,15 +65,16 @@ internal sealed class Zone : IZone
         _markerFactory    = markerFactory;
         _forecastProvider = forecastProvider;
 
-        Id          = zoneId;
-        MapSheet    = dataManager.GetExcelSheet<Sheet.Map>()!.GetRow(zoneId)!;
-        Type        = (TerritoryType)MapSheet.TerritoryType.Value!.TerritoryIntendedUse;
-        TerritoryId = MapSheet.TerritoryType.Row;
-        Name        = MapSheet.PlaceName.Value!.Name.ToString();
-        SubName     = MapSheet.PlaceNameSub.Value!.Name.ToString();
-        RegionName  = MapSheet.PlaceNameRegion.Value!.Name.ToString();
-        Offset      = new(MapSheet.OffsetX, MapSheet.OffsetY);
-        SizeFactor  = MapSheet.SizeFactor;
+        Id                   = zoneId;
+        MapSheet             = dataManager.GetExcelSheet<Sheet.Map>()!.GetRow(zoneId)!;
+        Type                 = (TerritoryType)MapSheet.TerritoryType.Value!.TerritoryIntendedUse;
+        TerritoryId          = MapSheet.TerritoryType.Row;
+        Name                 = MapSheet.PlaceName.Value!.Name.ToString();
+        SubName              = MapSheet.PlaceNameSub.Value!.Name.ToString();
+        RegionName           = MapSheet.PlaceNameRegion.Value!.Name.ToString();
+        Offset               = new(MapSheet.OffsetX, MapSheet.OffsetY);
+        SizeFactor           = MapSheet.SizeFactor;
+        TerritoryIntendedUse = MapSheet.TerritoryType.Value!.TerritoryIntendedUse;
 
         StaticMarkers = dataManager.GetExcelSheet<Sheet.MapMarker>()!
             .Where(m => m.RowId == MapSheet.MapMarkerRange && m.X > 0 && m.Y > 0)
