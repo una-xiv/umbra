@@ -89,6 +89,7 @@ public static class ConfigManager
     [WhenFrameworkDisposing]
     public static void WhenFrameworkDisposing()
     {
+        _debounceTimer?.Dispose();
         Cvars.Clear();
     }
 
@@ -175,6 +176,9 @@ public static class ConfigManager
 
     private static void Persist(object? _)
     {
+        // Safety net to prevent overwriting the config file with an empty object.
+        if (Cvars.Count == 0) return;
+
         var data = new Dictionary<string, object?>();
 
         foreach (var cvar in Cvars.Values) {
