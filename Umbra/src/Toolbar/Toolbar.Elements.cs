@@ -33,6 +33,9 @@ internal partial class Toolbar
     [ConfigVariable("Toolbar.MarginRight", "ToolbarSettings", min: -1, max: 2048)]
     private static int ToolbarRightMargin { get; set; } = 0;
 
+    [ConfigVariable("Toolbar.YOffset", "ToolbarSettings", min: -2048, max: 2048)]
+    public static int YOffset { get; set; } = 0;
+
     private readonly Color _color1 = Theme.Color(ThemeColor.ToolbarLight);
     private readonly Color _color2 = Theme.Color(ThemeColor.ToolbarDark);
 
@@ -74,7 +77,7 @@ internal partial class Toolbar
         _element.Style.Opacity = player.IsEditingHud ? 0.80f : 1.0f;
 
         _xPosition = displayPos.X;
-        _yPosition = displayPos.Y + (IsTopAligned ? ImGui.GetMainViewport().WorkPos.Y : displaySize.Y);
+        _yPosition = displayPos.Y + (IsTopAligned ? ImGui.GetMainViewport().WorkPos.Y + YOffset : displaySize.Y - YOffset);
 
         _element.Anchor = IsTopAligned ? Anchor.TopLeft : Anchor.BottomLeft;
         _element.Size   = new((int)(MathF.Ceiling(displaySize.X / Element.ScaleFactor)), Height);

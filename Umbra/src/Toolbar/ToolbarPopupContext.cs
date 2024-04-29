@@ -133,8 +133,8 @@ internal sealed class ToolbarPopupContext
         float y = displayPos.Y
           + (
                 Toolbar.Toolbar.IsTopAligned
-                    ? ImGui.GetMainViewport().WorkPos.Y + (Toolbar.Toolbar.Height * Element.ScaleFactor)
-                    : ImGui.GetIO().DisplaySize.Y - (Toolbar.Toolbar.Height * Element.ScaleFactor)
+                    ? ImGui.GetMainViewport().WorkPos.Y + ((Toolbar.Toolbar.Height + Toolbar.Toolbar.YOffset) * Element.ScaleFactor)
+                    : ImGui.GetIO().DisplaySize.Y - ((Toolbar.Toolbar.Height + Toolbar.Toolbar.YOffset) * Element.ScaleFactor)
             );
 
         if (_activator.Anchor.IsLeft()) {

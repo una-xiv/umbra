@@ -75,6 +75,8 @@
     "CVAR.Toolbar.MarginLeft.Description": "The distance between the left edge of the screen and the toolbar in pixels.",
     "CVAR.Toolbar.MarginRight.Name": "Toolbar right margin",
     "CVAR.Toolbar.MarginRight.Description": "The distance between the right edge of the screen and the toolbar in pixels.",
+    "CVAR.Toolbar.YOffset.Name": "Toolbar vertical offset",
+    "CVAR.Toolbar.YOffset.Description": "The vertical offset of the toolbar from the top or bottom of the screen in pixels.",
     "CVAR.Toolbar.Widget.BattleEffects.Enabled.Name": "Show battle effects widget",
     "CVAR.Toolbar.Widget.BattleEffects.Enabled.Description": "Display a widget that allows you to control the visibility of various battle effects.",
     "CVAR.Toolbar.Widget.Clock.Enabled.Name": "Show clock widget",

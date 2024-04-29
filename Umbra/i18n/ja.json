@@ -75,6 +75,8 @@
     "CVAR.Toolbar.MarginLeft.Description": "画面の左端とツールバーの間のピクセル単位の距離。",
     "CVAR.Toolbar.MarginRight.Name": "ツールバーの右余白",
     "CVAR.Toolbar.MarginRight.Description": "画面の右端とツールバーの間のピクセル単位の距離。",
+    "CVAR.Toolbar.YOffset.Name": "ツールバーの垂直オフセット",
+    "CVAR.Toolbar.YOffset.Description": "画面の上部または下部からツールバーの垂直オフセット（ピクセル単位）",
     "CVAR.Toolbar.Widget.BattleEffects.Enabled.Name": "バトルエフェクトウィジェットを表示する",
     "CVAR.Toolbar.Widget.BattleEffects.Enabled.Description": "さまざまなバトルエフェクトの表示状態を制御するウィジェットを表示します。",
     "CVAR.Toolbar.Widget.Clock.Enabled.Name": "時計ウィジェットを表示する",

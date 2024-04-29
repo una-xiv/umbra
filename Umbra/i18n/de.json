@@ -75,6 +75,8 @@
     "CVAR.Toolbar.MarginLeft.Description": "Der Abstand zwischen dem linken Bildschirmrand und der Symbolleiste in Pixeln.",
     "CVAR.Toolbar.MarginRight.Name": "Rechter Rand der Symbolleiste",
     "CVAR.Toolbar.MarginRight.Description": "Der Abstand zwischen dem rechten Bildschirmrand und der Symbolleiste in Pixeln.",
+    "CVAR.Toolbar.YOffset.Name": "Vertikaler Versatz der Symbolleiste",
+    "CVAR.Toolbar.YOffset.Description": "Der vertikale Versatz der Symbolleiste vom oberen oder unteren Bildschirmrand in Pixeln.",
     "CVAR.Toolbar.Widget.BattleEffects.Enabled.Name": "Kampfeffekte Widget anzeigen",
     "CVAR.Toolbar.Widget.BattleEffects.Enabled.Description": "Zeigt ein Widget an, mit dem Sie die Sichtbarkeit verschiedener Kampfeffekte steuern können.",
     "CVAR.Toolbar.Widget.Clock.Enabled.Name": "Uhren-Widget anzeigen",
