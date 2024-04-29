@@ -43,6 +43,9 @@ public sealed class WorldMarkerDirectionRenderer(
     [ConfigVariable("Markers.Direction.UseCircularPositioning", "MarkerSettings")]
     private static bool UseCircularPositioning { get; set; } = false;
 
+    [ConfigVariable("Markers.DirectionIconScaleFactor", "MarkerSettings", min: 50, max: 200)]
+    private static int IconScaleFactor { get; set; } = 100;
+
     public void Render(List<WorldMarkerObject> markers)
     {
         if (!Enabled) return;
@@ -61,7 +64,7 @@ public sealed class WorldMarkerDirectionRenderer(
         var direction = new Vector2(marker.Position.X, marker.Position.Z) - new Vector2(playerPos.X, playerPos.Z);
 
         float angle = MathF.Atan2(direction.Y, direction.X) + CameraAngle;
-        float wSize = 64 * Element.ScaleFactor;
+        float wSize = 64 * (IconScaleFactor / 100) * Element.ScaleFactor;
 
         var displaySize = ImGui.GetIO().DisplaySize;
         var displayPos  = ImGui.GetMainViewport().Pos;
@@ -103,7 +106,7 @@ public sealed class WorldMarkerDirectionRenderer(
         }
 
         if (textureProvider.GetIcon(marker.IconIds[0]) is { } icon) {
-            float halfSize = 12 * Element.ScaleFactor;
+            float halfSize = 12 * (IconScaleFactor / 100) * Element.ScaleFactor;
 
             ImGui
                 .GetBackgroundDrawList()
@@ -118,7 +121,7 @@ public sealed class WorldMarkerDirectionRenderer(
         }
 
         if (textureProvider.GetIcon(60541) is { } arrow) {
-            float halfSize = 16 * Element.ScaleFactor;
+            float halfSize = 16 * (IconScaleFactor / 100) * Element.ScaleFactor;
 
             var arrowPos = new Vector2(x - halfSize, y - halfSize);
             arrowPos.X += ((wSize / 2) - halfSize) * MathF.Cos(angle);

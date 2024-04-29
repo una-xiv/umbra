@@ -41,6 +41,9 @@ public sealed class WorldMarkerRenderer(
     [ConfigVariable("Markers.DistanceOpacity.Enabled", "MarkerSettings")]
     private static bool EnableDistanceBasedOpacity { get; set; } = true;
 
+    [ConfigVariable("Markers.MarkerIconScaleFactor", "MarkerSettings", min: 50, max: 200)]
+    private static int IconScaleFactor { get; set; } = 100;
+
     public void Render(List<WorldMarkerObject> markers)
     {
         foreach (var marker in markers) {
@@ -54,9 +57,11 @@ public sealed class WorldMarkerRenderer(
             return;
         }
 
+        int iconSize = 32 * IconScaleFactor / 100;
+
         var r = new Rect(
-            new(screenPosition.X - 32, screenPosition.Y - 32),
-            new(screenPosition.X + 32, screenPosition.Y + 32)
+            new(screenPosition.X - iconSize, screenPosition.Y - iconSize),
+            new(screenPosition.X + iconSize, screenPosition.Y + iconSize)
         );
 
         if (clipRectProvider.FindClipRectsIntersectingWith(r).Count > 0) {
@@ -85,8 +90,8 @@ public sealed class WorldMarkerRenderer(
         if (marker.OnClick != null
          && distance       < 55) {
             var rect = new Rect(
-                new(screenPosition.X - 32, screenPosition.Y - 64),
-                screenPosition with { X = screenPosition.X + 32 }
+                new(screenPosition.X - iconSize, screenPosition.Y - (iconSize * 2)),
+                screenPosition with { X = screenPosition.X + iconSize }
             );
 
             if (rect.Contains(ImGui.GetMousePos())) {
@@ -125,6 +130,8 @@ public sealed class WorldMarkerRenderer(
 
     private static Element BuildElement(WorldMarkerObject marker, float distance)
     {
+        int iconSize = 32 * IconScaleFactor / 100;
+
         return new(
             id: "",
             flow: Flow.Vertical,
@@ -142,7 +149,7 @@ public sealed class WorldMarkerRenderer(
                             iconId => new Element(
                                 id: "",
                                 anchor: Anchor.TopCenter,
-                                size: new(32, 32),
+                                size: new(iconSize, iconSize),
                                 style: new() {
                                     Image = iconId
                                 }
