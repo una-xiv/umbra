@@ -27,10 +27,10 @@ namespace Umbra.Interface;
 [Service]
 public sealed partial class WindowManager : IDisposable
 {
-    [ConfigVariable("WindowManager.PlaySoundEffects", "WindowSettings")]
+    [ConfigVariable("WindowManager.PlaySoundEffects", "General", "WindowSettings")]
     private static bool PlaySoundEffects { get; set; } = true;
 
-    [ConfigVariable("WindowManager.HonorEscapeKey", "WindowSettings")]
+    [ConfigVariable("WindowManager.HonorEscapeKey", "General", "WindowSettings")]
     private static bool HonorEscapeKey { get; set; } = true;
 
     private const uint SfxOpen  = 23u;

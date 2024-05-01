@@ -37,13 +37,13 @@ public sealed class WorldMarkerDirectionRenderer(
     [ConfigVariable("Markers.Direction.Enabled", "MarkerSettings")]
     private static bool Enabled { get; set; } = true;
 
-    [ConfigVariable("Markers.Direction.Radius", "MarkerSettings", min: 64, max: 600)]
+    [ConfigVariable("Markers.Direction.Radius", "MarkerSettings", "DirectionIndicators", min: 64, max: 600)]
     private static int Radius { get; set; } = 64;
 
-    [ConfigVariable("Markers.Direction.UseCircularPositioning", "MarkerSettings")]
+    [ConfigVariable("Markers.Direction.UseCircularPositioning", "MarkerSettings", "DirectionIndicators")]
     private static bool UseCircularPositioning { get; set; } = false;
 
-    [ConfigVariable("Markers.DirectionIconScaleFactor", "MarkerSettings", min: 50, max: 200)]
+    [ConfigVariable("Markers.DirectionIconScaleFactor", "MarkerSettings", "IconScaling", min: 50, max: 200)]
     private static int IconScaleFactor { get; set; } = 100;
 
     public void Render(List<WorldMarkerObject> markers)

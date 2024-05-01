@@ -34,7 +34,7 @@ public class DarkPreset : IThemePreset
     public uint   HighlightBackground => 0x305FCFFF;
     public uint   HighlightForeground => 0xFFFFFFFF;
     public uint   HighlightOutline    => 0x80000000;
-    public uint   Accent              => 0x155FCFFF;
+    public uint   Accent              => 0x255FCFFF;
     public uint   ToolbarLight        => 0xFF2F2F2F;
     public uint   ToolbarDark         => 0xFF1A1A1A;
 }

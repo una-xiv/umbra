@@ -27,7 +27,7 @@ internal partial class ClockWidget : IToolbarWidget
     [ConfigVariable("Toolbar.Widget.Clock.Enabled", "EnabledWidgets")]
     private static bool Enabled { get; set; } = true;
 
-    [ConfigVariable("Toolbar.Widget.Clock.Vertical", "ToolbarSettings")]
+    [ConfigVariable("Toolbar.Widget.Clock.Vertical", "ToolbarSettings", "ClockSettings")]
     private static bool UseVerticalClocks { get; set; } = true;
 
     private bool _isShowingServerTime;

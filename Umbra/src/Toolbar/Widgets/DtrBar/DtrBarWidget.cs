@@ -30,8 +30,11 @@ internal partial class DtrBarWidget : IToolbarWidget, IDisposable
     [ConfigVariable("Toolbar.Widget.DtrBar.Enabled", "EnabledWidgets")]
     private static bool Enabled { get; set; } = true;
 
-    [ConfigVariable("Toolbar.ItemSpacing", "ToolbarSettings", min: 1, max: 32)]
+    [ConfigVariable("Toolbar.ItemSpacing", "ToolbarSettings", "ToolbarCustomization", min: 1, max: 32)]
     private static int ItemSpacing { get; set; } = 6;
+
+    [ConfigVariable("Toolbar.Widget.DtrBar.HideNative", "ToolbarSettings", "ServerInfoBarSettings")]
+    private static bool HideNativeDtrBar { get; set; } = true;
 
     private readonly Dictionary<string, Element> _elements = [];
     private readonly IGameGui                    _gameGui;
@@ -50,7 +53,7 @@ internal partial class DtrBarWidget : IToolbarWidget, IDisposable
     public void OnUpdate()
     {
         Element.IsVisible = Enabled;
-        ToggleNativeServerInfoBarVisibility(!Element.IsVisible);
+        ToggleNativeServerInfoBarVisibility(!HideNativeDtrBar || (HideNativeDtrBar && !Element.IsVisible));
     }
 
     public void Dispose()

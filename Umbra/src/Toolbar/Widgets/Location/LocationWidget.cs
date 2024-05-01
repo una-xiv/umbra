@@ -26,7 +26,7 @@ internal partial class LocationWidget : IToolbarWidget
     [ConfigVariable("Toolbar.Widget.Location.Enabled", "EnabledWidgets")]
     private static bool Enabled { get; set; } = true;
 
-    [ConfigVariable("Toolbar.Widget.Location.ItemSpacing", "ToolbarSettings", min: 0, max: 600)]
+    [ConfigVariable("Toolbar.Widget.Location.ItemSpacing", "ToolbarSettings", "ToolbarCustomization", min: 0, max: 600)]
     private static int ItemSpacing { get; set; } = 0;
 
     private readonly IPlayer      _player;

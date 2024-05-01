@@ -28,10 +28,10 @@ internal partial class GearsetWidget : IToolbarWidget
     [ConfigVariable("Toolbar.Widget.Gearset.Enabled", "EnabledWidgets")]
     private static bool Enabled { get; set; } = true;
 
-    [ConfigVariable("Toolbar.Widget.Gearset.UseAlternateIcons.Header", "ToolbarSettings")]
+    [ConfigVariable("Toolbar.Widget.Gearset.UseAlternateIcons.Header", "ToolbarSettings", "GearsetSwitcherSettings")]
     private static bool UseAlternateHeaderIcon { get; set; } = true;
 
-    [ConfigVariable("Toolbar.Widget.Gearset.UseAlternateIcons.Buttons", "ToolbarSettings")]
+    [ConfigVariable("Toolbar.Widget.Gearset.UseAlternateIcons.Buttons", "ToolbarSettings", "GearsetSwitcherSettings")]
     private static bool UseAlternateButtonIcons { get; set; } = false;
 
     private readonly IGearsetRepository                   _gearsetRepository;

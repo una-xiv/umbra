@@ -15,172 +15,44 @@
  */
 
 using System;
+using Dalamud.Interface.Internal.Notifications;
+using Dalamud.Plugin.Services;
 using ImGuiNET;
 using Umbra.Common;
 using Umbra.Interface;
 
-namespace Umbra.Windows.ConfigWindow;
+namespace Umbra.Windows.Settings;
 
-internal sealed partial class ConfigWindow
+internal partial class SettingsWindow
 {
-    private readonly Element _windowElement = new(
-        id: "ConfigWindow",
-        size: new(800, 600),
-        anchor: Anchor.TopLeft,
-        flow: Flow.Horizontal,
-        children: [
-            new(
-                id: "NavPanel",
-                size: new(200, 0),
-                fit: true,
-                flow: Flow.Vertical,
-                padding: new(1),
-                style: new() {
-                    Gradient = Gradient.Horizontal(0xFF292929, 0xFF3C3C3C),
-                },
-                children: [
-                    new(
-                        id: "CategoryList",
-                        flow: Flow.Vertical,
-                        anchor: Anchor.TopLeft,
-                        size: new(200, 0),
-                        padding: new(8),
-                        gap: 6,
-                        children: []
-                    ),
-                    new(
-                        id: "Logo",
-                        size: new(198, 198),
-                        anchor: Anchor.BottomLeft,
-                        style: new() {
-                            Image = "Logo.png",
-                        }
-                    )
-                ]
-            ),
-            new(
-                id: "Main",
-                flow: Flow.Vertical,
-                children: [
-                    new OverflowContainer(
-                        id: "Container",
-                        anchor: Anchor.None,
-                        children: [
-                            new(
-                                id: "Body",
-                                flow: Flow.Vertical,
-                                padding: new(8)
-                            )
-                        ]
-                    )
-                ]
-            )
-        ]
-    );
-
-    private Element CategoryList => _windowElement.Get("NavPanel.CategoryList");
-    private Element Body         => _windowElement.Get("Main.Container.Body");
-
-    private void AddCategory(string category)
+    private static Element BuildCvarControl(Cvar cvar, int sortIndex)
     {
-        CategoryList.AddChild(BuildCategoryButton(category, I18N.Translate($"CVAR.Group.{category}")));
-        BuildCategoryPanel(category);
+        switch (cvar) {
+            case { Default: bool }:
+                return CreateBooleanOption(cvar, sortIndex);
+            case { Default: int, Min: not null, Max: not null }:
+                return CreateIntegerOption(cvar, sortIndex);
+            case { Default: string, Options: not null }:
+                return CreateSelectOption(cvar, sortIndex);
+            default: {
+                Element el = new(
+                    id: Slugify(cvar.Id),
+                    text: "UNKNOWN CONTROL TYPE: " + I18N.Translate($"CVAR.{cvar.Id}.Name")
+                );
+
+                return el;
+            }
+        }
     }
 
-    private Element BuildCategoryButton(string id, string label)
-    {
-        Element button = new(
-            id: id,
-            anchor: Anchor.TopLeft,
-            size: new(184, 30),
-            children: [
-                new BackgroundElement(color: 0x30505050, edgeColor: 0xFF3F3F3F, rounding: 4),
-                new BorderElement(color: 0xAA151515, rounding: 3, padding: new(1)),
-                new GradientElement(
-                        id: "Gradient",
-                        gradient: Gradient.Horizontal(0, Theme.Color(ThemeColor.Background)),
-                        padding: new(left: 1, top: 1, right: -1, bottom: 1)
-                    )
-                    { IsVisible = false },
-                new(
-                    id: "Text",
-                    anchor: Anchor.MiddleCenter,
-                    text: label,
-                    style: new() {
-                        Font         = Font.Axis,
-                        TextColor    = 0xFFC0C0C0,
-                        TextAlign    = Anchor.MiddleLeft,
-                        OutlineColor = 0xAA000000,
-                        OutlineWidth = 1
-                    }
-                )
-            ]
-        );
-
-        button.OnMouseEnter += () => {
-            button.Get<BackgroundElement>().Color = 0x40506C6F;
-            button.Get<BorderElement>().Color     = 0xAA050505;
-        };
-
-        button.OnMouseLeave += () => {
-            button.Get<BackgroundElement>().Color = 0x30505050;
-            button.Get<BorderElement>().Color     = 0xAA151515;
-        };
-
-        button.OnBeforeCompute += () => {
-            bool isActive = _selectedCategory == id;
-
-            button.Size = new(isActive ? 192 : 184, 30);
-            button.Get<GradientElement>("Gradient").IsVisible = isActive;
-            button.Get<BorderElement>().Color = isActive ? Theme.Color(ThemeColor.Background) : 0xAA151515;
-            button.Get<BackgroundElement>().EdgeColor = isActive ? 0 : 0xFF3F3F3F;
-
-            button.Get<BackgroundElement>().Color =
-                isActive || button.IsMouseOver ? Theme.Color(ThemeColor.Accent) : 0x30505050;
-
-            button.Get("Text").Style.TextColor = _selectedCategory == id ? 0xFFFFFFFF : 0xFFC0C0C0;
-        };
-
-        button.OnClick += () => { _selectedCategory = id; };
-
-        return button;
-    }
-
-    private void BuildCategoryPanel(string category)
-    {
-        Element panel = new(id: category, flow: Flow.Vertical, gap: 16, padding: new(bottom: 8))
-            { IsVisible = false };
-
-        ConfigManager
-            .GetVariablesFromCategory(category)
-            .ForEach(
-                cvar => {
-                    if (cvar.Default is bool) {
-                        panel.AddChild(CreateBooleanOption(cvar));
-                    }
-
-                    if (cvar is { Default: int, Min: not null, Max: not null }) {
-                        panel.AddChild(CreateIntegerOption(cvar));
-                    }
-
-                    if (cvar is { Default: string, Options: not null }) {
-                        panel.AddChild(CreateSelectOption(cvar));
-                    }
-                }
-            );
-
-        panel.OnBeforeCompute += () => { panel.IsVisible = _selectedCategory == category; };
-
-        Body.AddChild(panel);
-    }
-
-    private static Element CreateIntegerOption(Cvar cvar)
+    private static Element CreateIntegerOption(Cvar cvar, int sortIndex)
     {
         Element el = new(
             id: Slugify(cvar.Id),
             flow: Flow.Vertical,
             anchor: Anchor.TopLeft,
-            padding: new(left: 38, bottom: 4),
+            padding: new(left: 38),
+            sortIndex: sortIndex,
             gap: 10,
             children: [
                 new(
@@ -228,7 +100,7 @@ internal sealed partial class ConfigWindow
         );
 
         el.OnBeforeCompute += () => {
-            el.Get("Text.Description").Size     = new((int)(ImGui.GetWindowSize().X - 60), 0);
+            el.Get("Text.Description").Size     = new(WindowWidth - 290, 0);
             el.Get<IntegerInputElement>().Value = (int)cvar.Value!;
         };
 
@@ -237,13 +109,14 @@ internal sealed partial class ConfigWindow
         return el;
     }
 
-    private static Element CreateBooleanOption(Cvar cvar)
+    private static Element CreateBooleanOption(Cvar cvar, int sortIndex)
     {
         Element el = new(
             id: Slugify(cvar.Id),
             flow: Flow.Horizontal,
             anchor: Anchor.TopLeft,
             padding: new(left: 8),
+            sortIndex: sortIndex,
             gap: 10,
             children: [
                 new(
@@ -315,11 +188,24 @@ internal sealed partial class ConfigWindow
         );
 
         el.OnClick      += () => ConfigManager.Set(cvar.Id, !(bool)cvar.Value!);
-        el.OnMouseEnter += () => { el.Get("Text.Name").Style.TextColor = 0xFFFFFFFF; };
+        el.OnMouseEnter += () => { el.Get("Text.Name").Style.TextColor = Theme.Color(ThemeColor.TextLight); };
         el.OnMouseLeave += () => { el.Get("Text.Name").Style.TextColor = Theme.Color(ThemeColor.Text); };
 
+        el.OnRightClick += () => {
+            ImGui.SetClipboardText($"/umbra-toggle {cvar.Id}");
+
+            Framework
+                .Service<INotificationManager>()
+                .AddNotification(
+                    new() {
+                        Type    = NotificationType.Success,
+                        Content = I18N.Translate("Notification.ToggleMacroCopiedToClipboard")
+                    }
+                );
+        };
+
         el.OnBeforeCompute += () => {
-            el.Get("Text.Description").Size = new((int)(ImGui.GetWindowSize().X - 60), 0);
+            el.Get("Text").Size = el.Get("Text.Description").Size = new(WindowWidth - 290, 0);
 
             var value = (bool)cvar.Value!;
 
@@ -332,13 +218,14 @@ internal sealed partial class ConfigWindow
         return el;
     }
 
-    private static Element CreateSelectOption(Cvar cvar)
+    private static Element CreateSelectOption(Cvar cvar, int sortIndex)
     {
         Element el = new(
             id: Slugify(cvar.Id),
             flow: Flow.Vertical,
             anchor: Anchor.TopLeft,
-            padding: new(left: 38, bottom: 4),
+            padding: new(left: 38),
+            sortIndex: sortIndex,
             gap: 10,
             children: [
                 new(
@@ -385,7 +272,7 @@ internal sealed partial class ConfigWindow
         );
 
         el.OnBeforeCompute += () => {
-            el.Get("Text.Description").Size     = new((int)(ImGui.GetWindowSize().X - 60), 0);
+            el.Get("Text.Description").Size     = new(WindowWidth - 290, 0);
             el.Get<SelectInputElement>().Value = (string)cvar.Value!;
         };
 
@@ -394,13 +281,14 @@ internal sealed partial class ConfigWindow
         return el;
     }
 
-    private static Element CreateThemeColorOption(string name)
+    private static Element CreateThemeColorOption(string name, int sortIndex)
     {
         Element el = new(
             id: name,
             flow: Flow.Horizontal,
             anchor: Anchor.TopLeft,
             padding: new(left: 8),
+            sortIndex: sortIndex,
             gap: 10,
             children: [
                 new(
@@ -461,7 +349,7 @@ internal sealed partial class ConfigWindow
         );
 
         el.OnBeforeCompute += () => {
-            el.Get("Text.Description").Size                = new((int)(ImGui.GetWindowSize().X - 60), 0);
+            el.Get("Text.Description").Size                = new(WindowWidth - 290, 0);
             el.Get("Picker").Get<ColorEditElement>().Value = Theme.GetColor(Enum.Parse<ThemeColor>(name));
         };
 

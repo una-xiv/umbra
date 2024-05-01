@@ -78,7 +78,7 @@ public static class Framework
     public static async void Restart()
     {
         Dispose();
-
+        await Task.Delay(500);
         await Compile(DalamudFramework, DalamudPlugin);
     }
 

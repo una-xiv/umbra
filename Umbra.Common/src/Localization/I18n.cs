@@ -15,6 +15,7 @@
  */
 
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using Newtonsoft.Json;
 
@@ -84,6 +85,8 @@ public static class I18N
                 Translations[lang][key] = value;
             }
         }
+
+        ValidateTranslationKeys();
     }
 
     [WhenFrameworkDisposing]
@@ -91,5 +94,21 @@ public static class I18N
     {
         // Updated translation files are loaded simply by logging out and back in.
         Translations.Clear();
+    }
+
+    [Conditional("DEBUG")]
+    private static void ValidateTranslationKeys()
+    {
+        var en = Translations["en"];
+
+        foreach (string key in en.Keys) {
+            foreach (string lang in Translations.Keys) {
+                if (lang == "en") continue;
+
+                if (!Translations[lang].ContainsKey(key)) {
+                    Logger.Warning($"Language \"{lang}\" is missing translation \"{key}\".");
+                }
+            }
+        }
     }
 }

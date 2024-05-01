@@ -30,6 +30,8 @@ public class OverflowContainer : Element
 {
     private static uint _childIdCounter = 10000;
 
+    private readonly uint _currentId;
+
     public OverflowContainer(string id, Size? size = null, Anchor anchor = Anchor.TopLeft, List<Element>? children = null) : base(
         id,
         size: size ?? new(),
@@ -38,7 +40,7 @@ public class OverflowContainer : Element
         flow: Flow.Vertical
     )
     {
-        _childIdCounter++;
+        _currentId = _childIdCounter++;
     }
 
     protected override void BeginDraw(ImDrawListPtr drawList)
@@ -48,7 +50,7 @@ public class OverflowContainer : Element
         ImGui.PushStyleVar(ImGuiStyleVar.FrameBorderSize, 0);
         ImGui.PushStyleVar(ImGuiStyleVar.FrameRounding,   0);
         ImGui.PushStyleColor(ImGuiCol.FrameBg, 0);
-        ImGui.BeginChildFrame(_childIdCounter, ContentBox.Size.ToVector2(), ImGuiWindowFlags.None);
+        ImGui.BeginChildFrame(_currentId, ContentBox.Size.ToVector2(), ImGuiWindowFlags.None);
 
         // Reset the cursor pos to the top left of the child frame.
         ImGui.SetCursorPos(Vector2.Zero);

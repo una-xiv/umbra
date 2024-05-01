@@ -35,13 +35,13 @@ public sealed class WorldMarkerRenderer(
     ClipRectProvider clipRectProvider
 )
 {
-    [ConfigVariable("Markers.OcclusionTest.Enabled", "MarkerSettings")]
+    [ConfigVariable("Markers.OcclusionTest.Enabled", "MarkerSettings", "WorldMarkers")]
     private static bool OcclusionTestEnabled { get; set; } = true;
 
-    [ConfigVariable("Markers.DistanceOpacity.Enabled", "MarkerSettings")]
+    [ConfigVariable("Markers.DistanceOpacity.Enabled", "MarkerSettings", "WorldMarkers")]
     private static bool EnableDistanceBasedOpacity { get; set; } = true;
 
-    [ConfigVariable("Markers.MarkerIconScaleFactor", "MarkerSettings", min: 50, max: 200)]
+    [ConfigVariable("Markers.MarkerIconScaleFactor", "MarkerSettings", "IconScaling", min: 50, max: 200)]
     private static int IconScaleFactor { get; set; } = 100;
 
     public void Render(List<WorldMarkerObject> markers)

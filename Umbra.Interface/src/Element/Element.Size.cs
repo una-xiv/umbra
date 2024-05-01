@@ -27,7 +27,7 @@ public partial class Element
     public Size Size {
         get => _size;
         set {
-            if (_size == value) return;
+            if (_size.Width == value.Width && _size.Height == value.Height) return;
 
             _size        = value;
             IsDirty      = true;

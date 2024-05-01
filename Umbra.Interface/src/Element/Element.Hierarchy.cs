@@ -76,7 +76,9 @@ public partial class Element
     /// </summary>
     public void Clear()
     {
-        foreach (var child in Children) {
+        var derefChildren = new List<Element>(_children);
+
+        foreach (var child in derefChildren) {
             RemoveChild(child);
         }
     }

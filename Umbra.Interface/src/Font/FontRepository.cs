@@ -60,6 +60,9 @@ public class FontRepository
     [WhenFrameworkAsyncCompiling]
     internal static async Task LoadFonts()
     {
+        // We'll only load fonts once during the plugin's lifetime, since they're static.
+        if (FontHandles.Count > 0) return;
+
         List<Task<IFontHandle>> tasks = [
             CreateFontFromStyle(Font.AxisExtraSmall, new(GameFontFamily.Axis, 12)),
             CreateFontFromStyle(Font.AxisSmall,      new(GameFontFamilyAndSize.Axis96)),
@@ -81,14 +84,6 @@ public class FontRepository
 
         // Assign Axis14 as default.
         FontHandles[Font.Default] = FontHandles[Font.Axis];
-    }
-
-    [WhenFrameworkDisposing]
-    internal static void UnloadFonts()
-    {
-        foreach (var handle in FontHandles.Values) {
-            handle.Dispose();
-        }
     }
 
     private static Task<IFontHandle> CreateFontFromStyle(Font font, GameFontStyle style)

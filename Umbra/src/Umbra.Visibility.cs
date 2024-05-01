@@ -21,13 +21,13 @@ namespace Umbra;
 [Service]
 public class UmbraVisibility
 {
-    [ConfigVariable("General.ShowInCutscenes", "General")]
+    [ConfigVariable("General.ShowInCutscenes", "General", "VisibilitySettings")]
     public static bool ShowInCutscenes { get; set; } = false;
 
-    [ConfigVariable("General.ShowInGPose", "General")]
+    [ConfigVariable("General.ShowInGPose", "General", "VisibilitySettings")]
     public static bool ShowInGPose { get; set; } = false;
 
-    [ConfigVariable("General.ShowOnUserHide", "General")]
+    [ConfigVariable("General.ShowOnUserHide", "General", "VisibilitySettings")]
     public static bool ShowOnUserHide { get; set; } = false;
 
     [OnTick(interval: 1000)]

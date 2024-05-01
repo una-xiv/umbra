@@ -20,7 +20,7 @@ using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.Plugin.Services;
 using Umbra.Common;
 using Umbra.Interface;
-using Umbra.Windows.ConfigWindow;
+using Umbra.Windows.Settings;
 
 namespace Umbra;
 
@@ -53,20 +53,23 @@ internal sealed class UmbraBindings : IDisposable
             }
         );
 
-        Framework.DalamudPlugin.UiBuilder.OpenConfigUi += () => _windowManager.CreateWindow<ConfigWindow>();
-        Framework.DalamudPlugin.UiBuilder.OpenMainUi   += () => _windowManager.CreateWindow<ConfigWindow>();
+        Framework.DalamudPlugin.UiBuilder.OpenConfigUi += () => _windowManager.CreateWindow<SettingsWindow>();
+        Framework.DalamudPlugin.UiBuilder.OpenMainUi   += () => _windowManager.CreateWindow<SettingsWindow>();
+
+        _windowManager.CreateWindow<SettingsWindow>();
     }
 
     public void Dispose()
     {
         _commandManager.RemoveHandler("/umbra");
+        _commandManager.RemoveHandler("/umbra-toggle");
     }
 
     private void HandleUmbraCommand(string command, string args)
     {
         switch (command.ToLower()) {
             case "/umbra":
-                _windowManager.CreateWindow<ConfigWindow>();
+                _windowManager.CreateWindow<SettingsWindow>();
                 break;
             case "/umbra-toggle":
                 string arg  = args.Trim();

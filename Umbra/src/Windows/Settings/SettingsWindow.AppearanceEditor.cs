@@ -4,22 +4,25 @@ using ImGuiNET;
 using Umbra.Common;
 using Umbra.Interface;
 
-namespace Umbra.Windows.ConfigWindow;
+namespace Umbra.Windows.Settings;
 
-internal partial class ConfigWindow
+internal partial class SettingsWindow
 {
-    private void BuildAppearanceButton()
+    private static void BuildAppearanceButton()
     {
-        CategoryList.AddChild(BuildCategoryButton("AppearancePanel", I18N.Translate("Config.Appearance")));
+        CreateCategory("AppearancePanel", I18N.Translate("Config.Appearance"));
     }
 
-    private void BuildAppearancePanel()
+    private static void BuildAppearancePanel()
     {
+        Element el = BuildCategoryPanelWrapper("AppearancePanel", I18N.Translate("Config.Appearance"));
+        el.Parent!.Get("Header").IsVisible = false;
+
         Element panel = new(
             id: "AppearancePanel",
             flow: Flow.Vertical,
-            gap: 8,
-            padding: new(bottom: 0, right: 8),
+            gap: 16,
+            padding: new(16, 0),
             children: [
                 new(
                     id: "PresetSelector",
@@ -75,7 +78,7 @@ internal partial class ConfigWindow
                         ),
                     ]
                 ),
-                new DropdownSeparatorElement(),
+                new DropdownSeparatorElement() { Padding = new(0) },
                 new(
                     id: "ColorList",
                     flow: Flow.Vertical,
@@ -83,22 +86,23 @@ internal partial class ConfigWindow
                     gap: 10,
                     children: Theme.ColorNames.Select(CreateThemeColorOption).ToList()
                 ),
-                new DropdownSeparatorElement(),
             ]
-        ) { IsVisible = false };
+        );
+
+        Element presetSelector = panel.Get("PresetSelector");
+        Element colorList      = panel.Get("ColorList");
 
         panel.OnBeforeCompute += () => {
-            panel.IsVisible                  = _selectedCategory == "AppearancePanel";
-            panel.Size                       = new((int)ImGui.GetWindowSize().X - 24, 0);
-            panel.Get("PresetSelector").Size = panel.Size;
-            panel.Get("ColorList").Size      = panel.Size;
+            panel.Size          = new(WindowWidth - 248, 0);
+            presetSelector.Size = panel.Size with { Height = 16 };
+            colorList.Size      = panel.Size;
 
-            for (var i = 0; i < panel.Get("ColorList").Children.Count(); i++) {
-                panel.Get("ColorList").Children.ElementAt(i).SortIndex = i;
-                panel.Get("ColorList").Children.ElementAt(i).Size      = panel.Size;
+            for (var i = 0; i < colorList.Children.Count(); i++) {
+                colorList.Children.ElementAt(i).SortIndex = i;
+                colorList.Children.ElementAt(i).Size      = panel.Size;
             }
         };
 
-        Body.AddChild(panel);
+        el.AddChild(panel);
     }
 }

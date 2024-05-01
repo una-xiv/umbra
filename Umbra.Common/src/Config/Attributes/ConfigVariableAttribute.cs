@@ -21,7 +21,16 @@ using System.Linq;
 namespace Umbra.Common;
 
 [AttributeUsage(AttributeTargets.Property)]
-public class ConfigVariableAttribute(string id, string? category = null, float min = float.MinValue, float max = float.MaxValue, float step = 0, string[]? options = null, bool requiresRestart = false) : Attribute
+public class ConfigVariableAttribute(
+    string    id,
+    string?   category        = null,
+    string?   subCategory     = null,
+    float     min             = float.MinValue,
+    float     max             = float.MaxValue,
+    float     step            = 0,
+    string[]? options         = null,
+    bool      requiresRestart = false
+) : Attribute
 {
     /// <summary>
     /// The ID of the config variable used to store the value in the
@@ -45,6 +54,18 @@ public class ConfigVariableAttribute(string id, string? category = null, float m
     /// files that is formatted as "CVAR.Group.{Category}".
     /// </remarks>
     public string? Category { get; } = category;
+
+    /// <summary>
+    /// The UI subcategory of the config variable. This is used for display
+    /// purposes in the configuration UI to group variables together. A value
+    /// of NULL results the variable to be placed at the top level of the
+    /// panel if the category is not NULL.
+    /// </summary>
+    /// <remarks>
+    /// This name should correspond to a translation key in the localization
+    /// files that is formatted as "CVAR.SubGroup.{Category}".
+    /// </remarks>
+    public string? SubCategory { get; } = subCategory;
 
     /// <summary>
     /// The minimum value of the config variable. This is used for input

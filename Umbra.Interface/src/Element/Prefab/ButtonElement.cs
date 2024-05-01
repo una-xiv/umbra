@@ -48,6 +48,16 @@ public class ButtonElement : Element
     /// </summary>
     public bool IsGhost;
 
+    /// <summary>
+    /// The horizontal padding of the button.
+    /// </summary>
+    public int HorizontalPadding;
+
+    /// <summary>
+    /// A custom overlay color for the button.
+    /// </summary>
+    public Color? Color;
+
     private readonly Style _fontAwesomeIconStyle = new() {
         Font       = Font.FontAwesome,
         TextAlign  = Anchor.MiddleCenter,
@@ -85,13 +95,22 @@ public class ButtonElement : Element
     );
 
     public ButtonElement(
-        string id, string? label = null, object? icon = null, bool isSmall = false, bool isGhost = false, Action? onClick = null
+        string  id,
+        string? label    = null,
+        object? icon     = null,
+        bool    isSmall  = false,
+        bool    isGhost  = false,
+        int     hPadding = 8,
+        Color?  color    = null,
+        Action? onClick  = null
     ) : base(id)
     {
-        Label   = label;
-        Icon    = icon;
-        IsSmall = isSmall;
-        IsGhost = isGhost;
+        Label             = label;
+        Icon              = icon;
+        IsSmall           = isSmall;
+        IsGhost           = isGhost;
+        HorizontalPadding = hPadding;
+        Color             = color;
 
         if (onClick is not null) OnClick += onClick;
 
@@ -104,8 +123,28 @@ public class ButtonElement : Element
             OutlineWidth = 1,
         };
 
-        AddChild(new BackgroundElement(color: Theme.Color(ThemeColor.Background), edgeColor: Theme.Color(ThemeColor.BorderDark), edgeThickness: 1, rounding: 4));
+        AddChild(
+            new BackgroundElement(
+                color: Theme.Color(ThemeColor.Background),
+                edgeColor: Theme.Color(ThemeColor.BorderDark),
+                edgeThickness: 1,
+                rounding: 4
+            )
+        );
+
         AddChild(new BorderElement(rounding: 3, padding: new(1)));
+
+        AddChild(
+            new(
+                id: "CustomColorOverlay",
+                anchor: Anchor.None,
+                padding: new(3, 3),
+                children: [
+                    new BackgroundElement()
+                ]
+            )
+        );
+
         AddChild(_bodyElement);
 
         OnMouseEnter += HandleMouseEnter;
@@ -131,6 +170,10 @@ public class ButtonElement : Element
         Get<BorderElement>().IsVisible     = !IsGhost || IsMouseOver;
         Get<BackgroundElement>().IsVisible = !IsGhost || IsMouseOver;
 
+        Get("CustomColorOverlay").Get<BackgroundElement>().Style.Gradient = Color is not null
+            ? Gradient.Vertical(Color, 0)
+            : null;
+
         if (Icon is null) {
             iconElement.IsVisible = false;
             labelElement.Anchor   = Anchor.MiddleCenter;
@@ -140,16 +183,20 @@ public class ButtonElement : Element
         }
 
         if (Label is not null) {
-            _bodyElement.Padding   = new(0, 8, 0, 4);
+            _bodyElement.Padding   = new(0, HorizontalPadding, 0, HorizontalPadding / 2);
             labelElement.IsVisible = true;
             labelElement.Text      = Label;
 
-            labelElement.Style.Font         = IsSmall ? Font.AxisSmall : Font.Axis;
-            labelElement.Style.TextColor    = IsDisabled ? Theme.Color(ThemeColor.TextMuted) : Theme.Color(ThemeColor.Text);
-            labelElement.Style.OutlineColor = IsDisabled ? Theme.Color(ThemeColor.TextOutline) : Theme.Color(ThemeColor.TextOutlineLight);
+            labelElement.Style.Font = IsSmall ? Font.AxisSmall : Font.Axis;
+
+            labelElement.Style.TextColor =
+                IsDisabled ? Theme.Color(ThemeColor.TextMuted) : Theme.Color(ThemeColor.Text);
+
+            labelElement.Style.OutlineColor =
+                IsDisabled ? Theme.Color(ThemeColor.TextOutline) : Theme.Color(ThemeColor.TextOutlineLight);
         } else {
             labelElement.IsVisible = false;
-            _bodyElement.Padding   = new(0, 4);
+            _bodyElement.Padding   = new(0, HorizontalPadding / 2);
         }
 
         switch (Icon) {

@@ -33,7 +33,7 @@ internal sealed class MainMenuRepository : IMainMenuRepository
     private readonly ITravelDestinationRepository _travelDestinationRepository;
     private readonly IPlayer                      _player;
 
-    [ConfigVariable("Toolbar.Widget.MainMenu.Travel.ShowResidential", "ToolbarSettings")]
+    [ConfigVariable("Toolbar.Widget.MainMenu.Travel.ShowResidential", "ToolbarSettings", "MainMenuSettings")]
     private static bool ShowResidentialAreas { get; set; } = false;
 
     public MainMenuRepository(
