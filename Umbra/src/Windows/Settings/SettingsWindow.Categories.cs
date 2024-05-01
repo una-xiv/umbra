@@ -20,10 +20,10 @@ namespace Umbra.Windows.Settings;
 
 internal partial class SettingsWindow
 {
-    private static string _currentCategory = "";
-    private static int    _categorySortIndex;
+    private string _currentCategory = "";
+    private int    _categorySortIndex;
 
-    private static void CreateCategory(string id, string label)
+    private void CreateCategory(string id, string label)
     {
         // Set the first category as the current category.
         if (_currentCategory == "") _currentCategory = id;
@@ -79,6 +79,6 @@ internal partial class SettingsWindow
                 isActive ? Theme.Color(ThemeColor.TextOutlineLight) : Theme.Color(ThemeColor.TextOutline);
         };
 
-        NavButtonsElement.AddChild(button);
+        _navButtonsElement.AddChild(button);
     }
 }

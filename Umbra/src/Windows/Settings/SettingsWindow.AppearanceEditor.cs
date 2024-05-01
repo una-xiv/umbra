@@ -1,6 +1,21 @@
-﻿using System.Linq;
+﻿/* Umbra | (c) 2024 by Una              ____ ___        ___.
+ * Licensed under the terms of AGPL-3  |    |   \ _____ \_ |__ _______ _____
+ *                                     |    |   //     \ | __ \\_  __ \\__  \
+ * https://github.com/una-xiv/umbra    |    |  /|  Y Y  \| \_\ \|  | \/ / __ \_
+ *                                     |______//__|_|  /____  /|__|   (____  /
+ *     Umbra is free software: you can redistribute  \/     \/             \/
+ *     it and/or modify it under the terms of the GNU Affero General Public
+ *     License as published by the Free Software Foundation, either version 3
+ *     of the License, or (at your option) any later version.
+ *
+ *     Umbra UI is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU Affero General Public License for more details.
+ */
+
+using System.Linq;
 using Dalamud.Interface;
-using ImGuiNET;
 using Umbra.Common;
 using Umbra.Interface;
 
@@ -8,12 +23,12 @@ namespace Umbra.Windows.Settings;
 
 internal partial class SettingsWindow
 {
-    private static void BuildAppearanceButton()
+    private void BuildAppearanceButton()
     {
         CreateCategory("AppearancePanel", I18N.Translate("Config.Appearance"));
     }
 
-    private static void BuildAppearancePanel()
+    private void BuildAppearancePanel()
     {
         Element el = BuildCategoryPanelWrapper("AppearancePanel", I18N.Translate("Config.Appearance"));
         el.Parent!.Get("Header").IsVisible = false;

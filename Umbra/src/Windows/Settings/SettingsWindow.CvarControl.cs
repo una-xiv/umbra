@@ -25,7 +25,7 @@ namespace Umbra.Windows.Settings;
 
 internal partial class SettingsWindow
 {
-    private static Element BuildCvarControl(Cvar cvar, int sortIndex)
+    private Element BuildCvarControl(Cvar cvar, int sortIndex)
     {
         switch (cvar) {
             case { Default: bool }:
@@ -45,7 +45,7 @@ internal partial class SettingsWindow
         }
     }
 
-    private static Element CreateIntegerOption(Cvar cvar, int sortIndex)
+    private Element CreateIntegerOption(Cvar cvar, int sortIndex)
     {
         Element el = new(
             id: Slugify(cvar.Id),
@@ -109,7 +109,7 @@ internal partial class SettingsWindow
         return el;
     }
 
-    private static Element CreateBooleanOption(Cvar cvar, int sortIndex)
+    private Element CreateBooleanOption(Cvar cvar, int sortIndex)
     {
         Element el = new(
             id: Slugify(cvar.Id),
@@ -218,7 +218,7 @@ internal partial class SettingsWindow
         return el;
     }
 
-    private static Element CreateSelectOption(Cvar cvar, int sortIndex)
+    private Element CreateSelectOption(Cvar cvar, int sortIndex)
     {
         Element el = new(
             id: Slugify(cvar.Id),
@@ -281,7 +281,7 @@ internal partial class SettingsWindow
         return el;
     }
 
-    private static Element CreateThemeColorOption(string name, int sortIndex)
+    private Element CreateThemeColorOption(string name, int sortIndex)
     {
         Element el = new(
             id: name,

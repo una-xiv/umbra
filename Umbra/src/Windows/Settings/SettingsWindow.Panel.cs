@@ -16,7 +16,6 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using ImGuiNET;
 using Umbra.Common;
 using Umbra.Interface;
 
@@ -24,9 +23,9 @@ namespace Umbra.Windows.Settings;
 
 internal partial class SettingsWindow
 {
-    private static readonly Dictionary<string, Element> Panels = [];
+    private readonly Dictionary<string, Element> _panels = [];
 
-    private static void UpdatePanelDimensions(Element panel, int width, int height)
+    private void UpdatePanelDimensions(Element panel, int width, int height)
     {
         panel.Parent!.Size = new(width, height);
 
@@ -34,7 +33,7 @@ internal partial class SettingsWindow
         panel.Get("Header").Size = new(width - 32, 0);
     }
 
-    private static void BuildCategoryPanel(string id, string label)
+    private void BuildCategoryPanel(string id, string label)
     {
         Element panel = BuildCategoryPanelWrapper(id, label);
 
@@ -62,7 +61,7 @@ internal partial class SettingsWindow
         }
     }
 
-    private static Element BuildSubCategoryListing(string categoryId, string subCategoryId, int startIndex)
+    private Element BuildSubCategoryListing(string categoryId, string subCategoryId, int startIndex)
     {
         Element el = new(
             id: Slugify(categoryId + subCategoryId),
@@ -115,7 +114,7 @@ internal partial class SettingsWindow
     /// Builds the skeleton of a category panel that contains an overflow
     /// container which holds a header and a content element.
     /// </summary>
-    private static Element BuildCategoryPanelWrapper(string id, string label)
+    private Element BuildCategoryPanelWrapper(string id, string label)
     {
         Element el = new OverflowContainer($"Panel:{id}", anchor: Anchor.TopLeft, size: new(600, 522));
 
@@ -157,8 +156,8 @@ internal partial class SettingsWindow
         );
 
         el.AddChild(panel);
-        Panels.Add(id, el);
-        MainElement.AddChild(el);
+        _panels.Add(id, el);
+        _mainElement.AddChild(el);
 
         return panel.Get("Content");
     }
