@@ -16,9 +16,9 @@
 
 namespace Umbra.Interface.Presets;
 
-public class ClassicBluePreset : IThemePreset
+public class ClearBluePreset : IThemePreset
 {
-    public string Name => "Classic Blue";
+    public string Name => "Clear Blue";
 
     public uint Background          => 0xFF8B4D27;
     public uint BackgroundDark      => 0xFF573018;
