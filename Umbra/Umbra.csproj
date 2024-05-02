@@ -16,7 +16,7 @@
     <PropertyGroup>
         <Authors>Una</Authors>
         <Company>-</Company>
-        <Version>1.0.3.4</Version>
+        <Version>1.0.3.5</Version>
         <Description>Umbra UI</Description>
         <Copyright>-</Copyright>
         <PackageProjectUrl>https://github.com/una-xiv/umbra</PackageProjectUrl>

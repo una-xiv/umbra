@@ -183,6 +183,7 @@ internal sealed class GearsetRepository : IGearsetRepository, IDisposable
         // Update current first.
         var gsm = RaptureGearsetModule.Instance();
         if (gsm == null) return;
+        if (!_gearsets.ContainsKey((ushort)gsm->CurrentGearsetIndex)) return;
 
         CurrentGearset = _gearsets[(ushort)gsm->CurrentGearsetIndex];
 
