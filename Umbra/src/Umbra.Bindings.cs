@@ -55,6 +55,10 @@ internal sealed class UmbraBindings : IDisposable
 
         Framework.DalamudPlugin.UiBuilder.OpenConfigUi += () => _windowManager.CreateWindow<SettingsWindow>();
         Framework.DalamudPlugin.UiBuilder.OpenMainUi   += () => _windowManager.CreateWindow<SettingsWindow>();
+
+        #if DEBUG
+        _windowManager.CreateWindow<SettingsWindow>();
+        #endif
     }
 
     public void Dispose()

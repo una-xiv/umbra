@@ -60,19 +60,27 @@ internal partial class SettingsWindow
                             id: "List",
                             flow: Flow.Horizontal,
                             anchor: Anchor.MiddleLeft,
+                            size: new(200, 0),
                             gap: 6,
-                            children: ThemePresets
-                                .Presets
-                                .Select(
-                                    p => new ButtonElement(
-                                        Slugify(p.Name),
-                                        p.Name,
-                                        isGhost: true,
-                                        onClick: () => Theme.ApplyFromPreset(p)
-                                    ) as Element
-                                )
-                                .ToList()
+                            children: [
+                                new SelectInputElement(
+                                    id: "PresetSelect",
+                                    value: "",
+                                    anchor: Anchor.MiddleLeft,
+                                    options: ThemePresets
+                                        .Presets
+                                        .Select(p => p.Name)
+                                        .ToList()
+                                ) {
+                                    Padding = new(top: 5),
+                                },
+                            ]
                         ),
+                        new ButtonElement(
+                            id: "ApplyPresetButton",
+                            label: "Apply",
+                            onClick: Theme.ImportFromClipboard
+                        ) { Anchor = Anchor.MiddleLeft, Tooltip = I18N.Translate("Config.AppearanceImport") },
                         new(
                             id: "ImportExportButtons",
                             flow: Flow.Horizontal,
@@ -80,12 +88,12 @@ internal partial class SettingsWindow
                             gap: 6,
                             children: [
                                 new ButtonElement(
-                                    "ImportButton",
+                                    id: "ImportButton",
                                     icon: FontAwesomeIcon.FileImport,
                                     onClick: Theme.ImportFromClipboard
                                 ) { Tooltip = I18N.Translate("Config.AppearanceImport") },
                                 new ButtonElement(
-                                    "ExportButton",
+                                    id: "ExportButton",
                                     icon: FontAwesomeIcon.FileExport,
                                     onClick: Theme.ExportToClipboard
                                 ) { Tooltip = I18N.Translate("Config.AppearanceExport") }
@@ -106,6 +114,17 @@ internal partial class SettingsWindow
 
         Element presetSelector = panel.Get("PresetSelector");
         Element colorList      = panel.Get("ColorList");
+        Element applyPresetBtn = presetSelector.Get("ApplyPresetButton");
+
+        presetSelector.Get("List").Get<SelectInputElement>().OnValueChanged += value => {
+            _selectedPreset = ThemePresets.Presets.FirstOrDefault(p => p.Name == value);
+        };
+
+        applyPresetBtn.OnBeforeCompute += () => applyPresetBtn.IsDisabled = _selectedPreset == null;
+        applyPresetBtn.OnClick += () => {
+            if (_selectedPreset == null) return;
+            Theme.ApplyFromPreset(_selectedPreset);
+        };
 
         panel.OnBeforeCompute += () => {
             panel.Size          = new(WindowWidth - 248, 0);
@@ -120,4 +139,6 @@ internal partial class SettingsWindow
 
         el.AddChild(panel);
     }
+
+    private IThemePreset? _selectedPreset = null;
 }

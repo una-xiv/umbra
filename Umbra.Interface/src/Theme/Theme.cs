@@ -98,6 +98,7 @@ public static class Theme
         SetColor(ThemeColor.TextOutlineLight,    preset.TextOutlineLight);
         SetColor(ThemeColor.HighlightBackground, preset.HighlightBackground);
         SetColor(ThemeColor.HighlightForeground, preset.HighlightForeground);
+        SetColor(ThemeColor.HighlightOutline,    preset.HighlightOutline);
         SetColor(ThemeColor.Accent,              preset.Accent);
         SetColor(ThemeColor.ToolbarLight,        preset.ToolbarLight);
         SetColor(ThemeColor.ToolbarDark,         preset.ToolbarDark);
