@@ -124,6 +124,7 @@
     "CVAR.Toolbar.Widget.MainMenu.Enabled.Description": "メインメニューを個別のメニューとして表示するウィジェットを表示します。",
     "CVAR.Toolbar.Widget.MainMenu.ShowIcons.Name": "メインメニューアイテムにゲームアイコンを表示する",
     "CVAR.Toolbar.Widget.MainMenu.ShowIcons.Description": "メインメニューアイテムの横にゲームアイコンを表示します。",
+    "CVAR.Toolbar.Widget.MainMenu.ShowMainIcons.Name": "メインメニューボタンをテキストの代わりにアイコンとして表示する",
     "CVAR.Toolbar.Widget.MainMenu.Travel.ShowResidential.Name": "トラベルメニューで居住区域を表示",
     "CVAR.Toolbar.Widget.MainMenu.Travel.ShowResidential.Description": "トラベルメニューに利用可能な居住区域を表示します。これらのアイテムは、ホームワールドにいる場合にのみ有効になります。",
     "CVAR.Toolbar.Widget.Volume.Enabled.Name": "音量ウィジェットを表示する",

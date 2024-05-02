@@ -123,6 +123,7 @@
     "CVAR.Toolbar.Widget.MainMenu.Enabled.Description": "Display a widget that shows the main menu as separate menus.",
     "CVAR.Toolbar.Widget.MainMenu.ShowIcons.Name": "Show game icons in main menu items",
     "CVAR.Toolbar.Widget.MainMenu.ShowIcons.Description": "Display the game icons next to the main menu items.",
+    "CVAR.Toolbar.Widget.MainMenu.ShowMainIcons.Name": "Show main menu buttons as icons instead of text",
     "CVAR.Toolbar.Widget.MainMenu.Travel.ShowResidential.Name": "Show residential areas in the travel menu",
     "CVAR.Toolbar.Widget.MainMenu.Travel.ShowResidential.Description": "Display the available residential areas in the travel menu. These items are only enabled when you are on your home world.",
     "CVAR.Toolbar.Widget.Volume.Enabled.Name": "Show volume widget",

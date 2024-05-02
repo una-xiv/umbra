@@ -30,6 +30,9 @@ internal sealed partial class MainMenuWidget : IToolbarWidget
     [ConfigVariable("Toolbar.Widget.MainMenu.ShowIcons", "ToolbarSettings", "MainMenuSettings")]
     private static bool ShowIcons { get; set; } = false;
 
+    [ConfigVariable("Toolbar.Widget.MainMenu.ShowMainIcons", "ToolbarSettings", "MainMenuSettings")]
+    private static bool ShowMainIcons { get; set; } = false;
+
     private readonly ToolbarPopupContext _popupContext;
 
     public MainMenuWidget(IMainMenuRepository repository, ToolbarPopupContext popupContext)

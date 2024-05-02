@@ -58,6 +58,22 @@ internal sealed partial class MainMenuWidget
         button.OnMouseEnter += () => button.Style.TextColor = Theme.Color(ThemeColor.TextLight);
         button.OnMouseLeave += () => button.Style.TextColor = Theme.Color(ThemeColor.Text);
 
+        button.OnBeforeCompute += () => {
+            if (ShowMainIcons) {
+                button.Style.Image       = category.GetIconId();
+                button.Style.ImageOffset = new(0, -1);
+                button.Size              = new(22, 22);
+                button.Padding           = new(0, 0);
+                button.Text              = null;
+            } else {
+                button.Style.Image       = null;
+                button.Style.ImageOffset = new(0, 0);
+                button.Size              = new();
+                button.Padding           = new(0, 4);
+                button.Text              = category.Name;
+            }
+        };
+
         Element.AddChild(button);
 
         _popupContext.RegisterDropdownActivator(button, BuildCategoryDropdown(category));
