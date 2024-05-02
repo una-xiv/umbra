@@ -70,6 +70,8 @@
     "CVAR.General.ShowInCutscenes.Name": "Umbra-Elemente in Zwischensequenzen anzeigen",
     "CVAR.General.ShowInGPose.Name": "Umbra-Elemente anzeigen, während GPose aktiv ist",
     "CVAR.General.ShowOnUserHide.Name": "Umbra-Elemente anzeigen, wenn die Benutzeroberfläche manuell ausgeblendet ist",
+    "CVAR.General.ShowBetweenAreas.Name": "Zeige Umbra-Elemente während Ladebildschirmen",
+    "CVAR.General.ShowDuringIdleCam.Name": "Zeige Umbra-Elemente während der Leerlaufkamera (AFK)-Modus",
     "CVAR.Window.EnableClipping.Name": "Fensterausschnitt aktivieren",
     "CVAR.Window.EnableClipping.Description": "Ermöglicht es Fenstern, sich hinter nativen Spiel-Fenstern zu rendern. Dies kann mit einer leichten Leistungseinbuße verbunden sein und funktioniert möglicherweise nicht ordnungsgemäß für alle nativen Spiel-Fenster. Beachten Sie, dass diese Funktion nicht funktioniert, wenn die Multi-Monitor-Unterstützung in den Dalamud-Einstellungen aktiviert ist.",
     "CVAR.WindowManager.PlaySoundEffects.Name": "Soundeffekte abspielen",

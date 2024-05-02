@@ -57,6 +57,16 @@ public interface IPlayer
     public bool IsOccupied { get; }
 
     /// <summary>
+    /// True if the player is currently between areas.
+    /// </summary>
+    public bool IsBetweenAreas { get; }
+
+    /// <summary>
+    /// True if the player is currently in idle cam (afk) mode.
+    /// </summary>
+    public bool IsInIdleCam { get; }
+
+    /// <summary>
     /// True if the player is currently watching a cutscene.
     /// </summary>
     public bool IsInCutscene { get; }

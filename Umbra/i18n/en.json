@@ -69,6 +69,8 @@
     "CVAR.General.ShowInCutscenes.Name": "Show Umbra elements in cutscenes",
     "CVAR.General.ShowInGPose.Name": "Show Umbra elements while GPose is active",
     "CVAR.General.ShowOnUserHide.Name": "Show Umbra elements when the UI is manually hidden",
+    "CVAR.General.ShowBetweenAreas.Name": "Show Umbra elements during loading screens",
+    "CVAR.General.ShowDuringIdleCam.Name": "Show Umbra elements during idle camera (AFK) mode",
     "CVAR.Window.EnableClipping.Name": "Enable window clipping",
     "CVAR.Window.EnableClipping.Description": "Allows windows to render behind native game windows. This may have a slight performance cost and may not work properly for all native game windows. Note that this feature does not work when Multi-monitor support is enabled in Dalamud settings.",
     "CVAR.WindowManager.PlaySoundEffects.Name": "Play sound effects",

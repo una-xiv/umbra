@@ -70,6 +70,8 @@
     "CVAR.General.ShowInCutscenes.Name": "Afficher les éléments Umbra dans les cinématiques",
     "CVAR.General.ShowInGPose.Name": "Afficher les éléments Umbra lorsque GPose est actif",
     "CVAR.General.ShowOnUserHide.Name": "Afficher les éléments Umbra lorsque l'interface utilisateur est masquée manuellement",
+    "CVAR.General.ShowBetweenAreas.Name": "Afficher les éléments Umbra pendant les écrans de chargement",
+    "CVAR.General.ShowDuringIdleCam.Name": "Afficher les éléments Umbra pendant le mode caméra de repos (AFK)",
     "CVAR.Window.EnableClipping.Name": "Activer le rognage de fenêtre",
     "CVAR.Window.EnableClipping.Description": "Permet aux fenêtres de se rendre derrière les fenêtres de jeu natives. Cela peut entraîner une légère perte de performances et peut ne pas fonctionner correctement pour toutes les fenêtres de jeu natives. Notez que cette fonctionnalité ne fonctionne pas lorsque la prise en charge multi-écrans est activée dans les paramètres de Dalamud.",
     "CVAR.WindowManager.PlaySoundEffects.Name": "Jouer les effets sonores",

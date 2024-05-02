@@ -28,7 +28,8 @@ public sealed class WorldMarkerAggregator(
     WorldMarkerRaycaster         raycaster,
     WorldMarkerRenderer          markerRenderer,
     WorldMarkerDirectionRenderer directionRenderer,
-    IPlayer                      player
+    IPlayer                      player,
+    UmbraVisibility              visibility
 )
 {
     private readonly List<WorldMarkerObject> _markers = [];
@@ -36,6 +37,8 @@ public sealed class WorldMarkerAggregator(
     [OnDraw]
     public void OnDraw()
     {
+        if (!visibility.IsVisible()) return;
+
         // Don't draw anything if the player is occupied.
         if (player.IsOccupied || player.IsEditingHud) return;
 

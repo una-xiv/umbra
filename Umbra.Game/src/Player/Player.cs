@@ -65,6 +65,16 @@ internal sealed class Player : IPlayer
     public bool IsOccupied { get; private set; }
 
     /// <summary>
+    /// True if the player is currently between areas.
+    /// </summary>
+    public bool IsBetweenAreas { get; private set; }
+
+    /// <summary>
+    /// True if the player is currently in idle cam (afk) mode.
+    /// </summary>
+    public bool IsInIdleCam { get; private set; }
+
+    /// <summary>
     /// True if the player is currently watching a cutscene.
     /// </summary>
     public bool IsInCutscene { get; private set; }
@@ -166,9 +176,10 @@ internal sealed class Player : IPlayer
 
         IsInCutscene = _condition[ConditionFlag.OccupiedInCutSceneEvent]
          || _condition[ConditionFlag.WatchingCutscene]
-         || _condition[ConditionFlag.WatchingCutscene78]
-         || _condition[ConditionFlag.BetweenAreas]
-         || _condition[ConditionFlag.BetweenAreas51];
+         || _condition[ConditionFlag.WatchingCutscene78];
+
+        IsBetweenAreas = _condition[ConditionFlag.BetweenAreas] || _condition[ConditionFlag.BetweenAreas51];
+        IsInIdleCam    = GameMain.IsInIdleCam();
 
         CanUseTeleportAction = !IsDead && !IsCasting && !IsInCombat && !IsJumping && !IsOccupied && !IsBoundByDuty;
         HomeWorldName        = _clientState.LocalPlayer.HomeWorld.GameData!.Name.ToString();

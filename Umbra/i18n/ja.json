@@ -70,6 +70,8 @@
     "CVAR.General.ShowInCutscenes.Name": "カットシーン中にアンブラ要素を表示する",
     "CVAR.General.ShowInGPose.Name": "GPoseがアクティブな間、アンブラ要素を表示する",
     "CVAR.General.ShowOnUserHide.Name": "UIが手動で非表示にされているときにアンブラ要素を表示する",
+    "CVAR.General.ShowBetweenAreas.Name": "ローディング画面中にアンブラ要素を表示する",
+    "CVAR.General.ShowDuringIdleCam.Name": "アイドルカメラ（AFK）モード中にアンブラ要素を表示する",
     "CVAR.Window.EnableClipping.Name": "ウィンドウクリッピングを有効にする",
     "CVAR.Window.EnableClipping.Description": "ウィンドウをネイティブのゲームウィンドウの後ろにレンダリングできるようにします。これにはわずかなパフォーマンスコストがかかる場合があり、すべてのネイティブのゲームウィンドウで正常に機能しない場合があります。 Dalamud の設定でマルチモニターサポートが有効になっている場合、この機能は機能しません。",
     "CVAR.WindowManager.PlaySoundEffects.Name": "サウンド効果を再生する",
