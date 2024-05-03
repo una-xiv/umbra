@@ -27,6 +27,9 @@ namespace Umbra.Toolbar.Widgets.DtrBar;
 [Service]
 internal partial class DtrBarWidget : IToolbarWidget, IDisposable
 {
+    [ConfigVariable("Toolbar.Enabled", "ToolbarSettings")]
+    private static bool ToolbarEnabled { get; set; } = true;
+
     [ConfigVariable("Toolbar.Widget.DtrBar.Enabled", "EnabledWidgets")]
     private static bool Enabled { get; set; } = true;
 
@@ -53,12 +56,18 @@ internal partial class DtrBarWidget : IToolbarWidget, IDisposable
     public void OnUpdate()
     {
         Element.IsVisible = Enabled;
-        ToggleNativeServerInfoBarVisibility(!HideNativeDtrBar || (HideNativeDtrBar && !Element.IsVisible));
     }
 
     public void Dispose()
     {
         ToggleNativeServerInfoBarVisibility(true);
+    }
+
+    // Use a separate ticker because OnUpdate isn't called when the toolbar is disabled.
+    [OnTick(interval: 23)]
+    internal void OnTick()
+    {
+        ToggleNativeServerInfoBarVisibility(!HideNativeDtrBar || (HideNativeDtrBar && (!Enabled || !ToolbarEnabled)));
     }
 
     private void OnEntryAdded(DtrBarEntry entry)
