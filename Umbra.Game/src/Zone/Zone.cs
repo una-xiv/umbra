@@ -44,9 +44,7 @@ internal sealed class Zone : IZone
 
     public string CurrentDistrictName => _closestAreaMarker?.Name ?? "";
 
-
     private readonly IPlayer                 _player;
-    private readonly IDataManager            _dataManager;
     private readonly ZoneMarkerFactory       _markerFactory;
     private readonly WeatherForecastProvider _forecastProvider;
 
@@ -61,7 +59,6 @@ internal sealed class Zone : IZone
     )
     {
         _player           = player;
-        _dataManager      = dataManager;
         _markerFactory    = markerFactory;
         _forecastProvider = forecastProvider;
 
@@ -205,25 +202,18 @@ internal sealed class Zone : IZone
         }
 
         lock (WeatherForecast) {
-            WeatherForecast.Clear();
+            WeatherForecast = _forecastProvider.GetWeatherForecast((ushort)TerritoryId);
 
-            var weatherRate =
-                _dataManager.GetExcelSheet<Sheet.WeatherRate>()!.GetRow(MapSheet.TerritoryType.Value!.WeatherRate);
+            if (WeatherForecast.Count > 0) {
+                var    time       = WeatherForecast[0].Time;
+                string timeString = I18N.Translate("WeatherForecast.Always");
 
-            if (weatherRate != null) {
-                WeatherForecast.AddRange(_forecastProvider.GetForecast(weatherRate, 6));
-
-                if (WeatherForecast.Count > 0) {
-                    var    time       = WeatherForecast[0].Time;
-                    string timeString = I18N.Translate("WeatherForecast.Always");
-
-                    if (WeatherForecast.Count > 1) {
-                        time       = WeatherForecast[1].Time;
-                        timeString = WeatherForecast[1].TimeString;
-                    }
-
-                    CurrentWeather = new(time, timeString, WeatherForecast[0].Name, WeatherForecast[0].IconId);
+                if (WeatherForecast.Count > 1) {
+                    time       = WeatherForecast[1].Time;
+                    timeString = WeatherForecast[1].TimeString;
                 }
+
+                CurrentWeather = new(time, timeString, WeatherForecast[0].Name, WeatherForecast[0].IconId);
             }
         }
     }

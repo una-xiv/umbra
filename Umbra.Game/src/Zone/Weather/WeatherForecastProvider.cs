@@ -1,4 +1,4 @@
-/* Umbra.Game | (c) 2024 by Una         ____ ___        ___.
+﻿/* Umbra.Game | (c) 2024 by Una         ____ ___        ___.
  * Licensed under the terms of AGPL-3  |    |   \ _____ \_ |__ _______ _____
  *                                     |    |   //     \ | __ \\_  __ \\__  \
  * https://github.com/una-xiv/umbra    |    |  /|  Y Y  \| \_\ \|  | \/ / __ \_
@@ -16,108 +16,76 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Dalamud.Plugin.Services;
+using Dalamud.Utility.Signatures;
 using Lumina.Excel.GeneratedSheets;
 using Umbra.Common;
 
 namespace Umbra.Game;
 
 [Service]
-internal class WeatherForecastProvider(IDataManager dataManager)
+internal class WeatherForecastProvider
 {
     private const double Seconds       = 1;
     private const double Minutes       = 60 * Seconds;
     private const double WeatherPeriod = 23 * Minutes + 20 * Seconds;
 
-    public List<WeatherForecast> GetForecast(
-        WeatherRate weatherRate, uint count = 1, double secondIncrement = WeatherPeriod,
-        double      initialOffset = 0 * Minutes
-    )
-    {
-        if (count == 0) return [];
+    private delegate byte GetCurrentWeatherDelegate(nint a1, ushort territoryTypeId);
 
-        var current = GetCurrentWeather(weatherRate, initialOffset);
-        if (current == null) return [];
+    private delegate byte GetWeatherForecastDelegate(nint a1, ushort territoryTypeId, int offset);
+
+    [Signature("E8 ?? ?? ?? ?? 0F B6 C0 33 DB")]
+    private readonly GetCurrentWeatherDelegate _getCurrentWeatherInternal = null!;
+
+    [Signature("40 57 48 83 EC 20 0F B7 CA")]
+    private readonly GetWeatherForecastDelegate _getWeatherForecastInternal = null!;
+
+    private readonly IDataManager _dataManager;
+
+    public WeatherForecastProvider(IDataManager dataManager, IGameInteropProvider interopProvider)
+    {
+        _dataManager = dataManager;
+        interopProvider.InitializeFromAttributes(this);
+    }
+
+    public List<WeatherForecast> GetWeatherForecast(ushort territoryId)
+    {
+        byte currentWeatherId = _getCurrentWeatherInternal(0, territoryId);
+
+        if (currentWeatherId == 0) {
+            currentWeatherId = _getWeatherForecastInternal(0, territoryId, 0);
+        }
+
+        Weather currentWeather = _dataManager.GetExcelSheet<Weather>()!.GetRow(currentWeatherId)!;
+        Weather lastWeather    = currentWeather;
+
+        List<WeatherForecast> result = [BuildResultObject(currentWeather, GetRootTime(0))];
 
         try {
-            List<WeatherForecast> forecast = [
-                new WeatherForecast(
-                    current.Value.Item2,
-                    FormatForecastTime(current.Value.Item2),
-                    current.Value.Item1.Name,
-                    (uint)current.Value.Item1.Icon
-                )
-            ];
+            for (var i = 1; i < 24; i++) {
+                byte weatherId = _getWeatherForecastInternal(0, territoryId, 8 * i);
+                var  weather   = _dataManager.GetExcelSheet<Weather>()!.GetRow(weatherId)!;
+                var  time      = GetRootTime(i * WeatherPeriod);
 
-            var lastForecast = forecast[0];
-
-            for (var i = 1; i < count; i++) {
-                var time          = forecast[0].Time.AddSeconds(i * secondIncrement);
-                var weatherTarget = CalculateTarget(time);
-                var weather       = GetWeatherFromRate(weatherRate, weatherTarget);
-
-                if (weather == null) continue;
-
-                if (lastForecast.Name == weather.Name) {
-                    lastForecast.Time       = time;
-                    lastForecast.TimeString = FormatForecastTime(time);
-                    continue;
+                if (lastWeather != weather) {
+                    lastWeather = weather;
+                    result.Add(BuildResultObject(weather, time));
                 }
-
-                lastForecast = new WeatherForecast(time, FormatForecastTime(time), weather.Name, (uint)weather.Icon);
-                forecast.Add(lastForecast);
             }
-
-            if (forecast.Count > 1) {
-                var first   = forecast.First();
-                var timeStr = forecast[1].TimeString;
-                timeStr          = timeStr.Replace("In ", "")[..1].ToUpper() + timeStr[1..];
-                first.TimeString = timeStr;
-            }
-
-            return forecast;
-        } catch (Exception) {
-            // ignored
+        } catch (Exception e) {
+            Logger.Error(e.Message);
         }
 
-        return [];
+        return result;
     }
 
-    private (Weather, DateTime)? GetCurrentWeather(WeatherRate weatherRate, double initialOffset = 0 * Minutes)
+    private static WeatherForecast BuildResultObject(Weather weather, DateTime time)
     {
-        var rootTime = GetRootTime(initialOffset);
-        var target   = CalculateTarget(rootTime);
-        var weather  = GetWeatherFromRate(weatherRate, target);
+        var timeString = FormatForecastTime(time);
+        var name       = weather.Name.ToString();
+        var iconId     = (uint)weather.Icon;
 
-        if (weather == null) return null;
-
-        return (weather, rootTime);
-    }
-
-    private Weather? GetWeatherFromRate(WeatherRate weatherRateIndex, int target)
-    {
-        int rateAccumulator = 0;
-        int weatherId       = -1;
-
-        if (weatherRateIndex.UnkData0.Length == 0) return null;
-
-        for (var i = 0; i < weatherRateIndex.UnkData0.Length; i++) {
-            var w = weatherRateIndex.UnkData0[i];
-
-            rateAccumulator += w.Rate;
-
-            if (target < rateAccumulator) {
-                weatherId = w.Weather;
-                break;
-            }
-        }
-
-        if (weatherId == -1) {
-            return null;
-        }
-
-        return dataManager.GetExcelSheet<Weather>()!.GetRow((uint)weatherId);
+        return new(time, timeString, name, iconId);
     }
 
     private static DateTime GetRootTime(double initialOffset)
@@ -129,22 +97,6 @@ internal class WeatherForecastProvider(IDataManager dataManager)
         rootTime = rootTime.AddSeconds(-seconds);
 
         return rootTime;
-    }
-
-    // https://github.com/xivapi/ffxiv-datamining/blob/master/docs/Weather.md
-    private static int CalculateTarget(DateTime time)
-    {
-        var unix      = (int)(time - DateTime.UnixEpoch).TotalSeconds;
-        var bell      = unix                            / 175;
-        var increment = ((uint)(bell + 8 - (bell % 8))) % 24;
-
-        var totalDays = (uint)(unix / 4200);
-        var calcBase  = (totalDays  * 0x64) + increment;
-
-        var step1 = (calcBase << 0xB) ^ calcBase;
-        var step2 = (step1    >> 8)   ^ step1;
-
-        return (int)(step2 % 0x64);
     }
 
     private static string FormatForecastTime(DateTime forecastTime)
