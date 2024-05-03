@@ -106,11 +106,7 @@ public class ImageRepository
     {
         if (IconCache.TryGetValue(iconId, out var cachedIcon)) return cachedIcon;
 
-        if (Instance.TextureProvider == null)
-            throw new InvalidOperationException("AssetManager has not been initialized.");
-
-        var icon = Instance.TextureProvider.GetIcon(iconId)
-         ?? throw new InvalidOperationException($"Failed to load icon #{iconId}.");
+        var icon = Instance.TextureProvider.GetTexture(GetIconFile(iconId));
 
         IconCache[iconId] = icon;
 

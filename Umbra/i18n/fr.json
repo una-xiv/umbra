@@ -125,6 +125,7 @@
     "CVAR.Toolbar.Widget.MainMenu.ShowIcons.Name": "Afficher les icônes de jeu dans les éléments du menu principal",
     "CVAR.Toolbar.Widget.MainMenu.ShowIcons.Description": "Affiche les icônes de jeu à côté des éléments du menu principal.",
     "CVAR.Toolbar.Widget.MainMenu.ShowMainIcons.Name": "Afficher les boutons du menu principal sous forme d'icônes au lieu de texte",
+    "CVAR.Toolbar.Widget.MainMenu.ShowMainIcons.Description": "Notez que la barre de commande principale officielle utilise une seule texture pour ses icônes, tandis qu'Umbra utilise des icônes régulières. Le résultat peut sembler incohérent à cause de cela.",
     "CVAR.Toolbar.Widget.Volume.Enabled.Name": "Afficher le widget de volume",
     "CVAR.Toolbar.Widget.Volume.Enabled.Description": "Affiche un widget qui vous permet de contrôler les différents volumes audio du jeu.",
     "CVAR.Toolbar.Widget.WorldMarkerMenu.Enabled.Name": "Afficher le widget du menu des marqueurs mondiaux",

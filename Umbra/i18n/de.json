@@ -125,6 +125,7 @@
     "CVAR.Toolbar.Widget.MainMenu.ShowIcons.Name": "Spiele-Icons im Hauptmenü anzeigen",
     "CVAR.Toolbar.Widget.MainMenu.ShowIcons.Description": "Zeigt die Spiele-Icons neben den Hauptmenüpunkten an.",
     "CVAR.Toolbar.Widget.MainMenu.ShowMainIcons.Name": "Hauptmenüschaltflächen als Symbole anstelle von Text anzeigen",
+    "CVAR.Toolbar.Widget.MainMenu.ShowMainIcons.Description": "Beachten Sie, dass die offizielle Hauptbefehlsleiste eine einzelne Textur für ihre Symbole verwendet, während Umbra normale Symbole verwendet. Das Ergebnis kann aufgrund dessen inkonsistent aussehen.",
     "CVAR.Toolbar.Widget.MainMenu.Travel.ShowResidential.Name": "Wohngebiete im Reisemenü anzeigen",
     "CVAR.Toolbar.Widget.MainMenu.Travel.ShowResidential.Description": "Die verfügbaren Wohngebiete im Reisemenü anzeigen. Diese Elemente sind nur aktiviert, wenn Sie sich auf Ihrer Heimatwelt befinden.",
     "CVAR.Toolbar.Widget.Volume.Enabled.Name": "Lautstärke-Widget anzeigen",

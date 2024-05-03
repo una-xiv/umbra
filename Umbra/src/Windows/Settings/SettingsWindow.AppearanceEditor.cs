@@ -78,8 +78,7 @@ internal partial class SettingsWindow
                         ),
                         new ButtonElement(
                             id: "ApplyPresetButton",
-                            label: "Apply",
-                            onClick: Theme.ImportFromClipboard
+                            label: "Apply"
                         ) { Anchor = Anchor.MiddleLeft, Tooltip = I18N.Translate("Config.AppearanceImport") },
                         new(
                             id: "ImportExportButtons",
