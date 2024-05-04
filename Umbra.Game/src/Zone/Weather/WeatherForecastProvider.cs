@@ -18,6 +18,7 @@ using System;
 using System.Collections.Generic;
 using Dalamud.Plugin.Services;
 using Dalamud.Utility.Signatures;
+using FFXIVClientStructs.FFXIV.Client.Graphics.Environment;
 using Lumina.Excel.GeneratedSheets;
 using Umbra.Common;
 
@@ -30,12 +31,7 @@ internal class WeatherForecastProvider
     private const double Minutes       = 60 * Seconds;
     private const double WeatherPeriod = 23 * Minutes + 20 * Seconds;
 
-    private delegate byte GetCurrentWeatherDelegate(nint a1, ushort territoryTypeId);
-
     private delegate byte GetWeatherForecastDelegate(nint a1, ushort territoryTypeId, int offset);
-
-    [Signature("E8 ?? ?? ?? ?? 0F B6 C0 33 DB")]
-    private readonly GetCurrentWeatherDelegate _getCurrentWeatherInternal = null!;
 
     [Signature("40 57 48 83 EC 20 0F B7 CA")]
     private readonly GetWeatherForecastDelegate _getWeatherForecastInternal = null!;
@@ -50,7 +46,7 @@ internal class WeatherForecastProvider
 
     public List<WeatherForecast> GetWeatherForecast(ushort territoryId)
     {
-        byte currentWeatherId = _getCurrentWeatherInternal(0, territoryId);
+        byte currentWeatherId = GetCurrentWeatherId();
 
         if (currentWeatherId == 0) {
             currentWeatherId = _getWeatherForecastInternal(0, territoryId, 0);
@@ -77,6 +73,14 @@ internal class WeatherForecastProvider
         }
 
         return result;
+    }
+
+    private static unsafe byte GetCurrentWeatherId()
+    {
+        EnvManager* em = EnvManager.Instance();
+
+        // Fall back to clear skies if em is null for whatever reason.
+        return em == null ? (byte)1 : em->ActiveWeather;
     }
 
     private static WeatherForecast BuildResultObject(Weather weather, DateTime time)
