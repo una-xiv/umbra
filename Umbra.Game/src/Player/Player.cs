@@ -29,6 +29,11 @@ namespace Umbra.Game;
 internal sealed class Player : IPlayer
 {
     /// <summary>
+    /// The current online status ID.
+    /// </summary>
+    public uint OnlineStatusId { get; private set; }
+
+    /// <summary>
     /// The player's current position in the world.
     /// </summary>
     public Vector3 Position { get; private set; }
@@ -143,10 +148,11 @@ internal sealed class Player : IPlayer
     {
         if (null == _clientState.LocalPlayer || !_clientState.LocalPlayer.IsValid()) return;
 
-        IsMoving = Vector3.Distance(Position, _clientState.LocalPlayer.Position) > 0.01f;
-        Position = _clientState.LocalPlayer.Position;
-        Rotation = _clientState.LocalPlayer.Rotation;
-        IsDead   = _clientState.LocalPlayer.IsDead;
+        OnlineStatusId = _clientState.LocalPlayer.OnlineStatus.Id;
+        IsMoving       = Vector3.Distance(Position, _clientState.LocalPlayer.Position) > 0.01f;
+        Position       = _clientState.LocalPlayer.Position;
+        Rotation       = _clientState.LocalPlayer.Rotation;
+        IsDead         = _clientState.LocalPlayer.IsDead;
 
         IsCasting = _clientState.LocalPlayer.IsCasting
          || _condition[ConditionFlag.Casting]
@@ -168,7 +174,7 @@ internal sealed class Player : IPlayer
          || _condition[ConditionFlag.OccupiedSummoningBell];
 
         IsJumping = _condition[ConditionFlag.Jumping] || _condition[ConditionFlag.Jumping61];
-        IsDiving = _condition[ConditionFlag.Diving];
+        IsDiving  = _condition[ConditionFlag.Diving];
 
         IsBoundByDuty = _condition[ConditionFlag.BoundByDuty]
          || _condition[ConditionFlag.BoundByDuty56]
@@ -186,7 +192,7 @@ internal sealed class Player : IPlayer
         CurrentWorldName     = _clientState.LocalPlayer.CurrentWorld.GameData!.Name.ToString();
 
         var ps = PlayerState.Instance();
-        GrandCompanyId   = ps->GrandCompany;
+        GrandCompanyId = ps->GrandCompany;
     }
 
     /// <summary>

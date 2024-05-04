@@ -35,6 +35,7 @@ internal partial class ToolbarLayout
         }
 
         LoadWidgetLayout();
+        NormalizeIndices();
     }
 
     public int GetLastSortIndexOf(Anchor anchor)
@@ -121,6 +122,33 @@ internal partial class ToolbarLayout
         for (var i = 0; i < targetIds.Count; i++) {
             LayoutConfig.Indices[targetIds[i]]      = i;
             Widgets[targetIds[i]].Element.SortIndex = i;
+        }
+
+        SaveWidgetLayout();
+    }
+
+    private void NormalizeIndices()
+    {
+        List<string> leftIds = Widgets.Values
+            .Where(w => w.Element.Anchor == Anchor.MiddleLeft)
+            .OrderBy(w => w.Element.SortIndex)
+            .Select(w => w.Element.Id)
+            .ToList();
+
+        List<string> rightIds = Widgets.Values
+            .Where(w => w.Element.Anchor == Anchor.MiddleRight)
+            .OrderBy(w => w.Element.SortIndex)
+            .Select(w => w.Element.Id)
+            .ToList();
+
+        for (var i = 0; i < leftIds.Count; i++) {
+            LayoutConfig.Indices[leftIds[i]]      = i;
+            Widgets[leftIds[i]].Element.SortIndex = i;
+        }
+
+        for (var i = 0; i < rightIds.Count; i++) {
+            LayoutConfig.Indices[rightIds[i]]      = i;
+            Widgets[rightIds[i]].Element.SortIndex = i;
         }
 
         SaveWidgetLayout();

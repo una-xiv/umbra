@@ -94,7 +94,7 @@ internal partial class CompanionWidget : IToolbarWidget
 
     private void OnMouseEnter()
     {
-        Element.Get<BorderElement>().Color     = 0xFF6A6A6A;
+        Element.Get<BorderElement>().Color     = Theme.Color(ThemeColor.BorderLight);
         Element.Get<BackgroundElement>().Color = Theme.Color(ThemeColor.Background);
     }
 

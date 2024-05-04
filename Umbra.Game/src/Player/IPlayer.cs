@@ -20,7 +20,12 @@ namespace Umbra.Game;
 
 public interface IPlayer
 {
-        /// <summary>
+    /// <summary>
+    /// The current online status ID.
+    /// </summary>
+    public uint OnlineStatusId { get; }
+
+    /// <summary>
     /// The player's current position in the world.
     /// </summary>
     public Vector3 Position { get; }
@@ -122,15 +127,15 @@ public interface IPlayer
     /// <summary>
     /// Returns true if the player has the specified item in their inventory.
     /// </summary>
-    public unsafe bool HasItemInInventory(uint itemId, uint minItemCount = 1);
+    public bool HasItemInInventory(uint itemId, uint minItemCount = 1);
 
     /// <summary>
     /// Get the count of the specified item in the player's inventory.
     /// </summary>
-    public unsafe int GetItemCount(uint itemId);
+    public int GetItemCount(uint itemId);
 
     /// <summary>
     /// Use the specified inventory item by its item ID.
     /// </summary>
-    public unsafe void UseInventoryItem(uint itemId);
+    public void UseInventoryItem(uint itemId);
 }

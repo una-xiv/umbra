@@ -107,15 +107,15 @@ internal partial class SettingsWindow
                 new ButtonElement(
                     id: "MoveUpButton",
                     icon: FontAwesomeIcon.ArrowUp
-                ) { Tooltip = I18N.Translate("Config.LayoutEditor.MoveUp") },
+                ),
                 new ButtonElement(
                     id: "MoveDownButton",
                     icon: FontAwesomeIcon.ArrowDown
-                ) { Tooltip = I18N.Translate("Config.LayoutEditor.MoveDown") },
+                ),
                 new ButtonElement(
                     id: "SwitchAnchorButton",
                     icon: FontAwesomeIcon.ArrowsAltH
-                ) { Tooltip = I18N.Translate("Config.LayoutEditor.Remove") },
+                ),
                 new(
                     id: "Label",
                     text: I18N.Translate($"Widget.{widget.Element.Id}"),
