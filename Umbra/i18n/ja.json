@@ -164,6 +164,7 @@
     "CVAR.Markers.TripleTriad.Enabled.Description": "まだ取得していないトリプルトライアドカードのワールドマーカーを表示します。",
     "CVAR.Markers.TripleTriad.ShowLockedCards.Name": "ロックされたカードのトリプルトライアドカードマーカーを表示する",
     "CVAR.Markers.TripleTriad.ShowLockedCards.Description": "未完成のクエストの後ろにロックされたトリプルトライアドカードのワールドマーカーを表示します。",
+    "Config.LayoutEditor": "ツールバーレイアウトエディター",
     "Config.Appearance": "外観",
     "Config.AppearancePreset": "プリセットからコピー",
     "Config.AppearanceImport": "クリップボードからインポート",
@@ -203,5 +204,16 @@
     "ThemeColor.ToolbarLight.Name": "明るいツールバーの色",
     "ThemeColor.ToolbarLight.Description": "ツールバーで使用されるグラデーションの明るい色のバリアント。",
     "ThemeColor.ToolbarDark.Name": "暗いツールバーの色",
-    "ThemeColor.ToolbarDark.Description": "ツールバーで使用されるグラデーションの暗い色のバリアント。"
+    "ThemeColor.ToolbarDark.Description": "ツールバーで使用されるグラデーションの暗い色のバリアント。",
+    "Widget.MainMenuWidget": "メインメニュー",
+    "Widget.CurrencyWidget": "通貨",
+    "Widget.ClockWidget": "時計",
+    "Widget.CompanionWidget": "仲間",
+    "Widget.GearsetWidget": "装備セット切り替え",
+    "Widget.VolumeWidget": "音量コントロール",
+    "Widget.WorldMarkerMenuWidget": "ワールドマーカーメニュー",
+    "Widget.BattleEffectsWidget": "バトルエフェクトメニュー",
+    "Widget.DtrBarWidget": "サーバー情報バー",
+    "Widget.MailIndicatorWidget": "未読メールインジケーター",
+    "Widget.FlagWidget": "フラグマーカー"
 }

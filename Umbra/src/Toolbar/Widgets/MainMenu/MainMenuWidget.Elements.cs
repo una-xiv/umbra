@@ -31,9 +31,9 @@ internal sealed partial class MainMenuWidget
     private readonly Dictionary<MainMenuItem, Element> _menuItemElements = [];
 
     public Element Element { get; } = new(
-        id: "ToolbarWidget",
+        id: "MainMenuWidget",
         anchor: Anchor.MiddleLeft,
-        sortIndex: int.MinValue,
+        sortIndex: 0,
         flow: Flow.Horizontal,
         gap: 6,
         children: []

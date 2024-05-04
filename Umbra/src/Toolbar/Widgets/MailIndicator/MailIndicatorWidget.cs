@@ -32,7 +32,7 @@ internal class MailIndicatorWidget : IToolbarWidget
         id: "MailIndicatorWidget",
         size: new(28, 28),
         anchor: Anchor.MiddleRight,
-        sortIndex: int.MinValue + 10,
+        sortIndex: 4,
         children: [
             new BackgroundElement(color: Theme.Color(ThemeColor.BackgroundDark), edgeColor: Theme.Color(ThemeColor.BorderDark), edgeThickness: 1, rounding: 4),
             new BorderElement(color: Theme.Color(ThemeColor.Border), rounding: 3, padding: new(1)),

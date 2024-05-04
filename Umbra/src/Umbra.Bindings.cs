@@ -20,6 +20,7 @@ using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.Plugin.Services;
 using Umbra.Common;
 using Umbra.Interface;
+using Umbra.Toolbar;
 using Umbra.Windows.Settings;
 
 namespace Umbra;
@@ -31,7 +32,7 @@ internal sealed class UmbraBindings : IDisposable
     private readonly ICommandManager _commandManager;
     private readonly WindowManager   _windowManager;
 
-    public UmbraBindings(IChatGui chatGui, ICommandManager commandManager, WindowManager windowManager)
+    public UmbraBindings(IChatGui chatGui, ICommandManager commandManager, WindowManager windowManager, ToolbarLayout _)
     {
         _chatGui        = chatGui;
         _commandManager = commandManager;

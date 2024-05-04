@@ -21,9 +21,9 @@ namespace Umbra.Toolbar.Widgets.Companion;
 internal partial class FlagWidget
 {
     public Element Element { get; } = new(
-        "FlagToolbarWidget",
+        "FlagWidget",
         anchor: Anchor.MiddleRight,
-        sortIndex: int.MaxValue,
+        sortIndex: 8,
         size: new(0, 28),
         children: [
             new BackgroundElement(color: Theme.Color(ThemeColor.BackgroundDark), edgeColor: Theme.Color(ThemeColor.BorderDark), edgeThickness: 1, rounding: 4),

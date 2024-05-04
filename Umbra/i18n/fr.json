@@ -164,6 +164,7 @@
     "CVAR.Markers.TripleTriad.Enabled.Description": "Affiche les marqueurs mondiaux pour les cartes Triple Triad que vous n'avez pas encore obtenues.",
     "CVAR.Markers.TripleTriad.ShowLockedCards.Name": "Afficher les marqueurs de cartes Triple Triad verrouillées",
     "CVAR.Markers.TripleTriad.ShowLockedCards.Description": "Affiche les marqueurs mondiaux pour les cartes Triple Triad qui sont verrouillées derrière des quêtes non terminées.",
+    "Config.LayoutEditor": "Éditeur de disposition de la barre d'outils",
     "Config.Appearance": "Apparence",
     "Config.AppearancePreset": "Copier à partir du preset",
     "Config.AppearanceImport": "Importer depuis le presse-papiers",
@@ -203,5 +204,16 @@
     "ThemeColor.ToolbarLight.Name": "Couleur claire de la barre d'outils",
     "ThemeColor.ToolbarLight.Description": "La variante de couleur claire du dégradé utilisé dans la barre d'outils.",
     "ThemeColor.ToolbarDark.Name": "Couleur sombre de la barre d'outils",
-    "ThemeColor.ToolbarDark.Description": "La variante de couleur sombre du dégradé utilisé dans la barre d'outils."
+    "ThemeColor.ToolbarDark.Description": "La variante de couleur sombre du dégradé utilisé dans la barre d'outils.",
+    "Widget.MainMenuWidget": "Menu Principal",
+    "Widget.CurrencyWidget": "Devises",
+    "Widget.ClockWidget": "Horloge",
+    "Widget.CompanionWidget": "Compagnon",
+    "Widget.GearsetWidget": "Sélecteur de Set d'Équipement",
+    "Widget.VolumeWidget": "Contrôles de Volume",
+    "Widget.WorldMarkerMenuWidget": "Menu des Marqueurs Mondiaux",
+    "Widget.BattleEffectsWidget": "Menu des Effets de Combat",
+    "Widget.DtrBarWidget": "Barre d'Informations sur le Serveur",
+    "Widget.MailIndicatorWidget": "Indicateur de Courrier Non Lu",
+    "Widget.FlagWidget": "Marqueur de Drapeau"
 }

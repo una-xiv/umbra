@@ -22,10 +22,10 @@ namespace Umbra.Toolbar.Widgets.MainMenu;
 internal sealed partial class BattleEffectsWidget
 {
     public Element Element { get; } = new(
-        id: "BattleEffectsToolbarWidget",
+        id: "BattleEffectsWidget",
         size: new(28, 28),
         anchor: Anchor.MiddleRight,
-        sortIndex: int.MinValue + 2,
+        sortIndex: 2,
         children: [
             new BackgroundElement(color: Theme.Color(ThemeColor.BackgroundDark), edgeColor: Theme.Color(ThemeColor.BorderDark), edgeThickness: 1, rounding: 4),
             new BorderElement(color: Theme.Color(ThemeColor.Border), rounding: 3, padding: new(1)),

@@ -23,10 +23,10 @@ namespace Umbra.Toolbar.Widgets.Clock;
 internal partial class ClockWidget
 {
     public Element Element { get; } = new(
-        "Clock",
+        "ClockWidget",
         flow: Flow.Vertical,
         anchor: Anchor.MiddleRight,
-        sortIndex: int.MinValue,
+        sortIndex: 0,
         gap: 2,
         children: [
             CreateClock("ET", SeIconChar.EorzeaTimeEn, new(0, -1)),

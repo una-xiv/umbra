@@ -127,11 +127,7 @@ public partial class Element
             case true when !IsMouseOver:
                 OnMouseLeave?.Invoke();
                 _didStartDelayedMouseEnter = false;
-
-                if (IsMouseDown) {
-                    OnMouseUp?.Invoke();
-                }
-
+                IsMouseDown = false;
                 break;
         }
 

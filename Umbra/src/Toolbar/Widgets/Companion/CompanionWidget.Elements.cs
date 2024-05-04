@@ -21,9 +21,9 @@ namespace Umbra.Toolbar.Widgets.Companion;
 internal partial class CompanionWidget
 {
     public Element Element { get; } = new(
-        "CompanionToolbarWidget",
+        "CompanionWidget",
         anchor: Anchor.MiddleRight,
-        sortIndex: -1000,
+        sortIndex: 6,
         size: new(0, 28),
         children: [
             new BackgroundElement(color: Theme.Color(ThemeColor.BackgroundDark), edgeColor: Theme.Color(ThemeColor.BorderDark), edgeThickness: 1, rounding: 4),

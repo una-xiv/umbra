@@ -22,9 +22,9 @@ namespace Umbra.Toolbar.Widgets.Gearset;
 internal partial class CurrencyWidget
 {
     public Element Element { get; } = new(
-        id: "CurrencyToolbarWidget",
+        id: "CurrencyWidget",
         anchor: Anchor.MiddleLeft,
-        sortIndex: int.MinValue + 1,
+        sortIndex: 1,
         flow: Flow.Horizontal,
         size: new(0, 28),
         padding: new(left: 6),

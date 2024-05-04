@@ -24,7 +24,7 @@ internal partial class DtrBarWidget
     public Element Element { get; } = new(
         id: "DtrBarWidget",
         anchor: Anchor.MiddleRight,
-        sortIndex: int.MinValue + 20,
+        sortIndex: 5,
         flow: Flow.Horizontal,
         gap: ItemSpacing,
         children: []

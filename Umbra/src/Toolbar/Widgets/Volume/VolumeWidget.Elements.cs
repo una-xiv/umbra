@@ -22,10 +22,10 @@ namespace Umbra.Toolbar.Widgets.MainMenu;
 internal sealed partial class VolumeWidget
 {
     public Element Element { get; } = new(
-        id: "VolumeToolbarWidget",
+        id: "VolumeWidget",
         size: new(28, 28),
         anchor: Anchor.MiddleRight,
-        sortIndex: int.MinValue + 1,
+        sortIndex: 1,
         children: [
             new BackgroundElement(color: Theme.Color(ThemeColor.BackgroundDark), edgeColor: Theme.Color(ThemeColor.BorderDark), edgeThickness: 1, rounding: 4),
             new BorderElement(color: Theme.Color(ThemeColor.Border), rounding: 3, padding: new(1)),

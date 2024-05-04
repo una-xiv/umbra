@@ -23,7 +23,7 @@ internal partial class GearsetWidget
     public Element Element { get; } = new(
         id: "GearsetWidget",
         anchor: Anchor.MiddleRight,
-        sortIndex: -999,
+        sortIndex: 7,
         size: new(0, 28),
         children: [
             new BackgroundElement(color: Theme.Color(ThemeColor.BackgroundDark), edgeColor: Theme.Color(ThemeColor.BorderDark), edgeThickness: 1, rounding: 4),

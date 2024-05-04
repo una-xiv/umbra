@@ -163,6 +163,7 @@
     "CVAR.Markers.TripleTriad.Enabled.Description": "Shows world markers for Triple Triad cards that you have not yet obtained.",
     "CVAR.Markers.TripleTriad.ShowLockedCards.Name": "Show Triple Triad card markers for locked cards",
     "CVAR.Markers.TripleTriad.ShowLockedCards.Description": "Shows world markers for Triple Triad cards that are locked behind unfinished quests.",
+    "Config.LayoutEditor": "Toolbar Layout Editor",
     "Config.Appearance": "Umbra Appearance",
     "Config.AppearancePreset": "Copy from preset",
     "Config.AppearanceImport": "Import from clipboard",
@@ -202,5 +203,16 @@
     "ThemeColor.ToolbarLight.Name": "Light Toolbar Color",
     "ThemeColor.ToolbarLight.Description": "The light color variant of the gradient that is used in the toolbar.",
     "ThemeColor.ToolbarDark.Name": "Dark Toolbar Color",
-    "ThemeColor.ToolbarDark.Description": "The dark color variant of the gradient that is used in the toolbar."
+    "ThemeColor.ToolbarDark.Description": "The dark color variant of the gradient that is used in the toolbar.",
+    "Widget.MainMenuWidget": "Main Menu",
+    "Widget.CurrencyWidget": "Currencies",
+    "Widget.ClockWidget": "Clock",
+    "Widget.CompanionWidget": "Companion",
+    "Widget.GearsetWidget": "Gearset Switcher",
+    "Widget.VolumeWidget": "Volume Controls",
+    "Widget.WorldMarkerMenuWidget": "World Markers Menu",
+    "Widget.BattleEffectsWidget": "Battle Effects Menu",
+    "Widget.DtrBarWidget": "Server Info Bar",
+    "Widget.MailIndicatorWidget": "Unread Mail Indicator",
+    "Widget.FlagWidget": "Flag Marker"
 }

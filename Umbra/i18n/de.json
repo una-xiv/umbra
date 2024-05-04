@@ -164,6 +164,7 @@
     "CVAR.Markers.TripleTriad.Enabled.Description": "Zeigt Weltmarker für Triple Triad Karten an, die Sie noch nicht erhalten haben.",
     "CVAR.Markers.TripleTriad.ShowLockedCards.Name": "Zeige Triple Triad Karten-Marker für gesperrte Karten",
     "CVAR.Markers.TripleTriad.ShowLockedCards.Description": "Zeigt Weltmarker für Triple Triad Karten an, die hinter unvollständigen Quests gesperrt sind.",
+    "Config.LayoutEditor": "Symbolleisten-Layout-Editor",
     "Config.Appearance": "Erscheinungsbild",
     "Config.AppearancePreset": "Von Voreinstellung kopieren",
     "Config.AppearanceImport": "Aus Zwischenablage importieren",
@@ -203,5 +204,16 @@
     "ThemeColor.ToolbarLight.Name": "Helle Symbolleistenfarbe",
     "ThemeColor.ToolbarLight.Description": "Die helle Farbvariante des Farbverlaufs, der in der Symbolleiste verwendet wird.",
     "ThemeColor.ToolbarDark.Name": "Dunkle Symbolleistenfarbe",
-    "ThemeColor.ToolbarDark.Description": "Die dunkle Farbvariante des Farbverlaufs, der in der Symbolleiste verwendet wird."
+    "ThemeColor.ToolbarDark.Description": "Die dunkle Farbvariante des Farbverlaufs, der in der Symbolleiste verwendet wird.",
+    "Widget.MainMenuWidget": "Hauptmenü",
+    "Widget.CurrencyWidget": "Währungen",
+    "Widget.ClockWidget": "Uhr",
+    "Widget.CompanionWidget": "Begleiter",
+    "Widget.GearsetWidget": "Ausrüstungsset-Umschalter",
+    "Widget.VolumeWidget": "Lautstärkeregelung",
+    "Widget.WorldMarkerMenuWidget": "Weltmarkierungen-Menü",
+    "Widget.BattleEffectsWidget": "Kampfeffekte-Menü",
+    "Widget.DtrBarWidget": "Serverinfo-Leiste",
+    "Widget.MailIndicatorWidget": "Ungelesene-Mail-Anzeige",
+    "Widget.FlagWidget": "Flaggenmarkierung"
 }

@@ -43,12 +43,16 @@ internal partial class SettingsWindow : Window
                 }
             );
 
+        BuildLayoutEditorButton();
         BuildAppearanceButton();
+        BuildLayoutEditorPanel();
         BuildAppearancePanel();
 
         _footerElement.Get("Buttons.Close").OnClick   += Close;
         _footerElement.Get("Buttons.Restart").OnClick += Framework.Restart;
         _footerElement.Get("Buttons.KoFi").OnClick    += () => Util.OpenLink("https://ko-fi.com/una_xiv");
+
+        _currentCategory = "LayoutEditorPanel";
     }
 
     public override void Dispose()
