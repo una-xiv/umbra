@@ -33,6 +33,9 @@ internal partial class CurrencyWidget : IToolbarWidget
     [ConfigVariable("Toolbar.Widget.Currencies.Enabled", "EnabledWidgets")]
     private static bool Enabled { get; set; } = true;
 
+    [ConfigVariable("Toolbar.Widget.Currencies.ShowLabel", "ToolbarSettings", "CurrencySettings")]
+    private static bool ShowLabel { get; set; } = true;
+
     [ConfigVariable("Toolbar.Widget.Currencies.TrackedCurrencyId")]
     private static uint TrackedCurrencyId { get; set; }
 
@@ -108,7 +111,7 @@ internal partial class CurrencyWidget : IToolbarWidget
 
                 Element.Get("Icon").Style.Image = (uint)trackedItem.Icon;
                 Element.Get("Icon").Text        = "";
-                Element.Get("Text").Text        = $"{currencyCount:N0} {trackedItem.Name}";
+                Element.Get("Text").Text        = $"{currencyCount:N0}{(ShowLabel ? $" {trackedItem.Name}" : "")}";
             }
         }
 
