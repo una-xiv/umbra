@@ -27,13 +27,13 @@ internal partial class Toolbar
     [ConfigVariable("Toolbar.ItemSpacing", "ToolbarSettings", "ToolbarCustomization", min: 1, max: 32)]
     private static int ItemSpacing { get; set; } = 6;
 
-    [ConfigVariable("Toolbar.MarginLeft", "ToolbarSettings", "ToolbarCustomization", min: -1, max: 2048)]
+    [ConfigVariable("Toolbar.MarginLeft", "ToolbarSettings", "ToolbarCustomization", min: -1, max: 16384)]
     private static int ToolbarLeftMargin { get; set; } = 0;
 
-    [ConfigVariable("Toolbar.MarginRight", "ToolbarSettings", "ToolbarCustomization", min: -1, max: 2048)]
+    [ConfigVariable("Toolbar.MarginRight", "ToolbarSettings", "ToolbarCustomization", min: -1, max: 16384)]
     private static int ToolbarRightMargin { get; set; } = 0;
 
-    [ConfigVariable("Toolbar.YOffset", "ToolbarSettings", "ToolbarCustomization", min: -2048, max: 2048)]
+    [ConfigVariable("Toolbar.YOffset", "ToolbarSettings", "ToolbarCustomization", min: -16384, max: 16384)]
     public static int YOffset { get; set; } = 0;
 
     private readonly Color _color1 = Theme.Color(ThemeColor.ToolbarLight);
