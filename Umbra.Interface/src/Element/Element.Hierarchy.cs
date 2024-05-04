@@ -35,7 +35,8 @@ public partial class Element
     /// <summary>
     /// A list of all siblings of this element.
     /// </summary>
-    public List<Element> Siblings => Parent?._children.Where(c => c.Id != Id && c.Anchor == Anchor && c.IsVisible).ToList() ?? [];
+    public List<Element> Siblings =>
+        Parent?._children.Where(c => c.Id != Id && c.Anchor == Anchor && c.IsVisible).ToList() ?? [];
 
     private readonly List<Element> _children = [];
 

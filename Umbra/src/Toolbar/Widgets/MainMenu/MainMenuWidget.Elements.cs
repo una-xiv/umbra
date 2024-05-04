@@ -72,6 +72,12 @@ internal sealed partial class MainMenuWidget
                 button.Padding           = new(0, 4);
                 button.Text              = category.Name;
             }
+
+            if (button.Parent!.Parent!.Id == "Right" && button.Anchor != Anchor.MiddleRight) {
+                button.Anchor = Anchor.MiddleRight;
+            } else if (button.Parent!.Parent!.Id == "Left" && button.Anchor != Anchor.MiddleLeft) {
+                button.Anchor = Anchor.MiddleLeft;
+            }
         };
 
         Element.AddChild(button);

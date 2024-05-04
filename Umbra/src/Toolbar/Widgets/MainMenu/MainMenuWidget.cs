@@ -14,6 +14,7 @@
  *     GNU Affero General Public License for more details.
  */
 
+using System.Linq;
 using Umbra.Common;
 using Umbra.Game;
 using Umbra.Interface;
@@ -34,10 +35,15 @@ internal sealed partial class MainMenuWidget : IToolbarWidget
     private static bool ShowMainIcons { get; set; } = false;
 
     private readonly ToolbarPopupContext _popupContext;
+    private readonly IMainMenuRepository _repository;
+
+    private Anchor _currentAnchor = Anchor.MiddleLeft;
 
     public MainMenuWidget(IMainMenuRepository repository, ToolbarPopupContext popupContext)
     {
         _popupContext = popupContext;
+        _repository   = repository;
+
         repository.GetCategories().ForEach(BuildCategoryButton);
     }
 
@@ -58,5 +64,25 @@ internal sealed partial class MainMenuWidget : IToolbarWidget
     }
 
     public void OnUpdate()
-    {}
+    {
+        if (_currentAnchor == Element.Anchor) {
+            return;
+        }
+
+        Framework.DalamudFramework.Run(
+            () => {
+                _currentAnchor = Element.Anchor;
+                Element.Clear();
+
+                _repository.GetCategories().ForEach(BuildCategoryButton);
+                var sortIndex = 0;
+
+                foreach (Element btn in Element.Children) {
+                    btn.Anchor    = Element.Anchor;
+                    btn.SortIndex = btn.Anchor == Anchor.MiddleLeft ? sortIndex : -sortIndex;
+                    sortIndex++;
+                }
+            }
+        );
+    }
 }
