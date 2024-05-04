@@ -70,13 +70,20 @@ internal partial class SettingsWindow
         Element           lb = button.Get("Label");
 
         button.OnBeforeCompute += () => {
-            bool isActive = button.IsMouseOver || _currentCategory == id;
+            bool isActive = _currentCategory == id;
+            bool isHover  = button.IsMouseOver;
 
-            bl.Color = isActive ? Theme.Color(ThemeColor.BackgroundLight) : Theme.Color(ThemeColor.BackgroundDark);
-            lb.Style.TextColor = isActive ? Theme.Color(ThemeColor.TextLight) : Theme.Color(ThemeColor.TextMuted);
+            bl.Color = isActive
+                ? Theme.Color(ThemeColor.HighlightBackground)
+                : (isHover ? Theme.Color(ThemeColor.BackgroundLight) : Theme.Color(ThemeColor.BackgroundDark));
 
-            lb.Style.OutlineColor =
-                isActive ? Theme.Color(ThemeColor.TextOutlineLight) : Theme.Color(ThemeColor.TextOutline);
+            lb.Style.TextColor = isActive
+                ? Theme.Color(ThemeColor.HighlightForeground)
+                : (isHover ? Theme.Color(ThemeColor.TextLight) : Theme.Color(ThemeColor.TextMuted));
+
+            lb.Style.OutlineColor = isActive
+                ? Theme.Color(ThemeColor.HighlightOutline)
+                : (isHover ? Theme.Color(ThemeColor.TextOutlineLight) : Theme.Color(ThemeColor.TextOutline));
         };
 
         _navButtonsElement.AddChild(button);
