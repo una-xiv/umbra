@@ -31,7 +31,12 @@ internal class WeatherForecastProvider
     private const double Minutes       = 60 * Seconds;
     private const double WeatherPeriod = 23 * Minutes + 20 * Seconds;
 
+    private delegate byte GetCurrentWeatherDelegate(nint a1, ushort territoryTypeId);
+
     private delegate byte GetWeatherForecastDelegate(nint a1, ushort territoryTypeId, int offset);
+
+    [Signature("E8 ?? ?? ?? ?? 0F B6 C0 33 DB")]
+    private readonly GetCurrentWeatherDelegate _getCurrentWeatherInternal = null!;
 
     [Signature("40 57 48 83 EC 20 0F B7 CA")]
     private readonly GetWeatherForecastDelegate _getWeatherForecastInternal = null!;
@@ -46,11 +51,7 @@ internal class WeatherForecastProvider
 
     public List<WeatherForecast> GetWeatherForecast(ushort territoryId)
     {
-        byte currentWeatherId = GetCurrentWeatherId();
-
-        if (currentWeatherId == 0) {
-            currentWeatherId = _getWeatherForecastInternal(0, territoryId, 0);
-        }
+        byte currentWeatherId = GetCurrentWeatherId(territoryId);
 
         Weather currentWeather = _dataManager.GetExcelSheet<Weather>()!.GetRow(currentWeatherId)!;
         Weather lastWeather    = currentWeather;
@@ -75,12 +76,14 @@ internal class WeatherForecastProvider
         return result;
     }
 
-    private static unsafe byte GetCurrentWeatherId()
+    private unsafe byte GetCurrentWeatherId(ushort territoryTypeId)
     {
         EnvManager* em = EnvManager.Instance();
 
         // Fall back to clear skies if em is null for whatever reason.
-        return em == null ? (byte)1 : em->ActiveWeather;
+        byte id = em == null ? (byte)0 : em->ActiveWeather;
+
+        return id > 0 ? id : _getCurrentWeatherInternal(territoryTypeId, 0);
     }
 
     private static WeatherForecast BuildResultObject(Weather weather, DateTime time)

@@ -35,8 +35,8 @@ public readonly record struct Size(int Width = 0, int Height = 0) : IComparable
     public static Size operator -(Size  a, Size b) => new Size(a.Width - b.Width, a.Height - b.Height);
     public static bool operator <(Size  a, Size b) => a.Width < b.Width && a.Height  < b.Height;
     public static bool operator >(Size  a, Size b) => a.Width > b.Width && a.Height  > b.Height;
-    public static Size operator *(double multiplier, Size size) => new((int)(size.Width * multiplier), (int)(size.Height * multiplier));
-    public static Size operator /(double multiplier, Size size) => new((int)(size.Width / multiplier), (int)(size.Height / multiplier));
+    public static Size operator *(double multiplier, Size size) => new((int)Math.Ceiling(size.Width * multiplier), (int)Math.Ceiling(size.Height * multiplier));
+    public static Size operator /(double multiplier, Size size) => new((int)Math.Floor(size.Width / multiplier), (int)Math.Floor(size.Height / multiplier));
 
     public int CompareTo(object? obj)
     {
