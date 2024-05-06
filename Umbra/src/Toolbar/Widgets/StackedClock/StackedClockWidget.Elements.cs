@@ -18,12 +18,12 @@ using System.Numerics;
 using Dalamud.Game.Text;
 using Umbra.Interface;
 
-namespace Umbra.Toolbar.Widgets.Clock;
+namespace Umbra.Toolbar.Widgets.Clock2;
 
-internal partial class ClockWidget
+internal partial class StackedClockWidget
 {
     public Element Element { get; } = new(
-        "ClockWidget",
+        "StackedClockWidget",
         flow: Flow.Vertical,
         anchor: Anchor.MiddleRight,
         sortIndex: 0,

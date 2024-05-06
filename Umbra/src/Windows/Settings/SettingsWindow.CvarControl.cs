@@ -32,8 +32,10 @@ internal partial class SettingsWindow
                 return CreateBooleanOption(cvar, sortIndex);
             case { Default: int, Min: not null, Max: not null }:
                 return CreateIntegerOption(cvar, sortIndex);
-            case { Default: string, Options: not null }:
-                return CreateSelectOption(cvar, sortIndex);
+            case { Default: string }:
+                return cvar.Options?.Count > 0
+                    ? CreateSelectOption(cvar, sortIndex)
+                    : CreateStringOption(cvar, sortIndex);
             default: {
                 Element el = new(
                     id: Slugify(cvar.Id),
@@ -107,6 +109,72 @@ internal partial class SettingsWindow
         };
 
         el.Get<IntegerInputElement>().OnValueChanged += value => ConfigManager.Set(cvar.Id, value);
+
+        return el;
+    }
+
+    private Element CreateStringOption(Cvar cvar, int sortIndex)
+    {
+        Element el = new(
+            id: Slugify(cvar.Id),
+            flow: Flow.Vertical,
+            anchor: Anchor.TopLeft,
+            padding: new(left: 38),
+            sortIndex: sortIndex,
+            gap: 10,
+            children: [
+                new(
+                    id: "Text",
+                    flow: Flow.Vertical,
+                    anchor: Anchor.TopLeft,
+                    gap: 4,
+                    children: [
+                        new(
+                            id: "Name",
+                            text: I18N.Translate($"CVAR.{cvar.Id}.Name"),
+                            anchor: Anchor.TopLeft,
+                            style: new() {
+                                Font         = Font.Axis,
+                                TextColor    = Theme.Color(ThemeColor.Text),
+                                TextAlign    = Anchor.MiddleLeft,
+                                OutlineColor = Theme.Color(ThemeColor.TextOutline),
+                                OutlineWidth = 1
+                            }
+                        ),
+                        new(
+                            id: "Description",
+                            text: I18N.Translate($"CVAR.{cvar.Id}.Description"),
+                            anchor: Anchor.TopLeft,
+                            size: new(250, 0),
+                            style: new() {
+                                Font         = Font.AxisSmall,
+                                TextColor    = Theme.Color(ThemeColor.TextMuted),
+                                TextAlign    = Anchor.TopLeft,
+                                TextWrap     = true,
+                                OutlineColor = Theme.Color(ThemeColor.TextOutline),
+                                OutlineWidth = 1
+                            }
+                        ) { IsVisible = I18N.Has($"CVAR.{cvar.Id}.Description") }
+                    ]
+                ),
+                new StringInputElement(
+                    id: Slugify(cvar.Id),
+                    value: (string)(cvar.Value ?? ""),
+                    minLength: (uint)(cvar.Min ?? 0),
+                    maxLength: (uint)(cvar.Max ?? 100),
+                    anchor: Anchor.TopLeft
+                )
+            ]
+        );
+
+        el.OnBeforeCompute += () => {
+            el.Get("Text.Name").Size        = new(WindowWidth - 290, 0);
+            el.Get("Text.Description").Size = new(WindowWidth - 290, 0);
+
+            el.Get<StringInputElement>().Value = (string)cvar.Value!;
+        };
+
+        el.Get<StringInputElement>().OnValueChanged += value => ConfigManager.Set(cvar.Id, value);
 
         return el;
     }

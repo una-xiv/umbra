@@ -19,21 +19,18 @@ using Dalamud.Game.Text;
 using Umbra.Common;
 using Umbra.Interface;
 
-namespace Umbra.Toolbar.Widgets.Clock;
+namespace Umbra.Toolbar.Widgets.Clock2;
 
 [Service]
-internal partial class ClockWidget : IToolbarWidget
+internal partial class StackedClockWidget : IToolbarWidget
 {
-    [ConfigVariable("Toolbar.Widget.Clock.Enabled", "EnabledWidgets")]
+    [ConfigVariable("Toolbar.Widget.StackedClock.Enabled", "EnabledWidgets")]
     private static bool Enabled { get; set; } = true;
-
-    [ConfigVariable("Toolbar.Widget.Clock.Vertical", "ToolbarSettings", "ClockSettings")]
-    private static bool UseVerticalClocks { get; set; } = true;
 
     private bool _isShowingServerTime;
     private bool _isFirstFrame = true;
 
-    public ClockWidget()
+    public StackedClockWidget()
     {
         Element.Get("LT").OnClick += () => _isShowingServerTime = true;
         Element.Get("ST").OnClick += () => _isShowingServerTime = false;
@@ -41,18 +38,10 @@ internal partial class ClockWidget : IToolbarWidget
         Element.OnBeforeCompute += () => {
             var isModified = false;
 
-            if (UseVerticalClocks) {
-                if (_isFirstFrame || Element.Flow == Flow.Horizontal) {
-                    isModified   = true;
-                    Element.Flow = Flow.Vertical;
-                    Element.Gap  = 2;
-                }
-            } else {
-                if (_isFirstFrame || Element.Flow == Flow.Vertical) {
-                    isModified   = true;
-                    Element.Flow = Flow.Horizontal;
-                    Element.Gap  = 4;
-                }
+            if (_isFirstFrame || Element.Flow == Flow.Horizontal) {
+                isModified   = true;
+                Element.Flow = Flow.Vertical;
+                Element.Gap  = 2;
             }
 
             if (isModified || _isFirstFrame) {
@@ -81,18 +70,18 @@ internal partial class ClockWidget : IToolbarWidget
                         break;
                 }
 
-                Element.Get("LT.Container.Prefix").Style.TextOffset = UseVerticalClocks ? new(0, -2) : new(0, -1);
-                Element.Get("LT.Container.Time").Style.TextOffset   = UseVerticalClocks ? new(0, -2) : new(0, -1);
-                Element.Get("ST.Container.Prefix").Style.TextOffset = UseVerticalClocks ? new(0, -2) : new(0, -1);
-                Element.Get("ST.Container.Time").Style.TextOffset   = UseVerticalClocks ? new(0, -2) : new(0, -1);
+                Element.Get("LT.Container.Prefix").Style.TextOffset = new(0, -2);
+                Element.Get("LT.Container.Time").Style.TextOffset   = new(0, -2);
+                Element.Get("ST.Container.Prefix").Style.TextOffset = new(0, -2);
+                Element.Get("ST.Container.Time").Style.TextOffset   = new(0, -2);
 
                 foreach (var clock in Element.Children) {
-                    clock.Get<BackgroundElement>().IsVisible = !UseVerticalClocks;
-                    clock.Get<BorderElement>().IsVisible     = !UseVerticalClocks;
-                    clock.Size                               = UseVerticalClocks ? new(0, 0) : new(0, 28);
-                    clock.Get("Container").Padding           = UseVerticalClocks ? new(0, 0) : new(0, 8);
-                    clock.Get("Container.Prefix").Style.Font = UseVerticalClocks ? Font.AxisSmall : Font.Axis;
-                    clock.Get("Container.Time").Style.Font   = UseVerticalClocks ? Font.AxisSmall : Font.Axis;
+                    clock.Get<BackgroundElement>().IsVisible = false;
+                    clock.Get<BorderElement>().IsVisible     = false;
+                    clock.Size                               = new(0, 0);
+                    clock.Get("Container").Padding           = new(0, 0);
+                    clock.Get("Container.Prefix").Style.Font = Font.AxisSmall;
+                    clock.Get("Container.Time").Style.Font   = Font.AxisSmall;
                     clock.Get("Container.Prefix").Invalidate();
                     clock.Get("Container.Time").Invalidate();
                 }

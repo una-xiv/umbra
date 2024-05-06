@@ -44,10 +44,10 @@ internal partial class GearsetWidget : IToolbarWidget
     [ConfigVariable("Toolbar.Widget.Gearset.VisibleGearsetsForMelee", "ToolbarSettings", "GearsetSwitcherSettings", min: 1, max: 10)]
     private static int VisibleGearsetsForMelee { get; set; } = 6;
 
-    [ConfigVariable("Toolbar.Widget.Gearset.VisibleGearsetsForRanged", "ToolbarSettings", "GearsetSwitcherSettings", min: 1, max: 10)]
+    [ConfigVariable("Toolbar.Widget.Gearset.VisibleGearsetsForPhysicalRanged", "ToolbarSettings", "GearsetSwitcherSettings", min: 1, max: 10)]
     private static int VisibleGearsetsForRanged { get; set; } = 5;
 
-    [ConfigVariable("Toolbar.Widget.Gearset.VisibleGearsetsForCasters", "ToolbarSettings", "GearsetSwitcherSettings", min: 1, max: 10)]
+    [ConfigVariable("Toolbar.Widget.Gearset.VisibleGearsetsForMagicalRanged", "ToolbarSettings", "GearsetSwitcherSettings", min: 1, max: 10)]
     private static int VisibleGearsetsForCasters { get; set; } = 5;
 
     [ConfigVariable("Toolbar.Widget.Gearset.VisibleGearsetsForCrafters", "ToolbarSettings", "GearsetSwitcherSettings", min: 1, max: 10)]

@@ -110,5 +110,16 @@ public static class I18N
                 }
             }
         }
+
+        // Find obsolete translations from other languages than english.
+        foreach (string lang in Translations.Keys) {
+            if (lang == "en") continue;
+
+            foreach (string key in Translations[lang].Keys) {
+                if (!en.ContainsKey(key)) {
+                    Logger.Warning($"Language \"{lang}\" has obsolete translation \"{key}\".");
+                }
+            }
+        }
     }
 }
