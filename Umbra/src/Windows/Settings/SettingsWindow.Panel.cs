@@ -16,6 +16,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using Dalamud.Interface;
 using Umbra.Common;
 using Umbra.Interface;
 
@@ -24,6 +25,8 @@ namespace Umbra.Windows.Settings;
 internal partial class SettingsWindow
 {
     private readonly Dictionary<string, Element> _panels = [];
+
+    private string _activeSubCategory = "";
 
     private void UpdatePanelDimensions(Element panel, int width, int height)
     {
@@ -85,18 +88,65 @@ internal partial class SettingsWindow
                 new(
                     id: "Header",
                     flow: Flow.Horizontal,
-                    text: I18N.Translate($"CVAR.SubGroup.{subCategoryId}"),
-                    style: new() {
-                        Font         = Font.AxisLarge,
-                        TextColor    = Theme.Color(ThemeColor.Text),
-                        TextAlign    = Anchor.TopLeft,
-                        TextOffset   = new(0, -1),
-                        OutlineColor = Theme.Color(ThemeColor.TextOutlineLight),
-                        OutlineWidth = 1,
-                    }
-                )
+                    anchor: Anchor.TopLeft,
+                    size: new(0, 24),
+                    gap: 8,
+                    padding: new(top: 8, bottom: -4),
+                    children: [
+                        new(
+                            id: "Chevron",
+                            text: FontAwesomeIcon.ChevronRight.ToIconString(),
+                            size: new(24, 24),
+                            style: new() {
+                                Font         = Font.FontAwesome,
+                                TextColor    = Theme.Color(ThemeColor.Text),
+                                TextAlign    = Anchor.MiddleCenter,
+                                TextOffset   = new(0, -1),
+                                OutlineColor = Theme.Color(ThemeColor.TextOutlineLight),
+                                OutlineWidth = 1,
+                            }
+                        ),
+                        new(
+                            id: "Label",
+                            text: I18N.Translate($"CVAR.SubGroup.{subCategoryId}"),
+                            size: new(0, 24),
+                            style: new() {
+                                Font         = Font.AxisLarge,
+                                TextColor    = Theme.Color(ThemeColor.Text),
+                                TextAlign    = Anchor.MiddleLeft,
+                                TextOffset   = new(0, -1),
+                                OutlineColor = Theme.Color(ThemeColor.TextOutlineLight),
+                                OutlineWidth = 1,
+                            }
+                        )
+                    ]
+                ),
+                new(
+                    id: "Content",
+                    flow: Flow.Vertical,
+                    anchor: Anchor.TopLeft,
+                    gap: 16,
+                    children: []
+                ) { IsVisible = false }
             ]
         );
+
+        Element content = el.Get("Content");
+        Element header  = el.Get("Header");
+
+        el.OnBeforeCompute += () => {
+            el.Size = new(WindowWidth - 264, 0);
+
+            header.Get("Chevron").Text = _activeSubCategory == subCategoryId
+                ? FontAwesomeIcon.ChevronDown.ToIconString()
+                : FontAwesomeIcon.ChevronRight.ToIconString();
+
+            content.IsVisible = _activeSubCategory == subCategoryId;
+        };
+
+        header.OnClick      += () => { _activeSubCategory = _activeSubCategory == subCategoryId ? "" : subCategoryId; };
+        header.OnMouseEnter += () => { header.Get("Label").Style.TextColor = Theme.Color(ThemeColor.TextLight); };
+        header.OnMouseLeave += () => { header.Get("Label").Style.TextColor = Theme.Color(ThemeColor.Text); };
 
         List<Cvar> cvars = ConfigManager
             .GetVariablesFromCategory(categoryId)
@@ -104,7 +154,7 @@ internal partial class SettingsWindow
             .ToList();
 
         for (var i = 0; i < cvars.Count; i++) {
-            el.AddChild(BuildCvarControl(cvars[i], i));
+            content.AddChild(BuildCvarControl(cvars[i], i));
         }
 
         return el;
