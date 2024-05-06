@@ -69,11 +69,11 @@ public class FontRepository
         );
 
         List<Task<IFontHandle>> tasks = [
-            CreateGameFont(Font.AxisExtraSmall, new(GameFontFamily.Axis, 12 * Element.ScaleFactor)),
-            CreateGameFont(Font.AxisSmall, new(GameFontFamily.Axis, 14 * Element.ScaleFactor)),
+            CreateGameFont(Font.AxisExtraSmall, new(GameFontFamily.Axis, 12.79f * Element.ScaleFactor)),
+            CreateGameFont(Font.AxisSmall, new(GameFontFamily.Axis, 14.66f * Element.ScaleFactor)),
             CreateGameFont(Font.Axis, new(GameFontFamily.Axis, 16 * Element.ScaleFactor)),
-            CreateGameFont(Font.AxisLarge, new(GameFontFamily.Axis, 18 * Element.ScaleFactor)),
-            CreateGameFont(Font.AxisExtraLarge, new(GameFontFamily.Axis, 25 * Element.ScaleFactor) { Bold = true }),
+            CreateGameFont(Font.AxisLarge, new(GameFontFamily.Axis, 18.66f * Element.ScaleFactor)),
+            CreateGameFont(Font.AxisExtraLarge, new(GameFontFamily.Axis, 24 * Element.ScaleFactor) { Bold = true }),
             CreateGameFont(Font.Miedinger, new(GameFontFamily.MiedingerMid, 18 * Element.ScaleFactor) { Bold = true }),
             CreateGameFont(Font.MiedingerLarge, new(GameFontFamily.MiedingerMid, 42 * Element.ScaleFactor)),
 
