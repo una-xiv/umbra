@@ -17,6 +17,7 @@
 using System;
 using Umbra.Common;
 using Umbra.Interface;
+using Framework = FFXIVClientStructs.FFXIV.Client.System.Framework.Framework;
 
 namespace Umbra.Toolbar.Widgets.Time;
 
@@ -48,8 +49,13 @@ internal class ServerTimeWidget : BaseTimeWidget
     protected override string   PmSuffix        => PmSuffixOption;
 
     /// <inheritdoc/>
-    protected override DateTime GetTime()
+    protected override unsafe DateTime GetTime()
     {
-        return DateTime.Now;
+        long serverTime = Framework.GetServerTime();
+        long hours      = serverTime / 3600 % 24;
+        long minutes    = serverTime / 60   % 60;
+        long seconds    = serverTime        % 60;
+
+        return new(1, 1, 1, (int)hours, (int)minutes, (int)seconds);
     }
 }
