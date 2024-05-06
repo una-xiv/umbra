@@ -64,6 +64,8 @@
     "CVAR.SubGroup.WorldMarkers": "ワールドマーカー",
     "CVAR.SubGroup.DirectionIndicators": "方向指示子",
     "CVAR.SubGroup.VisibilitySettings": "表示設定",
+    "CVAR.General.UiScale.Name": "UIスケール",
+    "CVAR.General.UiScale.Description": "全てのUmbra要素のインターフェースのスケールファクターです。この値はデフォルトサイズのパーセンテージです。この値を変更すると、プラグインが再読み込みされ、設定ウィンドウが閉じます。与えられた値を適用するには、Enterキーを押してください。",
     "CVAR.General.LanguageOverride.Name": "言語オーバーライド（プラグインを再読み込みします）",
     "CVAR.General.LanguageOverride.Description": "Umbra用のDalamudの言語設定をオーバーライドします。これはUmbra固有の翻訳にのみ影響します。ゲーム自体から来るテキストは引き続きゲームの言語で表示されます。この値を変更すると、プラグインが再読み込みされ、設定ウィンドウが閉じられます。",
     "CVAR.General.EnableImageProcessing.Name": "一部のアイコン要素で画像処理を有効にする",

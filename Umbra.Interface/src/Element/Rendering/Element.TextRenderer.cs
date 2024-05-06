@@ -23,7 +23,7 @@ namespace Umbra.Interface;
 public partial class Element
 {
     private static uint _globalWrappedTextFrameId = 10_000_000;
-    private uint _wrappedTextFrameId;
+    private        uint _wrappedTextFrameId;
 
     private void RenderText(ImDrawListPtr drawList)
     {
@@ -35,7 +35,7 @@ public partial class Element
         bool shouldWrap = Size.Width > 0 && _computedStyle.TextWrap == true;
 
         Vector2 textSize = shouldWrap
-            ? ImGui.CalcTextSize(Text + " ", (float)Math.Max(16, Size.Width - Padding.Horizontal))
+            ? ImGui.CalcTextSize(Text + " ", Math.Max(16, Size.Width * ScaleFactor))
             : ImGui.CalcTextSize(Text);
 
         Rect    rect  = ContentBox;
@@ -68,7 +68,16 @@ public partial class Element
 
             ImGui.SetCursorScreenPos(ContentBox.Min);
             ImGui.PushStyleVar(ImGuiStyleVar.FramePadding, new Vector2(0, 0));
-            ImGui.BeginChildFrame(_wrappedTextFrameId, textSize, ImGuiWindowFlags.NoMouseInputs | ImGuiWindowFlags.NoInputs | ImGuiWindowFlags.AlwaysAutoResize | ImGuiWindowFlags.NoScrollbar);
+
+            ImGui.BeginChildFrame(
+                _wrappedTextFrameId,
+                textSize,
+                ImGuiWindowFlags.NoMouseInputs
+              | ImGuiWindowFlags.NoInputs
+              | ImGuiWindowFlags.AlwaysAutoResize
+              | ImGuiWindowFlags.NoScrollbar
+            );
+
             ImGui.PushStyleColor(ImGuiCol.Text, _computedStyle.TextColor?.Value ?? 0xFFC0C0C0);
             ImGui.TextWrapped(Text);
             ImGui.PopStyleColor();
@@ -83,7 +92,7 @@ public partial class Element
 
         if (outlineWidth > 0) {
             uint  outlineColor = _computedStyle.OutlineColor?.Value ?? 0xFF000000;
-            float opacity      = _computedStyle.Opacity      ?? 1;
+            float opacity      = _computedStyle.Opacity             ?? 1;
 
             if (opacity < 1) outlineColor = outlineColor.ApplyAlphaComponent(opacity / (outlineWidth * 3));
 

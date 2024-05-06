@@ -63,6 +63,8 @@
     "CVAR.SubGroup.WorldMarkers": "World Markers",
     "CVAR.SubGroup.DirectionIndicators": "Direction Indicators",
     "CVAR.SubGroup.VisibilitySettings": "Visibility Settings",
+    "CVAR.General.UiScale.Name": "UI Scale",
+    "CVAR.General.UiScale.Description": "The interface scale factor for all Umbra elements. This value is a percentage of the default size. Modifying this value will reload the plugin, causing the settings window to close. Hit enter to apply the given value.",
     "CVAR.General.LanguageOverride.Name": "Language Override (Reloads the plugin)",
     "CVAR.General.LanguageOverride.Description": "Overrides Dalamud's language setting for Umbra. Note that this only affects Umbra-specific translations. Texts that come from the game itself will still be shown in the game's language. Modifying this value will reload the plugin, causing the settings window to close.",
     "CVAR.General.EnableImageProcessing.Name": "Enable image processing on some icon elements",

@@ -96,8 +96,13 @@ internal sealed class CompanionManager : ICompanionManager
 
     public void Summon()
     {
+        if (!HasGysahlGreens) {
+            Logger.Warning("You do not have any Gysahl Greens to summon your companion.");
+            return;
+        }
+
         if (!CanSummon()) {
-            Logger.Warning("Cannot summon companion at this time.");
+            Logger.Warning("You cannot summon your companion at this time.");
             return;
         }
 

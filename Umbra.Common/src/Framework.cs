@@ -48,6 +48,9 @@ public static class Framework
         DalamudPlugin    = dalamudPlugin;
         DalamudFramework = dalamudFramework;
 
+        // Always make sure config is loaded first.
+        ConfigManager.Initialize();
+
         foreach (var initializer in GetMethodInfoListWith<WhenFrameworkAsyncCompilingAttribute>()) {
             await (Task)initializer.Invoke(null, null)!;
         }
@@ -73,6 +76,8 @@ public static class Framework
         Scheduler.Stop();
 
         GetMethodInfoListWith<WhenFrameworkDisposingAttribute>().ForEach(method => method.Invoke(null, null));
+
+        ConfigManager.Dispose();
     }
 
     public static async void Restart()

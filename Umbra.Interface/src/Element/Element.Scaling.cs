@@ -15,15 +15,19 @@
  */
 
 using ImGuiNET;
+using Umbra.Common;
 
 namespace Umbra.Interface;
 
 public partial class Element
 {
+    [ConfigVariable("General.UiScale", "General", min: 50, max: 300, requiresRestart: true)]
+    private static int UiScale { get; set; } = 100;
+
     protected Size    ScaledSize    => ScaleFactor * Size;
     protected Spacing ScaledPadding => ScaleFactor * Padding;
     protected Spacing ScaledMargin  => ScaleFactor * Margin;
     protected int     ScaledGap     => (int)(ScaleFactor * Gap);
 
-    public static float ScaleFactor => ImGui.GetIO().FontGlobalScale;
+    public static float ScaleFactor => (float)UiScale / 100;
 }

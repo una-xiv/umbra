@@ -57,48 +57,81 @@ public class FontRepository
         Get(font).Pop();
     }
 
+    private static IFontAtlas FontAtlas { get; set; } = null!;
+
     [WhenFrameworkAsyncCompiling]
     internal static async Task LoadFonts()
     {
-        // We'll only load fonts once during the plugin's lifetime, since they're static.
-        if (FontHandles.Count > 0) return;
+        FontAtlas = Framework.DalamudPlugin.UiBuilder.CreateFontAtlas(
+            FontAtlasAutoRebuildMode.Async,
+            true,
+            "UmbraFonts"
+        );
 
         List<Task<IFontHandle>> tasks = [
-            CreateFontFromStyle(Font.AxisExtraSmall, new(GameFontFamily.Axis, 12)),
-            CreateFontFromStyle(Font.AxisSmall,      new(GameFontFamilyAndSize.Axis96)),
-            CreateFontFromStyle(Font.Axis,           new(GameFontFamilyAndSize.Axis12)),
-            CreateFontFromStyle(Font.AxisLarge,      new(GameFontFamilyAndSize.Axis14)),
-            CreateFontFromStyle(Font.AxisExtraLarge, new(GameFontFamily.Axis, 25f) { Bold = true }),
-            CreateFontFromStyle(Font.MiedingerSmall, new(GameFontFamilyAndSize.MiedingerMid10)),
-            CreateFontFromStyle(Font.Miedinger,      new(GameFontFamilyAndSize.MiedingerMid14) { Bold = true }),
-            CreateFontFromStyle(Font.MiedingerLarge, new(GameFontFamily.MiedingerMid, 42f)),
+            CreateGameFont(Font.AxisExtraSmall, new(GameFontFamily.Axis, 12 * Element.ScaleFactor)),
+            CreateGameFont(Font.AxisSmall, new(GameFontFamily.Axis, 14 * Element.ScaleFactor)),
+            CreateGameFont(Font.Axis, new(GameFontFamily.Axis, 16 * Element.ScaleFactor)),
+            CreateGameFont(Font.AxisLarge, new(GameFontFamily.Axis, 18 * Element.ScaleFactor)),
+            CreateGameFont(Font.AxisExtraLarge, new(GameFontFamily.Axis, 25 * Element.ScaleFactor) { Bold = true }),
+            CreateGameFont(Font.Miedinger, new(GameFontFamily.MiedingerMid, 18 * Element.ScaleFactor) { Bold = true }),
+            CreateGameFont(Font.MiedingerLarge, new(GameFontFamily.MiedingerMid, 42 * Element.ScaleFactor)),
 
-            CreateFontFromDalamudAsset(Font.MonospaceSmall,   DalamudAsset.InconsolataRegular,   new() { SizePx = 10 }),
-            CreateFontFromDalamudAsset(Font.Monospace,        DalamudAsset.InconsolataRegular,   new() { SizePx = 14 }),
-            CreateFontFromDalamudAsset(Font.MonospaceLarge,   DalamudAsset.InconsolataRegular,   new() { SizePx = 18 }),
-            CreateFontFromDalamudAsset(Font.FontAwesomeSmall, DalamudAsset.FontAwesomeFreeSolid, new() { SizePx = 10 }),
-            CreateFontFromDalamudAsset(Font.FontAwesome,      DalamudAsset.FontAwesomeFreeSolid, new() { SizePx = 14 }),
+            CreateFontFromDalamudAsset(
+                Font.FontAwesomeSmall,
+                DalamudAsset.FontAwesomeFreeSolid,
+                new() { SizePx = 10 * Element.ScaleFactor }
+            ),
+            CreateFontFromDalamudAsset(
+                Font.FontAwesome,
+                DalamudAsset.FontAwesomeFreeSolid,
+                new() { SizePx = 14 * Element.ScaleFactor }
+            ),
         ];
 
+        await FontAtlas.BuildFontsAsync();
         await Task.WhenAll(tasks);
 
-        // Assign Axis14 as default.
         FontHandles[Font.Default] = FontHandles[Font.Axis];
     }
 
-    private static Task<IFontHandle> CreateFontFromStyle(Font font, GameFontStyle style)
+    [WhenFrameworkDisposing(executionOrder: int.MaxValue)]
+    internal static void DisposeFonts()
     {
-        FontHandles[font] = Framework.DalamudPlugin.UiBuilder.FontAtlas.NewGameFontHandle(style);
+        foreach (Font font in FontHandles.Keys) {
+            if (font == Font.Default) continue;
 
-        return FontHandles[font].WaitAsync();
+            FontHandles[font].Dispose();
+        }
+
+        FontHandles.Clear();
+        FontAtlas.Dispose();
     }
 
     private static Task<IFontHandle> CreateFontFromDalamudAsset(Font font, DalamudAsset asset, SafeFontConfig config)
     {
-        FontHandles[font] =
-            Framework.DalamudPlugin.UiBuilder.FontAtlas.NewDelegateFontHandle(
-                e => e.OnPreBuild(tk => tk.AddDalamudAssetFont(asset, config))
-            );
+        FontHandles[font] = FontAtlas.NewDelegateFontHandle(
+            e => e.OnPreBuild(
+                tk => {
+                    tk.Font = tk.AddDalamudAssetFont(asset, config);
+                    tk.SetFontScaleMode(tk.Font, FontScaleMode.UndoGlobalScale);
+                }
+            )
+        );
+
+        return FontHandles[font].WaitAsync();
+    }
+
+    private static Task<IFontHandle> CreateGameFont(Font font, GameFontStyle style)
+    {
+        FontHandles[font] = FontAtlas.NewDelegateFontHandle(
+            buildStep => buildStep.OnPreBuild(
+                tk => {
+                    tk.Font = tk.AddGameGlyphs(style, null, default);
+                    tk.SetFontScaleMode(tk.Font, FontScaleMode.UndoGlobalScale);
+                }
+            )
+        );
 
         return FontHandles[font].WaitAsync();
     }

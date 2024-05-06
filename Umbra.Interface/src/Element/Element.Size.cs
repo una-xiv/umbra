@@ -143,7 +143,7 @@ public partial class Element
 
         Vector2 textSize = Size.ShouldSpanHorizontally
             ? ImGui.CalcTextSize(Text)
-            : ImGui.CalcTextSize(Text, (float)Size.Width);
+            : ImGui.CalcTextSize(Text, Math.Max(16, Size.Width * ScaleFactor));
 
         FontRepository.PopFont(font);
 

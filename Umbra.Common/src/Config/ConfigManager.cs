@@ -20,6 +20,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 namespace Umbra.Common;
@@ -31,8 +32,7 @@ public static class ConfigManager
     private static Timer? _debounceTimer;
     private static bool   _isInitialLoad;
 
-    [WhenFrameworkCompiling(executionOrder: int.MinValue)]
-    public static void GatherConfigVariableUsages()
+    internal static void Initialize()
     {
         var props = Framework
             .Assemblies.SelectMany(asm => asm.GetTypes())
@@ -70,8 +70,7 @@ public static class ConfigManager
         _isInitialLoad = false;
     }
 
-    [WhenFrameworkDisposing]
-    public static void WhenFrameworkDisposing()
+    internal static void Dispose()
     {
         _debounceTimer?.Dispose();
         Cvars.Clear();
@@ -134,7 +133,11 @@ public static class ConfigManager
         if (!_isInitialLoad && cvar.RequiresRestart) {
             _debounceTimer?.Dispose();
             Persist();
-            Framework.Restart();
+            Framework.DalamudFramework.Run(
+                async () => {
+                    await Task.Delay(250);
+                    Framework.Restart();
+                });
             return;
         }
 

@@ -46,6 +46,7 @@ public class IntegerInputElement : Element
         ImGui.PushID($"II_{Id}");
         ImGui.SetCursorScreenPos(ContentBox.Min);
 
+        FontRepository.PushFont(Font.Axis);
         ImGui.PushStyleVar(ImGuiStyleVar.FramePadding, new Vector2(8, 4));
         ImGui.PushStyleVar(ImGuiStyleVar.FrameRounding, 5);
         ImGui.PushStyleColor(ImGuiCol.Text,           Theme.Color(ThemeColor.Text));
@@ -53,9 +54,9 @@ public class IntegerInputElement : Element
         ImGui.PushStyleColor(ImGuiCol.FrameBgHovered, Theme.Color(ThemeColor.BackgroundLight));
         ImGui.PushStyleColor(ImGuiCol.FrameBgActive,  Theme.Color(ThemeColor.BackgroundActive));
 
-        ImGui.SetNextItemWidth((Parent!.ContentBox.Width / ScaleFactor) - (Parent!.Padding.Horizontal * ScaleFactor));
+        ImGui.SetNextItemWidth((Parent!.ContentBox.Width / ImGui.GetIO().FontGlobalScale) - (Parent!.Padding.Horizontal * ScaleFactor));
 
-        if (ImGui.InputInt("", ref value, 1, 10)) {
+        if (ImGui.InputInt("", ref value, 1, 10, ImGuiInputTextFlags.None | ImGuiInputTextFlags.EnterReturnsTrue)) {
             value = Math.Clamp(value, MinValue, MaxValue);
 
             if (Value != value) {
@@ -67,5 +68,6 @@ public class IntegerInputElement : Element
         ImGui.PopStyleColor(4);
         ImGui.PopStyleVar(2);
         ImGui.PopID();
+        FontRepository.PopFont(Font.Axis);
     }
 }

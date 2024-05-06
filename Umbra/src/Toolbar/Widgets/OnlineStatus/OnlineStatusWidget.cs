@@ -15,6 +15,8 @@
  */
 
 using Dalamud.Plugin.Services;
+using FFXIVClientStructs.FFXIV.Client.UI.Agent;
+using FFXIVClientStructs.FFXIV.Client.UI.Info;
 using Umbra.Common;
 using Umbra.Game;
 using Umbra.Interface;
@@ -67,6 +69,9 @@ internal unsafe partial class OnlineStatusWidget : IToolbarWidget
             Element.IsVisible = false;
             return;
         }
+
+        // InfoProxySearchComment.Instance()->InfoProxyInterface;
+
 
         Element.IsVisible = true;
         Element.Tooltip   = status.Name.ToString();

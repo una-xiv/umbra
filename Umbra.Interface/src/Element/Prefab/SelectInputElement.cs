@@ -58,7 +58,9 @@ public class SelectInputElement : Element
         ImGui.PushStyleColor(ImGuiCol.FrameBgHovered, Theme.Color(ThemeColor.BackgroundLight));
         ImGui.PushStyleColor(ImGuiCol.FrameBgActive,  Theme.Color(ThemeColor.BackgroundActive));
 
-        ImGui.SetNextItemWidth((Parent!.ContentBox.Width / ScaleFactor) - (Parent!.Padding.Horizontal * ScaleFactor));
+        ImGui.SetNextItemWidth((Parent!.ContentBox.Width / ImGui.GetIO().FontGlobalScale) - (Parent!.Padding.Horizontal * ScaleFactor));
+
+        FontRepository.PushFont(Font.Axis);
 
         if (ImGui.BeginCombo("", value)) {
             foreach (string option in Options) {
@@ -77,6 +79,8 @@ public class SelectInputElement : Element
             }
             ImGui.EndCombo();
         }
+
+        FontRepository.PopFont(Font.Axis);
 
         ImGui.PopStyleColor(7);
         ImGui.PopStyleVar(4);

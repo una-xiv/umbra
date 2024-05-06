@@ -20,17 +20,12 @@ public enum Font
 {
     Default,
 
-    MonospaceSmall,
-    Monospace,
-    MonospaceLarge,
-
     AxisExtraSmall,
     AxisSmall,
     Axis,
     AxisLarge,
     AxisExtraLarge,
 
-    MiedingerSmall,
     Miedinger,
     MiedingerLarge,
 

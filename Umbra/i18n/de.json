@@ -64,6 +64,8 @@
     "CVAR.SubGroup.WorldMarkers": "Weltmarkierungen",
     "CVAR.SubGroup.DirectionIndicators": "Richtungsanzeigen",
     "CVAR.SubGroup.VisibilitySettings": "Sichtbarkeitseinstellungen",
+    "CVAR.General.UiScale.Name": "UI-Skalierung",
+    "CVAR.General.UiScale.Description": "Der Skalierungsfaktor für alle Umbra-Elemente der Benutzeroberfläche. Dieser Wert ist ein Prozentsatz der Standardgröße. Eine Änderung dieses Werts lädt das Plugin neu und führt dazu, dass das Einstellungsfenster geschlossen wird. Drücken Sie die Eingabetaste, um den angegebenen Wert anzuwenden.",
     "CVAR.General.LanguageOverride.Name": "Sprachüberschreibung (Lädt das Plugin neu)",
     "CVAR.General.LanguageOverride.Description": "Überschreibt die Spracheinstellung von Dalamud für Umbra. Beachten Sie, dass dies nur Umbra-spezifische Übersetzungen betrifft. Texte, die aus dem Spiel selbst stammen, werden weiterhin in der Sprache des Spiels angezeigt. Das Ändern dieses Werts lädt das Plugin neu und führt dazu, dass das Einstellungsfenster geschlossen wird.",
     "CVAR.General.EnableImageProcessing.Name": "Aktiviere die Bildverarbeitung für bestimmte Symbol-Elemente",

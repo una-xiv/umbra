@@ -32,7 +32,7 @@ public partial class Element
                 rect.Min,
                 new (rect.Max.X, rect.Min.Y),
                 _computedStyle.BorderColor.Top.ApplyAlpha(_computedStyle.Opacity ?? 1),
-                width.Top
+                width.Top * ScaleFactor
             );
         }
 
@@ -41,7 +41,7 @@ public partial class Element
                 new (rect.Min.X, rect.Max.Y),
                 rect.Max,
                 _computedStyle.BorderColor.Bottom.ApplyAlpha(_computedStyle.Opacity ?? 1),
-                width.Bottom
+                width.Bottom * ScaleFactor
             );
         }
 
@@ -50,7 +50,7 @@ public partial class Element
                 rect.Min,
                 new (rect.Min.X, rect.Max.Y),
                 _computedStyle.BorderColor.Left.ApplyAlpha(_computedStyle.Opacity ?? 1),
-                width.Left
+                width.Left * ScaleFactor
             );
         }
 
@@ -59,7 +59,7 @@ public partial class Element
                 new (rect.Max.X, rect.Min.Y),
                 rect.Max,
                 _computedStyle.BorderColor.Right.ApplyAlpha(_computedStyle.Opacity ?? 1),
-                width.Right
+                width.Right * ScaleFactor
             );
         }
     }
