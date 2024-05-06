@@ -14,6 +14,7 @@
  *     GNU Affero General Public License for more details.
  */
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Umbra.Common;
@@ -33,6 +34,27 @@ internal partial class GearsetWidget : IToolbarWidget
 
     [ConfigVariable("Toolbar.Widget.Gearset.UseAlternateIcons.Buttons", "ToolbarSettings", "GearsetSwitcherSettings")]
     private static bool UseAlternateButtonIcons { get; set; } = false;
+
+    [ConfigVariable("Toolbar.Widget.Gearset.VisibleGearsetsForTanks", "ToolbarSettings", "GearsetSwitcherSettings", min: 1, max: 10)]
+    private static int VisibleGearsetsForTanks { get; set; } = 2;
+
+    [ConfigVariable("Toolbar.Widget.Gearset.VisibleGearsetsForHealers", "ToolbarSettings", "GearsetSwitcherSettings", min: 1, max: 10)]
+    private static int VisibleGearsetsForHealers { get; set; } = 2;
+
+    [ConfigVariable("Toolbar.Widget.Gearset.VisibleGearsetsForMelee", "ToolbarSettings", "GearsetSwitcherSettings", min: 1, max: 10)]
+    private static int VisibleGearsetsForMelee { get; set; } = 6;
+
+    [ConfigVariable("Toolbar.Widget.Gearset.VisibleGearsetsForRanged", "ToolbarSettings", "GearsetSwitcherSettings", min: 1, max: 10)]
+    private static int VisibleGearsetsForRanged { get; set; } = 5;
+
+    [ConfigVariable("Toolbar.Widget.Gearset.VisibleGearsetsForCasters", "ToolbarSettings", "GearsetSwitcherSettings", min: 1, max: 10)]
+    private static int VisibleGearsetsForCasters { get; set; } = 5;
+
+    [ConfigVariable("Toolbar.Widget.Gearset.VisibleGearsetsForCrafters", "ToolbarSettings", "GearsetSwitcherSettings", min: 1, max: 10)]
+    private static int VisibleGearsetsForCrafters { get; set; } = 7;
+
+    [ConfigVariable("Toolbar.Widget.Gearset.VisibleGearsetsForGatherers", "ToolbarSettings", "GearsetSwitcherSettings", min: 1, max: 10)]
+    private static int VisibleGearsetsForGatherers { get; set; } = 3;
 
     private readonly IGearsetRepository                   _gearsetRepository;
     private readonly IGearsetCategoryRepository           _categoryRepository;
@@ -113,30 +135,41 @@ internal partial class GearsetWidget : IToolbarWidget
             $"{(gearset.IsMaxLevel ? $"Ilv.{gearset.ItemLevel}" : $"Lv.{gearset.JobLevel}, {gearset.JobXp}% XP")}";
     }
 
+    private void UpdateGroupSize(Element groupElement, int gearsetCount, int visibleCount)
+    {
+        groupElement.IsVisible = gearsetCount > 0;
+        if (!groupElement.IsVisible) return;
+
+        int visCount = Math.Min(gearsetCount, visibleCount);
+
+        groupElement.Size                  = new(CellWidth, (visCount * (CellHeight + 6)) + CellHeight);
+        groupElement.Get("Container").Size = new(CellWidth + 10, visCount  * (CellHeight + 6));
+    }
+
     private void UpdateDropdown()
     {
         if (null  == _gearsetRepository.CurrentGearset) return;
         if (false == _dropdownElement.IsVisible) return;
 
-        int tankCount     = TankGroup.Get("List").Children.Count();
-        int healerCount   = HealerGroup.Get("List").Children.Count();
-        int meleeCount    = MeleeGroup.Get("List").Children.Count();
-        int rangedCount   = RangedGroup.Get("List").Children.Count();
-        int casterCount   = CasterGroup.Get("List").Children.Count();
-        int crafterCount  = CrafterGroup.Get("List").Children.Count();
-        int gathererCount = GathererGroup.Get("List").Children.Count();
-
-        TankGroup.IsVisible     = tankCount     > 0;
-        HealerGroup.IsVisible   = healerCount   > 0;
-        MeleeGroup.IsVisible    = meleeCount    > 0;
-        RangedGroup.IsVisible   = rangedCount   > 0;
-        CasterGroup.IsVisible   = casterCount   > 0;
-        CrafterGroup.IsVisible  = crafterCount  > 0;
-        GathererGroup.IsVisible = gathererCount > 0;
+        int tankCount     = TankGroup.Get("Container.List").Children.Count();
+        int healerCount   = HealerGroup.Get("Container.List").Children.Count();
+        int meleeCount    = MeleeGroup.Get("Container.List").Children.Count();
+        int rangedCount   = RangedGroup.Get("Container.List").Children.Count();
+        int casterCount   = CasterGroup.Get("Container.List").Children.Count();
+        int crafterCount  = CrafterGroup.Get("Container.List").Children.Count();
+        int gathererCount = GathererGroup.Get("Container.List").Children.Count();
 
         LeftColumn.IsVisible   = tankCount    > 0 || healerCount   > 0 || meleeCount > 0;
         MiddleColumn.IsVisible = rangedCount  > 0 || casterCount   > 0;
         RightColumn.IsVisible  = crafterCount > 0 || gathererCount > 0;
+
+        UpdateGroupSize(TankGroup,     tankCount,     VisibleGearsetsForTanks);
+        UpdateGroupSize(HealerGroup,   healerCount,   VisibleGearsetsForHealers);
+        UpdateGroupSize(MeleeGroup,    meleeCount,    VisibleGearsetsForMelee);
+        UpdateGroupSize(RangedGroup,   rangedCount,   VisibleGearsetsForRanged);
+        UpdateGroupSize(CasterGroup,   casterCount,   VisibleGearsetsForCasters);
+        UpdateGroupSize(CrafterGroup,  crafterCount,  VisibleGearsetsForCrafters);
+        UpdateGroupSize(GathererGroup, gathererCount, VisibleGearsetsForGatherers);
 
         Game.Gearset gearset = _gearsetRepository.CurrentGearset;
         uint         color   = _categoryRepository.GetCategoryColor(gearset.Category);
@@ -147,10 +180,12 @@ internal partial class GearsetWidget : IToolbarWidget
         _dropdownElement.Get("Header").Get<GradientElement>().Gradient =
             Gradient.Vertical(0, color.ApplyAlphaComponent(0.20f));
 
-        _dropdownElement.Get("Header.Icon.Image").Style.Image = gearset.JobId + (UseAlternateHeaderIcon ? 62100u : 62000u);
-        _dropdownElement.Get("Header.Info.Name").Text         = gearset.Name;
-        _dropdownElement.Get("Header.Info.Job").Text          = $"Lv.{gearset.JobLevel} {gearset.JobName}";
-        _dropdownElement.Get("Header.ItemLevel").Text         = gearset.ItemLevel.ToString();
+        _dropdownElement.Get("Header.Icon.Image").Style.Image =
+            gearset.JobId + (UseAlternateHeaderIcon ? 62100u : 62000u);
+
+        _dropdownElement.Get("Header.Info.Name").Text = gearset.Name;
+        _dropdownElement.Get("Header.Info.Job").Text  = $"Lv.{gearset.JobLevel} {gearset.JobName}";
+        _dropdownElement.Get("Header.ItemLevel").Text = gearset.ItemLevel.ToString();
 
         _dropdownElement.Get("Header.Info.Buttons.MoveUp").IsDisabled =
             _gearsetRepository.FindPrevIdInCategory(gearset) == null;
@@ -167,7 +202,7 @@ internal partial class GearsetWidget : IToolbarWidget
         Element group   = _gearsetGroups[gearset.Category];
         Element element = BuildGearset(gearset);
 
-        group.Get("List").AddChild(element);
+        group.Get("Container.List").AddChild(element);
         _gearsetElements[gearset.Id] = element;
     }
 
@@ -177,11 +212,11 @@ internal partial class GearsetWidget : IToolbarWidget
 
         uint gsCol = _categoryRepository.GetCategoryColor(gearset.Category);
 
-        element.SortIndex                                  = gearset.Id;
+        element.SortIndex = gearset.Id;
         element.Get("Icon").Get<BackgroundElement>().Color = gsCol;
-        element.Get("Icon.Image").Style.Image              = gearset.JobId + (UseAlternateButtonIcons ? 62100u : 62000u);
-        element.Get("Info.Name").Text                      = gearset.Name;
-        element.Get("ItemLevel").Text                      = gearset.ItemLevel.ToString();
+        element.Get("Icon.Image").Style.Image = gearset.JobId + (UseAlternateButtonIcons ? 62100u : 62000u);
+        element.Get("Info.Name").Text = gearset.Name;
+        element.Get("ItemLevel").Text = gearset.ItemLevel.ToString();
 
         if (gearset.Id == _gearsetRepository.CurrentGearset?.Id) {
             element.Get<BackgroundElement>().Color = gsCol.ApplyAlphaComponent(0.25f);

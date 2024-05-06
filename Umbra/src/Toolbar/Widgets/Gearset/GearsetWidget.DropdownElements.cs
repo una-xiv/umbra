@@ -179,7 +179,6 @@ internal partial class GearsetWidget
         return new(
             id: id,
             flow: Flow.Vertical,
-            gap: 6,
             size: new(CellWidth, 0),
             children: [
                 new(
@@ -195,12 +194,18 @@ internal partial class GearsetWidget
                         OutlineWidth = 1
                     }
                 ),
-                new(
-                    id: "List",
-                    flow: Flow.Vertical,
+                new OverflowContainer(
+                    id: "Container",
                     size: new(CellWidth, 0),
-                    gap: 6,
-                    children: []
+                    children: [
+                        new(
+                            id: "List",
+                            flow: Flow.Vertical,
+                            size: new(CellWidth, 0),
+                            gap: 6,
+                            children: []
+                        )
+                    ]
                 )
             ]
         );

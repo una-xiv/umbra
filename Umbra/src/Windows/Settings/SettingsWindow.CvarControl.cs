@@ -100,7 +100,9 @@ internal partial class SettingsWindow
         );
 
         el.OnBeforeCompute += () => {
-            el.Get("Text.Description").Size     = new(WindowWidth - 290, 0);
+            el.Get("Text.Name").Size        = new(WindowWidth - 290, 0);
+            el.Get("Text.Description").Size = new(WindowWidth - 290, 0);
+
             el.Get<IntegerInputElement>().Value = (int)cvar.Value!;
         };
 
@@ -272,7 +274,7 @@ internal partial class SettingsWindow
         );
 
         el.OnBeforeCompute += () => {
-            el.Get("Text.Description").Size     = new(WindowWidth - 290, 0);
+            el.Get("Text.Description").Size    = new(WindowWidth - 290, 0);
             el.Get<SelectInputElement>().Value = (string)cvar.Value!;
         };
 
