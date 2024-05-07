@@ -1,4 +1,5 @@
-﻿using Umbra.Interface;
+﻿using FFXIVClientStructs.FFXIV.Client.UI.Info;
+using Umbra.Interface;
 
 namespace Umbra.Toolbar.Widgets.OnlineStatus;
 
@@ -46,19 +47,28 @@ internal partial class OnlineStatusWidget
         ]
     );
 
-    private void AddStatusSwitchButton(Lumina.Excel.GeneratedSheets.OnlineStatus status, string chatCommand)
+    private void AddStatusSwitchButton(Lumina.Excel.GeneratedSheets.OnlineStatus status, bool isAvailable)
     {
-        Element button = new DropdownButtonElement(
-            id: $"DropdownButton_{status.RowId}",
-            label: status.Name.ToString(),
-            icon: status.Icon
-        );
+        Element list = _dropdownElement.Get("Items");
+        var elementId = $"DropdownButton_{status.RowId}";
 
-        _dropdownElement.Get("Items").AddChild(button);
+        if (false == list.Has(elementId)) {
+            Element button = new DropdownButtonElement(
+                id: $"DropdownButton_{status.RowId}",
+                label: status.Name.ToString(),
+                icon: status.Icon
+            );
 
-        button.OnClick += () => {
-            _chatSender.Send(chatCommand);
-            _popupContext.Clear();
-        };
+            _dropdownElement.Get("Items").AddChild(button);
+
+            button.OnClick += () => {
+                _popupContext.Clear();
+
+                if (!isAvailable) return;
+                _player.SetOnlineStatus(status.RowId);
+            };
+        }
+
+        list.Get(elementId).IsVisible = isAvailable;
     }
 }

@@ -120,6 +120,29 @@ public interface IPlayer
     public byte GrandCompanyId { get; }
 
     /// <summary>
+    /// True if the player is a mentor.
+    /// </summary>
+    public bool IsMentor { get; }
+
+    /// <summary>
+    /// True if the player is a trade mentor.
+    /// </summary>
+    public bool IsTradeMentor { get; }
+
+    /// <summary>
+    /// True if the player is a battle mentor.
+    /// </summary>
+    public bool IsBattleMentor { get; }
+
+    /// <summary>
+    /// Sets the player's online status to the specified status ID.
+    /// </summary>
+    /// <param name="statusId">
+    /// A RowId from the <see cref="Lumina.Excel.GeneratedSheets.OnlineStatus"/> excel sheet.
+    /// </param>
+    public unsafe void SetOnlineStatus(uint statusId);
+
+    /// <summary>
     /// Get the job information by the specified job ID.
     /// </summary>
     public JobInfo GetJobInfo(byte jobId);

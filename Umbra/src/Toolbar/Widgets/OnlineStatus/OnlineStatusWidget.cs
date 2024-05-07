@@ -14,6 +14,7 @@
  *     GNU Affero General Public License for more details.
  */
 
+using System.Runtime.CompilerServices;
 using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using FFXIVClientStructs.FFXIV.Client.UI.Info;
@@ -43,11 +44,16 @@ internal unsafe partial class OnlineStatusWidget : IToolbarWidget
 
         Element.OnMouseEnter += OnMouseEnter;
         Element.OnMouseLeave += OnMouseLeave;
+        Element.OnRightClick += OpenSearchInfoWindow;
 
-        AddStatusSwitchButton(GetStatusById(47), "/away off");
-        AddStatusSwitchButton(GetStatusById(17), "/away");
-        AddStatusSwitchButton(GetStatusById(12), "/busy");
-        AddStatusSwitchButton(GetStatusById(22), "/roleplaying");
+        AddStatusSwitchButton(GetStatusById(47), true);
+        AddStatusSwitchButton(GetStatusById(17), true);
+        AddStatusSwitchButton(GetStatusById(12), true);
+        AddStatusSwitchButton(GetStatusById(22), true);
+        AddStatusSwitchButton(GetStatusById(27), player.IsMentor);
+        AddStatusSwitchButton(GetStatusById(28), player.IsBattleMentor);
+        AddStatusSwitchButton(GetStatusById(30), player.IsBattleMentor);
+        AddStatusSwitchButton(GetStatusById(29), player.IsTradeMentor);
 
         ctx.RegisterDropdownActivator(Element, _dropdownElement);
     }
@@ -59,10 +65,9 @@ internal unsafe partial class OnlineStatusWidget : IToolbarWidget
             return;
         }
 
-        uint id = _player.OnlineStatusId == 0 ? 47 : _player.OnlineStatusId;
-
+        uint currentStatusId = _player.OnlineStatusId == 0 ? 47 : _player.OnlineStatusId;
         var status =
-            _dataManager.GetExcelSheet<Lumina.Excel.GeneratedSheets.OnlineStatus>()!.GetRow(id);
+            _dataManager.GetExcelSheet<Lumina.Excel.GeneratedSheets.OnlineStatus>()!.GetRow(currentStatusId);
 
         if (null == status) {
             // This should theoretically never happen...
@@ -70,13 +75,17 @@ internal unsafe partial class OnlineStatusWidget : IToolbarWidget
             return;
         }
 
-        // InfoProxySearchComment.Instance()->InfoProxyInterface;
-
-
         Element.IsVisible = true;
         Element.Tooltip   = status.Name.ToString();
 
         Element.Get("Icon").Style.Image = status.Icon;
+
+        if (_dropdownElement.IsVisible) {
+            AddStatusSwitchButton(GetStatusById(27), _player.IsMentor);
+            AddStatusSwitchButton(GetStatusById(28), _player.IsBattleMentor);
+            AddStatusSwitchButton(GetStatusById(30), _player.IsBattleMentor);
+            AddStatusSwitchButton(GetStatusById(29), _player.IsTradeMentor);
+        }
     }
 
     public void OnUpdate() { }
@@ -96,5 +105,23 @@ internal unsafe partial class OnlineStatusWidget : IToolbarWidget
     private Lumina.Excel.GeneratedSheets.OnlineStatus GetStatusById(uint id)
     {
         return _dataManager.GetExcelSheet<Lumina.Excel.GeneratedSheets.OnlineStatus>()!.GetRow(id)!;
+    }
+
+    private void OpenSearchInfoWindow()
+    {
+        InfoModule* infoModule = InfoModule.Instance();
+        if (infoModule->IsInCrossWorldDuty()) return;
+
+        ulong localContentId = infoModule->GetLocalContentId();
+
+        InfoProxyCommonList.CharacterData* characterData =
+            InfoProxyParty.Instance()->InfoProxyCommonList.GetEntryByContentId(localContentId);
+
+        if (characterData == null) return;
+
+        var updateDataPacket = Unsafe.AsPointer(ref InfoProxySearchComment.Instance()->UpdateData);
+        if (null == updateDataPacket) return;
+
+        AgentDetail.Instance()->OpenForCharacterData(characterData, (InfoProxySearchComment.UpdateDataPacket*)updateDataPacket);
     }
 }

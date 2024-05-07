@@ -14,13 +14,16 @@
  *     GNU Affero General Public License for more details.
  */
 
+using System.Linq;
 using System.Numerics;
 using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
+using FFXIVClientStructs.FFXIV.Client.UI.Info;
 using FFXIVClientStructs.FFXIV.Component.GUI;
+using Lumina.Excel.GeneratedSheets;
 using Umbra.Common;
 
 namespace Umbra.Game;
@@ -130,9 +133,26 @@ internal sealed class Player : IPlayer
     /// </summary>
     public byte GrandCompanyId { get; private set; }
 
+    /// <summary>
+    /// True if the player is a mentor.
+    /// </summary>
+    public bool IsMentor { get; private set; }
+
+    /// <summary>
+    /// True if the player is a trade mentor.
+    /// </summary>
+    public bool IsTradeMentor { get; private set; }
+
+    /// <summary>
+    /// True if the player is a battle mentor.
+    /// </summary>
+    public bool IsBattleMentor { get; private set; }
+
     private readonly IClientState      _clientState;
     private readonly ICondition        _condition;
     private readonly JobInfoRepository _jobInfoRepository;
+
+    private readonly uint[] _acceptedOnlineStatusIds = [47, 32, 31, 27, 28, 29, 30, 12, 17, 21, 22, 23];
 
     public Player(IClientState clientState, ICondition condition, JobInfoRepository jobInfoRepository)
     {
@@ -192,7 +212,11 @@ internal sealed class Player : IPlayer
         CurrentWorldName     = _clientState.LocalPlayer.CurrentWorld.GameData!.Name.ToString();
 
         var ps = PlayerState.Instance();
+
         GrandCompanyId = ps->GrandCompany;
+        IsBattleMentor = ps->IsBattleMentor() && ps->MentorVersion == 2;
+        IsTradeMentor  = ps->IsTradeMentor()  && ps->MentorVersion == 2;
+        IsMentor       = IsBattleMentor       && IsTradeMentor;
     }
 
     /// <summary>
@@ -233,6 +257,30 @@ internal sealed class Player : IPlayer
 
         AgentInventoryContext* aic = AgentInventoryContext.Instance();
         if (aic != null) aic->UseItem(itemId);
+    }
+
+    /// <summary>
+    /// Sets the player's online status to the specified status ID.
+    /// </summary>
+    /// <param name="statusId">A RowId from the <see cref="OnlineStatus"/> excel sheet.</param>
+    public unsafe void SetOnlineStatus(uint statusId)
+    {
+        if (_condition[ConditionFlag.BoundByDuty56]) return;
+        if (!_acceptedOnlineStatusIds.Contains(statusId)) return;
+
+        // Mentor status checks.
+        switch (statusId) {
+            case 27 when !IsMentor:
+            case 28 when !IsBattleMentor:
+            case 30 when !IsBattleMentor:
+            case 29 when !IsTradeMentor:
+                return;
+        }
+
+        InfoProxySearchComment* ic = InfoProxySearchComment.Instance();
+        if (null == ic ) return;
+
+        ic->SendOnlineStatusUpdate(statusId);
     }
 
     [OnTick(interval: 1000)]
