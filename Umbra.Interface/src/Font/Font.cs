@@ -20,6 +20,8 @@ public enum Font
 {
     Default,
 
+    Monospace,
+
     AxisExtraSmall,
     AxisSmall,
     Axis,

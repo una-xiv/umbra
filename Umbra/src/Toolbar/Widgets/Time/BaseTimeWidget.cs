@@ -119,7 +119,7 @@ internal abstract class BaseTimeWidget : IToolbarWidget
                     text: "00:00",
                     size: new(0, 28),
                     style: new() {
-                        Font         = Font.Axis,
+                        Font         = Font.Monospace,
                         TextAlign    = Anchor.MiddleLeft,
                         TextOffset   = new(0, -1),
                         TextColor    = Theme.Color(ThemeColor.Text),
