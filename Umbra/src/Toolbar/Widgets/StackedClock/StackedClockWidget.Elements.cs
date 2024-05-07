@@ -27,9 +27,9 @@ internal partial class StackedClockWidget
         flow: Flow.Vertical,
         anchor: Anchor.MiddleRight,
         sortIndex: 0,
-        gap: 2,
+        gap: 0,
         children: [
-            CreateClock("ET", SeIconChar.EorzeaTimeEn, new(0, -1)),
+            CreateClock("ET", SeIconChar.EorzeaTimeEn, new(0, -2)),
             CreateClock("LT", SeIconChar.LocalTimeEn, new(0, -2)),
             CreateClock("ST", SeIconChar.ServerTimeEn, new(0, -2))
         ]
@@ -41,22 +41,20 @@ internal partial class StackedClockWidget
             id,
             anchor: Anchor.MiddleCenter,
             flow: Flow.Horizontal,
-            size: new(0, 28),
+            size: new(0, 14),
             children: [
-                new BackgroundElement(color: Theme.Color(ThemeColor.BackgroundDark), edgeColor: Theme.Color(ThemeColor.BorderDark), edgeThickness: 1, rounding: 4),
-                new BorderElement(color: Theme.Color(ThemeColor.Border), rounding: 3, padding: new(1)),
                 new(
                     "Container",
                     anchor: Anchor.MiddleCenter,
                     flow: Flow.Horizontal,
                     gap: 4,
-                    padding: new(0, 8),
+                    padding: new(left: 8, right: 2),
                     children: [
                         new(
                             "Prefix",
                             text: prefix.ToIconString(),
                             style: new() {
-                                Font         = Font.AxisSmall,
+                                Font         = Font.AxisExtraSmall,
                                 TextAlign    = Anchor.MiddleLeft,
                                 TextOffset   = textOffset,
                                 TextColor    = Theme.Color(ThemeColor.TextMuted),
@@ -68,7 +66,19 @@ internal partial class StackedClockWidget
                             "Time",
                             text: "00:00",
                             style: new() {
-                                Font         = Font.AxisSmall,
+                                Font         = Font.MonospaceSmall,
+                                TextColor    = Theme.Color(ThemeColor.Text),
+                                TextAlign    = Anchor.MiddleLeft,
+                                TextOffset   = textOffset,
+                                OutlineColor = Theme.Color(ThemeColor.TextOutline),
+                                OutlineWidth = 1,
+                            }
+                        ),
+                        new(
+                            "Suffix",
+                            text: "AM",
+                            style: new() {
+                                Font         = Font.AxisExtraSmall,
                                 TextColor    = Theme.Color(ThemeColor.Text),
                                 TextAlign    = Anchor.MiddleLeft,
                                 TextOffset   = textOffset,

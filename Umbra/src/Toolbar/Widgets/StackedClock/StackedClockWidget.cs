@@ -18,6 +18,7 @@ using System;
 using Dalamud.Game.Text;
 using Umbra.Common;
 using Umbra.Interface;
+using Umbra.Toolbar.Widgets.Time;
 
 namespace Umbra.Toolbar.Widgets.Clock2;
 
@@ -27,66 +28,68 @@ internal partial class StackedClockWidget : IToolbarWidget
     [ConfigVariable("Toolbar.Widget.StackedClock.Enabled", "EnabledWidgets")]
     private static bool Enabled { get; set; } = true;
 
+    [ConfigVariable("Toolbar.Widget.EorzeaTime.Use24HourFormat", "ToolbarSettings", "ClockSettings")]
+    private static bool EtUse24HourFormatOption { get; set; } = true;
+
+    [ConfigVariable("Toolbar.Widget.EorzeaTime.ShowSeconds", "ToolbarSettings", "ClockSettings")]
+    private static bool EtShowSecondsOption { get; set; } = false;
+
+    [ConfigVariable("Toolbar.Widget.EorzeaTime.AmSuffix", "ToolbarSettings", "ClockSettings")]
+    private static string EtAmSuffixOption { get; set; } = "am";
+
+    [ConfigVariable("Toolbar.Widget.EorzeaTime.PmSuffix", "ToolbarSettings", "ClockSettings")]
+    private static string EtPmSuffixOption { get; set; } = "pm";
+
+    [ConfigVariable("Toolbar.Widget.ServerTime.Use24HourFormat", "ToolbarSettings", "ClockSettings")]
+    private static bool StUse24HourFormatOption { get; set; } = true;
+
+    [ConfigVariable("Toolbar.Widget.ServerTime.ShowSeconds", "ToolbarSettings", "ClockSettings")]
+    private static bool StShowSecondsOption { get; set; } = false;
+
+    [ConfigVariable("Toolbar.Widget.ServerTime.AmSuffix", "ToolbarSettings", "ClockSettings")]
+    private static string StAmSuffixOption { get; set; } = "am";
+
+    [ConfigVariable("Toolbar.Widget.ServerTime.PmSuffix", "ToolbarSettings", "ClockSettings")]
+    private static string StPmSuffixOption { get; set; } = "pm";
+
+    [ConfigVariable("Toolbar.Widget.LocalTime.Use24HourFormat", "ToolbarSettings", "ClockSettings")]
+    private static bool LtUse24HourFormatOption { get; set; } = true;
+
+    [ConfigVariable("Toolbar.Widget.LocalTime.ShowSeconds", "ToolbarSettings", "ClockSettings")]
+    private static bool LtShowSecondsOption { get; set; } = false;
+
+    [ConfigVariable("Toolbar.Widget.LocalTime.AmSuffix", "ToolbarSettings", "ClockSettings")]
+    private static string LtAmSuffixOption { get; set; } = "am";
+
+    [ConfigVariable("Toolbar.Widget.LocalTime.PmSuffix", "ToolbarSettings", "ClockSettings")]
+    private static string LtPmSuffixOption { get; set; } = "pm";
+
+    private Element EtPrefix { get; }
+    private Element EtTime   { get; }
+    private Element EtSuffix { get; }
+    private Element LtPrefix { get; }
+    private Element LtTime   { get; }
+    private Element LtSuffix { get; }
+    private Element StPrefix { get; }
+    private Element StTime   { get; }
+    private Element StSuffix { get; }
+
     private bool _isShowingServerTime;
-    private bool _isFirstFrame = true;
 
     public StackedClockWidget()
     {
+        EtPrefix = Element.Get("ET.Container.Prefix");
+        EtTime   = Element.Get("ET.Container.Time");
+        EtSuffix = Element.Get("ET.Container.Suffix");
+        LtPrefix = Element.Get("LT.Container.Prefix");
+        LtTime   = Element.Get("LT.Container.Time");
+        LtSuffix = Element.Get("LT.Container.Suffix");
+        StPrefix = Element.Get("ST.Container.Prefix");
+        StTime   = Element.Get("ST.Container.Time");
+        StSuffix = Element.Get("ST.Container.Suffix");
+
         Element.Get("LT").OnClick += () => _isShowingServerTime = true;
         Element.Get("ST").OnClick += () => _isShowingServerTime = false;
-
-        Element.OnBeforeCompute += () => {
-            var isModified = false;
-
-            if (_isFirstFrame || Element.Flow == Flow.Horizontal) {
-                isModified   = true;
-                Element.Flow = Flow.Vertical;
-                Element.Gap  = 2;
-            }
-
-            if (isModified || _isFirstFrame) {
-                _isFirstFrame = false;
-
-                switch (Framework.DalamudPlugin.UiLanguage) {
-                    case "de":
-                        Element.Get("ET.Container.Prefix").Text = SeIconChar.EorzeaTimeDe.ToIconString();
-                        Element.Get("LT.Container.Prefix").Text = SeIconChar.LocalTimeDe.ToIconString();
-                        Element.Get("ST.Container.Prefix").Text = SeIconChar.ServerTimeDe.ToIconString();
-                        break;
-                    case "fr":
-                        Element.Get("ET.Container.Prefix").Text = SeIconChar.EorzeaTimeFr.ToIconString();
-                        Element.Get("LT.Container.Prefix").Text = SeIconChar.LocalTimeFr.ToIconString();
-                        Element.Get("ST.Container.Prefix").Text = SeIconChar.ServerTimeFr.ToIconString();
-                        break;
-                    case "jp":
-                        Element.Get("ET.Container.Prefix").Text = SeIconChar.EorzeaTimeJa.ToIconString();
-                        Element.Get("LT.Container.Prefix").Text = SeIconChar.LocalTimeJa.ToIconString();
-                        Element.Get("ST.Container.Prefix").Text = SeIconChar.ServerTimeJa.ToIconString();
-                        break;
-                    default:
-                        Element.Get("ET.Container.Prefix").Text = SeIconChar.EorzeaTimeEn.ToIconString();
-                        Element.Get("LT.Container.Prefix").Text = SeIconChar.LocalTimeEn.ToIconString();
-                        Element.Get("ST.Container.Prefix").Text = SeIconChar.ServerTimeEn.ToIconString();
-                        break;
-                }
-
-                Element.Get("LT.Container.Prefix").Style.TextOffset = new(0, -2);
-                Element.Get("LT.Container.Time").Style.TextOffset   = new(0, -2);
-                Element.Get("ST.Container.Prefix").Style.TextOffset = new(0, -2);
-                Element.Get("ST.Container.Time").Style.TextOffset   = new(0, -2);
-
-                foreach (var clock in Element.Children) {
-                    clock.Get<BackgroundElement>().IsVisible = false;
-                    clock.Get<BorderElement>().IsVisible     = false;
-                    clock.Size                               = new(0, 0);
-                    clock.Get("Container").Padding           = new(0, 0);
-                    clock.Get("Container.Prefix").Style.Font = Font.AxisSmall;
-                    clock.Get("Container.Time").Style.Font   = Font.AxisSmall;
-                    clock.Get("Container.Prefix").Invalidate();
-                    clock.Get("Container.Time").Invalidate();
-                }
-            }
-        };
     }
 
     public void OnUpdate()
@@ -94,8 +97,8 @@ internal partial class StackedClockWidget : IToolbarWidget
         if (!Enabled) return;
 
         UpdateEorzeaTime();
-        UpdateLocalTime();
         UpdateServerTime();
+        UpdateLocalTime();
     }
 
     public void OnDraw()
@@ -107,34 +110,111 @@ internal partial class StackedClockWidget : IToolbarWidget
         Element.Get("ST").IsVisible = _isShowingServerTime;
     }
 
+    private void UpdateEorzeaTime()
+    {
+        DateTime time = GetEorzeaTime();
+
+        string timeFormat                   = EtUse24HourFormatOption ? "HH:mm" : "hh:mm";
+        if (EtShowSecondsOption) timeFormat += ":ss";
+
+        EtPrefix.Text = GetPrefixIcon(TimeType.EorzeaTime);
+        EtTime.Text   = time.ToString(timeFormat);
+
+        EtSuffix.Text = EtUse24HourFormatOption
+            ? ""
+            : time.Hour < 12
+                ? EtAmSuffixOption
+                : EtPmSuffixOption;
+    }
+
     private void UpdateServerTime()
     {
-        if (!_isShowingServerTime) return;
+        DateTime time = GetServerTime();
 
-        long serverTime = FFXIVClientStructs.FFXIV.Client.System.Framework.Framework.GetServerTime();
-        long hours      = serverTime / 3600 % 24;
-        long minutes    = serverTime / 60   % 60;
+        string timeFormat                   = StUse24HourFormatOption ? "HH:mm" : "hh:mm";
+        if (StShowSecondsOption) timeFormat += ":ss";
 
-        Element.Get("ST.Container.Time").Text = $"{hours:D2}:{minutes:D2}";
+        StPrefix.Text = GetPrefixIcon(TimeType.ServerTime);
+        StTime.Text   = time.ToString(timeFormat);
+
+        StSuffix.Text = StUse24HourFormatOption
+            ? ""
+            : time.Hour < 12
+                ? StAmSuffixOption
+                : StPmSuffixOption;
     }
 
     private void UpdateLocalTime()
     {
-        Element.Get("LT.Container.Time").Text = DateTime.Now.ToString("HH:mm");
+        DateTime time = GetLocalTime();
+
+        string timeFormat                   = LtUse24HourFormatOption ? "HH:mm" : "hh:mm";
+        if (LtShowSecondsOption) timeFormat += ":ss";
+
+        LtPrefix.Text = GetPrefixIcon(TimeType.LocalTime);
+        LtTime.Text   = time.ToString(timeFormat);
+
+        LtSuffix.Text = LtUse24HourFormatOption
+            ? ""
+            : time.Hour < 12
+                ? LtAmSuffixOption
+                : LtPmSuffixOption;
     }
 
-    private unsafe void UpdateEorzeaTime()
+    private DateTime GetServerTime()
+    {
+        long serverTime = FFXIVClientStructs.FFXIV.Client.System.Framework.Framework.GetServerTime();
+        long hours      = serverTime / 3600 % 24;
+        long minutes    = serverTime / 60   % 60;
+        long seconds    = serverTime        % 60;
+
+        return new(1, 1, 1, (int)hours, (int)minutes, (int)seconds);
+    }
+
+    private DateTime GetLocalTime()
+    {
+        return DateTime.Now;
+    }
+
+    private unsafe DateTime GetEorzeaTime()
     {
         var fw = FFXIVClientStructs.FFXIV.Client.System.Framework.Framework.Instance();
-
-        if (fw == null) {
-            return;
-        }
 
         long eorzeaTime = fw->ClientTime.EorzeaTime;
         long hours      = eorzeaTime / 3600 % 24;
         long minutes    = eorzeaTime / 60   % 60;
+        long seconds    = eorzeaTime        % 60;
 
-        Element.Get("ET.Container.Time").Text = $"{hours:D2}:{minutes:D2}";
+        return new(1, 1, 1, (int)hours, (int)minutes, (int)seconds);
+    }
+
+    private static string GetPrefixIcon(TimeType type)
+    {
+        return Framework.DalamudPlugin.UiLanguage switch {
+            "de" => type switch {
+                TimeType.EorzeaTime => SeIconChar.EorzeaTimeDe.ToIconString(),
+                TimeType.LocalTime  => SeIconChar.LocalTimeDe.ToIconString(),
+                TimeType.ServerTime => SeIconChar.ServerTimeDe.ToIconString(),
+                _                   => throw new ArgumentOutOfRangeException()
+            },
+            "fr" => type switch {
+                TimeType.EorzeaTime => SeIconChar.EorzeaTimeFr.ToIconString(),
+                TimeType.LocalTime  => SeIconChar.LocalTimeFr.ToIconString(),
+                TimeType.ServerTime => SeIconChar.ServerTimeFr.ToIconString(),
+                _                   => throw new ArgumentOutOfRangeException()
+            },
+            "jp" => type switch {
+                TimeType.EorzeaTime => SeIconChar.EorzeaTimeJa.ToIconString(),
+                TimeType.LocalTime  => SeIconChar.LocalTimeJa.ToIconString(),
+                TimeType.ServerTime => SeIconChar.ServerTimeJa.ToIconString(),
+                _                   => throw new ArgumentOutOfRangeException()
+            },
+            _ => type switch {
+                TimeType.EorzeaTime => SeIconChar.EorzeaTimeEn.ToIconString(),
+                TimeType.LocalTime  => SeIconChar.LocalTimeEn.ToIconString(),
+                TimeType.ServerTime => SeIconChar.ServerTimeEn.ToIconString(),
+                _                   => throw new ArgumentOutOfRangeException()
+            }
+        };
     }
 }

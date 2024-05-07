@@ -78,6 +78,12 @@ public class FontRepository
             CreateGameFont(Font.MiedingerLarge, new(GameFontFamily.MiedingerMid, 42 * Element.ScaleFactor)),
 
             CreateFontFromDalamudAsset(
+                Font.MonospaceSmall,
+                DalamudAsset.InconsolataRegular,
+                new() { SizePx = 12.79f * Element.ScaleFactor }
+            ),
+
+            CreateFontFromDalamudAsset(
                 Font.Monospace,
                 DalamudAsset.InconsolataRegular,
                 new() { SizePx = 14.66f * Element.ScaleFactor }

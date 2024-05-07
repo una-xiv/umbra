@@ -21,6 +21,7 @@ public enum Font
     Default,
 
     Monospace,
+    MonospaceSmall,
 
     AxisExtraSmall,
     AxisSmall,
