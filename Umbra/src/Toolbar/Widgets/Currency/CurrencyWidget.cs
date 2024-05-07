@@ -33,6 +33,12 @@ internal partial class CurrencyWidget : IToolbarWidget
     [ConfigVariable("Toolbar.Widget.Currencies.Enabled", "EnabledWidgets")]
     private static bool Enabled { get; set; } = true;
 
+    [ConfigVariable("Toolbar.Widget.Currencies.ShowDefaultText", "ToolbarSettings", "CurrencySettings")]
+    private static bool ShowDefaultText { get; set; } = true;
+
+    [ConfigVariable("Toolbar.Widget.Currencies.ShowDefaultIcon", "ToolbarSettings", "CurrencySettings")]
+    private static bool ShowDefaultIcon { get; set; } = true;
+
     [ConfigVariable("Toolbar.Widget.Currencies.ShowLabel", "ToolbarSettings", "CurrencySettings")]
     private static bool ShowLabel { get; set; } = true;
 
@@ -97,10 +103,17 @@ internal partial class CurrencyWidget : IToolbarWidget
             Element.Get("Text").Text        = I18N.Translate("CurrencyWidget.Name");
             Element.Get("Icon").Text        = FontAwesomeIcon.Coins.ToIconString();
             Element.Get("Icon").Style.Image = null;
+
+            Element.Get("Text").IsVisible = ShowDefaultText;
+            Element.Get("Icon").IsVisible = ShowDefaultIcon;
+
         } else {
             var trackedItem = _dataManager.GetExcelSheet<Item>()!.GetRow(TrackedCurrencyId);
 
             if (null != trackedItem) {
+                Element.Get("Text").IsVisible = true;
+                Element.Get("Icon").IsVisible = true;
+
                 int currencyCount = _player.GetItemCount(TrackedCurrencyId);
 
                 if (_lastCurrencyCount != currencyCount) {
