@@ -127,7 +127,7 @@ internal partial class SettingsWindow
                     anchor: Anchor.TopLeft,
                     gap: 16,
                     children: []
-                ) { IsVisible = false }
+                ) { IsVisible = false },
             ]
         );
 
@@ -166,7 +166,12 @@ internal partial class SettingsWindow
     /// </summary>
     private Element BuildCategoryPanelWrapper(string id, string label)
     {
-        Element el = new OverflowContainer($"Panel:{id}", anchor: Anchor.TopLeft, size: new(600, 522));
+        OverflowContainer el = new OverflowContainer(
+            $"Panel:{id}",
+            anchor: Anchor.TopLeft,
+            size: new(600, 522),
+            fadeColor: Theme.Color(ThemeColor.BackgroundDark)
+        );
 
         Element panel = new(
             id: "Panel",
@@ -201,7 +206,7 @@ internal partial class SettingsWindow
                     padding: new(0, 16),
                     margin: new(bottom: 16),
                     children: []
-                )
+                ),
             ]
         );
 

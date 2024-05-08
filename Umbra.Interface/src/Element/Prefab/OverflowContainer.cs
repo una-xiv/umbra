@@ -14,6 +14,7 @@
  *     GNU Affero General Public License for more details.
  */
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
@@ -28,11 +29,45 @@ namespace Umbra.Interface;
 /// </summary>
 public class OverflowContainer : Element
 {
+    public Color FadeColor          { get; set; }         = new(0);
+    public bool  IsScrolledToTop    { get; private set; } = false;
+    public bool  IsScrolledToBottom { get; private set; } = false;
+
     private static uint _childIdCounter = 10000;
 
-    private readonly uint _currentId;
+    private readonly uint  _currentId;
+    private readonly Color _transparent = new();
 
-    public OverflowContainer(string id, Size? size = null, Anchor anchor = Anchor.TopLeft, List<Element>? children = null) : base(
+    private readonly Element _fader = new(
+        id: "_Fader",
+        anchor: Anchor.None,
+        children: [
+            new(
+                id: "Top",
+                size: new(0, 32),
+                anchor: Anchor.TopLeft,
+                style: new() {
+                    Gradient = Gradient.Vertical(0, 0)
+                }
+            ),
+            new(
+                id: "Bottom",
+                size: new(0, 32),
+                anchor: Anchor.BottomLeft,
+                style: new() {
+                    Gradient = Gradient.Vertical(0, 0)
+                }
+            )
+        ]
+    );
+
+    public OverflowContainer(
+        string         id,
+        Size?          size      = null,
+        Anchor         anchor    = Anchor.TopLeft,
+        List<Element>? children  = null,
+        Color?         fadeColor = null
+    ) : base(
         id,
         size: size ?? new(),
         anchor: anchor,
@@ -41,10 +76,21 @@ public class OverflowContainer : Element
     )
     {
         _currentId = _childIdCounter++;
+        FadeColor  = fadeColor ?? new(0);
     }
 
     protected override void BeginDraw(ImDrawListPtr drawList)
     {
+        // if (!Has("_Fader")) AddChild(_fader);
+
+        if (TopFader.Style.Gradient?.TopLeft != FadeColor) {
+            TopFader.Style.Gradient = Gradient.Vertical(FadeColor, new(FadeColor.Value.ApplyAlphaComponent(0)));
+        }
+
+        if (BottomFader.Style.Gradient?.BottomLeft != FadeColor) {
+            BottomFader.Style.Gradient = Gradient.Vertical(new(FadeColor.Value.ApplyAlphaComponent(0)), FadeColor);
+        }
+
         ImGui.SetCursorScreenPos(ContentBox.Min);
         ImGui.PushStyleVar(ImGuiStyleVar.FramePadding,    new Vector2(0, 0));
         ImGui.PushStyleVar(ImGuiStyleVar.FrameBorderSize, 0);
@@ -56,21 +102,40 @@ public class OverflowContainer : Element
         ImGui.SetCursorPos(Vector2.Zero);
         PushDrawList(ImGui.GetWindowDrawList());
 
+        IsScrolledToTop    = ImGui.GetScrollY()                         <= 0;
+        IsScrolledToBottom = ImGui.GetScrollMaxY() - ImGui.GetScrollY() <= 0;
+
         // Recompute the layout for the children.
         foreach (var child in Children) {
             child.ComputeLayout(ImGui.GetCursorScreenPos());
         }
+
+        // Draw the fade effect at the top and bottom of the container.
+        _fader.Size               = new(ContentBox.Width, ContentBox.Height);
+        TopFader.Size             = new(ContentBox.Width, 64);
+        BottomFader.Size          = new(ContentBox.Width, 64);
+        TopFader.Style.Opacity    = Math.Min(ImGui.GetScrollY()                           / 64, 1);
+        BottomFader.Style.Opacity = Math.Min((ImGui.GetScrollMaxY() - ImGui.GetScrollY()) / 64, 1);
     }
 
     protected override void EndDraw(ImDrawListPtr drawList)
     {
         // Grab the combined height of all children.
-        float totalHeight = Children.Aggregate(0f, (current, child) => current + child.ComputedSize.Height);
+        float totalHeight =
+            Children.Except([_fader]).Aggregate(0f, (current, child) => current + child.ComputedSize.Height);
 
         ImGui.SetCursorPos(new(0, totalHeight));
         ImGui.EndChildFrame();
         ImGui.PopStyleColor();
         ImGui.PopStyleVar(3);
         PopDrawList();
+
+        // Draw the fade effect at the top and bottom of the container.
+        if (ImGui.IsWindowFocused(ImGuiFocusedFlags.RootAndChildWindows)) {
+            _fader.Render(ImGui.GetForegroundDrawList(), ContentBox.Min);
+        }
     }
+
+    private Element TopFader    => _fader.Get("Top");
+    private Element BottomFader => _fader.Get("Bottom");
 }
