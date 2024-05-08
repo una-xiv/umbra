@@ -38,6 +38,12 @@ public class UmbraVisibility(IPlayer player)
     [ConfigVariable("General.ShowDuringIdleCam", "General", "VisibilitySettings")]
     public static bool ShowDuringIdleCam { get; set; } = false;
 
+    [ConfigVariable("General.ShowInDuty", "General", "VisibilitySettings")]
+    public static bool ShowInDuty { get; set; } = true;
+
+    [ConfigVariable("General.ShowInCombat", "General", "VisibilitySettings")]
+    public static bool ShowInCombat { get; set; } = true;
+
     [OnTick(interval: 500)]
     internal void OnTick()
     {
@@ -55,6 +61,12 @@ public class UmbraVisibility(IPlayer player)
             return false;
 
         if (player.IsInIdleCam && !ShowDuringIdleCam)
+            return false;
+
+        if (player.IsInCombat && !ShowInCombat)
+            return false;
+
+        if (player.IsBoundByDuty && !ShowInDuty)
             return false;
 
         return true;

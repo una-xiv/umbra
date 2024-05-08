@@ -15,6 +15,9 @@
  */
 
 using System.Collections.Generic;
+using System.Threading;
+using FFXIVClientStructs.FFXIV.Common.Math;
+using ImGuiNET;
 using Umbra.Common;
 using Umbra.Game;
 using Umbra.Interface;
@@ -22,7 +25,12 @@ using Umbra.Interface;
 namespace Umbra.Toolbar;
 
 [Service]
-internal partial class Toolbar(IPlayer player, IToolbarWidget[] widgets, UmbraVisibility visibility)
+internal partial class Toolbar(
+    IPlayer             player,
+    IToolbarWidget[]    widgets,
+    ToolbarPopupContext popupContext,
+    UmbraVisibility     visibility
+)
 {
     public const int Height = 32;
 
@@ -32,7 +40,14 @@ internal partial class Toolbar(IPlayer player, IToolbarWidget[] widgets, UmbraVi
     [ConfigVariable("Toolbar.IsTopAligned", "ToolbarSettings")]
     public static bool IsTopAligned { get; set; } = false;
 
+    [ConfigVariable("Toolbar.IsAutoHideEnabled", "ToolbarSettings")]
+    public static bool IsAutoHideEnabled { get; set; } = false;
+
     private readonly List<IToolbarWidget> _widgets = [..widgets];
+
+    // Auto-hide state.
+    private bool   _isVisible = true;
+    private Timer? _autoHideTimer;
 
     [OnDraw(executionOrder: 10)]
     public void OnDraw()
@@ -50,6 +65,32 @@ internal partial class Toolbar(IPlayer player, IToolbarWidget[] widgets, UmbraVi
         foreach (var widget in _widgets) {
             AssignWidgetContainer(widget);
             widget.OnDraw();
+        }
+
+        // Auto-hide stuff.
+        if (IsAutoHideEnabled) {
+            float height = Height * Element.ScaleFactor * 1.25f;
+
+            if (!_isVisible && IsCursorNearToolbar()) {
+                _isVisible       = true;
+                _autoHideYTarget = 0;
+            }
+
+            if (_isVisible && !IsCursorNearToolbar()) {
+                _isVisible       = false;
+                _autoHideYTarget = IsTopAligned ? -height : height;
+            }
+
+            _autoHideYTarget = IsTopAligned switch {
+                // Correct the Y offset if the alignment changes.
+                true when _autoHideYTarget  > 0 => -height,
+                false when _autoHideYTarget < 0 => height,
+                _                               => _autoHideYTarget
+            };
+        } else {
+            _isVisible       = true;
+            _autoHideYOffset = 0;
+            _autoHideYTarget = 0;
         }
 
         RenderToolbar();
@@ -78,5 +119,18 @@ internal partial class Toolbar(IPlayer player, IToolbarWidget[] widgets, UmbraVi
         } else if (widget.Element.Anchor.IsRight() && widget.Element.Parent != right) {
             right.AddChild(widget.Element);
         }
+    }
+
+    private bool IsCursorNearToolbar()
+    {
+        if (popupContext.HasActiveElement()) return true;
+
+        var cursorPos = ImGui.GetMousePos();
+
+        var height = (int)(Height * Element.ScaleFactor * 1.5f);
+        int minY   = IsTopAligned ? 0 : (int)(ImGui.GetIO().DisplaySize.Y - height);
+        int maxY   = IsTopAligned ? height : (int)ImGui.GetIO().DisplaySize.Y;
+
+        return cursorPos.Y >= minY && cursorPos.Y <= maxY;
     }
 }

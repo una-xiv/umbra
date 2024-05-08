@@ -68,6 +68,11 @@ internal sealed class ToolbarPopupContext
         });
     }
 
+    public bool HasActiveElement()
+    {
+        return _activeElement != null;
+    }
+
     public void Clear()
     {
         if (_activeElement != null) {

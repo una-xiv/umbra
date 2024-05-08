@@ -24,6 +24,9 @@ namespace Umbra.Toolbar;
 
 internal partial class Toolbar
 {
+    [ConfigVariable("Toolbar.EnableShadow", "ToolbarSettings")]
+    public static bool EnableShadow { get; set; } = true;
+
     [ConfigVariable("Toolbar.ItemSpacing", "ToolbarSettings", "ToolbarCustomization", min: 1, max: 32)]
     private static int ItemSpacing { get; set; } = 6;
 
@@ -41,6 +44,8 @@ internal partial class Toolbar
 
     private float _xPosition;
     private float _yPosition;
+    private float _autoHideYOffset;
+    private float _autoHideYTarget;
 
     private readonly Element _element = new(
         id: "Toolbar",
@@ -48,6 +53,7 @@ internal partial class Toolbar
         size: new(0, Height),
         flow: Flow.Horizontal,
         children: [
+            new BackgroundElement(color: 0) { Style = new() { Shadow = new(inset: new(2)) } },
             new GradientElement(gradient: new(0u)),
             new BorderElement(padding: new(-1), color: Theme.Color(ThemeColor.Border)),
             new("Left", anchor: Anchor.MiddleLeft, gap: ItemSpacing, padding: new(left: ItemSpacing)),
@@ -59,6 +65,7 @@ internal partial class Toolbar
     private void UpdateToolbar()
     {
         var     viewport    = ImGui.GetMainViewport();
+        float   deltaTime   = ImGui.GetIO().DeltaTime;
         Vector2 displaySize = ImGui.GetIO().DisplaySize;
         Vector2 displayPos  = viewport.Pos;
 
@@ -76,12 +83,21 @@ internal partial class Toolbar
 
         _element.Style.Opacity = player.IsEditingHud ? 0.80f : 1.0f;
 
-        _xPosition = displayPos.X;
-        _yPosition = displayPos.Y + (IsTopAligned ? ImGui.GetMainViewport().WorkPos.Y + YOffset : displaySize.Y - YOffset);
+        if (IsAutoHideEnabled) {
+            _autoHideYOffset += (_autoHideYTarget - _autoHideYOffset) * deltaTime * 10;
+        }
 
-        _element.Anchor = IsTopAligned ? Anchor.TopLeft : Anchor.BottomLeft;
-        _element.Size   = new((int)(MathF.Ceiling(displaySize.X / Element.ScaleFactor)), Height);
+        _xPosition = displayPos.X;
+
+        _yPosition =
+            (displayPos.Y + (IsTopAligned ? ImGui.GetMainViewport().WorkPos.Y + YOffset : displaySize.Y - YOffset))
+          + _autoHideYOffset;
+
+        _element.Anchor  = IsTopAligned ? Anchor.TopLeft : Anchor.BottomLeft;
+        _element.Size    = new((int)(MathF.Ceiling(displaySize.X / Element.ScaleFactor)), Height);
         _element.Padding = new(left: ToolbarLeftMargin, right: ToolbarRightMargin);
+
+        _element.Get<BackgroundElement>().IsVisible = EnableShadow;
 
         _element.Get<GradientElement>().Gradient = Gradient.Vertical(
             IsTopAligned ? _color2 : _color1,
