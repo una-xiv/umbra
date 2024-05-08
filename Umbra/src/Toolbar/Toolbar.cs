@@ -46,8 +46,7 @@ internal partial class Toolbar(
     private readonly List<IToolbarWidget> _widgets = [..widgets];
 
     // Auto-hide state.
-    private bool   _isVisible = true;
-    private Timer? _autoHideTimer;
+    private bool _isVisible = true;
 
     [OnDraw(executionOrder: 10)]
     public void OnDraw()
