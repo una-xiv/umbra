@@ -235,7 +235,7 @@ internal sealed class Zone : IZone
         switch (plot) {
             case < -1:
                 result.Add(
-                    $"{I18N.Translate("Housing.Apartment")} {(room == 0 ? I18N.Translate("Housing.Lobby") : $"{room}")}"
+                    $"{I18N.Translate("Housing.Apartment")} {(room == 0 ? I18N.Translate("Housing.Lobby") : $"{I18N.Translate("Housing.Room")} {room}")}"
                 );
                 break;
 

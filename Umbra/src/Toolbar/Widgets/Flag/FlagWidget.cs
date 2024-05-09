@@ -173,7 +173,7 @@ internal partial class FlagWidget : IToolbarWidget
         Vector2 pos  = MapUtil.WorldToMap(new(map->FlagMapMarker.XFloat, map->FlagMapMarker.YFloat), zone.MapSheet);
 
         _aetheryteKey = cacheKey;
-        _name.Text    = $"{zone.Name} @ <{pos.X:F1}, {pos.Y:F1}>";
+        _name.Text    = $"{zone.Name} <{pos.X:F1}, {pos.Y:F1}>";
 
         var flagPos2D = new Vector2(map->FlagMapMarker.XFloat, map->FlagMapMarker.YFloat);
 
