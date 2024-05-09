@@ -1,5 +1,8 @@
 ﻿{
     "Notification.ToggleMacroCopiedToClipboard": "マクロ切り替えテキストがクリップボードにコピーされました。",
+    "Level": "レベル",
+    "LevelAbbr": "Lv.",
+    "ItemLevelAbbr": "アイテムレベ",
     "ConfigWindow.Title": "アンブラの設定",
     "MainMenu.UmbraSettings": "アンブラの設定",
     "MainMenu.DalamudSettings": "ダラムードの設定",
@@ -47,6 +50,7 @@
     "WeatherForecast.XMinutes": "{0} 分",
     "WeatherForecast.AnHour": "1時間",
     "WeatherForecast.XHours": "{0} 時間",
+    "WorldMarkerMenuWidget.Title": "ワールドマーカー",
     "Volume.Channel.Master.Name": "マスター",
     "Volume.Channel.Master.Description": "マスターボリューム",
     "Volume.Channel.BGM.Name": "BGM",

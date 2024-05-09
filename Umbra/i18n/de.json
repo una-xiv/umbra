@@ -1,5 +1,8 @@
 ﻿{
     "Notification.ToggleMacroCopiedToClipboard": "Der Text zum Umschalten der Makros wurde in die Zwischenablage kopiert.",
+    "Level": "Stufe",
+    "LevelAbbr": "St.",
+    "ItemLevelAbbr": "GSt.",
     "ConfigWindow.Title": "Umbra Einstellungen",
     "MainMenu.UmbraSettings": "Umbra Einstellungen",
     "MainMenu.DalamudSettings": "Dalamud Einstellungen",
@@ -47,6 +50,7 @@
     "WeatherForecast.XMinutes": "{0} Minuten",
     "WeatherForecast.AnHour": "eine Stunde",
     "WeatherForecast.XHours": "{0} Stunden",
+    "WorldMarkerMenuWidget.Title": "Weltmarkierungen",
     "Volume.Channel.Master.Name": "HAUPT",
     "Volume.Channel.Master.Description": "Hauptlautstärke",
     "Volume.Channel.BGM.Name": "HGM",

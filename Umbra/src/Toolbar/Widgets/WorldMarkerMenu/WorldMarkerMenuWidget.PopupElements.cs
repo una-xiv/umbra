@@ -28,7 +28,7 @@ internal sealed partial class WorldMarkerMenuWidget
             new(
                 id: "Header",
                 padding: new(8, bottom: 0),
-                text: "World Markers",
+                text: I18N.Translate("WorldMarkerMenuWidget.Title"),
                 fit: true,
                 style: new() {
                     Font         = Font.AxisLarge,

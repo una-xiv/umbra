@@ -1,5 +1,8 @@
 ﻿{
     "Notification.ToggleMacroCopiedToClipboard": "Toggle macro text has been copied to the clipboard.",
+    "Level": "Level",
+    "LevelAbbr": "Lv.",
+    "ItemLevelAbbr": "Ilv.",
     "ConfigWindow.Title": "Umbra Settings",
     "MainMenu.UmbraSettings": "Umbra Settings",
     "MainMenu.DalamudSettings": "Dalamud Settings",
@@ -47,6 +50,7 @@
     "WeatherForecast.XMinutes": "{0} minutes",
     "WeatherForecast.AnHour": "an hour",
     "WeatherForecast.XHours": "{0} hours",
+    "WorldMarkerMenuWidget.Title": "World Markers",
     "Volume.Channel.Master.Name": "Master",
     "Volume.Channel.Master.Description": "Master Volume",
     "Volume.Channel.BGM.Name": "BGM",

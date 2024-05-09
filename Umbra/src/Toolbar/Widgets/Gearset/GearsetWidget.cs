@@ -138,7 +138,7 @@ internal partial class GearsetWidget : IToolbarWidget
         Element.Get("Container.Text.Name").Text   = gearset.Name;
 
         Element.Get("Container.Text.Status").Text =
-            $"{(gearset.IsMaxLevel ? $"Ilv.{gearset.ItemLevel}" : $"Lv.{gearset.JobLevel}, {gearset.JobXp}% XP")}";
+            $"{(gearset.IsMaxLevel ? $"{I18N.Translate("ItemLevelAbbr")}{gearset.ItemLevel}" : $"{I18N.Translate("LevelAbbr")}{gearset.JobLevel}, {gearset.JobXp}% XP")}";
     }
 
     private void UpdateGroupSize(Element groupElement, int gearsetCount, int visibleCount)
@@ -190,7 +190,7 @@ internal partial class GearsetWidget : IToolbarWidget
             gearset.JobId + (UseAlternateHeaderIcon ? 62100u : 62000u);
 
         _dropdownElement.Get("Header.Info.Name").Text = gearset.Name;
-        _dropdownElement.Get("Header.Info.Job").Text  = $"Lv.{gearset.JobLevel} {gearset.JobName}";
+        _dropdownElement.Get("Header.Info.Job").Text  = $"{I18N.Translate("LevelAbbr")}{gearset.JobLevel} {gearset.JobName}";
         _dropdownElement.Get("Header.ItemLevel").Text = gearset.ItemLevel.ToString();
 
         _dropdownElement.Get("Header.Info.Buttons.MoveUp").IsDisabled =
@@ -234,10 +234,10 @@ internal partial class GearsetWidget : IToolbarWidget
 
         if (gearset.IsMaxLevel) {
             element.Get("XpBarWrapper").IsVisible = false;
-            element.Get("Info.Job").Text          = $"Level {gearset.JobLevel} {gearset.JobName}";
+            element.Get("Info.Job").Text          = $"{I18N.Translate("Level")} {gearset.JobLevel} {gearset.JobName}";
         } else {
             element.Get("XpBarWrapper").IsVisible = true;
-            element.Get("Info.Job").Text = $"Lv.{gearset.JobLevel}";
+            element.Get("Info.Job").Text = $"{I18N.Translate("LevelAbbr")}{gearset.JobLevel}";
             element.Get("XpBarWrapper.XpBar.Bar").Style.BackgroundColor = gsCol.ApplyBrightness(1.25f);
             element.Get("XpBarWrapper.XpBar.Bar").Size = new((int)((CellWidth - 80) * (gearset.JobXp / 100f)), 4);
         }

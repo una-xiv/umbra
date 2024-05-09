@@ -1,5 +1,8 @@
 ﻿{
     "Notification.ToggleMacroCopiedToClipboard": "Le texte de bascule de macro a été copié dans le presse-papiers.",
+    "Level": "Niveau",
+    "LevelAbbr": "Niv.",
+    "ItemLevelAbbr": "Niv.Obj.",
     "ConfigWindow.Title": "Paramètres d'Umbra",
     "MainMenu.UmbraSettings": "Paramètres d'Umbra",
     "MainMenu.DalamudSettings": "Paramètres de Dalamud",
@@ -47,6 +50,7 @@
     "WeatherForecast.XMinutes": "{0} minutes",
     "WeatherForecast.AnHour": "une heure",
     "WeatherForecast.XHours": "{0} heures",
+    "WorldMarkerMenuWidget.Title": "Marqueurs du monde",
     "Volume.Channel.Master.Name": "Principal",
     "Volume.Channel.Master.Description": "Volume principal",
     "Volume.Channel.BGM.Name": "BGM",
