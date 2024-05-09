@@ -144,6 +144,8 @@
     "CVAR.Toolbar.Widget.Gearset.UseAlternateIcons.Header.Description": "Si activée, utilise une icône alternative pour l'en-tête déroulant du commutateur d'ensemble d'engrenages. Cela peut être utile si vous utilisez des packs d'icônes personnalisés.",
     "CVAR.Toolbar.Widget.Gearset.UseAlternateIcons.Buttons.Name": "Utiliser des icônes de travail alternatives pour les boutons du commutateur d'ensemble d'engrenages",
     "CVAR.Toolbar.Widget.Gearset.UseAlternateIcons.Buttons.Description": "Si activée, utilise des icônes alternatives pour les boutons du widget de commutation d'ensemble d'engrenages. Cela peut être utile si vous utilisez des packs d'icônes personnalisés.",
+    "CVAR.Toolbar.Widget.Gearset.AutoCloseOnChange.Name": "Fermer automatiquement le commutateur de jeu d'engrenages lors du changement de jeux d'engrenages",
+    "CVAR.Toolbar.Widget.Gearset.AutoCloseOnChange.Description": "Si activée, ferme automatiquement le widget du commutateur de jeu d'engrenages lorsque vous changez votre jeu d'engrenages actuel.",
     "CVAR.Toolbar.Widget.Gearset.VisibleGearsetsForTanks.Name": "Ensembles d'équipement visibles pour les tanks jusqu'à ce qu'une barre de défilement apparaisse",
     "CVAR.Toolbar.Widget.Gearset.VisibleGearsetsForHealers.Name": "Ensembles d'équipement visibles pour les guérisseurs jusqu'à ce qu'une barre de défilement apparaisse",
     "CVAR.Toolbar.Widget.Gearset.VisibleGearsetsForMelee.Name": "Ensembles d'équipement visibles pour les DPS en mêlée jusqu'à ce qu'une barre de défilement apparaisse",

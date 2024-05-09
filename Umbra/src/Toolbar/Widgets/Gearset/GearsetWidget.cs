@@ -35,6 +35,9 @@ internal partial class GearsetWidget : IToolbarWidget
     [ConfigVariable("Toolbar.Widget.Gearset.UseAlternateIcons.Buttons", "ToolbarSettings", "GearsetSwitcherSettings")]
     private static bool UseAlternateButtonIcons { get; set; } = false;
 
+    [ConfigVariable("Toolbar.Widget.Gearset.AutoCloseOnChange", "ToolbarSettings", "GearsetSwitcherSettings")]
+    private static bool AutoCloseOnGearsetChange { get; set; } = false;
+
     [ConfigVariable("Toolbar.Widget.Gearset.VisibleGearsetsForTanks", "ToolbarSettings", "GearsetSwitcherSettings", min: 1, max: 10)]
     private static int VisibleGearsetsForTanks { get; set; } = 2;
 
@@ -58,16 +61,19 @@ internal partial class GearsetWidget : IToolbarWidget
 
     private readonly IGearsetRepository                   _gearsetRepository;
     private readonly IGearsetCategoryRepository           _categoryRepository;
+    private readonly ToolbarPopupContext                  _popupContext;
     private readonly Dictionary<ushort, Element>          _gearsetElements = [];
     private readonly Dictionary<GearsetCategory, Element> _gearsetGroups   = [];
 
     public GearsetWidget(
-        IGearsetRepository  gearsetRepository, IGearsetCategoryRepository categoryRepository,
+        IGearsetRepository  gearsetRepository,
+        IGearsetCategoryRepository categoryRepository,
         ToolbarPopupContext popupContext
     )
     {
         _gearsetRepository  = gearsetRepository;
         _categoryRepository = categoryRepository;
+        _popupContext       = popupContext;
 
         popupContext.RegisterDropdownActivator(Element, _dropdownElement);
 

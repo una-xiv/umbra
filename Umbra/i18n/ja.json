@@ -142,6 +142,8 @@
     "CVAR.Toolbar.Widget.Gearset.UseAlternateIcons.Header.Description": "有効にすると、ギアセット切り替えのドロップダウンヘッダーに代替アイコンが使用されます。これは、カスタムアイコンパックを使用している場合に便利です。",
     "CVAR.Toolbar.Widget.Gearset.UseAlternateIcons.Buttons.Name": "ギアセット切り替えウィジェットのボタンに代替ジョブアイコンを使用する",
     "CVAR.Toolbar.Widget.Gearset.UseAlternateIcons.Buttons.Description": "有効にすると、ギアセット切り替えウィジェットのボタンに代替アイコンが使用されます。これは、カスタムアイコンパックを使用している場合に便利です。",
+    "CVAR.Toolbar.Widget.Gearset.AutoCloseOnChange.Name": "ギアセット切り替えウィジェットを自動的に閉じる",
+    "CVAR.Toolbar.Widget.Gearset.AutoCloseOnChange.Description": "有効にすると、現在のギアセットを変更すると自動的にギアセット切り替えウィジェットが閉じます。",
     "CVAR.Toolbar.Widget.Gearset.VisibleGearsetsForTanks.Name": "スクロールバーが表示されるまでのタンク用の表示可能なギアセット",
     "CVAR.Toolbar.Widget.Gearset.VisibleGearsetsForHealers.Name": "スクロールバーが表示されるまでのヒーラー用の表示可能なギアセット",
     "CVAR.Toolbar.Widget.Gearset.VisibleGearsetsForMelee.Name": "スクロールバーが表示されるまでの近接DPS用の表示可能なギアセット",

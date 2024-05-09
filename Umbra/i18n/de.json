@@ -144,6 +144,8 @@
     "CVAR.Toolbar.Widget.Gearset.UseAlternateIcons.Header.Description": "Wenn aktiviert, wird ein alternatives Symbol für die Dropdown-Überschrift des Ausrüstungssetschalters verwendet. Dies kann nützlich sein, wenn Sie benutzerdefinierte Symbolpakete verwenden.",
     "CVAR.Toolbar.Widget.Gearset.UseAlternateIcons.Buttons.Name": "Verwende alternative Job-Symbole für die Schaltflächen des Ausrüstungssetschalters",
     "CVAR.Toolbar.Widget.Gearset.UseAlternateIcons.Buttons.Description": "Wenn aktiviert, werden alternative Symbole für die Schaltflächen des Ausrüstungssetschalters verwendet. Dies kann nützlich sein, wenn Sie benutzerdefinierte Symbolpakete verwenden.",
+    "CVAR.Toolbar.Widget.Gearset.AutoCloseOnChange.Name": "Automatisches Schließen des Getriebesatzumschalters beim Wechseln von Getriebesätzen",
+    "CVAR.Toolbar.Widget.Gearset.AutoCloseOnChange.Description": "Wenn aktiviert, wird das Getriebesatzumschalters-Widget automatisch geschlossen, wenn Sie Ihren aktuellen Getriebesatz ändern.",
     "CVAR.Toolbar.Widget.Gearset.VisibleGearsetsForTanks.Name": "Sichtbare Ausrüstungssets für Tanks, bis eine Bildlaufleiste erscheint",
     "CVAR.Toolbar.Widget.Gearset.VisibleGearsetsForHealers.Name": "Sichtbare Ausrüstungssets für Heiler, bis eine Bildlaufleiste erscheint",
     "CVAR.Toolbar.Widget.Gearset.VisibleGearsetsForMelee.Name": "Sichtbare Ausrüstungssets für Nahkämpfer-DPS, bis eine Bildlaufleiste erscheint",

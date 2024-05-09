@@ -322,7 +322,10 @@ internal partial class GearsetWidget
 
         el.OnMouseEnter += () => el.Get<BackgroundElement>().EdgeColor = Theme.Color(ThemeColor.BorderLight);
         el.OnMouseLeave += () => el.Get<BackgroundElement>().EdgeColor = Theme.Color(ThemeColor.BorderDark);
-        el.OnClick      += () => _gearsetRepository.EquipGearset(gearset.Id);
+        el.OnClick      += () => {
+            _gearsetRepository.EquipGearset(gearset.Id);
+            if (AutoCloseOnGearsetChange) _popupContext.Clear();
+        };
 
         return el;
     }
