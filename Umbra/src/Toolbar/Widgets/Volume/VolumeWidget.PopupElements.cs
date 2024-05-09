@@ -15,6 +15,7 @@
  */
 
 using Dalamud.Interface;
+using Umbra.Common;
 using Umbra.Interface;
 
 namespace Umbra.Toolbar.Widgets.MainMenu;
@@ -34,7 +35,7 @@ internal sealed partial class VolumeWidget
         ]
     );
 
-    private void CreateChannelWidget(string id, string tooltip, string volumeConfigName, string muteConfigName)
+    private void CreateChannelWidget(string id, string volumeConfigName, string muteConfigName)
     {
         Element el = new(
             id: id,
@@ -43,10 +44,10 @@ internal sealed partial class VolumeWidget
             children: [
                 new(
                     id: "Label",
-                    text: id,
+                    text: I18N.Translate($"Volume.Channel.{id}.Name"),
                     size: new(32, 20),
                     anchor: Anchor.TopCenter,
-                    tooltip: tooltip,
+                    tooltip: I18N.Translate($"Volume.Channel.{id}.Description"),
                     style: new() {
                         Font         = Font.AxisExtraSmall,
                         TextAlign    = Anchor.BottomCenter,
@@ -61,7 +62,7 @@ internal sealed partial class VolumeWidget
                     text: "100%",
                     size: new(32, 10),
                     anchor: Anchor.TopCenter,
-                    tooltip: tooltip,
+                    tooltip: I18N.Translate($"Volume.Channel.{id}.Description"),
                     style: new() {
                         Font         = Font.AxisExtraSmall,
                         TextAlign    = Anchor.MiddleCenter,

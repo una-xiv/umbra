@@ -33,13 +33,13 @@ internal sealed partial class VolumeWidget : IToolbarWidget
         _gameConfig = gameConfig;
         popupContext.RegisterDropdownActivator(Element, _dropdownElement);
 
-        CreateChannelWidget("Master", "Master volume",         "SoundMaster",  "IsSndMaster");
-        CreateChannelWidget("BGM",    "Background music",      "SoundBgm",     "IsSndBgm");
-        CreateChannelWidget("SFX",    "Sound effects",         "SoundSe",      "IsSndSe");
-        CreateChannelWidget("VOC",    "Voice",                 "SoundVoice",   "IsSndVoice");
-        CreateChannelWidget("AMB",    "Ambient sound effects", "SoundEnv",     "IsSndEnv");
-        CreateChannelWidget("SYS",    "System sounds",         "SoundSystem",  "IsSndSystem");
-        CreateChannelWidget("PERF",   "Performance music",     "SoundPerform", "IsSndPerform");
+        CreateChannelWidget("Master", "SoundMaster",  "IsSndMaster");
+        CreateChannelWidget("BGM",    "SoundBgm",     "IsSndBgm");
+        CreateChannelWidget("SFX",    "SoundSe",      "IsSndSe");
+        CreateChannelWidget("VOC",    "SoundVoice",   "IsSndVoice");
+        CreateChannelWidget("AMB",    "SoundEnv",     "IsSndEnv");
+        CreateChannelWidget("SYS",    "SoundSystem",  "IsSndSystem");
+        CreateChannelWidget("PERF",   "SoundPerform", "IsSndPerform");
 
         Element.OnMouseEnter += OnMouseEnter;
         Element.OnMouseLeave += OnMouseLeave;
