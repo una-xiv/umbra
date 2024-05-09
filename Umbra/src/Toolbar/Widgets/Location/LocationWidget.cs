@@ -64,7 +64,7 @@ internal partial class LocationWidget : IToolbarWidget
         Element.Get("Location").Margin                       = new(right: ItemSpacing);
         Element.Get("Location.Name.Label").Text              = zoneName;
         Element.Get("Location.Info").Text                    = distName;
-        Element.Get("Location.Name.SanctuaryIcon").IsVisible = zone.TerritoryIntendedUse == 0;
+        Element.Get("Location.Name.SanctuaryIcon").IsVisible = zone.IsSanctuary;
 
         if (weather == null) {
             // This should theoretically never happen, but just in case.

@@ -18,6 +18,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using Dalamud.Plugin.Services;
+using FFXIVClientStructs.FFXIV.Client.Game.Housing;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using Umbra.Common;
@@ -27,28 +28,26 @@ namespace Umbra.Game;
 
 internal sealed class Zone : IZone
 {
-    public uint                  Id                   { get; private set; }
-    public TerritoryType         Type                 { get; private set; }
-    public uint                  TerritoryId          { get; private set; }
-    public string                Name                 { get; private set; }
-    public string                SubName              { get; private set; }
-    public string                RegionName           { get; private set; }
-    public Vector2               Offset               { get; private set; }
-    public ushort                SizeFactor           { get; private set; }
-    public Sheet.Map             MapSheet             { get; private set; }
-    public List<ZoneMarker>      StaticMarkers        { get; private set; }
-    public List<ZoneMarker>      DynamicMarkers       { get; private set; }
-    public List<WeatherForecast> WeatherForecast      { get; private set; }
-    public WeatherForecast?      CurrentWeather       { get; private set; }
-    public byte                  TerritoryIntendedUse { get; private set; }
+    public uint                  Id                  { get; private set; }
+    public TerritoryType         Type                { get; private set; }
+    public uint                  TerritoryId         { get; private set; }
+    public string                Name                { get; private set; }
+    public string                SubName             { get; private set; }
+    public string                RegionName          { get; private set; }
+    public Vector2               Offset              { get; private set; }
+    public ushort                SizeFactor          { get; private set; }
+    public Sheet.Map             MapSheet            { get; private set; }
+    public List<ZoneMarker>      StaticMarkers       { get; private set; }
+    public List<ZoneMarker>      DynamicMarkers      { get; private set; }
+    public List<WeatherForecast> WeatherForecast     { get; private set; }
+    public WeatherForecast?      CurrentWeather      { get; private set; }
+    public bool                  IsSanctuary         { get; private set; }
+    public string                CurrentDistrictName { get; private set; }
 
-    public string CurrentDistrictName => _closestAreaMarker?.Name ?? "";
-
+    private readonly IDataManager            _dataManager;
     private readonly IPlayer                 _player;
     private readonly ZoneMarkerFactory       _markerFactory;
     private readonly WeatherForecastProvider _forecastProvider;
-
-    private ZoneMarker? _closestAreaMarker;
 
     public Zone(
         IDataManager            dataManager,
@@ -58,20 +57,22 @@ internal sealed class Zone : IZone
         uint                    zoneId
     )
     {
+        _dataManager      = dataManager;
         _player           = player;
         _markerFactory    = markerFactory;
         _forecastProvider = forecastProvider;
 
-        Id                   = zoneId;
-        MapSheet             = dataManager.GetExcelSheet<Sheet.Map>()!.GetRow(zoneId)!;
-        Type                 = (TerritoryType)MapSheet.TerritoryType.Value!.TerritoryIntendedUse;
-        TerritoryId          = MapSheet.TerritoryType.Row;
-        Name                 = MapSheet.PlaceName.Value!.Name.ToString();
-        SubName              = MapSheet.PlaceNameSub.Value!.Name.ToString();
-        RegionName           = MapSheet.PlaceNameRegion.Value!.Name.ToString();
-        Offset               = new(MapSheet.OffsetX, MapSheet.OffsetY);
-        SizeFactor           = MapSheet.SizeFactor;
-        TerritoryIntendedUse = MapSheet.TerritoryType.Value!.TerritoryIntendedUse;
+        Id                  = zoneId;
+        MapSheet            = dataManager.GetExcelSheet<Sheet.Map>()!.GetRow(zoneId)!;
+        Type                = (TerritoryType)MapSheet.TerritoryType.Value!.TerritoryIntendedUse;
+        TerritoryId         = MapSheet.TerritoryType.Row;
+        Name                = MapSheet.PlaceName.Value!.Name.ToString();
+        SubName             = MapSheet.PlaceNameSub.Value!.Name.ToString();
+        RegionName          = MapSheet.PlaceNameRegion.Value!.Name.ToString();
+        Offset              = new(MapSheet.OffsetX, MapSheet.OffsetY);
+        SizeFactor          = MapSheet.SizeFactor;
+        IsSanctuary         = false;
+        CurrentDistrictName = "";
 
         StaticMarkers = dataManager.GetExcelSheet<Sheet.MapMarker>()!
             .Where(m => m.RowId == MapSheet.MapMarkerRange && m.X > 0 && m.Y > 0)
@@ -91,8 +92,23 @@ internal sealed class Zone : IZone
 
         if (agentMap->CurrentMapId != Id) {
             DynamicMarkers.Clear();
-            _closestAreaMarker = null;
             return;
+        }
+
+        TerritoryInfo* territoryInfo = TerritoryInfo.Instance();
+        if (territoryInfo == null) return;
+
+        IsSanctuary = territoryInfo->IsInSanctuary();
+
+        HousingManager* housingManager = HousingManager.Instance();
+
+        if (housingManager == null || housingManager->CurrentTerritory == null) {
+            CurrentDistrictName = _dataManager.GetExcelSheet<Sheet.PlaceName>()!
+                    .GetRow(territoryInfo->AreaPlaceNameID)
+                    ?.Name.ToString()
+             ?? "???";
+        } else {
+            CurrentDistrictName = GetHousingDistrictName();
         }
 
         Map* map = Map.Instance();
@@ -182,25 +198,6 @@ internal sealed class Zone : IZone
             );
         }
 
-        var playerPos = _player.Position.ToVector2();
-
-        ZoneMarker? marker = StaticMarkers
-            .Concat(DynamicMarkers)
-            .Where(
-                m => m.Name != ""
-                 && m.Type is ZoneMarkerType.Pin
-                        or ZoneMarkerType.Settlement
-                        or ZoneMarkerType.Area
-                        or ZoneMarkerType.Aetheryte
-                        or ZoneMarkerType.Aethernet
-            )
-            .OrderBy(m => Vector2.Distance(playerPos, m.WorldPosition.ToVector2()))
-            .FirstOrDefault();
-
-        if (_closestAreaMarker?.Name != marker?.Name) {
-            _closestAreaMarker = marker;
-        }
-
         lock (WeatherForecast) {
             WeatherForecast = _forecastProvider.GetWeatherForecast((ushort)TerritoryId);
 
@@ -216,5 +213,39 @@ internal sealed class Zone : IZone
                 CurrentWeather = new(time, timeString, WeatherForecast[0].Name, WeatherForecast[0].IconId);
             }
         }
+    }
+
+    private unsafe string GetHousingDistrictName()
+    {
+        var housingManager = HousingManager.Instance();
+        if (housingManager == null) return string.Empty;
+
+        int ward = housingManager->GetCurrentWard() + 1;
+        if (ward == 0) return string.Empty;
+
+        List<string> result = [];
+
+        sbyte plot     = housingManager->GetCurrentPlot();
+        short room     = housingManager->GetCurrentRoom();
+        byte  division = housingManager->GetCurrentDivision();
+
+        result.Add($"{I18N.Translate("Housing.Ward")} {ward}");
+        if (division == 2 || plot is >= 30 or -127) result.Add(I18N.Translate("Housing.Subdivision"));
+
+        switch (plot) {
+            case < -1:
+                result.Add(
+                    $"{I18N.Translate("Housing.Apartment")} {(room == 0 ? I18N.Translate("Housing.Lobby") : $"{room}")}"
+                );
+                break;
+
+            case > -1:
+                result.Add($"{I18N.Translate("Housing.Plot")} {plot + 1}");
+                if (room > 0) result.Add($"{I18N.Translate("Housing.Room")} {room}");
+
+                break;
+        }
+
+        return string.Join(" ", result);
     }
 }
