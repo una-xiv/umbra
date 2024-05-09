@@ -47,7 +47,7 @@ internal partial class CurrencyWidget : IToolbarWidget
 
     private readonly List<uint>          _currencyIds;
     private readonly IDataManager        _dataManager;
-    private readonly IPlayer              _player;
+    private readonly IPlayer             _player;
     private readonly ToolbarPopupContext _ctx;
 
     private int _lastCurrencyCount = 0;
@@ -106,7 +106,6 @@ internal partial class CurrencyWidget : IToolbarWidget
 
             Element.Get("Text").IsVisible = ShowDefaultText;
             Element.Get("Icon").IsVisible = ShowDefaultIcon;
-
         } else {
             var trackedItem = _dataManager.GetExcelSheet<Item>()!.GetRow(TrackedCurrencyId);
 
@@ -124,7 +123,7 @@ internal partial class CurrencyWidget : IToolbarWidget
 
                 Element.Get("Icon").Style.Image = (uint)trackedItem.Icon;
                 Element.Get("Icon").Text        = "";
-                Element.Get("Text").Text        = $"{currencyCount:N0}{(ShowLabel ? $" {trackedItem.Name}" : "")}";
+                Element.Get("Text").Text        = $"{currencyCount:N0}{(ShowLabel ? $" {trackedItem.Name}" : "")}".Replace('\u202F', ' ');
             }
         }
 
@@ -141,7 +140,11 @@ internal partial class CurrencyWidget : IToolbarWidget
             // FIXME: Max stack sizes sometimes depend on other factors, such as GC level, limited tomestone types, etc.
             //        We're currently just using the default stack size for all items.
 
-            el.Text = item.StackSize > 0 && item.RowId != 1 ? $"{amount:N0} / {item.StackSize:N0}" : $"{amount:N0}";
+            // Fix NNBSP (U+202F) to a regular space because Axis font doesn't support it.
+            string amountText    = $"{amount:N0}".Replace('\u202F', ' ');
+            string stackSizeText = (item.StackSize > 0 && item.RowId != 1 ? $" / {item.StackSize:N0}" : "").Replace('\u202F', ' ');
+
+            el.Text = $"{amountText}{stackSizeText}";
         }
     }
 
