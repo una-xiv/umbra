@@ -147,7 +147,7 @@ internal abstract class BaseTimeWidget : IToolbarWidget
 
     private string GetPrefixIcon()
     {
-        return Framework.DalamudPlugin.UiLanguage switch {
+        return I18N.GetCurrentLanguage() switch {
             "de" => Type switch {
                 TimeType.EorzeaTime => SeIconChar.EorzeaTimeDe.ToIconString(),
                 TimeType.LocalTime  => SeIconChar.LocalTimeDe.ToIconString(),

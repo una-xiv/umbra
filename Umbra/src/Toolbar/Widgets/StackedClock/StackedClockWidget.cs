@@ -190,7 +190,7 @@ internal partial class StackedClockWidget : IToolbarWidget
 
     private static string GetPrefixIcon(TimeType type)
     {
-        return Framework.DalamudPlugin.UiLanguage switch {
+        return I18N.GetCurrentLanguage() switch {
             "de" => type switch {
                 TimeType.EorzeaTime => SeIconChar.EorzeaTimeDe.ToIconString(),
                 TimeType.LocalTime  => SeIconChar.LocalTimeDe.ToIconString(),

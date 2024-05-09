@@ -17,6 +17,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using Lumina.Data;
 using Newtonsoft.Json;
 
 namespace Umbra.Common;
@@ -48,6 +49,16 @@ public static class I18N
     public static bool Has(string key)
     {
         return Dict.ContainsKey(key);
+    }
+
+    public static string GetCurrentLanguage()
+    {
+        if (LanguageOverride != "None" && Translations.ContainsKey(LanguageOverride))
+            return LanguageOverride;
+
+        return Translations.ContainsKey(Framework.DalamudPlugin.UiLanguage)
+            ? Framework.DalamudPlugin.UiLanguage
+            : "en";
     }
 
     private static Dictionary<string, string> Dict {
