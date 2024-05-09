@@ -111,9 +111,9 @@ public class OverflowContainer : Element
         }
 
         // Draw the fade effect at the top and bottom of the container.
-        _fader.Size               = new(ContentBox.Width, ContentBox.Height);
-        TopFader.Size             = new(ContentBox.Width, 64);
-        BottomFader.Size          = new(ContentBox.Width, 64);
+        _fader.Size               = new((int)(ContentBox.Width / ScaleFactor), (int)(ContentBox.Height / ScaleFactor));
+        TopFader.Size             = new((int)(ContentBox.Width / ScaleFactor), 64);
+        BottomFader.Size          = new((int)(ContentBox.Width / ScaleFactor), 64);
         TopFader.Style.Opacity    = Math.Min(ImGui.GetScrollY()                           / 64, 1);
         BottomFader.Style.Opacity = Math.Min((ImGui.GetScrollMaxY() - ImGui.GetScrollY()) / 64, 1);
     }
