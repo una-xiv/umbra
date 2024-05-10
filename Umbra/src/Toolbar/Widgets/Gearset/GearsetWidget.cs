@@ -138,7 +138,7 @@ internal partial class GearsetWidget : IToolbarWidget
         Element.Get("Container.Text.Name").Text   = gearset.Name;
 
         Element.Get("Container.Text.Status").Text =
-            $"{(gearset.IsMaxLevel ? $"{I18N.Translate("ItemLevelAbbr")}{gearset.ItemLevel}" : $"{I18N.Translate("LevelAbbr")}{gearset.JobLevel}, {gearset.JobXp}% XP")}";
+            $"{(gearset.IsMaxLevel ? $"{I18N.Translate("ItemLevelAbbr")}{gearset.ItemLevel}" : $"{I18N.Translate("LevelAbbr")}{gearset.JobLevel}, {gearset.JobXp}% {I18N.Translate("ExpAbbr")}")}";
     }
 
     private void UpdateGroupSize(Element groupElement, int gearsetCount, int visibleCount)

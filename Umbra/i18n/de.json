@@ -3,6 +3,7 @@
     "Level": "Stufe",
     "LevelAbbr": "St.",
     "ItemLevelAbbr": "GSt.",
+    "ExpAbbr":  "EP",
     "ConfigWindow.Title": "Umbra Einstellungen",
     "MainMenu.UmbraSettings": "Umbra Einstellungen",
     "MainMenu.DalamudSettings": "Dalamud Einstellungen",

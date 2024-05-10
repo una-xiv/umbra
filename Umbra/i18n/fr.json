@@ -3,6 +3,7 @@
     "Level": "Niveau",
     "LevelAbbr": "Niv.",
     "ItemLevelAbbr": "Niv.Obj.",
+    "ExpAbbr": "XP",
     "ConfigWindow.Title": "Paramètres d'Umbra",
     "MainMenu.UmbraSettings": "Paramètres d'Umbra",
     "MainMenu.DalamudSettings": "Paramètres de Dalamud",
