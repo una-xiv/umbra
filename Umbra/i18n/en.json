@@ -3,6 +3,7 @@
     "Level": "Level",
     "LevelAbbr": "Lv.",
     "ItemLevelAbbr": "Ilv.",
+    "ExpAbbr":  "XP",
     "ConfigWindow.Title": "Umbra Settings",
     "MainMenu.UmbraSettings": "Umbra Settings",
     "MainMenu.DalamudSettings": "Dalamud Settings",
