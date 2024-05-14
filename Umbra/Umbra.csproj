@@ -43,5 +43,6 @@
         <ProjectReference Include="..\Umbra.Common\Umbra.Common.csproj"/>
         <ProjectReference Include="..\Umbra.Game\Umbra.Game.csproj"/>
         <ProjectReference Include="..\Umbra.Interface\Umbra.Interface.csproj"/>
+        <ProjectReference Include="..\drawing\Una.Drawing\Una.Drawing.csproj"/>
     </ItemGroup>
 </Project>

@@ -189,7 +189,7 @@ public partial class Element
     protected void ComputeBoundingBox()
     {
         BoundingBox = new(
-            Position                            + ScaledMargin.TopLeft,
+            Position + ScaledMargin.TopLeft,
             Position + ComputedSize.ToVector2() - ScaledMargin.BottomRight
         );
 
@@ -204,7 +204,9 @@ public partial class Element
         if (IsDirty || ComputedSize.IsEmpty) return true;
         if (_children.Count == 0) return false;
 
-        foreach (Element t in _children) if (t.ShouldRevalidate()) return true;
+        foreach (Element t in _children)
+            if (t.ShouldRevalidate())
+                return true;
 
         return false;
     }
@@ -242,14 +244,17 @@ public partial class Element
         List<Element> children = GetAnchoredChildren(childAnchor);
         if (children.Count == 0) return;
 
+        Size maxChildSize   = childAnchor.IsMiddle() || childAnchor.IsCenter() ? GetMaxSizeOfChildren(children) : new();
+        Size totalChildSize = childAnchor.IsMiddle() || childAnchor.IsCenter() ? GetTotalSizeOfChildren(children) : new();
+
         int x = (int)Position.X
-              + (childAnchor.IsLeft()
+                + (childAnchor.IsLeft()
                     ? ScaledPadding.Left
                     : childAnchor.IsRight()
                         ? -ScaledPadding.Right
                         : 0),
             y = (int)Position.Y
-              + (childAnchor.IsTop()
+                + (childAnchor.IsTop()
                     ? ScaledPadding.Top
                     : childAnchor.IsBottom()
                         ? -ScaledPadding.Bottom
@@ -257,26 +262,26 @@ public partial class Element
 
         if (childAnchor.IsCenter())
             x += (ComputedSize.Width / 2)
-              - (Flow == Flow.Horizontal
-                    ? GetTotalSizeOfChildren(children).Width
-                    : GetMaxSizeOfChildren(children).Width)
-              / 2;
+                - (Flow == Flow.Horizontal
+                    ? totalChildSize.Width
+                    : maxChildSize.Width)
+                / 2;
 
         if (childAnchor.IsRight()) x += ComputedSize.Width;
 
         if (childAnchor.IsMiddle())
             y += (ComputedSize.Height / 2)
-              - (Flow == Flow.Horizontal
-                    ? GetMaxSizeOfChildren(children).Height
-                    : GetTotalSizeOfChildren(children).Height)
-              / 2;
+                - (Flow == Flow.Horizontal
+                    ? maxChildSize.Height
+                    : totalChildSize.Height)
+                / 2;
 
         if (childAnchor.IsBottom()) y += ComputedSize.Height;
 
         var maxHeight = 0;
 
         if (childAnchor.IsMiddle()) {
-            maxHeight = GetMaxSizeOfChildren(children).Height;
+            maxHeight = maxChildSize.Height;
         }
 
         foreach (Element child in children) {
