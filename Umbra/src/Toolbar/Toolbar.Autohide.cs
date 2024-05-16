@@ -21,6 +21,8 @@ namespace Umbra;
 
 internal partial class Toolbar
 {
+    public bool AllowAutoHide { get; set; } = true;
+
     private float _autoHideYOffset;
     private float _autoHideYTarget;
     private bool  _isVisible       = true;
@@ -66,6 +68,8 @@ internal partial class Toolbar
 
     private bool IsCursorNearToolbar()
     {
+        if (!AllowAutoHide) return true;
+
         int y = ToolbarYPosition - (IsTopAligned ? 0 : _toolbarNode.Height);
         int x = _toolbarNode.Width / 2;
 

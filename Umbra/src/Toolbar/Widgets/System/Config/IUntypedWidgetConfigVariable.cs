@@ -14,22 +14,21 @@
  *     GNU Affero General Public License for more details.
  */
 
-using Umbra.Common;
+using System;
 
-namespace Umbra;
+namespace Umbra.Widgets;
 
-[Service]
-internal partial class Toolbar
+public interface IUntypedWidgetConfigVariable
 {
-    [OnDraw(executionOrder: -1)]
-    private void DrawToolbar()
-    {
-        if (!Enabled) return;
+    public event Action<object>? UntypedValueChanged;
 
-        UpdateToolbarWidth();
-        UpdateToolbarNodeClassList();
-        UpdateToolbarAutoHideOffset();
+    /// <summary>
+    /// Returns an untyped version of the default value of this variable.
+    /// </summary>
+    public object? GetDefaultValue();
 
-        RenderToolbarNode();
-    }
+    /// <summary>
+    /// Sets the value of this variable to the given untyped value.
+    /// </summary>
+    public void SetValue(object value);
 }

@@ -16,6 +16,8 @@
 
 using System;
 using ImGuiNET;
+using Umbra.Common;
+using Umbra.Style;
 using Una.Drawing;
 
 namespace Umbra;
@@ -23,29 +25,37 @@ namespace Umbra;
 internal partial class Toolbar
 {
     private readonly Node _toolbarNode = new() {
-        Id        = "Toolbar",
-        ClassList = ["toolbar", "toolbar-bottom"],
+        Stylesheet = ToolbarStyles.ToolbarStylesheet,
+        Id         = "Toolbar",
+        ClassList  = ["toolbar"],
         Style = new() {
             Size = new(1920, 32)
         },
         ChildNodes = [
             new() {
-                Id        = "LeftPanel",
+                Id        = "Left",
                 ClassList = ["toolbar-panel"],
                 Style     = new() { Anchor = Anchor.MiddleLeft }
             },
             new() {
-                Id        = "CenterPanel",
+                Id        = "Center",
                 ClassList = ["toolbar-panel"],
                 Style     = new() { Anchor = Anchor.MiddleCenter }
             },
             new() {
-                Id        = "RightPanel",
+                Id        = "Right",
                 ClassList = ["toolbar-panel"],
                 Style     = new() { Anchor = Anchor.MiddleRight }
             }
         ]
     };
+
+    public Node GetPanel(string id) =>
+        _toolbarNode.QuerySelector(id) ?? throw new InvalidOperationException($"Panel '{id}' not found.");
+
+    public Node LeftPanel   => GetPanel("Left");
+    public Node CenterPanel => GetPanel("Center");
+    public Node RightPanel  => GetPanel("Right");
 
     /// <summary>
     /// Renders the toolbar.
@@ -82,19 +92,25 @@ internal partial class Toolbar
     /// </summary>
     private void UpdateToolbarNodeClassList()
     {
-        string topClass    = IsStretched ? "toolbar-stretched-top" : "toolbar-floating-top";
-        string bottomClass = IsStretched ? "toolbar-stretched-bottom" : "toolbar-floating-bottom";
-
         switch (IsTopAligned) {
-            case true when !_toolbarNode.ClassList.Contains(topClass):
-                _toolbarNode.ClassList.Remove("toolbar-stretched-bottom");
-                _toolbarNode.ClassList.Remove("toolbar-floating-bottom");
-                _toolbarNode.ClassList.Add(topClass);
+            case true when !_toolbarNode.TagsList.Contains("top"):
+                _toolbarNode.TagsList.Remove("bottom");
+                _toolbarNode.TagsList.Add("top");
                 break;
-            case false when !_toolbarNode.ClassList.Contains(bottomClass):
-                _toolbarNode.ClassList.Remove("toolbar-stretched-top");
-                _toolbarNode.ClassList.Remove("toolbar-floating-top");
-                _toolbarNode.ClassList.Add(bottomClass);
+            case false when !_toolbarNode.TagsList.Contains("bottom"):
+                _toolbarNode.TagsList.Remove("top");
+                _toolbarNode.TagsList.Add("bottom");
+                break;
+        }
+
+        switch (IsStretched) {
+            case true when !_toolbarNode.TagsList.Contains("stretched"):
+                _toolbarNode.TagsList.Add("stretched");
+                _toolbarNode.TagsList.Remove("floating");
+                break;
+            case false when !_toolbarNode.TagsList.Contains("floating"):
+                _toolbarNode.TagsList.Add("floating");
+                _toolbarNode.TagsList.Remove("stretched");
                 break;
         }
     }
@@ -111,8 +127,4 @@ internal partial class Toolbar
         IsTopAligned
             ? (int)ImGui.GetMainViewport().WorkPos.Y + YOffset
             : (int)ImGui.GetIO().DisplaySize.Y - YOffset;
-
-    private Node LeftPanel   => _toolbarNode.QuerySelector("LeftPanel")!;
-    private Node CenterPanel => _toolbarNode.QuerySelector("CenterPanel")!;
-    private Node RightPanel  => _toolbarNode.QuerySelector("RightPanel")!;
 }

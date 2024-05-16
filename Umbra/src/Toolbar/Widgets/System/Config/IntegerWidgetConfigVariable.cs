@@ -14,22 +14,32 @@
  *     GNU Affero General Public License for more details.
  */
 
-using Umbra.Common;
+using System;
 
-namespace Umbra;
+namespace Umbra.Widgets;
 
-[Service]
-internal partial class Toolbar
+public class IntegerWidgetConfigVariable(
+    string  name,
+    string? description,
+    int     defaultValue,
+    int     minValue = Int32.MinValue,
+    int     maxValue = Int32.MaxValue
+)
+    : WidgetConfigVariable<int>(name, description, defaultValue)
 {
-    [OnDraw(executionOrder: -1)]
-    private void DrawToolbar()
+    /// <inheritdoc/>
+    protected override int Sanitize(object? value)
     {
-        if (!Enabled) return;
+        try {
+            int res = value switch {
+                null       => 0,
+                string str => !int.TryParse(str, out int result) ? 0 : result,
+                _          => (int)value,
+            };
 
-        UpdateToolbarWidth();
-        UpdateToolbarNodeClassList();
-        UpdateToolbarAutoHideOffset();
-
-        RenderToolbarNode();
+            return Math.Clamp(res, minValue, maxValue);
+        } catch {
+            return 0;
+        }
     }
 }

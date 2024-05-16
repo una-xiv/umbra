@@ -14,22 +14,9 @@
  *     GNU Affero General Public License for more details.
  */
 
-using Umbra.Common;
+namespace Umbra.Widgets;
 
-namespace Umbra;
-
-[Service]
-internal partial class Toolbar
+public interface IWidgetConfigVariable
 {
-    [OnDraw(executionOrder: -1)]
-    private void DrawToolbar()
-    {
-        if (!Enabled) return;
-
-        UpdateToolbarWidth();
-        UpdateToolbarNodeClassList();
-        UpdateToolbarAutoHideOffset();
-
-        RenderToolbarNode();
-    }
+    public string Name { get; }
 }

@@ -14,22 +14,16 @@
  *     GNU Affero General Public License for more details.
  */
 
-using Umbra.Common;
+namespace Umbra.Widgets;
 
-namespace Umbra;
-
-[Service]
-internal partial class Toolbar
+public class BooleanWidgetConfigVariable(string name, string? description, bool defaultValue)
+    : WidgetConfigVariable<bool>(name, description, defaultValue)
 {
-    [OnDraw(executionOrder: -1)]
-    private void DrawToolbar()
+    /// <inheritdoc/>
+    protected override bool Sanitize(object? value)
     {
-        if (!Enabled) return;
+        if (value is null) return false;
 
-        UpdateToolbarWidth();
-        UpdateToolbarNodeClassList();
-        UpdateToolbarAutoHideOffset();
-
-        RenderToolbarNode();
+        return (bool)value;
     }
 }

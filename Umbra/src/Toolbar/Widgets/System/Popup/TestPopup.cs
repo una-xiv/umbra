@@ -14,22 +14,19 @@
  *     GNU Affero General Public License for more details.
  */
 
-using Umbra.Common;
+using Una.Drawing;
 
-namespace Umbra;
+namespace Umbra.Widgets;
 
-[Service]
-internal partial class Toolbar
+public class TestPopup : WidgetPopup
 {
-    [OnDraw(executionOrder: -1)]
-    private void DrawToolbar()
-    {
-        if (!Enabled) return;
-
-        UpdateToolbarWidth();
-        UpdateToolbarNodeClassList();
-        UpdateToolbarAutoHideOffset();
-
-        RenderToolbarNode();
-    }
+    protected override Node Node { get; } = new() {
+        Id        = "MyTestPopup",
+        NodeValue = "This is a test popup!",
+        Style = new() {
+            Size     = new(400, 250),
+            FontSize = 16,
+            Padding  = new(8),
+        }
+    };
 }

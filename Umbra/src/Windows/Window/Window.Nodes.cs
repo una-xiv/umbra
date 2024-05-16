@@ -14,22 +14,20 @@
  *     GNU Affero General Public License for more details.
  */
 
-using Umbra.Common;
+using Una.Drawing;
 
-namespace Umbra;
+namespace Umbra.Windows;
 
-[Service]
-internal partial class Toolbar
+public abstract partial class Window
 {
-    [OnDraw(executionOrder: -1)]
-    private void DrawToolbar()
-    {
-        if (!Enabled) return;
-
-        UpdateToolbarWidth();
-        UpdateToolbarNodeClassList();
-        UpdateToolbarAutoHideOffset();
-
-        RenderToolbarNode();
-    }
+    private readonly Node _windowNode = new() {
+        Stylesheet = WindowStyles.WindowStylesheet,
+        ClassList  = ["window"],
+        ChildNodes = [
+            new() {
+                ClassList = ["window--titlebar"],
+                NodeValue = "Untitled Window",
+            }
+        ]
+    };
 }

@@ -19,7 +19,8 @@ using System.Linq;
 using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.Plugin.Services;
 using Umbra.Common;
-using Umbra.Interface;
+using Umbra.Windows;
+using Umbra.Windows.Clipping;
 
 namespace Umbra;
 
@@ -56,6 +57,8 @@ internal sealed class UmbraBindings : IDisposable
         // Framework.DalamudPlugin.UiBuilder.OpenMainUi   += () => _windowManager.CreateWindow<SettingsWindow>();
 
         #if DEBUG
+        _windowManager.Add("test", new TestWindow());
+
         // _windowManager.CreateWindow<SettingsWindow>();
         #endif
     }

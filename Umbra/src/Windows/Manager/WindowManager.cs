@@ -14,22 +14,45 @@
  *     GNU Affero General Public License for more details.
  */
 
+using System.Collections.Generic;
 using Umbra.Common;
 
-namespace Umbra;
+namespace Umbra.Windows;
 
 [Service]
-internal partial class Toolbar
+public class WindowManager
 {
-    [OnDraw(executionOrder: -1)]
-    private void DrawToolbar()
+    private readonly Dictionary<string, Window> Instances = [];
+
+    public void Add(string id, Window window)
     {
-        if (!Enabled) return;
+        if (Instances.TryGetValue(id, out Window? wnd)) {
+            wnd.Close();
+        }
 
-        UpdateToolbarWidth();
-        UpdateToolbarNodeClassList();
-        UpdateToolbarAutoHideOffset();
+        Instances[id] = window;
+    }
 
-        RenderToolbarNode();
+    /// <summary>
+    /// Returns true if the window with the given ID is open.
+    /// </summary>
+    public bool IsOpen(string id)
+    {
+        return Instances.ContainsKey(id);
+    }
+
+    public void Close(string id)
+    {
+        if (!Instances.Remove(id, out var window)) return;
+
+        window.Close();
+    }
+
+    [OnDraw]
+    private void OnDraw()
+    {
+        foreach ((string id, Window window) in Instances) {
+            window.Render(id);
+        }
     }
 }
