@@ -14,6 +14,7 @@
  *     GNU Affero General Public License for more details.
  */
 
+using System;
 using System.Collections.Generic;
 using Umbra.Common;
 
@@ -22,15 +23,33 @@ namespace Umbra.Windows;
 [Service]
 public class WindowManager
 {
-    private readonly Dictionary<string, Window> Instances = [];
+    private readonly Dictionary<string, Window>          _instances = [];
+    private readonly Dictionary<string, Action<Window>?> _callbacks = [];
 
-    public void Add(string id, Window window)
+    /// <summary>
+    /// Presents a window and invokes the given callback once the window is
+    /// closed. Use the callback to retrieve data from the window instance.
+    /// </summary>
+    /// <param name="id">A unique ID for this instance.</param>
+    /// <param name="window">An instance of <see cref="Window"/></param>
+    /// <param name="callback">A callback function.</param>
+    /// <typeparam name="T"></typeparam>
+    public void Present<T>(string id, T window, Action<T>? callback = null) where T : Window
     {
-        if (Instances.TryGetValue(id, out Window? wnd)) {
+        if (_instances.TryGetValue(id, out Window? wnd)) {
             wnd.Close();
         }
 
-        Instances[id] = window;
+        window.RequestClose += () => {
+            _instances.Remove(id);
+            _callbacks[id]?.Invoke(window);
+        };
+
+        _instances[id] = window;
+
+        if (callback is not null) {
+            _callbacks[id] = o => callback((T)o);
+        }
     }
 
     /// <summary>
@@ -38,12 +57,12 @@ public class WindowManager
     /// </summary>
     public bool IsOpen(string id)
     {
-        return Instances.ContainsKey(id);
+        return _instances.ContainsKey(id);
     }
 
     public void Close(string id)
     {
-        if (!Instances.Remove(id, out var window)) return;
+        if (!_instances.Remove(id, out var window)) return;
 
         window.Close();
     }
@@ -51,7 +70,7 @@ public class WindowManager
     [OnDraw]
     private void OnDraw()
     {
-        foreach ((string id, Window window) in Instances) {
+        foreach ((string id, Window window) in _instances) {
             window.Render(id);
         }
     }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Umbra.Common;
+using Umbra.Windows;
 
 namespace Umbra.Widgets.Library.Test1;
 
@@ -33,7 +34,12 @@ public class Test1Widget(string? guid = null, Dictionary<string, object>? config
         Popup!.AddButton("Button6", "A grouped button with a very long name",        altText: "A", groupId: "Group2", onClick: () => { Logger.Info("Button6 clicked!"); });
         Popup!.AddButton("Button7", "Another disabled", altText: "A",groupId: "Group2", onClick: () => { Logger.Info("Button7 clicked!"); });
         Popup!.AddButton("Button8", "A hidden button",         altText: "A",groupId: "Group2", onClick: () => { Logger.Info("Button8 clicked!"); });
-        Popup!.AddButton("Button9", "Boooooyeah!",             groupId: "Group2", onClick: () => { Logger.Info("Button9 clicked!"); });
+        Popup!.AddButton("Button9", "Boooooyeah!",             groupId: "Group2", onClick: () => {
+            Framework.Service<WindowManager>().Present("Booyah", new TestWindow(),
+                window => {
+                    Logger.Info("Window is closed!");
+                });
+        });
 
         // Popup!.SetButtonDisabled("Button7", true);
         // Popup!.SetButtonVisibility("Button8", false);

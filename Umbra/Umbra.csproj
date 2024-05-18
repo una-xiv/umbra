@@ -45,4 +45,8 @@
         <ProjectReference Include="..\Umbra.Interface\Umbra.Interface.csproj"/>
         <ProjectReference Include="..\drawing\Una.Drawing\Una.Drawing.csproj"/>
     </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="src\Windows\System\" />
+    </ItemGroup>
 </Project>

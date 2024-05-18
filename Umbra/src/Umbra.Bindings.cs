@@ -21,6 +21,7 @@ using Dalamud.Plugin.Services;
 using Umbra.Common;
 using Umbra.Windows;
 using Umbra.Windows.Clipping;
+using Una.Drawing;
 
 namespace Umbra;
 
@@ -56,8 +57,13 @@ internal sealed class UmbraBindings : IDisposable
         // Framework.DalamudPlugin.UiBuilder.OpenConfigUi += () => _windowManager.CreateWindow<SettingsWindow>();
         // Framework.DalamudPlugin.UiBuilder.OpenMainUi   += () => _windowManager.CreateWindow<SettingsWindow>();
 
+        Node.ScaleFactor = 1.0f;
+
         #if DEBUG
-        _windowManager.Add("test", new TestWindow());
+        _windowManager.Present("test", new TestWindow(),
+            window => {
+                Logger.Info($"Closed test window. Result = {window.Result}");
+            });
 
         // _windowManager.CreateWindow<SettingsWindow>();
         #endif

@@ -32,6 +32,8 @@ public abstract partial class Window
     protected abstract Vector2 MaxSize     { get; }
     protected abstract Vector2 DefaultSize { get; }
 
+    protected Size ContentSize { get; private set; } = new();
+
     public bool IsFocused { get; private set; }
     public bool IsHovered { get; private set; }
 
@@ -50,6 +52,19 @@ public abstract partial class Window
 
         IsFocused = ImGui.IsWindowFocused(ImGuiFocusedFlags.RootAndChildWindows);
         IsHovered = ImGui.IsWindowHovered(ImGuiHoveredFlags.RootAndChildWindows);
+
+        Vector2 size = ImGui.GetWindowSize() / Node.ScaleFactor;
+
+        _windowNode.Style.Size      = new((int)size.X - 2, (int)size.Y - 2);
+        TitlebarNode.Style.Size     = new((int)size.X - 8, 32);
+        TitlebarTextNode.Style.Size = new((int)size.X - 64, 32);
+
+        ContentNode.Style.Size = new((int)size.X - 7, (int)size.Y - 39);
+        Node.Style.Margin      = new(1);
+        ContentSize            = new(ContentNode.Style.Size.Width - 2, ContentNode.Style.Size.Height - 2);
+
+        // Only enable shadow if the window has focus.
+        _windowNode.Style.ShadowSize = IsFocused ? new(64) : new(0);
 
         if (IsFocused || !EnableClipping) {
             RenderFinal(id);
@@ -108,17 +123,18 @@ public abstract partial class Window
 
     private void RenderWindowInstance(string id, int instanceId = 0)
     {
+        var drawList = ImGui.GetWindowDrawList();
+
         ImGui.SetCursorPos(new(0, 0));
         ImGui.BeginChild($"Window_{id}##{instanceId}", ImGui.GetWindowSize(), false);
 
         OnUpdate(instanceId);
 
         Vector2 ps = ImGui.GetWindowPos();
-        Point   pt = new((int)ps.X, (int)ps.Y);
+        Point   pt = new((int)ps.X + 2, (int)ps.Y + 2);
 
-        _windowNode.Render(ImGui.GetWindowDrawList(), pt);
+        _windowNode.Render(drawList, pt);
 
-        ImGui.EndChild();
         ImGui.EndChild();
     }
 
