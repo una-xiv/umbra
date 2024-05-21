@@ -21,8 +21,8 @@ namespace Umbra.Style;
 internal class PopupStyles
 {
     public static Stylesheet WidgetPopupStylesheet { get; } = new(
-        new() {
-            {
+        [
+            new(
                 ".widget-popup",
                 new() {
                     Anchor          = Anchor.TopLeft,
@@ -32,31 +32,34 @@ internal class PopupStyles
                     BorderRadius    = 7,
                     ShadowInset     = 8,
                 }
-            }, {
+            ),
+            new(
                 ".widget-popup:top",
                 new() {
                     ShadowSize              = new() { Top = 0, Left = 64, Bottom = 64, Right = 64 },
                     BorderWidth             = new() { Top = 0, Left = 1, Bottom  = 1, Right  = 1 },
                     RoundedCorners          = RoundedCorners.BottomLeft | RoundedCorners.BottomRight,
-                    BackgroundGradientInset = new(2) { Top = 0, Right = 4 },
+                    BackgroundGradientInset = new(2) { Top = 0, Right = 3 },
                     BackgroundGradient = GradientColor.Vertical(
                         new("Widget.PopupBackground.Gradient1"),
                         new("Widget.PopupBackground.Gradient2")
                     ),
                 }
-            }, {
+            ),
+            new(
                 ".widget-popup:bottom",
                 new() {
                     ShadowSize              = new() { Top = 64, Left = 64, Bottom = 0, Right = 64 },
                     BorderWidth             = new() { Top = 1, Left  = 1, Bottom  = 0, Right = 1 },
                     RoundedCorners          = RoundedCorners.TopLeft | RoundedCorners.TopRight,
-                    BackgroundGradientInset = new(2) { Bottom = 0, Right = 4 },
+                    BackgroundGradientInset = new(2) { Bottom = 0, Right = 3 },
                     BackgroundGradient = GradientColor.Vertical(
                         new("Widget.PopupBackground.Gradient2"),
                         new("Widget.PopupBackground.Gradient1")
                     ),
                 }
-            }, {
+            ),
+            new(
                 ".widget-popup:floating",
                 new() {
                     ShadowSize              = new(64),
@@ -65,35 +68,38 @@ internal class PopupStyles
                     RoundedCorners          = RoundedCorners.All,
                     Margin                  = new(8),
                 }
-            }
-        }
+            ),
+        ]
     );
 
     public static Stylesheet MenuPopupStylesheet { get; } = new(
-        new() {
-            {
+        [
+            new(
                 ".button",
                 new() {
                     Flow         = Flow.Horizontal,
                     Size         = new(0, 24),
                     BorderRadius = 3,
                 }
-            }, {
+            ),
+            new(
                 ".button:hover",
                 new() {
                     BackgroundColor = new("Widget.PopupMenuBackgroundHover")
                 }
-            }, {
+            ),
+            new(
                 ".button--icon",
                 new() {
                     Anchor        = Anchor.MiddleLeft,
                     Size          = new(24, 24),
-                    IconInset     = new(2),
-                    IconRounding  = 4,
-                    IconOffset    = new(0, -1),
-                    IconGrayscale = true,
+                    ImageInset     = new(2),
+                    ImageRounding  = 4,
+                    ImageOffset    = new(0, -1),
+                    ImageGrayscale = true,
                 }
-            }, {
+            ),
+            new(
                 ".button--label",
                 new() {
                     Anchor       = Anchor.MiddleLeft,
@@ -104,13 +110,15 @@ internal class PopupStyles
                     OutlineColor = new("Widget.PopupMenuTextOutline"),
                     OutlineSize  = 1,
                 }
-            }, {
+            ),
+            new(
                 ".button--label:hover",
                 new() {
                     Color        = new("Widget.PopupMenuTextHover"),
                     OutlineColor = new("Widget.PopupMenuTextOutlineHover"),
                 }
-            }, {
+            ),
+            new(
                 ".button--altText",
                 new() {
                     Anchor       = Anchor.MiddleLeft,
@@ -122,26 +130,30 @@ internal class PopupStyles
                     OutlineColor = new("Widget.PopupMenuTextOutline"),
                     OutlineSize  = 1,
                 }
-            }, {
+            ),
+            new(
                 ".button-group",
                 new() {
                     Flow    = Flow.Vertical,
                     Padding = new(4, 0),
                     Gap     = 6,
                 }
-            }, {
+            ),
+            new(
                 ".button-group--header",
                 new() {
                     Flow = Flow.Horizontal,
                 }
-            }, {
+            ),
+            new(
                 ".button-group--line",
                 new() {
                     Anchor          = Anchor.MiddleCenter,
                     Size            = new(2, 1),
                     BackgroundColor = new("Widget.Border"),
                 }
-            }, {
+            ),
+            new(
                 ".button-group--label",
                 new() {
                     Anchor    = Anchor.MiddleCenter,
@@ -150,12 +162,13 @@ internal class PopupStyles
                     TextAlign = Anchor.MiddleCenter,
                     Color     = new("Widget.PopupMenuTextMuted"),
                 }
-            }, {
+            ),
+            new(
                 ".button-group--items",
                 new() {
                     Flow = Flow.Vertical,
                 }
-            }
-        }
+            ),
+        ]
     );
 }

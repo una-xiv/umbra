@@ -65,6 +65,8 @@ internal sealed class GearsetRepository : IGearsetRepository, IDisposable
                 OnGearsetRemoved?.Invoke(gearset);
             };
         }
+
+        OnTick();
     }
 
     /// <summary>

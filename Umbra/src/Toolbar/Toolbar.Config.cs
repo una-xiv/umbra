@@ -20,30 +20,30 @@ namespace Umbra;
 
 internal partial class Toolbar
 {
-    [ConfigVariable("Toolbar.Enabled", "ToolbarSettings")]
-    private static bool Enabled { get; set; } = true;
+    [ConfigVariable("Toolbar.Enabled", "General", "Toolbar")]
+    public static bool Enabled { get; set; } = true;
 
-    [ConfigVariable("Toolbar.IsTopAligned", "ToolbarSettings")]
-    public static bool IsTopAligned { get; set; } = false;
-
-    [ConfigVariable("Toolbar.IsStretched", "ToolbarSettings")]
-    public static bool IsStretched { get; set; } = true;
-
-    [ConfigVariable("Toolbar.IsAutoHideEnabled", "ToolbarSettings")]
+    [ConfigVariable("Toolbar.IsAutoHideEnabled", "General", "Toolbar")]
     public static bool IsAutoHideEnabled { get; set; } = false;
 
-    [ConfigVariable("Toolbar.EnableShadow", "ToolbarSettings")]
+    [ConfigVariable("Toolbar.IsTopAligned", "General", "Toolbar")]
+    public static bool IsTopAligned { get; set; } = false;
+
+    [ConfigVariable("Toolbar.IsStretched", "General", "Toolbar")]
+    public static bool IsStretched { get; set; } = true;
+
+    [ConfigVariable("Toolbar.EnableShadow", "General", "Toolbar")]
     public static bool EnableShadow { get; set; } = true;
 
-    [ConfigVariable("Toolbar.ItemSpacing", "ToolbarSettings", "ToolbarCustomization", min: 1, max: 32)]
-    private static int ItemSpacing { get; set; } = 6;
+    [ConfigVariable("Toolbar.ItemSpacing", "General", "Toolbar", min: 1, max: 32)]
+    public static int ItemSpacing { get; set; } = 6;
 
-    [ConfigVariable("Toolbar.MarginLeft", "ToolbarSettings", "ToolbarCustomization", min: -1, max: 16384)]
+    [ConfigVariable("Toolbar.MarginLeft", "General", "Toolbar", min: -1, max: 16384)]
     private static int ToolbarLeftMargin { get; set; } = 0;
 
-    [ConfigVariable("Toolbar.MarginRight", "ToolbarSettings", "ToolbarCustomization", min: -1, max: 16384)]
+    [ConfigVariable("Toolbar.MarginRight", "General", "Toolbar", min: -1, max: 16384)]
     private static int ToolbarRightMargin { get; set; } = 0;
 
-    [ConfigVariable("Toolbar.YOffset", "ToolbarSettings", "ToolbarCustomization", min: -16384, max: 16384)]
+    [ConfigVariable("Toolbar.YOffset", "General", "Toolbar", min: -16384, max: 16384)]
     public static int YOffset { get; set; } = 0;
 }

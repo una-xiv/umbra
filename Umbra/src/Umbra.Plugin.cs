@@ -63,7 +63,7 @@ internal sealed class Plugin : IDalamudPlugin
     private void OnLogin()
     {
         Framework
-            .Compile(DalamudFramework, PluginInterface)
+            .Compile(DalamudFramework, PluginInterface, ClientState.LocalContentId)
             .ContinueWith(
                 task => {
                     if (task.IsFaulted) {
@@ -83,9 +83,7 @@ internal sealed class Plugin : IDalamudPlugin
     private void RegisterServices()
     {
         Framework.AddLogTarget(new DefaultLogTarget(PluginLog, ChatGui));
-
         Framework.RegisterAssembly(Assembly.GetExecutingAssembly());
         Framework.RegisterAssembly(typeof(Game.EntryPoint).Assembly);
-        Framework.RegisterAssembly(typeof(Interface.EntryPoint).Assembly);
     }
 }

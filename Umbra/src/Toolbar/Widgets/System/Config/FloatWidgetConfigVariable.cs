@@ -19,25 +19,29 @@ using System;
 namespace Umbra.Widgets;
 
 public class FloatWidgetConfigVariable(
+    string  id,
     string  name,
     string? description,
     float   defaultValue,
-    float   minValue = Int32.MinValue,
-    float   maxValue = Int32.MaxValue
+    float   minValue = float.MinValue,
+    float   maxValue = float.MaxValue
 )
-    : WidgetConfigVariable<float>(name, description, defaultValue)
+    : WidgetConfigVariable<float>(id, name, description, defaultValue)
 {
+    public float MinValue { get; set; } = minValue;
+    public float MaxValue { get; set; } = maxValue;
+
     /// <inheritdoc/>
     protected override float Sanitize(object? value)
     {
         try {
-            int res = value switch {
+            float res = value switch {
                 null       => 0,
-                string str => !int.TryParse(str, out int result) ? 0 : result,
-                _          => (int)value,
+                string str => !float.TryParse(str, out float result) ? 0 : result,
+                _          => Convert.ToSingle(value)
             };
 
-            return Math.Clamp(res, minValue, maxValue);
+            return Math.Clamp(res, MinValue, MaxValue);
         } catch {
             return 0;
         }

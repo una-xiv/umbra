@@ -16,11 +16,18 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using Umbra.Common;
+using Umbra.Widgets.System;
 using Una.Drawing;
 
 namespace Umbra.Widgets;
 
-public abstract class ToolbarWidget(string? guid = null, Dictionary<string, object>? configValues = null) : IDisposable
+public abstract class ToolbarWidget(
+    WidgetInfo                  info,
+    string?                     guid         = null,
+    Dictionary<string, object>? configValues = null
+) : IDisposable
 {
     internal event Action<ToolbarWidget, WidgetPopup>? OpenPopup;
     internal event Action<ToolbarWidget, WidgetPopup>? OpenPopupDelayed;
@@ -31,15 +38,19 @@ public abstract class ToolbarWidget(string? guid = null, Dictionary<string, obje
     public string Id { get; } = guid ?? Guid.NewGuid().ToString();
 
     /// <summary>
-    /// <para>
-    /// Defines the name of this widget.
-    /// </para>
-    /// <para>
-    /// Please note that this name is used to identify the widget and should
-    /// be unique among all widgets.
-    /// </para>
+    /// Defines the toolbar panel where this widget is located.
     /// </summary>
-    public abstract string Name { get; }
+    public string Location { get; set; } = "Left";
+
+    /// <summary>
+    /// Defines the sort index within the toolbar panel.
+    /// </summary>
+    public int SortIndex { get; set; }
+
+    /// <summary>
+    /// Returns the information object of this widget.
+    /// </summary>
+    public WidgetInfo Info { get; } = info;
 
     /// <summary>
     /// Defines the node of this widget.
@@ -58,36 +69,34 @@ public abstract class ToolbarWidget(string? guid = null, Dictionary<string, obje
     public void Setup()
     {
         foreach (var cfg in GetConfigVariables()) {
-            _configVariables[cfg.Name] = cfg;
+            _configVariables[cfg.Id] = cfg;
 
             if (cfg is IUntypedWidgetConfigVariable u) {
-                if (false == _configValues.ContainsKey(cfg.Name)) {
-                    _configValues[cfg.Name] = u.GetDefaultValue()!;
+                if (false == _configValues.ContainsKey(cfg.Id)) {
+                    _configValues[cfg.Id] = u.GetDefaultValue()!;
                 }
 
-                u.UntypedValueChanged += value => _configValues[cfg.Name] = value;
+                u.UntypedValueChanged += value => _configValues[cfg.Id] = value;
             }
         }
 
-        if (_configValues.Count == 0) return;
+        if (_configValues.Count > 0) {
+            List<string> keysToRemove = [];
 
-        List<string> keysToRemove = [];
+            foreach ((string key, object value) in _configValues) {
+                if (!_configVariables.TryGetValue(key, out IWidgetConfigVariable? cfg)) {
+                    keysToRemove.Add(key);
+                    continue;
+                }
 
-        foreach ((string key, object value) in _configValues) {
-            if (!_configVariables.ContainsKey(key)) {
-                keysToRemove.Add(key);
-                continue;
+                if (cfg is IUntypedWidgetConfigVariable u) {
+                    u.SetValue(value);
+                }
             }
 
-            var cfg = _configVariables[key];
-
-            if (cfg is IUntypedWidgetConfigVariable u) {
-                u.SetValue(value);
+            foreach (string key in keysToRemove) {
+                _configValues.Remove(key);
             }
-        }
-
-        foreach (string key in keysToRemove) {
-            _configValues.Remove(key);
         }
 
         Initialize();
@@ -100,6 +109,7 @@ public abstract class ToolbarWidget(string? guid = null, Dictionary<string, obje
 
     public void Update()
     {
+        Node.SortIndex = SortIndex;
         OnUpdate();
     }
 
@@ -110,6 +120,15 @@ public abstract class ToolbarWidget(string? guid = null, Dictionary<string, obje
     public Dictionary<string, object> GetUserConfig()
     {
         return _configValues;
+    }
+
+    /// <summary>
+    /// Returns a list of registered config options.
+    /// </summary>
+    /// <returns></returns>
+    public List<IWidgetConfigVariable> GetConfigVariableList()
+    {
+        return _configVariables.Values.ToList();
     }
 
     /// <inheritdoc/>
@@ -135,7 +154,7 @@ public abstract class ToolbarWidget(string? guid = null, Dictionary<string, obje
     /// </summary>
     protected abstract IEnumerable<IWidgetConfigVariable> GetConfigVariables();
 
-    protected T GetConfigValue<T>(string name)
+    public T GetConfigValue<T>(string name)
     {
         if (!_configVariables.TryGetValue(name, out var cfg)) {
             throw new InvalidOperationException($"No config variable with the name '{name}' exists.");

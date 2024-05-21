@@ -39,7 +39,7 @@ public sealed class MainMenuItem : IDisposable
     public Action?          OnDisposed;
     public string?          MetadataKey { get; set; }
 
-    public string Id => $"{Type}-{SortIndex}-{Name.Replace(" ", "")}";
+    public string Id => $"{Type}-{SortIndex}-{Name.GetHashCode()}";
 
     public void Dispose()
     {

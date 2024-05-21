@@ -36,20 +36,22 @@ public class WindowManager
     /// <typeparam name="T"></typeparam>
     public void Present<T>(string id, T window, Action<T>? callback = null) where T : Window
     {
-        if (_instances.TryGetValue(id, out Window? wnd)) {
-            wnd.Close();
-        }
+        Framework.DalamudFramework.Run(
+            () => {
+                if (_instances.TryGetValue(id, out Window? wnd)) {
+                    wnd.Close();
+                }
 
-        window.RequestClose += () => {
-            _instances.Remove(id);
-            _callbacks[id]?.Invoke(window);
-        };
+                window.RequestClose += () => {
+                    _callbacks[id]?.Invoke(window);
+                    _instances.Remove(id);
+                    _callbacks.Remove(id);
+                };
 
-        _instances[id] = window;
-
-        if (callback is not null) {
-            _callbacks[id] = o => callback((T)o);
-        }
+                _instances[id] = window;
+                _callbacks[id] = callback is not null ? o => callback((T)o) : null;
+            }
+        );
     }
 
     /// <summary>
@@ -63,6 +65,7 @@ public class WindowManager
     public void Close(string id)
     {
         if (!_instances.Remove(id, out var window)) return;
+        _callbacks.Remove(id);
 
         window.Close();
     }
@@ -70,8 +73,10 @@ public class WindowManager
     [OnDraw]
     private void OnDraw()
     {
-        foreach ((string id, Window window) in _instances) {
-            window.Render(id);
+        lock (_instances) {
+            foreach ((string id, Window window) in _instances) {
+                window.Render(id);
+            }
         }
     }
 }

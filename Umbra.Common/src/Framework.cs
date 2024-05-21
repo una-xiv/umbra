@@ -28,6 +28,7 @@ public static class Framework
 {
     public static DalamudPluginInterface DalamudPlugin { get; private set; } = null!;
     public static IFramework DalamudFramework { get; private set; } = null!;
+    public static ulong LocalCharacterId { get; private set; }
 
     /// <summary>
     /// List of assemblies registered with the Umbra Framework.
@@ -43,10 +44,11 @@ public static class Framework
     /// This method should be called after all assemblies have been registered
     /// with the framework using the <see cref="RegisterAssembly"/> method.
     /// </remarks>
-    public static async Task Compile(IFramework dalamudFramework, DalamudPluginInterface dalamudPlugin)
+    public static async Task Compile(IFramework dalamudFramework, DalamudPluginInterface dalamudPlugin, ulong charId)
     {
         DalamudPlugin    = dalamudPlugin;
         DalamudFramework = dalamudFramework;
+        LocalCharacterId = charId;
 
         // Always make sure config is loaded first.
         ConfigManager.Initialize();
@@ -84,7 +86,7 @@ public static class Framework
     {
         Dispose();
         await Task.Delay(500);
-        await Compile(DalamudFramework, DalamudPlugin);
+        await Compile(DalamudFramework, DalamudPlugin, LocalCharacterId);
     }
 
     /// <summary>
@@ -119,7 +121,11 @@ public static class Framework
             return (T)service;
         }
 
-        throw new InvalidOperationException($"Service {type.Name} not found.");
+        if (ServiceContainer.Definitions.TryGetValue(alias, out var definition)) {
+            return (T)ServiceActivator.CreateInstance(definition.Type);
+        }
+
+        throw new InvalidOperationException($"Service \"{type.Name}\" not found.");
     }
 
     /// <summary>

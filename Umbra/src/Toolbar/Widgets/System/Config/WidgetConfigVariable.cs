@@ -15,10 +15,11 @@
  */
 
 using System;
+using Umbra.Common;
 
 namespace Umbra.Widgets;
 
-public abstract class WidgetConfigVariable<T>(string name, string? description, T defaultValue)
+public abstract class WidgetConfigVariable<T>(string id, string name, string? description, T defaultValue)
     : IWidgetConfigVariable, IUntypedWidgetConfigVariable
 {
     public event Action<T>? ValueChanged;
@@ -27,7 +28,12 @@ public abstract class WidgetConfigVariable<T>(string name, string? description, 
     public event Action<object>? UntypedValueChanged;
 
     /// <summary>
-    /// Specifies the name of this variable.
+    /// Specifies the internal name of this variable.
+    /// </summary>
+    public string Id { get; } = id;
+
+    /// <summary>
+    /// Specifies the display name of this variable.
     /// </summary>
     public string Name { get; } = name;
 
@@ -60,7 +66,12 @@ public abstract class WidgetConfigVariable<T>(string name, string? description, 
     private T _value = defaultValue;
 
     /// <inheritdoc/>
-    public void SetValue(object value) => Value = Sanitize(value);
+    public void SetValue(object value)
+    {
+        _value = Sanitize(value);
+        ValueChanged?.Invoke(_value);
+        UntypedValueChanged?.Invoke(value);
+    }
 
     /// <inheritdoc/>
     public object? GetDefaultValue() => DefaultValue;

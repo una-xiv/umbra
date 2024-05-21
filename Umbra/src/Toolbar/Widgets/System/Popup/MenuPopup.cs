@@ -17,6 +17,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Dalamud.Game.Text;
 using Umbra.Common;
 using Umbra.Style;
 using Una.Drawing;
@@ -37,11 +38,13 @@ public class MenuPopup : WidgetPopup
     public MenuPopup()
     {
         Node.BeforeReflow = node => {
-            foreach (var n in node.QuerySelectorAll(".button--label")) FillSpace(".button--label", n);
+            foreach (var n in node.QuerySelectorAll(".button--label")) FillSpace(".button--label",     n);
             foreach (var n in node.QuerySelectorAll(".button--altText")) FillSpace(".button--altText", n);
 
             var width = 0;
+
             foreach (var n in node.QuerySelectorAll(".button")) {
+                n.QuerySelector("Icon")!.Style.ImageGrayscale = UseGrayscaleIcons;
                 n.RecomputeSize();
                 width = Math.Max(width, n.InnerWidth);
             }
@@ -53,9 +56,14 @@ public class MenuPopup : WidgetPopup
 
                 if (n.ClassList.Contains("button-group--header")) {
                     foreach (var line in n.QuerySelectorAll(".button-group--line")) {
-                        line.Bounds.ContentSize.Width = (width - n.QuerySelector(".button-group--label")!.InnerWidth) / 2 - 4;
-                        line.Bounds.PaddingSize.Width = line.Bounds.ContentSize.Width + line.ComputedStyle.Padding.HorizontalSize;
-                        line.Bounds.MarginSize.Width  = line.Bounds.PaddingSize.Width + line.ComputedStyle.Margin.HorizontalSize;
+                        line.Bounds.ContentSize.Width =
+                            (width - n.QuerySelector(".button-group--label")!.InnerWidth) / 2 - 4;
+
+                        line.Bounds.PaddingSize.Width =
+                            line.Bounds.ContentSize.Width + line.ComputedStyle.Padding.HorizontalSize;
+
+                        line.Bounds.MarginSize.Width =
+                            line.Bounds.PaddingSize.Width + line.ComputedStyle.Margin.HorizontalSize;
                     }
                 }
             }
@@ -67,44 +75,63 @@ public class MenuPopup : WidgetPopup
     }
 
     /// <summary>
+    /// Whether to use grayscale icons for buttons that have icons associated
+    /// with them.
+    /// </summary>
+    public bool UseGrayscaleIcons { get; set; } = true;
+
+    /// <summary>
+    /// Clears all items from this popup.
+    /// </summary>
+    public void Clear()
+    {
+        Node.ChildNodes = [];
+    }
+
+    /// <summary>
     /// Adds a button to the menu.
     /// </summary>
     /// <param name="id">
-    /// The ID of this button. Use this to reference it later.
+    ///     The ID of this button. Use this to reference it later.
     /// </param>
     /// <param name="label">
-    /// The text that appears on the button.
+    ///     The text that appears on the button.
     /// </param>
     /// <param name="sortIndex">
-    /// The sort index that determines where this button appears in the menu,
-    /// relative to other buttons. Lower values appear first.
+    ///     The sort index that determines where this button appears in the menu,
+    ///     relative to other buttons. Lower values appear first.
     /// </param>
     /// <param name="iconId">
-    /// An ID that references an optional icon. If provided, the icon will
-    /// appear to the left of the button label.
+    ///     An ID that references an optional icon. If provided, the icon will
+    ///     appear to the left of the button label.
     /// </param>
     /// <param name="altText">
-    /// Alternative text that appears on the right side of the button. This is
-    /// typically used to display a keyboard shortcut.
+    ///     Alternative text that appears on the right side of the button. This is
+    ///     typically used to display a keyboard shortcut.
     /// </param>
     /// <param name="onClick">
-    /// The callback that is invoked when the button is clicked.
+    ///     The callback that is invoked when the button is clicked.
     /// </param>
     /// <param name="groupId">
-    /// An optional ID that references a button group. If provided, the button
-    /// is added to the specified group.
+    ///     An optional ID that references a button group. If provided, the button
+    ///     is added to the specified group.
+    /// </param>
+    /// <param name="glyphColor">
+    ///     The color of the icon glyph. This is only effective when
+    ///     <paramref name="iconId"/> is a <see cref="SeIconChar"/>.
     /// </param>
     public void AddButton(
         string  id,
         string  label,
         int?    sortIndex = null,
-        uint?   iconId    = null,
+        object? iconId    = null,
         string? altText   = null,
         Action? onClick   = null,
-        string? groupId   = null
+        string? groupId   = null,
+        Color?  glyphColor = null
     )
     {
-        Node button = CreateButtonNode(id, label, sortIndex, iconId, altText, onClick);
+        Node button = CreateButtonNode(id, label, sortIndex, iconId, altText, onClick, glyphColor);
 
         if (groupId is not null) {
             Node.QuerySelector($"Group_{groupId} > Items")?.AppendChild(button);
@@ -154,7 +181,7 @@ public class MenuPopup : WidgetPopup
     /// </summary>
     /// <param name="id">The ID of the button.</param>
     /// <param name="iconId">The ID of the icon or NULL to disable</param>
-    public void SetButtonIcon(string id, uint? iconId)
+    public void SetButtonIcon(string id, object? iconId)
     {
         Node? node = Node.QuerySelector($"{id}.button > .button--icon");
 
@@ -163,7 +190,20 @@ public class MenuPopup : WidgetPopup
             return;
         }
 
-        node.Style.IconId = iconId;
+        switch (iconId) {
+            case uint u:
+                node.Style.IconId = u;
+                node.Style.Glyph  = null;
+                break;
+            case SeIconChar s:
+                node.Style.Glyph  = s;
+                node.Style.IconId = null;
+                break;
+            default:
+                node.Style.IconId = null;
+                node.Style.Glyph  = null;
+                break;
+        }
     }
 
     public void SetButtonSortIndex(string id, int sortIndex)
@@ -356,9 +396,10 @@ public class MenuPopup : WidgetPopup
         string  id,
         string  label,
         int?    sortIndex,
-        uint?   iconId,
-        string? altText = null,
-        Action? onClick = null
+        object? iconId,
+        string? altText    = null,
+        Action? onClick    = null,
+        Color?  glyphColor = null
     )
     {
         Node button = new() {
@@ -369,7 +410,11 @@ public class MenuPopup : WidgetPopup
                 new() {
                     Id        = "Icon",
                     ClassList = ["button--icon"],
-                    Style     = new() { IconId = iconId }
+                    Style = new() {
+                        IconId     = iconId is uint u ? u : null,
+                        Glyph      = iconId is SeIconChar s ? s : null,
+                        GlyphColor = glyphColor
+                    }
                 },
                 new() {
                     Id        = "Label",

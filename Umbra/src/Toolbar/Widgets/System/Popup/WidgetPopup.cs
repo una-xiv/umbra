@@ -41,6 +41,20 @@ public abstract class WidgetPopup
         _shouldClose = true;
     }
 
+    protected virtual bool CanOpen()
+    {
+        return true;
+    }
+
+    protected virtual void OnUpdate()
+    {}
+
+    protected virtual void OnOpen()
+    {}
+
+    protected virtual void OnClose()
+    {}
+
     private float _opacityDest;
     private float _opacity;
     private float _yOffsetDest;
@@ -50,6 +64,10 @@ public abstract class WidgetPopup
 
     public bool Render(ToolbarWidget activator)
     {
+        if (!CanOpen()) {
+            return false;
+        }
+
         if (_popupNode.ChildNodes.Count == 0) {
             _popupNode.ChildNodes.Add(Node);
         }
@@ -57,6 +75,7 @@ public abstract class WidgetPopup
         if (!_isOpen) {
             _isOpen      = true;
             _shouldClose = false;
+            OnOpen();
         }
 
         switch (Toolbar.IsTopAligned) {
@@ -78,6 +97,8 @@ public abstract class WidgetPopup
                 _popupNode.TagsList.Remove("floating");
                 break;
         }
+
+        OnUpdate();
 
         // Reflow to pre-calculate bounds.
         _popupNode.Reflow();
@@ -145,6 +166,7 @@ public abstract class WidgetPopup
         if (!keepOpen) {
             _isOpen      = false;
             _shouldClose = false;
+            OnClose();
         }
 
         return keepOpen;
@@ -152,6 +174,12 @@ public abstract class WidgetPopup
 
     public void Reset()
     {
+        if (_isOpen) {
+            _isOpen      = false;
+            _shouldClose = false;
+            OnClose();
+        }
+
         _opacity     = 0;
         _opacityDest = 0;
         _yOffset     = Toolbar.IsTopAligned ? -32 : 32;

@@ -17,35 +17,50 @@
 using System.Collections.Generic;
 using Dalamud.Game.Text.SeStringHandling;
 using Umbra.Style;
+using Umbra.Widgets.System;
 using Una.Drawing;
 
 namespace Umbra.Widgets;
 
-public abstract class DefaultToolbarWidget(string? guid = null, Dictionary<string, object>? configValues = null)
-    : ToolbarWidget(guid, configValues)
+public abstract class DefaultToolbarWidget(
+    WidgetInfo                  info,
+    string?                     guid         = null,
+    Dictionary<string, object>? configValues = null
+)
+    : ToolbarWidget(info, guid, configValues)
 {
     public sealed override Node Node { get; } = new() {
         Stylesheet = WidgetStyles.DefaultWidgetStylesheet,
         ClassList  = ["toolbar-widget-default"],
         ChildNodes = [
             new() {
-                Id    = "LeftIcon",
-                Style = new() { Margin = new() { Left = -2 }, IsVisible = false }
+                Id          = "LeftIcon",
+                ClassList   = ["icon"],
+                InheritTags = true,
+                Style       = new() { Margin = new() { Left = -2 }, IsVisible = false }
             },
             new() {
-                Id        = "Label",
-                NodeValue = "",
+                Id          = "Label",
+                NodeValue   = "",
+                InheritTags = true,
                 ChildNodes = [
-                    new() { Id = "TopLabel" },
-                    new() { Id = "BottomLabel" }
+                    new() { Id = "TopLabel", InheritTags    = true, },
+                    new() { Id = "BottomLabel", InheritTags = true, }
                 ],
                 Style = new() {
                     Padding = new(),
                 }
             },
             new() {
-                Id    = "RightIcon",
-                Style = new() { Margin = new() { Right = -2 }, IsVisible = false }
+                Id          = "RightIcon",
+                ClassList   = ["icon"],
+                InheritTags = true,
+                Style = new() {
+                    Margin = new() {
+                        Right = -2
+                    },
+                    IsVisible = false
+                }
             },
         ],
         BeforeDraw = node => {
@@ -83,9 +98,16 @@ public abstract class DefaultToolbarWidget(string? guid = null, Dictionary<strin
         Node.QuerySelector("RightIcon")!.Style.IsVisible = iconId.HasValue;
     }
 
+    protected void SetIconSize(int size)
+    {
+        Node.QuerySelector("LeftIcon")!.Style.Size  = new(size, size);
+        Node.QuerySelector("RightIcon")!.Style.Size = new(size, size);
+    }
+
     protected void SetLabel(string? label)
     {
-        Node.QuerySelector("Label")!.NodeValue = label;
+        Node.QuerySelector("Label")!.NodeValue       = label;
+        Node.QuerySelector("Label")!.Style.IsVisible = !string.IsNullOrEmpty(label);
 
         TopLabelNode.NodeValue          = null;
         BottomLabelNode.NodeValue       = null;
@@ -125,8 +147,8 @@ public abstract class DefaultToolbarWidget(string? guid = null, Dictionary<strin
         Node.IsDisabled    = isDisabled;
         Node.Style.Opacity = isDisabled ? .66f : 1f;
 
-        Node.QuerySelector("LeftIcon")!.Style.IconGrayscale  = isDisabled;
-        Node.QuerySelector("RightIcon")!.Style.IconGrayscale = isDisabled;
+        Node.QuerySelector("LeftIcon")!.Style.ImageGrayscale  = isDisabled;
+        Node.QuerySelector("RightIcon")!.Style.ImageGrayscale = isDisabled;
     }
 
     protected void SetTextAlignLeft()

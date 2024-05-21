@@ -14,9 +14,7 @@
  *     GNU Affero General Public License for more details.
  */
 
-using ImGuiNET;
 using Umbra.Common;
-using Una.Drawing;
 
 namespace Umbra.Widgets.System;
 
@@ -41,7 +39,7 @@ internal partial class WidgetManager
         _currentActivator = activator;
         _currentPopup     = popup;
 
-        toolbar.AllowAutoHide = false;
+        Toolbar.AllowAutoHide = false;
     }
 
     /// <summary>
@@ -61,11 +59,11 @@ internal partial class WidgetManager
         _currentActivator = null;
         _currentPopup     = null;
 
-        toolbar.AllowAutoHide = true;
+        Toolbar.AllowAutoHide = true;
     }
 
     [OnDraw(executionOrder: 0)]
-    private void OnDraw()
+    private void OnUpdatePopups()
     {
         if (_currentPopup is null || _currentActivator is null) return;
 

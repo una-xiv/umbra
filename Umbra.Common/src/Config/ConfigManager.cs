@@ -1,9 +1,9 @@
-/* Umbra.Drawing | (c) 2024 by Una      ____ ___        ___.
+/* Umbra.Common | (c) 2024 by Una       ____ ___        ___.
  * Licensed under the terms of AGPL-3  |    |   \ _____ \_ |__ _______ _____
  *                                     |    |   //     \ | __ \\_  __ \\__  \
  * https://github.com/una-xiv/umbra    |    |  /|  Y Y  \| \_\ \|  | \/ / __ \_
  *                                     |______//__|_|  /____  /|__|   (____  /
- *     Umbra.Drawing is free software: you can       \/     \/             \/
+ *     Umbra.Common is free software: you can       \/     \/             \/
  *     redistribute it and/or modify it under the terms of the GNU Affero
  *     General Public License as published by the Free Software Foundation,
  *     either version 3 of the License, or (at your option) any later version.
@@ -25,7 +25,7 @@ using Newtonsoft.Json;
 
 namespace Umbra.Common;
 
-public static class ConfigManager
+public static partial class ConfigManager
 {
     private static readonly Dictionary<string, Cvar> Cvars = [];
 
@@ -34,36 +34,8 @@ public static class ConfigManager
 
     internal static void Initialize()
     {
-        var props = Framework
-            .Assemblies.SelectMany(asm => asm.GetTypes())
-            .SelectMany(type => type.GetProperties(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic))
-            .Where(prop => prop.GetCustomAttribute(typeof(ConfigVariableAttribute)) != null)
-            .ToList();
-
-        foreach (var prop in props) {
-            var     attr         = prop.GetCustomAttribute<ConfigVariableAttribute>()!;
-            string  id           = attr.Id;
-            object? defaultValue = prop.GetValue(null);
-
-            if (!Cvars.TryGetValue(id, out Cvar? cvar)) {
-                cvar      = new(id, defaultValue);
-                Cvars[id] = cvar;
-            }
-
-            if (attr.Category != null) cvar.Category = attr.Category;
-            if (attr.SubCategory != null) cvar.SubCategory = attr.SubCategory;
-            if (attr.Min != float.MinValue) cvar.Min = attr.Min;
-            if (attr.Max != float.MaxValue) cvar.Max = attr.Max;
-            if (attr.Step != 0) cvar.Step = attr.Step;
-            if (attr.Options.Count > 0) cvar.Options = attr.Options;
-            if (attr.RequiresRestart) cvar.RequiresRestart = true;
-
-            if (!EqualityComparer<object>.Default.Equals(cvar.Default, defaultValue)) {
-                throw new($"Config variable {id} has conflicting default values.");
-            }
-
-            cvar.Properties.Add(prop);
-        }
+        CollectVariablesFromAssemblies();
+        RestoreProfileAssociations();
 
         _isInitialLoad = true;
         Load();
@@ -74,86 +46,6 @@ public static class ConfigManager
     {
         _debounceTimer?.Dispose();
         Cvars.Clear();
-    }
-
-    public static List<string> GetCategories()
-    {
-        return Cvars
-            .Values
-            .Select(cvar => cvar.Category)
-            .Where(c => c != null && I18N.Has($"CVAR.Group.{c}"))
-            .Distinct()
-            .OrderBy(c => c)
-            .ToList()!;
-    }
-
-    public static Cvar? GetCvar(string id)
-    {
-        return Cvars.GetValueOrDefault(id);
-    }
-
-    public static List<Cvar> GetVariablesFromCategory(string category)
-    {
-        return Cvars
-            .Values
-            .Where(cvar => cvar.Category == category && I18N.Has($"CVAR.{cvar.Id}.Name") && cvar.Category != null)
-            .ToList();
-    }
-
-    public static void Set(string id, object? value, bool persist = true)
-    {
-        if (!Cvars.TryGetValue(id, out Cvar? cvar)) {
-            throw new($"Config variable {id} does not exist.");
-        }
-
-        foreach (var prop in cvar.Properties) {
-            if (prop.PropertyType.IsEnum) {
-                value = Enum.Parse(prop.PropertyType, value!.ToString()!);
-            } else if (prop.PropertyType == typeof(int)
-                    && value is long longValue) {
-                value = (int)longValue;
-            } else if (prop.PropertyType == typeof(float)
-                    && value is double doubleValue) {
-                value = (float)doubleValue;
-            } else if (prop.PropertyType == typeof(bool)
-                    && value is int intValue) {
-                value = intValue != 0;
-            } else if (prop.PropertyType == typeof(uint)
-                    && value is not uint) {
-                value = Convert.ToUInt32(value);
-            }
-
-            prop.SetValue(null, value);
-        }
-
-        if (cvar.Value == value) return;
-
-        cvar.Value = value;
-
-        if (!_isInitialLoad && cvar.RequiresRestart) {
-            _debounceTimer?.Dispose();
-            Persist();
-            Framework.DalamudFramework.Run(
-                async () => {
-                    await Task.Delay(250);
-                    Framework.Restart();
-                });
-            return;
-        }
-
-        if (persist) {
-            _debounceTimer?.Dispose();
-            _debounceTimer = new Timer(Persist, null, 1000, Timeout.Infinite);
-        }
-    }
-
-    public static T? Get<T>(string id)
-    {
-        if (!Cvars.TryGetValue(id, out Cvar? cvar)) {
-            throw new($"Config variable {id} does not exist.");
-        }
-
-        return (T?)cvar.Value;
     }
 
     internal static void Persist()
@@ -172,18 +64,23 @@ public static class ConfigManager
             data[cvar.Id] = cvar.Value;
         }
 
-        var json = JsonConvert.SerializeObject(data, Formatting.Indented);
-        File.WriteAllText(GetConfigFile().FullName, json);
+        WriteFile(GetCurrentConfigFileName(), data);
+    }
+
+    private static void LoadWithoutRestart()
+    {
+        _isInitialLoad = true;
+        Load();
+        _isInitialLoad = false;
     }
 
     private static void Load()
     {
-        if (!GetConfigFile().Exists) {
+        if (!FileExists(GetCurrentConfigFileName())) {
             return;
         }
 
-        var json = File.ReadAllText(GetConfigFile().FullName);
-        var data = JsonConvert.DeserializeObject<Dictionary<string, object?>>(json);
+        var data = ReadFile<Dictionary<string, object?>>(GetCurrentConfigFileName());
 
         if (null == data) return;
 
@@ -209,15 +106,6 @@ public static class ConfigManager
 
         return value;
     }
-
-    private static FileInfo GetConfigFile()
-    {
-        if (!Framework.DalamudPlugin.ConfigDirectory.Exists) {
-            Framework.DalamudPlugin.ConfigDirectory.Create();
-        }
-
-        return new(Path.Combine(Framework.DalamudPlugin.ConfigDirectory.FullName, "cvars.json"));
-    }
 }
 
 public class Cvar(string id, object? defaultValue)
@@ -233,4 +121,6 @@ public class Cvar(string id, object? defaultValue)
     public            float?             Step;
     internal readonly List<PropertyInfo> Properties = [];
     public            bool               RequiresRestart;
+
+    public string Slug => Id.Replace(".", "_");
 }

@@ -15,10 +15,10 @@
 
     <PropertyGroup>
         <Authors>Una</Authors>
-        <Company>-</Company>
-        <Version>1.0.6.17</Version>
+        <Company>Una-XIV</Company>
+        <Version>2.0.0</Version>
         <Description>Umbra UI</Description>
-        <Copyright>-</Copyright>
+        <Copyright>(C)2024, by Una</Copyright>
         <PackageProjectUrl>https://github.com/una-xiv/umbra</PackageProjectUrl>
         <PackageLicenseExpression>AGPL-3.0-or-later</PackageLicenseExpression>
         <IsPackable>false</IsPackable>
@@ -37,12 +37,12 @@
 
     <ItemGroup>
         <None Update="i18n\*.json" CopyToOutputDirectory="PreserveNewest"/>
+        <None Remove="i18n\fr.json" />
     </ItemGroup>
 
     <ItemGroup>
         <ProjectReference Include="..\Umbra.Common\Umbra.Common.csproj"/>
         <ProjectReference Include="..\Umbra.Game\Umbra.Game.csproj"/>
-        <ProjectReference Include="..\Umbra.Interface\Umbra.Interface.csproj"/>
         <ProjectReference Include="..\drawing\Una.Drawing\Una.Drawing.csproj"/>
     </ItemGroup>
 

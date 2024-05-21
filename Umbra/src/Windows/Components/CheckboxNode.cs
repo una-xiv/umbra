@@ -1,8 +1,21 @@
-﻿using System;
-using System.Reflection.Emit;
+﻿/* Umbra | (c) 2024 by Una              ____ ___        ___.
+ * Licensed under the terms of AGPL-3  |    |   \ _____ \_ |__ _______ _____
+ *                                     |    |   //     \ | __ \\_  __ \\__  \
+ * https://github.com/una-xiv/umbra    |    |  /|  Y Y  \| \_\ \|  | \/ / __ \_
+ *                                     |______//__|_|  /____  /|__|   (____  /
+ *     Umbra is free software: you can redistribute  \/     \/             \/
+ *     it and/or modify it under the terms of the GNU Affero General Public
+ *     License as published by the Free Software Foundation, either version 3
+ *     of the License, or (at your option) any later version.
+ *
+ *     Umbra UI is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU Affero General Public License for more details.
+ */
+
+using System;
 using Dalamud.Interface;
-using Lumina.Excel.GeneratedSheets;
-using Umbra.Common;
 using Una.Drawing;
 
 namespace Umbra.Windows.Components;
@@ -31,7 +44,7 @@ public class CheckboxNode : Node
         set => DescriptionNode.NodeValue = value;
     }
 
-    private bool _value = false;
+    private bool _value;
 
     public CheckboxNode(string id, bool value, string label, string? description = null)
     {
@@ -71,14 +84,12 @@ public class CheckboxNode : Node
         Label       = label;
         Description = description;
 
-        OnClick += _ => {
-            Value = !Value;
-        };
+        OnClick += _ => { Value = !Value; };
 
         BeforeReflow += _ => {
             int maxWidth = ParentNode!.Bounds.ContentSize.Width - ParentNode!.ComputedStyle.Padding.HorizontalSize;
             int padding  = ComputedStyle.Gap + BoxNode.OuterWidth;
-            int width    = maxWidth - padding;
+            int width    = (int)((maxWidth - padding) / ScaleFactor);
             int labelHeight;
 
             BoxNode.NodeValue = Value ? FontAwesomeIcon.Check.ToIconString() : null;
@@ -107,14 +118,17 @@ public class CheckboxNode : Node
     private Node DescriptionNode => QuerySelector(".checkbox--text--description")!;
 
     private static Stylesheet CheckboxStylesheet { get; } = new(
-        new() {
-            {
-                ".checkbox", new() {
+        [
+            new(
+                ".checkbox",
+                new() {
                     Flow = Flow.Horizontal,
                     Gap  = 8,
                 }
-            }, {
-                ".checkbox--box", new() {
+            ),
+            new(
+                ".checkbox--box",
+                new() {
                     Flow            = Flow.Horizontal,
                     Anchor          = Anchor.TopLeft,
                     Size            = new(24, 24),
@@ -122,46 +136,57 @@ public class CheckboxNode : Node
                     StrokeWidth     = 1,
                     StrokeInset     = 1,
                     Font            = 2,
-                    BackgroundColor = new("Checkbox.Background"),
-                    StrokeColor     = new("Checkbox.Border"),
-                    Color           = new("Checkbox.Checkmark"),
+                    BackgroundColor = new("Input.Background"),
+                    StrokeColor     = new("Input.Border"),
+                    Color           = new("Input.Text"),
                     TextAlign       = Anchor.MiddleCenter,
                     TextOffset      = new(0, -1),
                 }
-            }, {
-                ".checkbox--box:hover", new() {
-                    BackgroundColor = new("Checkbox.BackgroundHover"),
-                    StrokeColor     = new("Checkbox.BorderHover"),
-                    Color           = new("Checkbox.Checkmark"),
+            ),
+            new(
+                ".checkbox--box:hover",
+                new() {
+                    BackgroundColor = new("Input.BackgroundHover"),
+                    StrokeColor     = new("Input.BorderHover"),
+                    Color           = new("Input.TextHover"),
                 }
-            }, {
-                ".checkbox--text", new() {
+            ),
+            new(
+                ".checkbox--text",
+                new() {
                     Flow   = Flow.Vertical,
                     Anchor = Anchor.TopLeft,
                     Gap    = 4,
                 }
-            }, {
-                ".checkbox--text--label", new() {
+            ),
+            new(
+                ".checkbox--text--label",
+                new() {
                     Anchor       = Anchor.TopLeft,
                     TextAlign    = Anchor.MiddleLeft,
                     TextOverflow = false,
                     FontSize     = 13,
-                    Color        = new("Checkbox.TextLabel"),
+                    Color        = new("Input.Text"),
                     WordWrap     = false,
                 }
-            }, {
-                ".checkbox--text--label:hover", new() {
-                    Color = new("Checkbox.TextLabelHover"),
+            ),
+            new(
+                ".checkbox--text--label:hover",
+                new() {
+                    Color = new("Input.TextHover"),
                 }
-            }, {
-                ".checkbox--text--description", new() {
+            ),
+            new(
+                ".checkbox--text--description",
+                new() {
                     Anchor       = Anchor.TopLeft,
                     FontSize     = 11,
-                    Color        = new("Checkbox.TextDescription"),
+                    Color        = new("Input.TextMuted"),
                     TextOverflow = false,
                     WordWrap     = true,
+                    LineHeight   = 1.5f,
                 }
-            }
-        }
+            ),
+        ]
     );
 }

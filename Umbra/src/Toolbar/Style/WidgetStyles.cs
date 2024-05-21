@@ -14,6 +14,7 @@
  *     GNU Affero General Public License for more details.
  */
 
+using Dalamud.Game.Text;
 using Una.Drawing;
 
 namespace Umbra.Style;
@@ -21,8 +22,8 @@ namespace Umbra.Style;
 internal class WidgetStyles
 {
     public static Stylesheet DefaultWidgetStylesheet { get; } = new(
-        new() {
-            {
+        [
+            new(
                 ".toolbar-widget-default",
                 new() {
                     Flow            = Flow.Horizontal,
@@ -37,7 +38,8 @@ internal class WidgetStyles
                     StrokeRadius    = 4,
                     Gap             = 3,
                 }
-            }, {
+            ),
+            new(
                 ".toolbar-widget-default:ghost",
                 new() {
                     BackgroundColor = new(0x00000000),
@@ -45,43 +47,51 @@ internal class WidgetStyles
                     BorderWidth     = new(0),
                     BorderInset     = new(0),
                     StrokeWidth     = 0,
+                    Padding         = new(0),
                 }
-            }, {
+            ),
+            new(
                 ".toolbar-widget-default:hover",
                 new() {
                     Color           = new("Widget.TextHover"),
                     BackgroundColor = new("Widget.BackgroundHover"),
                     StrokeColor     = new("Widget.BorderHover"),
                 }
-            }, {
+            ),
+            new(
                 ".toolbar-widget-default:ghost:hover",
                 new() {
                     BackgroundColor = new(0x00000000),
                     BorderColor     = new(new(0x00000000)),
                 }
-            }, {
+            ),
+            new(
                 "LeftIcon",
                 new() {
-                    Size               = new(20, 20),
-                    Anchor             = Anchor.MiddleLeft,
-                    IconId             = 62101,
-                    IconRounding       = 3,
-                    IconRoundedCorners = RoundedCorners.TopLeft | RoundedCorners.BottomLeft,
-                    Margin             = new() { Left = -2 },
-                    IsVisible          = false,
+                    Size                = new(20, 20),
+                    Anchor              = Anchor.MiddleLeft,
+                    IconId              = 62101,
+                    ImageRounding       = 3,
+                    ImageRoundedCorners = RoundedCorners.TopLeft | RoundedCorners.BottomLeft,
+                    Margin              = new() { Left = -2 },
+                    IsVisible           = false,
                 }
-            }, {
+            ),
+            new("LeftIcon:ghost", new() { ImageRounding = 0, Margin = new(0) }),
+            new(
                 "RightIcon",
                 new() {
-                    Size               = new(20, 20),
-                    Anchor             = Anchor.MiddleLeft,
-                    IconId             = 62101,
-                    IconRounding       = 3,
-                    IconRoundedCorners = RoundedCorners.TopRight | RoundedCorners.BottomRight,
-                    Margin             = new() { Right = -2 },
-                    IsVisible          = false,
+                    Size                = new(20, 20),
+                    Anchor              = Anchor.MiddleLeft,
+                    IconId              = 62101,
+                    ImageRounding       = 3,
+                    ImageRoundedCorners = RoundedCorners.TopRight | RoundedCorners.BottomRight,
+                    Margin              = new() { Right = -2 },
+                    IsVisible           = false,
                 }
-            }, {
+            ),
+            new("RightIcon:ghost", new() { ImageRounding = 0, Margin = new(0) }),
+            new(
                 "Label",
                 new() {
                     Flow         = Flow.Vertical,
@@ -96,7 +106,8 @@ internal class WidgetStyles
                     OutlineSize  = 1,
                     TextOffset   = new(0, 1),
                 }
-            }, {
+            ),
+            new(
                 "TopLabel",
                 new() {
                     Size      = new(0, 12),
@@ -108,7 +119,8 @@ internal class WidgetStyles
                     FontSize  = 11,
                     Stretch   = true,
                 }
-            }, {
+            ),
+            new(
                 "BottomLabel",
                 new() {
                     Size       = new(0, 12),
@@ -121,7 +133,71 @@ internal class WidgetStyles
                     FontSize   = 10,
                     Stretch    = true,
                 }
-            }
-        }
+            )
+        ]
+    );
+
+    public static Stylesheet ClockWidgetStylesheet { get; } = new(
+        [
+            new(
+                ".clock-widget",
+                new() {
+                    Flow            = Flow.Horizontal,
+                    Size            = new(0, 28),
+                    Padding         = new(0, 4),
+                    Anchor          = Anchor.MiddleLeft,
+                    BackgroundColor = new("Widget.Background"),
+                    StrokeColor     = new("Widget.Border"),
+                    StrokeWidth     = 1,
+                    StrokeInset     = 2,
+                    BorderRadius    = 5,
+                    StrokeRadius    = 4,
+                    Gap             = 6,
+                }
+            ),
+            new(
+                ".clock-widget--prefix",
+                new() {
+                    Size            = new(0, 20),
+                    Padding         = new(0, 2),
+                    Anchor          = Anchor.MiddleLeft,
+                    TextAlign       = Anchor.MiddleCenter,
+                    Font            = 3,
+                    FontSize        = 12,
+                    Color           = new("Widget.TextMuted"),
+                    BackgroundColor = new(0x60FFFFFF),
+                    BorderRadius    = 2,
+                    RoundedCorners  = RoundedCorners.TopLeft | RoundedCorners.BottomLeft,
+                    Opacity         = 0.66f,
+                }
+            ),
+            new(
+                ".clock-widget--prefix:native",
+                new() {
+                    BackgroundColor = new(0),
+                    Size            = new(28, 18),
+                    Glyph           = SeIconChar.LocalTimeEn,
+                    GlyphColor      = new("Widget.TextMuted"),
+                    GlyphOffset     = new(0, -1),
+                    Margin          = new() { Left = 2 },
+                    Opacity         = 0.75f,
+                }
+            ),
+            new(
+                ".clock-widget--time",
+                new() {
+                    Size         = new(0, 28),
+                    Padding      = new() { Right = 6 },
+                    Anchor       = Anchor.MiddleLeft,
+                    TextAlign    = Anchor.MiddleLeft,
+                    Font         = 1,
+                    FontSize     = 13,
+                    Color        = new("Widget.Text"),
+                    TextOffset   = new(0, 0),
+                    TextOverflow = false,
+                    WordWrap     = false,
+                }
+            )
+        ]
     );
 }

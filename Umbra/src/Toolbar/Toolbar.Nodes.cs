@@ -16,7 +16,6 @@
 
 using System;
 using ImGuiNET;
-using Umbra.Common;
 using Umbra.Style;
 using Una.Drawing;
 
@@ -62,6 +61,12 @@ internal partial class Toolbar
     /// </summary>
     private void RenderToolbarNode()
     {
+        _toolbarNode.Style.ShadowSize = new(EnableShadow ? 64 : 0);
+
+        LeftPanel.Style.Gap    = ItemSpacing;
+        CenterPanel.Style.Gap  = ItemSpacing;
+        RightPanel.Style.Gap   = ItemSpacing;
+
         _toolbarNode.Render(
             ImGui.GetBackgroundDrawList(),
             new(ToolbarXPosition, (int)(ToolbarYPosition + _autoHideYOffset))
@@ -73,16 +78,32 @@ internal partial class Toolbar
     /// </summary>
     private void UpdateToolbarWidth()
     {
+        _toolbarNode.Style.Margin = new() {
+            Left  = ToolbarLeftMargin,
+            Right = ToolbarRightMargin
+        };
+
         if (IsStretched) {
-            _toolbarNode.Style.Size!.Width = (int)Math.Ceiling(ImGui.GetMainViewport().Size.X);
+            float sw = ImGui.GetMainViewport().Size.X;
+            float pw = ToolbarLeftMargin + ToolbarRightMargin;
+
+            LeftPanel.Style.Anchor = Anchor.MiddleLeft;
+            CenterPanel.Style.Anchor = Anchor.MiddleCenter;
+            RightPanel.Style.Anchor = Anchor.MiddleRight;
+
+            _toolbarNode.Style.Size!.Width = (int)Math.Ceiling((sw - pw) / Node.ScaleFactor);
             return;
         }
 
+        LeftPanel.Style.Anchor   = Anchor.MiddleCenter;
+        CenterPanel.Style.Anchor = Anchor.MiddleCenter;
+        RightPanel.Style.Anchor  = Anchor.MiddleCenter;
+
         _toolbarNode.Style.Size = new(
-            LeftPanel.OuterWidth
-            + CenterPanel.OuterWidth
-            + RightPanel.OuterWidth
-            + 12,
+            (int)(LeftPanel.OuterWidth / Node.ScaleFactor)
+            + (int)(CenterPanel.OuterWidth / Node.ScaleFactor)
+            + (int)(RightPanel.OuterWidth / Node.ScaleFactor)
+            + (ItemSpacing * 2),
             32
         );
     }

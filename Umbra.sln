@@ -7,15 +7,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Umbra", "Umbra\Umbra.csproj
 	ProjectSection(ProjectDependencies) = postProject
 		{56bda3dd-7770-4412-93e7-79ff05559e36} = {56bda3dd-7770-4412-93e7-79ff05559e36}
 		{c3154267-fc9d-4522-872d-f7f89b3731fc} = {c3154267-fc9d-4522-872d-f7f89b3731fc}
-		{a11cec40-08e7-4731-a3c0-8d009371e398} = {a11cec40-08e7-4731-a3c0-8d009371e398}
 		{a11cec40-08e7-4731-a3c0-8d009371e399} = {a11cec40-08e7-4731-a3c0-8d009371e399}
 	EndProjectSection
 EndProject
 Project("{26495231-AF23-4AA0-95E5-42833EAC1DB2}") = "Umbra.Common", "Umbra.Common\Umbra.Common.csproj", "{56BDA3DD-7770-4412-93E7-79FF05559E36}"
 EndProject
 Project("{D76AB56E-9F51-46F4-948E-5FB870539F81}") = "Umbra.Game", "Umbra.Game\Umbra.Game.csproj", "{C3154267-FC9D-4522-872D-F7F89B3731FC}"
-EndProject
-Project("{C13C141B-D0DB-4EFC-91A7-E6850F6212BA}") = "Umbra.Interface", "Umbra.Interface\Umbra.Interface.csproj", "{A11CEC40-08E7-4731-A3C0-8D009371E398}"
 EndProject
 Project("{C13C141B-D0DB-4EFC-91A7-E6850F6212BB}") = "Una.Drawing", "drawing\Una.Drawing\Una.Drawing.csproj", "{A11CEC40-08E7-4731-A3C0-8D009371E399}"
 EndProject
@@ -38,10 +35,6 @@ Global
 		{C3154267-FC9D-4522-872D-F7F89B3731FC}.Debug|x64.Build.0 = Debug|x64
 		{C3154267-FC9D-4522-872D-F7F89B3731FC}.Release|x64.ActiveCfg = Release|x64
 		{C3154267-FC9D-4522-872D-F7F89B3731FC}.Release|x64.Build.0 = Release|x64
-		{A11CEC40-08E7-4731-A3C0-8D009371E398}.Debug|x64.ActiveCfg = Debug|x64
-		{A11CEC40-08E7-4731-A3C0-8D009371E398}.Debug|x64.Build.0 = Debug|x64
-		{A11CEC40-08E7-4731-A3C0-8D009371E398}.Release|x64.ActiveCfg = Release|x64
-		{A11CEC40-08E7-4731-A3C0-8D009371E398}.Release|x64.Build.0 = Release|x64
         {A11CEC40-08E7-4731-A3C0-8D009371E399}.Debug|x64.ActiveCfg = Debug|x64
         {A11CEC40-08E7-4731-A3C0-8D009371E399}.Debug|x64.Build.0 = Debug|x64
         {A11CEC40-08E7-4731-A3C0-8D009371E399}.Release|x64.ActiveCfg = Release|x64

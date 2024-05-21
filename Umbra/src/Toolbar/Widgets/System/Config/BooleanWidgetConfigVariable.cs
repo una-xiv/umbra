@@ -16,8 +16,8 @@
 
 namespace Umbra.Widgets;
 
-public class BooleanWidgetConfigVariable(string name, string? description, bool defaultValue)
-    : WidgetConfigVariable<bool>(name, description, defaultValue)
+public class BooleanWidgetConfigVariable(string id, string name, string? description, bool defaultValue)
+    : WidgetConfigVariable<bool>(id, name, description, defaultValue)
 {
     /// <inheritdoc/>
     protected override bool Sanitize(object? value)

@@ -76,22 +76,22 @@ internal sealed class MainMenuRepository : IMainMenuRepository
 
         Categories[MenuCategory.System]
             .AddItem(
-                new(I18N.Translate("MainMenu.UmbraSettings"), -999, "/umbra")
-                    { Icon = SeIconChar.BoxedLetterU, IconColor = 0xFF40A0AC }
+                new(I18N.Translate("Widget.MainMenu.CustomItem.UmbraSettings"), -999, "/umbra")
+                    { Icon = SeIconChar.BoxedLetterU, IconColor = 0xFFACA040 }
             );
 
         Categories[MenuCategory.System].AddItem(new(-1000));
 
         Categories[MenuCategory.System]
             .AddItem(
-                new(I18N.Translate("MainMenu.DalamudSettings"), -1001, "/xlsettings")
-                    { Icon = SeIconChar.BoxedLetterD, IconColor = 0xFF5151FF }
+                new(I18N.Translate("Widget.MainMenu.CustomItem.DalamudSettings"), -1001, "/xlsettings")
+                    { Icon = SeIconChar.BoxedLetterD, IconColor = 0xFFFF5151 }
             );
 
         Categories[MenuCategory.System]
             .AddItem(
-                new(I18N.Translate("MainMenu.DalamudPlugins"), -1002, "/xlplugins")
-                    { Icon = SeIconChar.BoxedLetterD, IconColor = 0xFF5151FF }
+                new(I18N.Translate("Widget.MainMenu.CustomItem.DalamudPlugins"), -1002, "/xlplugins")
+                    { Icon = SeIconChar.BoxedLetterD, IconColor = 0xFFFF5151 }
             );
     }
 

@@ -21,8 +21,8 @@ namespace Umbra.Style;
 internal class ToolbarStyles
 {
     public static Stylesheet ToolbarStylesheet { get; } = new(
-        new() {
-            {
+        [
+            new(
                 ".toolbar",
                 new() {
                     Flow        = Flow.Horizontal,
@@ -32,49 +32,56 @@ internal class ToolbarStyles
                     ShadowSize  = new(64),
                     ShadowInset = 4,
                 }
-            }, {
+            ),
+            new(
                 ".toolbar:top",
                 new() {
                     Anchor             = Anchor.TopCenter,
                     BackgroundGradient = GradientColor.Vertical(new("Toolbar.Background2"), new("Toolbar.Background1")),
                 }
-            }, {
+            ),
+            new(
                 ".toolbar:bottom",
                 new() {
                     Anchor             = Anchor.BottomCenter,
                     BackgroundGradient = GradientColor.Vertical(new("Toolbar.Background1"), new("Toolbar.Background2")),
                 }
-            }, {
+            ),
+            new(
                 ".toolbar:top:stretched",
                 new() {
                     BorderWidth = new() { Bottom = 1 },
                 }
-            }, {
+            ),
+            new(
                 ".toolbar:bottom:stretched",
                 new() {
                     BorderWidth = new() { Top = 1 },
                 }
-            }, {
+            ),
+            new(
                 ".toolbar:top:floating",
                 new() {
                     BorderWidth    = new() { Bottom = 1, Left = 1, Right = 1 },
                     BorderRadius   = 5,
                     RoundedCorners = RoundedCorners.BottomLeft | RoundedCorners.BottomRight,
                 }
-            }, {
+            ),
+            new(
                 ".toolbar:bottom:floating",
                 new() {
                     BorderWidth    = new() { Top = 1, Left = 1, Right = 1 },
                     BorderRadius   = 5,
                     RoundedCorners = RoundedCorners.TopLeft | RoundedCorners.TopRight,
                 }
-            }, {
+            ),
+            new(
                 ".toolbar-panel",
                 new() {
                     Flow = Flow.Horizontal,
                     Gap  = 6,
                 }
-            }
-        }
+            )
+        ]
     );
 }

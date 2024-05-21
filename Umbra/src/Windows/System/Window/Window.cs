@@ -64,7 +64,7 @@ public abstract partial class Window
 
             if (ContentNode.ChildNodes.Count == 0) {
                 ContentNode.AppendChild(Node);
-                _windowNode.QuerySelector("CloseButton")!.OnClick += _ => Close();
+                _windowNode.QuerySelector("CloseButton")!.OnMouseUp += _ => Close();
             }
 
             OnOpen();

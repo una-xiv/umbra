@@ -19,12 +19,12 @@ using Umbra.Common;
 namespace Umbra;
 
 [Service]
-internal partial class Toolbar
+internal partial class Toolbar(UmbraVisibility visibility)
 {
     [OnDraw(executionOrder: -1)]
     private void DrawToolbar()
     {
-        if (!Enabled) return;
+        if (!Enabled || !visibility.IsVisible()) return;
 
         UpdateToolbarWidth();
         UpdateToolbarNodeClassList();

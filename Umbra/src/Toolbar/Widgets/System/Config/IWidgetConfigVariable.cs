@@ -18,5 +18,5 @@ namespace Umbra.Widgets;
 
 public interface IWidgetConfigVariable
 {
-    public string Name { get; }
+    public string Id { get; }
 }
