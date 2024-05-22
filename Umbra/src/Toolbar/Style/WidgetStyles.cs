@@ -33,7 +33,7 @@ internal class WidgetStyles
                     BackgroundColor = new("Widget.Background"),
                     StrokeColor     = new("Widget.Border"),
                     StrokeWidth     = 1,
-                    StrokeInset     = 2,
+                    StrokeInset     = 1,
                     BorderRadius    = 5,
                     StrokeRadius    = 4,
                     Gap             = 3,
@@ -110,28 +110,32 @@ internal class WidgetStyles
             new(
                 "TopLabel",
                 new() {
-                    Size      = new(0, 12),
-                    Margin    = new() { Top = 1 },
-                    Anchor    = Anchor.MiddleCenter,
-                    TextAlign = Anchor.MiddleRight,
-                    Color     = new("Widget.Text"),
-                    IsVisible = false,
-                    FontSize  = 11,
-                    Stretch   = true,
+                    Size         = new(0, 12),
+                    Margin       = new() { Top = 1 },
+                    Anchor       = Anchor.MiddleCenter,
+                    TextAlign    = Anchor.MiddleRight,
+                    Color        = new("Widget.Text"),
+                    OutlineColor = new("Widget.TextOutline"),
+                    OutlineSize  = 1,
+                    IsVisible    = false,
+                    FontSize     = 11,
+                    Stretch      = true,
                 }
             ),
             new(
                 "BottomLabel",
                 new() {
-                    Size       = new(0, 12),
-                    Margin     = new() { Top = -3 },
-                    Anchor     = Anchor.MiddleCenter,
-                    TextAlign  = Anchor.MiddleRight,
-                    TextOffset = new(0, -1),
-                    Color      = new("Widget.TextMuted"),
-                    IsVisible  = false,
-                    FontSize   = 10,
-                    Stretch    = true,
+                    Size         = new(0, 12),
+                    Margin       = new() { Top = -3 },
+                    Anchor       = Anchor.MiddleCenter,
+                    TextAlign    = Anchor.MiddleRight,
+                    TextOffset   = new(0, -1),
+                    Color        = new("Widget.TextMuted"),
+                    OutlineColor = new("Widget.TextOutline"),
+                    OutlineSize  = 1,
+                    IsVisible    = false,
+                    FontSize     = 10,
+                    Stretch      = true,
                 }
             )
         ]
@@ -149,10 +153,21 @@ internal class WidgetStyles
                     BackgroundColor = new("Widget.Background"),
                     StrokeColor     = new("Widget.Border"),
                     StrokeWidth     = 1,
-                    StrokeInset     = 2,
+                    StrokeInset     = 1,
                     BorderRadius    = 5,
                     StrokeRadius    = 4,
                     Gap             = 6,
+                }
+            ),
+            new(
+                ".clock-widget:ghost",
+                new() {
+                    BackgroundColor = new(0x00000000),
+                    BorderColor     = new(new(0x00000000)),
+                    BorderWidth     = new(0),
+                    BorderInset     = new(0),
+                    StrokeWidth     = 0,
+                    Padding         = new(0),
                 }
             ),
             new(
@@ -184,6 +199,13 @@ internal class WidgetStyles
                 }
             ),
             new(
+                ".clock-widget--prefix:ghost",
+                new() {
+                    BackgroundColor = new(0),
+                    RoundedCorners  = RoundedCorners.All,
+                }
+            ),
+            new(
                 ".clock-widget--time",
                 new() {
                     Size         = new(0, 28),
@@ -193,6 +215,8 @@ internal class WidgetStyles
                     Font         = 1,
                     FontSize     = 13,
                     Color        = new("Widget.Text"),
+                    OutlineColor = new("Widget.TextOutline"),
+                    OutlineSize  = 1,
                     TextOffset   = new(0, 0),
                     TextOverflow = false,
                     WordWrap     = false,

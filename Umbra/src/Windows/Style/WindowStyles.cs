@@ -32,6 +32,7 @@ public static class WindowStyles
                     StrokeWidth     = 1,
                     StrokeInset     = 1,
                     BorderRadius    = 6,
+                    IsAntialiased   = false,
                     RoundedCorners  = RoundedCorners.All,
                     ShadowSize      = new(64),
                     ShadowInset     = 8,
@@ -53,6 +54,7 @@ public static class WindowStyles
                     BorderColor             = new(new("Window.TitlebarBorder")),
                     BorderWidth             = new() { Bottom = 1 },
                     BorderRadius            = 4,
+                    IsAntialiased           = false,
                     RoundedCorners          = RoundedCorners.TopLeft | RoundedCorners.TopRight,
                     Margin                  = new(1) { Bottom = -1 },
                 }
@@ -61,6 +63,7 @@ public static class WindowStyles
                 ".window--titlebar-text",
                 new() {
                     FontSize     = 13,
+                    Color        = new("Window.TitlebarText"),
                     OutlineColor = new("Window.TitlebarTextOutline"),
                     OutlineSize  = 1,
                     TextAlign    = Anchor.MiddleLeft,
@@ -76,7 +79,7 @@ public static class WindowStyles
                 new() {
                     Anchor          = Anchor.TopRight,
                     Size            = new(23, 23),
-                    BackgroundColor = new("Widget.TitlebarCloseButton"),
+                    BackgroundColor = new("Window.TitlebarCloseButton"),
                     StrokeColor     = new("Window.TitlebarCloseButtonBorder"),
                     StrokeWidth     = 2,
                     StrokeInset     = 1,

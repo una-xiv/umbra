@@ -42,6 +42,14 @@ public partial class WidgetsModule : SettingsModule
     public override void OnUpdate()
     {
         UpdateNodeSizes();
+
+        // Update widget instance names.
+        foreach (var widget in Framework.Service<WidgetManager>().GetWidgetInstances()) {
+            var node = GetColumn(widget.Location).QuerySelector($"#widget-{widget.Id}");
+            if (node == null) continue;
+
+            node.QuerySelector(".widget-instance--name")!.NodeValue = widget.GetInstanceName();
+        }
     }
 
     private void OnWidgetInstanceCreated(ToolbarWidget widget)

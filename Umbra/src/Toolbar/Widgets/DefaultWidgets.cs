@@ -71,5 +71,53 @@ internal class DefaultWidgets
                 I18N.Translate("Widget.Weather.Description")
             )
         );
+
+        wm.RegisterWidget<WorldNameWidget>(
+            new(
+                "WorldName",
+                I18N.Translate("Widget.WorldName.Name"),
+                I18N.Translate("Widget.WorldName.Description")
+            )
+        );
+
+        wm.RegisterWidget<LocationWidget>(
+            new(
+                "Location",
+                I18N.Translate("Widget.Location.Name"),
+                I18N.Translate("Widget.Location.Description")
+            )
+        );
+
+        wm.RegisterWidget<CurrenciesWidget>(
+            new(
+                "Currencies",
+                I18N.Translate("Widget.Currencies.Name"),
+                I18N.Translate("Widget.Currencies.Description")
+            )
+        );
+
+        wm.RegisterWidget<OnlineStatusWidget>(
+            new(
+                "OnlineStatus",
+                I18N.Translate("Widget.OnlineStatus.Name"),
+                I18N.Translate("Widget.OnlineStatus.Description")
+            )
+        );
+
+        wm.RegisterWidget<ToolbarPinWidget>(
+            new(
+                "ToolbarPin",
+                I18N.Translate("Widget.ToolbarPin.Name"),
+                I18N.Translate("Widget.ToolbarPin.Description")
+            )
+        );
+
+        wm.RegisterWidget<GearsetSwitcherWidget>(
+            new(
+                "GearsetSwitcher",
+                I18N.Translate("Widget.GearsetSwitcher.Name"),
+                I18N.Translate("Widget.GearsetSwitcher.Description")
+            )
+        );
     }
 }

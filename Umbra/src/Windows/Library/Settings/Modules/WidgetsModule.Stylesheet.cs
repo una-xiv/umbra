@@ -57,6 +57,7 @@ public partial class WidgetsModule
                     Padding         = new(15),
                     BackgroundColor = new("Window.BackgroundLight"),
                     BorderRadius    = 7,
+                    IsAntialiased   = false,
                 }
             ),
             new(
@@ -118,7 +119,8 @@ public partial class WidgetsModule
                     Flow            = Flow.Vertical,
                     Gap             = 6,
                     BackgroundColor = new("Window.Background"),
-                    BorderRadius    = 7,
+                    IsAntialiased   = false,
+                    BorderRadius    = 6,
                     Padding         = new(8, 0),
                 }
             ),
@@ -132,6 +134,12 @@ public partial class WidgetsModule
                     TextAlign    = Anchor.TopCenter,
                     TextOverflow = false,
                     WordWrap     = false,
+                }
+            ),
+            new(
+                ".widget-instance--name:hover",
+                new() {
+                    Color = new("Widget.TextHover"),
                 }
             ),
             new(

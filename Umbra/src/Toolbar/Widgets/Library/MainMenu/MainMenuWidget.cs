@@ -46,6 +46,13 @@ public sealed class MainMenuWidget(
     private bool?                _useGrayscaleIcon;
     private int?                 _iconSize;
 
+    public override string GetInstanceName()
+    {
+        return _category is null
+            ? base.GetInstanceName()
+            : $"{base.GetInstanceName()} - {_category.Name}";
+    }
+
     /// <inheritdoc/>
     protected override void Initialize()
     {
@@ -123,6 +130,14 @@ public sealed class MainMenuWidget(
         }
 
         Popup.UseGrayscaleIcons = GetConfigValue<bool>("UseGrayscaleIcons");
+
+        if (Popup.IsOpen) {
+            foreach (var item in _category.Items) {
+                if (Popup.HasButton(item.Id)) {
+                    Popup.SetButtonDisabled(item.Id, item.IsDisabled);
+                }
+            }
+        }
 
         Node.QuerySelector("#Label")!.Style.TextOffset = new(0, GetConfigValue<int>("TextYOffset"));
 
@@ -252,7 +267,11 @@ public sealed class MainMenuWidget(
         if (item.Type == MainMenuItemType.Separator) return;
         _items[item.Id] = item;
 
-        Popup.AddButton(item.Id, item.Name, item.SortIndex, item.Icon, item.ShortKey, item.Invoke, null, new(item.IconColor ?? 0));
+        if (item.ItemGroupId is not null && item.ItemGroupLabel is not null && Popup.HasGroup(item.ItemGroupId) == false) {
+            Popup.AddGroup(item.ItemGroupId, item.ItemGroupLabel, item.SortIndex);
+        }
+
+        Popup.AddButton(item.Id, item.Name, item.SortIndex, item.Icon, item.ShortKey, item.Invoke, item.ItemGroupId, new(item.IconColor ?? 0));
     }
 
     private void OnItemRemoved(MainMenuItem item)
@@ -261,5 +280,9 @@ public sealed class MainMenuWidget(
 
         _items.Remove(item.Id);
         Popup.RemoveButton(item.Id);
+
+        if (item.ItemGroupId is not null && Popup.HasGroup(item.ItemGroupId) && Popup.GetGroupItemCount(item.ItemGroupId) == 0){
+            Popup.RemoveGroup(item.ItemGroupId);
+        }
     }
 }

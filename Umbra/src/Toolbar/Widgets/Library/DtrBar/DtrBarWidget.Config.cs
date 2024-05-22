@@ -48,6 +48,14 @@ public partial class DtrBarWidget
                 }
             ),
             new IntegerWidgetConfigVariable(
+                "ItemSpacing",
+                I18N.Translate("Widget.DtrBar.Config.ItemSpacing.Name"),
+                I18N.Translate("Widget.DtrBar.Config.ItemSpacing.Description"),
+                6,
+                0,
+                64
+            ),
+            new IntegerWidgetConfigVariable(
                 "TextYOffset",
                 I18N.Translate("Widget.DtrBar.Config.TextYOffset.Name"),
                 I18N.Translate("Widget.DtrBar.Config.TextYOffset.Description"),

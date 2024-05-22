@@ -15,6 +15,8 @@
  */
 
 using Umbra.Common;
+using Umbra.Windows.Components;
+using Una.Drawing;
 
 namespace Umbra.Windows.Settings.Modules;
 
@@ -26,14 +28,32 @@ public partial class AppearanceModule : SettingsModule
     public AppearanceModule()
     {
         CreateFontControlNodes();
+        CreateColorProfileNodes();
+        CreateColorControlNodes();
+
+        OnColorProfileChanged();
     }
 
     public override void OnOpen()
     {
+        UmbraColors.OnColorProfileChanged += OnColorProfileChanged;
+    }
+
+    public override void OnClose()
+    {
+        UmbraColors.OnColorProfileChanged -= OnColorProfileChanged;
     }
 
     public override void OnUpdate()
     {
         UpdateNodeSizes();
+        UpdateProfileInputs();
+    }
+
+    private void OnColorProfileChanged()
+    {
+        foreach ((string id, ColorInputNode node) in _colorPickers) {
+            node.Value = Color.GetNamedColor(id);
+        }
     }
 }

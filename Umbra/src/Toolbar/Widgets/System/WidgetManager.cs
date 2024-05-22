@@ -32,7 +32,7 @@ internal sealed partial class WidgetManager : IDisposable
     private readonly Dictionary<string, WidgetInfo>    _widgetInfos = [];
     private readonly Dictionary<string, ToolbarWidget> _instances   = [];
 
-    private  Toolbar Toolbar { get; }
+    private Toolbar Toolbar { get; }
 
     public WidgetManager(Toolbar toolbar)
     {
@@ -45,6 +45,14 @@ internal sealed partial class WidgetManager : IDisposable
     public void Dispose()
     {
         ConfigManager.CvarChanged -= OnCvarChanged;
+
+        foreach (var widget in _instances.Values) {
+            widget.Dispose();
+
+            if (widget.Popup is IDisposable disposable) {
+                disposable.Dispose();
+            }
+        }
     }
 
     /// <summary>
@@ -63,7 +71,7 @@ internal sealed partial class WidgetManager : IDisposable
         LoadState();
     }
 
-    public void UnRegisterWidget(string name)
+    public void UnregisterWidget(string name)
     {
         if (!_widgetTypes.ContainsKey(name)) return;
 
@@ -160,12 +168,29 @@ internal sealed partial class WidgetManager : IDisposable
                 widget.OpenPopup        -= OpenPopup;
                 widget.OpenPopupDelayed -= OpenPopupIfAnyIsOpen;
 
+                if (widget.Popup is IDisposable disposable) {
+                    disposable.Dispose();
+                }
+
                 lock (_instances) {
                     _instances.Remove(guid);
                 }
 
+                int sortIndexStart = widget.SortIndex;
+
+                var instances = _instances
+                    .Values
+                    .Where(w => w.Location == widget.Location && w.SortIndex > sortIndexStart)
+                    .ToList();
+
+                if (instances.Count > 0) {
+                    foreach (var w in instances) {
+                        w.SortIndex--;
+                        SaveWidgetState(w.Id);
+                    }
+                }
+
                 if (saveState) {
-                    SolveSortIndices(widget.Location);
                     _widgetState.Remove(guid);
                     SaveState();
                 }
@@ -246,9 +271,9 @@ internal sealed partial class WidgetManager : IDisposable
 
     private struct WidgetConfigStruct
     {
-        public string                     Name      { get; set; }
-        public int                        SortIndex { get; set; }
-        public string                     Location  { get; set; }
-        public Dictionary<string, object> Config    { get; set; }
+        public string                     Name      { get; init; }
+        public int                        SortIndex { get; init; }
+        public string                     Location  { get; init; }
+        public Dictionary<string, object> Config    { get; init; }
     }
 }

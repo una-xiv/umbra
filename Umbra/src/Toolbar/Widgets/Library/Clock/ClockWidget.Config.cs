@@ -31,9 +31,9 @@ public partial class ClockWidget
                 I18N.Translate("Widget.Clock.Config.TimeSource.Description"),
                 "LT",
                 new() {
-                    ["LT"] = I18N.Translate("Widget.Clock.Config.TimeSource.LocalTime"),
-                    ["ST"] = I18N.Translate("Widget.Clock.Config.TimeSource.ServerTime"),
-                    ["ET"] = I18N.Translate("Widget.Clock.Config.TimeSource.EorzeaTime"),
+                    ["LT"] = I18N.Translate("Widget.Clock.Config.TimeSource.LT"),
+                    ["ST"] = I18N.Translate("Widget.Clock.Config.TimeSource.ST"),
+                    ["ET"] = I18N.Translate("Widget.Clock.Config.TimeSource.ET"),
                 }
             ),
             new BooleanWidgetConfigVariable(
@@ -60,6 +60,18 @@ public partial class ClockWidget
                 I18N.Translate("Widget.Clock.Config.Use24HourFormat.Name"),
                 I18N.Translate("Widget.Clock.Config.Use24HourFormat.Description"),
                 true
+            ),
+            new BooleanWidgetConfigVariable(
+                "Decorate",
+                I18N.Translate("Widget.Clock.Config.Decorate.Name"),
+                I18N.Translate("Widget.Clock.Config.Decorate.Description"),
+                true
+            ),
+            new BooleanWidgetConfigVariable(
+                "ClickToSwitch",
+                I18N.Translate("Widget.Clock.Config.ClickToSwitch.Name"),
+                I18N.Translate("Widget.Clock.Config.ClickToSwitch.Description"),
+                false
             ),
             new StringWidgetConfigVariable(
                 "AmLabel",

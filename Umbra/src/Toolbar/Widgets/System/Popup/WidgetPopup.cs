@@ -62,6 +62,11 @@ public abstract class WidgetPopup
     private bool  _shouldClose;
     private bool  _isOpen;
 
+    /// <summary>
+    /// True if the popup is currently open.
+    /// </summary>
+    public bool IsOpen => _isOpen;
+
     public bool Render(ToolbarWidget activator)
     {
         if (!CanOpen()) {

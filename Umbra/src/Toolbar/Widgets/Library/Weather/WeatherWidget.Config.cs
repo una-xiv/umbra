@@ -52,6 +52,14 @@ public partial class WeatherWidget
                 }
             ),
             new IntegerWidgetConfigVariable(
+                "Spacing",
+                I18N.Translate("Widget.Weather.Config.Spacing.Name"),
+                I18N.Translate("Widget.Weather.Config.Spacing.Description"),
+                0,
+                0,
+                64
+            ),
+            new IntegerWidgetConfigVariable(
                 "MaxForecastEntries",
                 I18N.Translate("Widget.Weather.Config.MaxForecastEntries.Name"),
                 I18N.Translate("Widget.Weather.Config.MaxForecastEntries.Description"),

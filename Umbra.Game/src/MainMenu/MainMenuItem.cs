@@ -25,19 +25,22 @@ namespace Umbra.Game;
 
 public sealed class MainMenuItem : IDisposable
 {
-    public string           Name        { get; set; }
-    public string           ShortKey    { get; set; } = string.Empty;
-    public MainMenuItemType Type        { get; set; }
-    public string?          ChatCommand { get; set; }
-    public Action?          Callback    { get; set; }
-    public uint?            CommandId   { get; set; }
-    public short            SortIndex   { get; set; }
-    public bool             IsDisabled  { get; set; }
-    public object?          Icon        { get; set; }
-    public uint?            IconColor   { get; set; }
-    public Action?          OnUpdate;
-    public Action?          OnDisposed;
-    public string?          MetadataKey { get; set; }
+    public string           Name           { get; set; }
+    public string           ShortKey       { get; set; } = string.Empty;
+    public MainMenuItemType Type           { get; set; }
+    public string?          ChatCommand    { get; set; }
+    public Action?          Callback       { get; set; }
+    public uint?            CommandId      { get; set; }
+    public short            SortIndex      { get; set; }
+    public bool             IsDisabled     { get; set; }
+    public object?          Icon           { get; set; }
+    public uint?            IconColor      { get; set; }
+    public string?          MetadataKey    { get; set; }
+    public string?          ItemGroupId    { get; set; }
+    public string?          ItemGroupLabel { get; set; }
+
+    public Action? OnUpdate;
+    public Action? OnDisposed;
 
     public string Id => $"{Type}-{SortIndex}-{Name.GetHashCode()}";
 
@@ -123,7 +126,7 @@ public sealed class MainMenuItem : IDisposable
         if (agentHud == null) return;
 
         IsDisabled = false
-         == (
+            == (
                 agentHud->IsMainCommandEnabled(CommandId!.Value) && uiModule->IsMainCommandUnlocked(CommandId!.Value)
             );
 

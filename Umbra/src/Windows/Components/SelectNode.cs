@@ -49,10 +49,12 @@ public class SelectNode : Node
     public List<string> Choices {
         get => _choices;
         set {
+            _isLocked = true;
             Framework.DalamudFramework.Run(
                 () => {
                     _choices.Clear();
                     _choices.AddRange(value);
+                    _isLocked = false;
                 }
             );
         }
@@ -60,6 +62,7 @@ public class SelectNode : Node
 
     private readonly List<string> _choices;
     private          string       _value;
+    private          bool         _isLocked;
 
     public SelectNode(
         string id, string value, List<string> choices, string? label = null, string? description = null,
@@ -140,7 +143,8 @@ public class SelectNode : Node
         ImGui.SetNextItemWidth(bounds.ContentSize.Width);
 
         // Ensure the current value is amongst the choices.
-        if (!_choices.Contains(Value)) {
+        if (!_isLocked && !_choices.Contains(Value)) {
+            Logger.Warning($"Selected value [{Value}] is not amongst children in {Id}");
             Value = _choices.Count > 0 ? _choices[0] : "";
         }
 

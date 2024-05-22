@@ -89,14 +89,36 @@ internal class PopupStyles
                 }
             ),
             new(
+                ".button:disabled",
+                new() {
+                    BackgroundColor = new(0)
+                }
+            ),
+            new(
                 ".button--icon",
                 new() {
-                    Anchor        = Anchor.MiddleLeft,
-                    Size          = new(24, 24),
+                    Anchor         = Anchor.MiddleLeft,
+                    Size           = new(24, 24),
                     ImageInset     = new(2),
                     ImageRounding  = 4,
                     ImageOffset    = new(0, -1),
                     ImageGrayscale = true,
+                }
+            ),
+            new(
+                ".button--icon:disabled",
+                new() {
+                    Opacity        = 0.5f,
+                    ImageGrayscale = true,
+                }
+            ),
+            new(
+                ".button--icon--glyph",
+                new() {
+                    Anchor      = Anchor.MiddleLeft,
+                    Size        = new(24, 24),
+                    GlyphInset  = new(4, 6),
+                    GlyphOffset = new(4, 4),
                 }
             ),
             new(
@@ -116,6 +138,13 @@ internal class PopupStyles
                 new() {
                     Color        = new("Widget.PopupMenuTextHover"),
                     OutlineColor = new("Widget.PopupMenuTextOutlineHover"),
+                }
+            ),
+            new(
+                ".button--label:disabled",
+                new() {
+                    Color        = new("Widget.PopupMenuTextDisabled"),
+                    OutlineColor = new("Widget.PopupMenuTextOutlineDisabled"),
                 }
             ),
             new(
@@ -167,6 +196,7 @@ internal class PopupStyles
                 ".button-group--items",
                 new() {
                     Flow = Flow.Vertical,
+                    Gap  = 6,
                 }
             ),
         ]

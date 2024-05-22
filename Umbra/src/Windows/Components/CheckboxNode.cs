@@ -141,6 +141,7 @@ public class CheckboxNode : Node
                     Color           = new("Input.Text"),
                     TextAlign       = Anchor.MiddleCenter,
                     TextOffset      = new(0, -1),
+                    IsAntialiased   = false,
                 }
             ),
             new(

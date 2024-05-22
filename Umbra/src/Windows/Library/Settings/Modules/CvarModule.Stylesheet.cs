@@ -49,6 +49,7 @@ public partial class CvarModule
                     BackgroundColor = new("Window.BackgroundLight"),
                     BorderRadius    = 7,
                     Padding         = new(10),
+                    IsAntialiased   = false,
                 }
             ),
             new(
@@ -63,9 +64,11 @@ public partial class CvarModule
                 new() {
                     Font       = 2,
                     FontSize   = 16,
+                    Color      = new("Window.Text"),
                     Anchor     = Anchor.MiddleLeft,
                     TextAlign  = Anchor.MiddleLeft,
                     TextOffset = new(0, -1),
+                    Opacity    = 0.65f,
                 }
             ),
             new(

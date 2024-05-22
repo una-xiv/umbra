@@ -44,6 +44,8 @@ public sealed partial class DtrBarWidget(
         _repository.OnEntryAdded   += OnDtrBarEntryAdded;
         _repository.OnEntryRemoved += OnDtrBarEntryRemoved;
         _repository.OnEntryUpdated += OnDtrBarEntryUpdated;
+
+        foreach (var entry in _repository.GetEntries()) OnDtrBarEntryAdded(entry);
     }
 
     /// <inheritdoc/>
@@ -53,6 +55,8 @@ public sealed partial class DtrBarWidget(
 
         var decorateMode = GetConfigValue<string>("DecorateMode");
         var textOffset   = GetConfigValue<int>("TextYOffset");
+
+        Node.Style.Gap = GetConfigValue<int>("ItemSpacing");
 
         foreach (Node node in Node.QuerySelectorAll(".dtr-bar-entry")) {
             switch (decorateMode) {

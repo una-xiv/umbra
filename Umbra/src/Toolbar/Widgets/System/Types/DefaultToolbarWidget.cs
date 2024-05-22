@@ -37,7 +37,10 @@ public abstract class DefaultToolbarWidget(
                 Id          = "LeftIcon",
                 ClassList   = ["icon"],
                 InheritTags = true,
-                Style       = new() { Margin = new() { Left = -2 }, IsVisible = false }
+                Style = new() {
+                    Margin    = new() { Left = -2 },
+                    IsVisible = false
+                }
             },
             new() {
                 Id          = "Label",
@@ -56,19 +59,32 @@ public abstract class DefaultToolbarWidget(
                 ClassList   = ["icon"],
                 InheritTags = true,
                 Style = new() {
-                    Margin = new() {
-                        Right = -2
-                    },
+                    Margin    = new() { Right = -2 },
                     IsVisible = false
                 }
             },
         ],
         BeforeDraw = node => {
-            bool leftIconVisible  = node.QuerySelector("LeftIcon")!.IsVisible;
-            bool rightIconVisible = node.QuerySelector("RightIcon")!.IsVisible;
+            Node leftIconNode    = node.QuerySelector("#LeftIcon")!;
+            Node rightIconNode   = node.QuerySelector("#RightIcon")!;
+            Node labelNode       = node.QuerySelector("#Label")!;
+            Node topLabelNode    = node.QuerySelector("#TopLabel")!;
+            Node bottomLabelNode = node.QuerySelector("#BottomLabel")!;
 
-            node.QuerySelector("Label")!.Style.Padding
-                = new(0, rightIconVisible ? 0 : 6, 0, leftIconVisible ? 0 : 6);
+            bool hasLabelValue = labelNode.NodeValue is not null;
+
+            leftIconNode.Style.IsVisible  = leftIconNode.Style.IconId is not null;
+            rightIconNode.Style.IsVisible = rightIconNode.Style.IconId is not null;
+
+            bool leftIconVisible  = leftIconNode.Style.IsVisible ?? false;
+            bool rightIconVisible = rightIconNode.Style.IsVisible ?? false;
+
+            labelNode.Style.Padding = new(
+                0,
+                !hasLabelValue || rightIconVisible ? 0 : 6,
+                0,
+                !hasLabelValue || leftIconVisible ? 0 : 6
+            );
         }
     };
 
@@ -88,14 +104,12 @@ public abstract class DefaultToolbarWidget(
 
     protected void SetLeftIcon(uint? iconId)
     {
-        Node.QuerySelector("LeftIcon")!.Style.IconId    = iconId;
-        Node.QuerySelector("LeftIcon")!.Style.IsVisible = iconId.HasValue;
+        Node.QuerySelector("LeftIcon")!.Style.IconId = iconId;
     }
 
     protected void SetRightIcon(uint? iconId)
     {
-        Node.QuerySelector("RightIcon")!.Style.IconId    = iconId;
-        Node.QuerySelector("RightIcon")!.Style.IsVisible = iconId.HasValue;
+        Node.QuerySelector("RightIcon")!.Style.IconId = iconId;
     }
 
     protected void SetIconSize(int size)
@@ -106,8 +120,8 @@ public abstract class DefaultToolbarWidget(
 
     protected void SetLabel(string? label)
     {
-        Node.QuerySelector("Label")!.NodeValue       = label;
-        Node.QuerySelector("Label")!.Style.IsVisible = !string.IsNullOrEmpty(label);
+        LabelNode.NodeValue       = label;
+        LabelNode.Style.IsVisible = !string.IsNullOrEmpty(label);
 
         TopLabelNode.NodeValue          = null;
         BottomLabelNode.NodeValue       = null;
@@ -134,6 +148,7 @@ public abstract class DefaultToolbarWidget(
 
         TopLabelNode.Style.IsVisible    = !string.IsNullOrEmpty(topLabel);
         BottomLabelNode.Style.IsVisible = !string.IsNullOrEmpty(bottomLabel);
+        LabelNode.Style.IsVisible       = !string.IsNullOrEmpty(topLabel) || !string.IsNullOrEmpty(bottomLabel);
     }
 
     protected void SetLabelMaxWidth(int maxWidth)

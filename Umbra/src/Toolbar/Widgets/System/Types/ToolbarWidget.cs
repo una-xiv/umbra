@@ -107,6 +107,16 @@ public abstract class ToolbarWidget(
         Node.OnDelayedMouseEnter += _ => OpenPopupDelayed?.Invoke(this, Popup);
     }
 
+    /// <summary>
+    /// Returns the name of this widget instance.
+    /// Derived classes can override this method to provide a custom name.
+    /// </summary>
+    /// <returns></returns>
+    public virtual string GetInstanceName()
+    {
+        return Info.Name;
+    }
+
     public void Update()
     {
         Node.SortIndex = SortIndex;
@@ -165,5 +175,21 @@ public abstract class ToolbarWidget(
         }
 
         return c.Value;
+    }
+
+    public void SetConfigValue<T>(string name, T value)
+    {
+        if (!_configVariables.TryGetValue(name, out var cfg)) {
+            throw new InvalidOperationException($"No config variable with the name '{name}' exists.");
+        }
+
+        if (cfg is not WidgetConfigVariable<T> c) {
+            throw new InvalidOperationException($"Config variable '{name}' is not of type '{typeof(T).Name}'.");
+        }
+
+        c.Value = value;
+
+        Framework.Service<WidgetManager>().SaveWidgetState(Id);
+        Framework.Service<WidgetManager>().SaveState();
     }
 }

@@ -31,12 +31,16 @@ public class ButtonNode : Node
 
     public bool IsGhost { get; set; }
 
-    public ButtonNode(string id, string? label, FontAwesomeIcon? icon = null, bool isGhost = false)
+    public ButtonNode(
+        string id, string? label, FontAwesomeIcon? icon = null, bool isGhost = false, bool isSmall = false
+    )
     {
         Id         = id;
         IsGhost    = isGhost;
         ClassList  = ["button"];
         Stylesheet = ButtonStylesheet;
+
+        if (isSmall) TagsList.Add("small");
 
         ChildNodes = [
             new() { Id = "Icon", ClassList  = ["button--icon"], InheritTags  = true },
@@ -46,7 +50,7 @@ public class ButtonNode : Node
         Label = label;
         Icon  = icon;
 
-        BeforeDraw += _ => {
+        BeforeReflow += _ => {
             switch (IsGhost) {
                 case true when !ClassList.Contains("ghost"):
                     ClassList.Add("ghost");
@@ -66,6 +70,8 @@ public class ButtonNode : Node
                 QuerySelector("Label")!.TagsList.Remove("disabled");
                 QuerySelector("Icon")!.TagsList.Remove("disabled");
             }
+
+            return true;
         };
     }
 
@@ -82,6 +88,14 @@ public class ButtonNode : Node
                     Gap             = 6,
                     BackgroundColor = new("Input.Background"),
                     StrokeColor     = new("Input.Border"),
+                    IsAntialiased   = false,
+                }
+            ),
+            new(
+                ".button:small",
+                new() {
+                    Size    = new(0, 20),
+                    Padding = new(0, 5),
                 }
             ),
             new(
@@ -127,6 +141,12 @@ public class ButtonNode : Node
                     OutlineSize  = 1,
                     Color        = new("Input.Text"),
                     OutlineColor = new("Input.TextOutline"),
+                }
+            ),
+            new(
+                ".button--label:small",
+                new() {
+                    FontSize = 11,
                 }
             ),
             new(

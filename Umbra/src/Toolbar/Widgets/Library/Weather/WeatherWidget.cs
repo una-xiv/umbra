@@ -50,9 +50,10 @@ public partial class WeatherWidget(
         var currentWeather = zone.CurrentWeather;
         if (null == currentWeather) return;
 
-        var showIcon = GetConfigValue<bool>("ShowIcon");
+        var showIcon     = GetConfigValue<bool>("ShowIcon");
+        var iconLocation = GetConfigValue<string>("IconLocation");
 
-        switch (GetConfigValue<string>("IconLocation")) {
+        switch (iconLocation) {
             case "Left":
                 SetLeftIcon(showIcon ? currentWeather.IconId : null);
                 SetRightIcon(null);
@@ -63,7 +64,10 @@ public partial class WeatherWidget(
                 break;
         }
 
-        switch (GetConfigValue<string>("TextAlign")) {
+        var textAlign = GetConfigValue<string>("TextAlign");
+        var spacing   = GetConfigValue<int>("Spacing");
+
+        switch (textAlign) {
             case "Left":
                 SetTextAlignLeft();
                 break;
@@ -76,5 +80,10 @@ public partial class WeatherWidget(
         }
 
         SetTwoLabels(currentWeather.Name, currentWeather.TimeString);
+
+        Node.QuerySelector("Label")!.Style.Margin = new() {
+            Left  = iconLocation == "Left" ? spacing : 0,
+            Right = iconLocation == "Right" ? spacing : 0
+        };
     }
 }

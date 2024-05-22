@@ -57,6 +57,7 @@ public partial class ProfilesModule
                     BackgroundColor = new("Window.BackgroundLight"),
                     BorderRadius    = 7,
                     Padding         = new(15),
+                    IsAntialiased   = false,
                 }
             ),
             new(

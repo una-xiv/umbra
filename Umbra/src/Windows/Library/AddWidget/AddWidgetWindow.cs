@@ -14,6 +14,7 @@
  *     GNU Affero General Public License for more details.
  */
 
+using System.Linq;
 using System.Numerics;
 using Dalamud.Interface;
 using Umbra.Common;
@@ -67,6 +68,8 @@ public class AddWidgetWindow : Window
         Framework
             .Service<WidgetManager>()
             .GetWidgetInfoList()
+            .OrderBy(w => w.Name)
+            .ToList()
             .ForEach(
                 info => { Node.QuerySelector(".add-widget-list")!.AppendChild(CreateWidgetNode(info)); }
             );

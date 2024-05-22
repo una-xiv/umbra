@@ -40,13 +40,13 @@ public partial class AppearanceModule
             ),
             CreateSubcategory(
                 "ColorPanel",
-                I18N.Translate("Settings.AppearanceModule.Colors.Name")
+                I18N.Translate("Settings.AppearanceModule.ColorProfiles.Name")
             ),
         ]
     };
 
     private Node FontPanel  => Node.QuerySelector("#FontPanel > .appearance-subcategory-body")!;
-    private Node ColorPanel => Node.QuerySelector("#ColorPanel > .appearance-subcategory-body")!;
+    private Node ColorProfilesPanel => Node.QuerySelector("#ColorPanel > .appearance-subcategory-body")!;
 
     private void UpdateNodeSizes()
     {

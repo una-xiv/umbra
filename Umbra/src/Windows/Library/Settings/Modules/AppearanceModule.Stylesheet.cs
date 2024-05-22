@@ -42,6 +42,7 @@ public partial class AppearanceModule
                     BackgroundColor = new("Window.BackgroundLight"),
                     BorderRadius    = 7,
                     Padding         = new(15),
+                    IsAntialiased   = false,
                 }
             ),
             new(
@@ -74,6 +75,14 @@ public partial class AppearanceModule
                     Gap    = 15,
                 }
             ),
+            new(
+                ".appearance-button-row",
+                new() {
+                    Flow    = Flow.Horizontal,
+                    Gap     = 10,
+                    Padding = new() { Bottom = 15 },
+                }
+            )
         ]
     );
 }

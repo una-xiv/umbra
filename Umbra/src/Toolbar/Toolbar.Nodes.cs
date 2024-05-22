@@ -28,7 +28,8 @@ internal partial class Toolbar
         Id         = "Toolbar",
         ClassList  = ["toolbar"],
         Style = new() {
-            Size = new(1920, 32)
+            Size = new(1920, 32),
+            Gap  = ItemSpacing,
         },
         ChildNodes = [
             new() {
@@ -63,6 +64,7 @@ internal partial class Toolbar
     {
         _toolbarNode.Style.ShadowSize = new(EnableShadow ? 64 : 0);
 
+        _toolbarNode.Style.Gap = ItemSpacing * 2;
         LeftPanel.Style.Gap    = ItemSpacing;
         CenterPanel.Style.Gap  = ItemSpacing;
         RightPanel.Style.Gap   = ItemSpacing;
@@ -87,9 +89,9 @@ internal partial class Toolbar
             float sw = ImGui.GetMainViewport().Size.X;
             float pw = ToolbarLeftMargin + ToolbarRightMargin;
 
-            LeftPanel.Style.Anchor = Anchor.MiddleLeft;
+            LeftPanel.Style.Anchor   = Anchor.MiddleLeft;
             CenterPanel.Style.Anchor = Anchor.MiddleCenter;
-            RightPanel.Style.Anchor = Anchor.MiddleRight;
+            RightPanel.Style.Anchor  = Anchor.MiddleRight;
 
             _toolbarNode.Style.Size!.Width = (int)Math.Ceiling((sw - pw) / Node.ScaleFactor);
             return;
@@ -103,7 +105,7 @@ internal partial class Toolbar
             (int)(LeftPanel.OuterWidth / Node.ScaleFactor)
             + (int)(CenterPanel.OuterWidth / Node.ScaleFactor)
             + (int)(RightPanel.OuterWidth / Node.ScaleFactor)
-            + (ItemSpacing * 2),
+            + (ItemSpacing * 6),
             32
         );
     }

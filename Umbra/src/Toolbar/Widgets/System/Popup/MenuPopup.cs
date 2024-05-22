@@ -37,6 +37,11 @@ public class MenuPopup : WidgetPopup
 
     public MenuPopup()
     {
+        Node.BeforeDraw = node => {
+            foreach (var n in node.QuerySelectorAll(".button"))
+                n.QuerySelector("Icon")!.Style.ImageGrayscale = UseGrayscaleIcons;
+        };
+
         Node.BeforeReflow = node => {
             foreach (var n in node.QuerySelectorAll(".button--label")) FillSpace(".button--label",     n);
             foreach (var n in node.QuerySelectorAll(".button--altText")) FillSpace(".button--altText", n);
@@ -123,11 +128,11 @@ public class MenuPopup : WidgetPopup
     public void AddButton(
         string  id,
         string  label,
-        int?    sortIndex = null,
-        object? iconId    = null,
-        string? altText   = null,
-        Action? onClick   = null,
-        string? groupId   = null,
+        int?    sortIndex  = null,
+        object? iconId     = null,
+        string? altText    = null,
+        Action? onClick    = null,
+        string? groupId    = null,
         Color?  glyphColor = null
     )
     {
@@ -140,6 +145,11 @@ public class MenuPopup : WidgetPopup
         }
 
         Node.Reflow();
+    }
+
+    public bool HasButton(string id)
+    {
+        return Node.QuerySelector(id) is not null;
     }
 
     /// <summary>
@@ -194,14 +204,20 @@ public class MenuPopup : WidgetPopup
             case uint u:
                 node.Style.IconId = u;
                 node.Style.Glyph  = null;
+                node.ClassList.Remove("button--icon--glyph");
+                if (!node.ClassList.Contains("button--icon--image")) node.ClassList.Add("button--icon--image");
                 break;
             case SeIconChar s:
                 node.Style.Glyph  = s;
                 node.Style.IconId = null;
+                node.ClassList.Remove("button--icon--image");
+                if (!node.ClassList.Contains("button--icon--glyph")) node.ClassList.Add("button--icon--glyph");
                 break;
             default:
                 node.Style.IconId = null;
                 node.Style.Glyph  = null;
+                node.ClassList.Remove("button--icon--image");
+                node.ClassList.Remove("button--icon--glyph");
                 break;
         }
     }
@@ -286,6 +302,21 @@ public class MenuPopup : WidgetPopup
     {
         Node group = CreateGroupNode(id, label, sortIndex);
         Node.AppendChild(group);
+    }
+
+    /// <summary>
+    /// Returns true if a group with the given ID exists.
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    public bool HasGroup(string id)
+    {
+        return Node.QuerySelector($"Group_{id}") is not null;
+    }
+
+    public uint GetGroupItemCount(string id)
+    {
+        return (uint)(Node.QuerySelector($"Group_{id} > Items")?.ChildNodes.Count ?? 0);
     }
 
     /// <summary>
@@ -409,7 +440,8 @@ public class MenuPopup : WidgetPopup
             ChildNodes = [
                 new() {
                     Id        = "Icon",
-                    ClassList = ["button--icon"],
+                    ClassList = ["button--icon", iconId is SeIconChar ? "button--icon--glyph" : "button--icon--image"],
+                    InheritTags = true,
                     Style = new() {
                         IconId     = iconId is uint u ? u : null,
                         Glyph      = iconId is SeIconChar s ? s : null,
@@ -417,32 +449,22 @@ public class MenuPopup : WidgetPopup
                     }
                 },
                 new() {
-                    Id        = "Label",
-                    NodeValue = label,
-                    ClassList = ["button--label"],
+                    Id          = "Label",
+                    NodeValue   = label,
+                    ClassList   = ["button--label"],
+                    InheritTags = true,
                 },
                 new() {
-                    Id        = "AltText",
-                    NodeValue = altText ?? " ",
-                    ClassList = ["button--altText"],
+                    Id          = "AltText",
+                    NodeValue   = altText ?? " ",
+                    ClassList   = ["button--altText"],
+                    InheritTags = true,
                 }
             ],
-            BeforeDraw = node => {
-                Node labelNode = node.QuerySelector("Label")!;
-
-                switch (node.IsMouseOver) {
-                    case true when !labelNode.TagsList.Contains("hover"):
-                        labelNode.TagsList.Add("hover");
-                        break;
-                    case false when labelNode.TagsList.Contains("hover"):
-                        labelNode.TagsList.Remove("hover");
-                        break;
-                }
-            },
         };
 
         if (onClick is not null) {
-            button.OnClick += _ => {
+            button.OnMouseUp += _ => {
                 Close();
                 onClick();
             };

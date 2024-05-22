@@ -20,6 +20,7 @@ using Dalamud.Game.Text;
 using Dalamud.Utility;
 using Umbra.Common;
 using Umbra.Widgets.System;
+using Una.Drawing;
 
 namespace Umbra.Widgets;
 
@@ -28,11 +29,19 @@ public partial class ClockWidget(WidgetInfo info, string? guid = null, Dictionar
 {
     public override WidgetPopup? Popup { get; } = null;
 
+    private bool? _isInteractive;
+
+    public override string GetInstanceName()
+    {
+        return $"{Info.Name} - {I18N.Translate($"Widget.Clock.Config.TimeSource.{GetConfigValue<string>("TimeSource")}")}";
+    }
+
     protected override void Initialize() { }
 
     protected override void OnUpdate()
     {
         var useCustomPrefix = GetConfigValue<bool>("UseCustomPrefix");
+        var isInteractive   = GetConfigValue<bool>("ClickToSwitch");
 
         bool isPrefixVisible = !useCustomPrefix
             || (useCustomPrefix && !GetConfigValue<string>("PrefixText").Trim().IsNullOrEmpty());
@@ -45,6 +54,27 @@ public partial class ClockWidget(WidgetInfo info, string? guid = null, Dictionar
                 PrefixNode.TagsList.Add("native");
                 break;
         }
+
+        switch (GetConfigValue<bool>("Decorate")) {
+            case true when Node.TagsList.Contains("ghost"):
+                Node.TagsList.Remove("ghost");
+                break;
+            case false when !Node.TagsList.Contains("ghost"):
+                Node.TagsList.Add("ghost");
+                break;
+        }
+
+        if (_isInteractive != isInteractive) {
+            _isInteractive = isInteractive;
+
+            if (isInteractive) {
+                Node.OnClick += OnClick;
+            } else {
+                Node.OnClick -= OnClick;
+            }
+        }
+
+        Node.Tooltip = isInteractive ? I18N.Translate($"Widget.Clock.Config.TimeSource.{GetConfigValue<string>("TimeSource")}") : null;
 
         PrefixNode.NodeValue       = useCustomPrefix ? GetConfigValue<string>("PrefixText") : null;
         PrefixNode.Style.IsVisible = isPrefixVisible;
@@ -62,6 +92,20 @@ public partial class ClockWidget(WidgetInfo info, string? guid = null, Dictionar
         string   suffix      = use24H ? string.Empty : (time.Hour >= 12 ? $" {pm}" : $" {am}");
 
         TimeNode.NodeValue = $"{time.ToString(timeFormat)}{suffix}";
+    }
+
+    private void OnClick(Node _)
+    {
+        var timeSource = GetConfigValue<string>("TimeSource");
+
+        string nextTimeSource = timeSource switch {
+            "ET" => "LT",
+            "LT" => "ST",
+            "ST" => "ET",
+            _    => throw new ArgumentOutOfRangeException()
+        };
+
+        SetConfigValue("TimeSource", nextTimeSource);
     }
 
     private SeIconChar GetPrefixIcon()

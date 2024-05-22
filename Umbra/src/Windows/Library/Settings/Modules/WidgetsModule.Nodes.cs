@@ -155,10 +155,11 @@ public partial class WidgetsModule
             ChildNodes = [
                 new() {
                     ClassList = ["widget-instance--name"],
-                    NodeValue = widget.Info.Name
+                    NodeValue = widget.GetInstanceName()
                 },
                 new() {
                     ClassList = ["widget-instance--controls"],
+                    Style     = new() { IsVisible = false },
                     ChildNodes = [
                         new() {
                             ClassList = ["widget-instance--controls--buttons"],
@@ -184,43 +185,49 @@ public partial class WidgetsModule
             ]
         };
 
-        var moveUp             = node.QuerySelector<ButtonNode>("#MoveUp")!;
-        var moveDown           = node.QuerySelector<ButtonNode>("#MoveDown")!;
-        var moveToLeftPanel    = node.QuerySelector<ButtonNode>("#MoveToLeftPanel")!;
-        var moveToCenterPanel  = node.QuerySelector<ButtonNode>("#MoveToCenterPanel")!;
-        var moveToRightPanel   = node.QuerySelector<ButtonNode>("#MoveToRightPanel")!;
-        var settingsButton     = node.QuerySelector<ButtonNode>("#SettingsButton")!;
-        var deleteButton       = node.QuerySelector<ButtonNode>("#DeleteButton")!;
+        var nameNode          = node.QuerySelector(".widget-instance--name")!;
+        var controlsNode      = node.QuerySelector(".widget-instance--controls")!;
+        var moveUp            = node.QuerySelector<ButtonNode>("#MoveUp")!;
+        var moveDown          = node.QuerySelector<ButtonNode>("#MoveDown")!;
+        var moveToLeftPanel   = node.QuerySelector<ButtonNode>("#MoveToLeftPanel")!;
+        var moveToCenterPanel = node.QuerySelector<ButtonNode>("#MoveToCenterPanel")!;
+        var moveToRightPanel  = node.QuerySelector<ButtonNode>("#MoveToRightPanel")!;
+        var settingsButton    = node.QuerySelector<ButtonNode>("#SettingsButton")!;
+        var deleteButton      = node.QuerySelector<ButtonNode>("#DeleteButton")!;
 
         settingsButton.IsDisabled = widget.GetConfigVariableList().Count == 0;
 
         moveUp.OnMouseUp            += _ => Framework.Service<WidgetManager>().UpdateWidgetSortIndex(widget.Id, -1);
         moveDown.OnMouseUp          += _ => Framework.Service<WidgetManager>().UpdateWidgetSortIndex(widget.Id, 1);
-        moveToLeftPanel.OnMouseUp   += _ => widget.Location    = "Left";
-        moveToCenterPanel.OnMouseUp += _ => widget.Location    = "Center";
-        moveToRightPanel.OnMouseUp  += _ => widget.Location    = "Right";
+        moveToLeftPanel.OnMouseUp   += _ => widget.Location = "Left";
+        moveToCenterPanel.OnMouseUp += _ => widget.Location = "Center";
+        moveToRightPanel.OnMouseUp  += _ => widget.Location = "Right";
         deleteButton.OnMouseUp      += _ => Framework.Service<WidgetManager>().RemoveWidget(widget.Id);
-        settingsButton.OnMouseUp    += _ => Framework.Service<WindowManager>().Present(
-            "WidgetInstanceConfig",
-            new WidgetConfigWindow(widget.Id),
-            _ => {
-                Framework.Service<WidgetManager>().SaveWidgetState(widget.Id);
-                Framework.Service<WidgetManager>().SaveState();
-            }
-        );
+
+        settingsButton.OnMouseUp += _ => Framework
+            .Service<WindowManager>()
+            .Present(
+                "WidgetInstanceConfig",
+                new WidgetConfigWindow(widget.Id),
+                _ => {
+                    Framework.Service<WidgetManager>().SaveWidgetState(widget.Id);
+                    Framework.Service<WidgetManager>().SaveState();
+                }
+            );
+
+        nameNode.OnMouseUp += _ => controlsNode.Style.IsVisible = !controlsNode.Style.IsVisible;
 
         node.BeforeDraw += _ => {
-            deleteButton.IsDisabled           = !ImGui.GetIO().KeyShift;
+            deleteButton.IsDisabled = !ImGui.GetIO().KeyShift;
 
             node.SortIndex                    = widget.SortIndex;
             moveToLeftPanel.Style.IsVisible   = widget.Location != "Left";
             moveToCenterPanel.Style.IsVisible = widget.Location != "Center";
             moveToRightPanel.Style.IsVisible  = widget.Location != "Right";
 
-            moveUp.IsDisabled                 = widget.SortIndex == 0;
-            moveDown.IsDisabled               = widget.SortIndex == GetColumn(widget.Location).ChildNodes.Count - 1;
-
-            node.QuerySelector(".widget-instance--name")!.NodeValue = widget.Info.Name;
+            moveUp.IsDisabled   = widget.SortIndex == 0;
+            moveDown.IsDisabled = widget.SortIndex == GetColumn(widget.Location).ChildNodes.Count - 1;
+            nameNode.NodeValue  = widget.Info.Name;
 
             moveToCenterPanel.Icon = widget.Location == "Left"
                 ? FontAwesomeIcon.ArrowRight

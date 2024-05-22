@@ -76,22 +76,34 @@ internal sealed class MainMenuRepository : IMainMenuRepository
 
         Categories[MenuCategory.System]
             .AddItem(
-                new(I18N.Translate("Widget.MainMenu.CustomItem.UmbraSettings"), -999, "/umbra")
-                    { Icon = SeIconChar.BoxedLetterU, IconColor = 0xFFACA040 }
+                new(I18N.Translate("Widget.MainMenu.CustomItem.UmbraSettings"), 999, "/umbra") {
+                    Icon           = SeIconChar.BoxedLetterU,
+                    IconColor      = 0xFF40A0AC,
+                    ItemGroupId    = "Dalamud",
+                    ItemGroupLabel = "Dalamud",
+                }
             );
 
         Categories[MenuCategory.System].AddItem(new(-1000));
 
         Categories[MenuCategory.System]
             .AddItem(
-                new(I18N.Translate("Widget.MainMenu.CustomItem.DalamudSettings"), -1001, "/xlsettings")
-                    { Icon = SeIconChar.BoxedLetterD, IconColor = 0xFFFF5151 }
+                new(I18N.Translate("Widget.MainMenu.CustomItem.DalamudSettings"), 1001, "/xlsettings") {
+                    Icon           = SeIconChar.BoxedLetterD,
+                    IconColor      = 0xFF5151FF,
+                    ItemGroupId    = "Dalamud",
+                    ItemGroupLabel = "Dalamud",
+                }
             );
 
         Categories[MenuCategory.System]
             .AddItem(
-                new(I18N.Translate("Widget.MainMenu.CustomItem.DalamudPlugins"), -1002, "/xlplugins")
-                    { Icon = SeIconChar.BoxedLetterD, IconColor = 0xFFFF5151 }
+                new(I18N.Translate("Widget.MainMenu.CustomItem.DalamudPlugins"), 1002, "/xlplugins") {
+                    Icon           = SeIconChar.BoxedLetterD,
+                    IconColor      = 0xFF5151FF,
+                    ItemGroupId    = "Dalamud",
+                    ItemGroupLabel = "Dalamud",
+                }
             );
     }
 
@@ -103,7 +115,7 @@ internal sealed class MainMenuRepository : IMainMenuRepository
     public MainMenuCategory GetCategory(MenuCategory category)
     {
         return Categories.GetValueOrDefault(category)
-         ?? throw new Exception($"Category {category} not found.");
+            ?? throw new Exception($"Category {category} not found.");
     }
 
     [OnTick(interval: 500)]
@@ -156,7 +168,7 @@ internal sealed class MainMenuRepository : IMainMenuRepository
             var existingItem = category.Items.FirstOrDefault(item => item.MetadataKey == cacheKey);
 
             bool isDisabled = !_player.CanUseTeleportAction
-             || (dest.IsHousing && _player.CurrentWorldName != _player.HomeWorldName);
+                || (dest.IsHousing && _player.CurrentWorldName != _player.HomeWorldName);
 
             usedKeys.Add(cacheKey);
 
@@ -183,9 +195,11 @@ internal sealed class MainMenuRepository : IMainMenuRepository
                         }
                     }
                 ) {
-                    MetadataKey = cacheKey,
-                    IsDisabled  = isDisabled,
-                    ShortKey    = gilCost,
+                    MetadataKey    = cacheKey,
+                    IsDisabled     = isDisabled,
+                    ShortKey       = gilCost,
+                    ItemGroupId    = "Travel",
+                    ItemGroupLabel = "Destinations",
                 }
             );
 
