@@ -187,7 +187,7 @@ public abstract class DefaultToolbarWidget(
         BottomLabelNode.Style.TextAlign = Anchor.MiddleCenter;
     }
 
-    private Node LabelNode       => Node.QuerySelector("Label")!;
-    private Node TopLabelNode    => Node.QuerySelector("TopLabel")!;
-    private Node BottomLabelNode => Node.QuerySelector("BottomLabel")!;
+    protected Node LabelNode    => Node.QuerySelector("Label")!;
+    protected Node TopLabelNode => Node.QuerySelector("TopLabel")!;
+    protected Node BottomLabelNode => Node.QuerySelector("BottomLabel")!;
 }

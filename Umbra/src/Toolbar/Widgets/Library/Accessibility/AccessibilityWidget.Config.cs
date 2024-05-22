@@ -14,27 +14,14 @@
  *     GNU Affero General Public License for more details.
  */
 
-using System.Runtime.InteropServices;
-using FFXIVClientStructs.FFXIV.Client.UI.Info;
+using System.Collections.Generic;
 
 namespace Umbra.Widgets;
 
-public unsafe partial class MailIndicatorWidget
+public partial class AccessibilityWidget
 {
-    /// <summary>
-    /// Returns true if the player has unread mail.
-    /// </summary>
-    /// <returns></returns>
-    private uint GetUnreadMailCount()
+    protected override IEnumerable<IWidgetConfigVariable> GetConfigVariables()
     {
-        var ipl = (InfoProxyLetterCount*)InfoModule.Instance()->GetInfoProxyById(InfoProxyId.Letter);
-
-        return ipl->NumLetters;
-    }
-
-    [StructLayout(LayoutKind.Explicit)]
-    private struct InfoProxyLetterCount
-    {
-        [FieldOffset(0x26)] public byte NumLetters;
+        return [];
     }
 }

@@ -104,6 +104,12 @@ internal class DefaultWidgets
             )
         );
 
+        wm.RegisterWidget<AccessibilityWidget>(new(
+            "Accessibility",
+            I18N.Translate("Widget.Accessibility.Name"),
+            I18N.Translate("Widget.Accessibility.Description")
+        ));
+
         wm.RegisterWidget<ToolbarPinWidget>(
             new(
                 "ToolbarPin",
@@ -117,6 +123,14 @@ internal class DefaultWidgets
                 "GearsetSwitcher",
                 I18N.Translate("Widget.GearsetSwitcher.Name"),
                 I18N.Translate("Widget.GearsetSwitcher.Description")
+            )
+        );
+
+        wm.RegisterWidget<VolumeWidget>(
+            new(
+                "Volume",
+                I18N.Translate("Widget.Volume.Name"),
+                I18N.Translate("Widget.Volume.Description")
             )
         );
     }

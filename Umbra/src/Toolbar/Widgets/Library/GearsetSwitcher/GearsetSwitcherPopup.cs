@@ -100,7 +100,7 @@ public sealed partial class GearsetSwitcherPopup : WidgetPopup, IDisposable
     /// <inheritdoc/>
     protected override bool CanOpen()
     {
-        return _currentGearset is not null;
+        return _gearsetRepository.CurrentGearset is not null;
     }
 
     protected override void OnOpen()
@@ -143,7 +143,8 @@ public sealed partial class GearsetSwitcherPopup : WidgetPopup, IDisposable
             int  setItems  = setCount < maxItems ? setCount : maxItems;
             int  height    = (setItems * GearsetNode.NodeHeight) + ((setItems - 1) * gapHeight);
 
-            listNode.Style.Size = new(GearsetNode.NodeWidth, height);
+            listNode.Style.Size  = new(GearsetNode.NodeWidth, height);
+            node.Style.IsVisible = setCount > 0;
         }
 
         foreach (GearsetNode node in NodeByGearset.Values) {

@@ -141,6 +141,65 @@ internal class WidgetStyles
         ]
     );
 
+    public static Stylesheet IconButtonStylesheet = new(
+        [
+            new(
+                ".toolbar-widget-icon",
+                new() {
+                    Flow            = Flow.Horizontal,
+                    Size            = new(28, 28),
+                    Anchor          = Anchor.MiddleLeft,
+                    Padding         = new(0, 6),
+                    BackgroundColor = new("Widget.Background"),
+                    StrokeColor     = new("Widget.Border"),
+                    StrokeWidth     = 1,
+                    StrokeInset     = 1,
+                    BorderRadius    = 5,
+                    StrokeRadius    = 4,
+                    Gap             = 3,
+                }
+            ),
+            new(
+                ".toolbar-widget-icon:ghost",
+                new() {
+                    BackgroundColor = new(0x00000000),
+                    BorderColor     = new(new(0x00000000)),
+                    BorderWidth     = new(0),
+                    BorderInset     = new(0),
+                    StrokeWidth     = 0,
+                    Padding         = new(0),
+                }
+            ),
+            new(
+                ".toolbar-widget-icon:hover",
+                new() {
+                    BackgroundColor = new("Widget.BackgroundHover"),
+                    StrokeColor     = new("Widget.BorderHover"),
+                }
+            ),
+            new(
+                ".toolbar-widget-icon:ghost:hover",
+                new() {
+                    BackgroundColor = new(0x00000000),
+                    BorderColor     = new(new(0x00000000)),
+                }
+            ),
+            new(
+                "Icon",
+                new() {
+                    Size         = new(26, 26),
+                    Anchor       = Anchor.MiddleCenter,
+                    TextAlign    = Anchor.MiddleCenter,
+                    Font         = 2,
+                    FontSize     = 13,
+                    TextOffset   = new(0, -1),
+                    Color        = new("Widget.Text"),
+                    OutlineColor = new("Widget.TextOutline"),
+                }
+            ),
+        ]
+    );
+
     public static Stylesheet ClockWidgetStylesheet { get; } = new(
         [
             new(

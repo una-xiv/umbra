@@ -155,10 +155,17 @@ internal sealed class GearsetRepository : IGearsetRepository, IDisposable
 
         if (null != newId) {
             gsm->EquipGearset((int)newId);
+
+            if (newId == idToRemove) {
+                CurrentGearset = null;
+                return;
+            }
+
             CurrentGearset = _gearsets[(ushort)newId];
             OnGearsetChanged?.Invoke(CurrentGearset);
             Logger.Info($"Successfully deleted {idToRemove} and equipped a new gearset with ID {CurrentGearset.Id}.");
         } else {
+            CurrentGearset = null;
             Logger.Error("Failed to grab a valid gearset ID to equip.");
         }
     }
@@ -187,12 +194,15 @@ internal sealed class GearsetRepository : IGearsetRepository, IDisposable
         if (gsm == null) return;
         if (!_gearsets.ContainsKey((ushort)gsm->CurrentGearsetIndex)) return;
 
-        CurrentGearset = _gearsets[(ushort)gsm->CurrentGearsetIndex];
+        var currentGearset = _gearsets[(ushort)gsm->CurrentGearsetIndex];
+        if (currentGearset is { IsCurrent: true, IsValid: true }) {
+            CurrentGearset = currentGearset;
+        }
 
         foreach (var gearset in _gearsets.Values) {
             gearset.Sync();
 
-            if (gearset.IsCurrent) {
+            if (gearset is { IsValid: true, IsCurrent: true }) {
                 CurrentGearset = gearset;
             }
         }

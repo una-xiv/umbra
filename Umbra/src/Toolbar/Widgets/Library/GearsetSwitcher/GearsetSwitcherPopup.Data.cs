@@ -59,8 +59,13 @@ public sealed partial class GearsetSwitcherPopup
     /// </summary>
     private void OnGearsetChanged(Gearset gearset)
     {
+        if (!NodeByGearset.TryGetValue(gearset, out GearsetNode? gearsetNode)) {
+            OnGearsetCreated(gearset);
+            return;
+        }
+
         AssignGearsetToDataLookupTables(gearset);
-        GetGearsetListNodeFor(gearset.Category).AppendChild(NodeByGearset[gearset]);
+        GetGearsetListNodeFor(gearset.Category).AppendChild(gearsetNode);
         SetBackgroundGradientFor(gearset.Category);
     }
 

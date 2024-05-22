@@ -31,12 +31,14 @@ public sealed partial class GearsetSwitcherWidget(
     public override GearsetSwitcherPopup Popup { get; } = new();
 
     private IGearsetRepository _gearsetRepository = null!;
-    private Gearset            _currentGearset    = null!;
+    private Gearset?           _currentGearset;
 
     /// <inheritdoc/>
     protected override void Initialize()
     {
         _gearsetRepository = Framework.Service<IGearsetRepository>();
+
+        Node.QuerySelector("#Label")!.Style.TextOffset = new(0, -1);
     }
 
     /// <inheritdoc/>
@@ -63,12 +65,12 @@ public sealed partial class GearsetSwitcherWidget(
         }
 
         SetTwoLabels(
-            showText ? _currentGearset.Name : null,
+            showText ? _currentGearset!.Name : null,
             showText ? GetCurrentGearsetStatusText() : null
         );
 
-        SetLeftIcon(showIcon && leftIcon ? GetWidgetJobIconId(_currentGearset) : null);
-        SetRightIcon(showIcon && !leftIcon ? GetWidgetJobIconId(_currentGearset) : null);
+        SetLeftIcon(showIcon && leftIcon ? GetWidgetJobIconId(_currentGearset!) : null);
+        SetRightIcon(showIcon && !leftIcon ? GetWidgetJobIconId(_currentGearset!) : null);
 
         Node.QuerySelector("#TopLabel")!.Style.TextOffset    = new(0, GetConfigValue<int>("NameTextYOffset"));
         Node.QuerySelector("#BottomLabel")!.Style.TextOffset = new(0, GetConfigValue<int>("InfoTextYOffset"));
@@ -125,17 +127,19 @@ public sealed partial class GearsetSwitcherWidget(
             return false;
         }
 
+        SetDisabled(false);
+        SetLabel(null);
         _currentGearset = _gearsetRepository.CurrentGearset;
         return true;
     }
 
     private string GetCurrentGearsetStatusText()
     {
-        short jobLevel  = _currentGearset.JobLevel;
-        short jobXp     = _currentGearset.JobXp;
-        short itemLevel = _currentGearset.ItemLevel;
+        short jobLevel  = _currentGearset!.JobLevel;
+        short jobXp     = _currentGearset!.JobXp;
+        short itemLevel = _currentGearset!.ItemLevel;
 
-        return _currentGearset.IsMaxLevel
+        return _currentGearset!.IsMaxLevel
             ? I18N.Translate("Widget.GearsetSwitcher.ItemLevel", itemLevel)
             : $"{I18N.Translate("Widget.GearsetSwitcher.JobLevel", jobLevel)} - {I18N.Translate("Widget.GearsetSwitcher.JobXp", jobXp)}";
     }

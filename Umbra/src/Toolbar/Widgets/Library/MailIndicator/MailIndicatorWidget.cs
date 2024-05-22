@@ -36,19 +36,23 @@ public partial class MailIndicatorWidget(
     /// <inheritdoc/>
     protected override void Initialize()
     {
-        Node.QuerySelector("Label")!.Style.Font = 2; // icons.
+        Node.QuerySelector("Label")!.Style.Font     = 2; // icons.
+        Node.QuerySelector("LeftIcon")!.Style.Margin = new();
+        Node.QuerySelector("RightIcon")!.Style.Margin = new();
+
         SetLabel(FontAwesomeIcon.Envelope.ToIconString());
     }
 
     /// <inheritdoc/>
     protected override void OnUpdate()
     {
-        bool hasUnreadMail = HasUnreadMail();
+        uint unreadMailCount = GetUnreadMailCount();
 
         Node.QuerySelector("Label")!.Style.TextOffset = new(0, GetConfigValue<int>("IconYOffset"));
 
-        Node.Style.IsVisible = GetConfigValue<bool>("AlwaysShow") || hasUnreadMail;
-        SetDisabled(!hasUnreadMail);
+        Node.Tooltip         = I18N.Translate($"Widget.MailIndicator.Tooltip.{(unreadMailCount == 1 ? "Singular" : "Plural")}", unreadMailCount.ToString());
+        Node.Style.IsVisible = GetConfigValue<bool>("AlwaysShow") || (unreadMailCount > 0);
+        SetDisabled(unreadMailCount == 0);
     }
 
     /// <inheritdoc/>

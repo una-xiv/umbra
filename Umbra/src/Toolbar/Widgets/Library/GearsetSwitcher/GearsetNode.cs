@@ -1,4 +1,5 @@
-﻿using Umbra.Game;
+﻿using Umbra.Common;
+using Umbra.Game;
 using Una.Drawing;
 
 namespace Umbra.Widgets;
@@ -23,9 +24,9 @@ public partial class GearsetNode : Node
 
         ChildNodes = [
             new() {
-                Id    = "Icon",
+                Id        = "Icon",
                 ClassList = ["gearset--icon"],
-                Style = new() { IconId = gearset.JobId + 62000u }
+                Style     = new() { IconId = gearset.JobId + 62000u }
             },
             new() {
                 ClassList = ["gearset--body"],
@@ -59,7 +60,7 @@ public partial class GearsetNode : Node
         IconNode.Style.ImageOffset = new(0, ButtonIconYOffset);
 
         NameNode.NodeValue = _gearset.Name;
-        InfoNode.NodeValue = $"Level {_gearset.JobLevel} {_gearset.JobName}";
+        InfoNode.NodeValue = GetCurrentGearsetStatusText();
         IlvlNode.NodeValue = _gearset.ItemLevel.ToString();
 
         if (_gearset == _repository.CurrentGearset && !TagsList.Contains("current")) {
@@ -73,4 +74,9 @@ public partial class GearsetNode : Node
     private Node NameNode => QuerySelector("Name")!;
     private Node InfoNode => QuerySelector("Info")!;
     private Node IlvlNode => QuerySelector("ItemLevel")!;
+
+    private string GetCurrentGearsetStatusText()
+    {
+        return $"{I18N.Translate("Widget.GearsetSwitcher.JobLevel", _gearset.JobLevel)} {_gearset.JobName}";
+    }
 }

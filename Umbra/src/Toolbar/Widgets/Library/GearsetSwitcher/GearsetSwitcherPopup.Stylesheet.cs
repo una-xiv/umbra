@@ -54,6 +54,20 @@ public sealed partial class GearsetSwitcherPopup
                 }
             ),
             new(
+                "#HeaderItemLevel",
+                new() {
+                    Anchor       = Anchor.TopRight,
+                    Font         = 0,
+                    FontSize     = 38,
+                    Color        = new("Widget.PopupMenuText"),
+                    OutlineColor = new("Widget.PopupMenuTextOutline"),
+                    OutlineSize  = 1,
+                    TextAlign    = Anchor.TopRight,
+                    Margin       = new() { Right = -30 },
+                    Opacity      = 0.75f,
+                }
+            ),
+            new(
                 "#HeaderGearsetName",
                 new() {
                     Size         = new(GearsetNode.NodeWidth, 0),

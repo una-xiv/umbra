@@ -14,27 +14,9 @@
  *     GNU Affero General Public License for more details.
  */
 
-using System.Runtime.InteropServices;
-using FFXIVClientStructs.FFXIV.Client.UI.Info;
-
 namespace Umbra.Widgets;
 
-public unsafe partial class MailIndicatorWidget
+public sealed partial class VolumeWidget
 {
-    /// <summary>
-    /// Returns true if the player has unread mail.
-    /// </summary>
-    /// <returns></returns>
-    private uint GetUnreadMailCount()
-    {
-        var ipl = (InfoProxyLetterCount*)InfoModule.Instance()->GetInfoProxyById(InfoProxyId.Letter);
 
-        return ipl->NumLetters;
-    }
-
-    [StructLayout(LayoutKind.Explicit)]
-    private struct InfoProxyLetterCount
-    {
-        [FieldOffset(0x26)] public byte NumLetters;
-    }
 }

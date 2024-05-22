@@ -14,27 +14,32 @@
  *     GNU Affero General Public License for more details.
  */
 
-using System.Runtime.InteropServices;
-using FFXIVClientStructs.FFXIV.Client.UI.Info;
+using System.Collections.Generic;
+using Dalamud.Interface;
+using Dalamud.Plugin.Services;
+using Umbra.Common;
+using Umbra.Widgets.System;
 
 namespace Umbra.Widgets;
 
-public unsafe partial class MailIndicatorWidget
+public sealed partial class AccessibilityWidget(
+    WidgetInfo                  info,
+    string?                     guid         = null,
+    Dictionary<string, object>? configValues = null
+) : IconToolbarWidget(info, guid, configValues)
 {
-    /// <summary>
-    /// Returns true if the player has unread mail.
-    /// </summary>
-    /// <returns></returns>
-    private uint GetUnreadMailCount()
-    {
-        var ipl = (InfoProxyLetterCount*)InfoModule.Instance()->GetInfoProxyById(InfoProxyId.Letter);
+    /// <inheritdoc/>
+    public override AccessibilityWidgetPopup Popup { get; } = new();
 
-        return ipl->NumLetters;
+    private IGameConfig _gameConfig = null!;
+
+    /// <inheritdoc/>
+    protected override void Initialize()
+    {
+        _gameConfig = Framework.Service<IGameConfig>();
+
+        SetIcon(FontAwesomeIcon.Wheelchair);
     }
 
-    [StructLayout(LayoutKind.Explicit)]
-    private struct InfoProxyLetterCount
-    {
-        [FieldOffset(0x26)] public byte NumLetters;
-    }
+    protected override void OnUpdate() { }
 }

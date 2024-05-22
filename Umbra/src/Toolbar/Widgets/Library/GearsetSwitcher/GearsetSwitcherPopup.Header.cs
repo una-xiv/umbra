@@ -65,6 +65,10 @@ public sealed partial class GearsetSwitcherPopup
                             ]
                         }
                     ]
+                },
+                new() {
+                    Id        = "HeaderItemLevel",
+                    NodeValue = "660"
                 }
             ]
         };
@@ -85,6 +89,7 @@ public sealed partial class GearsetSwitcherPopup
             moveUpButton.IsDisabled   = _gearsetRepository.FindPrevIdInCategory(gearset) == null;
             moveDownButton.IsDisabled = _gearsetRepository.FindNextIdInCategory(gearset) == null;
 
+            node.QuerySelector("#HeaderItemLevel")!.NodeValue    = gearset.ItemLevel.ToString();
             node.QuerySelector("#HeaderGearsetName")!.NodeValue  = gearset.Name;
             node.QuerySelector("#HeaderGearsetInfo1")!.NodeValue = GetCurrentGearsetStatusText();
         };

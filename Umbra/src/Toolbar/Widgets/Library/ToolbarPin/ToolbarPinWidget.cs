@@ -14,15 +14,14 @@ public class ToolbarPinWidget(WidgetInfo info, string? guid = null, Dictionary<s
     /// <inheritdoc/>
     protected override void Initialize()
     {
-        Node.OnClick += _ => {
-            ConfigManager.Set("Toolbar.IsAutoHideEnabled", !Toolbar.IsAutoHideEnabled);
-        };
+        Node.OnClick += _ => { ConfigManager.Set("Toolbar.IsAutoHideEnabled", !Toolbar.IsAutoHideEnabled); };
     }
 
     protected override void OnUpdate()
     {
-        SetGhost(GetConfigValue<bool>("Decorate"));
+        SetGhost(!GetConfigValue<bool>("Decorate"));
 
+        Node.Style.Padding                            = new(0, 2);
         Node.QuerySelector("Label")!.Style.Font       = 2;
         Node.QuerySelector("Label")!.Style.TextOffset = new(0, GetConfigValue<int>("IconYOffset"));
 

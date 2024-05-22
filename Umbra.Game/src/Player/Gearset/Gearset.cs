@@ -72,7 +72,7 @@ public sealed class Gearset(ushort id, IGearsetCategoryRepository categoryReposi
         string name       = MemoryHelper.ReadSeStringNullTerminated((IntPtr)gearset->Name).ToString();
         byte   jobId      = gearset->ClassJob;
         short  itemLevel  = gearset->ItemLevel;
-        bool   isCurrent  = gsm->CurrentGearsetIndex == Id;
+        bool   isCurrent  = gsm->CurrentGearsetIndex == Id && gearset->ClassJob > 0;
         byte   jobXp      = player.GetJobInfo(jobId).XpPercent;
         string jobName    = player.GetJobInfo(jobId).Name;
         short  jobLevel   = player.GetJobInfo(jobId).Level;

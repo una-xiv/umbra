@@ -40,6 +40,8 @@ public sealed partial class CurrenciesWidget(
         _updateTimer.Elapsed   += (_, _) => UpdateMenuItems();
         _updateTimer.AutoReset =  true;
         _updateTimer.Start();
+
+        Node.OnClick += _ => UpdateMenuItems();
     }
 
     public override string GetInstanceName()
