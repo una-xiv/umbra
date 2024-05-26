@@ -67,13 +67,13 @@ public sealed partial class GearsetSwitcherPopup : WidgetPopup, IDisposable
         _currentGearset = _gearsetRepository.CurrentGearset;
     }
 
-    public bool ShowRoleNames { get; set; } = false;
+    public bool ShowRoleNames { get; set; }
 
-    public bool UseAlternateHeaderIcon { get; set; } = false;
-    public bool UseAlternateButtonIcon { get; set; } = false;
+    public bool UseAlternateHeaderIcon { get; set; }
+    public bool UseAlternateButtonIcon { get; set; }
 
-    public int HeaderIconYOffset { get; set; } = 0;
-    public int ButtonIconYOffset { get; set; } = 0;
+    public int HeaderIconYOffset { get; set; }
+    public int ButtonIconYOffset { get; set; }
 
     public string TankRoleLocation     { get; set; } = "LeftColumn";
     public string HealerRoleLocation   { get; set; } = "LeftColumn";

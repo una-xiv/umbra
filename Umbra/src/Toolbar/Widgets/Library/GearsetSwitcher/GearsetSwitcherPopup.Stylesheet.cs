@@ -133,7 +133,6 @@ public sealed partial class GearsetSwitcherPopup
                 new() {
                     Flow = Flow.Vertical,
                     Size = new(GearsetNode.NodeWidth, 0),
-                    Gap  = 4,
                 }
             ),
             new(
@@ -163,7 +162,7 @@ public sealed partial class GearsetSwitcherPopup
                 "#GearsetList",
                 new() {
                     Flow = Flow.Vertical,
-                    Size = new(GearsetNode.NodeWidth, 0), // TODO: Configurable overflow height.
+                    Size = new(GearsetNode.NodeWidth, 0),
                     Gap  = 4,
                 }
             )
