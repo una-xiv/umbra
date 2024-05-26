@@ -51,7 +51,7 @@ public sealed partial class GearsetSwitcherPopup
                             NodeValue = "Gearset Name Here"
                         },
                         new() {
-                            Id        = "HeaderGearsetInfo1",
+                            Id        = "HeaderGearsetInfo",
                             NodeValue = "Level 100 Warrior • Item Level 660"
                         },
                         new() {
@@ -91,17 +91,17 @@ public sealed partial class GearsetSwitcherPopup
 
             node.QuerySelector("#HeaderItemLevel")!.NodeValue    = gearset.ItemLevel.ToString();
             node.QuerySelector("#HeaderGearsetName")!.NodeValue  = gearset.Name;
-            node.QuerySelector("#HeaderGearsetInfo1")!.NodeValue = GetCurrentGearsetStatusText();
+            node.QuerySelector("#HeaderGearsetInfo")!.NodeValue = GetCurrentGearsetStatusText();
         };
 
         node.BeforeReflow += _ => {
             int width = node.ParentNode!.InnerWidth - node.ComputedStyle.Padding.HorizontalSize;
 
-            node.Bounds.ContentSize = new(width, 90);
+            node.Bounds.ContentSize = new(width, (int)(90 * Node.ScaleFactor));
             node.Bounds.PaddingSize = node.Bounds.ContentSize + new Size(node.ComputedStyle.Padding.HorizontalSize, 0);
             node.Bounds.MarginSize  = node.Bounds.PaddingSize + node.ComputedStyle.Margin.Size;
 
-            var  size = Node.Bounds.ContentSize - new Size(0, 90);
+            var  size = Node.Bounds.ContentSize - new Size(0, (int)(90 * Node.ScaleFactor));
             Node bg   = Node.QuerySelector("#Background")!;
 
             bg.Bounds.ContentSize = size.Copy();
@@ -118,12 +118,13 @@ public sealed partial class GearsetSwitcherPopup
     {
         if (null == _currentGearset) return "";
 
-        short jobLevel  = _currentGearset.JobLevel;
-        short jobXp     = _currentGearset.JobXp;
-        short itemLevel = _currentGearset.ItemLevel;
+        short  jobLevel  = _currentGearset.JobLevel;
+        short  jobXp     = _currentGearset.JobXp;
+        short  itemLevel = _currentGearset.ItemLevel;
+        string jobName   = _currentGearset.JobName != _currentGearset.Name ? $" {_currentGearset.JobName}" : "";
 
         return _currentGearset.IsMaxLevel
-            ? I18N.Translate("Widget.GearsetSwitcher.ItemLevel", itemLevel)
-            : $"{I18N.Translate("Widget.GearsetSwitcher.JobLevel", jobLevel)} - {I18N.Translate("Widget.GearsetSwitcher.JobXp", jobXp)}";
+            ? $"{I18N.Translate("Widget.GearsetSwitcher.JobLevel", jobLevel)}{jobName} - {I18N.Translate("Widget.GearsetSwitcher.ItemLevel", itemLevel)}"
+            : $"{I18N.Translate("Widget.GearsetSwitcher.JobLevel", jobLevel)}{jobName} - {I18N.Translate("Widget.GearsetSwitcher.JobXp", jobXp)}";
     }
 }

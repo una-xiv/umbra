@@ -385,6 +385,8 @@
     "Widget.GearsetSwitcher.Config.TextAlign.Option.Right": "Rechts ausgerichtet",
     "Widget.GearsetSwitcher.Config.Decorate.Name": "Widget dekorieren",
     "Widget.GearsetSwitcher.Config.Decorate.Description": "Verziert das Ausrüstungsset-Umschalter-Widget mit einem Hintergrund und einem Rahmen.",
+    "Widget.GearsetSwitcher.Config.ShowRoleNames.Name": "Rollennamen anzeigen",
+    "Widget.GearsetSwitcher.Config.ShowRoleNames.Description": "Ob die Rollennamen im Popup angezeigt werden sollen.",
     "Widget.GearsetSwitcher.Config.UseAlternateIconWidget.Name": "Alternatives Widget-Symbol verwenden",
     "Widget.GearsetSwitcher.Config.UseAlternateIconWidget.Description": "Verwendet eine alternative Version eines Jobsymbols im Symbolleisten-Widget, wenn aktiviert.",
     "Widget.GearsetSwitcher.Config.UseAlternateIconHeader.Name": "Alternatives Symbol im Popup-Kopfzeile verwenden",

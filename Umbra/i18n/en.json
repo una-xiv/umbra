@@ -385,6 +385,8 @@
     "Widget.GearsetSwitcher.Config.TextAlign.Option.Right": "Right aligned",
     "Widget.GearsetSwitcher.Config.Decorate.Name": "Decorate the widget",
     "Widget.GearsetSwitcher.Config.Decorate.Description": "Decorates the gearset switcher widget with a background and border.",
+    "Widget.GearsetSwitcher.Config.ShowRoleNames.Name": "Show role names",
+    "Widget.GearsetSwitcher.Config.ShowRoleNames.Description": "Whether to show the role names in the popup.",
     "Widget.GearsetSwitcher.Config.UseAlternateIconWidget.Name": "Use alternate widget icon",
     "Widget.GearsetSwitcher.Config.UseAlternateIconWidget.Description": "Uses an alternate version of a job icon in the toolbar widget when enabled.",
     "Widget.GearsetSwitcher.Config.UseAlternateIconHeader.Name": "Use alternate icon in the popup header",

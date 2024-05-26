@@ -186,8 +186,10 @@ internal class UmbraColors
 
         if (ColorProfileName != name) Apply(name);
 
-        _debounceTimer.Enabled = false;
-        _debounceTimer.Stop();
+        if (_debounceTimer is not null) {
+            _debounceTimer.Enabled = false;
+            _debounceTimer.Stop();
+        }
     }
 
     /// <summary>

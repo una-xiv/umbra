@@ -385,6 +385,8 @@
     "Widget.GearsetSwitcher.Config.TextAlign.Option.Right": "右揃え",
     "Widget.GearsetSwitcher.Config.Decorate.Name": "ウィジェットを装飾する",
     "Widget.GearsetSwitcher.Config.Decorate.Description": "ギアセット切り替えウィジェットに背景と枠線を付けます。",
+    "Widget.GearsetSwitcher.Config.ShowRoleNames.Name": "役割名を表示",
+    "Widget.GearsetSwitcher.Config.ShowRoleNames.Description": "ポップアップに役割名を表示するかどうか。",
     "Widget.GearsetSwitcher.Config.UseAlternateIconWidget.Name": "代替ウィジェットアイコンを使用する",
     "Widget.GearsetSwitcher.Config.UseAlternateIconWidget.Description": "有効にすると、ツールバーウィジェット内のジョブアイコンの代替バージョンを使用します。",
     "Widget.GearsetSwitcher.Config.UseAlternateIconHeader.Name": "ポップアップヘッダーで代替アイコンを使用する",

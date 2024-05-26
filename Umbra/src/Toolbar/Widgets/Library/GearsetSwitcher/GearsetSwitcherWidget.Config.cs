@@ -121,6 +121,12 @@ public partial class GearsetSwitcherWidget
                 -5,
                 5
             ),
+            new BooleanWidgetConfigVariable(
+                "ShowRoleNames",
+                I18N.Translate("Widget.GearsetSwitcher.Config.ShowRoleNames.Name"),
+                I18N.Translate("Widget.GearsetSwitcher.Config.ShowRoleNames.Description"),
+                true
+            ),
 
             // Role Configuration
             ..AddRoleOptionsFor("Tank",           "LeftColumn",   0, 3),

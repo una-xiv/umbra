@@ -50,7 +50,7 @@ public sealed partial class GearsetSwitcherPopup
                 new() {
                     Anchor = Anchor.MiddleLeft,
                     Flow   = Flow.Vertical,
-                    Size   = new(0, 50),
+                    Size   = new(0, 54),
                 }
             ),
             new(
@@ -62,7 +62,8 @@ public sealed partial class GearsetSwitcherPopup
                     Color        = new("Widget.PopupMenuText"),
                     OutlineColor = new("Widget.PopupMenuTextOutline"),
                     OutlineSize  = 1,
-                    TextAlign    = Anchor.TopRight,
+                    TextAlign    = Anchor.TopLeft,
+                    Padding      = new(1),
                     Margin       = new() { Right = -30 },
                     Opacity      = 0.75f,
                 }
@@ -91,6 +92,7 @@ public sealed partial class GearsetSwitcherPopup
                     OutlineSize  = 1,
                     TextOverflow = false,
                     WordWrap     = false,
+                    Padding      = new() { Top = 2 },
                 }
             ),
             new(

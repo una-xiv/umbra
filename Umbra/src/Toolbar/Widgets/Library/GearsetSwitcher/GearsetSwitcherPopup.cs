@@ -67,6 +67,8 @@ public sealed partial class GearsetSwitcherPopup : WidgetPopup, IDisposable
         _currentGearset = _gearsetRepository.CurrentGearset;
     }
 
+    public bool ShowRoleNames { get; set; } = false;
+
     public bool UseAlternateHeaderIcon { get; set; } = false;
     public bool UseAlternateButtonIcon { get; set; } = false;
 
@@ -153,6 +155,8 @@ public sealed partial class GearsetSwitcherPopup : WidgetPopup, IDisposable
 
             listNode.Style.Size  = new(GearsetNode.NodeWidth, height);
             node.Style.IsVisible = setCount > 0 && GetVisibilityForRole(category);
+
+            node.QuerySelector("#RoleHeader")!.Style.IsVisible = ShowRoleNames;
         }
 
         foreach (GearsetNode node in NodeByGearset.Values) {
