@@ -37,7 +37,6 @@
 
     <ItemGroup>
         <None Update="i18n\*.json" CopyToOutputDirectory="PreserveNewest"/>
-        <None Remove="i18n\fr.json" />
     </ItemGroup>
 
     <ItemGroup>
