@@ -84,6 +84,8 @@ public partial class GearsetNode : Node
         } else if (_gearset != _repository.CurrentGearset && TagsList.Contains("current")) {
             TagsList.Remove("current");
         }
+
+        SetBackgroundGradientFor(_gearset.Category);
     }
 
     private Node IconNode => QuerySelector("Icon")!;
@@ -94,5 +96,29 @@ public partial class GearsetNode : Node
     private string GetCurrentGearsetStatusText()
     {
         return $"{I18N.Translate("Widget.GearsetSwitcher.JobLevel", _gearset.JobLevel)} {_gearset.JobName}";
+    }
+
+    private void SetBackgroundGradientFor(GearsetCategory category)
+    {
+        switch (category) {
+            case GearsetCategory.Tank:
+                Style.BackgroundGradient = GradientColor.Vertical(new(0xA0a54a3b), new(0));
+                break;
+            case GearsetCategory.Healer:
+                Style.BackgroundGradient = GradientColor.Vertical(new(0xA02e613b), new(0));
+                break;
+            case GearsetCategory.Melee:
+                Style.BackgroundGradient = GradientColor.Vertical(new(0xA02e3069), new(0));
+                break;
+            case GearsetCategory.Ranged:
+                Style.BackgroundGradient = GradientColor.Vertical(new(0xA02c89a6), new(0));
+                break;
+            case GearsetCategory.Caster:
+                Style.BackgroundGradient = GradientColor.Vertical(new(0xA0a72a5a), new(0));
+                break;
+            default:
+                Style.BackgroundGradient = GradientColor.Vertical(new(0), new(0));
+                break;
+        }
     }
 }

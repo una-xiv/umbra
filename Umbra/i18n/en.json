@@ -401,6 +401,8 @@
     "Widget.GearsetSwitcher.Config.NameTextYOffset.Description": "The vertical offset of the name text from the center of the widget in pixels. Positive values move the text down, negative values move the text up.",
     "Widget.GearsetSwitcher.Config.InfoTextYOffset.Name": "Info text vertical offset",
     "Widget.GearsetSwitcher.Config.InfoTextYOffset.Description": "The vertical offset of the info text from the center of the widget in pixels. Positive values move the text down, negative values move the text up.",
+    "Widget.GearsetSwitcher.Config.ShowRole.Name": "Show {0}",
+    "Widget.GearsetSwitcher.Config.ShowRole.Description": "Whether to show the gearsets associated with this role in the popup.",
     "Widget.GearsetSwitcher.Config.RoleLocation.Name": "{0} - Horizontal role location",
     "Widget.GearsetSwitcher.Config.RoleLocation.Description": "The location of the gearsets associated with this role in the popup.",
     "Widget.GearsetSwitcher.Config.RoleLocation.Option.LeftColumn": "Left column",

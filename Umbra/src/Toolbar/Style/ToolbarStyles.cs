@@ -25,12 +25,13 @@ internal class ToolbarStyles
             new(
                 ".toolbar",
                 new() {
-                    Flow        = Flow.Horizontal,
-                    Size        = new(0, 32),
-                    Padding     = new(0, 6),
-                    BorderColor = new(new("Toolbar.Border")),
-                    ShadowSize  = new(64),
-                    ShadowInset = 2,
+                    Flow          = Flow.Horizontal,
+                    Size          = new(0, 32),
+                    Padding       = new(0, 6),
+                    BorderColor   = new(new("Toolbar.Border")),
+                    ShadowSize    = new(64),
+                    ShadowInset   = 1,
+                    IsAntialiased = false,
                 }
             ),
             new(
@@ -71,20 +72,23 @@ internal class ToolbarStyles
                 ".toolbar:top:stretched",
                 new() {
                     BorderWidth = new() { Bottom = 1 },
+                    BorderInset = new(0),
                 }
             ),
             new(
                 ".toolbar:bottom:stretched",
                 new() {
                     BorderWidth = new() { Top = 1 },
+                    BorderInset = new(0),
                 }
             ),
             new(
                 ".toolbar:top:floating",
                 new() {
-                    BorderWidth    = new() { Bottom = 1, Left = 1, Right = 1 },
+                    BorderWidth    = new() { Bottom = 2, Left = 2, Right = 2 },
                     BorderRadius   = 5,
                     RoundedCorners = RoundedCorners.BottomLeft | RoundedCorners.BottomRight,
+                    IsAntialiased  = true,
                 }
             ),
             new(
@@ -93,6 +97,7 @@ internal class ToolbarStyles
                     BorderWidth    = new() { Top = 1, Left = 1, Right = 1 },
                     BorderRadius   = 5,
                     RoundedCorners = RoundedCorners.TopLeft | RoundedCorners.TopRight,
+                    IsAntialiased  = true,
                 }
             ),
             new(

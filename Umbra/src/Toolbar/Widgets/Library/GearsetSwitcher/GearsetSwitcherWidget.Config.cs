@@ -140,6 +140,12 @@ public partial class GearsetSwitcherWidget
         string role = I18N.Translate($"Widget.GearsetSwitcher.Role.{name}");
 
         return [
+            new BooleanWidgetConfigVariable(
+                $"Show{name}",
+                I18N.Translate("Widget.GearsetSwitcher.Config.ShowRole.Name",        role),
+                I18N.Translate("Widget.GearsetSwitcher.Config.ShowRole.Description", role),
+                true
+            ),
             new SelectWidgetConfigVariable(
                 $"{name}RoleLocation",
                 I18N.Translate("Widget.GearsetSwitcher.Config.RoleLocation.Name",        role),

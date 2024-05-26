@@ -86,7 +86,7 @@ public sealed partial class GearsetSwitcherPopup
                     Size         = new(GearsetNode.NodeWidth, 0),
                     Font         = 0,
                     FontSize     = 11,
-                    Color        = new("Widget.PopupMenuTextMuted"),
+                    Color        = new("Widget.PopupMenuText"),
                     OutlineColor = new("Widget.PopupMenuTextOutline"),
                     OutlineSize  = 1,
                     TextOverflow = false,

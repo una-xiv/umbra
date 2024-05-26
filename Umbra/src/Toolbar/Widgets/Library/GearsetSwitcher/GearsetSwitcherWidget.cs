@@ -88,6 +88,14 @@ public sealed partial class GearsetSwitcherWidget(
         Popup.HeaderIconYOffset      = GetConfigValue<int>("HeaderIconYOffset");
         Popup.ButtonIconYOffset      = GetConfigValue<int>("ButtonIconYOffset");
 
+        Popup.ShowTank     = GetConfigValue<bool>("ShowTank");
+        Popup.ShowHealer   = GetConfigValue<bool>("ShowHealer");
+        Popup.ShowMelee    = GetConfigValue<bool>("ShowMelee");
+        Popup.ShowRanged   = GetConfigValue<bool>("ShowPhysicalRanged");
+        Popup.ShowCaster   = GetConfigValue<bool>("ShowMagicalRanged");
+        Popup.ShowCrafter  = GetConfigValue<bool>("ShowCrafter");
+        Popup.ShowGatherer = GetConfigValue<bool>("ShowGatherer");
+
         Popup.TankRoleLocation     = GetConfigValue<string>("TankRoleLocation");
         Popup.HealerRoleLocation   = GetConfigValue<string>("HealerRoleLocation");
         Popup.MeleeRoleLocation    = GetConfigValue<string>("MeleeRoleLocation");

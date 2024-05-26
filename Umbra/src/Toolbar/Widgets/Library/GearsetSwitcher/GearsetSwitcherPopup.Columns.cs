@@ -31,17 +31,14 @@ public sealed partial class GearsetSwitcherPopup
                 new() {
                     Id        = "LeftColumn",
                     ClassList = ["column"],
-                    // Style     = new() { IsVisible = false }
                 },
                 new() {
                     Id        = "MiddleColumn",
                     ClassList = ["column"],
-                    // Style     = new() { IsVisible = false }
                 },
                 new() {
                     Id        = "RightColumn",
                     ClassList = ["column"],
-                    // Style     = new() { IsVisible = false }
                 },
             ],
         };
@@ -84,6 +81,21 @@ public sealed partial class GearsetSwitcherPopup
             GearsetCategory.Caster   => Node.QuerySelector(CasterRoleLocation)!,
             GearsetCategory.Gatherer => Node.QuerySelector(GathererRoleLocation)!,
             GearsetCategory.Crafter  => Node.QuerySelector(CrafterRoleLocation)!,
+            GearsetCategory.None     => throw new ArgumentOutOfRangeException(nameof(category), category, null),
+            _                        => throw new ArgumentOutOfRangeException(nameof(category), category, null)
+        };
+    }
+
+    private bool GetVisibilityForRole(GearsetCategory category)
+    {
+        return category switch {
+            GearsetCategory.Tank     => ShowTank,
+            GearsetCategory.Healer   => ShowHealer,
+            GearsetCategory.Melee    => ShowMelee,
+            GearsetCategory.Ranged   => ShowRanged,
+            GearsetCategory.Caster   => ShowCaster,
+            GearsetCategory.Gatherer => ShowGatherer,
+            GearsetCategory.Crafter  => ShowCrafter,
             GearsetCategory.None     => throw new ArgumentOutOfRangeException(nameof(category), category, null),
             _                        => throw new ArgumentOutOfRangeException(nameof(category), category, null)
         };

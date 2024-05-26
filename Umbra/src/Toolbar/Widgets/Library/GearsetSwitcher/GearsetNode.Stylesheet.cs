@@ -1,4 +1,5 @@
 ﻿using Una.Drawing;
+
 /* Umbra | (c) 2024 by Una              ____ ___        ___.
  * Licensed under the terms of AGPL-3  |    |   \ _____ \_ |__ _______ _____
  *                                     |    |   //     \ | __ \\_  __ \\__  \
@@ -24,12 +25,14 @@ public partial class GearsetNode
             new(
                 ".gearset",
                 new() {
-                    Size            = new(NodeWidth, NodeHeight),
-                    IsAntialiased   = false,
-                    BackgroundColor = new("Input.Background"),
-                    BorderRadius    = 7,
-                    Padding         = new(5),
-                    StrokeWidth     = 1,
+                    Size                    = new(NodeWidth, NodeHeight),
+                    IsAntialiased           = false,
+                    BackgroundColor         = new("Input.Background"),
+                    BorderRadius            = 7,
+                    Padding                 = new(5),
+                    StrokeWidth             = 1,
+                    BackgroundGradient      = GradientColor.Vertical(new(0), new(0)),
+                    BackgroundGradientInset = new(2),
                 }
             ),
             new(
@@ -51,16 +54,16 @@ public partial class GearsetNode
                 new() {
                     Size            = new(30, 30),
                     ImageInset      = new(2),
-                    BackgroundColor = new("Window.Background")
+                    BorderRadius    = 6,
                 }
             ),
             new(
                 ".gearset--body",
                 new() {
-                    Flow          = Flow.Vertical,
-                    Size          = new(NodeWidth - 30 - 60),
-                    Padding       = new() { Left = 6 },
-                    Gap           = 4,
+                    Flow    = Flow.Vertical,
+                    Size    = new(NodeWidth - 30 - 60),
+                    Padding = new() { Left = 6 },
+                    Gap     = 4,
                 }
             ),
             new(

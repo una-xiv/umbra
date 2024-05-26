@@ -51,13 +51,13 @@ public sealed partial class GearsetSwitcherPopup : WidgetPopup, IDisposable
         CreateHeaderNode();
         CreateColumnsNode();
 
-        CreateRoleContainer(GearsetCategory.Tank,     "Tank");
-        CreateRoleContainer(GearsetCategory.Healer,   "Healer");
-        CreateRoleContainer(GearsetCategory.Melee,    "Melee");
-        CreateRoleContainer(GearsetCategory.Ranged,   "Physical Ranged");
-        CreateRoleContainer(GearsetCategory.Caster,   "Magical Ranged");
-        CreateRoleContainer(GearsetCategory.Crafter,  "Crafter");
-        CreateRoleContainer(GearsetCategory.Gatherer, "Gatherer");
+        CreateRoleContainer(GearsetCategory.Tank,     I18N.Translate("Widget.GearsetSwitcher.Role.Tank"));
+        CreateRoleContainer(GearsetCategory.Healer,   I18N.Translate("Widget.GearsetSwitcher.Role.Healer"));
+        CreateRoleContainer(GearsetCategory.Melee,    I18N.Translate("Widget.GearsetSwitcher.Role.Melee"));
+        CreateRoleContainer(GearsetCategory.Ranged,   I18N.Translate("Widget.GearsetSwitcher.Role.PhysicalRanged"));
+        CreateRoleContainer(GearsetCategory.Caster,   I18N.Translate("Widget.GearsetSwitcher.Role.MagicalRanged"));
+        CreateRoleContainer(GearsetCategory.Crafter,  I18N.Translate("Widget.GearsetSwitcher.Role.Crafter"));
+        CreateRoleContainer(GearsetCategory.Gatherer, I18N.Translate("Widget.GearsetSwitcher.Role.Gatherer"));
 
         _gearsetRepository.OnGearsetCreated += OnGearsetCreated;
         _gearsetRepository.OnGearsetRemoved += OnGearsetRemoved;
@@ -96,6 +96,14 @@ public sealed partial class GearsetSwitcherPopup : WidgetPopup, IDisposable
     public int CasterMaxItems   { get; set; } = 5;
     public int CrafterMaxItems  { get; set; } = 7;
     public int GathererMaxItems { get; set; } = 3;
+
+    public bool ShowTank     { get; set; } = true;
+    public bool ShowHealer   { get; set; } = true;
+    public bool ShowMelee    { get; set; } = true;
+    public bool ShowRanged   { get; set; } = true;
+    public bool ShowCaster   { get; set; } = true;
+    public bool ShowCrafter  { get; set; } = true;
+    public bool ShowGatherer { get; set; } = true;
 
     /// <inheritdoc/>
     protected override bool CanOpen()
@@ -144,7 +152,7 @@ public sealed partial class GearsetSwitcherPopup : WidgetPopup, IDisposable
             int  height    = (setItems * GearsetNode.NodeHeight) + ((setItems - 1) * gapHeight);
 
             listNode.Style.Size  = new(GearsetNode.NodeWidth, height);
-            node.Style.IsVisible = setCount > 0;
+            node.Style.IsVisible = setCount > 0 && GetVisibilityForRole(category);
         }
 
         foreach (GearsetNode node in NodeByGearset.Values) {
@@ -173,24 +181,24 @@ public sealed partial class GearsetSwitcherPopup : WidgetPopup, IDisposable
 
         switch (category) {
             case GearsetCategory.Tank:
-                hg.Style.BackgroundGradient = GradientColor.Vertical(new(0),          new(0x60a54a3b));
-                bg.Style.BackgroundGradient = GradientColor.Vertical(new(0x80a54a3b), new(0));
+                hg.Style.BackgroundGradient = GradientColor.Vertical(new(0),          new(0x90a54a3b));
+                bg.Style.BackgroundGradient = GradientColor.Vertical(new(0xA0a54a3b), new(0));
                 break;
             case GearsetCategory.Healer:
-                hg.Style.BackgroundGradient = GradientColor.Vertical(new(0),          new(0x602e613b));
-                bg.Style.BackgroundGradient = GradientColor.Vertical(new(0x802e613b), new(0));
+                hg.Style.BackgroundGradient = GradientColor.Vertical(new(0),          new(0x902e613b));
+                bg.Style.BackgroundGradient = GradientColor.Vertical(new(0xA02e613b), new(0));
                 break;
             case GearsetCategory.Melee:
-                hg.Style.BackgroundGradient = GradientColor.Vertical(new(0),          new(0x602e3069));
-                bg.Style.BackgroundGradient = GradientColor.Vertical(new(0x802e3069), new(0));
+                hg.Style.BackgroundGradient = GradientColor.Vertical(new(0),          new(0x902e3069));
+                bg.Style.BackgroundGradient = GradientColor.Vertical(new(0xA02e3069), new(0));
                 break;
             case GearsetCategory.Ranged:
-                hg.Style.BackgroundGradient = GradientColor.Vertical(new(0),          new(0x602c89a6));
-                bg.Style.BackgroundGradient = GradientColor.Vertical(new(0x802c89a6), new(0));
+                hg.Style.BackgroundGradient = GradientColor.Vertical(new(0),          new(0x902c89a6));
+                bg.Style.BackgroundGradient = GradientColor.Vertical(new(0xA02c89a6), new(0));
                 break;
             case GearsetCategory.Caster:
-                hg.Style.BackgroundGradient = GradientColor.Vertical(new(0),          new(0x60a72a5a));
-                bg.Style.BackgroundGradient = GradientColor.Vertical(new(0x80a72a5a), new(0));
+                hg.Style.BackgroundGradient = GradientColor.Vertical(new(0),          new(0x90a72a5a));
+                bg.Style.BackgroundGradient = GradientColor.Vertical(new(0xA0a72a5a), new(0));
                 break;
             default:
                 bg.Style.BackgroundGradient = GradientColor.Vertical(new(0), new(0));
