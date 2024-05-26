@@ -637,7 +637,7 @@
     "Color.Toolbar.InactiveBackground1.Description": "The first background color of the toolbar in an inactive state.",
     "Color.Toolbar.InactiveBackground2.Name": "Toolbar background 2",
     "Color.Toolbar.InactiveBackground2.Description": "The second background color of the toolbar in an inactive state.",
-    "Color.Toolbar.InactiveBorder.Name": "Toolbar border",
+    "Color.Toolbar.InactiveBorder.Name": "Toolbar inactive border",
     "Color.Toolbar.InactiveBorder.Description": "The border color of the toolbar in an inactive state.",
     "Color.Widget.Background.Name": "Widget background",
     "Color.Widget.Background.Description": "The background color of widgets.",
