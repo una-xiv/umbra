@@ -48,7 +48,7 @@ public partial class SettingsWindow : Window
         Node.QuerySelector("KoFiButton")!.OnMouseUp    += _ => Util.OpenLink("https://ko-fi.com/una_xiv");
         Node.QuerySelector("CloseButton")!.OnMouseUp   += _ => Close();
         Node.QuerySelector("OobeButton")!.OnMouseUp    += _ => {
-            Framework.Service<WindowManager>().Present("OobeWindow", new OobeWindow());
+            Framework.Service<WindowManager>().Present("OOBE", new OobeWindow());
             Close();
         };
     }
