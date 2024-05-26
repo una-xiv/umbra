@@ -21,6 +21,7 @@ using Dalamud.Plugin.Services;
 using Umbra.Common;
 using Umbra.Windows;
 using Umbra.Windows.Clipping;
+using Umbra.Windows.Oobe;
 using Umbra.Windows.Settings;
 using Una.Drawing;
 
@@ -31,6 +32,9 @@ internal sealed class UmbraBindings : IDisposable
 {
     [ConfigVariable("General.UiScale", "General", null, 50, 250)]
     public static int UiScale { get; set; } = 100;
+
+    [ConfigVariable("IsFirstTimeStart")]
+    public static bool IsFirstTimeStart { get; set; } = true;
 
     private readonly IChatGui        _chatGui;
     private readonly ICommandManager _commandManager;
@@ -63,9 +67,13 @@ internal sealed class UmbraBindings : IDisposable
 
         Node.ScaleFactor = 1.0f;
 
-        // #if DEBUG
-        _windowManager.Present("UmbraSettings", new SettingsWindow());
-        // #endif
+        #if DEBUG
+        //_windowManager.Present("UmbraSettings", new SettingsWindow());
+        #endif
+
+        if (IsFirstTimeStart) {
+            _windowManager.Present("OOBE", new OobeWindow());
+        }
     }
 
     public void Dispose()

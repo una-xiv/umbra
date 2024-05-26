@@ -17,6 +17,7 @@
 using System.Numerics;
 using Dalamud.Utility;
 using Umbra.Common;
+using Umbra.Windows.Oobe;
 using Umbra.Windows.Settings.Modules;
 
 namespace Umbra.Windows.Settings;
@@ -31,8 +32,8 @@ public partial class SettingsWindow : Window
     /// <inheritdoc/>
     protected override void OnOpen()
     {
-        AddModule(new MarkersModule());
         AddModule(new WidgetsModule());
+        AddModule(new MarkersModule());
 
         foreach (string category in ConfigManager.GetCategories()) {
             AddModule(new CvarModule(category));
@@ -46,6 +47,10 @@ public partial class SettingsWindow : Window
         Node.QuerySelector("RestartButton")!.OnMouseUp += _ => Framework.Restart();
         Node.QuerySelector("KoFiButton")!.OnMouseUp    += _ => Util.OpenLink("https://ko-fi.com/una_xiv");
         Node.QuerySelector("CloseButton")!.OnMouseUp   += _ => Close();
+        Node.QuerySelector("OobeButton")!.OnMouseUp    += _ => {
+            Framework.Service<WindowManager>().Present("OobeWindow", new OobeWindow());
+            Close();
+        };
     }
 
     /// <inheritdoc/>

@@ -52,6 +52,7 @@ public partial class SettingsWindow
                     },
                     new() {
                         Id = "Buttons", ChildNodes = {
+                            new ButtonNode("OobeButton", I18N.Translate("Settings.Window.RunOOBE"), null, true),
                             new ButtonNode("RestartButton", I18N.Translate("Settings.Window.RestartUmbra"), null, true),
                             new ButtonNode("KoFiButton", I18N.Translate("Settings.Window.KoFi")) {
                                 Style = new() {
