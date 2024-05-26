@@ -35,7 +35,7 @@ internal class UmbraColors
     [ConfigVariable("ColorProfileData")] private static string ColorProfileData { get; set; } = "";
     [ConfigVariable("ColorProfileName")] private static string ColorProfileName { get; set; } = "Default";
     private static Dictionary<string, Dictionary<string, uint>> ColorProfiles { get; set; } = [];
-    private static readonly Timer DebounceTimer = new(1000);
+    private static Timer? _debounceTimer;
 
     [WhenFrameworkCompiling]
     private static void Initialize()
@@ -45,8 +45,9 @@ internal class UmbraColors
         if (ColorProfileData != "") RestoreColorProfiles();
         if (ColorProfiles.Count == 0) AddDefaultColorProfile();
 
-        DebounceTimer.Enabled =  false;
-        DebounceTimer.Elapsed += (_, _) => Save();
+        _debounceTimer         =  new(1000);
+        _debounceTimer.Enabled =  false;
+        _debounceTimer.Elapsed += (_, _) => Save();
 
         Apply(ColorProfileName);
     }
@@ -55,14 +56,14 @@ internal class UmbraColors
     private static void Dispose()
     {
         ColorProfiles.Clear();
-        DebounceTimer.Dispose();
+        _debounceTimer?.Dispose();
     }
 
     public static void UpdateCurrentProfile()
     {
-        DebounceTimer.Stop();
-        DebounceTimer.Start();
-        DebounceTimer.Enabled = true;
+        _debounceTimer!.Stop();
+        _debounceTimer!.Start();
+        _debounceTimer!.Enabled = true;
     }
 
     /// <summary>
@@ -185,8 +186,8 @@ internal class UmbraColors
 
         if (ColorProfileName != name) Apply(name);
 
-        DebounceTimer.Enabled = false;
-        DebounceTimer.Stop();
+        _debounceTimer.Enabled = false;
+        _debounceTimer.Stop();
     }
 
     /// <summary>
