@@ -40,7 +40,7 @@ internal class PopupStyles
                     ShadowSize              = new() { Top = 0, Left = 64, Bottom = 64, Right = 64 },
                     BorderWidth             = new() { Top = 0, Left = 1, Bottom  = 1, Right  = 1 },
                     RoundedCorners          = RoundedCorners.BottomLeft | RoundedCorners.BottomRight,
-                    BackgroundGradientInset = new(2) { Top = 0, Right = 2 },
+                    BackgroundGradientInset = new(2) { Top = 0 },
                     BackgroundGradient = GradientColor.Vertical(
                         new("Widget.PopupBackground.Gradient1"),
                         new("Widget.PopupBackground.Gradient2")
@@ -53,7 +53,7 @@ internal class PopupStyles
                     ShadowSize              = new() { Top = 64, Left = 64, Bottom = 0, Right = 64 },
                     BorderWidth             = new() { Top = 1, Left  = 1, Bottom  = 0, Right = 1 },
                     RoundedCorners          = RoundedCorners.TopLeft | RoundedCorners.TopRight,
-                    BackgroundGradientInset = new(2) { Bottom = 0, Right = 2 },
+                    BackgroundGradientInset = new(2) { Bottom = 0 },
                     BackgroundGradient = GradientColor.Vertical(
                         new("Widget.PopupBackground.Gradient2"),
                         new("Widget.PopupBackground.Gradient1")
@@ -65,7 +65,7 @@ internal class PopupStyles
                 new() {
                     ShadowSize              = new(64),
                     BorderWidth             = new(1),
-                    BackgroundGradientInset = new(3) { Right = 4 },
+                    BackgroundGradientInset = new(3),
                     RoundedCorners          = RoundedCorners.All,
                     Margin                  = new(8),
                 }
