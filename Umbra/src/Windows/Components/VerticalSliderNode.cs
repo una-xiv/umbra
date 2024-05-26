@@ -1,5 +1,20 @@
-﻿using System;
-using FFXIVClientStructs.FFXIV.Common.Math;
+﻿/* Umbra | (c) 2024 by Una              ____ ___        ___.
+ * Licensed under the terms of AGPL-3  |    |   \ _____ \_ |__ _______ _____
+ *                                     |    |   //     \ | __ \\_  __ \\__  \
+ * https://github.com/una-xiv/umbra    |    |  /|  Y Y  \| \_\ \|  | \/ / __ \_
+ *                                     |______//__|_|  /____  /|__|   (____  /
+ *     Umbra is free software: you can redistribute  \/     \/             \/
+ *     it and/or modify it under the terms of the GNU Affero General Public
+ *     License as published by the Free Software Foundation, either version 3
+ *     of the License, or (at your option) any later version.
+ *
+ *     Umbra UI is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU Affero General Public License for more details.
+ */
+
+using System;
 using ImGuiNET;
 using Una.Drawing;
 
@@ -25,6 +40,15 @@ public class VerticalSliderNode : Node
 
     private int _value;
 
+    /// <summary>
+    /// Sets the value of the slider without triggering the <see cref="OnValueChanged"/> event.
+    /// </summary>
+    /// <param name="value"></param>
+    public void SetValue(int value)
+    {
+        _value = Math.Clamp(value, MinValue, MaxValue);
+    }
+
     protected override void OnDraw(ImDrawListPtr drawList)
     {
         Rect rect = Bounds.ContentRect;
@@ -48,7 +72,7 @@ public class VerticalSliderNode : Node
             Value = value;
         }
 
-        ImGui.PopStyleColor(3);
+        ImGui.PopStyleColor(5);
         ImGui.PopStyleVar(2);
         ImGui.PopID();
     }

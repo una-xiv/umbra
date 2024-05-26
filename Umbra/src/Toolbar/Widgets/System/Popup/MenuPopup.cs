@@ -18,6 +18,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Dalamud.Game.Text;
+using Dalamud.Interface;
 using Umbra.Common;
 using Umbra.Style;
 using Una.Drawing;
@@ -204,18 +205,27 @@ public class MenuPopup : WidgetPopup
             case uint u:
                 node.Style.IconId = u;
                 node.Style.Glyph  = null;
+                node.NodeValue    = null;
                 node.ClassList.Remove("button--icon--glyph");
                 if (!node.ClassList.Contains("button--icon--image")) node.ClassList.Add("button--icon--image");
                 break;
             case SeIconChar s:
                 node.Style.Glyph  = s;
                 node.Style.IconId = null;
+                node.NodeValue    = null;
                 node.ClassList.Remove("button--icon--image");
                 if (!node.ClassList.Contains("button--icon--glyph")) node.ClassList.Add("button--icon--glyph");
+                break;
+            case FontAwesomeIcon f:
+                node.Style.Glyph  = null;
+                node.Style.IconId = null;
+                node.Style.Font   = 2;
+                node.NodeValue    = f.ToIconString();
                 break;
             default:
                 node.Style.IconId = null;
                 node.Style.Glyph  = null;
+                node.NodeValue    = null;
                 node.ClassList.Remove("button--icon--image");
                 node.ClassList.Remove("button--icon--glyph");
                 break;

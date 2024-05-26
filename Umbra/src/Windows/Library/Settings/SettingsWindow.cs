@@ -31,6 +31,7 @@ public partial class SettingsWindow : Window
     /// <inheritdoc/>
     protected override void OnOpen()
     {
+        AddModule(new MarkersModule());
         AddModule(new WidgetsModule());
 
         foreach (string category in ConfigManager.GetCategories()) {

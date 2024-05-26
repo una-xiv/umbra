@@ -72,6 +72,13 @@ public partial class CvarModule
                 }
             ),
             new(
+                ".cvar-subcategory--chevron:hover",
+                new() {
+                    Color   = new("Window.TextLight"),
+                    Opacity = 0.75f,
+                }
+            ),
+            new(
                 ".cvar-subcategory--label",
                 new() {
                     Color     = new("Window.Text"),

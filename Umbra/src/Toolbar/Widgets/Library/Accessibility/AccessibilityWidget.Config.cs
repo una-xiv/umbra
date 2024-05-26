@@ -15,6 +15,7 @@
  */
 
 using System.Collections.Generic;
+using Umbra.Common;
 
 namespace Umbra.Widgets;
 
@@ -22,6 +23,21 @@ public partial class AccessibilityWidget
 {
     protected override IEnumerable<IWidgetConfigVariable> GetConfigVariables()
     {
-        return [];
+        return [
+            new BooleanWidgetConfigVariable(
+                "Decorate",
+                I18N.Translate("Widget.Accessibility.Config.Decorate.Name"),
+                I18N.Translate("Widget.Accessibility.Config.Decorate.Description"),
+                true
+            ),
+            new IntegerWidgetConfigVariable(
+                "IconYOffset",
+                I18N.Translate("Widget.Accessibility.Config.IconYOffset.Name"),
+                I18N.Translate("Widget.Accessibility.Config.IconYOffset.Description"),
+                -1,
+                -5,
+                5
+            )
+        ];
     }
 }

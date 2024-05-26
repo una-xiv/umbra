@@ -32,12 +32,13 @@ public partial class OnlineStatusWidget(
     private IPlayer _player = null!;
     private uint?   _statusId;
     private bool?   _showName;
+    private uint?   _iconId;
 
     /// <inheritdoc/>
     protected override void Initialize()
     {
         Node.OnRightClick += _ => OpenSearchInfoWindow();
-        Node.Tooltip = I18N.Translate("Widget.OnlineStatus.Tooltip");
+        Node.Tooltip      =  I18N.Translate("Widget.OnlineStatus.Tooltip");
 
         Popup.UseGrayscaleIcons = false;
 
@@ -63,6 +64,23 @@ public partial class OnlineStatusWidget(
         SetPopupStatusOption(28, _player.IsBattleMentor);
         SetPopupStatusOption(30, _player.IsBattleMentor);
         SetPopupStatusOption(29, _player.IsTradeMentor);
+
+        SetGhost(!GetConfigValue<bool>("Decorate"));
+
+        switch (GetConfigValue<string>("IconLocation")) {
+            case "Left":
+                SetLeftIcon(_iconId);
+                SetRightIcon(null);
+                break;
+            case "Right":
+                SetLeftIcon(null);
+                SetRightIcon(_iconId);
+                break;
+        }
+
+        LabelNode.Style.TextOffset      = new(0, GetConfigValue<int>("TextYOffset"));
+        LeftIconNode.Style.ImageOffset  = new(0, GetConfigValue<int>("IconYOffset"));
+        RightIconNode.Style.ImageOffset = new(0, GetConfigValue<int>("IconYOffset"));
     }
 
     private void UpdateStatus()
@@ -71,7 +89,10 @@ public partial class OnlineStatusWidget(
         var  status   = GetStatusById(statusId);
 
         SetLabel(GetConfigValue<bool>("ShowName") ? status.Name.ToDalamudString().TextValue : null);
-        SetLeftIcon(status.Icon);
+
+        _iconId = status.Icon;
+
+        LabelNode.Style.IsVisible = GetConfigValue<bool>("ShowName");
 
         foreach (Node node in Node.QuerySelectorAll(".icon")) {
             node.Style.Margin = new();

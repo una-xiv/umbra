@@ -41,5 +41,8 @@ public sealed partial class AccessibilityWidget(
         SetIcon(FontAwesomeIcon.Wheelchair);
     }
 
-    protected override void OnUpdate() { }
+    protected override void OnUpdate()
+    {
+
+    }
 }

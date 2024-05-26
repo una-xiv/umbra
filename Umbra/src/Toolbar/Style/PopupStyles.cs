@@ -103,6 +103,9 @@ internal class PopupStyles
                     ImageRounding  = 4,
                     ImageOffset    = new(0, -1),
                     ImageGrayscale = true,
+                    Font           = 2,
+                    TextAlign      = Anchor.MiddleCenter,
+                    TextOffset     = new(0, -1),
                 }
             ),
             new(

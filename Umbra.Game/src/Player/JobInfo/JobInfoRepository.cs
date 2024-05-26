@@ -18,6 +18,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Dalamud.Plugin.Services;
+using Dalamud.Utility;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using Lumina.Excel.GeneratedSheets;
 using Umbra.Common;
@@ -43,7 +44,7 @@ internal sealed class JobInfoRepository : IDisposable
                     _expArrayId[(byte)cj.RowId] = cj.ExpArrayIndex;
                     _jobInfos[(byte)cj.RowId] = new(
                         (byte)cj.RowId,
-                        cj.Name.ToString(),
+                        Capitalize(cj.Name.ToDalamudString().TextValue),
                         0,    // Level
                         0,    // XP percent
                         false // Is max level
@@ -92,5 +93,28 @@ internal sealed class JobInfoRepository : IDisposable
             jobInfo.XpPercent  = (byte)(currentXp / (float)grow.ExpToNext * 100);
             jobInfo.IsMaxLevel = false;
         }
+    }
+
+    private static string Capitalize(string input)
+    {
+        if (string.IsNullOrEmpty(input))
+        {
+            return input;
+        }
+
+        // Split the input string into words
+        var words = input.Split(' ');
+
+        // Capitalize the first letter of each word
+        for (int i = 0; i < words.Length; i++)
+        {
+            if (words[i].Length > 0)
+            {
+                words[i] = char.ToUpper(words[i][0]) + words[i].Substring(1);
+            }
+        }
+
+        // Join the words back into a single string
+        return string.Join(" ", words);
     }
 }

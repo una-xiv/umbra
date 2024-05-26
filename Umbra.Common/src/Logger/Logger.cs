@@ -15,6 +15,7 @@
  */
 
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Umbra.Common;
 
@@ -25,6 +26,7 @@ public static class Logger
     /// <summary>
     /// Logs a debug message.
     /// </summary>
+    [Conditional("DEBUG")]
     public static void Debug(string? message)
     {
         Targets.ForEach(target => target.Log(LogLevel.Debug, message));

@@ -88,6 +88,8 @@ public partial class CvarModule : SettingsModule
 
     public override void OnUpdate()
     {
+        if (null == Node.ParentNode) return;
+
         var size = Node.ParentNode!.Bounds.ContentSize / Node.ScaleFactor;
 
         Node.QuerySelector(".cvar-header")!.Style.Size = new(size.Width - 30, 0);

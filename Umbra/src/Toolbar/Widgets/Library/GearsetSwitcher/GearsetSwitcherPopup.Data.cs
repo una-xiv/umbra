@@ -78,19 +78,16 @@ public sealed partial class GearsetSwitcherPopup
         foreach ((GearsetCategory category, List<Gearset> gearsets) in GearsetsByCategory) {
             if (category != gearset.Category && gearsets.Contains(gearset)) {
                 gearsets.Remove(gearset);
-                Logger.Info($"Gearset {gearset.Id} removed from category {category}");
             }
         }
 
         if (!GearsetsByCategory.ContainsKey(gearset.Category)) {
             GearsetsByCategory[gearset.Category] = [gearset];
-            Logger.Info($"Gearset {gearset.Id} added to new category {gearset.Category}");
             return;
         }
 
         if (!GearsetsByCategory[gearset.Category].Contains(gearset)) {
             GearsetsByCategory[gearset.Category].Add(gearset);
-            Logger.Info($"Gearset {gearset.Id} added to category {gearset.Category}");
         }
     }
 
@@ -102,7 +99,7 @@ public sealed partial class GearsetSwitcherPopup
         foreach ((GearsetCategory category, List<Gearset> gearsets) in GearsetsByCategory) {
             if (gearsets.Contains(gearset)) {
                 gearsets.Remove(gearset);
-                Logger.Info($"Gearset {gearset.Id} removed from category {category}");
+                Logger.Debug($"Gearset {gearset.Id} removed from category {category}");
             }
         }
 

@@ -14,9 +14,12 @@
  *     GNU Affero General Public License for more details.
  */
 
+using System;
 using Dalamud.Plugin.Services;
+using Dalamud.Utility;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
+using FFXIVClientStructs.FFXIV.Client.UI;
 using Lumina.Excel.GeneratedSheets;
 using Umbra.Common;
 
@@ -27,10 +30,10 @@ internal sealed class CompanionManager : ICompanionManager
 {
     private const uint GysahlGreensIconId   = 4868;
     private const uint FollowActionIconId   = 902;
-    private const uint FreeStanceIconId     = 906;
     private const uint DefenderStanceIconId = 903;
     private const uint AttackerStanceIconId = 904;
     private const uint HealerStanceIconId   = 905;
+    private const uint FreeStanceIconId     = 906;
 
     public bool   HasGysahlGreens { get; private set; }
     public string CompanionName   { get; private set; } = string.Empty;
@@ -39,7 +42,7 @@ internal sealed class CompanionManager : ICompanionManager
     public uint   CurrentXp       { get; private set; }
     public uint   RequiredXp      { get; private set; }
     public uint   IconId          { get; private set; } = 25218;
-    public string ActiveCommand   { get; private set; } = string.Empty;
+    public byte   ActiveCommand   { get; private set; }
     public bool   IsActive        { get; private set; }
 
     private readonly IDataManager _dataManager;
@@ -77,21 +80,23 @@ internal sealed class CompanionManager : ICompanionManager
         CurrentXp       = buddy.CurrentXP;
         RequiredXp      = rank.ExpRequired;
         IconId          = GetIconId(buddy);
+        ActiveCommand   = buddy.ActiveCommand;
+    }
 
-        ActiveCommand = buddy.ActiveCommand switch {
-            3 => I18N.Translate("CompanionWidget.Follow"),
-            4 => I18N.Translate("CompanionWidget.Free"),
-            5 => I18N.Translate("CompanionWidget.Tank"),
-            6 => I18N.Translate("CompanionWidget.DPS"),
-            7 => I18N.Translate("CompanionWidget.Heal"),
-            _ => "???",
-        };
+    public string TimeLeftString => TimeSpan.FromSeconds(TimeLeft).ToString(@"mm\:ss");
+
+    public unsafe void OpenWindow()
+    {
+        UIModule* um = UIModule.Instance();
+        if (um == null) return;
+
+        um->ExecuteMainCommand(42);
     }
 
     public bool CanSummon()
     {
         return HasGysahlGreens
-         && _player is { IsBoundByDuty: false, IsOccupied: false, IsCasting: false, IsDead: false };
+            && _player is { IsBoundByDuty: false, IsOccupied: false, IsCasting: false, IsDead: false };
     }
 
     public void Summon()
@@ -109,6 +114,16 @@ internal sealed class CompanionManager : ICompanionManager
         _player.UseInventoryItem(GysahlGreensIconId);
     }
 
+    public string GetStanceName(uint id)
+    {
+        return _dataManager.GetExcelSheet<BuddyAction>()!.GetRow(id)!.Name.ToDalamudString().TextValue;
+    }
+
+    public uint GetStanceIcon(uint id)
+    {
+        return (uint)_dataManager.GetExcelSheet<BuddyAction>()!.GetRow(id)!.Icon;
+    }
+
     public unsafe void Dismiss()
     {
         if (TimeLeft < 1) return;
@@ -119,7 +134,7 @@ internal sealed class CompanionManager : ICompanionManager
         am->UseAction(ActionType.BuddyAction, 2);
     }
 
-    public unsafe void SwitchBehavior()
+    public unsafe void SetStance(uint actionId)
     {
         if (TimeLeft < 1) return;
 
@@ -132,7 +147,33 @@ internal sealed class CompanionManager : ICompanionManager
         ActionManager* am = ActionManager.Instance();
         if (am == null) return;
 
-        am->UseAction(ActionType.BuddyAction, FindNextValidActiveCommand(buddy.ActiveCommand));
+        am->UseAction(ActionType.BuddyAction, actionId);
+    }
+
+    public unsafe bool CanSetStance(uint actionId)
+    {
+        if (TimeLeft < 1) return false;
+
+        UIState* ui = UIState.Instance();
+        if (ui == null) return false;
+
+        var buddy = ui->Buddy.CompanionInfo;
+        if (buddy.Rank == 0) return false;
+
+        return actionId switch {
+            // Follow
+            3 => true,
+            // Free
+            4 => true,
+            // Defender.
+            5 => buddy.DefenderLevel > 0,
+            // Attacker.
+            6 => buddy.AttackerLevel > 0,
+            // Healer.
+            7 => buddy.HealerLevel > 0,
+            // Out of range.
+            _ => false
+        };
     }
 
     private static unsafe uint FindNextValidActiveCommand(uint currentCommand)
@@ -147,7 +188,7 @@ internal sealed class CompanionManager : ICompanionManager
             3 => 4,                                                           // Follow -> Free Stance
             4 => buddy.DefenderLevel > 0 ? 5 : FindNextValidActiveCommand(5), // Free Stance -> Defender Stance
             5 => buddy.AttackerLevel > 0 ? 6 : FindNextValidActiveCommand(6), // Defender Stance -> Attacker Stance
-            6 => buddy.HealerLevel   > 0 ? 7 : FindNextValidActiveCommand(7), // Attacker Stance -> Healer Stance
+            6 => buddy.HealerLevel > 0 ? 7 : FindNextValidActiveCommand(7),   // Attacker Stance -> Healer Stance
             7 => 3,                                                           // Healer Stance -> Follow
             _ => 3,                                                           // Unknown -> Follow
         };

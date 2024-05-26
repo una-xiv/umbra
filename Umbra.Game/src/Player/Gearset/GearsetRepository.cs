@@ -163,7 +163,6 @@ internal sealed class GearsetRepository : IGearsetRepository, IDisposable
 
             CurrentGearset = _gearsets[(ushort)newId];
             OnGearsetChanged?.Invoke(CurrentGearset);
-            Logger.Info($"Successfully deleted {idToRemove} and equipped a new gearset with ID {CurrentGearset.Id}.");
         } else {
             CurrentGearset = null;
             Logger.Error("Failed to grab a valid gearset ID to equip.");

@@ -68,8 +68,6 @@ public abstract class DefaultToolbarWidget(
             Node leftIconNode    = node.QuerySelector("#LeftIcon")!;
             Node rightIconNode   = node.QuerySelector("#RightIcon")!;
             Node labelNode       = node.QuerySelector("#Label")!;
-            Node topLabelNode    = node.QuerySelector("#TopLabel")!;
-            Node bottomLabelNode = node.QuerySelector("#BottomLabel")!;
 
             bool hasLabelValue = labelNode.NodeValue is not null;
 
@@ -187,7 +185,9 @@ public abstract class DefaultToolbarWidget(
         BottomLabelNode.Style.TextAlign = Anchor.MiddleCenter;
     }
 
-    protected Node LabelNode    => Node.QuerySelector("Label")!;
-    protected Node TopLabelNode => Node.QuerySelector("TopLabel")!;
-    protected Node BottomLabelNode => Node.QuerySelector("BottomLabel")!;
+    protected Node LabelNode    => Node.QuerySelector("#Label")!;
+    protected Node TopLabelNode => Node.QuerySelector("#TopLabel")!;
+    protected Node BottomLabelNode => Node.QuerySelector("#BottomLabel")!;
+    protected Node LeftIconNode  => Node.QuerySelector("#LeftIcon")!;
+    protected Node RightIconNode => Node.QuerySelector("#RightIcon")!;
 }

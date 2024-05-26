@@ -59,10 +59,26 @@ internal class WidgetStyles
                 }
             ),
             new(
+                ".toolbar-widget-default:disabled",
+                new() {
+                    Color           = new("Widget.TextDisabled"),
+                    BackgroundColor = new("Widget.BackgroundDisabled"),
+                    StrokeColor     = new("Widget.BorderDisabled"),
+                }
+            ),
+            new(
                 ".toolbar-widget-default:ghost:hover",
                 new() {
                     BackgroundColor = new(0x00000000),
                     BorderColor     = new(new(0x00000000)),
+                }
+            ),
+            new(
+                ".toolbar-widget-default:ghost:disabled",
+                new() {
+                    BackgroundColor = new(0x00000000),
+                    BorderColor     = new(new(0x00000000)),
+                    Color           = new("Widget.TextDisabled"),
                 }
             ),
             new(
@@ -108,6 +124,12 @@ internal class WidgetStyles
                 }
             ),
             new(
+                "Label:disabled",
+                new() {
+                    Color        = new("Widget.TextDisabled"),
+                }
+            ),
+            new(
                 "TopLabel",
                 new() {
                     Size         = new(0, 12),
@@ -120,6 +142,12 @@ internal class WidgetStyles
                     IsVisible    = false,
                     FontSize     = 11,
                     Stretch      = true,
+                }
+            ),
+            new(
+                "TopLabel:disabled",
+                new() {
+                    Color        = new("Widget.TextDisabled"),
                 }
             ),
             new(
@@ -137,7 +165,13 @@ internal class WidgetStyles
                     FontSize     = 10,
                     Stretch      = true,
                 }
-            )
+            ),
+            new(
+                "BottomLabel:disabled",
+                new() {
+                    Color        = new("Widget.TextDisabled"),
+                }
+            ),
         ]
     );
 
@@ -160,6 +194,13 @@ internal class WidgetStyles
                 }
             ),
             new(
+                ".toolbar-widget-icon:disabled",
+                new() {
+                    BackgroundColor = new("Widget.BackgroundDisabled"),
+                    StrokeColor     = new("Widget.BorderDisabled"),
+                }
+            ),
+            new(
                 ".toolbar-widget-icon:ghost",
                 new() {
                     BackgroundColor = new(0x00000000),
@@ -168,6 +209,19 @@ internal class WidgetStyles
                     BorderInset     = new(0),
                     StrokeWidth     = 0,
                     Padding         = new(0),
+                }
+            ),
+            new(
+                ".toolbar-widget-icon:ghost:disabled",
+                new() {
+                    BackgroundColor = new(0x00000000),
+                    BorderColor     = new(new(0x00000000)),
+                    BorderWidth     = new(0),
+                    BorderInset     = new(0),
+                    StrokeWidth     = 0,
+                    Padding         = new(0),
+                    Color           = new("Widget.TextDisabled"),
+                    Opacity         = 0.7f,
                 }
             ),
             new(

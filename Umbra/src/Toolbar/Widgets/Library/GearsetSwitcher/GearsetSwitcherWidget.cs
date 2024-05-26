@@ -72,6 +72,8 @@ public sealed partial class GearsetSwitcherWidget(
         SetLeftIcon(showIcon && leftIcon ? GetWidgetJobIconId(_currentGearset!) : null);
         SetRightIcon(showIcon && !leftIcon ? GetWidgetJobIconId(_currentGearset!) : null);
 
+        Node.Style.Padding                                   = showText ? new(0, 6) : new(0, 4);
+        Node.QuerySelector("#Label")!.Style.IsVisible        = showText;
         Node.QuerySelector("#TopLabel")!.Style.TextOffset    = new(0, GetConfigValue<int>("NameTextYOffset"));
         Node.QuerySelector("#BottomLabel")!.Style.TextOffset = new(0, GetConfigValue<int>("InfoTextYOffset"));
         Node.QuerySelector("#LeftIcon")!.Style.ImageOffset   = new(0, GetConfigValue<int>("IconYOffset"));

@@ -26,10 +26,42 @@ public partial class OnlineStatusWidget
     {
         return [
             new BooleanWidgetConfigVariable(
+                "Decorate",
+                I18N.Translate("Widget.OnlineStatus.Config.Decorate.Name"),
+                I18N.Translate("Widget.OnlineStatus.Config.Decorate.Description"),
+                true
+            ),
+            new BooleanWidgetConfigVariable(
                 "ShowName",
                 I18N.Translate("Widget.OnlineStatus.Config.ShowName.Name"),
                 I18N.Translate("Widget.OnlineStatus.Config.ShowName.Description"),
                 true
+            ),
+            new SelectWidgetConfigVariable(
+                "IconLocation",
+                I18N.Translate("Widget.OnlineStatus.Config.IconLocation.Name"),
+                I18N.Translate("Widget.OnlineStatus.Config.IconLocation.Description"),
+                "Left",
+                new() {
+                    { "Left", I18N.Translate("Widget.OnlineStatus.Config.IconLocation.Option.Left") },
+                    { "Right", I18N.Translate("Widget.OnlineStatus.Config.IconLocation.Option.Right") }
+                }
+            ),
+            new IntegerWidgetConfigVariable(
+                "TextYOffset",
+                I18N.Translate("Widget.OnlineStatus.Config.TextYOffset.Name"),
+                I18N.Translate("Widget.OnlineStatus.Config.TextYOffset.Description"),
+                -1,
+                -5,
+                5
+            ),
+            new IntegerWidgetConfigVariable(
+                "IconYOffset",
+                I18N.Translate("Widget.OnlineStatus.Config.IconYOffset.Name"),
+                I18N.Translate("Widget.OnlineStatus.Config.IconYOffset.Description"),
+                0,
+                -5,
+                5
             )
         ];
     }

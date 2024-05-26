@@ -62,7 +62,9 @@ internal partial class Toolbar
     /// </summary>
     private void RenderToolbarNode()
     {
-        _toolbarNode.Style.ShadowSize = new(EnableShadow ? 64 : 0);
+        _toolbarNode.Style.ShadowSize = new(EnableShadow && (
+            !EnableInactiveColors || IsCursorNearToolbar()
+        ) ? 64 : 0);
 
         _toolbarNode.Style.Gap = ItemSpacing * 2;
         LeftPanel.Style.Gap    = ItemSpacing;
@@ -80,6 +82,16 @@ internal partial class Toolbar
     /// </summary>
     private void UpdateToolbarWidth()
     {
+        if (EnableInactiveColors) {
+            if (!IsCursorNearToolbar() && !_toolbarNode.TagsList.Contains("blur")) {
+                _toolbarNode.TagsList.Add("blur");
+            } else if (IsCursorNearToolbar() && _toolbarNode.TagsList.Contains("blur")) {
+                _toolbarNode.TagsList.Remove("blur");
+            }
+        } else {
+            _toolbarNode.TagsList.Remove("blur");
+        }
+
         _toolbarNode.Style.Margin = new() {
             Left  = ToolbarLeftMargin,
             Right = ToolbarRightMargin

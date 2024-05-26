@@ -104,11 +104,65 @@ internal class DefaultWidgets
             )
         );
 
-        wm.RegisterWidget<AccessibilityWidget>(new(
-            "Accessibility",
-            I18N.Translate("Widget.Accessibility.Name"),
-            I18N.Translate("Widget.Accessibility.Description")
+        wm.RegisterWidget<MarkerControlWidget>(new(
+            "MarkerControl",
+            I18N.Translate("Widget.MarkerControl.Name"),
+            I18N.Translate("Widget.MarkerControl.Description")
         ));
+
+        wm.RegisterWidget<AccessibilityWidget>(
+            new(
+                "Accessibility",
+                I18N.Translate("Widget.Accessibility.Name"),
+                I18N.Translate("Widget.Accessibility.Description")
+            )
+        );
+
+        wm.RegisterWidget<CustomButtonWidget>(
+            new(
+                "CustomButton",
+                I18N.Translate("Widget.CustomButton.Name"),
+                I18N.Translate("Widget.CustomButton.Description")
+            )
+        );
+
+        wm.RegisterWidget<FlagWidget>(
+            new(
+                "Flag",
+                I18N.Translate("Widget.Flag.Name"),
+                I18N.Translate("Widget.Flag.Description")
+            )
+        );
+
+        wm.RegisterWidget<WalkingIndicatorWidget>(
+            new(
+                "WalkingIndicator",
+                I18N.Translate("Widget.WalkingIndicator.Name"),
+                I18N.Translate("Widget.WalkingIndicator.Description")
+            )
+        );
+
+        wm.RegisterWidget<CompanionWidget>(
+            new(
+                "Companion",
+                I18N.Translate("Widget.Companion.Name"),
+                I18N.Translate("Widget.Companion.Description")
+            )
+        );
+
+        wm.RegisterWidget<ItemButtonWidget>(new(
+            "ItemButton",
+            I18N.Translate("Widget.ItemButton.Name"),
+            I18N.Translate("Widget.ItemButton.Description")
+        ));
+
+        wm.RegisterWidget<BattleEffectsWidget>(
+            new(
+                "BattleEffects",
+                I18N.Translate("Widget.BattleEffects.Name"),
+                I18N.Translate("Widget.BattleEffects.Description")
+            )
+        );
 
         wm.RegisterWidget<ToolbarPinWidget>(
             new(

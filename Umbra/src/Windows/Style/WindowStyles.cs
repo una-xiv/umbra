@@ -78,11 +78,11 @@ public static class WindowStyles
                 ".window--close-button",
                 new() {
                     Anchor          = Anchor.TopRight,
-                    Size            = new(23, 23),
+                    Size            = new(22, 22),
                     BackgroundColor = new("Window.TitlebarCloseButton"),
                     StrokeColor     = new("Window.TitlebarCloseButtonBorder"),
-                    StrokeWidth     = 2,
-                    StrokeInset     = 1,
+                    StrokeWidth     = 1,
+                    StrokeInset     = 0,
                     BorderRadius    = 3,
                     TextAlign       = Anchor.MiddleCenter,
                     Font            = 2,
@@ -90,7 +90,9 @@ public static class WindowStyles
                     Color           = new("Window.TitlebarCloseButtonX"),
                     OutlineColor    = new("Window.TitlebarCloseButtonXOutline"),
                     TextOverflow    = true,
-                    Margin          = new() { Top = 2, Right = 4 }
+                    TextOffset      = new(0, -1),
+                    Margin          = new() { Top = 2, Right = 4 },
+                    IsAntialiased   = false,
                 }
             ),
             new(
@@ -98,7 +100,7 @@ public static class WindowStyles
                 new() {
                     BackgroundColor = new("Window.TitlebarCloseButtonHover"),
                     Color           = new("Window.TitlebarCloseButtonXHover"),
-                    StrokeInset     = 0,
+                    StrokeWidth     = 2,
                 }
             ),
             new(

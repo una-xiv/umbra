@@ -18,6 +18,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
 using System.Text;
 using Newtonsoft.Json;
 using Umbra.Common;
@@ -31,7 +32,7 @@ internal partial class WidgetManager
 
     private readonly Dictionary<string, WidgetConfigStruct> _widgetState = [];
 
-    private bool _isLoadingState;
+    private bool    _isLoadingState;
 
     public void SaveState()
     {
@@ -40,7 +41,14 @@ internal partial class WidgetManager
 
     public void LoadState()
     {
-        if (string.IsNullOrEmpty(WidgetConfigData)) return;
+        if (string.IsNullOrEmpty(WidgetConfigData)) {
+            if (_instances.Count > 0) {
+                foreach (var widget in _instances.Values) {
+                    RemoveWidget(widget.Id);
+                }
+            }
+            return;
+        }
 
         string json = Decode(WidgetConfigData);
         var    data = JsonConvert.DeserializeObject<Dictionary<string, WidgetConfigStruct>>(json);
@@ -54,6 +62,13 @@ internal partial class WidgetManager
 
             _widgetState[guid] = config;
             CreateWidget(config.Name, config.Location, config.SortIndex, guid, config.Config, false);
+        }
+
+        // Dispose of any widgets that were not loaded in the config.
+        foreach (var widget in _instances.Values) {
+            if (_widgetState.Keys.All(guid => guid != widget.Id)) {
+                RemoveWidget(widget.Id);
+            }
         }
 
         _isLoadingState = false;

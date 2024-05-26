@@ -30,7 +30,7 @@ internal class ToolbarStyles
                     Padding     = new(0, 6),
                     BorderColor = new(new("Toolbar.Border")),
                     ShadowSize  = new(64),
-                    ShadowInset = 4,
+                    ShadowInset = 2,
                 }
             ),
             new(
@@ -45,6 +45,26 @@ internal class ToolbarStyles
                 new() {
                     Anchor             = Anchor.BottomCenter,
                     BackgroundGradient = GradientColor.Vertical(new("Toolbar.Background1"), new("Toolbar.Background2")),
+                }
+            ),
+            new(
+                ".toolbar:top:blur",
+                new() {
+                    BorderColor = new(new("Toolbar.InactiveBorder")),
+                    BackgroundGradient = GradientColor.Vertical(
+                        new("Toolbar.InactiveBackground2"),
+                        new("Toolbar.InactiveBackground1")
+                    ),
+                }
+            ),
+            new(
+                ".toolbar:bottom:blur",
+                new() {
+                    BorderColor = new(new("Toolbar.InactiveBorder")),
+                    BackgroundGradient = GradientColor.Vertical(
+                        new("Toolbar.InactiveBackground1"),
+                        new("Toolbar.InactiveBackground2")
+                    ),
                 }
             ),
             new(

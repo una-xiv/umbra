@@ -75,8 +75,9 @@ public sealed partial class VolumeWidgetPopup : WidgetPopup
     protected override void OnOpen()
     {
         foreach (var channel in _channels) {
-            channel.Node.QuerySelector<VerticalSliderNode>(".channel--slider")!.Value =
-                (int)_gameConfig.System.GetUInt(channel.VolumeConfigName);
+            channel.Node.QuerySelector<VerticalSliderNode>(".channel--slider")!.SetValue(
+                (int)_gameConfig.System.GetUInt(channel.VolumeConfigName)
+            );
         }
     }
 

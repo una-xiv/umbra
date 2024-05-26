@@ -63,9 +63,9 @@ internal sealed class UmbraBindings : IDisposable
 
         Node.ScaleFactor = 1.0f;
 
-        #if DEBUG
+        // #if DEBUG
         _windowManager.Present("UmbraSettings", new SettingsWindow());
-        #endif
+        // #endif
     }
 
     public void Dispose()

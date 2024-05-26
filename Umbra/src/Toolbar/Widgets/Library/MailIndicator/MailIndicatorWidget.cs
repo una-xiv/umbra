@@ -28,19 +28,15 @@ public partial class MailIndicatorWidget(
     string?                     guid         = null,
     Dictionary<string, object>? configValues = null
 )
-    : DefaultToolbarWidget(info, guid, configValues)
+    : IconToolbarWidget(info, guid, configValues)
 {
     /// <inheritdoc/>
-    public override WidgetPopup? Popup { get; } = null;
+    public override WidgetPopup? Popup => null;
 
     /// <inheritdoc/>
     protected override void Initialize()
     {
-        Node.QuerySelector("Label")!.Style.Font     = 2; // icons.
-        Node.QuerySelector("LeftIcon")!.Style.Margin = new();
-        Node.QuerySelector("RightIcon")!.Style.Margin = new();
-
-        SetLabel(FontAwesomeIcon.Envelope.ToIconString());
+        SetIcon(FontAwesomeIcon.Envelope);
     }
 
     /// <inheritdoc/>
@@ -48,17 +44,24 @@ public partial class MailIndicatorWidget(
     {
         uint unreadMailCount = GetUnreadMailCount();
 
-        Node.QuerySelector("Label")!.Style.TextOffset = new(0, GetConfigValue<int>("IconYOffset"));
+        SetIconYOffset(GetConfigValue<int>("IconYOffset"));
+        SetGhost(!GetConfigValue<bool>("Decorate"));
+        SetDisabled(unreadMailCount == 0);
 
         Node.Tooltip         = I18N.Translate($"Widget.MailIndicator.Tooltip.{(unreadMailCount == 1 ? "Singular" : "Plural")}", unreadMailCount.ToString());
         Node.Style.IsVisible = GetConfigValue<bool>("AlwaysShow") || (unreadMailCount > 0);
-        SetDisabled(unreadMailCount == 0);
     }
 
     /// <inheritdoc/>
     protected override IEnumerable<IWidgetConfigVariable> GetConfigVariables()
     {
         return [
+            new BooleanWidgetConfigVariable(
+                "Decorate",
+                I18N.Translate("Widget.MailIndicator.Config.Decorate.Name"),
+                I18N.Translate("Widget.MailIndicator.Config.Decorate.Description"),
+                true
+            ),
             new BooleanWidgetConfigVariable(
                 "AlwaysShow",
                 I18N.Translate("Widget.MailIndicator.Config.AlwaysShow.Name"),

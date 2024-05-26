@@ -35,6 +35,9 @@ internal partial class Toolbar
     [ConfigVariable("Toolbar.EnableShadow", "General", "Toolbar")]
     public static bool EnableShadow { get; set; } = true;
 
+    [ConfigVariable("Toolbar.EnableInactiveColors", "General", "Toolbar")]
+    public static bool EnableInactiveColors { get; set; } = false;
+
     [ConfigVariable("Toolbar.ItemSpacing", "General", "Toolbar", min: 1, max: 32)]
     public static int ItemSpacing { get; set; } = 6;
 
