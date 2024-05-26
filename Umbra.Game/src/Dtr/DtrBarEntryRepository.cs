@@ -34,6 +34,11 @@ public class DtrBarEntryRepository(IDtrBar dtrBar) : IDtrBarEntryRepository
     public bool Has(string name) => _entries.ContainsKey(name);
     public DtrBarEntry? Get(string name) => _entries.GetValueOrDefault(name);
 
+    public IEnumerable<DtrBarEntry> GetEntries()
+    {
+        return _entries.Values;
+    }
+
     [OnTick(interval: 24)]
     internal void OnTick()
     {

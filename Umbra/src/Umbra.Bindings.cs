@@ -19,20 +19,28 @@ using System.Linq;
 using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.Plugin.Services;
 using Umbra.Common;
-using Umbra.Interface;
-using Umbra.Toolbar;
+using Umbra.Windows;
+using Umbra.Windows.Clipping;
+using Umbra.Windows.Oobe;
 using Umbra.Windows.Settings;
+using Una.Drawing;
 
 namespace Umbra;
 
 [Service]
 internal sealed class UmbraBindings : IDisposable
 {
+    [ConfigVariable("General.UiScale", "General", null, 50, 250)]
+    public static int UiScale { get; set; } = 100;
+
+    [ConfigVariable("IsFirstTimeStart")]
+    public static bool IsFirstTimeStart { get; set; } = true;
+
     private readonly IChatGui        _chatGui;
     private readonly ICommandManager _commandManager;
     private readonly WindowManager   _windowManager;
 
-    public UmbraBindings(IChatGui chatGui, ICommandManager commandManager, WindowManager windowManager, ToolbarLayout _)
+    public UmbraBindings(IChatGui chatGui, ICommandManager commandManager, WindowManager windowManager)
     {
         _chatGui        = chatGui;
         _commandManager = commandManager;
@@ -54,12 +62,18 @@ internal sealed class UmbraBindings : IDisposable
             }
         );
 
-        Framework.DalamudPlugin.UiBuilder.OpenConfigUi += () => _windowManager.CreateWindow<SettingsWindow>();
-        Framework.DalamudPlugin.UiBuilder.OpenMainUi   += () => _windowManager.CreateWindow<SettingsWindow>();
+        Framework.DalamudPlugin.UiBuilder.OpenConfigUi += () => _windowManager.Present("UmbraSettings", new SettingsWindow());
+        Framework.DalamudPlugin.UiBuilder.OpenMainUi   += () => _windowManager.Present("UmbraSettings", new SettingsWindow());
+
+        Node.ScaleFactor = 1.0f;
 
         #if DEBUG
-        _windowManager.CreateWindow<SettingsWindow>();
+        //_windowManager.Present("UmbraSettings", new SettingsWindow());
         #endif
+
+        if (IsFirstTimeStart) {
+            _windowManager.Present("OOBE", new OobeWindow());
+        }
     }
 
     public void Dispose()
@@ -68,11 +82,17 @@ internal sealed class UmbraBindings : IDisposable
         _commandManager.RemoveHandler("/umbra-toggle");
     }
 
+    [OnTick(interval: 60)]
+    private void OnTick()
+    {
+        Node.ScaleFactor = (float)Math.Round(Math.Clamp(UiScale / 100f, 0.5f, 3.0f), 2);
+    }
+
     private void HandleUmbraCommand(string command, string args)
     {
         switch (command.ToLower()) {
             case "/umbra":
-                _windowManager.CreateWindow<SettingsWindow>();
+                _windowManager.Present("UmbraSettings", new SettingsWindow());
                 break;
             case "/umbra-toggle":
                 string arg  = args.Trim();

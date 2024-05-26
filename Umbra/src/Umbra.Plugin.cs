@@ -19,6 +19,8 @@ using Dalamud.IoC;
 using Dalamud.Plugin;
 using Dalamud.Plugin.Services;
 using Umbra.Common;
+using Una.Drawing;
+using Logger = Umbra.Common.Logger;
 
 namespace Umbra;
 
@@ -38,6 +40,8 @@ internal sealed class Plugin : IDalamudPlugin
         PluginInterface = plugin;
         plugin.Inject(this);
 
+        DrawingLib.Setup(plugin);
+
         RegisterServices();
 
         ClientState.Login  += OnLogin;
@@ -52,12 +56,14 @@ internal sealed class Plugin : IDalamudPlugin
 
         ClientState.Login  -= OnLogin;
         ClientState.Logout -= OnLogout;
+
+        DrawingLib.Dispose();
     }
 
     private void OnLogin()
     {
         Framework
-            .Compile(DalamudFramework, PluginInterface)
+            .Compile(DalamudFramework, PluginInterface, ClientState.LocalContentId)
             .ContinueWith(
                 task => {
                     if (task.IsFaulted) {
@@ -77,9 +83,7 @@ internal sealed class Plugin : IDalamudPlugin
     private void RegisterServices()
     {
         Framework.AddLogTarget(new DefaultLogTarget(PluginLog, ChatGui));
-
         Framework.RegisterAssembly(Assembly.GetExecutingAssembly());
         Framework.RegisterAssembly(typeof(Game.EntryPoint).Assembly);
-        Framework.RegisterAssembly(typeof(Interface.EntryPoint).Assembly);
     }
 }

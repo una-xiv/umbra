@@ -8,23 +8,36 @@
         "resolved": "2.1.12",
         "contentHash": "Sc0PVxvgg4NQjcI8n10/VfUQBAS4O+Fw2pZrAqBdRMbthYGeogzu5+xmIGCGmsEZ/ukMOBuAqiNiB5qA3MRalg=="
       },
-      "SixLabors.Fonts": {
+      "Microsoft.Win32.SystemEvents": {
         "type": "Transitive",
-        "resolved": "2.0.1",
-        "contentHash": "ubgkOt7Eb5garmLMigeWAAAMyZF6JWuT09RApHouncPZeML2nRJahm2JJUkw3HLB+XbYJfBfOTCMvbsdCO5LDw=="
+        "resolved": "8.0.0",
+        "contentHash": "9opKRyOKMCi2xJ7Bj7kxtZ1r9vbzosMvRrdEhVhDz8j8MoBGgB+WmC94yH839NPH+BclAjtQ/pyagvi/8gDLkw=="
       },
-      "SixLabors.ImageSharp": {
+      "SkiaSharp": {
         "type": "Transitive",
-        "resolved": "3.1.4",
-        "contentHash": "lFIdxgGDA5iYkUMRFOze7BGLcdpoLFbR+a20kc1W7NepvzU7ejtxtWOg9RvgG7kb9tBoJ3ONYOK6kLil/dgF1w=="
-      },
-      "SixLabors.ImageSharp.Drawing": {
-        "type": "Transitive",
-        "resolved": "2.1.2",
-        "contentHash": "03G6/1Vp6x1aVns5/bSs1gJ027Essfp4ijT1CFstYdc0yUax9M+m3swcSthiDeEJkRL1SFA/oPRDpBBBe2K7SQ==",
+        "resolved": "3.0.0-preview.3.1",
+        "contentHash": "msnZ1Z6XFlPzCFBvr7aM8i28NLucgvYqjpsHDWerptLeeU390Y+GTNcupQ9wSvu/t8p0t77x0FJbiiaXbVmTwA==",
         "dependencies": {
-          "SixLabors.Fonts": "2.0.1",
-          "SixLabors.ImageSharp": "3.1.3"
+          "SkiaSharp.NativeAssets.Win32": "3.0.0-preview.3.1",
+          "SkiaSharp.NativeAssets.macOS": "3.0.0-preview.3.1"
+        }
+      },
+      "SkiaSharp.NativeAssets.macOS": {
+        "type": "Transitive",
+        "resolved": "3.0.0-preview.3.1",
+        "contentHash": "bsvo75mbE5f4XefR3jGazRtKUb727knkpt0jVK3pAQayOJTcavKhOW+2wtMn24dGda2Yiu4dlbjYRQeVjCyD5Q=="
+      },
+      "SkiaSharp.NativeAssets.Win32": {
+        "type": "Transitive",
+        "resolved": "3.0.0-preview.3.1",
+        "contentHash": "GxeVii9xXqjoRp43uKyXrBqEfxpyEvrMAIEerYsK2aLIN3JltD1ZkyMu9o0b6EP9tIVRudpuAGoPntAJEoYiDg=="
+      },
+      "System.Drawing.Common": {
+        "type": "Transitive",
+        "resolved": "8.0.5",
+        "contentHash": "n55wb6rL8YG254AG+SfQOSQencrcnpKAAcYyEcvBuO2pob7ltXuZ5skBBdvLJOLVPKd1Ya8+8ColIM5AtBo5ww==",
+        "dependencies": {
+          "Microsoft.Win32.SystemEvents": "8.0.0"
         }
       },
       "umbra.common": {
@@ -36,12 +49,11 @@
           "Umbra.Common": "[1.0.0, )"
         }
       },
-      "umbra.interface": {
+      "una.drawing": {
         "type": "Project",
         "dependencies": {
-          "SixLabors.ImageSharp": "[3.1.4, )",
-          "SixLabors.ImageSharp.Drawing": "[2.1.2, )",
-          "Umbra.Common": "[1.0.0, )"
+          "SkiaSharp": "[3.0.0-preview.3.1, )",
+          "System.Drawing.Common": "[8.0.5, )"
         }
       }
     }

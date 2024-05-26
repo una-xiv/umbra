@@ -24,4 +24,6 @@ public interface IGameCamera
     Vector3 CameraPosition { get; }
     float   CameraAzimuth  { get; }
     float   CameraAltitude { get; }
+
+    bool WorldToScreen(Vector3 worldPosition, out Vector2 screenPosition);
 }

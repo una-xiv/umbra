@@ -18,6 +18,7 @@ using System;
 using System.Numerics;
 using System.Runtime.InteropServices;
 using Dalamud.Game;
+using Dalamud.Plugin.Services;
 using Umbra.Common;
 
 namespace Umbra.Game;
@@ -39,8 +40,11 @@ internal sealed class GameCamera : IGameCamera, IDisposable
 
     private nint _engineCoreSingleton;
 
-    public GameCamera(ISigScanner sigScanner)
+    private readonly IGameGui _gameGui;
+
+    public GameCamera(ISigScanner sigScanner, IGameGui gameGui)
     {
+        _gameGui = gameGui;
         _engineCoreSingleton = Marshal.GetDelegateForFunctionPointer<GetEngineCoreSingletonDelegate>(
             sigScanner.ScanText("E8 ?? ?? ?? ?? 48 8D 4C 24 ?? 48 89 4C 24 ?? 4C 8D 4D ?? 4C 8D 44 24 ??")
         )();
@@ -66,6 +70,11 @@ internal sealed class GameCamera : IGameCamera, IDisposable
         CameraAltitude    = MathF.Asin(ViewMatrix.M32);
         ViewportSize      = ReadVec2(_engineCoreSingleton + 0x1F4);
         CameraPosition    = new(CameraWorldMatrix.M41, CameraWorldMatrix.M42, CameraWorldMatrix.M43);
+    }
+
+    public bool WorldToScreen(Vector3 worldPosition, out Vector2 screenPosition)
+    {
+        return _gameGui.WorldToScreen(worldPosition, out screenPosition);
     }
 
     private static unsafe Matrix4x4 ReadMatrix(nint address)
@@ -125,116 +134,116 @@ internal sealed class GameCamera : IGameCamera, IDisposable
         var inv = new float[16];
 
         inv[0] = m[5] * m[10] * m[15]
-          - m[5]      * m[11] * m[14]
-          - m[9]      * m[6]  * m[15]
-          + m[9]  * m[7] * m[14]
-          + m[13] * m[6] * m[11]
-          - m[13] * m[7] * m[10];
+            - m[5] * m[11] * m[14]
+            - m[9] * m[6] * m[15]
+            + m[9] * m[7] * m[14]
+            + m[13] * m[6] * m[11]
+            - m[13] * m[7] * m[10];
 
         inv[4] = -m[4] * m[10] * m[15]
-          + m[4]       * m[11] * m[14]
-          + m[8]       * m[6]  * m[15]
-          - m[8]  * m[7] * m[14]
-          - m[12] * m[6] * m[11]
-          + m[12] * m[7] * m[10];
+            + m[4] * m[11] * m[14]
+            + m[8] * m[6] * m[15]
+            - m[8] * m[7] * m[14]
+            - m[12] * m[6] * m[11]
+            + m[12] * m[7] * m[10];
 
-        inv[8] = m[4] * m[9]  * m[15]
-          - m[4]      * m[11] * m[13]
-          - m[8]      * m[5]  * m[15]
-          + m[8]  * m[7] * m[13]
-          + m[12] * m[5] * m[11]
-          - m[12] * m[7] * m[9];
+        inv[8] = m[4] * m[9] * m[15]
+            - m[4] * m[11] * m[13]
+            - m[8] * m[5] * m[15]
+            + m[8] * m[7] * m[13]
+            + m[12] * m[5] * m[11]
+            - m[12] * m[7] * m[9];
 
-        inv[12] = -m[4] * m[9]  * m[14]
-          + m[4]        * m[10] * m[13]
-          + m[8]        * m[5]  * m[14]
-          - m[8]  * m[6] * m[13]
-          - m[12] * m[5] * m[10]
-          + m[12] * m[6] * m[9];
+        inv[12] = -m[4] * m[9] * m[14]
+            + m[4] * m[10] * m[13]
+            + m[8] * m[5] * m[14]
+            - m[8] * m[6] * m[13]
+            - m[12] * m[5] * m[10]
+            + m[12] * m[6] * m[9];
 
         inv[1] = -m[1] * m[10] * m[15]
-          + m[1]       * m[11] * m[14]
-          + m[9]       * m[2]  * m[15]
-          - m[9]  * m[3] * m[14]
-          - m[13] * m[2] * m[11]
-          + m[13] * m[3] * m[10];
+            + m[1] * m[11] * m[14]
+            + m[9] * m[2] * m[15]
+            - m[9] * m[3] * m[14]
+            - m[13] * m[2] * m[11]
+            + m[13] * m[3] * m[10];
 
         inv[5] = m[0] * m[10] * m[15]
-          - m[0]      * m[11] * m[14]
-          - m[8]      * m[2]  * m[15]
-          + m[8]  * m[3] * m[14]
-          + m[12] * m[2] * m[11]
-          - m[12] * m[3] * m[10];
+            - m[0] * m[11] * m[14]
+            - m[8] * m[2] * m[15]
+            + m[8] * m[3] * m[14]
+            + m[12] * m[2] * m[11]
+            - m[12] * m[3] * m[10];
 
-        inv[9] = -m[0] * m[9]  * m[15]
-          + m[0]       * m[11] * m[13]
-          + m[8]       * m[1]  * m[15]
-          - m[8]  * m[3] * m[13]
-          - m[12] * m[1] * m[11]
-          + m[12] * m[3] * m[9];
+        inv[9] = -m[0] * m[9] * m[15]
+            + m[0] * m[11] * m[13]
+            + m[8] * m[1] * m[15]
+            - m[8] * m[3] * m[13]
+            - m[12] * m[1] * m[11]
+            + m[12] * m[3] * m[9];
 
-        inv[13] = m[0] * m[9]  * m[14]
-          - m[0]       * m[10] * m[13]
-          - m[8]       * m[1]  * m[14]
-          + m[8]  * m[2] * m[13]
-          + m[12] * m[1] * m[10]
-          - m[12] * m[2] * m[9];
+        inv[13] = m[0] * m[9] * m[14]
+            - m[0] * m[10] * m[13]
+            - m[8] * m[1] * m[14]
+            + m[8] * m[2] * m[13]
+            + m[12] * m[1] * m[10]
+            - m[12] * m[2] * m[9];
 
         inv[2] = m[1] * m[6] * m[15]
-          - m[1]      * m[7] * m[14]
-          - m[5]      * m[2] * m[15]
-          + m[5]  * m[3] * m[14]
-          + m[13] * m[2] * m[7]
-          - m[13] * m[3] * m[6];
+            - m[1] * m[7] * m[14]
+            - m[5] * m[2] * m[15]
+            + m[5] * m[3] * m[14]
+            + m[13] * m[2] * m[7]
+            - m[13] * m[3] * m[6];
 
         inv[6] = -m[0] * m[6] * m[15]
-          + m[0]       * m[7] * m[14]
-          + m[4]       * m[2] * m[15]
-          - m[4]  * m[3] * m[14]
-          - m[12] * m[2] * m[7]
-          + m[12] * m[3] * m[6];
+            + m[0] * m[7] * m[14]
+            + m[4] * m[2] * m[15]
+            - m[4] * m[3] * m[14]
+            - m[12] * m[2] * m[7]
+            + m[12] * m[3] * m[6];
 
         inv[10] = m[0] * m[5] * m[15]
-          - m[0]       * m[7] * m[13]
-          - m[4]       * m[1] * m[15]
-          + m[4]  * m[3] * m[13]
-          + m[12] * m[1] * m[7]
-          - m[12] * m[3] * m[5];
+            - m[0] * m[7] * m[13]
+            - m[4] * m[1] * m[15]
+            + m[4] * m[3] * m[13]
+            + m[12] * m[1] * m[7]
+            - m[12] * m[3] * m[5];
 
         inv[14] = -m[0] * m[5] * m[14]
-          + m[0]        * m[6] * m[13]
-          + m[4]        * m[1] * m[14]
-          - m[4]  * m[2] * m[13]
-          - m[12] * m[1] * m[6]
-          + m[12] * m[2] * m[5];
+            + m[0] * m[6] * m[13]
+            + m[4] * m[1] * m[14]
+            - m[4] * m[2] * m[13]
+            - m[12] * m[1] * m[6]
+            + m[12] * m[2] * m[5];
 
         inv[3] = -m[1] * m[6] * m[11]
-          + m[1]       * m[7] * m[10]
-          + m[5]       * m[2] * m[11]
-          - m[5] * m[3] * m[10]
-          - m[9] * m[2] * m[7]
-          + m[9] * m[3] * m[6];
+            + m[1] * m[7] * m[10]
+            + m[5] * m[2] * m[11]
+            - m[5] * m[3] * m[10]
+            - m[9] * m[2] * m[7]
+            + m[9] * m[3] * m[6];
 
         inv[7] = m[0] * m[6] * m[11]
-          - m[0]      * m[7] * m[10]
-          - m[4]      * m[2] * m[11]
-          + m[4] * m[3] * m[10]
-          + m[8] * m[2] * m[7]
-          - m[8] * m[3] * m[6];
+            - m[0] * m[7] * m[10]
+            - m[4] * m[2] * m[11]
+            + m[4] * m[3] * m[10]
+            + m[8] * m[2] * m[7]
+            - m[8] * m[3] * m[6];
 
         inv[11] = -m[0] * m[5] * m[11]
-          + m[0]        * m[7] * m[9]
-          + m[4]        * m[1] * m[11]
-          - m[4] * m[3] * m[9]
-          - m[8] * m[1] * m[7]
-          + m[8] * m[3] * m[5];
+            + m[0] * m[7] * m[9]
+            + m[4] * m[1] * m[11]
+            - m[4] * m[3] * m[9]
+            - m[8] * m[1] * m[7]
+            + m[8] * m[3] * m[5];
 
         inv[15] = m[0] * m[5] * m[10]
-          - m[0]       * m[6] * m[9]
-          - m[4]       * m[1] * m[10]
-          + m[4] * m[2] * m[9]
-          + m[8] * m[1] * m[6]
-          - m[8] * m[2] * m[5];
+            - m[0] * m[6] * m[9]
+            - m[4] * m[1] * m[10]
+            + m[4] * m[2] * m[9]
+            + m[8] * m[1] * m[6]
+            - m[8] * m[2] * m[5];
 
         float det = m[0] * inv[0] + m[1] * inv[4] + m[2] * inv[8] + m[3] * inv[12];
 
@@ -243,16 +252,16 @@ internal sealed class GameCamera : IGameCamera, IDisposable
         det = 1.0f / det;
 
         Matrix4x4 result = new Matrix4x4(
-            inv[0]  * det,
-            inv[1]  * det,
-            inv[2]  * det,
-            inv[3]  * det,
-            inv[4]  * det,
-            inv[5]  * det,
-            inv[6]  * det,
-            inv[7]  * det,
-            inv[8]  * det,
-            inv[9]  * det,
+            inv[0] * det,
+            inv[1] * det,
+            inv[2] * det,
+            inv[3] * det,
+            inv[4] * det,
+            inv[5] * det,
+            inv[6] * det,
+            inv[7] * det,
+            inv[8] * det,
+            inv[9] * det,
             inv[10] * det,
             inv[11] * det,
             inv[12] * det,

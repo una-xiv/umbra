@@ -25,9 +25,19 @@ public interface ICompanionManager
     public string CompanionName { get; }
 
     /// <summary>
+    /// True if the player has Gysahl Greens in their inventory.
+    /// </summary>
+    public bool HasGysahlGreens { get; }
+
+    /// <summary>
     /// The amount of time left before the companion is automatically dismissed.
     /// </summary>
     public float TimeLeft { get; }
+
+    /// <summary>
+    /// Returns the time left as a formatted string.
+    /// </summary>
+    public string TimeLeftString { get; }
 
     /// <summary>
     /// The current level of the companion (max 20).
@@ -53,7 +63,7 @@ public interface ICompanionManager
     /// <summary>
     /// The name of the currently active command.
     /// </summary>
-    public string ActiveCommand { get; }
+    public byte ActiveCommand { get; }
 
     /// <summary>
     /// Whether the companion is currently active and physically present in the world.
@@ -73,6 +83,21 @@ public interface ICompanionManager
     public void Summon();
 
     /// <summary>
+    /// Opens the companion window.
+    /// </summary>
+    public void OpenWindow();
+
+    /// <summary>
+    /// Returns the name of a stance with the given ID.
+    /// </summary>
+    public string GetStanceName(uint id);
+
+    /// <summary>
+    /// Returns the icon ID of a stance with the given ID.
+    /// </summary>
+    public uint GetStanceIcon(uint id);
+
+    /// <summary>
     /// Dismiss the companion.
     /// </summary>
     public void Dismiss();
@@ -80,5 +105,10 @@ public interface ICompanionManager
     /// <summary>
     /// Switch the behavior (active command) of the companion based on its current behavior and unlocked skills.
     /// </summary>
-    public void SwitchBehavior();
+    public void SetStance(uint actionId);
+
+    /// <summary>
+    /// Returns true if the player can switch the behavior of the companion to the given stance.
+    /// </summary>
+    public bool CanSetStance(uint actionId);
 }

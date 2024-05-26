@@ -14,14 +14,13 @@
  *     GNU Affero General Public License for more details.
  */
 
-using Dalamud.Plugin.Services;
 using Umbra.Common;
 using Umbra.Game;
 
 namespace Umbra;
 
 [Service]
-public class UmbraVisibility(IPlayer player)
+internal sealed class UmbraVisibility(IPlayer player)
 {
     [ConfigVariable("General.ShowInCutscenes", "General", "VisibilitySettings")]
     public static bool ShowInCutscenes { get; set; } = false;
