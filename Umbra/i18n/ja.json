@@ -178,6 +178,8 @@
     "Widget.Accessibility.Config.Decorate.Description": "アクセシビリティウィジェットを背景と枠で装飾します。",
     "Widget.Accessibility.Config.TextYOffset.Name": "テキストの垂直オフセット",
     "Widget.Accessibility.Config.TextYOffset.Description": "ピクセル単位でウィジェットの中心からテキストの垂直方向のオフセットです。正の値はテキストを下に、負の値はテキストを上に移動します。",
+    "Widget.Accessibility.Config.IconYOffset.Name": "アイコンの垂直オフセット",
+    "Widget.Accessibility.Config.IconYOffset.Description": "ピクセル単位でウィジェットの中心からメールアイコンの垂直方向のオフセットです。正の値はアイコンを下に、負の値はアイコンを上に移動します。",
     "Widget.BattleEffects.Name": "バトルエフェクト設定",
     "Widget.BattleEffects.Description": "バトルエフェクトの強度や召喚者のペットのサイズを素早く変更するオプションを提供します。",
     "Widget.BattleEffects.Config.Decorate.Name": "ウィジェットの装飾",
