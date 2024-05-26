@@ -32,7 +32,7 @@ public class MenuPopup : WidgetPopup
         Style = new() {
             Flow    = Flow.Vertical,
             Gap     = 6,
-            Padding = new(4),
+            Padding = new(4)
         },
     };
 
