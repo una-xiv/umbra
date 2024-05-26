@@ -56,7 +56,7 @@ public abstract partial class Window
         Vector2 size = ImGui.GetWindowSize() / Node.ScaleFactor;
 
         _windowNode.Style.Size      = new((int)size.X - 2, (int)size.Y - 2);
-        TitlebarNode.Style.Size     = new((int)size.X - 8, 32);
+        TitlebarNode.Style.Size     = new((int)size.X - 7, 32);
         TitlebarTextNode.Style.Size = new((int)size.X - 64, 32);
 
         ContentNode.Style.Size = new((int)size.X - 7, (int)size.Y - 39);

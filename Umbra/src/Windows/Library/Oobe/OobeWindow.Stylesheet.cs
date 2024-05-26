@@ -26,14 +26,14 @@ internal partial class OobeWindow
                 ".oobe",
                 new() {
                     Flow = Flow.Vertical,
-                    Size = new(720, 458),
+                    Size = new(712, 458),
                 }
             ),
             new(
                 ".oobe-header",
                 new() {
                     Flow               = Flow.Horizontal,
-                    Size               = new(720, 94),
+                    Size               = new(712, 94),
                     BackgroundColor    = new("Window.BackgroundLight"),
                     BorderColor        = new(new("Window.AccentColor")),
                     BorderWidth        = new() { Bottom = 1 },
@@ -83,14 +83,14 @@ internal partial class OobeWindow
                 ".oobe-body",
                 new() {
                     Flow = Flow.Vertical,
-                    Size = new(720, 306),
+                    Size = new(712, 306),
                 }
             ),
             new(
                 ".oobe-footer",
                 new() {
                     Flow               = Flow.Horizontal,
-                    Size               = new(720, 60),
+                    Size               = new(712, 60),
                     BackgroundColor    = new("Window.BackgroundLight"),
                     BorderColor        = new(new("Window.Border")),
                     BorderWidth        = new() { Top = 1 },
@@ -127,7 +127,7 @@ internal partial class OobeWindow
                 ".oobe-step",
                 new() {
                     Flow = Flow.Horizontal,
-                    Size = new(720, 306),
+                    Size = new(712, 306),
                     Gap  = 15,
                 }
             ),

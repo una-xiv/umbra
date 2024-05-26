@@ -56,7 +56,7 @@ public static class WindowStyles
                     BorderRadius            = 4,
                     IsAntialiased           = false,
                     RoundedCorners          = RoundedCorners.TopLeft | RoundedCorners.TopRight,
-                    Margin                  = new(1) { Bottom = -1 },
+                    Margin                  = new(1) { Right = -1, Bottom = -1 },
                 }
             ),
             new(
