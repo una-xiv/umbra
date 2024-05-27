@@ -27,6 +27,11 @@ namespace Umbra.Markers.Library;
 
 internal sealed partial class EurekaCoffersMarkerFactory
 {
+    private Dictionary<string, string> GuardTexts { get; } = new() {
+        { "en", "You sense something" },
+        { "de", "Du spürst eine Schatztruhe" }
+    };
+
     private Dictionary<string, string> CarrotTexts { get; } = new() {
         {
             "en",
@@ -76,18 +81,23 @@ internal sealed partial class EurekaCoffersMarkerFactory
             return;
         }
 
-        string                     msg           = message.TextValue.Trim();
+        string msg = message.TextValue.Trim();
+
+        if (!msg.StartsWith(GuardTexts[lang], StringComparison.OrdinalIgnoreCase)) {
+            return;
+        }
+
         string                     carrotPattern = CarrotTexts[lang];
         List<string>               distTexts     = DistanceTexts[lang];
         Dictionary<string, string> dirTexts      = DirectionTexts[lang];
 
-        if (false == msg.StartsWith("You sense something ")) {
+        var result = Regex.Match(msg, carrotPattern, RegexOptions.IgnoreCase);
+
+        if (!result.Success) {
             return;
         }
 
-        var result = Regex.Match(msg, carrotPattern, RegexOptions.IgnoreCase);
-
-        if (!result.Success || dirTexts.ContainsKey(result.Groups["dir"].Value) == false) {
+        if (dirTexts.ContainsKey(result.Groups["dir"].Value) == false) {
             return;
         }
 
