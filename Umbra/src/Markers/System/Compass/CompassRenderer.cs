@@ -151,7 +151,7 @@ internal partial class CompassRenderer(
         Vector3 playerToMarker = Vector3.Normalize(markerPosition - player.Position);
         gameCamera.WorldToScreen(player.Position, out Vector2 playerScreenPosition);
 
-        float distance = MathF.Abs(Vector3.Distance(player.Position, markerPosition)) * 50f;
+        float distance = CompassRadius; // MathF.Abs(Vector3.Distance(player.Position, markerPosition)) * 50f;
 
         var lookAngle    = (float)(Math.Atan2(cameraToPlayer.Z, cameraToPlayer.X) + MathF.PI / 2f);
         var sinLookAngle = (float)Math.Sin(lookAngle);
@@ -164,7 +164,7 @@ internal partial class CompassRenderer(
         );
 
         Vector2 projectedDirection =
-            new Vector2(transformedMarkerDirection.X, transformedMarkerDirection.Z).Normalize();
+            new Vector2(transformedMarkerDirection.X, transformedMarkerDirection.Z);
 
         Vector2 screenPosition = playerScreenPosition + (projectedDirection * MathF.Min(distance, CompassRadius));
 
