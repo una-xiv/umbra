@@ -24,7 +24,7 @@
     "WeatherForecast.AnHour": "an hour",
     "WeatherForecast.XHours": "{0} hours",
     "Markers.EurekaCoffers.Name": "Eureka Bunny Coffers",
-    "Markers.EurekaCoffers.Description": "Shows world markers for the Bunny Coffers in the Eureka zones after you've used the Lucky Carrot item. Please note that this feature currently only works for English game clients.",
+    "Markers.EurekaCoffers.Description": "Shows world markers for the Bunny Coffers in the Eureka zones after you've used the Lucky Carrot item.",
     "Markers.EurekaCoffers.EnableMapMarkers.Name": "Enable map markers for detected coffers",
     "Markers.EurekaCoffers.EnableMapMarkers.Description": "Adds map markers for detected Eureka Bunny Coffer locations. Note that this feature is unavailable if the Eureka Linker plugin is also installed and enabled, since it also provides similar functionality.",
     "Markers.Fate.Name": "FATE Markers",
