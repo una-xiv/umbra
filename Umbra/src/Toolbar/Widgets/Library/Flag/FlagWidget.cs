@@ -53,7 +53,7 @@ public sealed unsafe partial class FlagWidget(
             return;
         }
 
-        SetDisabled(!Player.CanUseTeleportAction);
+        SetDisabled(Player is { IsBoundByDuty: false, CanUseTeleportAction: false });
         UpdateWidgetInfoState();
 
         LeftIconNode.Style.ImageGrayscale  = null == _aetheryteEntry;

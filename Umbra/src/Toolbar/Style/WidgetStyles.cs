@@ -126,7 +126,7 @@ internal class WidgetStyles
             new(
                 "Label:disabled",
                 new() {
-                    Color        = new("Widget.TextDisabled"),
+                    Color = new("Widget.TextDisabled"),
                 }
             ),
             new(
@@ -147,7 +147,7 @@ internal class WidgetStyles
             new(
                 "TopLabel:disabled",
                 new() {
-                    Color        = new("Widget.TextDisabled"),
+                    Color = new("Widget.TextDisabled"),
                 }
             ),
             new(
@@ -169,7 +169,7 @@ internal class WidgetStyles
             new(
                 "BottomLabel:disabled",
                 new() {
-                    Color        = new("Widget.TextDisabled"),
+                    Color = new("Widget.TextDisabled"),
                 }
             ),
         ]
@@ -249,6 +249,7 @@ internal class WidgetStyles
                     TextOffset   = new(0, -1),
                     Color        = new("Widget.Text"),
                     OutlineColor = new("Widget.TextOutline"),
+                    OutlineSize  = 1,
                 }
             ),
         ]

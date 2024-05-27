@@ -113,6 +113,7 @@ internal sealed partial class EurekaCoffersMarkerFactory : WorldMarkerFactory
             _detectedCofferPositions.Clear();
             RemoveAllMarkers();
             GetBunnyFateSpawnMarker();
+            ResetMapMarkers();
             return;
         }
 
