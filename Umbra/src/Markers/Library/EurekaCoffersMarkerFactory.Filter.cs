@@ -30,7 +30,8 @@ internal sealed partial class EurekaCoffersMarkerFactory
     private Dictionary<string, string> GuardTexts { get; } = new() {
         { "en", "You sense something" },
         { "de", "Du spürst eine Schatztruhe" },
-        { "fr", "Le trésor est" }
+        { "fr", "Le trésor est" },
+        { "ja", "財宝の気配を" }
     };
 
     private Dictionary<string, string> CarrotTexts { get; } = new() {
@@ -43,13 +44,17 @@ internal sealed partial class EurekaCoffersMarkerFactory
         }, {
             "fr",
             @"Le trésor est\s*(?<dist>très loin|assez loin|non loin|tout près)\s*d'ici,\s*(?<dir>.+)!"
+        }, {
+            "ja",
+            @"財宝の気配を、(?<dir>北|北東|東|南東|南|南西|西|北西)方向の\s*(?<dist>(とても遠く|遠く))?から感じているようだ(。|……|！)?"
         }
     };
 
     private Dictionary<string, List<string>> DistanceTexts { get; } = new() {
         { "en", ["far", "far, far"] },
         { "de", ["weit", "sehr weit"] },
-        { "fr", ["assez loin", "très loin"] }
+        { "fr", ["assez loin", "très loin"] },
+        { "ja", ["遠く", "とても遠く"] }
     };
 
     private Dictionary<string, Dictionary<string, string>> DirectionTexts { get; } = new() {
@@ -75,8 +80,7 @@ internal sealed partial class EurekaCoffersMarkerFactory
                 { "westlich", "west" },
                 { "nordwestlich", "northwest" }
             }
-        },
-        {
+        }, {
             "fr", new() {
                 { "au nord", "north" },
                 { "au nord-est", "northeast" },
@@ -86,6 +90,17 @@ internal sealed partial class EurekaCoffersMarkerFactory
                 { "au sud-ouest", "southwest" },
                 { "à l'ouest", "west" },
                 { "au nord-ouest", "northwest" }
+            }
+        }, {
+            "ja", new() {
+                { "北", "north" },
+                { "北東", "northeast" },
+                { "東", "east" },
+                { "南東", "southeast" },
+                { "南", "south" },
+                { "南西", "southwest" },
+                { "西", "west" },
+                { "北西", "northwest" }
             }
         }
     };
