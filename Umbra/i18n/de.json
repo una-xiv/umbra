@@ -218,7 +218,7 @@
     "Widget.Clock.Config.PrefixText.Description": "Text, der vor der Uhrzeit angezeigt wird. Dies kann verwendet werden, um der Uhr eine Beschriftung hinzuzufügen, zum Beispiel: 'LT', 'ST' oder 'ET'.",
     "Widget.Clock.Config.TimeSource.Name": "Zeitquelle",
     "Widget.Clock.Config.TimeSource.Description": "Die Quelle der Zeit, die auf der Uhr angezeigt wird.",
-    "Widget.Clock.Config.TimeSource.LT": "Lokale Zeit",
+    "Widget.Clock.Config.TimeSource.LT": "Ortszeit",
     "Widget.Clock.Config.TimeSource.ST": "Serverzeit",
     "Widget.Clock.Config.TimeSource.ET": "Eorzea-Zeit",
     "Widget.Clock.Config.AmLabel.Name": "AM-Label",
