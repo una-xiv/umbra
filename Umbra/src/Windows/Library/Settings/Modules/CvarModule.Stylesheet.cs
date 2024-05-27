@@ -64,6 +64,7 @@ public partial class CvarModule
                 new() {
                     Font       = 2,
                     FontSize   = 16,
+                    Padding    = new(2, 0),
                     Color      = new("Window.Text"),
                     Anchor     = Anchor.MiddleLeft,
                     TextAlign  = Anchor.MiddleLeft,
@@ -81,11 +82,13 @@ public partial class CvarModule
             new(
                 ".cvar-subcategory--label",
                 new() {
-                    Color     = new("Window.Text"),
-                    FontSize  = 16,
-                    Anchor    = Anchor.MiddleLeft,
-                    TextAlign = Anchor.MiddleLeft,
-                    Padding   = new() { Right = 100 },
+                    Color        = new("Window.Text"),
+                    OutlineColor = new("Window.TextOutline"),
+                    OutlineSize  = 1,
+                    FontSize     = 16,
+                    Anchor       = Anchor.MiddleLeft,
+                    TextAlign    = Anchor.MiddleLeft,
+                    Padding      = new() { Right = 100 },
                 }
             ),
             new(

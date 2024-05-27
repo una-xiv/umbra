@@ -15,45 +15,98 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using System.Text.RegularExpressions;
 using Dalamud.Game.Text;
 using Dalamud.Game.Text.SeStringHandling;
+using Umbra.Common;
 
 namespace Umbra.Markers.Library;
 
 internal sealed partial class EurekaCoffersMarkerFactory
 {
+    private Dictionary<string, string> CarrotTexts { get; } = new() {
+        {
+            "en",
+            @"You sense something\s*(?<dist>far(?:,\s*far)?)?(?:\s*immediately)?\s*to the (?<dir>\w+)\."
+        }, {
+            "de",
+            @"Du spürst eine Schatztruhe\s*(?<dist>(sehr weit|weit|sehr nah))?\s*(?<dir>nördlich|nordöstlich|östlich|südöstlich|südlich|südwestlich|westlich|nordwestlich)\s*von dir!"
+        },
+    };
+
+    private Dictionary<string, List<string>> DistanceTexts { get; } = new() {
+        { "en", ["far", "far, far"] },
+        { "de", ["weit", "sehr weit"] }
+    };
+
+    private Dictionary<string, Dictionary<string, string>> DirectionTexts { get; } = new() {
+        {
+            "en", new() {
+                { "north", "north" },
+                { "northeast", "northeast" },
+                { "east", "east" },
+                { "southeast", "southeast" },
+                { "south", "south" },
+                { "southwest", "southwest" },
+                { "west", "west" },
+                { "northwest", "northwest" }
+            }
+        }, {
+            "de", new() {
+                { "nördlich", "north" },
+                { "nordöstlich", "northeast" },
+                { "östlich", "east" },
+                { "südöstlich", "southeast" },
+                { "südlich", "south" },
+                { "südwestlich", "southwest" },
+                { "westlich", "west" },
+                { "nordwestlich", "northwest" }
+            }
+        }
+    };
+
     private void OnChatMessage(XivChatType type, uint senderId, SeString sender, SeString message)
     {
-        string msg = message.TextValue.Trim();
+        string lang = I18N.GetCurrentLanguage();
+
+        if (false == CarrotTexts.ContainsKey(lang)) {
+            return;
+        }
+
+        string                     msg           = message.TextValue.Trim();
+        string                     carrotPattern = CarrotTexts[lang];
+        List<string>               distTexts     = DistanceTexts[lang];
+        Dictionary<string, string> dirTexts      = DirectionTexts[lang];
 
         if (false == msg.StartsWith("You sense something ")) {
             return;
         }
 
-        var pattern = @"You sense something\s*(?<dist>far(?:,\s*far)?)?(?:\s*immediately)?\s*to the (?<dir>\w+)\.";
-        var    result  = Regex.Match(msg, pattern, RegexOptions.IgnoreCase);
+        var result = Regex.Match(msg, carrotPattern, RegexOptions.IgnoreCase);
 
-        if (!result.Success) {
+        if (!result.Success || dirTexts.ContainsKey(result.Groups["dir"].Value) == false) {
             return;
         }
 
-        string direction   = result.Groups["dir"].Value;
-        string distanceTxt = result.Groups["dist"].Value;
+        string direction = dirTexts[result.Groups["dir"].Value];
+        string distanceT = result.Groups["dist"].Value;
 
-        int minDistance = distanceTxt switch {
-            "far"      => 100,
-            "far, far" => 200,
-            _          => 0
-        };
+        int minDistance;
+        int maxDistance;
 
-        int maxDistance = distanceTxt switch {
-            "far"      => 200,
-            "far, far" => int.MaxValue,
-            _          => 100
-        };
+        if (distanceT == distTexts[0]) {
+            minDistance = 100;
+            maxDistance = 200;
+        } else if (distanceT == distTexts[1]) {
+            minDistance = 200;
+            maxDistance = int.MaxValue;
+        } else {
+            minDistance = 0;
+            maxDistance = 100;
+        }
 
         var playerPos       = _player.Position;
         var cofferPositions = CofferPositions[_zoneManager.CurrentZone.TerritoryId];
