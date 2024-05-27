@@ -25,7 +25,7 @@ using Una.Drawing;
 
 namespace Umbra.Windows.Settings.Modules;
 
-public partial class AppearanceModule : SettingsModule
+public partial class AppearanceModule
 {
     private readonly Dictionary<string, Node>           _categoryNodes = [];
     private readonly Dictionary<string, ColorInputNode> _colorPickers  = [];
@@ -37,6 +37,11 @@ public partial class AppearanceModule : SettingsModule
     private readonly ButtonNode _applyButton = new(
         "ApplyButton",
         I18N.Translate("Settings.AppearanceModule.ColorProfiles.ApplyProfile", "")
+    );
+
+    private readonly ButtonNode _resetButton = new(
+        "ResetButton",
+        I18N.Translate("Settings.AppearanceModule.ColorProfiles.ResetProfile", "")
     );
 
     private readonly ButtonNode _deleteButton = new(
@@ -92,7 +97,7 @@ public partial class AppearanceModule : SettingsModule
         ColorProfilesPanel.AppendChild(
             new() {
                 ClassList  = ["appearance-button-row"],
-                ChildNodes = [_applyButton, _deleteButton, _exportButton]
+                ChildNodes = [_applyButton, _deleteButton, _resetButton, _exportButton]
             }
         );
 
@@ -115,6 +120,8 @@ public partial class AppearanceModule : SettingsModule
             _activeProfileNode.Value = UmbraColors.GetCurrentProfileName();
             _selectedProfile         = UmbraColors.GetCurrentProfileName();
         };
+
+        _resetButton.OnMouseUp += _ => UmbraColors.RegisterDefaultColors();
 
         _createButton.OnMouseUp += _ => {
             UmbraColors.Save(_newProfileName);

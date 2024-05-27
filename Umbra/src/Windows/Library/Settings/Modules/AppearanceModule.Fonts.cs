@@ -14,10 +14,7 @@
  *     GNU Affero General Public License for more details.
  */
 
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using SkiaSharp;
 using Umbra.Common;
 using Umbra.Windows.Components;
 using Una.Drawing;
@@ -84,7 +81,7 @@ public partial class AppearanceModule : SettingsModule
         );
 
         FloatInputNode sizeSelect = new(
-            id + "Size",
+            $"{id}Size",
             ConfigManager.Get<float>(cvarSize),
             -10,
             10,
