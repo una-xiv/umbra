@@ -50,6 +50,8 @@ internal class UmbraColors
         _debounceTimer.Elapsed += (_, _) => Save();
 
         Apply(ColorProfileName);
+
+        ConfigManager.CurrentProfileChanged += _ => Apply(ColorProfileName);
     }
 
     [WhenFrameworkDisposing]
