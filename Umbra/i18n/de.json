@@ -65,6 +65,7 @@
     "Settings.AppearanceModule.ColorProfiles.SelectedProfile.Description": "Das derzeit aktive Farbprofil. Ihr aktives Profil ist: {0}",
     "Settings.AppearanceModule.ColorProfiles.ApplyProfile": "{0} anwenden",
     "Settings.AppearanceModule.ColorProfiles.DeleteProfile": "{0} löschen",
+    "Settings.AppearanceModule.ColorProfiles.ResetProfile": "Auf Standard zurücksetzen",
     "Settings.AppearanceModule.ColorProfiles.NewProfileName.Name": "Neuer Profilname",
     "Settings.AppearanceModule.ColorProfiles.NewProfileName.Description": "Ein eindeutiger Name zur Beschreibung eines neuen Farbprofils. Verwenden Sie die Schaltfläche 'Erstellen', um ein neues Profil mit dem angegebenen Namen zu erstellen. Das neue Profil basiert auf dem derzeit aktiven Profil.",
     "Settings.AppearanceModule.ColorProfiles.CreateProfile": "Neues Profil erstellen",

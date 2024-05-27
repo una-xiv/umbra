@@ -65,6 +65,7 @@
     "Settings.AppearanceModule.ColorProfiles.SelectedProfile.Description": "Le profil de couleur actuellement actif. Votre profil actif est : {0}",
     "Settings.AppearanceModule.ColorProfiles.ApplyProfile": "Appliquer {0}",
     "Settings.AppearanceModule.ColorProfiles.DeleteProfile": "Supprimer {0}",
+    "Settings.AppearanceModule.ColorProfiles.ResetProfile": "Réinitialiser par défaut",
     "Settings.AppearanceModule.ColorProfiles.NewProfileName.Name": "Nom du nouveau profil",
     "Settings.AppearanceModule.ColorProfiles.NewProfileName.Description": "Un nom unique pour décrire un nouveau profil de couleur. Utilisez le bouton de création pour créer un nouveau profil avec le nom donné. Le nouveau profil sera basé sur le profil actuellement actif.",
     "Settings.AppearanceModule.ColorProfiles.CreateProfile": "Créer un nouveau profil",

@@ -37,11 +37,15 @@ public partial class AppearanceModule : SettingsModule
     public override void OnOpen()
     {
         UmbraColors.OnColorProfileChanged += OnColorProfileChanged;
+        ConfigManager.CurrentProfileChanged += OnConfigProfileChanged;
+
+        OnConfigProfileChanged("");
     }
 
     public override void OnClose()
     {
         UmbraColors.OnColorProfileChanged -= OnColorProfileChanged;
+        ConfigManager.CurrentProfileChanged -= OnConfigProfileChanged;
     }
 
     public override void OnUpdate()
@@ -55,5 +59,30 @@ public partial class AppearanceModule : SettingsModule
         foreach ((string id, ColorInputNode node) in _colorPickers) {
             node.Value = Color.GetNamedColor(id);
         }
+    }
+
+    private void OnConfigProfileChanged(string _)
+    {
+        var defaultFontNameNode = FontPanel.QuerySelector<SelectNode>("#DefaultFont");
+        var defaultFontSizeNode = FontPanel.QuerySelector<FloatInputNode>("#DefaultFontSize");
+        var monospaceFontNameNode = FontPanel.QuerySelector<SelectNode>("MonospaceFont");
+        var monospaceFontSizeNode = FontPanel.QuerySelector<FloatInputNode>("MonospaceFontSize");
+        var emphasisFontNameNode = FontPanel.QuerySelector<SelectNode>("EmphasisFont");
+        var emphasisFontSizeNode = FontPanel.QuerySelector<FloatInputNode>("EmphasisFontSize");
+
+        if (defaultFontNameNode is null || defaultFontSizeNode is null ||
+            monospaceFontNameNode is null || monospaceFontSizeNode is null ||
+            emphasisFontNameNode is null || emphasisFontSizeNode is null) return;
+
+        defaultFontNameNode.Value   = ConfigManager.Get<string>("Font.Default.Name") ?? "Dalamud Default";
+        defaultFontSizeNode.Value   = ConfigManager.Get<float>("Font.Default.Size");
+        monospaceFontNameNode.Value = ConfigManager.Get<string>("Font.Monospace.Name") ?? "Dalamud Default";
+        monospaceFontSizeNode.Value = ConfigManager.Get<float>("Font.Monospace.Size");
+        emphasisFontNameNode.Value  = ConfigManager.Get<string>("Font.Emphasis.Name") ?? "Dalamud Default";
+        emphasisFontSizeNode.Value  = ConfigManager.Get<float>("Font.Emphasis.Size");
+
+        _activeProfileNode.Choices = UmbraColors.GetColorProfileNames();
+        _activeProfileNode.Value   = UmbraColors.GetCurrentProfileName();
+        _selectedProfile           = UmbraColors.GetCurrentProfileName();
     }
 }

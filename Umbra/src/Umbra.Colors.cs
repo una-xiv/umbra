@@ -51,7 +51,7 @@ internal class UmbraColors
 
         Apply(ColorProfileName);
 
-        ConfigManager.CurrentProfileChanged += _ => Apply(ColorProfileName);
+        ConfigManager.CurrentProfileChanged += OnConfigProfileChanged;
     }
 
     [WhenFrameworkDisposing]
@@ -59,6 +59,8 @@ internal class UmbraColors
     {
         ColorProfiles.Clear();
         _debounceTimer?.Dispose();
+
+        ConfigManager.CurrentProfileChanged -= OnConfigProfileChanged;
     }
 
     public static void UpdateCurrentProfile()
@@ -352,5 +354,10 @@ internal class UmbraColors
         Color.AssignByName("Widget.PopupMenuTextOutline",         0xA0000000);
         Color.AssignByName("Widget.PopupMenuTextOutlineHover",    0xA0000000);
         Color.AssignByName("Widget.PopupMenuTextOutlineDisabled", 0x30000000);
+    }
+
+    private static void OnConfigProfileChanged(string _)
+    {
+        Apply(ColorProfileName);
     }
 }

@@ -65,6 +65,7 @@
     "Settings.AppearanceModule.ColorProfiles.SelectedProfile.Description": "現在のアクティブなカラープロファイルです。あなたのアクティブなプロファイルは：{0}",
     "Settings.AppearanceModule.ColorProfiles.ApplyProfile": "{0}を適用",
     "Settings.AppearanceModule.ColorProfiles.DeleteProfile": "{0}を削除",
+    "Settings.AppearanceModule.ColorProfiles.ResetProfile": "デフォルトに戻す",
     "Settings.AppearanceModule.ColorProfiles.NewProfileName.Name": "新しいプロファイル名",
     "Settings.AppearanceModule.ColorProfiles.NewProfileName.Description": "新しいカラープロファイルを記述する一意の名前。作成ボタンを使用して、現在のアクティブなプロファイルを基にした新しいプロファイルを作成します。",
     "Settings.AppearanceModule.ColorProfiles.CreateProfile": "新しいプロファイルを作成",
