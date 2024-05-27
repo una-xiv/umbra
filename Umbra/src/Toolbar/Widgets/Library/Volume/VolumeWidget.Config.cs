@@ -26,6 +26,20 @@ public sealed partial class VolumeWidget
     {
         return [
             new BooleanWidgetConfigVariable(
+                "Decorate",
+                I18N.Translate("Widget.Volume.Config.Decorate.Name"),
+                I18N.Translate("Widget.Volume.Config.Decorate.Description"),
+                true
+            ),
+            new IntegerWidgetConfigVariable(
+                "IconYOffset",
+                I18N.Translate("Widget.Volume.Config.IconYOffset.Name"),
+                I18N.Translate("Widget.Volume.Config.IconYOffset.Description"),
+                0,
+                -5,
+                5
+            ),
+            new BooleanWidgetConfigVariable(
                 "ShowOptions",
                 I18N.Translate("Widget.Volume.Config.ShowOptions.Name"),
                 I18N.Translate("Widget.Volume.Config.ShowOptions.Description"),

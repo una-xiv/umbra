@@ -43,6 +43,9 @@ public class MarkerControlWidget(WidgetInfo info, string? guid = null, Dictionar
 
     protected override void OnUpdate()
     {
+        SetGhost(!GetConfigValue<bool>("Decorate"));
+        SetIconYOffset(GetConfigValue<int>("IconYOffset"));
+
         foreach (string id in Registry.GetFactoryIds()) {
             var factory = Registry.GetFactory(id);
             var enabled = factory.GetConfigValue<bool>("Enabled");
