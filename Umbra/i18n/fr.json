@@ -24,7 +24,7 @@
     "WeatherForecast.AnHour": "une heure",
     "WeatherForecast.XHours": "{0} heures",
     "Markers.EurekaCoffers.Name": "Coffres de lapin d'Eureka",
-    "Markers.EurekaCoffers.Description": "Affiche les marqueurs mondiaux pour les Coffres de lapin dans les zones d'Eureka après avoir utilisé l'objet Carotte porte-bonheur. Veuillez noter que cette fonctionnalité ne fonctionne actuellement que pour les clients de jeu en anglais.",
+    "Markers.EurekaCoffers.Description": "Affiche les marqueurs mondiaux pour les Coffres de lapin dans les zones d'Eureka après avoir utilisé l'objet Carotte porte-bonheur.",
     "Markers.EurekaCoffers.EnableMapMarkers.Name": "Activer les marqueurs de carte pour les coffres détectés",
     "Markers.EurekaCoffers.EnableMapMarkers.Description": "Ajoute des marqueurs de carte pour les emplacements des Coffres de lapin d'Eureka détectés. Notez que cette fonctionnalité n'est pas disponible si le plugin Eureka Linker est également installé et activé, car il offre également une fonctionnalité similaire.",
     "Markers.Fate.Name": "Marqueurs FATE",
