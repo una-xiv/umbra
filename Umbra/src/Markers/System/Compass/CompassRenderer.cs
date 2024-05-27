@@ -15,6 +15,8 @@
  */
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using Dalamud.Plugin.Services;
@@ -29,12 +31,12 @@ namespace Umbra.Markers.System.Compass;
 
 [Service]
 internal partial class CompassRenderer(
-    IGameCamera                  gameCamera,
-    IPlayer                      player,
-    ITextureProvider             textureProvider,
-    ClipRectProvider             clipRectProvider,
-    WorldMarkerRegistry          registry,
-    UmbraVisibility              visibility
+    IGameCamera         gameCamera,
+    IPlayer             player,
+    ITextureProvider    textureProvider,
+    ClipRectProvider    clipRectProvider,
+    WorldMarkerRegistry registry,
+    UmbraVisibility     visibility
 )
 {
     [ConfigVariable("Markers.Compass.Enabled", "Markers", "MarkersCompass")]
@@ -49,6 +51,9 @@ internal partial class CompassRenderer(
     [ConfigVariable("Markers.Compass.IconOpacity", "Markers", "MarkersCompass", 0, 100)]
     private static int IconOpacity { get; set; } = 100;
 
+    [ConfigVariable("Markers.Compass.SmoothingFactor", "Markers", "MarkersCompass", 0.01f, 0.5f)]
+    private static float SmoothingFactor { get; set; } = 0.075f;
+
     [OnDraw]
     private void OnDraw()
     {
@@ -57,13 +62,16 @@ internal partial class CompassRenderer(
         float iconSize  = 24 * (IconScaleFactor / 100f) * Node.ScaleFactor;
         uint  iconColor = (0xFFFFFFFFu).ApplyAlphaComponent(IconOpacity / 100f);
 
+        List<string> usedKeys = [];
+
         foreach (var marker in registry.GetMarkers()) {
             if (!marker.ShowOnCompass) continue;
 
             Vector3 resolvedPosition = registry.GetResolvedPosition(marker);
             if (gameCamera.WorldToScreen(resolvedPosition, out _)) continue;
 
-            Vector2 p = GetMarkerScreenPosition(resolvedPosition);
+            usedKeys.Add(marker.Key);
+            Vector2 p = GetMarkerScreenPosition(marker, resolvedPosition);
 
             if (!ShouldRenderAt(
                     new(
@@ -89,6 +97,10 @@ internal partial class CompassRenderer(
             }
 
             RenderDirectionArrowAt(p, resolvedPosition, iconSize, iconColor);
+        }
+
+        foreach (string key in CompassMarkers.Keys.Except(usedKeys).ToArray()) {
+            CompassMarkers.Remove(key);
         }
     }
 
@@ -139,28 +151,32 @@ internal partial class CompassRenderer(
         }
     }
 
+    private Dictionary<string, Vector2> CompassMarkers { get; } = [];
 
     /// <summary>
     /// Returns the compass screen position on the XZ plane for a given marker
     /// position.
     /// </summary>
     [MethodImpl(MethodImplOptions.AggressiveOptimization)]
-    private Vector2 GetMarkerScreenPosition(Vector3 markerPosition)
+    private Vector2 GetMarkerScreenPosition(WorldMarker marker, Vector3 markerPosition)
     {
-        Vector3 cameraToPlayer = Vector3.Normalize(player.Position - gameCamera.CameraPosition);
-        Vector3 playerToMarker = Vector3.Normalize(markerPosition - player.Position);
+        Vector3 cameraToPlayer = (player.Position - gameCamera.CameraPosition);
+        Vector3 playerToMarker = (markerPosition - player.Position);
+
         gameCamera.WorldToScreen(player.Position, out Vector2 playerScreenPosition);
 
-        float distance = CompassRadius; // MathF.Abs(Vector3.Distance(player.Position, markerPosition)) * 50f;
+        float distance = MathF.Abs(Vector3.Distance(player.Position, markerPosition)) * 50f;
 
-        var lookAngle    = (float)(Math.Atan2(cameraToPlayer.Z, cameraToPlayer.X) + MathF.PI / 2f);
-        var sinLookAngle = (float)Math.Sin(lookAngle);
-        var cosLookAngle = (float)Math.Cos(lookAngle);
+        var lookAngle    = MathF.Atan2(cameraToPlayer.Z, cameraToPlayer.X) + MathF.PI / 2f;
+        var sinLookAngle = MathF.Sin(lookAngle);
+        var cosLookAngle = MathF.Cos(lookAngle);
 
-        Vector3 transformedMarkerDirection = new Vector3(
-            playerToMarker.X * cosLookAngle + playerToMarker.Z * sinLookAngle,
-            playerToMarker.Y,
-            -playerToMarker.X * sinLookAngle + playerToMarker.Z * cosLookAngle
+        Vector3 transformedMarkerDirection = Vector3.Normalize(
+            new(
+                playerToMarker.X * cosLookAngle + playerToMarker.Z * sinLookAngle,
+                playerToMarker.Y,
+                -playerToMarker.X * sinLookAngle + playerToMarker.Z * cosLookAngle
+            )
         );
 
         Vector2 projectedDirection =
@@ -174,6 +190,12 @@ internal partial class CompassRenderer(
         screenPosition.X = Math.Clamp(screenPosition.X, viewportPos.X + 64, viewportSize.X - 64);
         screenPosition.Y = Math.Clamp(screenPosition.Y, viewportPos.Y + 64, viewportSize.Y - 64);
 
-        return screenPosition;
+        if (!CompassMarkers.ContainsKey(marker.Key)) {
+            CompassMarkers[marker.Key] = screenPosition;
+        }
+
+        CompassMarkers[marker.Key] += SmoothingFactor * (screenPosition - CompassMarkers[marker.Key]);
+
+        return CompassMarkers[marker.Key];
     }
 }

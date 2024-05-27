@@ -132,6 +132,8 @@
     "CVAR.Markers.Compass.IconScaleFactor.Description": "Le facteur d'échelle des icônes sur la boussole. Cette valeur est un pourcentage de la taille par défaut.",
     "CVAR.Markers.Compass.IconOpacity.Name": "Opacité de l'icône de la boussole",
     "CVAR.Markers.Compass.IconOpacity.Description": "L'opacité des icônes sur la boussole. 100 est complètement opaque, 0 est complètement transparent.",
+    "CVAR.Markers.Compass.SmoothingFactor.Name": "Facteur de lissage de la boussole",
+    "CVAR.Markers.Compass.SmoothingFactor.Description": "Le facteur de lissage de la boussole. Cette valeur détermine la vitesse à laquelle la boussole met à jour sa position lorsque vous changez votre direction de vue.",
     "CVAR.Markers.Renderer.Enabled.Name": "Activer les marqueurs 3D",
     "CVAR.Markers.Renderer.Enabled.Description": "Détermine si les marqueurs sont affichés dans le monde du jeu.",
     "CVAR.Markers.Renderer.AggregateDistance.Name": "Distance d'agrégation",

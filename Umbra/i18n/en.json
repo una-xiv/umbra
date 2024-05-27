@@ -132,6 +132,8 @@
     "CVAR.Markers.Compass.IconScaleFactor.Description": "The scale factor of the icons on the compass. This value is a percentage of the default size.",
     "CVAR.Markers.Compass.IconOpacity.Name": "Compass Icon Opacity",
     "CVAR.Markers.Compass.IconOpacity.Description": "The opacity of the icons on the compass. 100 is fully opaque, 0 is fully transparent.",
+    "CVAR.Markers.Compass.SmoothingFactor.Name": "Compass Smoothing Factor",
+    "CVAR.Markers.Compass.SmoothingFactor.Description": "The smoothing factor of the compass. This value determines how quickly the compass updates its position when you change your viewing direction.",
     "CVAR.Markers.Renderer.Enabled.Name": "Enable 3D Markers",
     "CVAR.Markers.Renderer.Enabled.Description": "Whether to show markers in the game world.",
     "CVAR.Markers.Renderer.AggregateDistance.Name": "Aggregate Distance",

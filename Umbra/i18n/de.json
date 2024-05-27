@@ -132,6 +132,8 @@
     "CVAR.Markers.Compass.IconScaleFactor.Description": "Der Skalierungsfaktor der Symbole auf dem Kompass. Dieser Wert ist ein Prozentsatz der Standardgröße.",
     "CVAR.Markers.Compass.IconOpacity.Name": "Kompass Icon Deckkraft",
     "CVAR.Markers.Compass.IconOpacity.Description": "Die Deckkraft der Symbole auf dem Kompass. 100 ist vollständig undurchsichtig, 0 ist vollständig transparent.",
+    "CVAR.Markers.Compass.SmoothingFactor.Name": "Kompass-Glättungsfaktor",
+    "CVAR.Markers.Compass.SmoothingFactor.Description": "Der Glättungsfaktor des Kompasses. Dieser Wert bestimmt, wie schnell der Kompass seine Position aktualisiert, wenn Sie Ihre Blickrichtung ändern.",
     "CVAR.Markers.Renderer.Enabled.Name": "3D Marker aktivieren",
     "CVAR.Markers.Renderer.Enabled.Description": "Ob Marker in der Spielwelt angezeigt werden.",
     "CVAR.Markers.Renderer.AggregateDistance.Name": "Aggregat Abstand",
