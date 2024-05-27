@@ -29,7 +29,8 @@ internal sealed partial class EurekaCoffersMarkerFactory
 {
     private Dictionary<string, string> GuardTexts { get; } = new() {
         { "en", "You sense something" },
-        { "de", "Du spürst eine Schatztruhe" }
+        { "de", "Du spürst eine Schatztruhe" },
+        { "fr", "Le trésor est" }
     };
 
     private Dictionary<string, string> CarrotTexts { get; } = new() {
@@ -39,12 +40,16 @@ internal sealed partial class EurekaCoffersMarkerFactory
         }, {
             "de",
             @"Du spürst eine Schatztruhe\s*(?<dist>(sehr weit|weit|sehr nah))?\s*(?<dir>nördlich|nordöstlich|östlich|südöstlich|südlich|südwestlich|westlich|nordwestlich)\s*von dir!"
-        },
+        }, {
+            "fr",
+            @"Le trésor est\s*(?<dist>très loin|assez loin|non loin|tout près)\s*d'ici,\s*(?<dir>.+)!"
+        }
     };
 
     private Dictionary<string, List<string>> DistanceTexts { get; } = new() {
         { "en", ["far", "far, far"] },
-        { "de", ["weit", "sehr weit"] }
+        { "de", ["weit", "sehr weit"] },
+        { "fr", ["assez loin", "très loin"] }
     };
 
     private Dictionary<string, Dictionary<string, string>> DirectionTexts { get; } = new() {
@@ -69,6 +74,18 @@ internal sealed partial class EurekaCoffersMarkerFactory
                 { "südwestlich", "southwest" },
                 { "westlich", "west" },
                 { "nordwestlich", "northwest" }
+            }
+        },
+        {
+            "fr", new() {
+                { "au nord", "north" },
+                { "au nord-est", "northeast" },
+                { "à l'est", "east" },
+                { "au sud-est", "southeast" },
+                { "au sud", "south" },
+                { "au sud-ouest", "southwest" },
+                { "à l'ouest", "west" },
+                { "au nord-ouest", "northwest" }
             }
         }
     };
