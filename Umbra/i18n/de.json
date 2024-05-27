@@ -24,7 +24,7 @@
     "WeatherForecast.AnHour": "eine Stunde",
     "WeatherForecast.XHours": "{0} Stunden",
     "Markers.EurekaCoffers.Name": "Eureka Bunny-Kisten",
-    "Markers.EurekaCoffers.Description": "Zeigt Weltmarkierungen für die Bunny-Kisten in den Eureka-Zonen an, nachdem Sie den Glückskarotten-Gegenstand verwendet haben. Bitte beachten Sie, dass diese Funktion derzeit nur für englische Spielclients funktioniert.",
+    "Markers.EurekaCoffers.Description": "Zeigt Weltmarkierungen für die Bunny-Kisten in den Eureka-Zonen an, nachdem Sie den Glückskarotten-Gegenstand verwendet haben.",
     "Markers.EurekaCoffers.EnableMapMarkers.Name": "Kartenmarkierungen für erkannte Kisten aktivieren",
     "Markers.EurekaCoffers.EnableMapMarkers.Description": "Fügt Kartenmarkierungen für erkannte Eureka Bunny-Kisten-Standorte hinzu. Beachten Sie, dass diese Funktion nicht verfügbar ist, wenn das Eureka Linker-Plugin ebenfalls installiert und aktiviert ist, da es ähnliche Funktionen bietet.",
     "Markers.Fate.Name": "FATE-Markierungen",
