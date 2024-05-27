@@ -121,6 +121,8 @@ public partial class AppearanceModule
             _selectedProfile         = UmbraColors.GetCurrentProfileName();
         };
 
+        _resetButton.OnMouseUp += _ => UmbraColors.RegisterDefaultColors();
+
         _createButton.OnMouseUp += _ => {
             UmbraColors.Save(_newProfileName);
 

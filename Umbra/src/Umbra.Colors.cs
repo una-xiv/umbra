@@ -285,7 +285,7 @@ internal class UmbraColors
         Success
     }
 
-    private static void RegisterDefaultColors()
+    public static void RegisterDefaultColors()
     {
         Color.AssignByName("Window.Background",                   0xFF212021);
         Color.AssignByName("Window.BackgroundLight",              0xFF292829);
