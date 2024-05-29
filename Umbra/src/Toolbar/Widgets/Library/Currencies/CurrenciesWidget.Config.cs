@@ -35,7 +35,8 @@ public partial class CurrenciesWidget
                 I18N.Translate("Widget.Currencies.Config.TrackedCurrency.Name"),
                 I18N.Translate("Widget.Currencies.Config.TrackedCurrency.Description"),
                 "",
-                trackedSelectOptions
+                trackedSelectOptions,
+                true
             ),
             new StringWidgetConfigVariable(
                 "CustomLabel",
@@ -91,6 +92,12 @@ public partial class CurrenciesWidget
                 0,
                 -5,
                 5
+            ),
+            new StringWidgetConfigVariable(
+                "CustomCurrencyIds",
+                I18N.Translate("Widget.Currencies.Config.CustomCurrencyIds.Name"),
+                I18N.Translate("Widget.Currencies.Config.CustomCurrencyIds.Description"),
+                ""
             )
         ];
     }

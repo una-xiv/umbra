@@ -16,6 +16,8 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using Dalamud.Utility;
+using Lumina.Excel.GeneratedSheets;
 using Umbra.Common;
 
 namespace Umbra.Widgets;
@@ -30,6 +32,7 @@ public partial class CurrenciesWidget
             () => {
                 Popup.Clear();
                 HydratePopupMenuInternal();
+                HydrateCustomCurrencies();
             },
             delayTicks: 1
         );
@@ -85,6 +88,27 @@ public partial class CurrenciesWidget
                         ? currency.Type.ToString()
                         : ""
                     );
+                }
+            );
+        }
+    }
+
+    private void HydrateCustomCurrencies()
+    {
+        foreach (Currency currency in CustomCurrencies.Values) {
+            if (Popup.HasButton($"CustomCurrency_{currency.Id}")) continue;
+
+            Popup.AddButton(
+                $"CustomCurrency_{currency.Id}",
+                iconId: currency.Icon,
+                label: $"{currency.Name}",
+                altText: GetCustomAmount(currency.Id),
+                groupId: "Group_5",
+                onClick: () => {
+                    var type  = currency.Id.ToString();
+                    string newId = GetConfigValue<string>("TrackedCurrency") != type ? type : "";
+
+                    SetConfigValue("TrackedCurrency", newId);
                 }
             );
         }

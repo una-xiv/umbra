@@ -15,6 +15,7 @@
  */
 
 using System.Collections.Generic;
+using Umbra.Common;
 
 namespace Umbra.Widgets;
 
@@ -23,7 +24,8 @@ public class SelectWidgetConfigVariable(
     string  name,
     string? description,
     string  defaultValue,
-    Dictionary<string, string> options
+    Dictionary<string, string> options,
+    bool allowCustom = false
 )
     : WidgetConfigVariable<string>(id, name, description, defaultValue)
 {
@@ -32,8 +34,15 @@ public class SelectWidgetConfigVariable(
     /// <inheritdoc/>
     protected override string Sanitize(object? value)
     {
-        if (value is not string str) return string.Empty;
+        if (value is not string str) {
+            return string.Empty;
+        }
 
-        return Options.ContainsKey(str) ? str : DefaultValue;
+        if (!allowCustom && !Options.ContainsKey(str)) {
+            Logger.Warning($"Invalid value for {Id} in {Name} ({value}) Available options: {string.Join(", ", Options.Keys)}");
+            return DefaultValue;
+        }
+
+        return str;
     }
 }

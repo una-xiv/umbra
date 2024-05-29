@@ -360,6 +360,8 @@
     "Widget.Currencies.Config.DesaturateIcons.Description": "Désature les icônes du menu contextuel pour les faire apparaître en niveaux de gris. Cela peut être un peu plus subtil et agréable à l'œil.",
     "Widget.Currencies.Config.TextYOffset.Name": "Décalage vertical du texte",
     "Widget.Currencies.Config.TextYOffset.Description": "Le décalage vertical du texte par rapport au centre du widget en pixels. Les valeurs positives déplacent le texte vers le bas, les valeurs négatives déplacent le texte vers le haut.",
+    "Widget.Currencies.Config.CustomCurrencyIds.Name": "Liste d'ID personnalisée (séparée par des virgules)",
+    "Widget.Currencies.Config.CustomCurrencyIds.Description": "Une liste d'IDs de devises/objets personnalisées, séparées par des virgules, à afficher dans la fenêtre contextuelle. Cela peut être utilisé pour suivre les devises qui ne font pas partie de la liste par défaut. Utilisez la fonctionnalité d'infobulle \"Afficher l'ID\" de SimpleTweak pour connaître l'ID d'un objet ou d'une devise.",
     "Widget.Currencies.Group.TheHunt": "La Chasse",
     "Widget.Currencies.Group.Tomestones": "Tomestones",
     "Widget.Currencies.Group.PvP": "PvP",

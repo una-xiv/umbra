@@ -360,6 +360,8 @@
     "Widget.Currencies.Config.DesaturateIcons.Description": "Desaturates the icons in the popup menu to make them appear in grayscale. This can be a bit more subtle and pleasing to the eye.",
     "Widget.Currencies.Config.TextYOffset.Name": "Text vertical offset",
     "Widget.Currencies.Config.TextYOffset.Description": "The vertical offset of the text from the center of the widget in pixels. Positive values move the text down, negative values move the text up.",
+    "Widget.Currencies.Config.CustomCurrencyIds.Name": "Custom ID list (comma-separated)",
+    "Widget.Currencies.Config.CustomCurrencyIds.Description": "A comma-separated list of custom currency/item IDs to show in the popup. This can be used to track currencies that are not part of the default list. Use SimpleTweak's \"Show ID\" tooltip feature to find out the ID of an item or currency.",
     "Widget.Currencies.Group.TheHunt": "The Hunt",
     "Widget.Currencies.Group.Tomestones": "Tomestones",
     "Widget.Currencies.Group.PvP": "PvP",

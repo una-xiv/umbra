@@ -360,6 +360,8 @@
     "Widget.Currencies.Config.DesaturateIcons.Description": "Entsättigt die Symbole im Popup-Menü, um sie in Graustufen erscheinen zu lassen. Dies kann etwas subtiler und angenehmer für das Auge sein.",
     "Widget.Currencies.Config.TextYOffset.Name": "Vertikaler Textversatz",
     "Widget.Currencies.Config.TextYOffset.Description": "Der vertikale Versatz des Textes vom Zentrum des Widgets in Pixeln. Positive Werte verschieben den Text nach unten, negative Werte verschieben den Text nach oben.",
+    "Widget.Currencies.Config.CustomCurrencyIds.Name": "Benutzerdefinierte ID-Liste (kommagetrennt)",
+    "Widget.Currencies.Config.CustomCurrencyIds.Description": "Eine kommagetrennte Liste benutzerdefinierter Währungs-/Artikel-IDs, die im Popup angezeigt werden sollen. Dies kann verwendet werden, um Währungen zu verfolgen, die nicht Teil der Standardliste sind. Verwenden Sie SimpleTweaks „ID anzeigen“-Tooltip-Funktion, um die ID eines Artikels oder einer Währung zu finden.",
     "Widget.Currencies.Group.TheHunt": "Abzeichen & Trophäen",
     "Widget.Currencies.Group.Tomestones": "Allagische Steine",
     "Widget.Currencies.Group.PvP": "PvP",

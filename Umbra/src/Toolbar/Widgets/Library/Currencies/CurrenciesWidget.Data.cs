@@ -25,6 +25,7 @@ using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using Lumina.Excel.GeneratedSheets;
 using Umbra.Common;
 using Umbra.Game;
+using Umbra.Widgets.System;
 
 namespace Umbra.Widgets;
 
@@ -36,11 +37,14 @@ public partial class CurrenciesWidget
     private static IDataManager DataManager { get; set; } = null!;
     private static IPlayer      Player      { get; set; } = null!;
 
+    private Dictionary<uint, Currency> CustomCurrencies { get; } = [];
+    private string                     _lastParsedCustomCurrencyIds = "";
+
     /// <summary>
     /// Precaches the data for the widget. This can be done statically since
     /// the data never changes during runtime.
     /// </summary>
-    private static unsafe void Precache()
+    private static void Precache()
     {
         DataManager = Framework.Service<IDataManager>();
         Player      = Framework.Service<IPlayer>();
@@ -96,6 +100,15 @@ public partial class CurrenciesWidget
         };
     }
 
+    private string GetCustomAmount(uint id)
+    {
+        if (false == CustomCurrencies.ContainsKey(id)) return "";
+
+        return CustomCurrencies[id].Cap > 1
+            ? $"{FormatNumber(Player.GetItemCount(id), ',')} / {FormatNumber((int)CustomCurrencies[id].Cap, ',')}"
+            : $"{FormatNumber(Player.GetItemCount(id), '.')}";
+    }
+
     private static unsafe string GetAmount(CurrencyType type)
     {
         switch (type) {
@@ -148,7 +161,7 @@ public partial class CurrenciesWidget
             .First(tomestone => tomestone.Tomestones.Row is 2);
     }
 
-    private enum CurrencyType : int
+    private enum CurrencyType
     {
         Gil                  = 1,
         Mgp                  = 29,
@@ -169,7 +182,8 @@ public partial class CurrenciesWidget
         WhiteCrafterScrips   = 25199,
         WhiteGathererScrips  = 25200,
         SkyBuildersScrips    = 28063,
-        BiColorGemstones     = 26807
+        BiColorGemstones     = 26807,
+        Custom               = -3,
     }
 
     public static string FormatNumber(int value, char separator)
@@ -183,6 +197,54 @@ public partial class CurrenciesWidget
         return value.ToString("N0", nfi);
     }
 
+    private void UpdateCustomIdList()
+    {
+        if (CustomCurrencies.Count > 0) {
+            foreach (uint id in CustomCurrencies.Keys) {
+                Popup.SetButtonAltLabel($"CustomCurrency_{id}", GetCustomAmount(id));
+            }
+        }
+
+        var idList = GetConfigValue<string>("CustomCurrencyIds");
+        if (idList == _lastParsedCustomCurrencyIds) return;
+
+        _lastParsedCustomCurrencyIds = idList;
+
+        foreach (uint id in CustomCurrencies.Keys) {
+            Popup.RemoveButton($"CustomCurrency_{id}");
+        }
+
+        CustomCurrencies.Clear();
+        foreach (string id in idList.Split(',')) {
+            if (uint.TryParse(id.Trim(), out uint currencyId)) {
+                var item = DataManager.GetExcelSheet<Item>()!.GetRow(currencyId);
+                if (item is null || string.IsNullOrEmpty(item.Name.ToDalamudString().TextValue)) continue;
+
+                // Test if the given id is amongst the values of CurrencyType enum.
+                if (Enum.IsDefined(typeof(CurrencyType), (int)currencyId)) {
+                    Logger.Warning($"Custom currency id {currencyId} is already defined in CurrencyType enum.");
+                    continue;
+                }
+
+
+                CustomCurrencies.Add(
+                    currencyId,
+                    new() {
+                        Type    = CurrencyType.Custom,
+                        Id      = currencyId,
+                        Name    = item.Name.ToDalamudString().TextValue,
+                        Icon    = item.Icon,
+                        Cap     = item.StackSize,
+                        GroupId = 5
+                    }
+                );
+            }
+        }
+
+        SyncTrackedCurrencyOptions();
+        HydrateCustomCurrencies();
+    }
+
     private record Currency
     {
         public CurrencyType Type    { get; init; }
@@ -191,5 +253,21 @@ public partial class CurrenciesWidget
         public uint         GroupId { get; init; }
         public uint         Icon    { get; init; }
         public uint         Cap     { get; init; }
+    }
+
+    private void SyncTrackedCurrencyOptions()
+    {
+        Dictionary<string, string> choices = [];
+
+        foreach (var currency in Currencies.Values) {
+            choices[currency.Type.ToString()] = currency.Name;
+        }
+
+        foreach (uint id in CustomCurrencies.Keys) {
+            choices[id.ToString()] = CustomCurrencies[id].Name;
+        }
+
+        SelectWidgetConfigVariable selector = (SelectWidgetConfigVariable)GetConfigVariables().Where(c => c.Id == "TrackedCurrency").First();
+        selector.Options = choices;
     }
 }

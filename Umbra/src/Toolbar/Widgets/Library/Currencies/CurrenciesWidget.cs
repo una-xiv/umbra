@@ -17,6 +17,8 @@
 using System;
 using System.Collections.Generic;
 using System.Timers;
+using Dalamud.Utility;
+using Lumina.Excel.GeneratedSheets;
 using Umbra.Common;
 using Umbra.Widgets.System;
 
@@ -35,6 +37,7 @@ public sealed partial class CurrenciesWidget(
     /// <inheritdoc/>
     protected override void Initialize()
     {
+        SyncTrackedCurrencyOptions();
         HydratePopupMenu();
 
         _updateTimer.Elapsed   += (_, _) => UpdateMenuItems();
@@ -46,9 +49,21 @@ public sealed partial class CurrenciesWidget(
 
     public override string GetInstanceName()
     {
+        if (uint.TryParse(GetConfigValue<string>("TrackedCurrency"), out uint customId)) {
+            if (CustomCurrencies.TryGetValue(customId, out Currency? customCurrency)) {
+                return $"{I18N.Translate("Widget.Currencies.Name")} - {customCurrency.Name}";
+            }
+
+            return string.IsNullOrEmpty(GetConfigValue<string>("CustomLabel"))
+                ? I18N.Translate("Widget.Currencies.Name")
+                : GetConfigValue<string>("CustomLabel");
+        }
+
         return GetConfigValue<string>("TrackedCurrency") != ""
             ? $"{I18N.Translate("Widget.Currencies.Name")} - {Currencies[Enum.Parse<CurrencyType>(GetConfigValue<string>("TrackedCurrency"))].Name}"
-            : I18N.Translate("Widget.Currencies.Name");
+            : string.IsNullOrEmpty(GetConfigValue<string>("CustomLabel"))
+                ? I18N.Translate("Widget.Currencies.Name")
+                : GetConfigValue<string>("CustomLabel");
     }
 
     /// <inheritdoc/>
@@ -57,13 +72,39 @@ public sealed partial class CurrenciesWidget(
         SetGhost(!GetConfigValue<bool>("Decorate"));
         Popup.UseGrayscaleIcons = GetConfigValue<bool>("DesaturateIcons");
 
+        UpdateCustomIdList();
+
         Node.QuerySelector("#Label")!.Style.TextOffset = new(0, GetConfigValue<int>("TextYOffset"));
 
         var trackedCurrencyId = GetConfigValue<string>("TrackedCurrency");
         var useGrayscaleIcon  = GetConfigValue<bool>("DesaturateIcon");
 
-        if (!Enum.TryParse(trackedCurrencyId, out CurrencyType currencyType)
-            || currencyType == 0) {
+        if (uint.TryParse(GetConfigValue<string>("TrackedCurrency"), out uint customId)) {
+            if (CustomCurrencies.TryGetValue(customId, out Currency? customCurrency)) {
+                if (GetConfigValue<string>("IconLocation") == "Left") {
+                    SetLeftIcon(GetConfigValue<bool>("ShowIcon") ? customCurrency.Icon : null);
+                    SetRightIcon(null);
+                } else {
+                    SetLeftIcon(null);
+                    SetRightIcon(GetConfigValue<bool>("ShowIcon") ? customCurrency.Icon : null);
+                }
+
+                if (_useGrayscaleIcon != useGrayscaleIcon) {
+                    _useGrayscaleIcon = useGrayscaleIcon;
+
+                    foreach (var node in Node.QuerySelectorAll(".icon")) {
+                        node.Style.ImageGrayscale = useGrayscaleIcon;
+                    }
+                }
+
+                string customName = GetConfigValue<bool>("ShowName") ? $" {customCurrency.Name}" : "";
+                SetLabel($"{GetCustomAmount(customCurrency.Id)}{customName}");
+
+                return;
+            }
+        }
+
+        if (!Enum.TryParse(trackedCurrencyId, out CurrencyType currencyType) || currencyType == 0 || !Currencies.TryGetValue(currencyType, out Currency? currency)) {
             string customLabel = GetConfigValue<string>("CustomLabel");
             string label       = I18N.Translate("Widget.Currencies.Name");
 
@@ -72,8 +113,6 @@ public sealed partial class CurrenciesWidget(
             SetRightIcon(null);
             return;
         }
-
-        Currency currency = Currencies[currencyType];
 
         if (GetConfigValue<string>("IconLocation") == "Left") {
             SetLeftIcon(GetConfigValue<bool>("ShowIcon") ? currency.Icon : null);

@@ -360,6 +360,8 @@
     "Widget.Currencies.Config.DesaturateIcons.Description": "ポップアップメニュー内のアイコンの彩度を下げ、グレースケールで表示します。これにより、目に優しく少し微妙な効果が得られます。",
     "Widget.Currencies.Config.TextYOffset.Name": "テキストの垂直オフセット",
     "Widget.Currencies.Config.TextYOffset.Description": "ピクセル単位でウィジェットの中心からテキストの垂直方向のオフセットを指定します。正の値はテキストを下に移動し、負の値はテキストを上に移動します。",
+    "Widget.Currencies.Config.CustomCurrencyIds.Name": "カスタムIDリスト（カンマ区切り）",
+    "Widget.Currencies.Config.CustomCurrencyIds.Description": "ポップアップに表示するカスタム通貨/アイテムIDのカンマ区切りリストです。これは、デフォルトリストに含まれていない通貨を追跡するために使用できます。アイテムや通貨のIDを確認するには、SimpleTweakの「IDを表示」ツールチップ機能を使用してください。",
     "Widget.Currencies.Group.TheHunt": "ハント",
     "Widget.Currencies.Group.Tomestones": "トームストーン",
     "Widget.Currencies.Group.PvP": "PvP",
