@@ -227,7 +227,7 @@ public partial class WidgetsModule
 
             moveUp.IsDisabled   = widget.SortIndex == 0;
             moveDown.IsDisabled = widget.SortIndex == GetColumn(widget.Location).ChildNodes.Count - 1;
-            nameNode.NodeValue  = widget.Info.Name;
+            nameNode.NodeValue  = widget.GetInstanceName();
 
             moveToCenterPanel.Icon = widget.Location == "Left"
                 ? FontAwesomeIcon.ArrowRight

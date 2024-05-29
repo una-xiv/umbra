@@ -44,6 +44,7 @@ internal class WidgetStyles
                 new() {
                     BackgroundColor = new(0x00000000),
                     BorderColor     = new(new(0x00000000)),
+                    StrokeColor     = null,
                     BorderWidth     = new(0),
                     BorderInset     = new(0),
                     StrokeWidth     = 0,
@@ -71,6 +72,7 @@ internal class WidgetStyles
                 new() {
                     BackgroundColor = new(0x00000000),
                     BorderColor     = new(new(0x00000000)),
+                    StrokeColor     = null,
                 }
             ),
             new(
@@ -123,6 +125,14 @@ internal class WidgetStyles
                     TextOffset   = new(0, 1),
                 }
             ),
+            new(
+                "Label:hover",
+                new() {
+                    Color        = new("Widget.TextHover"),
+                    OutlineColor = new("Widget.TextOutline"),
+                }
+            ),
+
             new(
                 "Label:disabled",
                 new() {

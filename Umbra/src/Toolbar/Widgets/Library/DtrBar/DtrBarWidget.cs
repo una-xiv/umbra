@@ -172,6 +172,6 @@ public sealed partial class DtrBarWidget(
 
     private void SetNodeLabel(Node node, DtrBarEntry entry)
     {
-        node.QuerySelector("Label")!.NodeValue = GetConfigValue<bool>("PlainText") ? entry.Text.TextValue : entry.Text;
+        node.FindById("Label")!.NodeValue = GetConfigValue<bool>("PlainText") ? entry.Text.TextValue : entry.Text;
     }
 }

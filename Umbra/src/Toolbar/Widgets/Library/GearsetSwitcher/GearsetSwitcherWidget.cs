@@ -139,7 +139,6 @@ public sealed partial class GearsetSwitcherWidget(
         }
 
         SetDisabled(false);
-        SetLabel(null);
         _currentGearset = _gearsetRepository.CurrentGearset;
         return true;
     }

@@ -77,7 +77,7 @@ public abstract class DefaultToolbarWidget(
             bool leftIconVisible  = leftIconNode.Style.IsVisible ?? false;
             bool rightIconVisible = rightIconNode.Style.IsVisible ?? false;
 
-            labelNode.Style.Padding = new(
+            labelNode.Style.Margin = new(
                 0,
                 !hasLabelValue || rightIconVisible ? 0 : 6,
                 0,
