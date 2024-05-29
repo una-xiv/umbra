@@ -33,7 +33,7 @@ public partial class WeatherWidget(
     {
         _zoneManager = Framework.Service<IZoneManager>();
 
-        SetGhost(true);
+        SetGhost(!GetConfigValue<bool>("Decorate"));
         SetIconSize(30);
         SetLeftIcon(60277u);
         SetTwoLabels("Weather name here", "1 hour and 43 minutes");
@@ -45,10 +45,11 @@ public partial class WeatherWidget(
         if (!_zoneManager!.HasCurrentZone) return;
         var zone = _zoneManager.CurrentZone;
 
-        Popup.MaxEntries = (uint)GetConfigValue<int>("MaxForecastEntries");
-
         var currentWeather = zone.CurrentWeather;
         if (null == currentWeather) return;
+
+        SetGhost(!GetConfigValue<bool>("Decorate"));
+        Popup.MaxEntries = (uint)GetConfigValue<int>("MaxForecastEntries");
 
         var showIcon     = GetConfigValue<bool>("ShowIcon");
         var iconLocation = GetConfigValue<string>("IconLocation");
@@ -79,7 +80,12 @@ public partial class WeatherWidget(
                 break;
         }
 
-        SetTwoLabels(currentWeather.Name, currentWeather.TimeString);
+        if (GetConfigValue<bool>("ShowTime")) {
+            SetTwoLabels(currentWeather.Name, currentWeather.TimeString);
+        } else {
+            SetLabel(currentWeather.Name);
+            LabelNode.Style.TextOffset = new(0, GetConfigValue<int>("TextYOffset"));
+        }
 
         Node.QuerySelector("Label")!.Style.Margin = new() {
             Left  = iconLocation == "Left" ? spacing : 0,

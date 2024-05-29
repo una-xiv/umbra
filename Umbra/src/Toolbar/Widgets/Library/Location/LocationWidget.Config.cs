@@ -25,6 +25,18 @@ public partial class LocationWidget
     protected override IEnumerable<IWidgetConfigVariable> GetConfigVariables()
     {
         return [
+            new BooleanWidgetConfigVariable(
+                "ShowDistrict",
+                I18N.Translate("Widget.Location.Config.ShowDistrict.Name"),
+                I18N.Translate("Widget.Location.Config.ShowDistrict.Description"),
+                true
+            ),
+            new BooleanWidgetConfigVariable(
+                "Decorate",
+                I18N.Translate("Widget.Location.Config.Decorate.Name"),
+                I18N.Translate("Widget.Location.Config.Decorate.Description"),
+                false
+            ),
             new SelectWidgetConfigVariable(
                 "TextAlign",
                 I18N.Translate("Widget.Location.Config.TextAlign.Name"),
@@ -36,6 +48,14 @@ public partial class LocationWidget
                     { "Right", I18N.Translate("Widget.Location.Config.TextAlign.Option.Right") },
                 }
             ),
+            new IntegerWidgetConfigVariable(
+                "TextYOffset",
+                I18N.Translate("Widget.Location.Config.TextYOffset.Name"),
+                I18N.Translate("Widget.Location.Config.TextYOffset.Description"),
+                -1,
+                -5,
+                5
+            )
         ];
     }
 }

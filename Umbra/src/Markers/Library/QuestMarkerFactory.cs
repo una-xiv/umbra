@@ -13,17 +13,17 @@ public class QuestMarkerFactory(IZoneManager zoneManager) : WorldMarkerFactory
     public override string Name        { get; } = I18N.Translate("Markers.Quest.Name");
     public override string Description { get; } = I18N.Translate("Markers.Quest.Description");
 
-    protected override void OnZoneChanged(IZone zone)
-    {
-        RemoveAllMarkers();
-    }
-
     public override List<IMarkerConfigVariable> GetConfigVariables()
     {
         return [
             ..DefaultStateConfigVariables,
             ..DefaultFadeConfigVariables,
         ];
+    }
+
+    protected override void OnZoneChanged(IZone zone)
+    {
+        RemoveAllMarkers();
     }
 
     [OnTick(interval: 1000)]

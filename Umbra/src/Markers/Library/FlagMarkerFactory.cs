@@ -18,6 +18,7 @@ using System;
 using System.Collections.Generic;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using Umbra.Common;
+using Umbra.Game;
 
 namespace Umbra.Markers.Library;
 
@@ -35,6 +36,11 @@ public class FlagMarkerFactory : WorldMarkerFactory
             ..DefaultStateConfigVariables,
             ..DefaultFadeConfigVariables,
         ];
+    }
+
+    protected override void OnZoneChanged(IZone zone)
+    {
+        RemoveAllMarkers();
     }
 
     [OnTick(interval: 250)]

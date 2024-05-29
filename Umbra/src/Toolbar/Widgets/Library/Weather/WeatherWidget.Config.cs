@@ -30,6 +30,18 @@ public partial class WeatherWidget
                 I18N.Translate("Widget.Weather.Config.ShowIcon.Description"),
                 true
             ),
+            new BooleanWidgetConfigVariable(
+                "ShowTime",
+                I18N.Translate("Widget.Weather.Config.ShowTime.Name"),
+                I18N.Translate("Widget.Weather.Config.ShowTime.Description"),
+                true
+            ),
+            new BooleanWidgetConfigVariable(
+                "Decorate",
+                I18N.Translate("Widget.Weather.Config.Decorate.Name"),
+                I18N.Translate("Widget.Weather.Config.Decorate.Description"),
+                false
+            ),
             new SelectWidgetConfigVariable(
                 "IconLocation",
                 I18N.Translate("Widget.Weather.Config.IconLocation.Name"),
@@ -50,6 +62,14 @@ public partial class WeatherWidget
                     { "Center", I18N.Translate("Widget.Weather.Config.TextAlign.Option.Center") },
                     { "Right", I18N.Translate("Widget.Weather.Config.TextAlign.Option.Right") },
                 }
+            ),
+            new IntegerWidgetConfigVariable(
+                "TextYOffset",
+                I18N.Translate("Widget.Weather.Config.TextYOffset.Name"),
+                I18N.Translate("Widget.Weather.Config.TextYOffset.Description"),
+                -1,
+                -5,
+                5
             ),
             new IntegerWidgetConfigVariable(
                 "Spacing",

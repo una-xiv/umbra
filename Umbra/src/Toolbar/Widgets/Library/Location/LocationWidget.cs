@@ -37,7 +37,7 @@ public partial class LocationWidget(
     {
         _zoneManager = Framework.Service<IZoneManager>();
 
-        SetGhost(true);
+        SetGhost(!GetConfigValue<bool>("Decorate"));
         SetTwoLabels("Location Name", "District Name");
     }
 
@@ -47,7 +47,14 @@ public partial class LocationWidget(
         if (_zoneManager is null || !_zoneManager.HasCurrentZone)  return;
         var zone = _zoneManager.CurrentZone;
 
-        SetTwoLabels(zone.Name, zone.CurrentDistrictName);
+        SetGhost(!GetConfigValue<bool>("Decorate"));
+
+        if (GetConfigValue<bool>("ShowDistrict")) {
+            SetTwoLabels(zone.Name, zone.CurrentDistrictName);
+        } else {
+            SetLabel(zone.Name);
+            LabelNode.Style.TextOffset = new(0, GetConfigValue<int>("TextYOffset"));
+        }
 
         var textAlign = GetConfigValue<string>("TextAlign");
 
