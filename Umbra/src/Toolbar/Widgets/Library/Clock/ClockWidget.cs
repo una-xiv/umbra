@@ -76,9 +76,9 @@ public partial class ClockWidget(WidgetInfo info, string? guid = null, Dictionar
 
         Node.Tooltip = isInteractive ? I18N.Translate($"Widget.Clock.Config.TimeSource.{GetConfigValue<string>("TimeSource")}") : null;
 
-        PrefixNode.NodeValue       = useCustomPrefix ? GetConfigValue<string>("PrefixText") : null;
+        PrefixNode.NodeValue       = useCustomPrefix ? GetConfigValue<string>("PrefixText") : GetPrefixIcon().ToIconString();
+        PrefixNode.Style.Font      = useCustomPrefix ? 3u : 4u;
         PrefixNode.Style.IsVisible = isPrefixVisible;
-        PrefixNode.Style.Glyph     = !useCustomPrefix ? GetPrefixIcon() : null;
         TimeNode.Style.TextOffset  = new(0, GetConfigValue<int>("TextYOffset"));
         TimeNode.Style.Size        = new(GetConfigValue<int>("CustomWidth"), 28);
         TimeNode.Style.Padding     = new() { Left = isPrefixVisible ? 0 : 6, Right = 6 };

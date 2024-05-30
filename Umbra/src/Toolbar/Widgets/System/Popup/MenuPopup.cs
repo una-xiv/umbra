@@ -204,27 +204,24 @@ public class MenuPopup : WidgetPopup
         switch (iconId) {
             case uint u:
                 node.Style.IconId = u;
-                node.Style.Glyph  = null;
                 node.NodeValue    = null;
                 node.ClassList.Remove("button--icon--glyph");
                 if (!node.ClassList.Contains("button--icon--image")) node.ClassList.Add("button--icon--image");
                 break;
             case SeIconChar s:
-                node.Style.Glyph  = s;
-                node.Style.IconId = null;
-                node.NodeValue    = null;
+                node.Style.IconId   = null;
+                node.Style.Font     = 4;
+                node.NodeValue      = s.ToIconString();
                 node.ClassList.Remove("button--icon--image");
                 if (!node.ClassList.Contains("button--icon--glyph")) node.ClassList.Add("button--icon--glyph");
                 break;
             case FontAwesomeIcon f:
-                node.Style.Glyph  = null;
                 node.Style.IconId = null;
                 node.Style.Font   = 2;
                 node.NodeValue    = f.ToIconString();
                 break;
             default:
                 node.Style.IconId = null;
-                node.Style.Glyph  = null;
                 node.NodeValue    = null;
                 node.ClassList.Remove("button--icon--image");
                 node.ClassList.Remove("button--icon--glyph");
@@ -449,13 +446,13 @@ public class MenuPopup : WidgetPopup
             ClassList = ["button"],
             ChildNodes = [
                 new() {
-                    Id        = "Icon",
+                    Id = "Icon",
                     ClassList = ["button--icon", iconId is SeIconChar ? "button--icon--glyph" : "button--icon--image"],
                     InheritTags = true,
                     Style = new() {
-                        IconId     = iconId is uint u ? u : null,
-                        Glyph      = iconId is SeIconChar s ? s : null,
-                        GlyphColor = glyphColor
+                        IconId = iconId is uint u ? u : null,
+                        Font   = iconId is SeIconChar ? 4u : 0u,
+                        Color  = iconId is SeIconChar ? glyphColor : new("Widget.PopupMenuText"),
                     }
                 },
                 new() {

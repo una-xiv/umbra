@@ -119,10 +119,11 @@ internal class PopupStyles
             new(
                 ".button--icon--glyph",
                 new() {
-                    Anchor      = Anchor.MiddleLeft,
-                    Size        = new(24, 24),
-                    GlyphInset  = new(4, 6),
-                    GlyphOffset = new(4, 4),
+                    Anchor    = Anchor.MiddleLeft,
+                    Size      = new(24, 24),
+                    Font      = 4,
+                    FontSize  = 18,
+                    TextAlign = Anchor.MiddleCenter,
                 }
             ),
             new(

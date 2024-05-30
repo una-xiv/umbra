@@ -14,7 +14,6 @@
  *     GNU Affero General Public License for more details.
  */
 
-using Dalamud.Game.Text;
 using Una.Drawing;
 
 namespace Umbra.Style;
@@ -301,7 +300,7 @@ internal class WidgetStyles
                     Padding         = new(0, 2),
                     Anchor          = Anchor.MiddleLeft,
                     TextAlign       = Anchor.MiddleCenter,
-                    Font            = 3,
+                    Font            = 4,
                     FontSize        = 12,
                     Color           = new("Widget.TextMuted"),
                     BackgroundColor = new(0x60FFFFFF),
@@ -315,11 +314,13 @@ internal class WidgetStyles
                 new() {
                     BackgroundColor = new(0),
                     Size            = new(28, 18),
-                    Glyph           = SeIconChar.LocalTimeEn,
-                    GlyphColor      = new("Widget.TextMuted"),
-                    GlyphOffset     = new(0, -1),
                     Margin          = new() { Left = 2 },
                     Opacity         = 0.75f,
+                    Font            = 4,
+                    FontSize        = 14,
+                    Color           = new("Widget.TextMuted"),
+                    OutlineColor    = new("Widget.TextOutline"),
+                    OutlineSize     = 1,
                 }
             ),
             new(
