@@ -209,9 +209,9 @@ public class MenuPopup : WidgetPopup
                 if (!node.ClassList.Contains("button--icon--image")) node.ClassList.Add("button--icon--image");
                 break;
             case SeIconChar s:
-                node.Style.IconId   = null;
-                node.Style.Font     = 4;
-                node.NodeValue      = s.ToIconString();
+                node.Style.IconId = null;
+                node.Style.Font   = 4;
+                node.NodeValue    = s.ToIconString();
                 node.ClassList.Remove("button--icon--image");
                 if (!node.ClassList.Contains("button--icon--glyph")) node.ClassList.Add("button--icon--glyph");
                 break;

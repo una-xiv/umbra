@@ -119,11 +119,14 @@ internal class PopupStyles
             new(
                 ".button--icon--glyph",
                 new() {
-                    Anchor    = Anchor.MiddleLeft,
-                    Size      = new(24, 24),
-                    Font      = 4,
-                    FontSize  = 18,
-                    TextAlign = Anchor.MiddleCenter,
+                    Anchor       = Anchor.MiddleLeft,
+                    Size         = new(24, 24),
+                    Font         = 4,
+                    FontSize     = 14,
+                    TextAlign    = Anchor.MiddleCenter,
+                    TextOffset   = new(0, 1),
+                    OutlineColor = new("Widget.PopupMenuTextOutline"),
+                    OutlineSize  = 1,
                 }
             ),
             new(

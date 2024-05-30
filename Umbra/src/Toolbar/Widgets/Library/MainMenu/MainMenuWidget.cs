@@ -17,6 +17,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Dalamud.Game.Text;
 using Dalamud.Plugin.Services;
 using Umbra.Common;
 using Umbra.Game;
@@ -91,9 +92,7 @@ public sealed class MainMenuWidget(
             _showItemIcons = showItemIcons;
 
             foreach (var item in _items.Values) {
-                if (item.Icon is uint) {
-                    Popup.SetButtonIcon(item.Id, showItemIcons ? item.Icon : null);
-                }
+                Popup.SetButtonIcon(item.Id, showItemIcons || item.Icon is SeIconChar ? item.Icon : null);
             }
         }
 
