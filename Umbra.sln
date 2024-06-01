@@ -1,22 +1,20 @@
-
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29709.97
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34902.65
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Umbra", "Umbra\Umbra.csproj", "{13C812E9-0D42-4B95-8646-40EEBF30636F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Umbra", "Umbra\Umbra.csproj", "{13C812E9-0D42-4B95-8646-40EEBF30636F}"
 	ProjectSection(ProjectDependencies) = postProject
-		{56bda3dd-7770-4412-93e7-79ff05559e36} = {56bda3dd-7770-4412-93e7-79ff05559e36}
-		{c3154267-fc9d-4522-872d-f7f89b3731fc} = {c3154267-fc9d-4522-872d-f7f89b3731fc}
-		{a11cec40-08e7-4731-a3c0-8d009371e399} = {a11cec40-08e7-4731-a3c0-8d009371e399}
+		{56BDA3DD-7770-4412-93E7-79FF05559E36} = {56BDA3DD-7770-4412-93E7-79FF05559E36}
+		{C3154267-FC9D-4522-872D-F7F89B3731FC} = {C3154267-FC9D-4522-872D-F7F89B3731FC}
+		{A11CEC40-08E7-4731-A3C0-8D009371E399} = {A11CEC40-08E7-4731-A3C0-8D009371E399}
 	EndProjectSection
 EndProject
-Project("{26495231-AF23-4AA0-95E5-42833EAC1DB2}") = "Umbra.Common", "Umbra.Common\Umbra.Common.csproj", "{56BDA3DD-7770-4412-93E7-79FF05559E36}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Umbra.Common", "Umbra.Common\Umbra.Common.csproj", "{56BDA3DD-7770-4412-93E7-79FF05559E36}"
 EndProject
-Project("{D76AB56E-9F51-46F4-948E-5FB870539F81}") = "Umbra.Game", "Umbra.Game\Umbra.Game.csproj", "{C3154267-FC9D-4522-872D-F7F89B3731FC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Umbra.Game", "Umbra.Game\Umbra.Game.csproj", "{C3154267-FC9D-4522-872D-F7F89B3731FC}"
 EndProject
-Project("{C13C141B-D0DB-4EFC-91A7-E6850F6212BB}") = "Una.Drawing", "drawing\Una.Drawing\Una.Drawing.csproj", "{A11CEC40-08E7-4731-A3C0-8D009371E399}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Una.Drawing", "drawing\Una.Drawing\Una.Drawing.csproj", "{A11CEC40-08E7-4731-A3C0-8D009371E399}"
 EndProject
-
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -35,10 +33,10 @@ Global
 		{C3154267-FC9D-4522-872D-F7F89B3731FC}.Debug|x64.Build.0 = Debug|x64
 		{C3154267-FC9D-4522-872D-F7F89B3731FC}.Release|x64.ActiveCfg = Release|x64
 		{C3154267-FC9D-4522-872D-F7F89B3731FC}.Release|x64.Build.0 = Release|x64
-        {A11CEC40-08E7-4731-A3C0-8D009371E399}.Debug|x64.ActiveCfg = Debug|x64
-        {A11CEC40-08E7-4731-A3C0-8D009371E399}.Debug|x64.Build.0 = Debug|x64
-        {A11CEC40-08E7-4731-A3C0-8D009371E399}.Release|x64.ActiveCfg = Release|x64
-        {A11CEC40-08E7-4731-A3C0-8D009371E399}.Release|x64.Build.0 = Release|x64
+		{A11CEC40-08E7-4731-A3C0-8D009371E399}.Debug|x64.ActiveCfg = Debug|x64
+		{A11CEC40-08E7-4731-A3C0-8D009371E399}.Debug|x64.Build.0 = Debug|x64
+		{A11CEC40-08E7-4731-A3C0-8D009371E399}.Release|x64.ActiveCfg = Release|x64
+		{A11CEC40-08E7-4731-A3C0-8D009371E399}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
