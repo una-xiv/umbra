@@ -132,8 +132,6 @@
     "CVAR.Markers.Compass.IconScaleFactor.Description": "コンパス上のアイコンの倍率。この値はデフォルトサイズのパーセンテージです。",
     "CVAR.Markers.Compass.IconOpacity.Name": "コンパスアイコン不透明度",
     "CVAR.Markers.Compass.IconOpacity.Description": "コンパス上のアイコンの不透明度。100は完全に不透明で、0は完全に透明です。",
-    "CVAR.Markers.Compass.SmoothingFactor.Name": "コンパスのスムージング係数",
-    "CVAR.Markers.Compass.SmoothingFactor.Description": "コンパスのスムージング係数。この値は、視点を変更したときにコンパスが位置をどれだけ早く更新するかを決定します。",
     "CVAR.Markers.Renderer.Enabled.Name": "3Dマーカーを有効にする",
     "CVAR.Markers.Renderer.Enabled.Description": "ゲーム世界でマーカーを表示するかどうか。",
     "CVAR.Markers.Renderer.AggregateDistance.Name": "集計距離",
