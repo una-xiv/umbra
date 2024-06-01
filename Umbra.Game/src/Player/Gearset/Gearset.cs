@@ -27,15 +27,18 @@ public sealed class Gearset(ushort id, IGearsetCategoryRepository categoryReposi
 
     public bool IsValid { get; private set; }
 
-    public string          Name       { get; private set; } = string.Empty;
-    public byte            JobId      { get; private set; }
-    public short           ItemLevel  { get; private set; }
-    public bool            IsCurrent  { get; private set; }
-    public GearsetCategory Category   { get; private set; } = GearsetCategory.None;
-    public short           JobLevel   { get; private set; }
-    public byte            JobXp      { get; private set; }
-    public string          JobName    { get; private set; } = string.Empty;
-    public bool            IsMaxLevel { get; private set; }
+    public string          Name              { get; private set; } = string.Empty;
+    public byte            JobId             { get; private set; }
+    public short           ItemLevel         { get; private set; }
+    public bool            IsCurrent         { get; private set; }
+    public GearsetCategory Category          { get; private set; } = GearsetCategory.None;
+    public short           JobLevel          { get; private set; }
+    public byte            JobXp             { get; private set; }
+    public string          JobName           { get; private set; } = string.Empty;
+    public bool            IsMaxLevel        { get; private set; }
+    public bool            HasMissingItems   { get; private set; }
+    public bool            AppearanceDiffers { get; private set; }
+    public bool            IsMainHandMissing { get; private set; }
 
     public event Action? OnCreated;
     public event Action? OnChanged;
@@ -68,15 +71,30 @@ public sealed class Gearset(ushort id, IGearsetCategoryRepository categoryReposi
         IsValid = true;
 
         // Intermediate values.
-        var    isChanged  = false;
-        string name       = MemoryHelper.ReadSeStringNullTerminated((IntPtr)gearset->Name).ToString();
-        byte   jobId      = gearset->ClassJob;
-        short  itemLevel  = gearset->ItemLevel;
-        bool   isCurrent  = gsm->CurrentGearsetIndex == Id && gearset->ClassJob > 0;
-        byte   jobXp      = player.GetJobInfo(jobId).XpPercent;
-        string jobName    = player.GetJobInfo(jobId).Name;
-        short  jobLevel   = player.GetJobInfo(jobId).Level;
-        bool   isMaxLevel = player.GetJobInfo(jobId).IsMaxLevel;
+        var    isChanged       = false;
+        string name            = MemoryHelper.ReadSeStringNullTerminated((IntPtr)gearset->Name).ToString();
+        byte   jobId           = gearset->ClassJob;
+        short  itemLevel       = gearset->ItemLevel;
+        bool   isCurrent       = gsm->CurrentGearsetIndex == Id && gearset->ClassJob > 0;
+        byte   jobXp           = player.GetJobInfo(jobId).XpPercent;
+        string jobName         = player.GetJobInfo(jobId).Name;
+        short  jobLevel        = player.GetJobInfo(jobId).Level;
+        bool   isMaxLevel      = player.GetJobInfo(jobId).IsMaxLevel;
+        bool   mainHandMissing = gearset->Flags.HasFlag(RaptureGearsetModule.GearsetFlag.MainHandMissing);
+
+        // Check for missing items.
+        var hasMissingItems   = false;
+        var appearanceDiffers = false;
+
+        foreach (var item in gearset->ItemsSpan) {
+            if (item.Flags.HasFlag(RaptureGearsetModule.GearsetItemFlag.ItemMissing)) {
+                hasMissingItems = true;
+            }
+
+            if (item.Flags.HasFlag(RaptureGearsetModule.GearsetItemFlag.AppearanceDiffers)) {
+                appearanceDiffers = true;
+            }
+        }
 
         // Check for changes.
         if (Name != name) {
@@ -117,6 +135,21 @@ public sealed class Gearset(ushort id, IGearsetCategoryRepository categoryReposi
         if (JobLevel != jobLevel) {
             JobLevel  = jobLevel;
             isChanged = true;
+        }
+
+        if (IsMainHandMissing != mainHandMissing) {
+            IsMainHandMissing = mainHandMissing;
+            isChanged         = true;
+        }
+
+        if (AppearanceDiffers != appearanceDiffers) {
+            AppearanceDiffers = appearanceDiffers;
+            isChanged         = true;
+        }
+
+        if (HasMissingItems != hasMissingItems) {
+            HasMissingItems = hasMissingItems;
+            isChanged       = true;
         }
 
         if (isNew)

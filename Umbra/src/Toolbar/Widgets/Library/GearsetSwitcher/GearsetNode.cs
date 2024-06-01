@@ -14,6 +14,8 @@
  *     GNU Affero General Public License for more details.
  */
 
+using Dalamud.Game.Text;
+using Dalamud.Interface;
 using Umbra.Common;
 using Umbra.Game;
 using Una.Drawing;
@@ -42,7 +44,16 @@ public partial class GearsetNode : Node
             new() {
                 Id        = "Icon",
                 ClassList = ["gearset--icon"],
-                Style     = new() { IconId = gearset.JobId + 62000u }
+                Style     = new() { IconId = gearset.JobId + 62000u },
+                ChildNodes = [
+                    new() {
+                        Id        = "ExclamationMark",
+                        ClassList = ["gearset--icon--exclamation-mark"],
+                        NodeValue = FontAwesomeIcon.ExclamationTriangle.ToIconString(),
+                        Tooltip   = I18N.Translate("Widget.GearsetSwitcher.WarningTooltip.AppearanceDiffers"),
+                        Style     = new() { IsVisible = false },
+                    }
+                ]
             },
             new() {
                 ClassList = ["gearset--body"],
@@ -86,12 +97,29 @@ public partial class GearsetNode : Node
         }
 
         SetBackgroundGradientFor(_gearset.Category);
+
+        if (_gearset.IsMainHandMissing) {
+            WarnNode.Style.Color     = new(0xE00000DA);
+            WarnNode.Style.IsVisible = true;
+            WarnNode.Tooltip         = I18N.Translate("Widget.GearsetSwitcher.WarningTooltip.MissingMainHand");
+        } else if (_gearset.HasMissingItems) {
+            WarnNode.Style.Color     = new(0xE000DADF);
+            WarnNode.Style.IsVisible = true;
+            WarnNode.Tooltip         = I18N.Translate("Widget.GearsetSwitcher.WarningTooltip.MissingItems");
+        } else if (_gearset.AppearanceDiffers) {
+            WarnNode.Style.Color     = new(0xC0A0A0A0);
+            WarnNode.Style.IsVisible = true;
+            WarnNode.Tooltip         = I18N.Translate("Widget.GearsetSwitcher.WarningTooltip.AppearanceDiffers");
+        } else {
+            WarnNode.Style.IsVisible = false;
+        }
     }
 
     private Node IconNode => QuerySelector("Icon")!;
     private Node NameNode => QuerySelector("Name")!;
     private Node InfoNode => QuerySelector("Info")!;
     private Node IlvlNode => QuerySelector("ItemLevel")!;
+    private Node WarnNode => QuerySelector("ExclamationMark")!;
 
     private string GetCurrentGearsetStatusText()
     {

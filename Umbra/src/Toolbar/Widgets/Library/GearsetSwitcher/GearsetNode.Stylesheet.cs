@@ -52,9 +52,23 @@ public partial class GearsetNode
             new(
                 ".gearset--icon",
                 new() {
-                    Size            = new(30, 30),
-                    ImageInset      = new(2),
-                    BorderRadius    = 6,
+                    Size         = new(30, 30),
+                    ImageInset   = new(2),
+                    BorderRadius = 6,
+                }
+            ),
+            new(
+                ".gearset--icon--exclamation-mark",
+                new() {
+                    Font         = 2,
+                    FontSize     = 14,
+                    Color        = new("Widget.PopupMenuTextMuted"),
+                    OutlineColor = new("Widget.PopupMenuTextOutline"),
+                    OutlineSize  = 1,
+                    Size         = new(30, 30),
+                    Anchor       = Anchor.TopLeft,
+                    TextAlign    = Anchor.MiddleCenter,
+                    Margin       = new() { Top = 6, Left = 6 },
                 }
             ),
             new(
