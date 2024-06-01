@@ -195,7 +195,7 @@ public abstract class WorldMarkerFactory : IDisposable
             "FadeDistance",
             I18N.Translate("Settings.MarkersModule.Config.FadeDistance.Name"),
             I18N.Translate("Settings.MarkersModule.Config.FadeDistance.Description"),
-            5,
+            32,
             0,
             100
         ),
@@ -203,7 +203,7 @@ public abstract class WorldMarkerFactory : IDisposable
             "FadeAttenuation",
             I18N.Translate("Settings.MarkersModule.Config.FadeAttenuation.Name"),
             I18N.Translate("Settings.MarkersModule.Config.FadeAttenuation.Description"),
-            2,
+            10,
             0,
             100
         ),

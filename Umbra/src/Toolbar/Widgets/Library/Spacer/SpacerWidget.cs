@@ -48,7 +48,7 @@ public class SpacerWidget(WidgetInfo info, string? guid = null, Dictionary<strin
                 I18N.Translate("Widget.Spacer.Config.Width.Description"),
                 10,
                 0,
-                100
+                2000
             )
         ];
     }
