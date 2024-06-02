@@ -5,7 +5,7 @@ using Una.Drawing;
 
 namespace Umbra.Widgets;
 
-public partial class AccessibilityWidgetPopup : WidgetPopup
+internal partial class AccessibilityWidgetPopup : WidgetPopup
 {
     protected sealed override Node Node { get; } = new() {
         Stylesheet = AccessibilityStylesheet,

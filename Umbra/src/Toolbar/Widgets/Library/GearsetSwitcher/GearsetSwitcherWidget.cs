@@ -17,11 +17,11 @@
 using System.Collections.Generic;
 using Umbra.Common;
 using Umbra.Game;
-using Umbra.Widgets.System;
 
 namespace Umbra.Widgets;
 
-public sealed partial class GearsetSwitcherWidget(
+[ToolbarWidget("GearsetSwitcher", "Widget.GearsetSwitcher.Name", "Widget.GearsetSwitcher.Description")]
+internal sealed partial class GearsetSwitcherWidget(
     WidgetInfo                  info,
     string?                     guid         = null,
     Dictionary<string, object>? configValues = null

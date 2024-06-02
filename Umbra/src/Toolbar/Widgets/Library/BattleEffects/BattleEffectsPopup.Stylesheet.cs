@@ -18,7 +18,7 @@ using Una.Drawing;
 
 namespace Umbra.Widgets;
 
-public partial class BattleEffectsPopup
+internal partial class BattleEffectsPopup
 {
     private static Stylesheet BattleEffectsPopupStylesheet { get; } = new(
         [

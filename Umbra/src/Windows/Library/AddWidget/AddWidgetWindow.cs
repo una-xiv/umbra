@@ -18,13 +18,14 @@ using System.Linq;
 using System.Numerics;
 using Dalamud.Interface;
 using Umbra.Common;
+using Umbra.Widgets;
 using Umbra.Widgets.System;
 using Umbra.Windows.Components;
 using Una.Drawing;
 
 namespace Umbra.Windows.Library.AddWidget;
 
-public class AddWidgetWindow : Window
+internal class AddWidgetWindow : Window
 {
     public string? SelectedWidgetId { get; private set; }
 

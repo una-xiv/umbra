@@ -19,7 +19,7 @@ using Umbra.Common;
 
 namespace Umbra.Widgets;
 
-public partial class WorldNameWidget
+internal partial class WorldNameWidget
 {
     protected override IEnumerable<IWidgetConfigVariable> GetConfigVariables()
     {

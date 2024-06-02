@@ -2,7 +2,7 @@
 
 namespace Umbra.Windows.Settings;
 
-public abstract class SettingsModule
+internal abstract class SettingsModule
 {
     /// <summary>
     /// A unique identifier for this module.

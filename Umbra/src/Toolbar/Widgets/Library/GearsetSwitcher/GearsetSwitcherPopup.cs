@@ -21,7 +21,7 @@ using Una.Drawing;
 
 namespace Umbra.Widgets;
 
-public sealed partial class GearsetSwitcherPopup : WidgetPopup, IDisposable
+internal sealed partial class GearsetSwitcherPopup : WidgetPopup, IDisposable
 {
     protected override Node Node { get; } = new() {
         ChildNodes = [

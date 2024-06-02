@@ -25,7 +25,7 @@ using Una.Drawing;
 
 namespace Umbra.Widgets;
 
-public class MenuPopup : WidgetPopup
+internal class MenuPopup : WidgetPopup
 {
     protected sealed override Node Node { get; } = new() {
         Stylesheet = PopupStyles.MenuPopupStylesheet,

@@ -21,7 +21,7 @@ using NotImplementedException = System.NotImplementedException;
 
 namespace Umbra.Widgets;
 
-public sealed partial class BattleEffectsWidget
+internal sealed partial class BattleEffectsWidget
 {
     protected override IEnumerable<IWidgetConfigVariable> GetConfigVariables()
     {

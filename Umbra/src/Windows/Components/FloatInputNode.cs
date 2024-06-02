@@ -21,7 +21,7 @@ using Una.Drawing;
 
 namespace Umbra.Windows.Components;
 
-public class FloatInputNode : Node
+internal class FloatInputNode : Node
 {
     public event Action<float>? OnValueChanged;
 

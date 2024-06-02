@@ -20,7 +20,7 @@ using Umbra.Widgets.System;
 
 namespace Umbra.Windows.Settings.Modules;
 
-public partial class WidgetsModule : SettingsModule
+internal partial class WidgetsModule : SettingsModule
 {
     public override string Id   => "WidgetsModule";
     public override string Name { get; } = I18N.Translate("Settings.WidgetsModule.Name");

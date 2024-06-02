@@ -18,7 +18,7 @@ using Una.Drawing;
 
 namespace Umbra.Widgets;
 
-public partial class WeatherWidgetPopup
+internal partial class WeatherWidgetPopup
 {
     private static Stylesheet PopupStylesheet { get; } = new(
         [

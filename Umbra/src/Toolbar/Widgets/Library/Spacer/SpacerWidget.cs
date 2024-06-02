@@ -16,16 +16,17 @@
 
 using System.Collections.Generic;
 using Umbra.Common;
-using Umbra.Widgets.System;
 using Una.Drawing;
 
 namespace Umbra.Widgets;
 
-public class SpacerWidget(WidgetInfo info, string? guid = null, Dictionary<string, object>? configValues = null)
+[ToolbarWidget("Spacer", "Widget.Spacer.Name", "Widget.Spacer.Description")]
+internal class SpacerWidget(WidgetInfo info, string? guid = null, Dictionary<string, object>? configValues = null)
     : ToolbarWidget(info, guid, configValues)
 {
     public override WidgetPopup? Popup { get; } = null;
-    public override Node         Node  { get; } = new() {
+
+    public override Node Node { get; } = new() {
         Style = new() {
             Anchor = Anchor.MiddleLeft,
             Size   = new(2, 28)

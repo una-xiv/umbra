@@ -7,7 +7,7 @@ using Una.Drawing;
 
 namespace Umbra.Widgets;
 
-public sealed partial class VolumeWidgetPopup : WidgetPopup
+internal sealed partial class VolumeWidgetPopup : WidgetPopup
 {
     protected override Node Node { get; } = new() {
         Stylesheet = VolumeWidgetPopupStylesheet,

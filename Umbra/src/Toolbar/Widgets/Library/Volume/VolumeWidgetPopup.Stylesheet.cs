@@ -2,7 +2,7 @@
 
 namespace Umbra.Widgets;
 
-public partial class VolumeWidgetPopup
+internal partial class VolumeWidgetPopup
 {
     private static Stylesheet VolumeWidgetPopupStylesheet { get; } = new(
         [

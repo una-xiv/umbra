@@ -18,7 +18,7 @@ using Dalamud.Utility;
 
 namespace Umbra.Widgets;
 
-public partial class OnlineStatusWidget
+internal partial class OnlineStatusWidget
 {
     /// <inheritdoc/>
     public override MenuPopup Popup { get; } = new() { UseGrayscaleIcons = false };

@@ -18,7 +18,7 @@ using Una.Drawing;
 
 namespace Umbra.Windows;
 
-public static class WindowStyles
+internal static class WindowStyles
 {
     public static readonly Stylesheet WindowStylesheet = new(
         [

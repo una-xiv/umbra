@@ -25,7 +25,7 @@ using Una.Drawing;
 
 namespace Umbra.Windows.Settings.Modules;
 
-public partial class AppearanceModule
+internal partial class AppearanceModule
 {
     private readonly Dictionary<string, Node>           _categoryNodes = [];
     private readonly Dictionary<string, ColorInputNode> _colorPickers  = [];

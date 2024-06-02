@@ -38,6 +38,15 @@ internal sealed partial class WidgetManager : IDisposable
     {
         Toolbar = toolbar;
 
+        foreach ((Type type, WidgetInfo info) in WidgetRegistry.RegisteredWidgets) {
+            if (type.IsSubclassOf(typeof(ToolbarWidget))) {
+                _widgetTypes[info.Id] = type;
+                _widgetInfos[info.Id] = info;
+
+                Logger.Info($"Added widget '{info.Name}' to the widget registry.");
+            }
+        }
+
         ConfigManager.CvarChanged += OnCvarChanged;
         LoadState();
     }

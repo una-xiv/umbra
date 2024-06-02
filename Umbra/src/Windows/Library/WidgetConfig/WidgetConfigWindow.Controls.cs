@@ -23,7 +23,7 @@ using Una.Drawing;
 
 namespace Umbra.Windows.Library.WidgetConfig;
 
-public partial class WidgetConfigWindow
+internal partial class WidgetConfigWindow
 {
     private void RenderControl(IWidgetConfigVariable cvar)
     {

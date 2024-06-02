@@ -19,7 +19,7 @@ using Umbra.Markers.System;
 
 namespace Umbra.Windows.Settings.Modules;
 
-public sealed partial class MarkersModule : SettingsModule
+internal sealed partial class MarkersModule : SettingsModule
 {
     public override string Id   { get; } = "MarkersModule";
     public override string Name { get; } = I18N.Translate("Settings.MarkersModule.Name");

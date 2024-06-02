@@ -22,7 +22,7 @@ using Umbra.Common;
 
 namespace Umbra.Widgets;
 
-public partial class CurrenciesWidget
+internal partial class CurrenciesWidget
 {
     public override MenuPopup Popup { get; } = new() { UseGrayscaleIcons = false };
 

@@ -22,7 +22,7 @@ using Una.Drawing;
 
 namespace Umbra.Windows.Oobe.Steps;
 
-public class FinishStep : IOobeStep
+internal class FinishStep : IOobeStep
 {
     public string Title       { get; }      = I18N.Translate("OOBE.Finish.Title");
     public string Description { get; }      = I18N.Translate("OOBE.Finish.Description");

@@ -19,7 +19,7 @@ using Umbra.Common;
 
 namespace Umbra.Widgets;
 
-public unsafe partial class DtrBarWidget
+internal unsafe partial class DtrBarWidget
 {
     private void UpdateNativeServerInfoBar()
     {

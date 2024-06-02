@@ -20,12 +20,12 @@ using Dalamud.Utility;
 using Lumina.Excel.GeneratedSheets;
 using Umbra.Common;
 using Umbra.Game;
-using Umbra.Widgets.System;
 using Una.Drawing;
 
 namespace Umbra.Widgets;
 
-public sealed partial class ItemButtonWidget(
+[ToolbarWidget("ItemButton", "Widget.ItemButton.Name", "Widget.ItemButton.Description")]
+internal sealed partial class ItemButtonWidget(
     WidgetInfo                  info,
     string?                     guid         = null,
     Dictionary<string, object>? configValues = null

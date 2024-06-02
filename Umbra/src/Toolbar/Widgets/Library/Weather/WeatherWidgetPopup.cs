@@ -22,7 +22,7 @@ using Una.Drawing;
 
 namespace Umbra.Widgets;
 
-public partial class WeatherWidgetPopup : WidgetPopup
+internal partial class WeatherWidgetPopup : WidgetPopup
 {
     private IZoneManager? _zoneManager;
 

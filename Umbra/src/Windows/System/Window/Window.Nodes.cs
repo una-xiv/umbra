@@ -19,7 +19,7 @@ using Una.Drawing;
 
 namespace Umbra.Windows;
 
-public abstract partial class Window
+internal abstract partial class Window
 {
     private readonly Node _windowNode = new() {
         Stylesheet = WindowStyles.WindowStylesheet,

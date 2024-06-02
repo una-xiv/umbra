@@ -18,7 +18,7 @@ using Una.Drawing;
 
 namespace Umbra.Widgets;
 
-public partial class CompanionPopup
+internal partial class CompanionPopup
 {
     private static Stylesheet CompanionPopupStylesheet { get; } = new(
         [

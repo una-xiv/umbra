@@ -18,11 +18,11 @@ using System.Collections.Generic;
 using System.Numerics;
 using Umbra.Common;
 using Umbra.Game;
-using Umbra.Widgets.System;
 
 namespace Umbra.Widgets;
 
-public sealed partial class CompanionWidget(
+[ToolbarWidget("Companion", "Widget.Companion.Name", "Widget.Companion.Description")]
+internal sealed partial class CompanionWidget(
     WidgetInfo                  info,
     string?                     guid         = null,
     Dictionary<string, object>? configValues = null

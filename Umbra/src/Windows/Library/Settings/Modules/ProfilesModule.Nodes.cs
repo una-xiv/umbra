@@ -21,7 +21,7 @@ using Una.Drawing;
 
 namespace Umbra.Windows.Settings.Modules;
 
-public partial class ProfilesModule
+internal partial class ProfilesModule
 {
     public sealed override Node Node { get; } = new() {
         Stylesheet = ProfilesModuleStylesheet,

@@ -21,7 +21,7 @@ using Una.Drawing;
 
 namespace Umbra.Windows.Settings.Modules;
 
-public partial class CvarModule : SettingsModule
+internal partial class CvarModule : SettingsModule
 {
     public sealed override string Id   { get; }
     public sealed override string Name { get; }

@@ -20,7 +20,7 @@ using Una.Drawing;
 
 namespace Umbra.Windows.Components;
 
-public class VerticalSliderNode : Node
+internal class VerticalSliderNode : Node
 {
     public event Action<int>? OnValueChanged;
 

@@ -26,7 +26,7 @@ using Umbra.Game;
 namespace Umbra.Markers.Library;
 
 [Service]
-public class FateMarkerFactory(IZoneManager zoneManager) : WorldMarkerFactory
+internal class FateMarkerFactory(IZoneManager zoneManager) : WorldMarkerFactory
 {
     public override string Id          { get; } = "FateMarkers";
     public override string Name        { get; } = I18N.Translate("Markers.Fate.Name");

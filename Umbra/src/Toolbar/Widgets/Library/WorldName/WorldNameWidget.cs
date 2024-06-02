@@ -18,11 +18,11 @@ using System.Collections.Generic;
 using Dalamud.Game.Text.SeStringHandling;
 using Umbra.Common;
 using Umbra.Game;
-using Umbra.Widgets.System;
 
 namespace Umbra.Widgets;
 
-public partial class WorldNameWidget(
+[ToolbarWidget("WorldName", "Widget.WorldName.Name", "Widget.WorldName.Description")]
+internal partial class WorldNameWidget(
     WidgetInfo                  info,
     string?                     guid         = null,
     Dictionary<string, object>? configValues = null

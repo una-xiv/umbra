@@ -20,7 +20,7 @@ using Una.Drawing;
 
 namespace Umbra.Windows.Library.WidgetConfig;
 
-public partial class WidgetConfigWindow
+internal partial class WidgetConfigWindow
 {
     protected sealed override Node Node { get; } = new() {
         Stylesheet = WidgetConfigWindowStylesheet,

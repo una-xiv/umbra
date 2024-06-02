@@ -19,7 +19,7 @@ using Umbra.Common;
 namespace Umbra.Markers.System;
 
 [Service]
-public class StreamSphereOverride
+internal class StreamSphereOverride
 {
     /// <summary>
     /// Overrides the collision stream sphere to be larger. This ensures that

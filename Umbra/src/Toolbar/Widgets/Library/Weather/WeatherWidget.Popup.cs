@@ -16,7 +16,7 @@
 
 namespace Umbra.Widgets;
 
-public partial class WeatherWidget
+internal partial class WeatherWidget
 {
     public override WeatherWidgetPopup Popup { get; } = new();
 }

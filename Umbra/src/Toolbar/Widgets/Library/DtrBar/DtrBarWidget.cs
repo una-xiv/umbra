@@ -18,12 +18,12 @@ using System.Collections.Generic;
 using Dalamud.Plugin.Services;
 using Umbra.Common;
 using Umbra.Game;
-using Umbra.Widgets.System;
 using Una.Drawing;
 
 namespace Umbra.Widgets;
 
-public sealed partial class DtrBarWidget(
+[ToolbarWidget("DtrBar", "Widget.DtrBar.Name", "Widget.DtrBar.Description")]
+internal sealed partial class DtrBarWidget(
     WidgetInfo                  info,
     string?                     guid         = null,
     Dictionary<string, object>? configValues = null

@@ -18,7 +18,7 @@ using Una.Drawing;
 
 namespace Umbra.Widgets;
 
-public class TestPopup : WidgetPopup
+internal class TestPopup : WidgetPopup
 {
     protected override Node Node { get; } = new() {
         Id        = "MyTestPopup",

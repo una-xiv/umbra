@@ -23,7 +23,7 @@ using Umbra.Game;
 namespace Umbra.Markers.Library;
 
 [Service]
-public class FlagMarkerFactory : WorldMarkerFactory
+internal class FlagMarkerFactory : WorldMarkerFactory
 {
     public override string Id          { get; } = "FlagMarker";
     public override string Name        { get; } = I18N.Translate("Markers.Flag.Name");

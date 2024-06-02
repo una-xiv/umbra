@@ -21,7 +21,7 @@ using Umbra.Widgets.System;
 
 namespace Umbra.Windows.Library.WidgetConfig;
 
-public partial class WidgetConfigWindow : Window
+internal partial class WidgetConfigWindow : Window
 {
     protected override string  Title       { get; }
     protected override Vector2 MinSize     { get; } = new(512, 300);

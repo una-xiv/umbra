@@ -7,7 +7,7 @@ using NotImplementedException = System.NotImplementedException;
 namespace Umbra.Markers.Library;
 
 [Service]
-public class QuestMarkerFactory(IZoneManager zoneManager) : WorldMarkerFactory
+internal class QuestMarkerFactory(IZoneManager zoneManager) : WorldMarkerFactory
 {
     public override string Id          { get; } = "QuestMarkers";
     public override string Name        { get; } = I18N.Translate("Markers.Quest.Name");

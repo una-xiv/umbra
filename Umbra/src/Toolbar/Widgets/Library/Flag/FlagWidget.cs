@@ -20,11 +20,11 @@ using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using Umbra.Common;
 using Umbra.Game;
-using Umbra.Widgets.System;
 
 namespace Umbra.Widgets;
 
-public sealed unsafe partial class FlagWidget(
+[ToolbarWidget("Flag", "Widget.Flag.Name", "Widget.Flag.Description")]
+internal sealed unsafe partial class FlagWidget(
     WidgetInfo                  info,
     string?                     guid         = null,
     Dictionary<string, object>? configValues = null

@@ -22,7 +22,7 @@ using Una.Drawing;
 
 namespace Umbra.Widgets;
 
-public sealed partial class GearsetSwitcherPopup
+internal sealed partial class GearsetSwitcherPopup
 {
     private void CreateHeaderNode()
     {

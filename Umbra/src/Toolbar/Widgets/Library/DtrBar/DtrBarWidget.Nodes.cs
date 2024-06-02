@@ -19,7 +19,7 @@ using Una.Drawing;
 
 namespace Umbra.Widgets;
 
-public partial class DtrBarWidget
+internal partial class DtrBarWidget
 {
     public override WidgetPopup? Popup { get; } = null;
 

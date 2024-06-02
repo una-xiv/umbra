@@ -21,7 +21,7 @@ using Una.Drawing;
 
 namespace Umbra.Windows.Oobe.Steps;
 
-public class ToolbarBehaviorStep : IOobeStep
+internal class ToolbarBehaviorStep : IOobeStep
 {
     public string Title       { get; }      = I18N.Translate("OOBE.ToolbarBehavior.Title");
     public string Description { get; }      = I18N.Translate("OOBE.ToolbarBehavior.Description");

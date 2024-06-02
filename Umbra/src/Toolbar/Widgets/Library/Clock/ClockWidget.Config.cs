@@ -19,7 +19,7 @@ using Umbra.Common;
 
 namespace Umbra.Widgets;
 
-public partial class ClockWidget
+internal partial class ClockWidget
 {
     /// <inheritdoc/>
     protected override IEnumerable<IWidgetConfigVariable> GetConfigVariables()

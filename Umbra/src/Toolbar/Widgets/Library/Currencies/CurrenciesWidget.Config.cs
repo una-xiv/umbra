@@ -19,7 +19,7 @@ using Umbra.Common;
 
 namespace Umbra.Widgets;
 
-public partial class CurrenciesWidget
+internal partial class CurrenciesWidget
 {
     protected override IEnumerable<IWidgetConfigVariable> GetConfigVariables()
     {

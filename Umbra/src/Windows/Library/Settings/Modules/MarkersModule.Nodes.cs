@@ -22,7 +22,7 @@ using Una.Drawing;
 
 namespace Umbra.Windows.Settings.Modules;
 
-public sealed partial class MarkersModule
+internal sealed partial class MarkersModule
 {
     /// <inheritdoc/>
     public override Node Node { get; } = new() {

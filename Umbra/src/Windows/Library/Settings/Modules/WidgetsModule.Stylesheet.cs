@@ -18,7 +18,7 @@ using Una.Drawing;
 
 namespace Umbra.Windows.Settings.Modules;
 
-public partial class WidgetsModule
+internal partial class WidgetsModule
 {
     private static Stylesheet WidgetsModuleStylesheet { get; } = new(
         [

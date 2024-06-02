@@ -18,7 +18,7 @@ using Una.Drawing;
 
 namespace Umbra.Windows.Settings;
 
-public partial class SettingsWindow
+internal partial class SettingsWindow
 {
     private static Stylesheet SettingsStylesheet { get; } = new(
         [

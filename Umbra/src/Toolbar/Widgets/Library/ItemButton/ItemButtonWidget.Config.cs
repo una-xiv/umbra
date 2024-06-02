@@ -19,7 +19,7 @@ using Umbra.Common;
 
 namespace Umbra.Widgets;
 
-public partial class ItemButtonWidget
+internal partial class ItemButtonWidget
 {
     /// <inheritdoc/>
     protected override IEnumerable<IWidgetConfigVariable> GetConfigVariables()

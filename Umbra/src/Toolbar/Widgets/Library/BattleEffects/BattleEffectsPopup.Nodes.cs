@@ -22,7 +22,7 @@ using Una.Drawing;
 
 namespace Umbra.Widgets;
 
-public partial class BattleEffectsPopup
+internal partial class BattleEffectsPopup
 {
     private static IGameConfig? GameConfig = null;
 

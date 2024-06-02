@@ -19,12 +19,16 @@ using System.Collections.Generic;
 using Dalamud.Game.Text;
 using Dalamud.Utility;
 using Umbra.Common;
-using Umbra.Widgets.System;
 using Una.Drawing;
 
 namespace Umbra.Widgets;
 
-public partial class ClockWidget(WidgetInfo info, string? guid = null, Dictionary<string, object>? configValues = null)
+[ToolbarWidget("Clock", "Widget.Clock.Name", "Widget.Clock.Description")]
+internal partial class ClockWidget(
+    WidgetInfo                  info,
+    string?                     guid         = null,
+    Dictionary<string, object>? configValues = null
+)
     : ToolbarWidget(info, guid, configValues)
 {
     public override WidgetPopup? Popup { get; } = null;
@@ -33,7 +37,8 @@ public partial class ClockWidget(WidgetInfo info, string? guid = null, Dictionar
 
     public override string GetInstanceName()
     {
-        return $"{Info.Name} - {I18N.Translate($"Widget.Clock.Config.TimeSource.{GetConfigValue<string>("TimeSource")}")}";
+        return
+            $"{Info.Name} - {I18N.Translate($"Widget.Clock.Config.TimeSource.{GetConfigValue<string>("TimeSource")}")}";
     }
 
     protected override void Initialize() { }
@@ -74,14 +79,16 @@ public partial class ClockWidget(WidgetInfo info, string? guid = null, Dictionar
             }
         }
 
-        Node.Tooltip = isInteractive ? I18N.Translate($"Widget.Clock.Config.TimeSource.{GetConfigValue<string>("TimeSource")}") : null;
+        Node.Tooltip = isInteractive
+            ? I18N.Translate($"Widget.Clock.Config.TimeSource.{GetConfigValue<string>("TimeSource")}")
+            : null;
 
-        PrefixNode.NodeValue       = useCustomPrefix ? GetConfigValue<string>("PrefixText") : GetPrefixIcon().ToIconString();
-        PrefixNode.Style.Font      = useCustomPrefix ? 3u : 4u;
+        PrefixNode.NodeValue = useCustomPrefix ? GetConfigValue<string>("PrefixText") : GetPrefixIcon().ToIconString();
+        PrefixNode.Style.Font = useCustomPrefix ? 3u : 4u;
         PrefixNode.Style.IsVisible = isPrefixVisible;
-        TimeNode.Style.TextOffset  = new(0, GetConfigValue<int>("TextYOffset"));
-        TimeNode.Style.Size        = new(GetConfigValue<int>("CustomWidth"), 28);
-        TimeNode.Style.Padding     = new() { Left = isPrefixVisible ? 0 : 6, Right = 6 };
+        TimeNode.Style.TextOffset = new(0, GetConfigValue<int>("TextYOffset"));
+        TimeNode.Style.Size = new(GetConfigValue<int>("CustomWidth"), 28);
+        TimeNode.Style.Padding = new() { Left = isPrefixVisible ? 0 : 6, Right = 6 };
 
         DateTime time        = GetTime();
         var      use24H      = GetConfigValue<bool>("Use24HourFormat");

@@ -23,7 +23,7 @@ using Una.Drawing;
 
 namespace Umbra.Windows.Components;
 
-public class SelectNode : Node
+internal class SelectNode : Node
 {
     public event Action<string>? OnValueChanged;
 

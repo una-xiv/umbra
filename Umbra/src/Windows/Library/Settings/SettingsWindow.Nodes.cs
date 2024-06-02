@@ -20,7 +20,7 @@ using Una.Drawing;
 
 namespace Umbra.Windows.Settings;
 
-public partial class SettingsWindow
+internal partial class SettingsWindow
 {
     protected sealed override Node Node { get; } = new() {
         Stylesheet = SettingsStylesheet,

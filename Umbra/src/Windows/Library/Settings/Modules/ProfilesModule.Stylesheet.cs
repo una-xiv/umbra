@@ -18,7 +18,7 @@ using Una.Drawing;
 
 namespace Umbra.Windows.Settings.Modules;
 
-public partial class ProfilesModule
+internal partial class ProfilesModule
 {
     private static Stylesheet ProfilesModuleStylesheet { get; } = new(
         [

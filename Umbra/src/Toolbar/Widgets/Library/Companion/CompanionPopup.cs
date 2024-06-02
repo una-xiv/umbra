@@ -19,7 +19,7 @@ using Umbra.Game;
 
 namespace Umbra.Widgets;
 
-public sealed partial class CompanionPopup : WidgetPopup
+internal sealed partial class CompanionPopup : WidgetPopup
 {
     private IPlayer           Player    { get; } = Framework.Service<IPlayer>();
     private ICompanionManager Companion { get; } = Framework.Service<ICompanionManager>();

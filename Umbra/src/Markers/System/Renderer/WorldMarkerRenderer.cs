@@ -27,7 +27,7 @@ using Una.Drawing;
 namespace Umbra.Markers.System.Renderer;
 
 [Service]
-public class WorldMarkerRenderer(
+internal class WorldMarkerRenderer(
     IGameCamera         gameCamera,
     IPlayer             player,
     ClipRectProvider    clipRectProvider,

@@ -19,7 +19,7 @@ using Umbra.Common;
 
 namespace Umbra.Widgets;
 
-public partial class DtrBarWidget
+internal partial class DtrBarWidget
 {
     protected override IEnumerable<IWidgetConfigVariable> GetConfigVariables()
     {

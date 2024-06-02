@@ -6,7 +6,7 @@ using Una.Drawing;
 
 namespace Umbra.Widgets;
 
-public abstract class IconToolbarWidget(
+internal abstract class IconToolbarWidget(
     WidgetInfo                  info,
     string?                     guid         = null,
     Dictionary<string, object>? configValues = null

@@ -23,7 +23,7 @@ using Umbra.Game;
 namespace Umbra.Markers.System;
 
 [Service]
-public sealed class WorldMarkerRaycaster
+internal sealed class WorldMarkerRaycaster
 {
     private readonly IPlayer _player;
 

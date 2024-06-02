@@ -18,7 +18,7 @@
 
 namespace Umbra.Widgets;
 
-public partial class GearsetNode
+internal partial class GearsetNode
 {
     private static Stylesheet GearsetSwitcherItemStylesheet { get; } = new(
         [

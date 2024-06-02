@@ -18,11 +18,15 @@ using System.Collections.Generic;
 using Dalamud.Interface;
 using Umbra.Common;
 using Umbra.Markers.System;
-using Umbra.Widgets.System;
 
 namespace Umbra.Widgets;
 
-public class MarkerControlWidget(WidgetInfo info, string? guid = null, Dictionary<string, object>? configValues = null)
+[ToolbarWidget("MarkerControl", "Widget.MarkerControl.Name", "Widget.MarkerControl.Description")]
+internal class MarkerControlWidget(
+    WidgetInfo                  info,
+    string?                     guid         = null,
+    Dictionary<string, object>? configValues = null
+)
     : IconToolbarWidget(info, guid, configValues)
 {
     public override MenuPopup Popup { get; } = new MenuPopup();
@@ -35,9 +39,12 @@ public class MarkerControlWidget(WidgetInfo info, string? guid = null, Dictionar
 
         foreach (string id in Registry.GetFactoryIds()) {
             var factory = Registry.GetFactory(id);
-            Popup.AddButton(id, factory.Name, onClick: () => {
-                factory.SetConfigValue("Enabled", !factory.GetConfigValue<bool>("Enabled"));
-            });
+
+            Popup.AddButton(
+                id,
+                factory.Name,
+                onClick: () => { factory.SetConfigValue("Enabled", !factory.GetConfigValue<bool>("Enabled")); }
+            );
         }
     }
 

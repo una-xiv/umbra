@@ -19,7 +19,7 @@ using FFXIVClientStructs.FFXIV.Client.UI.Info;
 
 namespace Umbra.Widgets;
 
-public unsafe partial class MailIndicatorWidget
+internal unsafe partial class MailIndicatorWidget
 {
     /// <summary>
     /// Returns true if the player has unread mail.

@@ -27,7 +27,7 @@ using Una.Drawing;
 
 namespace Umbra.Windows.Settings.Modules;
 
-public partial class WidgetsModule
+internal partial class WidgetsModule
 {
     public sealed override Node Node { get; } = new() {
         Stylesheet = WidgetsModuleStylesheet,

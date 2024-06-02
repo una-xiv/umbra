@@ -23,7 +23,7 @@ using Umbra.Markers.System;
 
 namespace Umbra.Markers;
 
-public abstract class WorldMarkerFactory : IDisposable
+internal abstract class WorldMarkerFactory : IDisposable
 {
     /// <summary>
     /// A unique ID that identifies the marker types this factory produces.

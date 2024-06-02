@@ -14,7 +14,7 @@
  *     GNU Affero General Public License for more details.
  */
 
-namespace Umbra.Widgets.System;
+namespace Umbra.Widgets;
 
 public class WidgetInfo(string id, string name, string description)
 {

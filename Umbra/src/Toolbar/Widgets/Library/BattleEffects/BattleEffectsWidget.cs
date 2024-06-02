@@ -16,11 +16,11 @@
 
 using System.Collections.Generic;
 using Dalamud.Interface;
-using Umbra.Widgets.System;
 
 namespace Umbra.Widgets;
 
-public partial class BattleEffectsWidget(
+[ToolbarWidget("BattleEffects", "Widget.BattleEffects.Name", "Widget.BattleEffects.Description")]
+internal partial class BattleEffectsWidget(
     WidgetInfo                  info,
     string?                     guid         = null,
     Dictionary<string, object>? configValues = null

@@ -21,7 +21,7 @@ using Una.Drawing;
 
 namespace Umbra.Windows.Settings.Modules;
 
-public partial class AppearanceModule : SettingsModule
+internal partial class AppearanceModule : SettingsModule
 {
     private void CreateFontControlNodes()
     {

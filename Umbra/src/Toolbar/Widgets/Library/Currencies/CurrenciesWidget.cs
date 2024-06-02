@@ -17,14 +17,12 @@
 using System;
 using System.Collections.Generic;
 using System.Timers;
-using Dalamud.Utility;
-using Lumina.Excel.GeneratedSheets;
 using Umbra.Common;
-using Umbra.Widgets.System;
 
 namespace Umbra.Widgets;
 
-public sealed partial class CurrenciesWidget(
+[ToolbarWidget("Currencies", "Widget.Currencies.Name", "Widget.Currencies.Description")]
+internal sealed partial class CurrenciesWidget(
     WidgetInfo                  info,
     string?                     guid         = null,
     Dictionary<string, object>? configValues = null

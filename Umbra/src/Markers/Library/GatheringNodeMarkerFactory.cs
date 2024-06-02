@@ -27,7 +27,7 @@ using Umbra.Game;
 namespace Umbra.Markers.Library;
 
 [Service]
-public class GatheringNodeMarkerFactory(
+internal class GatheringNodeMarkerFactory(
     IDataManager dataManager,
     IObjectTable objectTable,
     IPlayer      player,

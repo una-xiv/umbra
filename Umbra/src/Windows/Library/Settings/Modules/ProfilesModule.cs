@@ -24,7 +24,7 @@ using Umbra.Common;
 
 namespace Umbra.Windows.Settings.Modules;
 
-public partial class ProfilesModule : SettingsModule
+internal partial class ProfilesModule : SettingsModule
 {
     public override string Id   { get; } = "ProfilesModule";
     public override string Name { get; } = I18N.Translate("Settings.ProfilesModule.Name");

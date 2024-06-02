@@ -21,7 +21,7 @@ using Umbra.Common;
 namespace Umbra.Windows;
 
 [Service]
-public class WindowManager
+internal class WindowManager
 {
     private readonly Dictionary<string, Window>          _instances = [];
     private readonly Dictionary<string, Action<Window>?> _callbacks = [];

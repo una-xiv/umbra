@@ -22,7 +22,7 @@ using Una.Drawing;
 
 namespace Umbra.Widgets;
 
-public partial class BattleEffectsPopup : WidgetPopup
+internal partial class BattleEffectsPopup : WidgetPopup
 {
     private readonly Dictionary<string, ControlNode> _nodes = [];
     private readonly IGameConfig                     _gameConfig;

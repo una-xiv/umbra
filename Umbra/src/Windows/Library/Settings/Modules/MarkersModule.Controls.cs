@@ -21,7 +21,7 @@ using Una.Drawing;
 
 namespace Umbra.Windows.Settings.Modules;
 
-public sealed partial class MarkersModule
+internal sealed partial class MarkersModule
 {
     private static Node? RenderControlNode(WorldMarkerFactory factory, IMarkerConfigVariable cvar)
     {

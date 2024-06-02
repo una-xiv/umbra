@@ -2,7 +2,7 @@
 
 namespace Umbra.Widgets;
 
-public partial class AccessibilityWidgetPopup : WidgetPopup
+internal partial class AccessibilityWidgetPopup : WidgetPopup
 {
     private static Stylesheet AccessibilityStylesheet { get; } = new(
         [

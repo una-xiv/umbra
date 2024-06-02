@@ -22,7 +22,7 @@ using Umbra.Windows.Settings.Modules;
 
 namespace Umbra.Windows.Settings;
 
-public partial class SettingsWindow : Window
+internal partial class SettingsWindow : Window
 {
     protected override Vector2 MinSize     { get; } = new(1000, 540);
     protected override Vector2 MaxSize     { get; } = new(1440, 1000);
@@ -41,6 +41,7 @@ public partial class SettingsWindow : Window
 
         AddModule(new AppearanceModule());
         AddModule(new ProfilesModule());
+        AddModule(new PluginsModule());
 
         Node.ParentNode!.Overflow = true;
 

@@ -27,7 +27,7 @@ using Umbra.Game;
 namespace Umbra.Markers.Library;
 
 [Service]
-public class TripleTriadMarkerFactory(IDataManager dataManager, IZoneManager zoneManager) : WorldMarkerFactory
+internal class TripleTriadMarkerFactory(IDataManager dataManager, IZoneManager zoneManager) : WorldMarkerFactory
 {
     public override string Id          { get; } = "TripleTriadMarkers";
     public override string Name        { get; } = I18N.Translate("Markers.TripleTriad.Name");

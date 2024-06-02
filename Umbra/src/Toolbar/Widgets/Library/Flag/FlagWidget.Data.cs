@@ -26,7 +26,7 @@ using Umbra.Game;
 
 namespace Umbra.Widgets;
 
-public unsafe partial class FlagWidget
+internal unsafe partial class FlagWidget
 {
     private IZoneManager ZoneManager { get; } = Framework.Service<IZoneManager>();
 

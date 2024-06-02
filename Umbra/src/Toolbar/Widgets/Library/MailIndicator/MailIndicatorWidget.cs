@@ -16,14 +16,12 @@
 
 using System.Collections.Generic;
 using Dalamud.Interface;
-using Dalamud.Interface.GameFonts;
 using Umbra.Common;
-using Umbra.Widgets.System;
-using Una.Drawing;
 
 namespace Umbra.Widgets;
 
-public partial class MailIndicatorWidget(
+[ToolbarWidget("MailIndicator", "Widget.MailIndicator.Name", "Widget.MailIndicator.Description")]
+internal partial class MailIndicatorWidget(
     WidgetInfo                  info,
     string?                     guid         = null,
     Dictionary<string, object>? configValues = null

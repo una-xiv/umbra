@@ -16,7 +16,7 @@
 
 namespace Umbra.Widgets;
 
-public sealed partial class VolumeWidget
+internal sealed partial class VolumeWidget
 {
 
 }

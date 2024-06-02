@@ -27,7 +27,7 @@ using Umbra.Common;
 namespace Umbra.Windows.Clipping;
 
 [Service]
-public sealed class ClipRectProvider
+internal sealed class ClipRectProvider
 {
     private readonly List<Rect> _rects = [];
 

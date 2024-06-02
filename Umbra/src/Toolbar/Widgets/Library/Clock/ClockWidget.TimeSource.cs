@@ -19,7 +19,7 @@ using FFXIVClientStructs.FFXIV.Client.System.Framework;
 
 namespace Umbra.Widgets;
 
-public partial class ClockWidget
+internal partial class ClockWidget
 {
     /// <summary>
     /// Returns a <see cref="DateTime"/> object based on the configured time

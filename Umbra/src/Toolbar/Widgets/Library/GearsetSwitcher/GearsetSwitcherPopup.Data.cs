@@ -24,7 +24,7 @@ using Una.Drawing;
 
 namespace Umbra.Widgets;
 
-public sealed partial class GearsetSwitcherPopup
+internal sealed partial class GearsetSwitcherPopup
 {
     private Dictionary<GearsetCategory, List<Gearset>> GearsetsByCategory { get; } = [];
     private Dictionary<GearsetCategory, Node>          RoleContainers     { get; } = [];

@@ -18,7 +18,7 @@ using Una.Drawing;
 
 namespace Umbra.Windows.Settings.Modules;
 
-public partial class CvarModule
+internal partial class CvarModule
 {
     private static Stylesheet CvarModuleStylesheet { get; } = new(
         [

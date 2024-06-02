@@ -21,7 +21,7 @@ using Una.Drawing;
 
 namespace Umbra.Markers.System;
 
-public static class ImDrawListPtrExtensions
+internal static class ImDrawListPtrExtensions
 {
     /// <summary>
     /// Adds a rotated image to the draw list.

@@ -23,7 +23,7 @@ using Una.Drawing;
 
 namespace Umbra.Markers.System.Renderer;
 
-public class WorldMarkerNode : Node
+internal class WorldMarkerNode : Node
 {
     private readonly List<WorldMarker> _enqueuedMarkers  = [];
     private readonly List<WorldMarker> _committedMarkers = [];

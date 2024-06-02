@@ -20,7 +20,7 @@ using Una.Drawing;
 
 namespace Umbra.Windows.Components;
 
-public class CheckboxNode : Node
+internal class CheckboxNode : Node
 {
     public event Action<bool>? OnValueChanged;
 

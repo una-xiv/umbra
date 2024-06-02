@@ -29,7 +29,7 @@ using Umbra.Widgets.System;
 
 namespace Umbra.Widgets;
 
-public partial class CurrenciesWidget
+internal partial class CurrenciesWidget
 {
     private static readonly Dictionary<CurrencyType, Currency> Currencies = [];
     private static readonly Dictionary<uint, int>              GcSealsCap = [];

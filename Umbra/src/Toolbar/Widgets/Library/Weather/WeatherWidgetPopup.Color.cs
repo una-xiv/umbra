@@ -23,7 +23,7 @@ using Umbra.Common;
 
 namespace Umbra.Widgets;
 
-public partial class WeatherWidgetPopup
+internal partial class WeatherWidgetPopup
 {
     private static readonly Dictionary<uint, uint> Cache = [];
 

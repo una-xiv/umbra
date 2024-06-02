@@ -22,7 +22,7 @@ using Una.Drawing;
 
 namespace Umbra.Widgets;
 
-public partial class GearsetNode : Node
+internal partial class GearsetNode : Node
 {
     public const int NodeWidth  = 200;
     public const int NodeHeight = 40;

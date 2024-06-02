@@ -20,7 +20,7 @@ using Umbra.Game;
 namespace Umbra;
 
 [Service]
-internal sealed class UmbraVisibility(IPlayer player)
+public sealed class UmbraVisibility(IPlayer player)
 {
     [ConfigVariable("General.ShowInCutscenes", "General", "VisibilitySettings")]
     public static bool ShowInCutscenes { get; set; } = false;

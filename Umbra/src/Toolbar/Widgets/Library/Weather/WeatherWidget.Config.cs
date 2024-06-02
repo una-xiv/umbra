@@ -19,7 +19,7 @@ using Umbra.Common;
 
 namespace Umbra.Widgets;
 
-public partial class WeatherWidget
+internal partial class WeatherWidget
 {
     protected override IEnumerable<IWidgetConfigVariable> GetConfigVariables()
     {

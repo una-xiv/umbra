@@ -19,7 +19,7 @@ using Umbra.Common;
 
 namespace Umbra.Windows.Settings;
 
-public partial class SettingsWindow
+internal partial class SettingsWindow
 {
     private static byte[]  LogoTexture => _logoTexture ??= GetEmbeddedTexture("Logo.png");
     private static byte[]? _logoTexture;

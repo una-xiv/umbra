@@ -21,11 +21,11 @@ using Dalamud.Game.Text;
 using Dalamud.Plugin.Services;
 using Umbra.Common;
 using Umbra.Game;
-using Umbra.Widgets.System;
 
 namespace Umbra.Widgets;
 
-public sealed class MainMenuWidget(
+[ToolbarWidget("MainMenu", "Widget.MainMenu.Name", "Widget.MainMenu.Description")]
+internal sealed class MainMenuWidget(
     WidgetInfo                  info,
     string?                     guid         = null,
     Dictionary<string, object>? configValues = null

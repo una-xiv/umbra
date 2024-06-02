@@ -27,7 +27,7 @@ using Umbra.Game;
 namespace Umbra.Markers.Library;
 
 [Service]
-public class HuntWorldMarkerFactory(IDataManager dataManager, IZoneManager zoneManager) : WorldMarkerFactory
+internal class HuntWorldMarkerFactory(IDataManager dataManager, IZoneManager zoneManager) : WorldMarkerFactory
 {
     public override string Id          { get; } = "HuntMarkers";
     public override string Name        { get; } = I18N.Translate("Markers.Hunt.Name");

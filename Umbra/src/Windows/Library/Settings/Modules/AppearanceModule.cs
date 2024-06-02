@@ -20,7 +20,7 @@ using Una.Drawing;
 
 namespace Umbra.Windows.Settings.Modules;
 
-public partial class AppearanceModule : SettingsModule
+internal partial class AppearanceModule : SettingsModule
 {
     public override string Id   { get; } = "AppearanceModule";
     public override string Name { get; } = I18N.Translate("Settings.AppearanceModule.Name");

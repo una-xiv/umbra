@@ -19,7 +19,7 @@ using Una.Drawing;
 
 namespace Umbra.Windows;
 
-public abstract partial class Window
+internal abstract partial class Window
 {
     internal event Action? RequestClose;
 

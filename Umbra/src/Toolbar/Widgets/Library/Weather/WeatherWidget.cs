@@ -17,11 +17,11 @@
 using System.Collections.Generic;
 using Umbra.Common;
 using Umbra.Game;
-using Umbra.Widgets.System;
 
 namespace Umbra.Widgets;
 
-public partial class WeatherWidget(
+[ToolbarWidget("Weather", "Widget.Weather.Name", "Widget.Weather.Description")]
+internal partial class WeatherWidget(
     WidgetInfo                  info,
     string?                     guid         = null,
     Dictionary<string, object>? configValues = null

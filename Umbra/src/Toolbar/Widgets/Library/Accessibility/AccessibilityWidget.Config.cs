@@ -19,7 +19,7 @@ using Umbra.Common;
 
 namespace Umbra.Widgets;
 
-public partial class AccessibilityWidget
+internal partial class AccessibilityWidget
 {
     protected override IEnumerable<IWidgetConfigVariable> GetConfigVariables()
     {

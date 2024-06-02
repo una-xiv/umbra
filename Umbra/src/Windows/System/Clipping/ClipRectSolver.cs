@@ -23,7 +23,7 @@ using Umbra.Common;
 namespace Umbra.Windows.Clipping;
 
 [Service]
-public sealed class ClipRectSolver(ClipRectProvider provider)
+internal sealed class ClipRectSolver(ClipRectProvider provider)
 {
     // A smaller cell size will result in more accurate clipping when multiple
     // game windows are intersecting with the given area clip. However, having
@@ -153,7 +153,7 @@ public sealed class ClipRectSolver(ClipRectProvider provider)
     }
 }
 
-public struct RectSolverResult
+internal struct RectSolverResult
 {
     public List<Rect> SolvedRects;
     public List<Rect> NativeRects;

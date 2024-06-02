@@ -18,11 +18,11 @@ using System.Collections.Generic;
 using Dalamud.Interface;
 using Dalamud.Plugin.Services;
 using Umbra.Common;
-using Umbra.Widgets.System;
 
 namespace Umbra.Widgets;
 
-public sealed partial class VolumeWidget(
+[ToolbarWidget("Volume", "Widget.Volume.Name", "Widget.Volume.Description")]
+internal sealed partial class VolumeWidget(
     WidgetInfo                  info,
     string?                     guid         = null,
     Dictionary<string, object>? configValues = null

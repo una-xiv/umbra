@@ -22,7 +22,7 @@ using Umbra.Common;
 
 namespace Umbra.Widgets;
 
-public partial class OnlineStatusWidget
+internal partial class OnlineStatusWidget
 {
     /// <summary>
     /// Returns an OnlineStatus row by its ID.

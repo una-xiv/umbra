@@ -19,7 +19,7 @@ using Una.Drawing;
 
 namespace Umbra.Widgets;
 
-public partial class ClockWidget
+internal partial class ClockWidget
 {
     /// <inheritdoc/>
     public sealed override Node Node { get; } = new() {

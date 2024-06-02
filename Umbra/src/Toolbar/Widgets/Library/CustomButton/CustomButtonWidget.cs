@@ -18,12 +18,12 @@ using System.Collections.Generic;
 using Dalamud.Plugin.Services;
 using Umbra.Common;
 using Umbra.Game;
-using Umbra.Widgets.System;
 using Una.Drawing;
 
 namespace Umbra.Widgets;
 
-public sealed partial class CustomButtonWidget(
+[ToolbarWidget("CustomButton", "Widget.CustomButton.Name", "Widget.CustomButton.Description")]
+internal sealed partial class CustomButtonWidget(
     WidgetInfo                  info,
     string?                     guid         = null,
     Dictionary<string, object>? configValues = null

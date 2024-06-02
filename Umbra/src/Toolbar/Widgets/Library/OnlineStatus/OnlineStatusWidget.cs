@@ -18,12 +18,12 @@ using System.Collections.Generic;
 using Dalamud.Utility;
 using Umbra.Common;
 using Umbra.Game;
-using Umbra.Widgets.System;
 using Una.Drawing;
 
 namespace Umbra.Widgets;
 
-public partial class OnlineStatusWidget(
+[ToolbarWidget("OnlineStatus", "Widget.OnlineStatus.Name", "Widget.OnlineStatus.Description")]
+internal partial class OnlineStatusWidget(
     WidgetInfo                  info,
     string?                     guid         = null,
     Dictionary<string, object>? configValues = null

@@ -27,7 +27,7 @@ using Umbra.Game;
 namespace Umbra.Markers.System;
 
 [Service]
-public class WorldMarkerRegistry
+internal class WorldMarkerRegistry
 {
     private Dictionary<uint, Dictionary<string, WorldMarker>>      WorldMarkers { get; } = [];
     private Dictionary<uint, Dictionary<string, ResolvedPosition>> Positions    { get; } = [];

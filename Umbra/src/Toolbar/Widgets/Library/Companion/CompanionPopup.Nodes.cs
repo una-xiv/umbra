@@ -20,7 +20,7 @@ using Una.Drawing;
 
 namespace Umbra.Widgets;
 
-public partial class CompanionPopup
+internal partial class CompanionPopup
 {
     protected override Node Node { get; } = new() {
         Stylesheet = CompanionPopupStylesheet,

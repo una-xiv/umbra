@@ -18,11 +18,11 @@ using System.Collections.Generic;
 using Dalamud.Interface;
 using FFXIVClientStructs.FFXIV.Client.Game.Control;
 using Umbra.Common;
-using Umbra.Widgets.System;
 
 namespace Umbra.Widgets;
 
-public class WalkingIndicatorWidget(
+[ToolbarWidget("WalkingIndicator", "Widget.WalkingIndicator.Name", "Widget.WalkingIndicator.Description")]
+internal class WalkingIndicatorWidget(
     WidgetInfo                  info,
     string?                     guid         = null,
     Dictionary<string, object>? configValues = null

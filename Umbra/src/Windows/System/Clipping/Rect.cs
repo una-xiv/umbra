@@ -21,7 +21,7 @@ using Una.Drawing;
 
 namespace Umbra.Windows.Clipping;
 
-public class Rect(int x1 = 0, int y1 = 0, int x2 = 0, int y2 = 0)
+internal class Rect(int x1 = 0, int y1 = 0, int x2 = 0, int y2 = 0)
 {
     public int X1 { get; set; } = x1;
     public int Y1 { get; set; } = y1;

@@ -16,7 +16,6 @@
 
 using System;
 using System.Numerics;
-using Umbra.Common;
 
 namespace Umbra.Markers.System;
 
