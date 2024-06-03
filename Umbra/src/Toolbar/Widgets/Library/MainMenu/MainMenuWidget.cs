@@ -134,6 +134,7 @@ internal sealed class MainMenuWidget(
             foreach (var item in _category.Items) {
                 if (Popup.HasButton(item.Id)) {
                     Popup.SetButtonDisabled(item.Id, item.IsDisabled);
+                    Popup.SetButtonAltLabel(item.Id, item.ShortKey);
                 }
             }
         }
