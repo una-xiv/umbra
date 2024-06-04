@@ -153,7 +153,7 @@ internal partial class Toolbar
     /// <summary>
     /// Returns the horizontal position of the toolbar.
     /// </summary>
-    private static int ToolbarXPosition => (int)(ImGui.GetMainViewport().WorkSize.X / 2);
+    private static int ToolbarXPosition => (int)(ImGui.GetMainViewport().WorkPos.X + (ImGui.GetMainViewport().WorkSize.X / 2));
 
     /// <summary>
     /// Returns the vertical position of the toolbar.
