@@ -77,7 +77,7 @@ internal partial class GearsetNode
                     Flow    = Flow.Vertical,
                     Size    = new(NodeWidth - 30 - 60),
                     Padding = new() { Left = 6 },
-                    Gap     = 4,
+                    Gap     = 0,
                 }
             ),
             new(
@@ -85,11 +85,11 @@ internal partial class GearsetNode
                 new() {
                     Font         = 0,
                     FontSize     = 13,
+                    TextOffset   = new(0, 1),
                     Color        = new("Input.Text"),
                     Size         = new(NodeWidth - 30 - 60, 0),
                     TextOverflow = false,
                     WordWrap     = false,
-                    Padding      = new() { Bottom = 2 },
                 }
             ),
             new(

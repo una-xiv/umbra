@@ -25,7 +25,6 @@ using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using Lumina.Excel.GeneratedSheets;
 using Umbra.Common;
 using Umbra.Game;
-using Umbra.Widgets.System;
 
 namespace Umbra.Widgets;
 
@@ -105,30 +104,30 @@ internal partial class CurrenciesWidget
         if (false == CustomCurrencies.ContainsKey(id)) return "";
 
         return CustomCurrencies[id].Cap > 1
-            ? $"{FormatNumber(Player.GetItemCount(id), ',')} / {FormatNumber((int)CustomCurrencies[id].Cap, ',')}"
-            : $"{FormatNumber(Player.GetItemCount(id), '.')}";
+            ? $"{FormatNumber(Player.GetItemCount(id))} / {FormatNumber((int)CustomCurrencies[id].Cap)}"
+            : $"{FormatNumber(Player.GetItemCount(id))}";
     }
 
-    private static unsafe string GetAmount(CurrencyType type)
+    private unsafe string GetAmount(CurrencyType type)
     {
         switch (type) {
             case CurrencyType.Gil:
             case CurrencyType.Mgp:
             case CurrencyType.Ventures:
-                return $"{FormatNumber(Player.GetItemCount(Currencies[type].Id), '.')}";
+                return $"{FormatNumber(Player.GetItemCount(Currencies[type].Id))}";
             case CurrencyType.Maelstrom:
             case CurrencyType.TwinAdder:
             case CurrencyType.ImmortalFlames: {
                 if (Player.GrandCompanyId == 0) return "";
 
-                string cap = FormatNumber(GcSealsCap[PlayerState.Instance()->GetGrandCompanyRank()], '.');
-                string amt = FormatNumber(Player.GetItemCount(Currencies[type].Id),                  '.');
+                string cap = FormatNumber(GcSealsCap[PlayerState.Instance()->GetGrandCompanyRank()]);
+                string amt = FormatNumber(Player.GetItemCount(Currencies[type].Id));
 
                 return $"{amt} / {cap}";
             }
             case CurrencyType.LimitedTomestone: {
-                string cap = FormatNumber((int)Currencies[type].Cap,                '.');
-                string amt = FormatNumber(Player.GetItemCount(Currencies[type].Id), '.');
+                string cap = FormatNumber((int)Currencies[type].Cap);
+                string amt = FormatNumber(Player.GetItemCount(Currencies[type].Id));
 
                 int weeklyLimit = InventoryManager.GetLimitedTomestoneWeeklyLimit();
                 int weeklyCount = InventoryManager.Instance()->GetWeeklyAcquiredTomestoneCount();
@@ -138,7 +137,7 @@ internal partial class CurrenciesWidget
             default: {
                 uint cap = Currencies[type].Cap;
                 int  amt = Player.GetItemCount(Currencies[type].Id);
-                return cap > 0 ? $"{FormatNumber(amt, ',')} / {FormatNumber((int)cap, '.')}" : FormatNumber(amt, '.');
+                return cap > 0 ? $"{FormatNumber(amt)} / {FormatNumber((int)cap)}" : FormatNumber(amt);
             }
         }
     }
@@ -186,11 +185,11 @@ internal partial class CurrenciesWidget
         Custom               = -3,
     }
 
-    public static string FormatNumber(int value, char separator)
+    public string FormatNumber(int value)
     {
         // Create a custom NumberFormatInfo instance
         NumberFormatInfo nfi = new() {
-            NumberGroupSeparator = separator.ToString(),
+            NumberGroupSeparator = GetConfigValue<string>("CurrencySeparator"),
             NumberGroupSizes     = [3]
         };
 

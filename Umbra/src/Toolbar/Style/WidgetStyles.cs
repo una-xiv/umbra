@@ -127,8 +127,7 @@ internal class WidgetStyles
             new(
                 "Label:hover",
                 new() {
-                    Color        = new("Widget.TextHover"),
-                    OutlineColor = new("Widget.TextOutline"),
+                    Color = new("Widget.TextHover"),
                 }
             ),
 
@@ -142,14 +141,14 @@ internal class WidgetStyles
                 "TopLabel",
                 new() {
                     Size         = new(0, 12),
-                    Margin       = new() { Top = 1 },
+                    Margin       = new() { Top = 4 },
                     Anchor       = Anchor.MiddleCenter,
                     TextAlign    = Anchor.MiddleRight,
                     Color        = new("Widget.Text"),
                     OutlineColor = new("Widget.TextOutline"),
                     OutlineSize  = 1,
                     IsVisible    = false,
-                    FontSize     = 11,
+                    FontSize     = 12,
                     Stretch      = true,
                 }
             ),
@@ -163,15 +162,14 @@ internal class WidgetStyles
                 "BottomLabel",
                 new() {
                     Size         = new(0, 12),
-                    Margin       = new() { Top = -3 },
+                    Margin       = new() { Bottom = 2 },
                     Anchor       = Anchor.MiddleCenter,
                     TextAlign    = Anchor.MiddleRight,
-                    TextOffset   = new(0, -1),
                     Color        = new("Widget.TextMuted"),
                     OutlineColor = new("Widget.TextOutline"),
                     OutlineSize  = 1,
                     IsVisible    = false,
-                    FontSize     = 10,
+                    FontSize     = 9,
                     Stretch      = true,
                 }
             ),

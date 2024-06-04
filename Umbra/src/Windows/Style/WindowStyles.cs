@@ -90,7 +90,6 @@ internal static class WindowStyles
                     Color           = new("Window.TitlebarCloseButtonX"),
                     OutlineColor    = new("Window.TitlebarCloseButtonXOutline"),
                     TextOverflow    = true,
-                    TextOffset      = new(0, -1),
                     Margin          = new() { Top = 2, Right = 4 },
                     IsAntialiased   = false,
                 }

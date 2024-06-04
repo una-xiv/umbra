@@ -125,7 +125,7 @@ internal class ButtonNode : Node
                 ".button--icon",
                 new() {
                     Anchor    = Anchor.MiddleLeft,
-                    TextAlign = Anchor.MiddleLeft,
+                    TextAlign = Anchor.MiddleCenter,
                     FontSize  = 13,
                     Font      = 2,
                     Size      = new(0, 28),

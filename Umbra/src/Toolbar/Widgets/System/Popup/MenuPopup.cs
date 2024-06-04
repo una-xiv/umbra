@@ -87,6 +87,11 @@ internal class MenuPopup : WidgetPopup
     public bool UseGrayscaleIcons { get; set; } = true;
 
     /// <summary>
+    /// Whether to close the popup when a button is clicked.
+    /// </summary>
+    public bool CloseOnItemClick { get; set; } = true;
+
+    /// <summary>
     /// Clears all items from this popup.
     /// </summary>
     public void Clear()
@@ -175,7 +180,7 @@ internal class MenuPopup : WidgetPopup
     /// </summary>
     /// <param name="id">The ID of the button.</param>
     /// <param name="label">The alternative text to show on the button.</param>
-    public void SetButtonAltLabel(string id, string label)
+    public void SetButtonAltLabel(string id, string? label)
     {
         Node? node = Node.QuerySelector($"{id}.button > .button--altText");
 
@@ -472,7 +477,7 @@ internal class MenuPopup : WidgetPopup
 
         if (onClick is not null) {
             button.OnMouseUp += _ => {
-                Close();
+                if (CloseOnItemClick) Close();
                 onClick();
             };
         }

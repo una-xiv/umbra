@@ -341,7 +341,7 @@ internal class UmbraColors
         Color.AssignByName("Widget.TextDisabled",                 0xA0D0D0D0);
         Color.AssignByName("Widget.TextHover",                    0xFFFFFFFF);
         Color.AssignByName("Widget.TextMuted",                    0xFF909090);
-        Color.AssignByName("Widget.TextOutline",                  0xC0000000);
+        Color.AssignByName("Widget.TextOutline",                  0x80000000);
         Color.AssignByName("Widget.PopupBackground",              0xFF101010);
         Color.AssignByName("Widget.PopupBackground.Gradient1",    0xFF2F2E2F);
         Color.AssignByName("Widget.PopupBackground.Gradient2",    0xFF1A1A1A);

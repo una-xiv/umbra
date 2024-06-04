@@ -45,6 +45,13 @@ internal partial class CurrenciesWidget
                 "",
                 32
             ),
+            new StringWidgetConfigVariable(
+                "CurrencySeparator",
+                I18N.Translate("Widget.Currencies.Config.CurrencySeparator.Name"),
+                I18N.Translate("Widget.Currencies.Config.CurrencySeparator.Description"),
+                ".",
+                1
+            ),
             new BooleanWidgetConfigVariable(
                 "ShowIcon",
                 I18N.Translate("Widget.Currencies.Config.ShowIcon.Name"),

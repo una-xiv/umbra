@@ -14,6 +14,7 @@
  *     GNU Affero General Public License for more details.
  */
 
+using System;
 using System.Numerics;
 using ImGuiNET;
 using Umbra.Common;
@@ -54,6 +55,8 @@ internal abstract partial class Window
         IsHovered = ImGui.IsWindowHovered(ImGuiHoveredFlags.RootAndChildWindows);
 
         Vector2 size = ImGui.GetWindowSize() / Node.ScaleFactor;
+        size.X = (float)Math.Floor(size.X);
+        size.Y = (float)Math.Floor(size.Y);
 
         _windowNode.Style.Size      = new((int)size.X - 2, (int)size.Y - 2);
         TitlebarNode.Style.Size     = new((int)size.X - 7, 32);

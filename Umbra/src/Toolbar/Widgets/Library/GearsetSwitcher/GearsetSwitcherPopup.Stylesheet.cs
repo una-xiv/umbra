@@ -39,10 +39,8 @@ internal sealed partial class GearsetSwitcherPopup
                 "#HeaderIcon",
                 new() {
                     Anchor          = Anchor.MiddleLeft,
-                    Size            = new(60, 60),
+                    Size            = new(64, 64),
                     IconId          = 62101,
-                    ImageInset      = new(4),
-                    BackgroundColor = new("Input.Background"),
                 }
             ),
             new(

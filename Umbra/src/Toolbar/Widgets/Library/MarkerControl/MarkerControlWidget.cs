@@ -29,7 +29,7 @@ internal class MarkerControlWidget(
 )
     : IconToolbarWidget(info, guid, configValues)
 {
-    public override MenuPopup Popup { get; } = new MenuPopup();
+    public override MenuPopup Popup { get; } = new() { CloseOnItemClick = false };
 
     private WorldMarkerFactoryRegistry Registry { get; } = Framework.Service<WorldMarkerFactoryRegistry>();
 

@@ -8,11 +8,6 @@
         "resolved": "2.1.12",
         "contentHash": "Sc0PVxvgg4NQjcI8n10/VfUQBAS4O+Fw2pZrAqBdRMbthYGeogzu5+xmIGCGmsEZ/ukMOBuAqiNiB5qA3MRalg=="
       },
-      "Microsoft.Win32.SystemEvents": {
-        "type": "Transitive",
-        "resolved": "8.0.0",
-        "contentHash": "9opKRyOKMCi2xJ7Bj7kxtZ1r9vbzosMvRrdEhVhDz8j8MoBGgB+WmC94yH839NPH+BclAjtQ/pyagvi/8gDLkw=="
-      },
       "SkiaSharp": {
         "type": "Transitive",
         "resolved": "3.0.0-preview.3.1",
@@ -32,14 +27,6 @@
         "resolved": "3.0.0-preview.3.1",
         "contentHash": "GxeVii9xXqjoRp43uKyXrBqEfxpyEvrMAIEerYsK2aLIN3JltD1ZkyMu9o0b6EP9tIVRudpuAGoPntAJEoYiDg=="
       },
-      "System.Drawing.Common": {
-        "type": "Transitive",
-        "resolved": "8.0.5",
-        "contentHash": "n55wb6rL8YG254AG+SfQOSQencrcnpKAAcYyEcvBuO2pob7ltXuZ5skBBdvLJOLVPKd1Ya8+8ColIM5AtBo5ww==",
-        "dependencies": {
-          "Microsoft.Win32.SystemEvents": "8.0.0"
-        }
-      },
       "umbra.common": {
         "type": "Project"
       },
@@ -52,8 +39,7 @@
       "una.drawing": {
         "type": "Project",
         "dependencies": {
-          "SkiaSharp": "[3.0.0-preview.3.1, )",
-          "System.Drawing.Common": "[8.0.5, )"
+          "SkiaSharp": "[3.0.0-preview.3.1, )"
         }
       }
     }

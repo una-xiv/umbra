@@ -353,6 +353,8 @@
     "Widget.Currencies.Config.ShowIcon.Description": "Whether to show the icon of the tracked currency next to the text.",
     "Widget.Currencies.Config.ShowName.Name": "Show tracked currency name",
     "Widget.Currencies.Config.ShowName.Description": "Whether to show the name of the tracked currency next to the value.",
+    "Widget.Currencies.Config.CurrencySeparator.Name": "Currency separator",
+    "Widget.Currencies.Config.CurrencySeparator.Description": "The character that separates thousands in the currency value for better readability.",
     "Widget.Currencies.Config.IconLocation.Name": "Icon location",
     "Widget.Currencies.Config.IconLocation.Description": "The location of the icon relative to the text.",
     "Widget.Currencies.Config.IconLocation.Option.Left": "Left side",

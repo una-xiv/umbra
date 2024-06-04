@@ -44,7 +44,6 @@ internal abstract partial class Window
             new() {
                 Id        = "Content",
                 ClassList = ["window--content"],
-                Overflow  = false,
             }
         ]
     };
