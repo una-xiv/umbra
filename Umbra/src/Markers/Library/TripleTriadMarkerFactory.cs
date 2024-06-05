@@ -147,6 +147,11 @@ internal class TripleTriadMarkerFactory(IDataManager dataManager, IZoneManager z
             );
         }
 
+        if (activeIds.Count == 0) {
+            RemoveAllMarkers();
+            return;
+        }
+
         RemoveMarkersExcept(activeIds);
     }
 
