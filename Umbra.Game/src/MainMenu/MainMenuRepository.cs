@@ -146,21 +146,16 @@ internal sealed class MainMenuRepository : IMainMenuRepository
                 category.RemoveItem(entry);
             } else if (entry is null && _player.HasItemInInventory(eternityRingId)) {
                 category.AddItem(
-                    new(item.Name, 901, () => { unsafe { Telepo.Instance()->Teleport(eternityRingId, 0); } }
-                    ) {
+                    new(item.Name.ToDalamudString().TextValue, 900, () => _player.UseInventoryItem(eternityRingId)) {
                         MetadataKey    = "Favorite:EternityRing",
-                        Name           = item.Name.ToDalamudString().TextValue,
                         ItemGroupId    = "Travel",
                         ItemGroupLabel = "Destinations",
-                        Callback       = () => {
-                            _player.UseInventoryItem(eternityRingId);
-                        }
                     }
                 );
             }
         }
 
-        SyncTravelDestinationMenuEntries(category, favorites, "Favorite", 900);
+        SyncTravelDestinationMenuEntries(category, favorites, "Favorite", 925);
         SyncTravelDestinationMenuEntries(category, housing,   "Housing",  950);
     }
 
