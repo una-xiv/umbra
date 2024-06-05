@@ -19,6 +19,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Dalamud.Game.Text;
 using Dalamud.Plugin.Services;
+using Dalamud.Utility;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using Lumina.Excel.GeneratedSheets;
 using Umbra.Common;
@@ -30,11 +31,9 @@ internal sealed class MainMenuRepository : IMainMenuRepository
 {
     public readonly Dictionary<MenuCategory, MainMenuCategory> Categories = [];
 
+    private readonly IDataManager                 _dataManager;
     private readonly ITravelDestinationRepository _travelDestinationRepository;
     private readonly IPlayer                      _player;
-
-    [ConfigVariable("Toolbar.Widget.MainMenu.Travel.ShowResidential", "ToolbarSettings", "MainMenuSettings")]
-    private static bool ShowResidentialAreas { get; set; } = false;
 
     public MainMenuRepository(
         IDataManager                 dataManager,
@@ -42,6 +41,7 @@ internal sealed class MainMenuRepository : IMainMenuRepository
         IPlayer                      player
     )
     {
+        _dataManager                 = dataManager;
         _travelDestinationRepository = travelDestinationRepository;
         _player                      = player;
 
@@ -135,8 +135,33 @@ internal sealed class MainMenuRepository : IMainMenuRepository
         var favorites = _travelDestinationRepository.Destinations.Where(d => !d.IsHousing).ToList();
         var housing   = _travelDestinationRepository.Destinations.Where(d => d.IsHousing).ToList();
 
-        SyncTravelDestinationMenuEntries(category, favorites,                           "Favorite", 900);
-        SyncTravelDestinationMenuEntries(category, ShowResidentialAreas ? housing : [], "Housing",  950);
+        const uint eternityRingId = 8575;
+
+        var item = _dataManager.GetExcelSheet<Item>()!.GetRow(eternityRingId);
+
+        if (item != null) {
+            MainMenuItem? entry = category.Items.FirstOrDefault(i => i.MetadataKey == "Favorite:EternityRing");
+
+            if (entry is not null && !_player.HasItemInInventory(eternityRingId)) {
+                category.RemoveItem(entry);
+            } else if (entry is null && _player.HasItemInInventory(eternityRingId)) {
+                category.AddItem(
+                    new(item.Name, 901, () => { unsafe { Telepo.Instance()->Teleport(eternityRingId, 0); } }
+                    ) {
+                        MetadataKey    = "Favorite:EternityRing",
+                        Name           = item.Name.ToDalamudString().TextValue,
+                        ItemGroupId    = "Travel",
+                        ItemGroupLabel = "Destinations",
+                        Callback       = () => {
+                            _player.UseInventoryItem(eternityRingId);
+                        }
+                    }
+                );
+            }
+        }
+
+        SyncTravelDestinationMenuEntries(category, favorites, "Favorite", 900);
+        SyncTravelDestinationMenuEntries(category, housing,   "Housing",  950);
     }
 
     private void SyncTravelDestinationMenuEntries(
