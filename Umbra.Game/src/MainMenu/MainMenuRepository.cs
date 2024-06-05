@@ -140,14 +140,14 @@ internal sealed class MainMenuRepository : IMainMenuRepository
         var item = _dataManager.GetExcelSheet<Item>()!.GetRow(eternityRingId);
 
         if (item != null) {
-            MainMenuItem? entry = category.Items.FirstOrDefault(i => i.MetadataKey == "Favorite:EternityRing");
+            MainMenuItem? entry = category.Items.FirstOrDefault(i => i.MetadataKey == "EternityRing");
 
             if (entry is not null && !_player.HasItemInInventory(eternityRingId)) {
                 category.RemoveItem(entry);
             } else if (entry is null && _player.HasItemInInventory(eternityRingId)) {
                 category.AddItem(
                     new(item.Name.ToDalamudString().TextValue, 900, () => _player.UseInventoryItem(eternityRingId)) {
-                        MetadataKey    = "Favorite:EternityRing",
+                        MetadataKey    = "EternityRing",
                         ItemGroupId    = "Travel",
                         ItemGroupLabel = "Destinations",
                     }
