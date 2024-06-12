@@ -169,6 +169,20 @@ internal class PopupStyles
                 }
             ),
             new(
+                ".button--altText:hover",
+                new() {
+                    Color        = new("Widget.PopupMenuTextHover"),
+                    OutlineColor = new("Widget.PopupMenuTextOutlineHover"),
+                }
+            ),
+            new(
+                ".button--altText:disabled",
+                new() {
+                    Color        = new("Widget.PopupMenuTextDisabled"),
+                    OutlineColor = new("Widget.PopupMenuTextOutlineDisabled"),
+                }
+            ),
+            new(
                 ".button-group",
                 new() {
                     Flow    = Flow.Vertical,

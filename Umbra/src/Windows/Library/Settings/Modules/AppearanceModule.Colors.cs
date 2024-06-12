@@ -39,11 +39,6 @@ internal partial class AppearanceModule
         I18N.Translate("Settings.AppearanceModule.ColorProfiles.ApplyProfile", "")
     );
 
-    private readonly ButtonNode _resetButton = new(
-        "ResetButton",
-        I18N.Translate("Settings.AppearanceModule.ColorProfiles.ResetProfile", "")
-    );
-
     private readonly ButtonNode _deleteButton = new(
         "DeleteButton",
         I18N.Translate("Settings.AppearanceModule.ColorProfiles.DeleteProfile", "")
@@ -97,7 +92,7 @@ internal partial class AppearanceModule
         ColorProfilesPanel.AppendChild(
             new() {
                 ClassList  = ["appearance-button-row"],
-                ChildNodes = [_applyButton, _deleteButton, _resetButton, _exportButton]
+                ChildNodes = [_applyButton, _deleteButton, _exportButton]
             }
         );
 
@@ -120,8 +115,6 @@ internal partial class AppearanceModule
             _activeProfileNode.Value = UmbraColors.GetCurrentProfileName();
             _selectedProfile         = UmbraColors.GetCurrentProfileName();
         };
-
-        _resetButton.OnMouseUp += _ => UmbraColors.RegisterDefaultColors();
 
         _createButton.OnMouseUp += _ => {
             UmbraColors.Save(_newProfileName);

@@ -124,11 +124,13 @@ internal class ButtonNode : Node
             new(
                 ".button--icon",
                 new() {
-                    Anchor    = Anchor.MiddleLeft,
-                    TextAlign = Anchor.MiddleCenter,
-                    FontSize  = 13,
-                    Font      = 2,
-                    Size      = new(0, 28),
+                    Anchor       = Anchor.MiddleLeft,
+                    TextAlign    = Anchor.MiddleCenter,
+                    FontSize     = 13,
+                    Font         = 2,
+                    Size         = new(0, 28),
+                    Color        = new("Input.Text"),
+                    OutlineColor = new("Input.TextOutline"),
                 }
             ),
             new(

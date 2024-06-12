@@ -42,8 +42,6 @@ internal sealed partial class WidgetManager : IDisposable
             if (type.IsSubclassOf(typeof(ToolbarWidget))) {
                 _widgetTypes[info.Id] = type;
                 _widgetInfos[info.Id] = info;
-
-                Logger.Info($"Added widget '{info.Name}' to the widget registry.");
             }
         }
 

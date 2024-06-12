@@ -34,13 +34,16 @@ internal sealed partial class MarkersModule
             new(
                 ".markers-header",
                 new() {
-                    FontSize    = 24,
-                    TextAlign   = Anchor.MiddleLeft,
-                    Anchor      = Anchor.TopLeft,
-                    Padding     = new() { Bottom = 15 },
-                    Margin      = new() { Bottom = 5 },
-                    BorderColor = new() { Bottom = new("Window.AccentColor") },
-                    BorderWidth = new() { Bottom = 1 },
+                    FontSize     = 24,
+                    TextAlign    = Anchor.MiddleLeft,
+                    Anchor       = Anchor.TopLeft,
+                    Padding      = new() { Bottom = 15 },
+                    Margin       = new() { Bottom = 5 },
+                    BorderColor  = new() { Bottom = new("Window.AccentColor") },
+                    BorderWidth  = new() { Bottom = 1 },
+                    Color        = new("Window.Text"),
+                    OutlineColor = new("Window.TextOutline"),
+                    OutlineSize  = 1,
                 }
             ),
             new(
