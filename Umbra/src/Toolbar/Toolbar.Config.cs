@@ -38,6 +38,9 @@ internal partial class Toolbar
     [ConfigVariable("Toolbar.EnableInactiveColors", "General", "Toolbar")]
     public static bool EnableInactiveColors { get; set; } = false;
 
+    [ConfigVariable("Toolbar.Height", "General", "Toolbar", min: 26, max: 64)]
+    public static int Height { get; set; } = 32;
+
     [ConfigVariable("Toolbar.ItemSpacing", "General", "Toolbar", min: 1, max: 32)]
     public static int ItemSpacing { get; set; } = 6;
 

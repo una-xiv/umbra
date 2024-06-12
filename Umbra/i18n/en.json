@@ -170,6 +170,8 @@
     "CVAR.Toolbar.IsStretched.Description": "Stretches the toolbar to the left and right edges of the screen.",
     "CVAR.Toolbar.IsAutoHideEnabled.Name": "Automatically hide the toolbar",
     "CVAR.Toolbar.IsAutoHideEnabled.Description": "Hides the toolbar when the mouse cursor is not near it. The toolbar will reappear when the mouse cursor is near the toolbar.",
+    "CVAR.Toolbar.Height.Name": "Toolbar height",
+    "CVAR.Toolbar.Height.Description": "The height of the toolbar in pixels.",
     "CVAR.Toolbar.ItemSpacing.Name": "Toolbar widget spacing",
     "CVAR.Toolbar.ItemSpacing.Description": "Defines the distance between toolbar widgets in pixels.",
     "CVAR.Toolbar.EnableShadow.Name": "Enable toolbar shadow",

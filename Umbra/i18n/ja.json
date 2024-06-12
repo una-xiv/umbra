@@ -170,6 +170,8 @@
     "CVAR.Toolbar.IsStretched.Description": "ツールバーを画面の左右端まで伸ばします。",
     "CVAR.Toolbar.IsAutoHideEnabled.Name": "ツールバーを自動的に非表示にする",
     "CVAR.Toolbar.IsAutoHideEnabled.Description": "マウスカーソルが近くにない場合にツールバーを非表示にします。マウスカーソルがツールバーの近くに来ると、ツールバーが再び表示されます。",
+    "CVAR.Toolbar.Height.Name": "ツールバーの高さ",
+    "CVAR.Toolbar.Height.Description": "ツールバーの高さ（ピクセル単位）。",
     "CVAR.Toolbar.ItemSpacing.Name": "ツールバーウィジェットの間隔",
     "CVAR.Toolbar.ItemSpacing.Description": "ツールバーウィジェット間のピクセル単位の間隔を定義します。",
     "CVAR.Toolbar.EnableShadow.Name": "ツールバーシャドウを有効にする",

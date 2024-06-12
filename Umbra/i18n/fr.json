@@ -170,6 +170,8 @@
     "CVAR.Toolbar.IsStretched.Description": "Étend la barre d'outils jusqu'aux bords gauche et droit de l'écran.",
     "CVAR.Toolbar.IsAutoHideEnabled.Name": "Masquage automatique de la barre d'outils",
     "CVAR.Toolbar.IsAutoHideEnabled.Description": "Masque la barre d'outils lorsque le curseur de la souris n'est pas à proximité. La barre d'outils réapparaît lorsque le curseur de la souris est proche de la barre d'outils.",
+    "CVAR.Toolbar.Height.Name": "Hauteur de la barre d'outils",
+    "CVAR.Toolbar.Height.Description": "La hauteur de la barre d'outils en pixels.",
     "CVAR.Toolbar.ItemSpacing.Name": "Espacement des éléments de la barre d'outils",
     "CVAR.Toolbar.ItemSpacing.Description": "Définit l'espacement entre les widgets de la barre d'outils en pixels.",
     "CVAR.Toolbar.EnableShadow.Name": "Activer l'ombre de la barre d'outils",

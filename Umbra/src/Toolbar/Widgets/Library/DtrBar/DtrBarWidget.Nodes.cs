@@ -29,7 +29,7 @@ internal partial class DtrBarWidget
         Style = new() {
             Anchor = Anchor.MiddleLeft,
             Flow   = Flow.Horizontal,
-            Size   = new(0, 28),
+            Size   = new(0, SafeHeight),
             Gap    = Toolbar.ItemSpacing,
         }
     };

@@ -56,7 +56,8 @@ internal sealed partial class DtrBarWidget(
         var decorateMode = GetConfigValue<string>("DecorateMode");
         var textOffset   = GetConfigValue<int>("TextYOffset");
 
-        Node.Style.Gap = GetConfigValue<int>("ItemSpacing");
+        Node.Style.Gap  = GetConfigValue<int>("ItemSpacing");
+        Node.Style.Size = new(0, SafeHeight);
 
         foreach (Node node in Node.QuerySelectorAll(".dtr-bar-entry")) {
             switch (decorateMode) {
@@ -75,6 +76,13 @@ internal sealed partial class DtrBarWidget(
             }
 
             node.QuerySelector("Label")!.Style.TextOffset = new(0, textOffset);
+            node.Style.Size                               = new(0, SafeHeight);
+
+            var labelNode = node.FindById("Label");
+
+            if (null != labelNode) {
+                labelNode.Style.FontSize = (SafeHeight / 2) - 2;
+            }
         }
 
         switch (GetConfigValue<string>("DecorateMode")) {

@@ -22,6 +22,13 @@ internal abstract class IconToolbarWidget(
                 NodeValue = FontAwesomeIcon.Ankh.ToIconString(),
             },
         ],
+        BeforeDraw = (node) => {
+            node.Style.Size = new(SafeHeight, SafeHeight);
+
+            var iconNode = node.FindById("Icon");
+            iconNode!.Style.Size     = new(SafeHeight - 2, SafeHeight - 2);
+            iconNode!.Style.FontSize = (SafeHeight - 2) / 2;
+        }
     };
 
     protected void SetIcon(FontAwesomeIcon icon)

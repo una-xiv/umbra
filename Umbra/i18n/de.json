@@ -170,6 +170,8 @@
     "CVAR.Toolbar.IsStretched.Description": "Dehnt die Symbolleiste zu den linken und rechten Bildschirmrändern aus.",
     "CVAR.Toolbar.IsAutoHideEnabled.Name": "Symbolleiste automatisch ausblenden",
     "CVAR.Toolbar.IsAutoHideEnabled.Description": "Blendet die Symbolleiste aus, wenn sich der Mauszeiger nicht in ihrer Nähe befindet. Die Symbolleiste wird wieder angezeigt, wenn sich der Mauszeiger in der Nähe der Symbolleiste befindet.",
+    "CVAR.Toolbar.Height.Name": "Werkzeugleistenhöhe",
+    "CVAR.Toolbar.Height.Description": "Die Höhe der Werkzeugleiste in Pixel.",
     "CVAR.Toolbar.ItemSpacing.Name": "Abstand zwischen Symbolleisten Widgets",
     "CVAR.Toolbar.ItemSpacing.Description": "Definiert den Abstand zwischen Symbolleisten-Widgets in Pixeln.",
     "CVAR.Toolbar.EnableShadow.Name": "Symbolleistenschatten aktivieren",

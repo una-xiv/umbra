@@ -63,6 +63,12 @@ public abstract class ToolbarWidget(
     /// </summary>
     public abstract WidgetPopup? Popup { get; }
 
+    /// <summary>
+    /// Returns the safe height of the widget so that it always fits within the
+    /// height of the toolbar.
+    /// </summary>
+    protected static int SafeHeight => Toolbar.Height - 4;
+
     private readonly Dictionary<string, IWidgetConfigVariable> _configVariables = new();
     private readonly Dictionary<string, object>                _configValues    = configValues ?? [];
 

@@ -23,7 +23,7 @@ using Umbra.Markers.System;
 
 namespace Umbra.Markers;
 
-internal abstract class WorldMarkerFactory : IDisposable
+public abstract class WorldMarkerFactory : IDisposable
 {
     /// <summary>
     /// A unique ID that identifies the marker types this factory produces.
@@ -54,11 +54,17 @@ internal abstract class WorldMarkerFactory : IDisposable
     private readonly   Dictionary<string, IMarkerConfigVariable> _configVariables = new();
     private            Dictionary<string, object>                _configValues    = [];
 
+    private IZoneManager        ZoneManager    { get; set; } = null!;
+    private WorldMarkerRegistry MarkerRegistry { get; set; } = null!;
+
     internal void Setup(Dictionary<string, object> configValues)
     {
         _configValues = configValues;
 
-        Framework.Service<IZoneManager>().ZoneChanged += OnZoneChanged;
+        ZoneManager    = Framework.Service<IZoneManager>();
+        MarkerRegistry = Framework.Service<WorldMarkerRegistry>();
+
+        ZoneManager.ZoneChanged += OnZoneChanged;
 
         foreach (var cfg in GetConfigVariables()) {
             _configVariables[cfg.Id] = cfg;
@@ -97,7 +103,7 @@ internal abstract class WorldMarkerFactory : IDisposable
     /// <inheritdoc/>
     public virtual void Dispose()
     {
-        Framework.Service<IZoneManager>().ZoneChanged -= OnZoneChanged;
+        ZoneManager.ZoneChanged -= OnZoneChanged;
 
         foreach (WorldMarker marker in Markers.Values) {
             marker.Dispose();
@@ -212,10 +218,9 @@ internal abstract class WorldMarkerFactory : IDisposable
     /// <summary>
     /// Creates or updates the given world marker.
     /// </summary>
-    /// <param name="marker"></param>
     protected WorldMarker SetMarker(WorldMarker marker)
     {
-        string guid = Framework.Service<WorldMarkerRegistry>().SetMarker(marker);
+        string guid = MarkerRegistry.SetMarker(marker);
 
         return Markers[guid] = marker;
     }
@@ -238,6 +243,9 @@ internal abstract class WorldMarkerFactory : IDisposable
         }
     }
 
+    /// <summary>
+    /// Removes all markers except for the ones in the given list.
+    /// </summary>
     protected void RemoveMarkersExcept(List<string> keys)
     {
         foreach (string key in Markers.Keys) {

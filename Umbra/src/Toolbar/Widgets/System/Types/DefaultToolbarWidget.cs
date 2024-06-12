@@ -14,10 +14,10 @@
  *     GNU Affero General Public License for more details.
  */
 
+using System;
 using System.Collections.Generic;
 using Dalamud.Game.Text.SeStringHandling;
 using Umbra.Style;
-using Umbra.Widgets.System;
 using Una.Drawing;
 
 namespace Umbra.Widgets;
@@ -65,14 +65,31 @@ public abstract class DefaultToolbarWidget(
             },
         ],
         BeforeDraw = node => {
+            node.Style.Size = new(0, SafeHeight);
+
             Node leftIconNode    = node.QuerySelector("#LeftIcon")!;
             Node rightIconNode   = node.QuerySelector("#RightIcon")!;
             Node labelNode       = node.QuerySelector("#Label")!;
+            Node topLabelNode    = node.QuerySelector("#TopLabel")!;
+            Node bottomLabelNode = node.QuerySelector("#BottomLabel")!;
 
             bool hasLabelValue = labelNode.NodeValue is not null;
 
             leftIconNode.Style.IsVisible  = leftIconNode.Style.IconId is not null;
             rightIconNode.Style.IsVisible = rightIconNode.Style.IconId is not null;
+
+            leftIconNode.Style.Size      = new(SafeHeight - 6, SafeHeight - 6);
+            leftIconNode.Style.FontSize  = (SafeHeight - 2) / 2;
+            rightIconNode.Style.Size     = new(SafeHeight - 6, SafeHeight - 6);
+            rightIconNode.Style.FontSize = (SafeHeight - 2) / 2;
+
+            var halfSize = (int)Math.Ceiling((SafeHeight) / 2f);
+            labelNode.Style.Size           = new(0, SafeHeight);
+            labelNode.Style.FontSize       = (halfSize / 2) + 6;
+            topLabelNode.Style.Size        = new(0, halfSize - 4);
+            topLabelNode.Style.FontSize    = (halfSize / 2) + 4;
+            bottomLabelNode.Style.Size     = new(0, halfSize - 4);
+            bottomLabelNode.Style.FontSize = (halfSize / 2) + 2;
 
             bool leftIconVisible  = leftIconNode.Style.IsVisible ?? false;
             bool rightIconVisible = rightIconNode.Style.IsVisible ?? false;
@@ -185,9 +202,9 @@ public abstract class DefaultToolbarWidget(
         BottomLabelNode.Style.TextAlign = Anchor.MiddleCenter;
     }
 
-    protected Node LabelNode    => Node.QuerySelector("#Label")!;
-    protected Node TopLabelNode => Node.QuerySelector("#TopLabel")!;
+    protected Node LabelNode       => Node.QuerySelector("#Label")!;
+    protected Node TopLabelNode    => Node.QuerySelector("#TopLabel")!;
     protected Node BottomLabelNode => Node.QuerySelector("#BottomLabel")!;
-    protected Node LeftIconNode  => Node.QuerySelector("#LeftIcon")!;
-    protected Node RightIconNode => Node.QuerySelector("#RightIcon")!;
+    protected Node LeftIconNode    => Node.QuerySelector("#LeftIcon")!;
+    protected Node RightIconNode   => Node.QuerySelector("#RightIcon")!;
 }

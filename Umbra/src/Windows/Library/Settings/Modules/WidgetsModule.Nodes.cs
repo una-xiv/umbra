@@ -63,9 +63,9 @@ internal partial class WidgetsModule
         Node.QuerySelector(".module-header")!.Style.Size = new(size.Width - 30, 0);
 
         foreach (var column in Node.QuerySelectorAll(".widgets-column")) {
-            column.Style.Size                                                 = new(colSize, size.Height - 108);
+            column.Style.Size                                                 = new(colSize, size.Height - 112);
             column.QuerySelector(".widgets-column--header")!.Style.Size       = new(colSize - 30, 0);
-            column.QuerySelector(".widgets-column--list-wrapper")!.Style.Size = new(colSize - 20, size.Height - 208);
+            column.QuerySelector(".widgets-column--list-wrapper")!.Style.Size = new(colSize - 20, size.Height - 212);
         }
 
         foreach (var item in Node.QuerySelectorAll(".widgets-column-stretched-item")) {

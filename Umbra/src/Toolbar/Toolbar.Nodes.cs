@@ -28,7 +28,7 @@ internal partial class Toolbar
         Id         = "Toolbar",
         ClassList  = ["toolbar"],
         Style = new() {
-            Size = new(1920, 32),
+            Size = new(1920, Height),
             Gap  = ItemSpacing,
         },
         ChildNodes = [
@@ -64,7 +64,7 @@ internal partial class Toolbar
     {
         _toolbarNode.Style.ShadowSize = new(EnableShadow && (
             !EnableInactiveColors || IsCursorNearToolbar()
-        ) ? 64 : 0);
+        ) ? (Height * 2) : 0);
 
         _toolbarNode.Style.Gap = ItemSpacing * 2;
         LeftPanel.Style.Gap    = ItemSpacing;
@@ -105,7 +105,8 @@ internal partial class Toolbar
             CenterPanel.Style.Anchor = Anchor.MiddleCenter;
             RightPanel.Style.Anchor  = Anchor.MiddleRight;
 
-            _toolbarNode.Style.Size!.Width = (int)Math.Ceiling((sw - pw) / Node.ScaleFactor);
+            _toolbarNode.Style.Size!.Width  = (int)Math.Ceiling((sw - pw) / Node.ScaleFactor);
+            _toolbarNode.Style.Size!.Height = Height;
             return;
         }
 
@@ -118,7 +119,7 @@ internal partial class Toolbar
             + (int)(CenterPanel.OuterWidth / Node.ScaleFactor)
             + (int)(RightPanel.OuterWidth / Node.ScaleFactor)
             + (ItemSpacing * 6),
-            32
+            Height
         );
     }
 
