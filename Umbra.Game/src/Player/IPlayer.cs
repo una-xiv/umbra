@@ -98,6 +98,11 @@ public interface IPlayer
     public bool IsBoundByDuty { get; }
 
     /// <summary>
+    /// True if the player is currently occupied in a quest event.
+    /// </summary>
+    public bool IsInQuestEvent { get; }
+
+    /// <summary>
     /// True if the player is currently editing the HUD layout.
     /// </summary>
     public bool IsEditingHud { get; }

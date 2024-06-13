@@ -29,7 +29,7 @@ internal class StreamSphereOverride(IPlayer player)
     [OnTick]
     public unsafe void OverrideCollisionStreamSphere()
     {
-        if (player.IsBetweenAreas) return;
+        if (player.IsBetweenAreas || player.IsInQuestEvent) return;
 
         var fw = FFXIVClientStructs.FFXIV.Client.System.Framework.Framework.Instance();
         if (fw == null) return;

@@ -109,6 +109,11 @@ internal sealed class Player : IPlayer
     public bool IsBoundByDuty { get; private set; }
 
     /// <summary>
+    /// True if the player is currently occupied in a quest event.
+    /// </summary>
+    public bool IsInQuestEvent { get; private set; }
+
+    /// <summary>
     /// True if the player is currently editing the HUD layout.
     /// </summary>
     public bool IsEditingHud { get; private set; }
@@ -206,6 +211,9 @@ internal sealed class Player : IPlayer
 
         IsBetweenAreas = _condition[ConditionFlag.BetweenAreas] || _condition[ConditionFlag.BetweenAreas51];
         IsInIdleCam    = GameMain.IsInIdleCam();
+
+        IsInQuestEvent = _condition[ConditionFlag.OccupiedInQuestEvent]
+            && _condition[ConditionFlag.OccupiedInCutSceneEvent];
 
         CanUseTeleportAction = !IsDead && !IsCasting && !IsInCombat && !IsJumping && !IsOccupied && !IsBoundByDuty;
         HomeWorldName        = _clientState.LocalPlayer.HomeWorld.GameData!.Name.ToString();
