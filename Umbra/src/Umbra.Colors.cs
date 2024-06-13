@@ -33,9 +33,17 @@ internal class UmbraColors
     public static event Action? OnColorProfileChanged;
 
     [ConfigVariable("ColorProfileData")] private static string ColorProfileData { get; set; } = "";
-    [ConfigVariable("ColorProfileName")] private static string ColorProfileName { get; set; } = "Default";
+    [ConfigVariable("ColorProfileName")] private static string ColorProfileName { get; set; } = "Umbra (built-in)";
     private static Dictionary<string, Dictionary<string, uint>> ColorProfiles { get; set; } = [];
     private static Timer? _debounceTimer;
+
+    private static Dictionary<string, string> BuiltInProfiles { get; } = new() {
+        { "Umbra (built-in)", "jZXLbtswEEX/xevCIIfkkPQuD6AN0KAFaqDdyrbqCFVFQ5HSAkH+vbRk8yFSajZe+B7M485w9Lq6L38Wfd2tNq+r71VzMH/Wt8X+17E1fXNYbTgowpBozT6k8ufq+NSNjFKSMekZ0x7KdpBAg6QSnbSturrcFW2cRWqwP6hSLIjECVEMEuRjWxyqsunoQFELEi1mKRjTaUJQp+m25d+hI02VFAR4FvjSd3XVlKsNA6AAgsu0qLvaPJe3fdeZZrG/gHtHqwH9ybxcYMoEMIZL8I/FnkLQhdVco4SMkSHtnLDNKWo9VcTx3/atqeuzZa0ddXaVPPLU/95l1yVGfNOIlArFZ7ibfVe9DGUpiWiLC6y8ThisIDiJBLfRafdWfey70m4raBQcYBrUeWELk2gnTnik31fPxa4eAqDmSlEeJL/Z7+1u3pnajO0xIJIJ69RDc+q79fSxCOsR82pmcUYlXWf//7Ub+wwI04JEYnbFp7X4abjBhgV5WQihlMYwQWbPkuyO8bs1LcGbyiQSOEeScRUBce6DIcQ25MeS1BKFcY5sjTnv3PqhKYaN84XRAWTaHkaplkAYQUBBhPBgFCk8aykwuWhJqst2ACpNNEWBQZDsnT4cy3Tl/P2ayN6Zc5lEcT0+jAkW3CubjAnqmYUiJiOcRXx0accoKHd67qI7IRq+ewYBkD2HTr08ofjKOHXmMzHoX82pP/3H4gmznv3OLdLJ9y6g540f9Mey6WftiwhvhJaokas8Fg0yuOApOe+7w5LVAmqfkFKcinxMNw/7EjgTXCBZBK9h30f73hQRjCBD9fb2Dw==" },
+        { "Metal (built-in)", "jZXBbtswDIbfJeeikChKFHNrO2ArsGIDVmC7ponRGvPswLW7AUXffbSbSHIie0PRHvp/ISnyJ/O6uiu6TbVav66+l/Wu+X15vdn+fGybvt6t1ggsP0QaLs7lz+XjUzcyhjQB+Mg07a5oB8k7i2gVBum+7KriYdOeZDHOKufcORYjsSayWp8hH9vNrizqTi8GOlIwUtoRObRn1H3xZ3yRV2yN8S4LfOm7qqyL1doqY7RD4jPspmqei+u+65p6tdbIzJJviTq+83/YT83LiAJqqxHMYvofi89JwUNYoQGlg2AX6dCEoZUEOtLftm1TVUOvWpnx+1C0Z29dBnnqfz285xSbaZpDYm3OaW09znBX2658KUaQnEOg6Ns4Wg/KJvUOQrAysWdG5SfqXd8VYlNg62QXFE4/Gzth2aO3PFE/lM+bh2r8uPNsLYCiAFxtt2LJm6Zq3h+nwKEs08Xqtt733ekmohH/Wx/UsBqsvSJGPCrhqaGp8f+Ht4io5Z3yNxUzQz2tJEyCkZW2CqblJINSkgApDR9EkuRKeZXJfTT3bAGxoQjgDFrNJzVEwiqy4gEDaaLJRLxnKYcyhURMyrxvmsFjl7f1ZnRYLEcPYZgVw1jHPAh5cBIJRRILoHY5APJASHXwwwDwcBs4CRK9guxInDx4cPdYTE0mx9N5lGOhMnLSeCVXB0C7HJYa5CRT9pYnUjra9CAkSPQXSTfl/AU92W9Pls1ESGfOCgZdTYBoTZb9Np4narI0JA9T0+Bha8BqZ/3hII/y12bf79MOayRDzsAccZl+myXD/gcNC/T86Ef9rqj72DtpgPzmidgFJ9tpiPLYZIrJuT4n560SsKyvpInem3zMMAy1qB+iLUPJCXh7+ws=" },
+        { "Clear Blue (built-in)", "hZXbbtswDIbfJddFQZESJfauB2ArsGIDVmC7TRMvNebZhWt3A4q++2g3s6z4MCBX4SeK/PlTft3cZD+2bdFsLl433/JyX/0+v9rufh7qqi33mwsCNk7Ygz+bhj/lh0c9iCxEDlhCZKp6n9WbC4tBvDPEOITu86bIHrb1+BYDDjmEKfP/NB/q7T7PysYoBeQQIIBbpLCn0HixwU6o++xP010mJngHOA98bpsiLzOVBtEgOuunRV0X1XN21TZNVS43N4Jinwa8W833sXo5KmK0WyJeg7+vdjMGh7RiddoobpUeNNAagjirZwb+666uiqITq9YJq0yBWYC0rxnksf310N8KCE5EFpBYnSFkZ2GBu9w1+Us2Cw6zVYcwG5MEjkae616jd22TqUmxWwP9iU+iUQvjPKMXsEn8Jn/ePhR9AlbXBWNHVV3udurK66qo3mdKCJ4cnW1uy6e2STbRggmAHrqJH6Mz2/EemRo5/v+vGxYBQSPJoVlzn9YSLeiDRbKUFhTDzrkQhMcXzPhscvvA+GCk2+dpCVFUvR6AAlhJqxgRXR8qTirD/FgmtSRpBkXuq6rz3Pltue0dFwszPcjBkzG8BmIPShBryUcwyTR+qqYApi/e5KqjO0gNq4WDjJPMvqv7Q3ZqOWJwzCQz4URACl7IzWHRDYG8Nmwjs1LEyQj1BifGqdtOkGgnNMGE983q43EFpHtVMQkkmYNnnURIgNnncIgeV6hLzt6zTc+OHkdGUGuhH+Jfqqf2aSwxInkwnjwuMefpF2707Vql8fR7OKKXhe/jd1nZzn0Kp8QghCZiGQuRYFFuJbvH14WFhMu6D9ictdiQQbOQc5hHoBC4f05WsGNSXWFLzjpep2NnDoiMKgBvb38B" },
+        { "YoRHa Dark (built-in)", "jZXbattAEIbfxdclzGFnD77LAdpAQwsNpLeOLRIRVQqKlBZC3r1r2dldWSu1t/4/zc7hn/Hb6mrTPtFq/ba6K+td8/vsYrN9emibvt6t1oosAqFy/Gkqfy0fHruB8QQCJEzT7op2kFhIGVRBui27qrjftKevWKMtyBT7d6TP7WZXFnWH/0XR4TmnmLWZULfFn6Eih4rYx8kC3/quKutitWa21jmjmSbcZdW8FBd91zX1ao0gpK1dgmKdCEYW431pXvckkdFOO8dmCf45VAPEYmUZPIb1tHLakJNFOvQAAvZj2zZVte9R62eb9U5EHvtf94d5OT96gBkkJuVDGTRqhjvfduVrkQXDSIG1N6qMhGBhx6RRNI/Um74rDvb0jmJOx5zagNAXyhbsSL4qXzb31f57/y6jZhEdgPPt1nvxsqmadmy36/q572ZX8KhmduKgfNRqjShEY9PfM8VEMdQiPlkDDmmaSphFXNY0nygr612MJo0f5whGCzBnHv/wNSowSGxgmkLSUyJBv3nuJItIWMcKmADSp5IAosUQg1KZVCLmv75tmr3Pzq7rzeCymI6/OPu9ZhBleQmkATRDyjqCo0jpGZ0Cx7MFPojVmaeOliDvRTKO9kchBIl2CZO5K3cPRbdw6k/k2BAS7YwSpTGDRQ8k/wgHZiGJk8GlNYyQGJ0NETgX9KnvEyGZuVJGOW+uMRDjOl8dah6pcW/8Cvu0xt+GxUHnb4hxVkHQvzfP/fOkxccJ5pmz8Z/ZaRfnaFqIPd/4Qb8p6n62fSNivhEjLGm3QfF3VazKk8lRsGQFMgFz1tIaLSDnY8Z5AGj/x+w0LIIfR4dRSMSCXaRjbZqNsCKw7+9/AQ==" },
+        { "YoRHa Light (built-in)", "jZXJbtswEIbfxefCIGe4DH3LAjQBGrRADbRX2VIdoYpoKFJaIMi7l/IikhIlFL7p/zyc5R/yfXVf/Mq6ql1t3lc/yjq3f9a32f73obFdna82AgwDlCT1p6n8pTw8t2eGgCQjz9gmL5peIk5aEZODtC3bqthlTXzKPOYjgWCMECbI5ybLy6Ju+WKgKwUnCrlBZabUtvibrigEvnZtVdbFasPBcBJSJZK6q+xrcdu1ra0dxyQooiXI18mZlovxHuzbtbcoAVEtwT+TM0yBQ1gjjNKQaE5IDz1gA/Z939iq6nvUuNkmz/XIc/eyS84rRnytbmLCEMxwN/u2fCvSBriMNCkMFtbEjbMXi9Snri3y5OmRDYATZ0ihW5x8X75mu6r/PygjiLgQPvrNfu+8eGcrO6rusT527WgFibT7GRrUwSuGCXTuk1dlWqv/7ovhKIwROhS9pZXWGricZhLYLg5+TsfLo2z78N5bTCvJEBNnXxjggmkOqNk0Bd/ScEPDLDxBBgVDYCw8Kj2TSSoec+rW2t5m68c6O5nMp8NPYZQxYPrlngfhDLr7C1F7MIoUVjQFIF6nyVEXR4CzImgD0SnJuzg/FG3qpkeBCdk3BJ1XFQMyOoEFYyYjEZlnFpIYDS6sIUKCu0ADMGMGPbXigxBEFm5WqIXWEeDjuqhui2M1WBtGSvJYja/B0+dv9tgdx531r0mKWUdP2H/TML5jA3q+3yf9qai72a5FRFA/uEeTTBoLV5PcDnNQIk2GJknU2WOLl04q5twYRvol2jIULP/Hxz8=" },
+    };
 
     [WhenFrameworkCompiling]
     private static void Initialize()
@@ -43,15 +51,17 @@ internal class UmbraColors
         RegisterDefaultColors();
 
         if (ColorProfileData != "") RestoreColorProfiles();
-        if (ColorProfiles.Count == 0) AddDefaultColorProfile();
-
         AddBuiltInColorProfiles();
+
+        if (!ColorProfiles.ContainsKey(ColorProfileName)) {
+            Apply("Umbra (built-in)");
+        } else {
+            Apply(ColorProfileName);
+        }
 
         _debounceTimer         =  new(1000);
         _debounceTimer.Enabled =  false;
         _debounceTimer.Elapsed += (_, _) => Save();
-
-        Apply(ColorProfileName);
 
         ConfigManager.CurrentProfileChanged += OnConfigProfileChanged;
     }
@@ -78,6 +88,16 @@ internal class UmbraColors
     public static string GetCurrentProfileName()
     {
         return ColorProfileName;
+    }
+
+    /// <summary>
+    /// Returns true if the current profile is a built-in profile.
+    /// </summary>
+    /// <param name="name"></param>
+    /// <returns></returns>
+    public static bool IsBuiltInProfile(string name)
+    {
+        return BuiltInProfiles.ContainsKey(name);
     }
 
     /// <summary>
@@ -158,7 +178,7 @@ internal class UmbraColors
 
             name = string.IsNullOrEmpty(newName) ? name : newName;
 
-            if (ColorProfiles.ContainsKey(name) && !overwrite) {
+            if (ColorProfiles.ContainsKey(name) && (!overwrite || IsBuiltInProfile(name))) {
                 return ImportResult.DuplicateName;
             }
 
@@ -206,24 +226,12 @@ internal class UmbraColors
     /// <param name="name"></param>
     public static void Delete(string name)
     {
-        if (name == "Default" || !ColorProfiles.ContainsKey(name)) return;
+        if (IsBuiltInProfile(name) || !ColorProfiles.ContainsKey(name)) return;
 
         ColorProfiles.Remove(name);
         PersistColorProfiles();
 
-        if (ColorProfileName == name) Apply("Default");
-    }
-
-    private static void AddDefaultColorProfile()
-    {
-        Dictionary<string, uint> colors = [];
-
-        foreach (string id in Color.GetAssignedNames()) {
-            colors.Add(id, Color.GetNamedColor(id));
-        }
-
-        ColorProfiles.TryAdd("Default", colors);
-        ConfigManager.Set("ColorProfileName", "Default");
+        if (ColorProfileName == name) Apply("Umbra (built-in)");
     }
 
     /// <summary>
@@ -367,32 +375,8 @@ internal class UmbraColors
 
     private static void AddBuiltInColorProfiles()
     {
-        Import(
-            "jZXLbtswEEX/xevCIIfkkPQuD6AN0KAFaqDdyrbqCFVFQ5HSAkH+vbRk8yFSajZe+B7M485w9Lq6L38Wfd2tNq+r71VzMH/Wt8X+17E1fXNYbTgowpBozT6k8ufq+NSNjFKSMekZ0x7KdpBAg6QSnbSturrcFW2cRWqwP6hSLIjECVEMEuRjWxyqsunoQFELEi1mKRjTaUJQp+m25d+hI02VFAR4FvjSd3XVlKsNA6AAgsu0qLvaPJe3fdeZZrG/gHtHqwH9ybxcYMoEMIZL8I/FnkLQhdVco4SMkSHtnLDNKWo9VcTx3/atqeuzZa0ddXaVPPLU/95l1yVGfNOIlArFZ7ibfVe9DGUpiWiLC6y8ThisIDiJBLfRafdWfey70m4raBQcYBrUeWELk2gnTnik31fPxa4eAqDmSlEeJL/Z7+1u3pnajO0xIJIJ69RDc+q79fSxCOsR82pmcUYlXWf//7Ub+wwI04JEYnbFp7X4abjBhgV5WQihlMYwQWbPkuyO8bs1LcGbyiQSOEeScRUBce6DIcQ25MeS1BKFcY5sjTnv3PqhKYaN84XRAWTaHkaplkAYQUBBhPBgFCk8aykwuWhJqst2ACpNNEWBQZDsnT4cy3Tl/P2ayN6Zc5lEcT0+jAkW3CubjAnqmYUiJiOcRXx0accoKHd67qI7IRq+ewYBkD2HTr08ofjKOHXmMzHoX82pP/3H4gmznv3OLdLJ9y6g540f9Mey6WftiwhvhJaokas8Fg0yuOApOe+7w5LVAmqfkFKcinxMNw/7EjgTXCBZBK9h30f73hQRjCBD9fb2Dw==",
-            true,
-            "Umbra (Built-in)",
-            false
-        );
-
-        Import(
-            "jZXBbtswDIbfJeeikChKFHNrO2ArsGIDVmC7ponRGvPswLW7AUXffbSbSHIie0PRHvp/ISnyJ/O6uiu6TbVav66+l/Wu+X15vdn+fGybvt6t1ggsP0QaLs7lz+XjUzcyhjQB+Mg07a5oB8k7i2gVBum+7KriYdOeZDHOKufcORYjsSayWp8hH9vNrizqTi8GOlIwUtoRObRn1H3xZ3yRV2yN8S4LfOm7qqyL1doqY7RD4jPspmqei+u+65p6tdbIzJJviTq+83/YT83LiAJqqxHMYvofi89JwUNYoQGlg2AX6dCEoZUEOtLftm1TVUOvWpnx+1C0Z29dBnnqfz285xSbaZpDYm3OaW09znBX2658KUaQnEOg6Ns4Wg/KJvUOQrAysWdG5SfqXd8VYlNg62QXFE4/Gzth2aO3PFE/lM+bh2r8uPNsLYCiAFxtt2LJm6Zq3h+nwKEs08Xqtt733ekmohH/Wx/UsBqsvSJGPCrhqaGp8f+Ht4io5Z3yNxUzQz2tJEyCkZW2CqblJINSkgApDR9EkuRKeZXJfTT3bAGxoQjgDFrNJzVEwiqy4gEDaaLJRLxnKYcyhURMyrxvmsFjl7f1ZnRYLEcPYZgVw1jHPAh5cBIJRRILoHY5APJASHXwwwDwcBs4CRK9guxInDx4cPdYTE0mx9N5lGOhMnLSeCVXB0C7HJYa5CRT9pYnUjra9CAkSPQXSTfl/AU92W9Pls1ESGfOCgZdTYBoTZb9Np4narI0JA9T0+Bha8BqZ/3hII/y12bf79MOayRDzsAccZl+myXD/gcNC/T86Ef9rqj72DtpgPzmidgFJ9tpiPLYZIrJuT4n560SsKyvpInem3zMMAy1qB+iLUPJCXh7+ws=",
-            true,
-            "Metal (Built-in)",
-            false
-        );
-
-        Import(
-            "hZXbbtswDIbfJddFQZESJfauB2ArsGIDVmC7TRMvNebZhWt3A4q++2g3s6z4MCBX4SeK/PlTft3cZD+2bdFsLl433/JyX/0+v9rufh7qqi33mwsCNk7Ygz+bhj/lh0c9iCxEDlhCZKp6n9WbC4tBvDPEOITu86bIHrb1+BYDDjmEKfP/NB/q7T7PysYoBeQQIIBbpLCn0HixwU6o++xP010mJngHOA98bpsiLzOVBtEgOuunRV0X1XN21TZNVS43N4Jinwa8W833sXo5KmK0WyJeg7+vdjMGh7RiddoobpUeNNAagjirZwb+666uiqITq9YJq0yBWYC0rxnksf310N8KCE5EFpBYnSFkZ2GBu9w1+Us2Cw6zVYcwG5MEjkae616jd22TqUmxWwP9iU+iUQvjPKMXsEn8Jn/ePhR9AlbXBWNHVV3udurK66qo3mdKCJ4cnW1uy6e2STbRggmAHrqJH6Mz2/EemRo5/v+vGxYBQSPJoVlzn9YSLeiDRbKUFhTDzrkQhMcXzPhscvvA+GCk2+dpCVFUvR6AAlhJqxgRXR8qTirD/FgmtSRpBkXuq6rz3Pltue0dFwszPcjBkzG8BmIPShBryUcwyTR+qqYApi/e5KqjO0gNq4WDjJPMvqv7Q3ZqOWJwzCQz4URACl7IzWHRDYG8Nmwjs1LEyQj1BifGqdtOkGgnNMGE983q43EFpHtVMQkkmYNnnURIgNnncIgeV6hLzt6zTc+OHkdGUGuhH+Jfqqf2aSwxInkwnjwuMefpF2707Vql8fR7OKKXhe/jd1nZzn0Kp8QghCZiGQuRYFFuJbvH14WFhMu6D9ictdiQQbOQc5hHoBC4f05WsGNSXWFLzjpep2NnDoiMKgBvb38B",
-            true,
-            "Clear Blue (Built-in)",
-            false
-        );
-
-        Import(
-            "jZXJbtswEIbfxefCIGe4DH3LAjQBGrRADbRX2VIdoYpoKFJaIMi7l/IikhIlFL7p/zyc5R/yfXVf/Mq6ql1t3lc/yjq3f9a32f73obFdna82AgwDlCT1p6n8pTw8t2eGgCQjz9gmL5peIk5aEZODtC3bqthlTXzKPOYjgWCMECbI5ybLy6Ju+WKgKwUnCrlBZabUtvibrigEvnZtVdbFasPBcBJSJZK6q+xrcdu1ra0dxyQooiXI18mZlovxHuzbtbcoAVEtwT+TM0yBQ1gjjNKQaE5IDz1gA/Z939iq6nvUuNkmz/XIc/eyS84rRnytbmLCEMxwN/u2fCvSBriMNCkMFtbEjbMXi9Snri3y5OmRDYATZ0ihW5x8X75mu6r/PygjiLgQPvrNfu+8eGcrO6rusT527WgFibT7GRrUwSuGCXTuk1dlWqv/7ovhKIwROhS9pZXWGricZhLYLg5+TsfLo2z78N5bTCvJEBNnXxjggmkOqNk0Bd/ScEPDLDxBBgVDYCw8Kj2TSSoec+rW2t5m68c6O5nMp8NPYZQxYPrlngfhDLr7C1F7MIoUVjQFIF6nyVEXR4CzImgD0SnJuzg/FG3qpkeBCdk3BJ1XFQMyOoEFYyYjEZlnFpIYDS6sIUKCu0ADMGMGPbXigxBEFm5WqIXWEeDjuqhui2M1WBtGSvJYja/B0+dv9tgdx531r0mKWUdP2H/TML5jA3q+3yf9qai72a5FRFA/uEeTTBoLV5PcDnNQIk2GJknU2WOLl04q5twYRvol2jIULP/Hxz8=",
-            true,
-            "YoRHa (Built-in)",
-            false
-        );
+        foreach ((string name, string data) in BuiltInProfiles) {
+            Import(data, true, name, false);
+        }
     }
 }

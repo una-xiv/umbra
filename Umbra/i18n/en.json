@@ -74,6 +74,7 @@
     "Settings.AppearanceModule.ColorProfiles.ExportProfile": "Export {0} to clipboard",
     "Settings.AppearanceModule.ColorProfiles.OverwriteProfile.Name": "Allow overwrite on import",
     "Settings.AppearanceModule.ColorProfiles.OverwriteProfile.Description": "Allow the imported profile to overwrite the an existing profile with the same name.",
+    "Settings.AppearanceModule.ColorProfiles.DisabledText": "Create a new profile or pick a non built-in profile to customize the colors.",
     "Settings.AppearanceModule.ExportSuccess.Title": "Color profile exported to clipboard",
     "Settings.AppearanceModule.ExportSuccess.Description": "You can now paste the color profile of \"{0}\" into a text file or share it with others.",
     "Settings.AppearanceModule.ImportError.InvalidFormat": "Invalid color profile format. The text in your clipboard is not a valid color profile for Umbra.",

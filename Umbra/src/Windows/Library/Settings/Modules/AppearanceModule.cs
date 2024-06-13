@@ -56,9 +56,13 @@ internal partial class AppearanceModule : SettingsModule
 
     private void OnColorProfileChanged()
     {
+        _selectedProfile = UmbraColors.GetCurrentProfileName();
+
         foreach ((string id, ColorInputNode node) in _colorPickers) {
             node.Value = Color.GetNamedColor(id);
         }
+
+        UpdateColorPickerVisibilityState();
     }
 
     private void OnConfigProfileChanged(string _)
@@ -84,5 +88,25 @@ internal partial class AppearanceModule : SettingsModule
         _activeProfileNode.Choices = UmbraColors.GetColorProfileNames();
         _activeProfileNode.Value   = UmbraColors.GetCurrentProfileName();
         _selectedProfile           = UmbraColors.GetCurrentProfileName();
+
+        UpdateColorPickerVisibilityState();
+    }
+
+    private void UpdateColorPickerVisibilityState()
+    {
+        bool isBuiltInProfile = UmbraColors.IsBuiltInProfile(_selectedProfile);
+
+        Node.FindById("ColorPickerDisabledText")!.Style.IsVisible = isBuiltInProfile;
+
+        foreach (string id in Color.GetAssignedNames()) {
+            string[] parts    = id.Split('.');
+            string   category = parts[0];
+
+            if (!_categoryNodes.TryGetValue(category, out Node? categoryNode)) {
+                continue;
+            }
+
+            categoryNode.Style.IsVisible = !isBuiltInProfile;
+        }
     }
 }

@@ -42,10 +42,20 @@ internal partial class AppearanceModule
                 "ColorPanel",
                 I18N.Translate("Settings.AppearanceModule.ColorProfiles.Name")
             ),
+            new() {
+                Id        = "ColorPickerDisabledText",
+                NodeValue = I18N.Translate("Settings.AppearanceModule.ColorProfiles.DisabledText"),
+                Style = new() {
+                    Color     = new("Window.TextDisabled"),
+                    TextAlign = Anchor.MiddleCenter,
+                    IsVisible = false,
+                    Size      = new(0, 32),
+                }
+            },
         ]
     };
 
-    private Node FontPanel  => Node.QuerySelector("#FontPanel > .appearance-subcategory-body")!;
+    private Node FontPanel          => Node.QuerySelector("#FontPanel > .appearance-subcategory-body")!;
     private Node ColorProfilesPanel => Node.QuerySelector("#ColorPanel > .appearance-subcategory-body")!;
 
     private void UpdateNodeSizes()
@@ -53,12 +63,14 @@ internal partial class AppearanceModule
         var size = (Node.ParentNode!.Bounds.ContentSize / Node.ScaleFactor);
 
         Node.QuerySelector(".appearance-header")!.Style.Size = new(size.Width - 30, 0);
+        Node.FindById("ColorPickerDisabledText")!.Style.Size = new(size.Width - 30, 0);
 
         foreach (Node node in Node.QuerySelectorAll(".appearance-subcategory")) {
             node.Style.Size = new(size.Width - 30, 0);
         }
 
-        foreach (Node node in Node.QuerySelectorAll(".appearance-subcategory-description, .appearance-subcategory-body")) {
+        foreach (Node node in
+                 Node.QuerySelectorAll(".appearance-subcategory-description, .appearance-subcategory-body")) {
             node.Style.Size = new(size.Width - 60, 0);
         }
 

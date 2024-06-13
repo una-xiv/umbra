@@ -15,11 +15,12 @@
  */
 
 using Umbra.Common;
+using Umbra.Game;
 
 namespace Umbra.Markers.System;
 
 [Service]
-internal class StreamSphereOverride
+internal class StreamSphereOverride(IPlayer player)
 {
     /// <summary>
     /// Overrides the collision stream sphere to be larger. This ensures that
@@ -28,6 +29,8 @@ internal class StreamSphereOverride
     [OnTick]
     public unsafe void OverrideCollisionStreamSphere()
     {
+        if (player.IsBetweenAreas) return;
+
         var fw = FFXIVClientStructs.FFXIV.Client.System.Framework.Framework.Instance();
         if (fw == null) return;
 

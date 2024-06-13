@@ -232,7 +232,7 @@ internal partial class AppearanceModule
 
         _createButton.IsDisabled = _newProfileName.Trim().Length < 1 || _newProfileName.Trim().Length > 32;
         _applyButton.IsDisabled  = _selectedProfile == UmbraColors.GetCurrentProfileName();
-        _deleteButton.IsDisabled = _selectedProfile == "Default";
+        _deleteButton.IsDisabled = UmbraColors.IsBuiltInProfile(_selectedProfile);
     }
 
     private void CreateColorControlNodes()
