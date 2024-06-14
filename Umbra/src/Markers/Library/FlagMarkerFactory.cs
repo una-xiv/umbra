@@ -16,7 +16,6 @@
 
 using System;
 using System.Collections.Generic;
-using Dalamud.Game.Text;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using Umbra.Common;
 using Umbra.Game;
@@ -61,7 +60,6 @@ internal class FlagMarkerFactory : WorldMarkerFactory
         SetMarker(
             new() {
                 Key           = "FlagMarker",
-                Label         = $"{SeIconChar.QuestSync.ToIconString()} This {SeIconChar.ServerTimeEn.ToIconString()} is a flag! Quest Sync! {SeIconChar.ServerTimeEn.ToIconString()}",
                 IconId        = agentMap->FlagMapMarker.MapMarker.IconId,
                 MapId         = agentMap->FlagMapMarker.MapId,
                 Position      = new(agentMap->FlagMapMarker.XFloat, 0, agentMap->FlagMapMarker.YFloat),
