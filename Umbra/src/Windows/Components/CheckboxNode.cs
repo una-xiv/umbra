@@ -180,12 +180,12 @@ internal class CheckboxNode : Node
             new(
                 ".checkbox--text--description",
                 new() {
-                    Anchor       = Anchor.TopLeft,
-                    FontSize     = 11,
-                    Color        = new("Input.TextMuted"),
-                    TextOverflow = false,
-                    WordWrap     = true,
-                    LineHeight   = 1.5f,
+                    Anchor          = Anchor.TopLeft,
+                    FontSize        = 11,
+                    Color           = new("Input.TextMuted"),
+                    TextOverflow    = false,
+                    WordWrap        = true,
+                    LineHeight      = 1.5f,
                 }
             ),
         ]

@@ -17,6 +17,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using Dalamud.Game.Text;
 using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
@@ -73,7 +74,7 @@ internal class TripleTriadMarkerFactory(IDataManager dataManager, IZoneManager z
                     var name     = card.Name.ToString();
 
                     var starCount           = resident.TripleTriadCardRarity.Value?.Stars ?? 0;
-                    if (starCount > 0) name += $" [{starCount}]";
+                    if (starCount > 0) name = $"{(char)(SeIconChar.BoxedNumber0.ToIconChar() + starCount)} {name}";
 
                     if (!_cardLocations.ContainsKey(mapId)) _cardLocations[mapId] = [];
 

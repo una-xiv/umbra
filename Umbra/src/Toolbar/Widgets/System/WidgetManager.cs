@@ -207,23 +207,29 @@ internal sealed partial class WidgetManager : IDisposable
         );
     }
 
-    public void UpdateWidgetSortIndex(string id, int direction)
+    public void UpdateWidgetSortIndex(string id, int direction, bool allTheWay)
     {
         if (!_instances.TryGetValue(id, out var widget)) return;
 
-        // Swap the sort index of the widget with the one above or below it.
-        var replacementWidget = _instances.Values.FirstOrDefault(
-            w => w.Location == widget.Location && w.SortIndex == widget.SortIndex + direction
-        );
+        Logger.Info($"All the way? {allTheWay}");
 
-        if (null == replacementWidget) return;
+        ToolbarWidget? replacementWidget;
 
-        replacementWidget.SortIndex -= direction;
-        widget.SortIndex            += direction;
+        if (false == allTheWay) {
+            // Swap the sort index of the widget with the one above or below it.
+            replacementWidget = _instances.Values.FirstOrDefault(
+                w => w.Location == widget.Location && w.SortIndex == widget.SortIndex + direction
+            );
+
+            if (null == replacementWidget) return;
+
+            replacementWidget.SortIndex -= direction;
+            widget.SortIndex            += direction;
+        } else {
+            widget.SortIndex = direction == -1 ? int.MinValue : int.MaxValue;
+        }
 
         SolveSortIndices(widget.Location);
-        SaveWidgetState(widget.Id);
-        SaveWidgetState(replacementWidget.Id);
         SaveState();
     }
 
@@ -242,7 +248,9 @@ internal sealed partial class WidgetManager : IDisposable
             .ToList();
 
         for (var i = 0; i < children.Count; i++) {
+            if (children[i].SortIndex == i) continue;
             children[i].SortIndex = i;
+            SaveWidgetState(children[i].Id);
         }
     }
 

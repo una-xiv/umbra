@@ -473,7 +473,7 @@
     "Widget.Volume.Channel.BGM": "BGM",
     "Widget.Volume.Channel.SFX": "SFX",
     "Widget.Volume.Channel.VOC": "VOC",
-    "Widget.Volume.Channel.ENV": "ENV",
+    "Widget.Volume.Channel.AMB": "ENV",
     "Widget.Volume.Channel.SYS": "SYS",
     "Widget.Volume.Channel.PERF": "PERF",
     "Widget.Volume.Option.SoundChocobo": "Play music when mounted",

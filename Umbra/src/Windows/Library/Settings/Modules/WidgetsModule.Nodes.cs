@@ -75,6 +75,9 @@ internal partial class WidgetsModule
         foreach (var item in Node.QuerySelectorAll(".widget-instance--name")) {
             item.Style.Size = new(colSize - 60, 0);
         }
+        foreach (var item in Node.QuerySelectorAll(".widget-instance--controls")) {
+            item.Style.Size = new(colSize - 60, 0);
+        }
     }
 
     /// <summary>
@@ -197,8 +200,14 @@ internal partial class WidgetsModule
 
         settingsButton.IsDisabled = widget.GetConfigVariableList().Count == 0;
 
-        moveUp.OnMouseUp            += _ => Framework.Service<WidgetManager>().UpdateWidgetSortIndex(widget.Id, -1);
-        moveDown.OnMouseUp          += _ => Framework.Service<WidgetManager>().UpdateWidgetSortIndex(widget.Id, 1);
+        moveUp.OnMouseUp += _ => {
+            Framework.Service<WidgetManager>().UpdateWidgetSortIndex(widget.Id, -1, ImGui.GetIO().KeyCtrl);
+        };
+
+        moveDown.OnMouseUp += _ => {
+            Framework.Service<WidgetManager>().UpdateWidgetSortIndex(widget.Id, 1, ImGui.GetIO().KeyCtrl);
+        };
+
         moveToLeftPanel.OnMouseUp   += _ => widget.Location = "Left";
         moveToCenterPanel.OnMouseUp += _ => widget.Location = "Center";
         moveToRightPanel.OnMouseUp  += _ => widget.Location = "Right";

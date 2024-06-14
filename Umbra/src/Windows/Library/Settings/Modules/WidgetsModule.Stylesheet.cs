@@ -131,7 +131,6 @@ internal partial class WidgetsModule
                 ".widget-instance--name",
                 new() {
                     Anchor       = Anchor.TopCenter,
-                    Stretch      = true,
                     FontSize     = 13,
                     Color        = new("Window.Text"),
                     TextAlign    = Anchor.TopCenter,
@@ -148,17 +147,14 @@ internal partial class WidgetsModule
             new(
                 ".widget-instance--controls",
                 new() {
-                    Anchor  = Anchor.TopCenter,
-                    Stretch = true,
-                    Margin  = new(0, 8),
+                    Anchor = Anchor.TopCenter,
                 }
             ),
             new(
                 ".widget-instance--controls--buttons",
                 new() {
                     Anchor = Anchor.TopCenter,
-                    Gap    = 5,
-                    Margin = new(0, 8),
+                    Gap    = 3,
                 }
             ),
             new(
