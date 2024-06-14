@@ -213,11 +213,10 @@ internal sealed partial class WidgetManager : IDisposable
 
         Logger.Info($"All the way? {allTheWay}");
 
-        ToolbarWidget? replacementWidget;
 
         if (false == allTheWay) {
             // Swap the sort index of the widget with the one above or below it.
-            replacementWidget = _instances.Values.FirstOrDefault(
+            ToolbarWidget?replacementWidget = _instances.Values.FirstOrDefault(
                 w => w.Location == widget.Location && w.SortIndex == widget.SortIndex + direction
             );
 
@@ -225,11 +224,16 @@ internal sealed partial class WidgetManager : IDisposable
 
             replacementWidget.SortIndex -= direction;
             widget.SortIndex            += direction;
+
+            SolveSortIndices(widget.Location);
+            SaveWidgetState(replacementWidget.Id);
+            SaveWidgetState(widget.Id);
         } else {
             widget.SortIndex = direction == -1 ? int.MinValue : int.MaxValue;
+            SolveSortIndices(widget.Location);
+            SaveWidgetState(widget.Id);
         }
 
-        SolveSortIndices(widget.Location);
         SaveState();
     }
 
