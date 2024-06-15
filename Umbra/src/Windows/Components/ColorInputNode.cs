@@ -89,7 +89,6 @@ internal class ColorInputNode : Node
 
     protected override void OnDraw(ImDrawListPtr drawList)
     {
-        // uint    inputValue = (_value & 0xFF00FF00) | ((_value & 0x000000FF) << 16) | ((_value & 0x00FF0000) >> 16);
         Vector4 value      = ImGui.ColorConvertU32ToFloat4(Value);
         Node    box        = QuerySelector(".input--box")!;
 
@@ -118,15 +117,14 @@ internal class ColorInputNode : Node
                     ref value,
                     ImGuiColorEditFlags.NoLabel
                     | ImGuiColorEditFlags.AlphaBar
-                    | ImGuiColorEditFlags.InputHSV
-                    | ImGuiColorEditFlags.InputRGB
+                    | ImGuiColorEditFlags.DisplayMask
                     | ImGuiColorEditFlags.AlphaPreview
                     | ImGuiColorEditFlags.NoSidePreview
                     | ImGuiColorEditFlags.NoSmallPreview
                     | ImGuiColorEditFlags.NoTooltip
                 )) {
                 uint val = ImGui.ColorConvertFloat4ToU32(value);
-                Value = val;// (val & 0xFF00FF00) | ((val & 0x000000FF) << 16) | ((val & 0x00FF0000) >> 16);
+                Value = val;
             }
 
             ImGui.EndPopup();
