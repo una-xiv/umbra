@@ -124,7 +124,8 @@ internal class AddWidgetWindow : Window
                 },
                 new() {
                     ClassList = ["widget--description"],
-                    NodeValue = info.Description
+                    NodeValue = info.Description,
+                    Style     = new() { IsVisible = false },
                 }
             ]
         };
@@ -137,6 +138,10 @@ internal class AddWidgetWindow : Window
             }
 
             node.ClassList.Add("selected");
+        };
+
+        node.BeforeDraw += _ => {
+            node.QuerySelector(".widget--description")!.Style.IsVisible = node.ClassList.Contains("selected");
         };
 
         return node;
@@ -175,6 +180,9 @@ internal class AddWidgetWindow : Window
                     Gap             = 15,
                     Padding         = new(0, 15),
                     BackgroundColor = new("Window.BackgroundLight"),
+                    BorderColor     = new() { Top = new("Window.Border") },
+                    BorderWidth     = new() { Top = 1 },
+                    IsAntialiased   = false,
                 }
             ),
             new(

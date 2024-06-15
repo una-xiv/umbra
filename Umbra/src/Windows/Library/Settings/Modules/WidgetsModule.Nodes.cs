@@ -15,6 +15,7 @@
  */
 
 using System;
+using Dalamud.Game.Text;
 using Dalamud.Interface;
 using ImGuiNET;
 using Umbra.Common;
@@ -29,6 +30,8 @@ namespace Umbra.Windows.Settings.Modules;
 
 internal partial class WidgetsModule
 {
+    private string _selectedInstanceId = "";
+
     public sealed override Node Node { get; } = new() {
         Stylesheet = WidgetsModuleStylesheet,
         ClassList  = ["widgets-module"],
@@ -44,10 +47,6 @@ internal partial class WidgetsModule
                     CreateColumn("Center", "Center"),
                     CreateColumn("Right",  "Right Side")
                 ]
-            },
-            new() {
-                ClassList = ["widgets-footer-text"],
-                NodeValue = I18N.Translate("Settings.WidgetsModule.DangerHint")
             }
         ]
     };
@@ -63,9 +62,9 @@ internal partial class WidgetsModule
         Node.QuerySelector(".module-header")!.Style.Size = new(size.Width - 30, 0);
 
         foreach (var column in Node.QuerySelectorAll(".widgets-column")) {
-            column.Style.Size                                                 = new(colSize, size.Height - 112);
+            column.Style.Size                                                 = new(colSize, size.Height - 88);
             column.QuerySelector(".widgets-column--header")!.Style.Size       = new(colSize - 30, 0);
-            column.QuerySelector(".widgets-column--list-wrapper")!.Style.Size = new(colSize - 20, size.Height - 212);
+            column.QuerySelector(".widgets-column--list-wrapper")!.Style.Size = new(colSize - 20, size.Height - 182);
         }
 
         foreach (var item in Node.QuerySelectorAll(".widgets-column-stretched-item")) {
@@ -127,7 +126,7 @@ internal partial class WidgetsModule
             ChildNodes = [
                 new() {
                     ClassList   = ["widgets-column--add-new--label"],
-                    NodeValue   = I18N.Translate("Settings.WidgetsModule.AddWidget"),
+                    NodeValue   = $"{SeIconChar.BoxedPlus.ToIconString()} {I18N.Translate("Settings.WidgetsModule.AddWidget")}",
                     InheritTags = true,
                 }
             ]
@@ -211,7 +210,11 @@ internal partial class WidgetsModule
         moveToLeftPanel.OnMouseUp   += _ => widget.Location = "Left";
         moveToCenterPanel.OnMouseUp += _ => widget.Location = "Center";
         moveToRightPanel.OnMouseUp  += _ => widget.Location = "Right";
-        deleteButton.OnMouseUp      += _ => Framework.Service<WidgetManager>().RemoveWidget(widget.Id);
+        deleteButton.OnMouseUp      += _ => {
+            if (ImGui.GetIO().KeyShift) {
+                Framework.Service<WidgetManager>().RemoveWidget(widget.Id);
+            }
+        };
 
         settingsButton.OnMouseUp += _ => Framework
             .Service<WindowManager>()
@@ -224,10 +227,12 @@ internal partial class WidgetsModule
                 }
             );
 
-        nameNode.OnMouseUp += _ => controlsNode.Style.IsVisible = !controlsNode.Style.IsVisible;
+        nameNode.OnMouseUp += _ => {
+            _selectedInstanceId = _selectedInstanceId == widget.Id ? "" : widget.Id;
+        };
 
         node.BeforeDraw += _ => {
-            deleteButton.IsDisabled = !ImGui.GetIO().KeyShift;
+            controlsNode.Style.IsVisible = _selectedInstanceId == widget.Id;
 
             node.SortIndex                    = widget.SortIndex;
             moveToLeftPanel.Style.IsVisible   = widget.Location != "Left";

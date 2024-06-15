@@ -92,22 +92,25 @@ internal partial class WidgetsModule
             new(
                 ".widgets-column--add-new",
                 new() {
-                    Flow        = Flow.Vertical,
-                    Gap         = 15,
-                    Size        = new(0, 30),
-                    BorderColor = new() { Top = new("Window.Border") },
-                    BorderWidth = new() { Top = 1 }
+                    Flow          = Flow.Vertical,
+                    Gap           = 15,
+                    Size          = new(0, 30),
+                    BorderColor   = new() { Top = new("Window.Border") },
+                    BorderWidth   = new() { Top = 1 },
+                    IsAntialiased = false,
                 }
             ),
             new(
                 ".widgets-column--add-new--label",
                 new() {
-                    Anchor    = Anchor.MiddleCenter,
-                    TextAlign = Anchor.TopCenter,
-                    Margin    = new(15, 0),
-                    Stretch   = true,
-                    FontSize  = 12,
-                    Color     = new("Window.Text"),
+                    Anchor       = Anchor.MiddleCenter,
+                    TextAlign    = Anchor.TopCenter,
+                    Margin       = new(8, 0),
+                    Stretch      = true,
+                    FontSize     = 12,
+                    Color        = new("Window.TextMuted"),
+                    OutlineColor = new("Window.TextOutline"),
+                    OutlineSize  = 1,
                 }
             ),
             new(
@@ -155,19 +158,6 @@ internal partial class WidgetsModule
                 new() {
                     Anchor = Anchor.TopCenter,
                     Gap    = 3,
-                }
-            ),
-            new(
-                ".widgets-footer-text",
-                new() {
-                    Stretch      = true,
-                    TextAlign    = Anchor.MiddleCenter,
-                    FontSize     = 11,
-                    Color        = new("Window.TextMuted"),
-                    OutlineColor = new("Window.TextOutline"),
-                    OutlineSize  = 1,
-                    Size         = new(0, 14),
-                    Opacity      = 0.6f,
                 }
             )
         ]

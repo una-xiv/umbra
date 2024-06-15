@@ -67,11 +67,13 @@ internal partial class SettingsWindow
             new(
                 "NavigationList",
                 new() {
-                    Anchor              = Anchor.TopLeft,
-                    Flow                = Flow.Vertical,
-                    Size                = new(150, 0),
-                    ScrollbarTrackColor = new(0),
-                    ScrollbarThumbColor = new("Window.Border"),
+                    Anchor                    = Anchor.TopLeft,
+                    Flow                      = Flow.Vertical,
+                    Size                      = new(150, 0),
+                    ScrollbarTrackColor       = new(0),
+                    ScrollbarThumbColor       = new("Window.ScrollbarThumb"),
+                    ScrollbarThumbHoverColor  = new("Window.ScrollbarThumbHover"),
+                    ScrollbarThumbActiveColor = new("Window.ScrollbarThumbActive"),
                 }
             ),
             new(

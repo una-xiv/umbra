@@ -72,7 +72,7 @@ internal sealed class Zone : IZone
         Offset              = new(MapSheet.OffsetX, MapSheet.OffsetY);
         SizeFactor          = MapSheet.SizeFactor;
         IsSanctuary         = false;
-        CurrentDistrictName = "";
+        CurrentDistrictName = "-";
 
         StaticMarkers = dataManager.GetExcelSheet<Sheet.MapMarker>()!
             .Where(m => m.RowId == MapSheet.MapMarkerRange && m.X > 0 && m.Y > 0)
@@ -109,6 +109,10 @@ internal sealed class Zone : IZone
              ?? "???";
         } else {
             CurrentDistrictName = GetHousingDistrictName();
+        }
+
+        if (string.IsNullOrEmpty(CurrentDistrictName)) {
+            CurrentDistrictName = " ";
         }
 
         Map* map = Map.Instance();
