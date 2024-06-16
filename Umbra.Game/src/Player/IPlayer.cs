@@ -145,7 +145,13 @@ public interface IPlayer
     /// <param name="statusId">
     /// A RowId from the <see cref="Lumina.Excel.GeneratedSheets.OnlineStatus"/> excel sheet.
     /// </param>
-    public unsafe void SetOnlineStatus(uint statusId);
+    public void SetOnlineStatus(uint statusId);
+
+    /// <summary>
+    /// Returns a service instance that allows retrieving information about the
+    /// player's currently equipped gear.
+    /// </summary>
+    public IEquipmentRepository Equipment { get; }
 
     /// <summary>
     /// Get the job information by the specified job ID.
@@ -166,4 +172,14 @@ public interface IPlayer
     /// Use the specified inventory item by its item ID.
     /// </summary>
     public void UseInventoryItem(uint itemId);
+
+    /// <summary>
+    /// Returns true if the specified general action is unlocked.
+    /// </summary>
+    public bool IsGeneralActionUnlocked(uint actionId);
+
+    /// <summary>
+    /// Uses the specified general action by its ID.
+    /// </summary>
+    public void UseGeneralAction(uint actionId);
 }

@@ -153,17 +153,26 @@ internal sealed class Player : IPlayer
     /// </summary>
     public bool IsBattleMentor { get; private set; }
 
+    public IEquipmentRepository Equipment { get; }
+
     private readonly IClientState      _clientState;
     private readonly ICondition        _condition;
     private readonly JobInfoRepository _jobInfoRepository;
 
     private readonly uint[] _acceptedOnlineStatusIds = [47, 32, 31, 27, 28, 29, 30, 12, 17, 21, 22, 23];
 
-    public Player(IClientState clientState, ICondition condition, JobInfoRepository jobInfoRepository)
+    public Player(
+        IClientState         clientState,
+        ICondition           condition,
+        IEquipmentRepository equipmentRepository,
+        JobInfoRepository    jobInfoRepository
+    )
     {
         _clientState       = clientState;
         _condition         = condition;
         _jobInfoRepository = jobInfoRepository;
+
+        Equipment = equipmentRepository;
 
         OnTick();
     }
@@ -180,34 +189,34 @@ internal sealed class Player : IPlayer
         IsDead         = _clientState.LocalPlayer.IsDead;
 
         IsCasting = _clientState.LocalPlayer.IsCasting
-         || _condition[ConditionFlag.Casting]
-         || _condition[ConditionFlag.Casting87];
+            || _condition[ConditionFlag.Casting]
+            || _condition[ConditionFlag.Casting87];
 
         IsInCombat = _condition[ConditionFlag.InCombat];
         IsMounted  = _condition[ConditionFlag.Mounted] || _condition[ConditionFlag.Mounted2];
 
         IsOccupied = _condition[ConditionFlag.BetweenAreas]
-         || _condition[ConditionFlag.BetweenAreas51]
-         || _condition[ConditionFlag.Occupied]
-         || _condition[ConditionFlag.Occupied30]
-         || _condition[ConditionFlag.Occupied33]
-         || _condition[ConditionFlag.Occupied38]
-         || _condition[ConditionFlag.Occupied39]
-         || _condition[ConditionFlag.OccupiedInCutSceneEvent]
-         || _condition[ConditionFlag.OccupiedInEvent]
-         || _condition[ConditionFlag.OccupiedInQuestEvent]
-         || _condition[ConditionFlag.OccupiedSummoningBell];
+            || _condition[ConditionFlag.BetweenAreas51]
+            || _condition[ConditionFlag.Occupied]
+            || _condition[ConditionFlag.Occupied30]
+            || _condition[ConditionFlag.Occupied33]
+            || _condition[ConditionFlag.Occupied38]
+            || _condition[ConditionFlag.Occupied39]
+            || _condition[ConditionFlag.OccupiedInCutSceneEvent]
+            || _condition[ConditionFlag.OccupiedInEvent]
+            || _condition[ConditionFlag.OccupiedInQuestEvent]
+            || _condition[ConditionFlag.OccupiedSummoningBell];
 
         IsJumping = _condition[ConditionFlag.Jumping] || _condition[ConditionFlag.Jumping61];
         IsDiving  = _condition[ConditionFlag.Diving];
 
         IsBoundByDuty = _condition[ConditionFlag.BoundByDuty]
-         || _condition[ConditionFlag.BoundByDuty56]
-         || _condition[ConditionFlag.BoundByDuty95];
+            || _condition[ConditionFlag.BoundByDuty56]
+            || _condition[ConditionFlag.BoundByDuty95];
 
         IsInCutscene = _condition[ConditionFlag.OccupiedInCutSceneEvent]
-         || _condition[ConditionFlag.WatchingCutscene]
-         || _condition[ConditionFlag.WatchingCutscene78];
+            || _condition[ConditionFlag.WatchingCutscene]
+            || _condition[ConditionFlag.WatchingCutscene78];
 
         IsBetweenAreas = _condition[ConditionFlag.BetweenAreas] || _condition[ConditionFlag.BetweenAreas51];
         IsInIdleCam    = GameMain.IsInIdleCam();
@@ -223,8 +232,8 @@ internal sealed class Player : IPlayer
 
         GrandCompanyId = ps->GrandCompany;
         IsBattleMentor = ps->IsBattleMentor() && ps->MentorVersion == 2;
-        IsTradeMentor  = ps->IsTradeMentor()  && ps->MentorVersion == 2;
-        IsMentor       = IsBattleMentor       && IsTradeMentor;
+        IsTradeMentor  = ps->IsTradeMentor() && ps->MentorVersion == 2;
+        IsMentor       = IsBattleMentor && IsTradeMentor;
     }
 
     /// <summary>
@@ -286,9 +295,32 @@ internal sealed class Player : IPlayer
         }
 
         InfoProxySearchComment* ic = InfoProxySearchComment.Instance();
-        if (null == ic ) return;
+        if (null == ic) return;
 
         ic->SendOnlineStatusUpdate(statusId);
+    }
+
+    public unsafe bool IsGeneralActionUnlocked(uint actionId)
+    {
+        try {
+            GeneralAction? action = Framework.Service<IDataManager>().GetExcelSheet<GeneralAction>()!.GetRow(actionId);
+            return action != null && (action.UnlockLink == 0 || UIState.Instance()->IsUnlockLinkUnlocked(action.UnlockLink));
+        } catch {
+            // Fall-through.
+        }
+
+        return false;
+    }
+
+    public unsafe void UseGeneralAction(uint actionId)
+    {
+        if (!IsGeneralActionUnlocked(actionId)) return;
+
+        try {
+            ActionManager.Instance()->UseAction(ActionType.GeneralAction, actionId);
+        } catch {
+            // Fall-through.
+        }
     }
 
     [OnTick(interval: 1000)]
