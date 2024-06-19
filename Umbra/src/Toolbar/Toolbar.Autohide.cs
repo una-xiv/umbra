@@ -30,7 +30,7 @@ internal partial class Toolbar
 
     private void UpdateToolbarAutoHideOffset()
     {
-        if (!IsAutoHideEnabled) {
+        if (!ShouldAutoHide()) {
             _autoHideYOffset = 0;
             _autoHideYTarget = 0;
             _autoHideOpacity = 1;
@@ -77,5 +77,10 @@ internal partial class Toolbar
         bounds.Expand(new(_toolbarNode.Height / 2, 0));
 
         return bounds.Contains(ImGui.GetMousePos());
+    }
+
+    private bool ShouldAutoHide()
+    {
+        return IsAutoHideEnabled || (AutoHideDuringCutscenes && player.IsInCutscene);
     }
 }

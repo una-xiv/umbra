@@ -32,7 +32,8 @@ internal class WorldMarkerRenderer(
     IPlayer             player,
     ClipRectProvider    clipRectProvider,
     WorldMarkerRegistry registry,
-    IZoneManager        zoneManager
+    IZoneManager        zoneManager,
+    UmbraVisibility     visibility
 )
 {
     [ConfigVariable("Markers.Renderer.Enabled", "Markers", "MarkersRenderer")]
@@ -50,7 +51,7 @@ internal class WorldMarkerRenderer(
     [OnDraw]
     private void OnDraw()
     {
-        if (!Enabled || !zoneManager.HasCurrentZone) return;
+        if (!Enabled || !zoneManager.HasCurrentZone || !visibility.AreMarkersVisible()) return;
 
         List<string> usedIds = [];
 

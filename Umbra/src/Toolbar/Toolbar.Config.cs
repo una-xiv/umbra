@@ -26,6 +26,9 @@ internal partial class Toolbar
     [ConfigVariable("Toolbar.IsAutoHideEnabled", "General", "Toolbar")]
     public static bool IsAutoHideEnabled { get; set; } = false;
 
+    [ConfigVariable("Toolbar.AutoHideDuringCutscenes", "General", "Toolbar")]
+    public static bool AutoHideDuringCutscenes { get; set; } = false;
+
     [ConfigVariable("Toolbar.IsTopAligned", "General", "Toolbar")]
     public static bool IsTopAligned { get; set; } = false;
 

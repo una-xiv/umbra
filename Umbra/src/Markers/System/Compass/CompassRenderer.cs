@@ -51,7 +51,7 @@ internal partial class CompassRenderer(
     [OnDraw(executionOrder: int.MinValue)]
     private void OnUpdate()
     {
-        if (!Enabled || !visibility.IsVisible()) return;
+        if (!Enabled || !visibility.AreMarkersVisible()) return;
 
         float   iconSize  = 24 * (IconScaleFactor / 100f) * Node.ScaleFactor;
         float   clampSize = iconSize * 2.5f;

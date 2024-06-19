@@ -28,7 +28,7 @@ internal unsafe partial class DtrBarWidget
             return;
         }
 
-        SetNativeServerInfoBarVisibility(!(Toolbar.Enabled && Framework.Service<UmbraVisibility>().IsVisible()));
+        SetNativeServerInfoBarVisibility(!(Toolbar.Enabled && Framework.Service<UmbraVisibility>().IsToolbarVisible()));
     }
 
     private void SetNativeServerInfoBarVisibility(bool isVisible)

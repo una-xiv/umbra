@@ -15,16 +15,17 @@
  */
 
 using Umbra.Common;
+using Umbra.Game;
 
 namespace Umbra;
 
 [Service]
-internal partial class Toolbar(UmbraVisibility visibility)
+internal partial class Toolbar(IPlayer player, UmbraVisibility visibility)
 {
     [OnDraw(executionOrder: -1)]
     private void DrawToolbar()
     {
-        if (!Enabled || !visibility.IsVisible()) return;
+        if (!Enabled || !visibility.IsToolbarVisible()) return;
 
         UpdateToolbarWidth();
         UpdateToolbarNodeClassList();

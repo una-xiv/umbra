@@ -34,11 +34,18 @@ internal class WorldMarkerRegistry
 
     private readonly IZoneManager         _zoneManager;
     private readonly WorldMarkerRaycaster _raycaster;
+    private readonly UmbraVisibility      _visibility;
 
-    public WorldMarkerRegistry(IDataManager dataManager, IZoneManager zoneManager, WorldMarkerRaycaster raycaster)
+    public WorldMarkerRegistry(
+        IDataManager dataManager,
+        IZoneManager zoneManager,
+        WorldMarkerRaycaster raycaster,
+        UmbraVisibility visibility
+    )
     {
         _zoneManager = zoneManager;
         _raycaster   = raycaster;
+        _visibility  = visibility;
 
         // Pre-cache a list of markers based on map ids.
         foreach (Map map in dataManager.GetExcelSheet<Map>()!) {
@@ -106,9 +113,9 @@ internal class WorldMarkerRegistry
     }
 
     [OnDraw(executionOrder: int.MaxValue - 1)]
-    private unsafe void UpdateResolvedPositions()
+    private void UpdateResolvedPositions()
     {
-        if (!_zoneManager.HasCurrentZone) return;
+        if (!_zoneManager.HasCurrentZone || !_visibility.AreMarkersVisible()) return;
 
         foreach (WorldMarker marker in WorldMarkers[_zoneManager.CurrentZone.Id].Values) {
             UpdateResolvedPositionOf(marker);
@@ -144,6 +151,6 @@ internal class WorldMarkerRegistry
     private record ResolvedPosition
     {
         public Vector3 Position { get; init; }
-        public Vector3 Resolved { get; set; }
+        public Vector3 Resolved { get; init; }
     }
 }
