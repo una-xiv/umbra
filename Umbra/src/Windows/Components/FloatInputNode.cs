@@ -128,10 +128,12 @@ internal class FloatInputNode : Node
 
         ImGui.SetNextItemWidth(bounds.ContentSize.Width);
 
-        float v = _value;
+        if (ImGui.InputFloat($"##{Id}", ref _value, 0.1f, 1, null)) {
+            _value = Math.Clamp(_value, MinValue, MaxValue);
+        }
 
-        if (ImGui.InputFloat($"##{Id}", ref v, 0.1f, 1, null, ImGuiInputTextFlags.EnterReturnsTrue)) {
-            Value = Math.Clamp(v, MinValue, MaxValue);
+        if (ImGui.IsItemDeactivatedAfterEdit()) {
+            OnValueChanged?.Invoke(_value);
         }
 
         ImGui.PopStyleVar(4);

@@ -17,6 +17,8 @@
 using System;
 using System.Numerics;
 using ImGuiNET;
+using Lumina.Excel.GeneratedSheets;
+using Umbra.Common;
 using Una.Drawing;
 
 namespace Umbra.Windows.Components;
@@ -119,9 +121,12 @@ internal class IntegerInputNode : Node
 
         ImGui.SetNextItemWidth(bounds.ContentSize.Width);
 
-        int v = _value;
-        if (ImGui.InputInt($"##{Id}", ref v, 1, 10, ImGuiInputTextFlags.EnterReturnsTrue)) {
-            Value = Math.Clamp(v, MinValue, MaxValue);
+        if (ImGui.InputInt($"##{Id}", ref _value, 1, 10)) {
+            _value = Math.Clamp(_value, MinValue, MaxValue);
+        }
+
+        if (ImGui.IsItemDeactivatedAfterEdit()) {
+            OnValueChanged?.Invoke(_value);
         }
 
         ImGui.PopStyleVar(4);

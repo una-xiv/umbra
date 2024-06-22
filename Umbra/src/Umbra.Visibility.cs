@@ -102,6 +102,9 @@ public sealed class UmbraVisibility
 
     public bool AreMarkersVisible()
     {
+        // Always disable markers when in PvP.
+        if (_player.IsInPvP) return false;
+
         if (_clientState.IsGPosing && !ShowMarkersInGPose) return false;
 
         if (_gameGui.GameUiHidden && !ShowMarkersOnUserHide) return false;

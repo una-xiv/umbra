@@ -18,6 +18,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Umbra.Common;
+using Umbra.Game;
 
 namespace Umbra.Widgets.System;
 
@@ -33,10 +34,12 @@ internal sealed partial class WidgetManager : IDisposable
     private readonly Dictionary<string, ToolbarWidget> _instances   = [];
 
     private Toolbar Toolbar { get; }
+    private IPlayer Player  { get; }
 
-    public WidgetManager(Toolbar toolbar)
+    public WidgetManager(Toolbar toolbar, IPlayer player)
     {
         Toolbar = toolbar;
+        Player  = player;
 
         foreach ((Type type, WidgetInfo info) in WidgetRegistry.RegisteredWidgets) {
             if (type.IsSubclassOf(typeof(ToolbarWidget))) {
@@ -211,9 +214,6 @@ internal sealed partial class WidgetManager : IDisposable
     {
         if (!_instances.TryGetValue(id, out var widget)) return;
 
-        Logger.Info($"All the way? {allTheWay}");
-
-
         if (false == allTheWay) {
             // Swap the sort index of the widget with the one above or below it.
             ToolbarWidget?replacementWidget = _instances.Values.FirstOrDefault(
@@ -277,8 +277,10 @@ internal sealed partial class WidgetManager : IDisposable
                     OnWidgetRelocated?.Invoke(widget, panelId);
                 }
 
-                widget.Node.SortIndex = widget.SortIndex;
                 widget.Update();
+
+                widget.Node.SortIndex  = widget.SortIndex;
+                widget.Node.IsDisabled = Player.IsEditingHud;
             }
         }
     }

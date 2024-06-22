@@ -133,10 +133,12 @@ internal class StringInputNode : Node
 
         ImGui.SetNextItemWidth(bounds.ContentSize.Width);
 
-        string v = _value;
+        if (ImGui.InputText($"##{Id}", ref _value, MaxLength, !_immediate ? ImGuiInputTextFlags.EnterReturnsTrue : ImGuiInputTextFlags.None)) {
+            OnValueChanged?.Invoke(_value);
+        }
 
-        if (ImGui.InputText($"##{Id}", ref v, MaxLength, !_immediate ? ImGuiInputTextFlags.EnterReturnsTrue : ImGuiInputTextFlags.None)) {
-            Value = v;
+        if (ImGui.IsItemDeactivatedAfterEdit()) {
+            OnValueChanged?.Invoke(_value);
         }
 
         ImGui.PopStyleVar(4);

@@ -62,6 +62,11 @@ internal sealed class Player : IPlayer
     public bool IsInCombat { get; private set; }
 
     /// <summary>
+    /// True if the player is currently engaged in a PvP duty.
+    /// </summary>
+    public bool IsInPvP { get; private set; }
+
+    /// <summary>
     /// True if the player is currently casting a spell or ability.
     /// </summary>
     public bool IsCasting { get; private set; }
@@ -187,6 +192,7 @@ internal sealed class Player : IPlayer
         Position       = _clientState.LocalPlayer.Position;
         Rotation       = _clientState.LocalPlayer.Rotation;
         IsDead         = _clientState.LocalPlayer.IsDead;
+        IsInPvP        = _clientState.IsPvPExcludingDen;
 
         IsCasting = _clientState.LocalPlayer.IsCasting
             || _condition[ConditionFlag.Casting]
@@ -304,7 +310,9 @@ internal sealed class Player : IPlayer
     {
         try {
             GeneralAction? action = Framework.Service<IDataManager>().GetExcelSheet<GeneralAction>()!.GetRow(actionId);
-            return action != null && (action.UnlockLink == 0 || UIState.Instance()->IsUnlockLinkUnlocked(action.UnlockLink));
+
+            return action != null
+                && (action.UnlockLink == 0 || UIState.Instance()->IsUnlockLinkUnlocked(action.UnlockLink));
         } catch {
             // Fall-through.
         }

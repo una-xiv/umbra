@@ -66,10 +66,11 @@ internal partial class Toolbar
             !EnableInactiveColors || IsCursorNearToolbar()
         ) ? (Height * 2) : 0);
 
-        _toolbarNode.Style.Gap = ItemSpacing * 2;
-        LeftPanel.Style.Gap    = ItemSpacing;
-        CenterPanel.Style.Gap  = ItemSpacing;
-        RightPanel.Style.Gap   = ItemSpacing;
+        _toolbarNode.Style.Gap     = ItemSpacing * 2;
+        _toolbarNode.Style.Opacity = player.IsEditingHud ? 0.66f : null;
+        LeftPanel.Style.Gap        = ItemSpacing;
+        CenterPanel.Style.Gap      = ItemSpacing;
+        RightPanel.Style.Gap       = ItemSpacing;
 
         _toolbarNode.Render(
             ImGui.GetBackgroundDrawList(),

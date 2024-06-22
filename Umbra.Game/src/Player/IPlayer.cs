@@ -51,6 +51,11 @@ public interface IPlayer
     public bool IsInCombat { get; }
 
     /// <summary>
+    /// True if the player is currently engaged in a PvP duty.
+    /// </summary>
+    public bool IsInPvP { get; }
+
+    /// <summary>
     /// True if the player is currently casting a spell or ability.
     /// </summary>
     public bool IsCasting { get; }
