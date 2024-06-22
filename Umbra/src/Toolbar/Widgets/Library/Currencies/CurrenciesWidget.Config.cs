@@ -39,49 +39,49 @@ internal partial class CurrenciesWidget
                 true
             ),
             new StringWidgetConfigVariable(
-                "CustomLabel",
-                I18N.Translate("Widget.Currencies.Config.CustomWidgetLabel.Name"),
-                I18N.Translate("Widget.Currencies.Config.CustomWidgetLabel.Description"),
-                "",
-                32
-            ),
-            new StringWidgetConfigVariable(
                 "CurrencySeparator",
                 I18N.Translate("Widget.Currencies.Config.CurrencySeparator.Name"),
                 I18N.Translate("Widget.Currencies.Config.CurrencySeparator.Description"),
                 ".",
                 1
             ),
-            new BooleanWidgetConfigVariable(
-                "ShowIcon",
-                I18N.Translate("Widget.Currencies.Config.ShowIcon.Name"),
-                I18N.Translate("Widget.Currencies.Config.ShowIcon.Description"),
-                true
-            ),
-            new BooleanWidgetConfigVariable(
-                "ShowName",
-                I18N.Translate("Widget.Currencies.Config.ShowName.Name"),
-                I18N.Translate("Widget.Currencies.Config.ShowName.Description"),
-                true
+            new StringWidgetConfigVariable(
+                "CustomCurrencyIds",
+                I18N.Translate("Widget.Currencies.Config.CustomCurrencyIds.Name"),
+                I18N.Translate("Widget.Currencies.Config.CustomCurrencyIds.Description"),
+                ""
             ),
             new BooleanWidgetConfigVariable(
                 "Decorate",
                 I18N.Translate("Widget.Currencies.Config.Decorate.Name"),
                 I18N.Translate("Widget.Currencies.Config.Decorate.Description"),
                 true
-            ),
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            new StringWidgetConfigVariable(
+                "CustomLabel",
+                I18N.Translate("Widget.Currencies.Config.CustomWidgetLabel.Name"),
+                I18N.Translate("Widget.Currencies.Config.CustomWidgetLabel.Description"),
+                "",
+                32
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            new BooleanWidgetConfigVariable(
+                "ShowIcon",
+                I18N.Translate("Widget.Currencies.Config.ShowIcon.Name"),
+                I18N.Translate("Widget.Currencies.Config.ShowIcon.Description"),
+                true
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            new BooleanWidgetConfigVariable(
+                "ShowName",
+                I18N.Translate("Widget.Currencies.Config.ShowName.Name"),
+                I18N.Translate("Widget.Currencies.Config.ShowName.Description"),
+                true
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             new BooleanWidgetConfigVariable(
                 "DesaturateIcon",
                 I18N.Translate("Widget.Currencies.Config.DesaturateIcon.Name"),
                 I18N.Translate("Widget.Currencies.Config.DesaturateIcon.Description"),
                 true
-            ),
-            new BooleanWidgetConfigVariable(
-                "DesaturateIcons",
-                I18N.Translate("Widget.Currencies.Config.DesaturateIcons.Name"),
-                I18N.Translate("Widget.Currencies.Config.DesaturateIcons.Description"),
-                true
-            ),
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             new SelectWidgetConfigVariable(
                 "IconLocation",
                 I18N.Translate("Widget.Currencies.Config.IconLocation.Name"),
@@ -91,7 +91,7 @@ internal partial class CurrenciesWidget
                     { "Left", I18N.Translate("Widget.Currencies.Config.IconLocation.Option.Left") },
                     { "Right", I18N.Translate("Widget.Currencies.Config.IconLocation.Option.Right") }
                 }
-            ),
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             new IntegerWidgetConfigVariable(
                 "TextYOffset",
                 I18N.Translate("Widget.Currencies.Config.TextYOffset.Name"),
@@ -99,13 +99,13 @@ internal partial class CurrenciesWidget
                 0,
                 -5,
                 5
-            ),
-            new StringWidgetConfigVariable(
-                "CustomCurrencyIds",
-                I18N.Translate("Widget.Currencies.Config.CustomCurrencyIds.Name"),
-                I18N.Translate("Widget.Currencies.Config.CustomCurrencyIds.Description"),
-                ""
-            )
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            new BooleanWidgetConfigVariable(
+                "DesaturateIcons",
+                I18N.Translate("Widget.Currencies.Config.DesaturateIcons.Name"),
+                I18N.Translate("Widget.Currencies.Config.DesaturateIcons.Description"),
+                true
+            ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
         ];
     }
 }

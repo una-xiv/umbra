@@ -30,7 +30,7 @@ internal sealed partial class CompanionWidget
                 I18N.Translate("Widget.Companion.Decorate.Name"),
                 I18N.Translate("Widget.Companion.Decorate.Description"),
                 true
-            ),
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             new SelectWidgetConfigVariable(
                 "DisplayMode",
                 I18N.Translate("Widget.Companion.Config.DisplayMode.Name"),
@@ -41,7 +41,7 @@ internal sealed partial class CompanionWidget
                     { "TextOnly", I18N.Translate("Widget.Companion.Config.DisplayMode.Option.TextOnly") },
                     { "IconOnly", I18N.Translate("Widget.Companion.Config.DisplayMode.Option.IconOnly") }
                 }
-            ),
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             new SelectWidgetConfigVariable(
                 "IconLocation",
                 I18N.Translate("Widget.Companion.Config.IconLocation.Name"),
@@ -51,7 +51,7 @@ internal sealed partial class CompanionWidget
                     { "Left", I18N.Translate("Widget.Companion.Config.IconLocation.Option.Left") },
                     { "Right", I18N.Translate("Widget.Companion.Config.IconLocation.Option.Right") }
                 }
-            ),
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             new IntegerWidgetConfigVariable(
                 "IconYOffset",
                 I18N.Translate("Widget.Companion.Config.IconYOffset.Name"),
@@ -59,7 +59,7 @@ internal sealed partial class CompanionWidget
                 0,
                 -5,
                 5
-            ),
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
         ];
     }
 }

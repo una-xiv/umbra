@@ -35,7 +35,7 @@ internal partial class GearsetSwitcherWidget
                     { "TextOnly", I18N.Translate("Widget.GearsetSwitcher.Config.DisplayMode.Option.TextOnly") },
                     { "IconOnly", I18N.Translate("Widget.GearsetSwitcher.Config.DisplayMode.Option.IconOnly") }
                 }
-            ),
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             new SelectWidgetConfigVariable(
                 "IconLocation",
                 I18N.Translate("Widget.GearsetSwitcher.Config.IconLocation.Name"),
@@ -45,7 +45,7 @@ internal partial class GearsetSwitcherWidget
                     { "Left", I18N.Translate("Widget.GearsetSwitcher.Config.IconLocation.Option.Left") },
                     { "Right", I18N.Translate("Widget.GearsetSwitcher.Config.IconLocation.Option.Right") }
                 }
-            ),
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             new SelectWidgetConfigVariable(
                 "TextAlign",
                 I18N.Translate("Widget.GearsetSwitcher.Config.TextAlign.Name"),
@@ -56,31 +56,19 @@ internal partial class GearsetSwitcherWidget
                     { "Center", I18N.Translate("Widget.GearsetSwitcher.Config.TextAlign.Option.Center") },
                     { "Right", I18N.Translate("Widget.GearsetSwitcher.Config.TextAlign.Option.Right") }
                 }
-            ),
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             new BooleanWidgetConfigVariable(
                 "Decorate",
                 I18N.Translate("Widget.GearsetSwitcher.Config.Decorate.Name"),
                 I18N.Translate("Widget.GearsetSwitcher.Config.Decorate.Description"),
                 true
-            ),
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             new BooleanWidgetConfigVariable(
                 "UseAlternateIconWidget",
                 I18N.Translate("Widget.GearsetSwitcher.Config.UseAlternateIconWidget.Name"),
                 I18N.Translate("Widget.GearsetSwitcher.Config.UseAlternateIconWidget.Description"),
                 false
-            ),
-            new BooleanWidgetConfigVariable(
-                "UseAlternateIconHeader",
-                I18N.Translate("Widget.GearsetSwitcher.Config.UseAlternateIconHeader.Name"),
-                I18N.Translate("Widget.GearsetSwitcher.Config.UseAlternateIconHeader.Description"),
-                true
-            ),
-            new BooleanWidgetConfigVariable(
-                "UseAlternateIconButton",
-                I18N.Translate("Widget.GearsetSwitcher.Config.UseAlternateIconButton.Name"),
-                I18N.Translate("Widget.GearsetSwitcher.Config.UseAlternateIconButton.Description"),
-                false
-            ),
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             new IntegerWidgetConfigVariable(
                 "IconYOffset",
                 I18N.Translate("Widget.GearsetSwitcher.Config.IconYOffset.Name"),
@@ -88,7 +76,19 @@ internal partial class GearsetSwitcherWidget
                 1,
                 -5,
                 5
-            ),
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            new BooleanWidgetConfigVariable(
+                "UseAlternateIconHeader",
+                I18N.Translate("Widget.GearsetSwitcher.Config.UseAlternateIconHeader.Name"),
+                I18N.Translate("Widget.GearsetSwitcher.Config.UseAlternateIconHeader.Description"),
+                true
+            ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
+            new BooleanWidgetConfigVariable(
+                "UseAlternateIconButton",
+                I18N.Translate("Widget.GearsetSwitcher.Config.UseAlternateIconButton.Name"),
+                I18N.Translate("Widget.GearsetSwitcher.Config.UseAlternateIconButton.Description"),
+                false
+            ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
             new IntegerWidgetConfigVariable(
                 "HeaderIconYOffset",
                 I18N.Translate("Widget.GearsetSwitcher.Config.HeaderIconYOffset.Name"),
@@ -96,7 +96,7 @@ internal partial class GearsetSwitcherWidget
                 0,
                 -5,
                 5
-            ),
+            ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
             new IntegerWidgetConfigVariable(
                 "ButtonIconYOffset",
                 I18N.Translate("Widget.GearsetSwitcher.Config.ButtonIconYOffset.Name"),
@@ -104,7 +104,7 @@ internal partial class GearsetSwitcherWidget
                 1,
                 -5,
                 5
-            ),
+            ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
             new IntegerWidgetConfigVariable(
                 "NameTextYOffset",
                 I18N.Translate("Widget.GearsetSwitcher.Config.NameTextYOffset.Name"),
@@ -112,7 +112,7 @@ internal partial class GearsetSwitcherWidget
                 0,
                 -5,
                 5
-            ),
+            ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
             new IntegerWidgetConfigVariable(
                 "InfoTextYOffset",
                 I18N.Translate("Widget.GearsetSwitcher.Config.InfoTextYOffset.Name"),
@@ -120,13 +120,13 @@ internal partial class GearsetSwitcherWidget
                 -1,
                 -5,
                 5
-            ),
+            ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
             new BooleanWidgetConfigVariable(
                 "ShowRoleNames",
                 I18N.Translate("Widget.GearsetSwitcher.Config.ShowRoleNames.Name"),
                 I18N.Translate("Widget.GearsetSwitcher.Config.ShowRoleNames.Description"),
                 true
-            ),
+            ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
 
             // Role Configuration
             ..AddRoleOptionsFor("Tank",           "LeftColumn",   0, 3),
@@ -151,7 +151,7 @@ internal partial class GearsetSwitcherWidget
                 I18N.Translate("Widget.GearsetSwitcher.Config.ShowRole.Name",        role),
                 I18N.Translate("Widget.GearsetSwitcher.Config.ShowRole.Description", role),
                 true
-            ),
+            ) { Category = I18N.Translate("Widget.ConfigCategory.GearsetRoleOptions", role) },
             new SelectWidgetConfigVariable(
                 $"{name}RoleLocation",
                 I18N.Translate("Widget.GearsetSwitcher.Config.RoleLocation.Name",        role),
@@ -163,7 +163,7 @@ internal partial class GearsetSwitcherWidget
                     },
                     { "RightColumn", I18N.Translate("Widget.GearsetSwitcher.Config.RoleLocation.Option.RightColumn") }
                 }
-            ),
+            ) { Category = I18N.Translate("Widget.ConfigCategory.GearsetRoleOptions", role) },
             new IntegerWidgetConfigVariable(
                 $"{name}RoleSortIndex",
                 I18N.Translate("Widget.GearsetSwitcher.Config.RoleSortIndex.Name",        role),
@@ -171,7 +171,7 @@ internal partial class GearsetSwitcherWidget
                 sortIndex,
                 0,
                 10
-            ),
+            ) { Category = I18N.Translate("Widget.ConfigCategory.GearsetRoleOptions", role) },
             new IntegerWidgetConfigVariable(
                 $"{name}MaxItems",
                 I18N.Translate("Widget.GearsetSwitcher.Config.RoleMaxItems.Name",        role),
@@ -179,7 +179,7 @@ internal partial class GearsetSwitcherWidget
                 maxItems,
                 1,
                 10
-            )
+            ) { Category = I18N.Translate("Widget.ConfigCategory.GearsetRoleOptions", role) },
         ];
     }
 }

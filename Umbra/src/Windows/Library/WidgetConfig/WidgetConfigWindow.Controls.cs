@@ -16,6 +16,7 @@
 
 using System;
 using System.Linq;
+using Dalamud.Interface;
 using Umbra.Common;
 using Umbra.Widgets;
 using Umbra.Windows.Components;
@@ -25,7 +26,7 @@ namespace Umbra.Windows.Library.WidgetConfig;
 
 internal partial class WidgetConfigWindow
 {
-    private void RenderControl(IWidgetConfigVariable cvar)
+    private void RenderControl(IWidgetConfigVariable cvar, Node targetNode)
     {
         Node? node = null;
 
@@ -52,8 +53,53 @@ internal partial class WidgetConfigWindow
 
         if (node is not null) {
             node.ClassList.Add("control");
-            ControlsListNode.AppendChild(node);
+            targetNode.AppendChild(node);
         }
+    }
+
+    private Node RenderCategory(string name)
+    {
+        Node contentNode = new() {
+            ClassList = ["widget-config-category--content"],
+        };
+
+        Node headerNode = new() {
+            ClassList = ["widget-config-category-header"],
+            ChildNodes = [
+                new() {
+                    ClassList   = ["widget-config-category--chevron"],
+                    NodeValue   = FontAwesomeIcon.ChevronCircleUp.ToIconString(),
+                    InheritTags = true,
+                },
+                new() {
+                    ClassList   = ["widget-config-category--label"],
+                    NodeValue   = name,
+                    InheritTags = true,
+                }
+            ]
+        };
+
+        Node node = new() {
+            ClassList = ["widget-config-category"],
+            ChildNodes = {
+                headerNode,
+                contentNode,
+            },
+        };
+
+        ControlsListNode.AppendChild(node);
+
+        contentNode.Style.IsVisible = true;
+
+        headerNode.OnClick += _ => {
+            contentNode.Style.IsVisible = !contentNode.Style.IsVisible;
+
+            headerNode.QuerySelector(".widget-config-category--chevron")!.NodeValue = contentNode.Style.IsVisible.Value
+                ? FontAwesomeIcon.ChevronCircleUp.ToIconString()
+                : FontAwesomeIcon.ChevronCircleDown.ToIconString();
+        };
+
+        return contentNode;
     }
 
     private SelectNode RenderSelectControl(SelectWidgetConfigVariable cvar)

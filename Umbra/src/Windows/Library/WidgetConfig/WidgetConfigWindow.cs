@@ -14,10 +14,12 @@
  *     GNU Affero General Public License for more details.
  */
 
+using System.Collections.Generic;
 using System.Numerics;
 using Umbra.Common;
 using Umbra.Widgets;
 using Umbra.Widgets.System;
+using Una.Drawing;
 
 namespace Umbra.Windows.Library.WidgetConfig;
 
@@ -44,8 +46,20 @@ internal partial class WidgetConfigWindow : Window
     {
         Manager.OnWidgetRemoved += OnWidgetRemoved;
 
+        Dictionary<string, Node> groups = new();
+
         foreach (var opt in Instance.GetConfigVariableList()) {
-            RenderControl(opt);
+            if (string.IsNullOrEmpty(opt.Category)) {
+                RenderControl(opt, ControlsListNode);
+                continue;
+            }
+
+            if (!groups.TryGetValue(opt.Category, out Node? categoryNode)) {
+                categoryNode = RenderCategory(opt.Category);
+                groups[opt.Category] = categoryNode;
+            }
+
+            RenderControl(opt, categoryNode);
         }
     }
 

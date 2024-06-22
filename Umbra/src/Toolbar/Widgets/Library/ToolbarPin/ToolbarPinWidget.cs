@@ -57,7 +57,7 @@ internal class ToolbarPinWidget(WidgetInfo info, string? guid = null, Dictionary
                 I18N.Translate("Widget.ToolbarPin.Config.Decorate.Name"),
                 I18N.Translate("Widget.ToolbarPin.Config.Decorate.Description"),
                 true
-            ),
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             new IntegerWidgetConfigVariable(
                 "IconYOffset",
                 I18N.Translate("Widget.ToolbarPin.Config.IconYOffset.Name"),
@@ -65,7 +65,7 @@ internal class ToolbarPinWidget(WidgetInfo info, string? guid = null, Dictionary
                 -1,
                 -5,
                 5
-            )
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
         ];
     }
 }

@@ -29,7 +29,7 @@ internal partial class AccessibilityWidget
                 I18N.Translate("Widget.Accessibility.Config.Decorate.Name"),
                 I18N.Translate("Widget.Accessibility.Config.Decorate.Description"),
                 true
-            ),
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             new IntegerWidgetConfigVariable(
                 "IconYOffset",
                 I18N.Translate("Widget.Accessibility.Config.IconYOffset.Name"),
@@ -37,7 +37,7 @@ internal partial class AccessibilityWidget
                 -1,
                 -5,
                 5
-            )
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
         ];
     }
 }

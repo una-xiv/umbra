@@ -25,12 +25,6 @@ internal partial class CustomButtonWidget
     protected override IEnumerable<IWidgetConfigVariable> GetConfigVariables()
     {
         return [
-            new BooleanWidgetConfigVariable(
-                "Decorate",
-                I18N.Translate("Widget.CustomButton.Config.Decorate.Name"),
-                I18N.Translate("Widget.CustomButton.Config.Decorate.Description"),
-                true
-            ),
             new StringWidgetConfigVariable(
                 "Label",
                 I18N.Translate("Widget.CustomButton.Config.Label.Name"),
@@ -44,20 +38,26 @@ internal partial class CustomButtonWidget
                 I18N.Translate("Widget.CustomButton.Config.Command.Description"),
                 "/echo Hello, world!"
             ),
+            new BooleanWidgetConfigVariable(
+                "Decorate",
+                I18N.Translate("Widget.CustomButton.Config.Decorate.Name"),
+                I18N.Translate("Widget.CustomButton.Config.Decorate.Description"),
+                true
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             new IntegerWidgetConfigVariable(
                 "LeftIconId",
                 I18N.Translate("Widget.CustomButton.Config.LeftIconId.Name"),
                 I18N.Translate("Widget.CustomButton.Config.LeftIconId.Description"),
                 0,
                 0
-            ),
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             new IntegerWidgetConfigVariable(
                 "RightIconId",
                 I18N.Translate("Widget.CustomButton.Config.RightIconId.Name"),
                 I18N.Translate("Widget.CustomButton.Config.RightIconId.Description"),
                 0,
                 0
-            ),
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             new IntegerWidgetConfigVariable(
                 "TextYOffset",
                 I18N.Translate("Widget.CustomButton.Config.TextYOffset.Name"),
@@ -65,7 +65,7 @@ internal partial class CustomButtonWidget
                 -1,
                 -5,
                 5
-            ),
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             new IntegerWidgetConfigVariable(
                 "IconYOffset",
                 I18N.Translate("Widget.CustomButton.Config.IconYOffset.Name"),
@@ -73,7 +73,7 @@ internal partial class CustomButtonWidget
                 0,
                 -5,
                 5
-            )
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
         ];
     }
 }

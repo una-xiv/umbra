@@ -55,7 +55,7 @@ internal class WalkingIndicatorWidget(
                 I18N.Translate("Widget.WalkingIndicator.Config.Decorate.Name"),
                 I18N.Translate("Widget.WalkingIndicator.Config.Decorate.Description"),
                 true
-            ),
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             new IntegerWidgetConfigVariable(
                 "IconYOffset",
                 I18N.Translate("Widget.WalkingIndicator.Config.IconYOffset.Name"),
@@ -63,7 +63,7 @@ internal class WalkingIndicatorWidget(
                 -1,
                 -5,
                 5
-            )
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
         ];
     }
 }

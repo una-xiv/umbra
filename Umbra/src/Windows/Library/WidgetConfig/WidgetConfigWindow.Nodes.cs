@@ -58,6 +58,10 @@ internal partial class WidgetConfigWindow
 
         Node.QuerySelector(".widget-config-footer")!.Style.Size = new(ContentSize.Width, 50);
 
+        foreach (var categoryNode in Node.QuerySelectorAll(".widget-config-category")) {
+            categoryNode.Style.Size = new(ContentSize.Width - 30, 0);
+        }
+
         foreach (var widgetNode in Node.QuerySelectorAll(".control")) {
             widgetNode.Style.Size = new(ContentSize.Width - 30, 0);
         }

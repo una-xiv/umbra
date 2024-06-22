@@ -140,7 +140,7 @@ internal class CheckboxNode : Node
                     StrokeColor     = new("Input.Border"),
                     Color           = new("Input.Text"),
                     TextAlign       = Anchor.MiddleCenter,
-                    TextOffset      = new(0, -1),
+                    TextOffset      = new(0, 0),
                     IsAntialiased   = false,
                 }
             ),

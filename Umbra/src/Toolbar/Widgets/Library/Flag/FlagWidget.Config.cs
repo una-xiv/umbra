@@ -30,7 +30,7 @@ internal sealed partial class FlagWidget
                 I18N.Translate("Widget.Flag.Config.Decorate.Name"),
                 I18N.Translate("Widget.Flag.Config.Decorate.Description"),
                 true
-            ),
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             new SelectWidgetConfigVariable(
                 "IconLocation",
                 I18N.Translate("Widget.Flag.Config.IconLocation.Name"),
@@ -40,7 +40,7 @@ internal sealed partial class FlagWidget
                     { "Left", I18N.Translate("Widget.Flag.Config.IconLocation.Option.Left") },
                     { "Right", I18N.Translate("Widget.Flag.Config.IconLocation.Option.Right") }
                 }
-            ),
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             new SelectWidgetConfigVariable(
                 "TextAlign",
                 I18N.Translate("Widget.Flag.Config.TextAlign.Name"),
@@ -51,7 +51,7 @@ internal sealed partial class FlagWidget
                     { "Center", I18N.Translate("Widget.Flag.Config.TextAlign.Option.Center") },
                     { "Right", I18N.Translate("Widget.Flag.Config.TextAlign.Option.Right") }
                 }
-            ),
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             new IntegerWidgetConfigVariable(
                 "IconYOffset",
                 I18N.Translate("Widget.Flag.Config.IconYOffset.Name"),
@@ -59,7 +59,7 @@ internal sealed partial class FlagWidget
                 0,
                 -5,
                 5
-            ),
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
         ];
     }
 }

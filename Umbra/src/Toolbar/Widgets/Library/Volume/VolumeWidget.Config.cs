@@ -30,7 +30,7 @@ internal sealed partial class VolumeWidget
                 I18N.Translate("Widget.Volume.Config.Decorate.Name"),
                 I18N.Translate("Widget.Volume.Config.Decorate.Description"),
                 true
-            ),
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             new IntegerWidgetConfigVariable(
                 "IconYOffset",
                 I18N.Translate("Widget.Volume.Config.IconYOffset.Name"),
@@ -38,49 +38,49 @@ internal sealed partial class VolumeWidget
                 0,
                 -5,
                 5
-            ),
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             new BooleanWidgetConfigVariable(
                 "ShowOptions",
                 I18N.Translate("Widget.Volume.Config.ShowOptions.Name"),
                 I18N.Translate("Widget.Volume.Config.ShowOptions.Description"),
                 true
-            ),
+            ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
             new BooleanWidgetConfigVariable(
                 "ShowBgm",
                 I18N.Translate("Widget.Volume.Config.ShowBgm.Name"),
                 I18N.Translate("Widget.Volume.Config.ShowBgm.Description"),
                 true
-            ),
+            ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
             new BooleanWidgetConfigVariable(
                 "ShowSfx",
                 I18N.Translate("Widget.Volume.Config.ShowSfx.Name"),
                 I18N.Translate("Widget.Volume.Config.ShowSfx.Description"),
                 true
-            ),
+            ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
             new BooleanWidgetConfigVariable(
                 "ShowVoc",
                 I18N.Translate("Widget.Volume.Config.ShowVoc.Name"),
                 I18N.Translate("Widget.Volume.Config.ShowVoc.Description"),
                 true
-            ),
+            ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
             new BooleanWidgetConfigVariable(
                 "ShowAmb",
                 I18N.Translate("Widget.Volume.Config.ShowAmb.Name"),
                 I18N.Translate("Widget.Volume.Config.ShowAmb.Description"),
                 true
-            ),
+            ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
             new BooleanWidgetConfigVariable(
                 "ShowSys",
                 I18N.Translate("Widget.Volume.Config.ShowSys.Name"),
                 I18N.Translate("Widget.Volume.Config.ShowSys.Description"),
                 true
-            ),
+            ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
             new BooleanWidgetConfigVariable(
                 "ShowPerf",
                 I18N.Translate("Widget.Volume.Config.ShowPerf.Name"),
                 I18N.Translate("Widget.Volume.Config.ShowPerf.Description"),
                 true
-            )
+            ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
         ];
     }
 }

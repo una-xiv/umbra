@@ -178,7 +178,7 @@ internal sealed class MainMenuWidget(
                     { "IconOnly", I18N.Translate("Widget.MainMenu.Config.DisplayMode.Option.IconOnly") },
                     { "TextAndIcon", I18N.Translate("Widget.MainMenu.Config.DisplayMode.Option.TextAndIcon") }
                 }
-            ),
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             new SelectWidgetConfigVariable(
                 "IconLocation",
                 I18N.Translate("Widget.MainMenu.Config.IconLocation.Name"),
@@ -188,14 +188,14 @@ internal sealed class MainMenuWidget(
                     { "Left", I18N.Translate("Widget.MainMenu.Config.IconLocation.Option.Left") },
                     { "Right", I18N.Translate("Widget.MainMenu.Config.IconLocation.Option.Right") },
                 }
-            ),
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             new IntegerWidgetConfigVariable(
                 "CustomIconId",
                 I18N.Translate("Widget.MainMenu.Config.CustomIconId.Name"),
                 I18N.Translate("Widget.MainMenu.Config.CustomIconId.Description"),
                 0,
                 0
-            ),
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             new IntegerWidgetConfigVariable(
                 "IconSize",
                 I18N.Translate("Widget.MainMenu.Config.IconSize.Name"),
@@ -203,31 +203,19 @@ internal sealed class MainMenuWidget(
                 18,
                 16,
                 48
-            ),
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             new BooleanWidgetConfigVariable(
                 "UseGrayscaleIcon",
                 I18N.Translate("Widget.MainMenu.Config.GrayscaleIcon.Name"),
                 I18N.Translate("Widget.MainMenu.Config.GrayscaleIcon.Description"),
                 true
-            ),
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             new BooleanWidgetConfigVariable(
                 "Decorate",
                 I18N.Translate("Widget.MainMenu.Config.Decorate.Name"),
                 I18N.Translate("Widget.MainMenu.Config.Decorate.Description"),
                 false
-            ),
-            new BooleanWidgetConfigVariable(
-                "ShowItemIcons",
-                I18N.Translate("Widget.MainMenu.Config.ShowItemIcons.Name"),
-                I18N.Translate("Widget.MainMenu.Config.ShowItemIcons.Description"),
-                true
-            ),
-            new BooleanWidgetConfigVariable(
-                "UseGrayscaleIcons",
-                I18N.Translate("Widget.MainMenu.Config.GrayscaleIcons.Name"),
-                I18N.Translate("Widget.MainMenu.Config.GrayscaleIcons.Description"),
-                true
-            ),
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             new IntegerWidgetConfigVariable(
                 "TextYOffset",
                 I18N.Translate("Widget.MainMenu.Config.TextYOffset.Name"),
@@ -235,7 +223,19 @@ internal sealed class MainMenuWidget(
                 0,
                 -5,
                 5
-            ),
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            new BooleanWidgetConfigVariable(
+                "ShowItemIcons",
+                I18N.Translate("Widget.MainMenu.Config.ShowItemIcons.Name"),
+                I18N.Translate("Widget.MainMenu.Config.ShowItemIcons.Description"),
+                true
+            ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
+            new BooleanWidgetConfigVariable(
+                "UseGrayscaleIcons",
+                I18N.Translate("Widget.MainMenu.Config.GrayscaleIcons.Name"),
+                I18N.Translate("Widget.MainMenu.Config.GrayscaleIcons.Description"),
+                true
+            ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
         ];
     }
 

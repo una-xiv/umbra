@@ -31,25 +31,6 @@ internal partial class DurabilityWidget
                 I18N.Translate("Widget.Durability.Config.HideWhenOkay.Description"),
                 false
             ),
-            new BooleanWidgetConfigVariable(
-                "Decorate",
-                I18N.Translate("Widget.Durability.Config.Decorate.Name"),
-                I18N.Translate("Widget.Durability.Config.Decorate.Description"),
-                true
-            ),
-            new SelectWidgetConfigVariable(
-                "DisplayMode",
-                I18N.Translate("Widget.Durability.Config.DisplayMode.Name"),
-                I18N.Translate("Widget.Durability.Config.DisplayMode.Description"),
-                "Full",
-                new() {
-                    { "Full", I18N.Translate("Widget.Durability.Config.DisplayMode.Option.Full") },
-                    { "Short", I18N.Translate("Widget.Durability.Config.DisplayMode.Option.Short") },
-                    { "DurabilityOnly", I18N.Translate("Widget.Durability.Config.DisplayMode.Option.DurabilityOnly") },
-                    { "SpiritbondOnly", I18N.Translate("Widget.Durability.Config.DisplayMode.Option.SpiritbondOnly") },
-                    { "IconOnly", I18N.Translate("Widget.Durability.Config.DisplayMode.Option.IconOnly") }
-                }
-            ),
             new IntegerWidgetConfigVariable(
                 "WarningThreshold",
                 I18N.Translate("Widget.Durability.Config.WarningThreshold.Name"),
@@ -66,6 +47,25 @@ internal partial class DurabilityWidget
                 0,
                 100
             ),
+            new BooleanWidgetConfigVariable(
+                "Decorate",
+                I18N.Translate("Widget.Durability.Config.Decorate.Name"),
+                I18N.Translate("Widget.Durability.Config.Decorate.Description"),
+                true
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            new SelectWidgetConfigVariable(
+                "DisplayMode",
+                I18N.Translate("Widget.Durability.Config.DisplayMode.Name"),
+                I18N.Translate("Widget.Durability.Config.DisplayMode.Description"),
+                "Full",
+                new() {
+                    { "Full", I18N.Translate("Widget.Durability.Config.DisplayMode.Option.Full") },
+                    { "Short", I18N.Translate("Widget.Durability.Config.DisplayMode.Option.Short") },
+                    { "DurabilityOnly", I18N.Translate("Widget.Durability.Config.DisplayMode.Option.DurabilityOnly") },
+                    { "SpiritbondOnly", I18N.Translate("Widget.Durability.Config.DisplayMode.Option.SpiritbondOnly") },
+                    { "IconOnly", I18N.Translate("Widget.Durability.Config.DisplayMode.Option.IconOnly") }
+                }
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             new SelectWidgetConfigVariable(
                 "TextAlign",
                 I18N.Translate("Widget.Durability.Config.TextAlign.Name"),
@@ -76,7 +76,7 @@ internal partial class DurabilityWidget
                     { "Center", I18N.Translate("Widget.Durability.Config.TextAlign.Option.Center") },
                     { "Right", I18N.Translate("Widget.Durability.Config.TextAlign.Option.Right") }
                 }
-            ),
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             new SelectWidgetConfigVariable(
                 "IconLocation",
                 I18N.Translate("Widget.Durability.Config.IconLocation.Name"),
@@ -86,7 +86,7 @@ internal partial class DurabilityWidget
                     { "Left", I18N.Translate("Widget.Flag.Config.IconLocation.Option.Left") },
                     { "Right", I18N.Translate("Widget.Flag.Config.IconLocation.Option.Right") }
                 }
-            )
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
         ];
     }
 }

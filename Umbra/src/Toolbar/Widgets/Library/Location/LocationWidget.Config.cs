@@ -30,13 +30,13 @@ internal partial class LocationWidget
                 I18N.Translate("Widget.Location.Config.ShowDistrict.Name"),
                 I18N.Translate("Widget.Location.Config.ShowDistrict.Description"),
                 true
-            ),
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             new BooleanWidgetConfigVariable(
                 "Decorate",
                 I18N.Translate("Widget.Location.Config.Decorate.Name"),
                 I18N.Translate("Widget.Location.Config.Decorate.Description"),
                 false
-            ),
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             new SelectWidgetConfigVariable(
                 "TextAlign",
                 I18N.Translate("Widget.Location.Config.TextAlign.Name"),
@@ -47,7 +47,7 @@ internal partial class LocationWidget
                     { "Center", I18N.Translate("Widget.Location.Config.TextAlign.Option.Center") },
                     { "Right", I18N.Translate("Widget.Location.Config.TextAlign.Option.Right") },
                 }
-            ),
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             new IntegerWidgetConfigVariable(
                 "TextYOffset",
                 I18N.Translate("Widget.Location.Config.TextYOffset.Name"),
@@ -55,7 +55,7 @@ internal partial class LocationWidget
                 -1,
                 -5,
                 5
-            )
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
         ];
     }
 }

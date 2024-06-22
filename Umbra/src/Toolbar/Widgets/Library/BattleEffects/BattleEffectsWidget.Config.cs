@@ -31,7 +31,7 @@ internal sealed partial class BattleEffectsWidget
                 I18N.Translate("Widget.BattleEffects.Config.Decorate.Name"),
                 I18N.Translate("Widget.BattleEffects.Config.Decorate.Description"),
                 true
-            ),
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             new IntegerWidgetConfigVariable(
                 "IconYOffset",
                 I18N.Translate("Widget.BattleEffects.Config.IconYOffset.Name"),
@@ -39,7 +39,7 @@ internal sealed partial class BattleEffectsWidget
                 -1,
                 -5,
                 5
-            )
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
         ];
     }
 }

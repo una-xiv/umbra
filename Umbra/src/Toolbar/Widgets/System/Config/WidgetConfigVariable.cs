@@ -38,6 +38,11 @@ public abstract class WidgetConfigVariable<T>(string id, string name, string? de
     public string Name { get; } = name;
 
     /// <summary>
+    /// Specifies the category of this variable.
+    /// </summary>
+    public string Category { get; set; } = string.Empty;
+
+    /// <summary>
     /// A description of this variable that is visible in the configuration
     /// interface for the widget this variable belongs to.
     /// </summary>

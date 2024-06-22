@@ -20,7 +20,6 @@ using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.Plugin.Services;
 using Umbra.Common;
 using Umbra.Windows;
-using Umbra.Windows.Clipping;
 using Umbra.Windows.Oobe;
 using Umbra.Windows.Settings;
 using Una.Drawing;
@@ -62,24 +61,14 @@ internal sealed class UmbraBindings : IDisposable
             }
         );
 
-        #if DEBUG
-        _commandManager.AddHandler(
-            "/umbra-dump-theme",
-            new(HandleUmbraCommand) {
-                HelpMessage = "Dumps the current theme to the log.",
-                ShowInHelp  = false,
-            }
-        );
-        #endif
-
         Framework.DalamudPlugin.UiBuilder.OpenConfigUi += () => _windowManager.Present("UmbraSettings", new SettingsWindow());
         Framework.DalamudPlugin.UiBuilder.OpenMainUi   += () => _windowManager.Present("UmbraSettings", new SettingsWindow());
 
         Node.ScaleFactor = 1.0f;
 
-        #if DEBUG
+        //#if DEBUG
         _windowManager.Present("UmbraSettings", new SettingsWindow());
-        #endif
+        //#endif
 
         if (IsFirstTimeStart) {
             _windowManager.Present("OOBE", new OobeWindow());
@@ -121,11 +110,6 @@ internal sealed class UmbraBindings : IDisposable
 
                 ConfigManager.Set(cvar.Id, !(bool)cvar.Value!);
                 break;
-            #if DEBUG
-            case "/umbra-dump-theme":
-                DumpTheme();
-                break;
-            #endif
         }
     }
 
@@ -148,17 +132,5 @@ internal sealed class UmbraBindings : IDisposable
 
         builder.AddText("Usage: ").AddUiForeground("/umbra-toggle <setting>", 32);
         _chatGui.Print(builder.Build());
-    }
-
-    private void DumpTheme()
-    {
-        var names = Color.GetAssignedNames();
-
-        foreach (var name in names) {
-            var color = Color.GetNamedColor(name);
-            var line  = $"Color.AssignByName(\"{name}\", {color});";
-
-            Logger.Debug(line);
-        }
     }
 }

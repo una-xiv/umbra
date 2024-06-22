@@ -37,13 +37,13 @@ internal partial class ItemButtonWidget
                 I18N.Translate("Widget.ItemButton.Config.Decorate.Name"),
                 I18N.Translate("Widget.ItemButton.Config.Decorate.Description"),
                 true
-            ),
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             new BooleanWidgetConfigVariable(
                 "ShowLabel",
                 I18N.Translate("Widget.ItemButton.Config.ShowLabel.Name"),
                 I18N.Translate("Widget.ItemButton.Config.ShowLabel.Description"),
                 true
-            ),
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             new SelectWidgetConfigVariable(
                 "IconLocation",
                 I18N.Translate("Widget.ItemButton.Config.IconLocation.Name"),
@@ -53,7 +53,7 @@ internal partial class ItemButtonWidget
                     { "Left", I18N.Translate("Widget.ItemButton.Config.IconLocation.Option.Left") },
                     { "Right", I18N.Translate("Widget.ItemButton.Config.IconLocation.Option.Right") }
                 }
-            ),
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             new IntegerWidgetConfigVariable(
                 "TextYOffset",
                 I18N.Translate("Widget.ItemButton.Config.TextYOffset.Name"),
@@ -61,7 +61,7 @@ internal partial class ItemButtonWidget
                 -1,
                 -5,
                 5
-            ),
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             new IntegerWidgetConfigVariable(
                 "IconYOffset",
                 I18N.Translate("Widget.ItemButton.Config.IconYOffset.Name"),
@@ -69,7 +69,7 @@ internal partial class ItemButtonWidget
                 0,
                 -5,
                 5
-            )
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
         ];
     }
 }

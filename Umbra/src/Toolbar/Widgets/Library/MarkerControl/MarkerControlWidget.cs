@@ -69,7 +69,7 @@ internal class MarkerControlWidget(
                 I18N.Translate("Widget.MarkerControl.Config.Decorate.Name"),
                 I18N.Translate("Widget.MarkerControl.Config.Decorate.Description"),
                 true
-            ),
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             new IntegerWidgetConfigVariable(
                 "IconYOffset",
                 I18N.Translate("Widget.MarkerControl.Config.IconYOffset.Name"),
@@ -77,7 +77,7 @@ internal class MarkerControlWidget(
                 0,
                 -5,
                 5
-            )
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
         ];
     }
 }

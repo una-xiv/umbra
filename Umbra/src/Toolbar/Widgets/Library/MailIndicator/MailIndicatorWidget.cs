@@ -55,17 +55,17 @@ internal partial class MailIndicatorWidget(
     {
         return [
             new BooleanWidgetConfigVariable(
-                "Decorate",
-                I18N.Translate("Widget.MailIndicator.Config.Decorate.Name"),
-                I18N.Translate("Widget.MailIndicator.Config.Decorate.Description"),
-                true
-            ),
-            new BooleanWidgetConfigVariable(
                 "AlwaysShow",
                 I18N.Translate("Widget.MailIndicator.Config.AlwaysShow.Name"),
                 I18N.Translate("Widget.MailIndicator.Config.AlwaysShow.Description"),
                 false
             ),
+            new BooleanWidgetConfigVariable(
+                "Decorate",
+                I18N.Translate("Widget.MailIndicator.Config.Decorate.Name"),
+                I18N.Translate("Widget.MailIndicator.Config.Decorate.Description"),
+                true
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             new IntegerWidgetConfigVariable(
                 "IconYOffset",
                 I18N.Translate("Widget.MailIndicator.Config.IconYOffset.Name"),
@@ -73,7 +73,7 @@ internal partial class MailIndicatorWidget(
                 -1,
                 -5,
                 5
-            )
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
         ];
     }
 }

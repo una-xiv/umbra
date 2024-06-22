@@ -25,17 +25,17 @@ internal partial class DtrBarWidget
     {
         return [
             new BooleanWidgetConfigVariable(
-                "PlainText",
-                I18N.Translate("Widget.DtrBar.Config.PlainText.Name"),
-                I18N.Translate("Widget.DtrBar.Config.PlainText.Description"),
-                false
-            ),
-            new BooleanWidgetConfigVariable(
                 "HideNative",
                 I18N.Translate("Widget.DtrBar.Config.HideNative.Name"),
                 I18N.Translate("Widget.DtrBar.Config.HideNative.Description"),
                 true
             ),
+            new BooleanWidgetConfigVariable(
+                "PlainText",
+                I18N.Translate("Widget.DtrBar.Config.PlainText.Name"),
+                I18N.Translate("Widget.DtrBar.Config.PlainText.Description"),
+                false
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             new SelectWidgetConfigVariable(
                 "DecorateMode",
                 I18N.Translate("Widget.DtrBar.Config.DecorateMode.Name"),
@@ -46,7 +46,7 @@ internal partial class DtrBarWidget
                     { "Never", I18N.Translate("Widget.DtrBar.Config.DecorateMode.Option.Never") },
                     { "Auto", I18N.Translate("Widget.DtrBar.Config.DecorateMode.Option.Auto") },
                 }
-            ),
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             new IntegerWidgetConfigVariable(
                 "ItemSpacing",
                 I18N.Translate("Widget.DtrBar.Config.ItemSpacing.Name"),
@@ -54,7 +54,7 @@ internal partial class DtrBarWidget
                 6,
                 0,
                 64
-            ),
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             new IntegerWidgetConfigVariable(
                 "TextYOffset",
                 I18N.Translate("Widget.DtrBar.Config.TextYOffset.Name"),
@@ -62,7 +62,7 @@ internal partial class DtrBarWidget
                 1,
                 -5,
                 5
-            )
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
         ];
     }
 }
