@@ -305,6 +305,7 @@ internal class WidgetStyles
                     BorderRadius    = 2,
                     RoundedCorners  = RoundedCorners.TopLeft | RoundedCorners.BottomLeft,
                     Opacity         = 0.66f,
+                    TextOffset      = new(0, 1),
                 }
             ),
             new(

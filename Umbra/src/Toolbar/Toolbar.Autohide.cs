@@ -50,13 +50,13 @@ internal partial class Toolbar
 
         if (_isVisible && !IsCursorNearToolbar()) {
             _isVisible       = false;
-            _autoHideYTarget = IsTopAligned ? -height : height;
+            _autoHideYTarget = IsTopAligned ? -(height + 2) : height + 2;
         }
 
         _autoHideYTarget = IsTopAligned switch {
             // Correct the Y offset if the alignment changes.
-            true when _autoHideYTarget > 0  => -height,
-            false when _autoHideYTarget < 0 => height,
+            true when _autoHideYTarget > 0  => -(height + 2),
+            false when _autoHideYTarget < 0 => height + 2,
             _                               => _autoHideYTarget
         };
 
