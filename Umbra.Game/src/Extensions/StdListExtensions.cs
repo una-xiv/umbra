@@ -20,20 +20,20 @@ using FFXIVClientStructs.STD;
 namespace Umbra.Game;
 public static class StdListExtensions
 {
-    public static List<T> ToList<T>(this StdList<T> stdList) where T : unmanaged
-    {
-        var list = new List<T>();
-
-        unsafe
-        {
-            StdList<T>.Node* currentNode = stdList.Head;
-            for (ulong i = 0; i < stdList.Size; i++)
-            {
-                list.Add(currentNode->Value);
-                currentNode = currentNode->Next;
-            }
-        }
-
-        return list;
-    }
+    // public static List<T> ToList<T>(this StdList<T> stdList) where T : unmanaged
+    // {
+    //     var list = new List<T>();
+    //
+    //     unsafe
+    //     {
+    //         StdList<T>.Node* currentNode = stdList.Head;
+    //         for (ulong i = 0; i < stdList.Size; i++)
+    //         {
+    //             list.Add(currentNode->Value);
+    //             currentNode = currentNode->Next;
+    //         }
+    //     }
+    //
+    //     return list;
+    // }
 }

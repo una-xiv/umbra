@@ -15,9 +15,7 @@
  */
 
 using System;
-using Dalamud.Interface;
 using Dalamud.Interface.ImGuiNotification;
-using Dalamud.Interface.Internal.Notifications;
 using Dalamud.Plugin.Services;
 using ImGuiNET;
 using Umbra.Common;

@@ -15,6 +15,7 @@
  */
 
 using System;
+using System.Text;
 using Dalamud.Plugin.Services;
 using Dalamud.Utility;
 using FFXIVClientStructs.FFXIV.Client.Game;
@@ -70,11 +71,11 @@ internal sealed class CompanionManager : ICompanionManager
         var rank = _dataManager.GetExcelSheet<BuddyRank>()!.GetRow(buddy.Rank);
         if (rank == null) return;
 
-        uint objectId = ui->Buddy.Companion.ObjectID;
+        uint objectId = ui->Buddy.CompanionInfo.Companion->EntityId;
 
         IsActive        = objectId > 0 && null != _objectTable.SearchById(objectId);
         HasGysahlGreens = _player.HasItemInInventory(GysahlGreensIconId);
-        CompanionName   = buddy.Name;
+        CompanionName   = buddy.NameString;
         TimeLeft        = buddy.TimeLeft;
         Level           = buddy.Rank;
         CurrentXp       = buddy.CurrentXP;

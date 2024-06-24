@@ -17,6 +17,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using Dalamud.Plugin.Services;
 using Dalamud.Utility;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
@@ -51,6 +52,9 @@ internal sealed class JobInfoRepository : IDisposable
                     );
                 }
             );
+
+        Logger.Debug($"JobInfos: {JsonSerializer.Serialize(_jobInfos)}");
+        Logger.Debug($"expArray: {JsonSerializer.Serialize(_expArrayId)}");
     }
 
     public void Dispose()
@@ -71,7 +75,9 @@ internal sealed class JobInfoRepository : IDisposable
         if (ps == null) return;
 
         foreach (var jobInfo in _jobInfos.Values) {
-            jobInfo.Level = ps->ClassJobLevelArray[_expArrayId[jobInfo.Id]];
+            if (_expArrayId[jobInfo.Id] == -1) continue;
+
+            jobInfo.Level = ps->ClassJobLevels[_expArrayId[jobInfo.Id]];
 
             // Blue Mage hack.
             if (jobInfo is { Id: 36, Level: 80 }) {
@@ -89,7 +95,7 @@ internal sealed class JobInfoRepository : IDisposable
                 continue;
             }
 
-            int currentXp = ps->ClassJobExpArray[_expArrayId[jobInfo.Id]];
+            int currentXp = ps->ClassJobExperience[_expArrayId[jobInfo.Id]];
             jobInfo.XpPercent  = (byte)(currentXp / (float)grow.ExpToNext * 100);
             jobInfo.IsMaxLevel = false;
         }

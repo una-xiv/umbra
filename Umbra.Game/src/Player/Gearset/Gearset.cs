@@ -15,7 +15,6 @@
  */
 
 using System;
-using Dalamud.Memory;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using FFXIVClientStructs.FFXIV.Client.UI.Misc;
 
@@ -72,7 +71,7 @@ public sealed class Gearset(ushort id, IGearsetCategoryRepository categoryReposi
 
         // Intermediate values.
         var    isChanged       = false;
-        string name            = MemoryHelper.ReadSeStringNullTerminated((IntPtr)gearset->Name).ToString();
+        string name            = gearset->NameString;
         byte   jobId           = gearset->ClassJob;
         short  itemLevel       = gearset->ItemLevel;
         bool   isCurrent       = gsm->CurrentGearsetIndex == Id && gearset->ClassJob > 0;
@@ -86,7 +85,7 @@ public sealed class Gearset(ushort id, IGearsetCategoryRepository categoryReposi
         var hasMissingItems   = false;
         var appearanceDiffers = false;
 
-        foreach (var item in gearset->ItemsSpan) {
+        foreach (var item in gearset->Items) {
             if (item.Flags.HasFlag(RaptureGearsetModule.GearsetItemFlag.ItemMissing)) {
                 hasMissingItems = true;
             }

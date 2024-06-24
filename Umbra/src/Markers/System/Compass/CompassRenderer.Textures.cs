@@ -16,6 +16,7 @@
 
 using System.Collections.Generic;
 using Dalamud.Interface.Internal;
+using Dalamud.Interface.Textures;
 
 namespace Umbra.Markers.System.Compass;
 
@@ -27,8 +28,7 @@ internal partial class CompassRenderer
     {
         if (TextureCache.TryGetValue(iconId, out IDalamudTextureWrap? cachedTexture)) return cachedTexture;
 
-        var icon = textureProvider.GetIcon(iconId);
-
+        var icon = textureProvider.GetFromGameIcon(new(iconId)).GetWrapOrDefault();
         return TextureCache[iconId] = icon;
     }
 }

@@ -127,7 +127,7 @@ internal sealed class UmbraFonts
         if (!FontFamilies.TryGetValue(name, out var font)) return;
 
         if (font.IsFile) {
-            FontRegistry.SetNativeFontFamily(fontId, new(font.Name), sizeOffset);
+            FontRegistry.SetNativeFontFamily(fontId, new FileInfo(font.Name), sizeOffset);
         } else {
             FontRegistry.SetNativeFontFamily(fontId, font.Name, fontId == 3 ? SKFontStyleWeight.ExtraBold : SKFontStyleWeight.Medium, sizeOffset);
         }

@@ -17,7 +17,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Dalamud.Memory;
 using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Client.Game.Character;
 using Lumina.Excel.GeneratedSheets;
@@ -72,15 +71,15 @@ internal class HuntWorldMarkerFactory(IDataManager dataManager, IZoneManager zon
 
         List<string> activeIds = [];
 
-        foreach (var chara in cm->BattleCharaListSpan) {
+        foreach (var chara in cm->BattleCharas) {
             BattleChara* bc = chara.Value;
 
-            if (bc == null || 0 == bc->Character.GameObject.DataID) continue;
+            if (bc == null || 0 == bc->Character.GameObject.BaseId) continue;
 
-            var nm = GetNotoriousMonster(bc->Character.GameObject.DataID);
+            var nm = GetNotoriousMonster(bc->Character.GameObject.BaseId);
             if (nm == null) continue;
 
-            var    name = MemoryHelper.ReadSeStringNullTerminated((nint)bc->Character.GameObject.Name).ToString();
+            string name = bc->Character.GameObject.NameString;
             string rank = _rankPrefixes[nm.Rank];
 
             switch (nm.Rank) {
@@ -92,8 +91,8 @@ internal class HuntWorldMarkerFactory(IDataManager dataManager, IZoneManager zon
                     continue;
             }
 
-            var    p    = bc->Character.GameObject.Position;
-            var    id   = $"NM_{bc->Character.GameObject.DataID}";
+            var p  = bc->Character.GameObject.Position;
+            var id = $"NM_{bc->Character.GameObject.BaseId}";
 
             activeIds.Add(id);
 

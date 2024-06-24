@@ -18,7 +18,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using Dalamud.Plugin.Services;
-using FFXIVClientStructs.FFXIV.Client.Game.Housing;
+using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using Umbra.Common;
@@ -45,7 +45,6 @@ internal sealed class Zone : IZone
     public string                CurrentDistrictName { get; private set; }
 
     private readonly IDataManager            _dataManager;
-    private readonly IPlayer                 _player;
     private readonly ZoneMarkerFactory       _markerFactory;
     private readonly WeatherForecastProvider _forecastProvider;
 
@@ -53,12 +52,10 @@ internal sealed class Zone : IZone
         IDataManager            dataManager,
         WeatherForecastProvider forecastProvider,
         ZoneMarkerFactory       markerFactory,
-        IPlayer                 player,
         uint                    zoneId
     )
     {
         _dataManager      = dataManager;
-        _player           = player;
         _markerFactory    = markerFactory;
         _forecastProvider = forecastProvider;
 
@@ -98,13 +95,13 @@ internal sealed class Zone : IZone
         TerritoryInfo* territoryInfo = TerritoryInfo.Instance();
         if (territoryInfo == null) return;
 
-        IsSanctuary = territoryInfo->IsInSanctuary();
+        IsSanctuary = territoryInfo->InSanctuary;
 
         HousingManager* housingManager = HousingManager.Instance();
 
         if (housingManager == null || housingManager->CurrentTerritory == null) {
             CurrentDistrictName = _dataManager.GetExcelSheet<Sheet.PlaceName>()!
-                    .GetRow(territoryInfo->AreaPlaceNameID)
+                    .GetRow(territoryInfo->AreaPlaceNameId)
                     ?.Name.ToString()
              ?? "???";
         } else {
@@ -122,7 +119,7 @@ internal sealed class Zone : IZone
             DynamicMarkers.Clear();
 
             DynamicMarkers.AddRange(
-                map->ActiveLevequest
+                map->ActiveLevequestMarkers
                     .ToList()
                     .Where(m => m.MapId == Id)
                     .Select(m => _markerFactory.FromMapMarkerData(MapSheet, m))
@@ -130,7 +127,7 @@ internal sealed class Zone : IZone
             );
 
             DynamicMarkers.AddRange(
-                map->CustomTalk
+                map->CustomTalkMarkers
                     .ToList()
                     .SelectMany(i => i.MarkerData.ToList())
                     .Where(m => m.MapId == Id)
@@ -139,7 +136,7 @@ internal sealed class Zone : IZone
             );
 
             DynamicMarkers.AddRange(
-                map->GemstoneTraders
+                map->GemstoneTraderMarkers
                     .ToList()
                     .SelectMany(i => i.MarkerData.ToList())
                     .Where(m => m.MapId == Id)
@@ -148,7 +145,7 @@ internal sealed class Zone : IZone
             );
 
             DynamicMarkers.AddRange(
-                map->GuildLeveAssignments
+                map->GuildLeveAssignmentMarkers
                     .ToList()
                     .SelectMany(i => i.MarkerData.ToList())
                     .Where(m => m.MapId == Id)
@@ -157,7 +154,7 @@ internal sealed class Zone : IZone
             );
 
             DynamicMarkers.AddRange(
-                map->HousingDataSpan
+                map->HousingMarkers
                     .ToArray()
                     .SelectMany(i => i.MarkerData.ToList())
                     .Where(m => m.MapId == Id)
@@ -166,7 +163,7 @@ internal sealed class Zone : IZone
             );
 
             DynamicMarkers.AddRange(
-                map->LevequestDataSpan
+                map->LevequestMarkers
                     .ToArray()
                     .SelectMany(i => i.MarkerData.ToList())
                     .Where(m => m.MapId == Id)
@@ -175,7 +172,7 @@ internal sealed class Zone : IZone
             );
 
             DynamicMarkers.AddRange(
-                map->QuestDataSpan
+                map->QuestMarkers
                     .ToArray()
                     .SelectMany(i => i.MarkerData.ToList())
                     .Where(m => m.MapId == Id)
@@ -184,7 +181,7 @@ internal sealed class Zone : IZone
             );
 
             DynamicMarkers.AddRange(
-                map->TripleTriad
+                map->TripleTriadMarkers
                     .ToList()
                     .SelectMany(i => i.MarkerData.ToList())
                     .Where(m => m.MapId == Id)
@@ -193,7 +190,7 @@ internal sealed class Zone : IZone
             );
 
             DynamicMarkers.AddRange(
-                map->UnacceptedQuests
+                map->UnacceptedQuestMarkers
                     .ToList()
                     .SelectMany(i => i.MarkerData.ToList())
                     .Where(m => m.MapId == Id)

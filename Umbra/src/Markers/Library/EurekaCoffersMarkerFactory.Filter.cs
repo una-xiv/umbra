@@ -105,7 +105,7 @@ internal sealed partial class EurekaCoffersMarkerFactory
         }
     };
 
-    private void OnChatMessage(XivChatType type, uint senderId, SeString sender, SeString message)
+    private void OnChatMessage(XivChatType type, int senderId, SeString sender, SeString message)
     {
         string lang = I18N.GetCurrentLanguage();
 

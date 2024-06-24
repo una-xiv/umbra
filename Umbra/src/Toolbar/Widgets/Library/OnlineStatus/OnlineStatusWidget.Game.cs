@@ -50,13 +50,13 @@ internal partial class OnlineStatusWidget
         ulong localContentId = infoModule->GetLocalContentId();
 
         InfoProxyCommonList.CharacterData* characterData =
-            InfoProxyParty.Instance()->InfoProxyCommonList.GetEntryByContentId(localContentId);
+            InfoProxyPartyMember.Instance()->InfoProxyCommonList.GetEntryByContentId(localContentId);
 
         if (characterData == null) return;
 
-        var updateDataPacket = Unsafe.AsPointer(ref InfoProxySearchComment.Instance()->UpdateData);
+        var updateDataPacket = Unsafe.AsPointer(ref InfoProxyDetail.Instance()->UpdateData);
         if (null == updateDataPacket) return;
 
-        AgentDetail.Instance()->OpenForCharacterData(characterData, (InfoProxySearchComment.UpdateDataPacket*)updateDataPacket);
+        AgentDetail.Instance()->OpenForCharacterData(characterData, (InfoProxyDetail.UpdateDataPacket*)updateDataPacket);
     }
 }

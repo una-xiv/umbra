@@ -19,6 +19,7 @@ using Dalamud.Game.ClientState.Aetherytes;
 using Dalamud.Memory;
 using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Client.System.Framework;
+using FFXIVClientStructs.FFXIV.Client.UI;
 using FFXIVClientStructs.FFXIV.Client.UI.Misc;
 
 namespace Umbra.Game;
@@ -57,7 +58,7 @@ public class TravelDestination
         Ward           = entry.Ward;
         Plot           = entry.Plot;
         IsHousing      = isHousing;
-        IsApartment    = IsHousing && entry.IsAppartment;
+        IsApartment    = IsHousing && entry.IsApartment;
         IsSharedHouse  = IsHousing && entry.IsSharedHouse;
         IsFcHouse      = IsHousing && entry.AetheryteId is 56 or 57 or 58 or 96 or 164;
         IsPrivateHouse = IsHousing && !IsApartment && !IsSharedHouse && !IsFcHouse && entry.SubIndex > 0;
@@ -101,9 +102,7 @@ public class TravelDestination
             return cachedText;
         }
 
-        RaptureTextModule* tm =
-            Framework
-                .Instance()->GetUiModule()->GetRaptureTextModule();
+        RaptureTextModule* tm = UIModule.Instance()->GetRaptureTextModule();
 
         byte* sp = tm->GetAddonText(id);
 
