@@ -51,7 +51,7 @@
 			<Private>false</Private>
 		</Reference>
 		<Reference Include="FFXIVClientStructs">
-			<HintPath>$(DalamudLibPath)FFXIVClientStructs.dll</HintPath>
+			<HintPath>Z:\FFXIV-plugins\FFXIVClientStructs\bin\Release\FFXIVClientStructs.dll</HintPath>
 			<Private>false</Private>
 		</Reference>
     </ItemGroup>

@@ -67,7 +67,7 @@ internal partial class CompassRenderer(
             if (gameCamera.WorldToScreen(registry.GetResolvedPosition(marker), out Vector2 markerScreenPosition))
                 continue;
 
-            Vector2 direction = Vector2.Normalize(markerScreenPosition - playerScreenPosition);
+            Vector2 direction = Vector2.Normalize(playerScreenPosition - markerScreenPosition); // TODO: Reverse this once WorldToScreen is fixed.
             Vector2 iconPos   = playerScreenPosition + direction * CompassRadius;
 
             // Clamp the icon position to the screen bounds.
