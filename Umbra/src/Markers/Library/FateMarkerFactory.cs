@@ -85,7 +85,7 @@ internal class FateMarkerFactory(IZoneManager zoneManager) : WorldMarkerFactory
             SetMarker(
                 new() {
                     Key           = id,
-                    IconId        = fate->MapIconId,
+                    IconId        = 0, //fate->MapIconId,
                     MapId         = zoneManager.CurrentZone.Id,
                     Label         = MemoryHelper.ReadSeString(&fate->Name).ToString(),
                     SubLabel      = $"{state} - {timeLeft:mm\\:ss}{progress}",

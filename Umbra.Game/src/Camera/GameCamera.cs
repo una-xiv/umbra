@@ -14,11 +14,7 @@
  *     GNU Affero General Public License for more details.
  */
 
-using System;
 using System.Numerics;
-using System.Runtime.InteropServices;
-using Dalamud.Game;
-using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Client.Graphics.Scene;
 using ImGuiNET;
 using Umbra.Common;
@@ -26,34 +22,62 @@ using Umbra.Common;
 namespace Umbra.Game;
 
 [Service]
-internal sealed class GameCamera : IGameCamera, IDisposable
+internal sealed class GameCamera : IGameCamera
 {
-    public GameCamera(ISigScanner sigScanner, IGameGui gameGui) { }
-
-    public void Dispose() { }
-
     //
-    [OnDraw]
-    private unsafe void OnDraw()
-    {
-        // CameraManager* cmPtr  = CameraManager.Instance();
-        // Camera*        camera = cmPtr->CurrentCamera;
-        //
-        // ImGui.Begin("DebugShit");
-        //
-        // ImGui.TextUnformatted($"Input         : {_lastWorldPos}");
-        // ImGui.TextUnformatted($"WorldToScreen : {_worldToScreenResult}");
-        // ImGui.TextUnformatted($"ScreenToWorld : {_screenToWorldResult}");
-        // ImGui.TextUnformatted($"LookAtVector  : {_lookAtVector}");
-        // ImGui.TextUnformatted($"CameraPosition: {_cameraPosition}");
-        //
-        // ImGui.TextUnformatted("");
-        // ImGui.TextUnformatted($"FoV      : {camera->RenderCamera->FoV}");
-        // ImGui.TextUnformatted($"NearClip : {camera->RenderCamera->NearPlane}");
-        // ImGui.TextUnformatted($"FarClip  : {camera->RenderCamera->FarPlane}");
-        //
-        // ImGui.End();
-    }
+    // //
+    // [OnDraw]
+    // private unsafe void OnDraw()
+    // {
+    //     CameraManager* cmPtr  = CameraManager.Instance();
+    //     Camera*        camera = cmPtr->CurrentCamera;
+    //
+    //     ImGui.Begin("DebugShit");
+    //
+    //     ImGui.TextUnformatted($"Input         : {_lastWorldPos}");
+    //     ImGui.TextUnformatted($"WorldToScreen : {_worldToScreenResult}");
+    //     ImGui.TextUnformatted($"LookAtVector  : {_lookAtVector}");
+    //     ImGui.TextUnformatted($"CameraPosition: {_cameraPosition}");
+    //
+    //     ImGui.TextUnformatted("");
+    //     ImGui.TextUnformatted($"FoV      : {camera->RenderCamera->FoV}");
+    //     ImGui.TextUnformatted($"NearClip : {camera->RenderCamera->NearPlane}");
+    //     ImGui.TextUnformatted($"FarClip  : {camera->RenderCamera->FarPlane}");
+    //
+    //     ImGui.TextUnformatted("");
+    //     ImGui.TextUnformatted("ViewMatrix:");
+    //
+    //     if (ImGui.BeginTable("ViewMatrix", 4)) {
+    //         for (var y = 0; y < 4; y++) {
+    //             ImGui.TableNextRow();
+    //
+    //             for (var x = 0; x < 4; x++) {
+    //                 ImGui.TableNextColumn();
+    //                 ImGui.TextUnformatted($"{camera->ViewMatrix[y, x]}");
+    //             }
+    //         }
+    //
+    //         ImGui.EndTable();
+    //     }
+    //
+    //     ImGui.TextUnformatted("");
+    //     ImGui.TextUnformatted("ProjectionMatrix:");
+    //
+    //     if (ImGui.BeginTable("ProjectionMatrix", 4)) {
+    //         for (var y = 0; y < 4; y++) {
+    //             ImGui.TableNextRow();
+    //
+    //             for (var x = 0; x < 4; x++) {
+    //                 ImGui.TableNextColumn();
+    //                 ImGui.TextUnformatted($"{camera->RenderCamera->ProjectionMatrix[y, x]}");
+    //             }
+    //         }
+    //
+    //         ImGui.EndTable();
+    //     }
+    //
+    //     ImGui.End();
+    // }
 
     public unsafe bool WorldToScreen(Vector3 worldPos, out Vector2 screenPos)
     {
@@ -64,27 +88,26 @@ internal sealed class GameCamera : IGameCamera, IDisposable
             return false;
         }
 
-        _lastWorldPos = worldPos;
-
         var res = Camera.WorldToScreenPoint(worldPos);
-        var r2  = Camera.ScreenToWorldPoint(res);
-
         screenPos = new(res.X, res.Y);
 
-        _worldToScreenResult = screenPos;
-        _screenToWorldResult = r2;
+        // _lastWorldPos        = worldPos;
+        // _worldToScreenResult = screenPos;
+        _lookAtVector        = cmPtr->CurrentCamera->LookAtVector;
+        _cameraPosition      = cmPtr->CurrentCamera->Position;
 
-        _lookAtVector   = cmPtr->CurrentCamera->LookAtVector;
-        _cameraPosition = cmPtr->CurrentCamera->Position;
+        bool isInViewport = res.X >= 0
+            && res.X <= ImGui.GetIO().DisplaySize.X
+            && res.Y >= 0
+            && res.Y <= ImGui.GetIO().DisplaySize.Y;
 
-        return IsVisible(worldPos) && IsInFrontOfCamera(worldPos);
+        return isInViewport && IsInFrontOfCamera(worldPos);
     }
 
-    private Vector3 _cameraPosition      = new();
-    private Vector3 _lookAtVector        = new();
-    private Vector3 _lastWorldPos        = new();
-    private Vector2 _worldToScreenResult = new();
-    private Vector3 _screenToWorldResult = new();
+    private Vector3 _cameraPosition;
+    private Vector3 _lookAtVector;
+    // private Vector3 _lastWorldPos;
+    // private Vector2 _worldToScreenResult;
 
     public bool IsInFrontOfCamera(Vector3 worldPos)
     {
@@ -94,17 +117,5 @@ internal sealed class GameCamera : IGameCamera, IDisposable
         // Dot product to check if the point is in front of the camera
         float dot = Vector3.Dot(cameraDirection, toPoint);
         return dot > 0;
-    }
-
-    public bool IsVisible(Vector3 worldPos, float tolerance = 0.0001f)
-    {
-        Vector3 cameraDirection = Vector3.Normalize(_lookAtVector - _cameraPosition);
-        Vector3 toPoint         = Vector3.Normalize(worldPos - _cameraPosition);
-
-        // Dot product to check if the point is in front of the camera
-        float dot = Vector3.Dot(cameraDirection, toPoint);
-
-        // Check if the dot product is approximately 1 within a small tolerance
-        return dot > tolerance;
     }
 }

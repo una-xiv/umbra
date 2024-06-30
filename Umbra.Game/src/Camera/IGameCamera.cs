@@ -22,4 +22,6 @@ namespace Umbra.Game;
 public interface IGameCamera
 {
     bool WorldToScreen(Vector3 worldPosition, out Vector2 screenPosition);
+
+    bool IsInFrontOfCamera(Vector3 worldPosition);
 }
