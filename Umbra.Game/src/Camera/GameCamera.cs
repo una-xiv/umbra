@@ -24,60 +24,8 @@ namespace Umbra.Game;
 [Service]
 internal sealed class GameCamera : IGameCamera
 {
-    //
-    // //
-    // [OnDraw]
-    // private unsafe void OnDraw()
-    // {
-    //     CameraManager* cmPtr  = CameraManager.Instance();
-    //     Camera*        camera = cmPtr->CurrentCamera;
-    //
-    //     ImGui.Begin("DebugShit");
-    //
-    //     ImGui.TextUnformatted($"Input         : {_lastWorldPos}");
-    //     ImGui.TextUnformatted($"WorldToScreen : {_worldToScreenResult}");
-    //     ImGui.TextUnformatted($"LookAtVector  : {_lookAtVector}");
-    //     ImGui.TextUnformatted($"CameraPosition: {_cameraPosition}");
-    //
-    //     ImGui.TextUnformatted("");
-    //     ImGui.TextUnformatted($"FoV      : {camera->RenderCamera->FoV}");
-    //     ImGui.TextUnformatted($"NearClip : {camera->RenderCamera->NearPlane}");
-    //     ImGui.TextUnformatted($"FarClip  : {camera->RenderCamera->FarPlane}");
-    //
-    //     ImGui.TextUnformatted("");
-    //     ImGui.TextUnformatted("ViewMatrix:");
-    //
-    //     if (ImGui.BeginTable("ViewMatrix", 4)) {
-    //         for (var y = 0; y < 4; y++) {
-    //             ImGui.TableNextRow();
-    //
-    //             for (var x = 0; x < 4; x++) {
-    //                 ImGui.TableNextColumn();
-    //                 ImGui.TextUnformatted($"{camera->ViewMatrix[y, x]}");
-    //             }
-    //         }
-    //
-    //         ImGui.EndTable();
-    //     }
-    //
-    //     ImGui.TextUnformatted("");
-    //     ImGui.TextUnformatted("ProjectionMatrix:");
-    //
-    //     if (ImGui.BeginTable("ProjectionMatrix", 4)) {
-    //         for (var y = 0; y < 4; y++) {
-    //             ImGui.TableNextRow();
-    //
-    //             for (var x = 0; x < 4; x++) {
-    //                 ImGui.TableNextColumn();
-    //                 ImGui.TextUnformatted($"{camera->RenderCamera->ProjectionMatrix[y, x]}");
-    //             }
-    //         }
-    //
-    //         ImGui.EndTable();
-    //     }
-    //
-    //     ImGui.End();
-    // }
+    private Vector3 _cameraPosition;
+    private Vector3 _lookAtVector;
 
     public unsafe bool WorldToScreen(Vector3 worldPos, out Vector2 screenPos)
     {
@@ -91,10 +39,8 @@ internal sealed class GameCamera : IGameCamera
         var res = Camera.WorldToScreenPoint(worldPos);
         screenPos = new(res.X, res.Y);
 
-        // _lastWorldPos        = worldPos;
-        // _worldToScreenResult = screenPos;
-        _lookAtVector        = cmPtr->CurrentCamera->LookAtVector;
-        _cameraPosition      = cmPtr->CurrentCamera->Position;
+        _lookAtVector   = cmPtr->CurrentCamera->LookAtVector;
+        _cameraPosition = cmPtr->CurrentCamera->Position;
 
         bool isInViewport = res.X >= 0
             && res.X <= ImGui.GetIO().DisplaySize.X
@@ -104,18 +50,11 @@ internal sealed class GameCamera : IGameCamera
         return isInViewport && IsInFrontOfCamera(worldPos);
     }
 
-    private Vector3 _cameraPosition;
-    private Vector3 _lookAtVector;
-    // private Vector3 _lastWorldPos;
-    // private Vector2 _worldToScreenResult;
-
     public bool IsInFrontOfCamera(Vector3 worldPos)
     {
         Vector3 cameraDirection = Vector3.Normalize(_lookAtVector - _cameraPosition);
         Vector3 toPoint         = worldPos - _cameraPosition;
 
-        // Dot product to check if the point is in front of the camera
-        float dot = Vector3.Dot(cameraDirection, toPoint);
-        return dot > 0;
+        return Vector3.Dot(cameraDirection, toPoint) > 0;
     }
 }
