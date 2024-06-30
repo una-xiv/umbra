@@ -15,6 +15,7 @@
  */
 
 using System.Reflection;
+using Dalamud.Game;
 using Dalamud.IoC;
 using Dalamud.Plugin;
 using Dalamud.Plugin.Services;
@@ -33,9 +34,9 @@ internal sealed class Plugin : IDalamudPlugin
     [PluginService] private IPluginLog   PluginLog        { get; set; } = null!;
     [PluginService] private IChatGui     ChatGui          { get; set; } = null!;
 
-    private DalamudPluginInterface PluginInterface { get; init; }
+    private IDalamudPluginInterface PluginInterface { get; init; }
 
-    public Plugin(DalamudPluginInterface plugin)
+    public Plugin(IDalamudPluginInterface plugin)
     {
         PluginInterface = plugin;
         plugin.Inject(this);

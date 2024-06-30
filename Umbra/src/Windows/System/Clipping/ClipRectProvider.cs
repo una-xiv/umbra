@@ -21,7 +21,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 using Umbra.Common;
 
 namespace Umbra.Windows.Clipping;
@@ -80,7 +79,7 @@ internal sealed class ClipRectProvider
     /// <returns></returns>
     private unsafe AtkUnitManager* GetAtkUnitManager()
     {
-        AtkStage* stage = AtkStage.GetSingleton();
+        AtkStage* stage = AtkStage.Instance();
 
         if (stage == null) {
             return null;
@@ -106,12 +105,12 @@ internal sealed class ClipRectProvider
         var unitList    = focusedOnly ? unitManager->FocusedUnitsList : unitManager->AllLoadedUnitsList;
 
         for (var i = 0; i < unitList.Count; i++) {
-            AtkUnitBase* unit = *(AtkUnitBase**)Unsafe.AsPointer(ref unitList.EntriesSpan[i]);
+            AtkUnitBase* unit = *(AtkUnitBase**)Unsafe.AsPointer(ref unitList.Entries[i]);
 
             if (null == unit || !unit->IsVisible || null == unit->WindowNode) continue;
 
-            string? name = Marshal.PtrToStringUTF8(new IntPtr(unit->Name));
-            if (name == "_FocusTargetInfo" || name == "JobHudNotice") continue;
+            string? name = unit->NameString;
+            if (name is "_FocusTargetInfo" or "JobHudNotice") continue;
 
             iterator((IntPtr)unit, name ?? string.Empty);
         }

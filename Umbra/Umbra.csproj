@@ -48,4 +48,8 @@
     <ItemGroup>
       <Folder Include="src\Windows\System\" />
     </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Update="DalamudPackager" Version="2.1.13" />
+    </ItemGroup>
 </Project>

@@ -15,6 +15,7 @@
  */
 
 using System.Collections.Generic;
+using Dalamud.Game.Text;
 using Umbra.Common;
 using Umbra.Game;
 
@@ -47,12 +48,17 @@ internal partial class LocationWidget(
         if (_zoneManager is null || !_zoneManager.HasCurrentZone)  return;
         var zone = _zoneManager.CurrentZone;
 
+        string name = zone.Name;
+        if (zone.InstanceId > 0) {
+            name += " " + (char)(SeIconChar.Instance1 + ((byte)zone.InstanceId - 1));
+        }
+
         SetGhost(!GetConfigValue<bool>("Decorate"));
 
         if (GetConfigValue<bool>("ShowDistrict")) {
-            SetTwoLabels(zone.Name, zone.CurrentDistrictName);
+            SetTwoLabels(name, zone.CurrentDistrictName);
         } else {
-            SetLabel(zone.Name);
+            SetLabel(name);
             LabelNode.Style.TextOffset = new(0, GetConfigValue<int>("TextYOffset"));
         }
 

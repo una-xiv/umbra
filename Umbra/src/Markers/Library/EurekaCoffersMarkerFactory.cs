@@ -150,7 +150,7 @@ internal sealed partial class EurekaCoffersMarkerFactory : WorldMarkerFactory
         }
 
         string? subLabel        = null;
-        Fate?   bunnyFate       = BunnyFate();
+        IFate?  bunnyFate       = BunnyFate();
         var     showDirection   = GetConfigValue<bool>("ShowOnCompass");
         var     fadeDistance    = GetConfigValue<int>("FadeDistance");
         var     fadeAttenuation = GetConfigValue<int>("FadeAttenuation");
@@ -188,7 +188,7 @@ internal sealed partial class EurekaCoffersMarkerFactory : WorldMarkerFactory
         );
     }
 
-    private Fate? BunnyFate()
+    private IFate? BunnyFate()
     {
         return BunnyFateIds.TryGetValue(_zoneManager.CurrentZone.TerritoryId, out uint fateId)
             ? _fateTable.FirstOrDefault(fate => fate.FateId == fateId)

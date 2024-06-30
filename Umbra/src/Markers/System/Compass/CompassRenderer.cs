@@ -63,11 +63,13 @@ internal partial class CompassRenderer(
         foreach (var marker in registry.GetMarkers()) {
             if (!marker.ShowOnCompass) continue;
 
+            Vector3 pos = registry.GetResolvedPosition(marker);
+
             // Skip rendering if the marker itself is in view.
-            if (gameCamera.WorldToScreen(registry.GetResolvedPosition(marker), out Vector2 markerScreenPosition))
+            if (gameCamera.WorldToScreen(pos, out Vector2 markerScreenPosition))
                 continue;
 
-            Vector2 direction = Vector2.Normalize(markerScreenPosition - playerScreenPosition);
+            Vector2 direction = Vector2.Normalize(gameCamera.IsInFrontOfCamera(pos) ? markerScreenPosition - playerScreenPosition : playerScreenPosition - markerScreenPosition);
             Vector2 iconPos   = playerScreenPosition + direction * CompassRadius;
 
             // Clamp the icon position to the screen bounds.

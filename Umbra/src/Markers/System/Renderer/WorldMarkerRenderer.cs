@@ -62,7 +62,10 @@ internal class WorldMarkerRenderer(
 
             string nodeId = GetNodeId(marker);
 
-            if (!gameCamera.WorldToScreen(registry.GetResolvedPosition(marker), out Vector2 screenPosition)) {
+
+            Vector3 pos = registry.GetResolvedPosition(marker);
+            if (!gameCamera.WorldToScreen(pos, out Vector2 screenPosition)) {
+                // Logger.Debug($"Failed to project marker {marker.Position} to screen space: {screenPosition}");
                 continue;
             }
 

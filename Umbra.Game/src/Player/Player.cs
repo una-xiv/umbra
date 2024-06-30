@@ -300,7 +300,7 @@ internal sealed class Player : IPlayer
                 return;
         }
 
-        InfoProxySearchComment* ic = InfoProxySearchComment.Instance();
+        InfoProxyDetail* ic = InfoProxyDetail.Instance();
         if (null == ic) return;
 
         ic->SendOnlineStatusUpdate(statusId);
@@ -334,7 +334,7 @@ internal sealed class Player : IPlayer
     [OnTick(interval: 1000)]
     internal unsafe void CheckForHudEditingMode()
     {
-        var layout = AtkStage.GetSingleton()->RaptureAtkUnitManager->GetAddonByName("HudLayout");
+        var layout = AtkStage.Instance()->RaptureAtkUnitManager->GetAddonByName("HudLayout");
         IsEditingHud = layout != null && layout->IsVisible;
     }
 }

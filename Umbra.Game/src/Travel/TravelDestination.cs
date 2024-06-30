@@ -19,6 +19,7 @@ using Dalamud.Game.ClientState.Aetherytes;
 using Dalamud.Memory;
 using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Client.System.Framework;
+using FFXIVClientStructs.FFXIV.Client.UI;
 using FFXIVClientStructs.FFXIV.Client.UI.Misc;
 
 namespace Umbra.Game;
@@ -40,7 +41,7 @@ public class TravelDestination
     private static readonly Dictionary<uint, string> InterfaceTexts = [];
     private static readonly Dictionary<uint, string> TerritoryNames = [];
 
-    internal TravelDestination(AetheryteEntry entry, bool isEstate, bool isFree)
+    internal TravelDestination(IAetheryteEntry entry, bool isEstate, bool isFree)
     {
         Update(entry, isEstate, isFree);
     }
@@ -49,7 +50,7 @@ public class TravelDestination
     /// Updates this travel destination with the data from the given aetheryte
     /// entry.
     /// </summary>
-    internal void Update(AetheryteEntry entry, bool isHousing, bool isFree)
+    internal void Update(IAetheryteEntry entry, bool isHousing, bool isFree)
     {
         Id             = entry.AetheryteId;
         SubId          = entry.SubIndex;
@@ -57,14 +58,14 @@ public class TravelDestination
         Ward           = entry.Ward;
         Plot           = entry.Plot;
         IsHousing      = isHousing;
-        IsApartment    = IsHousing && entry.IsAppartment;
+        IsApartment    = IsHousing && entry.IsApartment;
         IsSharedHouse  = IsHousing && entry.IsSharedHouse;
         IsFcHouse      = IsHousing && entry.AetheryteId is 56 or 57 or 58 or 96 or 164;
         IsPrivateHouse = IsHousing && !IsApartment && !IsSharedHouse && !IsFcHouse && entry.SubIndex > 0;
         Name           = GetDestinationName(entry);
     }
 
-    private string GetDestinationName(AetheryteEntry entry)
+    private string GetDestinationName(IAetheryteEntry entry)
     {
         if (!IsHousing) {
             return entry.AetheryteData.GameData!.PlaceName.Value!.Name.ToString();
@@ -101,9 +102,7 @@ public class TravelDestination
             return cachedText;
         }
 
-        RaptureTextModule* tm =
-            Framework
-                .Instance()->GetUiModule()->GetRaptureTextModule();
+        RaptureTextModule* tm = UIModule.Instance()->GetRaptureTextModule();
 
         byte* sp = tm->GetAddonText(id);
 

@@ -30,11 +30,11 @@ internal unsafe partial class FlagWidget
 {
     private IZoneManager ZoneManager { get; } = Framework.Service<IZoneManager>();
 
-    private AetheryteEntry? _aetheryteEntry;
-    private string?         _aetheryteKey;
-    private string?         _zoneName;
-    private string?         _flagCoords;
-    private string?         _aetheryteName;
+    private IAetheryteEntry? _aetheryteEntry;
+    private string?          _aetheryteKey;
+    private string?          _zoneName;
+    private string?          _flagCoords;
+    private string?          _aetheryteName;
 
     /// <summary>
     /// Returns true if a flag marker has been set.

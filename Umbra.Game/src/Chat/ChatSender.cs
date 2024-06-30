@@ -20,6 +20,7 @@ using System.Text;
 using Dalamud.Game;
 using FFXIVClientStructs.FFXIV.Client.System.Memory;
 using FFXIVClientStructs.FFXIV.Client.System.String;
+using FFXIVClientStructs.FFXIV.Client.UI;
 using Umbra.Common;
 
 namespace Umbra.Game;
@@ -30,7 +31,7 @@ internal sealed class ChatSender : IChatSender
     private static class Signatures
     {
         internal const string SendChat       = "48 89 5C 24 ?? 57 48 83 EC 20 48 8B FA 48 8B D9 45 84 C9";
-        internal const string SanitiseString = "E8 ?? ?? ?? ?? EB 0A 48 8D 4C 24 ?? E8 ?? ?? ?? ?? 48 8D 8D";
+        internal const string SanitiseString = "E8 ?? ?? ?? ?? EB 0A 48 8D 4C 24 ?? E8 ?? ?? ?? ?? 48 8D AE";
     }
 
     private delegate void ProcessChatBoxDelegate(IntPtr uiModule, IntPtr message, IntPtr unused, byte a4);
@@ -72,7 +73,7 @@ internal sealed class ChatSender : IChatSender
         if (_processChatBox == null) throw new InvalidOperationException("Could not find signature for chat sending");
 
         try {
-            var uiModule = (IntPtr)FFXIVClientStructs.FFXIV.Client.System.Framework.Framework.Instance()->GetUiModule();
+            var uiModule = (IntPtr)UIModule.Instance();
 
             using var payload = new ChatPayload(message);
             var       mem1    = Marshal.AllocHGlobal(400);

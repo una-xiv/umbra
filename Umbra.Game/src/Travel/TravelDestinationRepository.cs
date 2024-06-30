@@ -67,7 +67,7 @@ public class TravelDestinationRepository : ITravelDestinationRepository
                 continue;
             }
 
-            bool isHousing = entry.IsSharedHouse || entry.IsAppartment || _estateAetherytes.Contains(entry.AetheryteId);
+            bool isHousing = entry.IsSharedHouse || entry.IsApartment || _estateAetherytes.Contains(entry.AetheryteId);
             TravelDestination? destination = Destinations.FirstOrDefault(d => d.Id == entry.AetheryteId && d.SubId == entry.SubIndex);
 
             if (destination == null)
@@ -82,10 +82,10 @@ public class TravelDestinationRepository : ITravelDestinationRepository
         }
     }
 
-    private bool IsListedAetheryteEntry(AetheryteEntry entry)
+    private bool IsListedAetheryteEntry(IAetheryteEntry entry)
     {
         return entry.IsFavourite
-         || entry.IsAppartment
+         || entry.IsApartment
          || entry.IsSharedHouse
          || entry.Plot > 0
          || entry.Ward > 0

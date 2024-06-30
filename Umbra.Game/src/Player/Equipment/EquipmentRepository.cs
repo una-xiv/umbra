@@ -80,7 +80,7 @@ internal unsafe class EquipmentRepository : IEquipmentRepository, IDisposable
         for (var slot = 0; slot < 13; slot++) {
             InventoryItem* equipment = _equipmentContainer->GetInventorySlot(slot);
 
-            if (equipment == null || equipment->ItemID == 0) {
+            if (equipment == null || equipment->ItemId == 0) {
                 Slots[slot] = new("", 0, 0, 0, 0);
                 continue;
             }
@@ -88,7 +88,7 @@ internal unsafe class EquipmentRepository : IEquipmentRepository, IDisposable
             lowestDurability  = Math.Min(lowestDurability, equipment->Condition);
             highestSpiritbond = Math.Max(highestSpiritbond, equipment->Spiritbond);
 
-            var item = _dataManager.GetExcelSheet<Item>()!.GetRow(equipment->ItemID)!;
+            var item = _dataManager.GetExcelSheet<Item>()!.GetRow(equipment->ItemId)!;
 
             Slots[slot] = new(
                 item.Name.ToDalamudString().ToString(),

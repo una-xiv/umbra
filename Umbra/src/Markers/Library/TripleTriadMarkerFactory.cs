@@ -100,6 +100,7 @@ internal class TripleTriadMarkerFactory(IDataManager dataManager, IZoneManager z
     private unsafe void OnUpdate()
     {
         if (false == GetConfigValue<bool>("Enabled")
+            || !zoneManager.HasCurrentZone
             || !_cardLocations.TryGetValue(zoneManager.CurrentZone.Id, out List<Card>? cards)
            ) {
             RemoveAllMarkers();

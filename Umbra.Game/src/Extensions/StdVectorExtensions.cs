@@ -23,14 +23,13 @@ public static class StdVectorExtensions
 {
     public static List<T> ToList<T>(this StdVector<T> stdVector) where T : unmanaged
     {
-        var list = new List<T>();
-        var size = stdVector.Size();
+        var  list = new List<T>();
+        long size = stdVector.LongCount;
 
-        unsafe
-        {
+        unsafe {
             T* current = stdVector.First;
-            for (ulong i = 0; i < size; i++)
-            {
+
+            for (long i = 0; i < size; i++) {
                 list.Add(current[i]);
             }
         }

@@ -17,8 +17,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using Dalamud.Game.Text;
 using Dalamud.Plugin.Services;
-using FFXIVClientStructs.FFXIV.Client.Game.Housing;
+using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using Umbra.Common;
@@ -43,9 +44,9 @@ internal sealed class Zone : IZone
     public WeatherForecast?      CurrentWeather      { get; private set; }
     public bool                  IsSanctuary         { get; private set; }
     public string                CurrentDistrictName { get; private set; }
+    public uint                  InstanceId          { get; private set; }
 
     private readonly IDataManager            _dataManager;
-    private readonly IPlayer                 _player;
     private readonly ZoneMarkerFactory       _markerFactory;
     private readonly WeatherForecastProvider _forecastProvider;
 
@@ -53,12 +54,10 @@ internal sealed class Zone : IZone
         IDataManager            dataManager,
         WeatherForecastProvider forecastProvider,
         ZoneMarkerFactory       markerFactory,
-        IPlayer                 player,
         uint                    zoneId
     )
     {
         _dataManager      = dataManager;
-        _player           = player;
         _markerFactory    = markerFactory;
         _forecastProvider = forecastProvider;
 
@@ -98,15 +97,16 @@ internal sealed class Zone : IZone
         TerritoryInfo* territoryInfo = TerritoryInfo.Instance();
         if (territoryInfo == null) return;
 
-        IsSanctuary = territoryInfo->IsInSanctuary();
+        IsSanctuary = territoryInfo->InSanctuary;
+        InstanceId = UIState.Instance()->PublicInstance.InstanceId;
 
         HousingManager* housingManager = HousingManager.Instance();
 
         if (housingManager == null || housingManager->CurrentTerritory == null) {
             CurrentDistrictName = _dataManager.GetExcelSheet<Sheet.PlaceName>()!
-                    .GetRow(territoryInfo->AreaPlaceNameID)
+                    .GetRow(territoryInfo->AreaPlaceNameId)
                     ?.Name.ToString()
-             ?? "???";
+                ?? "???";
         } else {
             CurrentDistrictName = GetHousingDistrictName();
         }
@@ -118,11 +118,13 @@ internal sealed class Zone : IZone
         Map* map = Map.Instance();
         if (map == null) return;
 
+        // Logger.Debug($"Quest markers: {map->QuestMarkers.ToArray().SelectMany(m => m.MarkerData).Where(m => m.MapId == Id).Count()}");
+
         lock (DynamicMarkers) {
             DynamicMarkers.Clear();
 
             DynamicMarkers.AddRange(
-                map->ActiveLevequest
+                map->ActiveLevequestMarkers
                     .ToList()
                     .Where(m => m.MapId == Id)
                     .Select(m => _markerFactory.FromMapMarkerData(MapSheet, m))
@@ -130,7 +132,7 @@ internal sealed class Zone : IZone
             );
 
             DynamicMarkers.AddRange(
-                map->CustomTalk
+                map->CustomTalkMarkers
                     .ToList()
                     .SelectMany(i => i.MarkerData.ToList())
                     .Where(m => m.MapId == Id)
@@ -139,7 +141,7 @@ internal sealed class Zone : IZone
             );
 
             DynamicMarkers.AddRange(
-                map->GemstoneTraders
+                map->GemstoneTraderMarkers
                     .ToList()
                     .SelectMany(i => i.MarkerData.ToList())
                     .Where(m => m.MapId == Id)
@@ -148,7 +150,7 @@ internal sealed class Zone : IZone
             );
 
             DynamicMarkers.AddRange(
-                map->GuildLeveAssignments
+                map->GuildLeveAssignmentMarkers
                     .ToList()
                     .SelectMany(i => i.MarkerData.ToList())
                     .Where(m => m.MapId == Id)
@@ -157,7 +159,7 @@ internal sealed class Zone : IZone
             );
 
             DynamicMarkers.AddRange(
-                map->HousingDataSpan
+                map->HousingMarkers
                     .ToArray()
                     .SelectMany(i => i.MarkerData.ToList())
                     .Where(m => m.MapId == Id)
@@ -166,7 +168,7 @@ internal sealed class Zone : IZone
             );
 
             DynamicMarkers.AddRange(
-                map->LevequestDataSpan
+                map->LevequestMarkers
                     .ToArray()
                     .SelectMany(i => i.MarkerData.ToList())
                     .Where(m => m.MapId == Id)
@@ -175,7 +177,7 @@ internal sealed class Zone : IZone
             );
 
             DynamicMarkers.AddRange(
-                map->QuestDataSpan
+                map->QuestMarkers
                     .ToArray()
                     .SelectMany(i => i.MarkerData.ToList())
                     .Where(m => m.MapId == Id)
@@ -184,7 +186,7 @@ internal sealed class Zone : IZone
             );
 
             DynamicMarkers.AddRange(
-                map->TripleTriad
+                map->TripleTriadMarkers
                     .ToList()
                     .SelectMany(i => i.MarkerData.ToList())
                     .Where(m => m.MapId == Id)
@@ -193,7 +195,7 @@ internal sealed class Zone : IZone
             );
 
             DynamicMarkers.AddRange(
-                map->UnacceptedQuests
+                map->UnacceptedQuestMarkers
                     .ToList()
                     .SelectMany(i => i.MarkerData.ToList())
                     .Where(m => m.MapId == Id)
@@ -241,6 +243,7 @@ internal sealed class Zone : IZone
                 result.Add(
                     $"{I18N.Translate("Housing.Apartment")} {(room == 0 ? I18N.Translate("Housing.Lobby") : $"{I18N.Translate("Housing.Room")} {room}")}"
                 );
+
                 break;
 
             case > -1:

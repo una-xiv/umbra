@@ -24,27 +24,24 @@ namespace Umbra.Game;
 
 [Service]
 internal sealed class ZoneFactory(
-    IDataManager dataManager,
-    IPlayer player,
+    IDataManager            dataManager,
     WeatherForecastProvider weatherForecastProvider,
-    ZoneMarkerFactory markerFactory) : IDisposable
+    ZoneMarkerFactory       markerFactory
+) : IDisposable
 {
     private readonly Dictionary<uint, Zone> _zoneCache = [];
 
-    public void Dispose()
-    {
-    }
+    public void Dispose() { }
 
     public Zone GetZone(uint zoneId)
     {
         if (_zoneCache.TryGetValue(zoneId, out var cachedZone)) return cachedZone;
 
-        if (null == dataManager.GetExcelSheet<Map>()!.GetRow(zoneId))
-        {
+        if (null == dataManager.GetExcelSheet<Map>()!.GetRow(zoneId)) {
             throw new InvalidOperationException($"Zone {zoneId} does not exist");
         }
 
-        var zone = new Zone(dataManager, weatherForecastProvider, markerFactory, player, zoneId);
+        var zone = new Zone(dataManager, weatherForecastProvider, markerFactory, zoneId);
 
         _zoneCache[zoneId] = zone;
 
