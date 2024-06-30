@@ -46,16 +46,17 @@ internal sealed class ZoneManager(ZoneFactory factory, IClientState clientState)
     }
 
     [OnTick]
-    internal unsafe void OnTick()
+    internal void OnTick()
     {
-        AgentMap* agentMap = AgentMap.Instance();
-        if (agentMap == null || agentMap->CurrentMapId == 0) return;
+        if (clientState.MapId == 0) {
+            return;
+        }
 
         // Don't do anything if the local player isn't available.
         if (clientState.LocalPlayer == null) return;
 
-        if (null == _zone || _zone.Id != agentMap->CurrentMapId) {
-            _zone = factory.GetZone(agentMap->CurrentMapId);
+        if (null == _zone || _zone.Id != clientState.MapId) {
+            _zone = factory.GetZone(clientState.MapId);
             ZoneChanged?.Invoke(_zone);
         }
 

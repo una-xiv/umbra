@@ -89,7 +89,7 @@ internal sealed class JobInfoRepository : IDisposable
             var grow = _dataManager.GetExcelSheet<ParamGrow>()!.GetRow((uint)jobInfo.Level);
 
             // Hardcoded max level.
-            if (jobInfo.Level == 90 || grow == null || grow.ExpToNext == 0) {
+            if (jobInfo.Level == 100 || grow == null || grow.ExpToNext == 0) {
                 jobInfo.XpPercent  = 0;
                 jobInfo.IsMaxLevel = true;
                 continue;

@@ -26,9 +26,9 @@ namespace Umbra.Common;
 
 public static class Framework
 {
-    public static DalamudPluginInterface DalamudPlugin { get; private set; } = null!;
-    public static IFramework DalamudFramework { get; private set; } = null!;
-    public static ulong LocalCharacterId { get; private set; }
+    public static IDalamudPluginInterface DalamudPlugin    { get; private set; } = null!;
+    public static IFramework              DalamudFramework { get; private set; } = null!;
+    public static ulong                   LocalCharacterId { get; private set; }
 
     /// <summary>
     /// List of assemblies registered with the Umbra Framework.
@@ -44,7 +44,7 @@ public static class Framework
     /// This method should be called after all assemblies have been registered
     /// with the framework using the <see cref="RegisterAssembly"/> method.
     /// </remarks>
-    public static async Task Compile(IFramework dalamudFramework, DalamudPluginInterface dalamudPlugin, ulong charId)
+    public static async Task Compile(IFramework dalamudFramework, IDalamudPluginInterface dalamudPlugin, ulong charId)
     {
         DalamudPlugin    = dalamudPlugin;
         DalamudFramework = dalamudFramework;

@@ -14,21 +14,14 @@
  *     GNU Affero General Public License for more details.
  */
 
-using System.Collections.Generic;
-using Dalamud.Interface.Internal;
-using Dalamud.Interface.Textures;
+using Dalamud.Interface.Textures.TextureWraps;
 
 namespace Umbra.Markers.System.Compass;
 
 internal partial class CompassRenderer
 {
-    private Dictionary<uint, IDalamudTextureWrap?> TextureCache { get; } = [];
-
     private IDalamudTextureWrap? GetIcon(uint iconId)
     {
-        if (TextureCache.TryGetValue(iconId, out IDalamudTextureWrap? cachedTexture)) return cachedTexture;
-
-        var icon = textureProvider.GetFromGameIcon(new(iconId)).GetWrapOrDefault();
-        return TextureCache[iconId] = icon;
+        return textureProvider.GetFromGameIcon(new(iconId)).GetWrapOrDefault();
     }
 }

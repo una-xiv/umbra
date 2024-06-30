@@ -43,7 +43,7 @@ internal class FlagMarkerFactory : WorldMarkerFactory
         RemoveAllMarkers();
     }
 
-    [OnTick(interval: 2500)]
+    [OnTick(interval: 500)]
     private unsafe void OnUpdate()
     {
         var enabled = GetConfigValue<bool>("Enabled");

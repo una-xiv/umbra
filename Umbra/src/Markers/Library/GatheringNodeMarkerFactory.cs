@@ -105,7 +105,7 @@ internal class GatheringNodeMarkerFactory(
         }
     }
 
-    private GatheringNode? CreateNodeFromObject(GameObject obj)
+    private GatheringNode? CreateNodeFromObject(IGameObject obj)
     {
         var point = dataManager.GetExcelSheet<GatheringPoint>()!.GetRow(obj.DataId);
         if (point == null) return null;

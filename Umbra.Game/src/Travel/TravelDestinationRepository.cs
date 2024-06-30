@@ -82,7 +82,7 @@ public class TravelDestinationRepository : ITravelDestinationRepository
         }
     }
 
-    private bool IsListedAetheryteEntry(AetheryteEntry entry)
+    private bool IsListedAetheryteEntry(IAetheryteEntry entry)
     {
         return entry.IsFavourite
          || entry.IsApartment

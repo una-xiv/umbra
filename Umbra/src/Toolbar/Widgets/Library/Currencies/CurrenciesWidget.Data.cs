@@ -77,10 +77,12 @@ internal partial class CurrenciesWidget
     private static void RegisterCurrency(CurrencyType type, uint groupId, bool showCap = true)
     {
         uint id = type switch {
-            CurrencyType.LimitedTomestone    => GetLimitedTomestoneItem().Item.Row,
-            CurrencyType.NonLimitedTomestone => GetNonLimitedTomestoneItem().Item.Row,
+            CurrencyType.LimitedTomestone    => GetLimitedTomestoneItem()?.Item.Row ?? 0,
+            CurrencyType.NonLimitedTomestone => GetNonLimitedTomestoneItem()?.Item.Row ?? 0,
             _                                => (uint)type
         };
+
+        if (id == 0) return;
 
         Item? item = DataManager.GetExcelSheet<Item>()!.GetRow(id);
 
@@ -145,19 +147,19 @@ internal partial class CurrenciesWidget
     /// <summary>
     /// Returns the tomestone currency item that has a weekly limit.
     /// </summary>
-    private static TomestonesItem GetLimitedTomestoneItem()
+    private static TomestonesItem? GetLimitedTomestoneItem()
     {
         return DataManager.GetExcelSheet<TomestonesItem>()!
-            .First(tomestone => tomestone.Tomestones.Row is 3);
+            .FirstOrDefault(tomestone => tomestone.Tomestones.Row is 3);
     }
 
     /// <summary>
     /// Returns the tomestone currency item that has no weekly limit.
     /// </summary>
-    private static TomestonesItem GetNonLimitedTomestoneItem()
+    private static TomestonesItem? GetNonLimitedTomestoneItem()
     {
         return DataManager.GetExcelSheet<TomestonesItem>()!
-            .First(tomestone => tomestone.Tomestones.Row is 2);
+            .FirstOrDefault(tomestone => tomestone.Tomestones.Row is 2);
     }
 
     private enum CurrencyType

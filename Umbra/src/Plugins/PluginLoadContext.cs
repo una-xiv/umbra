@@ -35,7 +35,7 @@ internal class PluginLoadContext(string name, DirectoryInfo directoryInfo) : Ass
         ["Umbra"]        = typeof(Plugin).Assembly,
         ["Umbra.Common"] = typeof(Framework).Assembly,
         ["Una.Drawing"]  = typeof(Node).Assembly,
-        ["Dalamud"]      = typeof(DalamudPluginInterface).Assembly,
+        ["Dalamud"]      = typeof(IDalamudPluginInterface).Assembly,
     };
 
     internal Assembly LoadFromFile(string filePath)
