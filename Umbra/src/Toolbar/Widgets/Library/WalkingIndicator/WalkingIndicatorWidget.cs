@@ -44,7 +44,7 @@ internal class WalkingIndicatorWidget(
         SetIconYOffset(GetConfigValue<int>("IconYOffset"));
 
         Control* ctrl = Control.Instance();
-        Node.Style.IsVisible = false; // FIXME: ctrl != null && ctrl->IsWalking; (IsWalking has been removed.)
+        Node.Style.IsVisible = ctrl != null && ctrl->IsWalking;
     }
 
     protected override IEnumerable<IWidgetConfigVariable> GetConfigVariables()
