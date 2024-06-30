@@ -37,4 +37,5 @@ public interface IZone
     public WeatherForecast?      CurrentWeather      { get; }
     public string                CurrentDistrictName { get; }
     public bool                  IsSanctuary         { get; }
+    public uint                  InstanceId          { get; }
 }

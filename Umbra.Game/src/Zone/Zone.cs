@@ -17,6 +17,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using Dalamud.Game.Text;
 using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
@@ -43,6 +44,7 @@ internal sealed class Zone : IZone
     public WeatherForecast?      CurrentWeather      { get; private set; }
     public bool                  IsSanctuary         { get; private set; }
     public string                CurrentDistrictName { get; private set; }
+    public uint                  InstanceId          { get; private set; }
 
     private readonly IDataManager            _dataManager;
     private readonly ZoneMarkerFactory       _markerFactory;
@@ -96,6 +98,7 @@ internal sealed class Zone : IZone
         if (territoryInfo == null) return;
 
         IsSanctuary = territoryInfo->InSanctuary;
+        InstanceId = UIState.Instance()->PublicInstance.InstanceId;
 
         HousingManager* housingManager = HousingManager.Instance();
 
@@ -103,7 +106,7 @@ internal sealed class Zone : IZone
             CurrentDistrictName = _dataManager.GetExcelSheet<Sheet.PlaceName>()!
                     .GetRow(territoryInfo->AreaPlaceNameId)
                     ?.Name.ToString()
-             ?? "???";
+                ?? "???";
         } else {
             CurrentDistrictName = GetHousingDistrictName();
         }
@@ -114,6 +117,8 @@ internal sealed class Zone : IZone
 
         Map* map = Map.Instance();
         if (map == null) return;
+
+        // Logger.Debug($"Quest markers: {map->QuestMarkers.ToArray().SelectMany(m => m.MarkerData).Where(m => m.MapId == Id).Count()}");
 
         lock (DynamicMarkers) {
             DynamicMarkers.Clear();
@@ -238,6 +243,7 @@ internal sealed class Zone : IZone
                 result.Add(
                     $"{I18N.Translate("Housing.Apartment")} {(room == 0 ? I18N.Translate("Housing.Lobby") : $"{I18N.Translate("Housing.Room")} {room}")}"
                 );
+
                 break;
 
             case > -1:

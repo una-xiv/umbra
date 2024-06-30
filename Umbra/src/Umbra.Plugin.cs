@@ -15,6 +15,7 @@
  */
 
 using System.Reflection;
+using Dalamud.Game;
 using Dalamud.IoC;
 using Dalamud.Plugin;
 using Dalamud.Plugin.Services;
