@@ -80,6 +80,7 @@ internal partial class GearsetNode : Node
 
     public bool UseAlternateButtonIcon { get; set; } = false;
     public int  ButtonIconYOffset      { get; set; } = 0;
+    public bool ShowGearsetGradient    { get; set; } = true;
 
     public void Update()
     {

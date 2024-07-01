@@ -68,6 +68,8 @@ internal sealed partial class GearsetSwitcherPopup : WidgetPopup, IDisposable
     }
 
     public bool ShowRoleNames { get; set; }
+    public bool ShowCurrentJobGradient { get; set; }
+    public bool ShowGearsetGradient { get; set; }
 
     public bool UseAlternateHeaderIcon { get; set; }
     public bool UseAlternateButtonIcon { get; set; }
