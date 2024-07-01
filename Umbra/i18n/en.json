@@ -283,6 +283,8 @@
     "Widget.Durability.Spiritbond": "Spiritbond",
     "Widget.Durability.Popup.Equipment": "Equipment (Durability% / Spiritbond%)",
     "Widget.Durability.Popup.Actions": "Actions",
+    "Widget.ExperienceBar.Name": "Experience Bar",
+    "Widget.ExperienceBar.Description": "Shows your current experience points percentage and visualizes the progress towards the next level.",
     "Widget.Location.Name": "Location",
     "Widget.Location.Description": "Displays the current map and area name.",
     "Widget.Location.Config.Decorate.Name": "Decorate the widget",

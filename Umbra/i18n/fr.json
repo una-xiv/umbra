@@ -283,6 +283,8 @@
     "Widget.Durability.Spiritbond": "Lien spirituel",
     "Widget.Durability.Popup.Equipment": "Équipement (Durabilité% / Lien spirituel%)",
     "Widget.Durability.Popup.Actions": "Actions",
+    "Widget.ExperienceBar.Name": "Barre d'expérience",
+    "Widget.ExperienceBar.Description": "Affiche le pourcentage de vos points d'expérience actuels et visualise la progression vers le niveau suivant.",
     "Widget.Location.Name": "Emplacement",
     "Widget.Location.Description": "Affiche la carte actuelle et le nom de la zone.",
     "Widget.Location.Config.Decorate.Name": "Décorer le widget",

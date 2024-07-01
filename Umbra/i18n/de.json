@@ -283,6 +283,8 @@
     "Widget.Durability.Spiritbond": "Geistesbund",
     "Widget.Durability.Popup.Equipment": "Ausrüstung (Haltbarkeit% / Geistesbund%)",
     "Widget.Durability.Popup.Actions": "Aktionen",
+    "Widget.ExperienceBar.Name": "Erfahrungsleiste",
+    "Widget.ExperienceBar.Description": "Zeigt den aktuellen Prozentsatz der Erfahrungspunkte und visualisiert den Fortschritt zum nächsten Level.",
     "Widget.Location.Name": "Ort",
     "Widget.Location.Description": "Zeigt die aktuelle Karte und den Bereichsnamen an.",
     "Widget.Location.Config.Decorate.Name": "Widget dekorieren",

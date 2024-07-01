@@ -1,0 +1,57 @@
+﻿/* Umbra | (c) 2024 by Una              ____ ___        ___.
+ * Licensed under the terms of AGPL-3  |    |   \ _____ \_ |__ _______ _____
+ *                                     |    |   //     \ | __ \\_  __ \\__  \
+ * https://github.com/una-xiv/umbra    |    |  /|  Y Y  \| \_\ \|  | \/ / __ \_
+ *                                     |______//__|_|  /____  /|__|   (____  /
+ *     Umbra is free software: you can redistribute  \/     \/             \/
+ *     it and/or modify it under the terms of the GNU Affero General Public
+ *     License as published by the Free Software Foundation, either version 3
+ *     of the License, or (at your option) any later version.
+ *
+ *     Umbra UI is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU Affero General Public License for more details.
+ */
+
+using System.Collections.Generic;
+using Umbra.Common;
+using Umbra.Game;
+
+namespace Umbra.Widgets;
+
+[ToolbarWidget("ExperienceBar", "Widget.ExperienceBar.Name", "Widget.ExperienceBar.Description")]
+internal partial class ExperienceBarWidget(
+    WidgetInfo                  info,
+    string?                     guid         = null,
+    Dictionary<string, object>? configValues = null
+) : ToolbarWidget(info, guid, configValues)
+{
+    public override WidgetPopup? Popup => null;
+
+    private IGearsetRepository GearsetRepository { get; set; } = null!;
+
+    /// <inheritdoc/>
+    protected override void Initialize()
+    {
+        GearsetRepository = Framework.Service<IGearsetRepository>();
+    }
+
+    /// <inheritdoc/>
+    protected override void OnUpdate()
+    {
+        var gearset = GearsetRepository.CurrentGearset;
+
+        if (gearset == null || gearset.IsMaxLevel) {
+            Node.Style.IsVisible = false;
+            return;
+        }
+
+        const int maxWidth = 100 - 8;
+        int       width    = (maxWidth * gearset.JobXp / 100);
+
+        Node.Style.IsVisible                    = true;
+        Node.QuerySelector(".label")!.NodeValue = $"{gearset.JobXp}%";
+        Node.QuerySelector(".bar")!.Style.Size  = new(width, SafeHeight - 8);
+    }
+}
