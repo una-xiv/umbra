@@ -140,10 +140,10 @@ internal class WidgetStyles
             new(
                 "TopLabel",
                 new() {
-                    Size         = new(0, 16),
-                    Margin       = new() { Top = 1 },
+                    Size         = new(0, 14),
+                    Margin       = new() { Top = 3 },
                     Anchor       = Anchor.MiddleCenter,
-                    TextAlign    = Anchor.MiddleRight,
+                    TextAlign    = Anchor.BottomRight,
                     Color        = new("Widget.Text"),
                     OutlineColor = new("Widget.TextOutline"),
                     OutlineSize  = 1,

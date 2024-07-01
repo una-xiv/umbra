@@ -83,12 +83,12 @@ public abstract class DefaultToolbarWidget(
             rightIconNode.Style.Size     = new(SafeHeight - 6, SafeHeight - 6);
             rightIconNode.Style.FontSize = (SafeHeight - 2) / 2;
 
-            var halfSize = (int)Math.Ceiling((SafeHeight) / 2f);
+            var halfSize = (int)Math.Ceiling(SafeHeight / 2f);
             labelNode.Style.Size           = new(0, SafeHeight);
             labelNode.Style.FontSize       = (halfSize / 2) + 6;
-            topLabelNode.Style.Size        = new(0, halfSize - 4);
+            topLabelNode.Style.Size        = new(0, halfSize - 2);
             topLabelNode.Style.FontSize    = (halfSize / 2) + 4;
-            bottomLabelNode.Style.Size     = new(0, halfSize - 4);
+            bottomLabelNode.Style.Size     = new(0, halfSize - 2);
             bottomLabelNode.Style.FontSize = (halfSize / 2) + 2;
 
             bool leftIconVisible  = leftIconNode.Style.IsVisible ?? false;
