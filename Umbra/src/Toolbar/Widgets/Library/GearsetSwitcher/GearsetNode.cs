@@ -129,6 +129,11 @@ internal partial class GearsetNode : Node
 
     private void SetBackgroundGradientFor(GearsetCategory category)
     {
+        if (!ShowGearsetGradient) {
+            Style.BackgroundGradient = GradientColor.Vertical(new(0), new(0));
+            return;
+        }
+
         switch (category) {
             case GearsetCategory.Tank:
                 Style.BackgroundGradient = GradientColor.Vertical(new(0xA0a54a3b), new(0));

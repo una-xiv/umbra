@@ -192,6 +192,12 @@ internal sealed partial class GearsetSwitcherPopup : WidgetPopup, IDisposable
         Node bg = Node.QuerySelector("#Background")!;
         Node hg = Node.QuerySelector("#Header")!;
 
+        if (!ShowCurrentJobGradient) {
+            hg.Style.BackgroundGradient = GradientColor.Vertical(new(0), new(0));
+            bg.Style.BackgroundGradient = GradientColor.Vertical(new(0), new(0));
+            return;
+        }
+
         switch (category) {
             case GearsetCategory.Tank:
                 hg.Style.BackgroundGradient = GradientColor.Vertical(new(0),          new(0x90a54a3b));
