@@ -118,6 +118,7 @@ internal sealed partial class GearsetSwitcherPopup : WidgetPopup, IDisposable
     protected override void OnOpen()
     {
         SetBackgroundGradientFor(_currentGearset?.Category ?? GearsetCategory.None);
+        UpdateNodes();
     }
 
     /// <inheritdoc/>
@@ -161,9 +162,15 @@ internal sealed partial class GearsetSwitcherPopup : WidgetPopup, IDisposable
             node.QuerySelector("#RoleHeader")!.Style.IsVisible = ShowRoleNames;
         }
 
+        UpdateNodes();
+    }
+
+    private void UpdateNodes()
+    {
         foreach (GearsetNode node in NodeByGearset.Values) {
             node.UseAlternateButtonIcon = UseAlternateButtonIcon;
             node.ButtonIconYOffset      = ButtonIconYOffset;
+            node.ShowGearsetGradient    = ShowGearsetGradient;
             node.Update();
         }
     }
