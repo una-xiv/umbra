@@ -84,6 +84,8 @@ internal sealed partial class GearsetSwitcherWidget(
         if (!Popup.IsOpen) return;
 
         Popup.ShowRoleNames          = GetConfigValue<bool>("ShowRoleNames");
+        Popup.ShowCurrentJobGradient = GetConfigValue<bool>("ShowCurrentJobGradient");
+        Popup.ShowGearsetGradient    = GetConfigValue<bool>("ShowGearsetGradient");
         Popup.UseAlternateHeaderIcon = GetConfigValue<bool>("UseAlternateIconHeader");
         Popup.UseAlternateButtonIcon = GetConfigValue<bool>("UseAlternateIconButton");
         Popup.HeaderIconYOffset      = GetConfigValue<int>("HeaderIconYOffset");

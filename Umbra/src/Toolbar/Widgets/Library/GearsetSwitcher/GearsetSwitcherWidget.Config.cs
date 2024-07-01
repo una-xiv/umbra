@@ -127,6 +127,18 @@ internal partial class GearsetSwitcherWidget
                 I18N.Translate("Widget.GearsetSwitcher.Config.ShowRoleNames.Description"),
                 true
             ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
+            new BooleanWidgetConfigVariable(
+                "ShowCurrentJobGradient",
+                I18N.Translate("Widget.GearsetSwitcher.Config.ShowCurrentJobGradient.Name"),
+                I18N.Translate("Widget.GearsetSwitcher.Config.ShowCurrentJobGradient.Description"),
+                true
+            ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
+            new BooleanWidgetConfigVariable(
+                "ShowGearsetGradient",
+                I18N.Translate("Widget.GearsetSwitcher.Config.ShowGearsetGradient.Name"),
+                I18N.Translate("Widget.GearsetSwitcher.Config.ShowGearsetGradient.Description"),
+                true
+            ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
 
             // Role Configuration
             ..AddRoleOptionsFor("Tank",           "LeftColumn",   0, 3),

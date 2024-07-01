@@ -68,6 +68,8 @@ internal sealed partial class GearsetSwitcherPopup : WidgetPopup, IDisposable
     }
 
     public bool ShowRoleNames { get; set; }
+    public bool ShowCurrentJobGradient { get; set; }
+    public bool ShowGearsetGradient { get; set; }
 
     public bool UseAlternateHeaderIcon { get; set; }
     public bool UseAlternateButtonIcon { get; set; }
@@ -116,6 +118,7 @@ internal sealed partial class GearsetSwitcherPopup : WidgetPopup, IDisposable
     protected override void OnOpen()
     {
         SetBackgroundGradientFor(_currentGearset?.Category ?? GearsetCategory.None);
+        UpdateNodes();
     }
 
     /// <inheritdoc/>
@@ -159,9 +162,15 @@ internal sealed partial class GearsetSwitcherPopup : WidgetPopup, IDisposable
             node.QuerySelector("#RoleHeader")!.Style.IsVisible = ShowRoleNames;
         }
 
+        UpdateNodes();
+    }
+
+    private void UpdateNodes()
+    {
         foreach (GearsetNode node in NodeByGearset.Values) {
             node.UseAlternateButtonIcon = UseAlternateButtonIcon;
             node.ButtonIconYOffset      = ButtonIconYOffset;
+            node.ShowGearsetGradient    = ShowGearsetGradient;
             node.Update();
         }
     }
@@ -182,6 +191,12 @@ internal sealed partial class GearsetSwitcherPopup : WidgetPopup, IDisposable
     {
         Node bg = Node.QuerySelector("#Background")!;
         Node hg = Node.QuerySelector("#Header")!;
+
+        if (!ShowCurrentJobGradient) {
+            hg.Style.BackgroundGradient = GradientColor.Vertical(new(0), new(0));
+            bg.Style.BackgroundGradient = GradientColor.Vertical(new(0), new(0));
+            return;
+        }
 
         switch (category) {
             case GearsetCategory.Tank:
