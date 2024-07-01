@@ -17,6 +17,7 @@
 using System;
 using System.Collections.Generic;
 using System.Timers;
+using FFXIVClientStructs.FFXIV.Client.UI;
 using Umbra.Common;
 
 namespace Umbra.Widgets;
@@ -42,7 +43,8 @@ internal sealed partial class CurrenciesWidget(
         _updateTimer.AutoReset =  true;
         _updateTimer.Start();
 
-        Node.OnClick += _ => UpdateMenuItems();
+        Node.OnClick      += _ => UpdateMenuItems();
+        Node.OnRightClick += _ => OpenCurrenciesWindow();
     }
 
     public override string GetInstanceName()
@@ -158,5 +160,12 @@ internal sealed partial class CurrenciesWidget(
 
             Popup.SetButtonAltLabel($"Currency_{currency.Id}", GetAmount(currency.Type));
         }
+    }
+
+    private unsafe void OpenCurrenciesWindow()
+    {
+        UIModule* uiModule = UIModule.Instance();
+        if (uiModule == null) return;
+        uiModule->ExecuteMainCommand(66);
     }
 }
