@@ -72,13 +72,6 @@ internal partial class CurrenciesWidget
         RegisterCurrency(CurrencyType.OrangeGathererScrips, 4); // Orange Gatherer Scrips
         RegisterCurrency(CurrencyType.SkyBuildersScrips,    4); // Sky-builders Scrips
         RegisterCurrency(CurrencyType.BiColorGemstones,     5); // Bicolor Gemstones
-
-        var items = DataManager.GetExcelSheet<Item>()!.Where(i => i.Name.ToString().Contains("Orange") && i.Name.ToString().Contains("Scrip"));
-
-        foreach (var i in items) {
-            Logger.Info($"Item: {i.RowId} - {i.Name}");
-        }
-
     }
 
     private static void RegisterCurrency(CurrencyType type, uint groupId, bool showCap = true)
