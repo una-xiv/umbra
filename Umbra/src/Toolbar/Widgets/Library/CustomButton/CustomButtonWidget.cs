@@ -38,8 +38,8 @@ internal sealed partial class CustomButtonWidget(
     private ITextureProvider TextureProvider { get; } = Framework.Service<ITextureProvider>();
 
     private string Command     { get; set; } = "";
-    private uint   LeftIconId  { get; set; } = 0;
-    private uint   RightIconId { get; set; } = 0;
+    private uint   LeftIconId  { get; set; }
+    private uint   RightIconId { get; set; }
 
     public override string GetInstanceName()
     {
@@ -50,6 +50,7 @@ internal sealed partial class CustomButtonWidget(
     protected override void Initialize()
     {
         SetLeftIcon(14);
+        Node.OnClick += InvokeCommand;
     }
 
     /// <inheritdoc/>
@@ -62,22 +63,15 @@ internal sealed partial class CustomButtonWidget(
         LabelNode.Style.TextOffset      = new(0, GetConfigValue<int>("TextYOffset"));
         LeftIconNode.Style.ImageOffset  = new(0, GetConfigValue<int>("IconYOffset"));
         RightIconNode.Style.ImageOffset = new(0, GetConfigValue<int>("IconYOffset"));
-
-        var command = GetConfigValue<string>("Command");
-        if (command == Command) return;
-
-        Command = command;
-
-        if (string.IsNullOrEmpty(Command)) {
-            Node.OnClick -= InvokeCommand;
-        } else {
-            Node.OnClick += InvokeCommand;
-        }
     }
 
     private void InvokeCommand(Node _)
     {
-        if (!Command.StartsWith('/')) return;
+        Command = GetConfigValue<string>("Command");
+
+        if (string.IsNullOrEmpty(Command.Trim()) || !Command.StartsWith('/')) {
+            return;
+        }
 
         if (CommandManager.Commands.ContainsKey(Command.Split(" ", 2)[0])) {
             CommandManager.ProcessCommand(Command);
@@ -106,17 +100,27 @@ internal sealed partial class CustomButtonWidget(
     /// <summary>
     /// Returns the ID of an icon that is bound to exist.
     /// </summary>
-    private static uint? GetExistingIconId(uint iconId)
+    private uint? GetExistingIconId(uint iconId)
     {
         uint existingCustomIconId = iconId;
 
         if (existingCustomIconId > 0) {
             // Make sure the icon exists.
-            if (Framework.Service<ITextureProvider>().GetIconPath((uint)iconId) is null) {
+            if (IconByIdExists(existingCustomIconId) == false) {
                 existingCustomIconId = 0;
             }
         }
 
         return existingCustomIconId == 0 ? null : existingCustomIconId;
+    }
+
+    private bool IconByIdExists(uint iconId)
+    {
+        try {
+            TextureProvider.GetIconPath(iconId);
+            return true;
+        } catch {
+            return false;
+        }
     }
 }
