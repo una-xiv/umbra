@@ -68,8 +68,8 @@ internal partial class CurrenciesWidget
         RegisterCurrency(CurrencyType.TrophyCrystals,       3); // Trophy Crystals
         RegisterCurrency(CurrencyType.PurpleCrafterScrips,  4); // Purple Crafter Scrips
         RegisterCurrency(CurrencyType.PurpleGathererScrips, 4); // Purple Gatherer Scrips
-        RegisterCurrency(CurrencyType.WhiteCrafterScrips,   4); // White Crafter Scrips
-        RegisterCurrency(CurrencyType.WhiteGathererScrips,  4); // White Gatherer Scrips
+        RegisterCurrency(CurrencyType.OrangeCrafterScrips,  4); // Orange Crafter Scrips
+        RegisterCurrency(CurrencyType.OrangeGathererScrips, 4); // Orange Gatherer Scrips
         RegisterCurrency(CurrencyType.SkyBuildersScrips,    4); // Sky-builders Scrips
         RegisterCurrency(CurrencyType.BiColorGemstones,     5); // Bicolor Gemstones
     }
@@ -180,8 +180,10 @@ internal partial class CurrenciesWidget
         TrophyCrystals       = 36656,
         PurpleCrafterScrips  = 33913,
         PurpleGathererScrips = 33914,
-        WhiteCrafterScrips   = 25199,
-        WhiteGathererScrips  = 25200,
+        WhiteCrafterScrips   = 25199, // (Discontinued)
+        WhiteGathererScrips  = 25200, // (Discontinued)
+        OrangeCrafterScrips  = 41784,
+        OrangeGathererScrips = 41785,
         SkyBuildersScrips    = 28063,
         BiColorGemstones     = 26807,
         Custom               = -3,
