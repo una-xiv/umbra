@@ -180,8 +180,8 @@ internal partial class CurrenciesWidget
         TrophyCrystals       = 36656,
         PurpleCrafterScrips  = 33913,
         PurpleGathererScrips = 33914,
-        WhiteCrafterScrips   = 25199, // (Discontinued)
-        WhiteGathererScrips  = 25200, // (Discontinued)
+        //WhiteCrafterScrips   = 25199, // (Discontinued)
+        //WhiteGathererScrips  = 25200, // (Discontinued)
         OrangeCrafterScrips  = 41784,
         OrangeGathererScrips = 41785,
         SkyBuildersScrips    = 28063,
