@@ -42,7 +42,7 @@ internal sealed class WorldMarkerRaycaster
         }
 
         // First we go up...
-        if (BGCollisionModule.Raycast2(position, new(0, 1, 0), out var hitInfo)) {
+        if (BGCollisionModule.RaycastMaterialFilter(position, new(0, 1, 0), out var hitInfo)) {
             position.Y = hitInfo.Point.Y + 1.8f;
         } else {
             // Can't hit anything, let's go high up and cast down.
@@ -50,13 +50,13 @@ internal sealed class WorldMarkerRaycaster
         }
 
         // Then we go down to "ground" the marker if possible.
-        if (BGCollisionModule.Raycast2(position, new(0, -1, 0), out var hitInfo2)) {
+        if (BGCollisionModule.RaycastMaterialFilter(position, new(0, -1, 0), out var hitInfo2)) {
             position.Y = hitInfo2.Point.Y + 1f;
         } else {
             // Can't hit anything. Let's move the marker up and cast down by a larger amount.
             position.Y += 500;
 
-            if (BGCollisionModule.Raycast2(position, new(0, -1, 0), out var hitInfo3)) {
+            if (BGCollisionModule.RaycastMaterialFilter(position, new(0, -1, 0), out var hitInfo3)) {
                 position.Y = hitInfo3.Point.Y + 1f;
             } else {
                 // Can't hit anything. Let's just set the marker to the player's Y position.

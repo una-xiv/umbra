@@ -36,16 +36,18 @@ internal sealed class GameCamera : IGameCamera
             return false;
         }
 
-        var res = Camera.WorldToScreenPoint(worldPos);
-        screenPos = new(res.X, res.Y);
+        FFXIVClientStructs.FFXIV.Common.Math.Vector2 v2 = new();
+        FFXIVClientStructs.FFXIV.Common.Math.Vector3 v3 = new(worldPos.X, worldPos.Y, worldPos.Z);
+        Camera.WorldToScreenPoint(&v2, &v3);
+        screenPos = new(v2.X, v2.Y);
 
         _lookAtVector   = cmPtr->CurrentCamera->LookAtVector;
         _cameraPosition = cmPtr->CurrentCamera->Position;
 
-        bool isInViewport = res.X >= 0
-            && res.X <= ImGui.GetIO().DisplaySize.X
-            && res.Y >= 0
-            && res.Y <= ImGui.GetIO().DisplaySize.Y;
+        bool isInViewport = screenPos.X >= 0
+            && screenPos.X <= ImGui.GetIO().DisplaySize.X
+            && screenPos.Y >= 0
+            && screenPos.Y <= ImGui.GetIO().DisplaySize.Y;
 
         return isInViewport && IsInFrontOfCamera(worldPos);
     }
