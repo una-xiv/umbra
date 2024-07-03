@@ -29,25 +29,35 @@ internal sealed class GameCamera : IGameCamera
 
     public unsafe bool WorldToScreen(Vector3 worldPos, out Vector2 screenPos)
     {
-        CameraManager* cmPtr = CameraManager.Instance();
+        var cameraManager = CameraManager.Instance();
+        screenPos = Vector2.Zero;
 
-        if (cmPtr == null) {
-            screenPos = new();
+        if (cameraManager == null)
+            return false;
+
+        var worldPosPointer = new FFXIVClientStructs.FFXIV.Common.Math.Vector3(worldPos.X, worldPos.Y, worldPos.Z);
+        var screenPosPointer = new FFXIVClientStructs.FFXIV.Common.Math.Vector2();
+
+        Camera.WorldToScreenPoint(&screenPosPointer, &worldPosPointer);
+        screenPos = new Vector2(screenPosPointer.X, screenPosPointer.Y);
+
+        var currentCamera = cameraManager->CurrentCamera;
+
+        if (currentCamera == null)
+            return false;
+
+        _lookAtVector = currentCamera->LookAtVector;
+        _cameraPosition = currentCamera->Position;
+
+        var imguiDisplaySize = ImGui.GetIO().DisplaySize;
+
+        if (screenPosPointer.X < 0 || screenPosPointer.X > imguiDisplaySize.X ||
+            screenPosPointer.Y < 0 || screenPosPointer.Y > imguiDisplaySize.Y)
+        {
             return false;
         }
 
-        var res = Camera.WorldToScreenPoint(worldPos);
-        screenPos = new(res.X, res.Y);
-
-        _lookAtVector   = cmPtr->CurrentCamera->LookAtVector;
-        _cameraPosition = cmPtr->CurrentCamera->Position;
-
-        bool isInViewport = res.X >= 0
-            && res.X <= ImGui.GetIO().DisplaySize.X
-            && res.Y >= 0
-            && res.Y <= ImGui.GetIO().DisplaySize.Y;
-
-        return isInViewport && IsInFrontOfCamera(worldPos);
+        return IsInFrontOfCamera(worldPos);
     }
 
     public bool IsInFrontOfCamera(Vector3 worldPos)

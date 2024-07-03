@@ -14,6 +14,7 @@
  *     GNU Affero General Public License for more details.
  */
 
+using System;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using FFXIVClientStructs.FFXIV.Common.Component.BGCollision;
@@ -37,33 +38,39 @@ internal sealed class WorldMarkerRaycaster
     {
         var position = marker.Position;
 
-        if (position.Y != 0) {
+        // If Y is not zero we assume that position was already computed, so we early return.
+        if (position.Y != 0)
+        {
             return position;
         }
 
-        // First we go up...
-        if (BGCollisionModule.Raycast2(position, new(0, 1, 0), out var hitInfo)) {
-            position.Y = hitInfo.Point.Y + 1.8f;
-        } else {
-            // Can't hit anything, let's go high up and cast down.
-            position.Y = _player.Position.Y + 250;
-        }
+        var castDirection = new Vector3(0, -1, 0); // Downward direction vector for raycast.
 
-        // Then we go down to "ground" the marker if possible.
-        if (BGCollisionModule.Raycast2(position, new(0, -1, 0), out var hitInfo2)) {
-            position.Y = hitInfo2.Point.Y + 1f;
-        } else {
-            // Can't hit anything. Let's move the marker up and cast down by a larger amount.
-            position.Y += 500;
+        // Initially, set the height just a bit higher than the current marker's position.
+        position.Y += 1.8f;
 
-            if (BGCollisionModule.Raycast2(position, new(0, -1, 0), out var hitInfo3)) {
-                position.Y = hitInfo3.Point.Y + 1f;
-            } else {
-                // Can't hit anything. Let's just set the marker to the player's Y position.
-                position.Y = _player.Position.Y;
+        // Cast a ray downwards. If it doesn't hit anything,
+        if (!BGCollisionModule.RaycastMaterialFilter(position, castDirection, out var hitInfo))
+        {
+            // Move the marker far up and cast another ray downwards.
+            position.Y = _player.Position.Y + 250f;
+
+            // If it still doesn't hit anything,
+            if (!BGCollisionModule.RaycastMaterialFilter(position, castDirection, out hitInfo))
+            {
+                // Move marker very high up, fallback to player's height if it still doesn't hit anything.
+                position.Y += 500f;
+
+                if (!BGCollisionModule.RaycastMaterialFilter(position, castDirection, out hitInfo))
+                {
+                    position.Y = _player.Position.Y;
+                    return position;
+                }
             }
         }
 
+        // If a ray intersected with anything, place the marker 1 unit above the hit point.
+        position.Y = hitInfo.Point.Y + 1f;
         return position;
     }
 }
