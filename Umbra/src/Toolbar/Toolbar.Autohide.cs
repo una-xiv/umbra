@@ -81,6 +81,9 @@ internal partial class Toolbar
 
     private bool ShouldAutoHide()
     {
-        return IsAutoHideEnabled || (AutoHideDuringCutscenes && player.IsInCutscene);
+        return IsAutoHideEnabled ||
+               (AutoHideDuringCutscenes && player.IsInCutscene)
+               || (AutoHideDuringDuty && player.IsBoundByDuty)
+               || (AutoHideDuringPvp && player.IsInPvP);
     }
 }
