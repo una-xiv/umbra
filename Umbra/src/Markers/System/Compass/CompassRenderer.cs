@@ -31,6 +31,7 @@ internal partial class CompassRenderer(
     IGameCamera         gameCamera,
     IPlayer             player,
     ITextureProvider    textureProvider,
+    IZoneManager        zoneManager,
     ClipRectProvider    clipRectProvider,
     WorldMarkerRegistry registry,
     UmbraVisibility     visibility
@@ -52,6 +53,7 @@ internal partial class CompassRenderer(
     private void OnUpdate()
     {
         if (!Enabled || !visibility.AreMarkersVisible()) return;
+        if (!zoneManager.HasCurrentZone) return;
 
         float   iconSize  = 24 * (IconScaleFactor / 100f) * Node.ScaleFactor;
         float   clampSize = iconSize * 2.5f;

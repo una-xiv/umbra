@@ -62,7 +62,6 @@ internal class WorldMarkerRenderer(
 
             string nodeId = GetNodeId(marker);
 
-
             Vector3 pos = registry.GetResolvedPosition(marker);
             if (!gameCamera.WorldToScreen(pos, out Vector2 screenPosition)) {
                 // Logger.Debug($"Failed to project marker {marker.Position} to screen space: {screenPosition}");
@@ -95,9 +94,10 @@ internal class WorldMarkerRenderer(
 
             node.Flush();
             node.SetMaxWidth(MaxWidth);
-            node.Reflow(_positions[node]);
 
             if (node.Style.Opacity == 0 || !(node.Style.IsVisible ?? false)) continue;
+
+            node.Reflow(_positions[node]);
 
             if (clipRectProvider.FindClipRectsIntersectingWith(
                         new(
@@ -111,7 +111,7 @@ internal class WorldMarkerRenderer(
                 > 0)
                 continue;
 
-            node.Render(ImGui.GetBackgroundDrawList(), _positions[node]);
+            node.Render(ImGui.GetBackgroundDrawList(), _positions[node], true);
         }
     }
 

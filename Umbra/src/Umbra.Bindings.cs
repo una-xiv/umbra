@@ -35,6 +35,9 @@ internal sealed class UmbraBindings : IDisposable
     [ConfigVariable("IsFirstTimeStart")]
     public static bool IsFirstTimeStart { get; set; } = true;
 
+    [ConfigVariable("General.UseThreadedStyleComputation", "General", "Experimental")]
+    public static bool UseThreadedStyleComputation { get; set; } = false;
+
     private readonly IChatGui        _chatGui;
     private readonly ICommandManager _commandManager;
     private readonly WindowManager   _windowManager;
@@ -85,6 +88,8 @@ internal sealed class UmbraBindings : IDisposable
     private void OnTick()
     {
         Node.ScaleFactor = (float)Math.Round(Math.Clamp(UiScale / 100f, 0.5f, 3.0f), 2);
+
+        Node.UseThreadedStyleComputation = UseThreadedStyleComputation;
     }
 
     private void HandleUmbraCommand(string command, string args)
