@@ -27,7 +27,13 @@ internal partial class Toolbar
     public static bool IsAutoHideEnabled { get; set; } = false;
 
     [ConfigVariable("Toolbar.AutoHideDuringCutscenes", "General", "Toolbar")]
-    public static bool AutoHideDuringCutscenes { get; set; } = false;
+    private static bool AutoHideDuringCutscenes { get; set; } = false;
+
+    [ConfigVariable("Toolbar.AutoHideDuringDuty", category: "General", subCategory: "Toolbar")]
+    private static bool AutoHideDuringDuty { get; set; } = false;
+    
+    [ConfigVariable("Toolbar.AutoHideDuringPvp", category: "General", subCategory: "Toolbar")]
+    private static bool AutoHideDuringPvp { get; set; } = false;
 
     [ConfigVariable("Toolbar.IsTopAligned", "General", "Toolbar")]
     public static bool IsTopAligned { get; set; } = false;
@@ -36,10 +42,10 @@ internal partial class Toolbar
     public static bool IsStretched { get; set; } = true;
 
     [ConfigVariable("Toolbar.EnableShadow", "General", "Toolbar")]
-    public static bool EnableShadow { get; set; } = true;
+    private static bool EnableShadow { get; set; } = true;
 
     [ConfigVariable("Toolbar.EnableInactiveColors", "General", "Toolbar")]
-    public static bool EnableInactiveColors { get; set; } = false;
+    private static bool EnableInactiveColors { get; set; } = false;
 
     [ConfigVariable("Toolbar.Height", "General", "Toolbar", min: 26, max: 64)]
     public static int Height { get; set; } = 32;
@@ -54,5 +60,5 @@ internal partial class Toolbar
     private static int ToolbarRightMargin { get; set; } = 0;
 
     [ConfigVariable("Toolbar.YOffset", "General", "Toolbar", min: -16384, max: 16384)]
-    public static int YOffset { get; set; } = 0;
+    private static int YOffset { get; set; } = 0;
 }
