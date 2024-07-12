@@ -48,7 +48,7 @@ internal partial class SettingsWindow
                 ChildNodes = [
                     new() {
                         Id        = "FooterText",
-                        NodeValue = $"Umbra v2.0.0" // {Framework.DalamudPlugin.Manifest.AssemblyVersion.ToString(3)}
+                        NodeValue = $"Umbra v{Framework.DalamudPlugin.Manifest.AssemblyVersion.ToString(3)}",
                     },
                     new() {
                         Id = "Buttons", ChildNodes = {
