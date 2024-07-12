@@ -18,6 +18,7 @@ using System;
 using System.Collections.Generic;
 using System.Numerics;
 using Dalamud.Game.ClientState.Fates;
+using Dalamud.Game.Text;
 using Dalamud.Memory;
 using FFXIVClientStructs.FFXIV.Client.Game.Fate;
 using Umbra.Common;
@@ -81,13 +82,14 @@ internal class FateMarkerFactory(IZoneManager zoneManager) : WorldMarkerFactory
             }
 
             activeIds.Add(id);
+            string prefix = fate->IsExpBonus ? $"{SeIconChar.BoxedStar.ToIconString()} " : "";
 
             SetMarker(
                 new() {
                     Key           = id,
                     IconId        = fate->IconId,
                     MapId         = zoneManager.CurrentZone.Id,
-                    Label         = fate->Name.ToString(),
+                    Label         = $"{prefix}{MemoryHelper.ReadSeString(&fate->Name)}",
                     SubLabel      = $"{state} - {timeLeft:mm\\:ss}{progress}",
                     Position      = fate->Location + new Vector3(0, 1.8f, 0),
                     FadeDistance  = new(fadeDist, fadeDist + Math.Max(1, GetConfigValue<int>("FadeAttenuation"))),
