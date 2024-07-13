@@ -56,6 +56,22 @@ internal partial class LocationWidget
                 -5,
                 5
             ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            new IntegerWidgetConfigVariable(
+                "TextYOffsetTop",
+                I18N.Translate("Widget.Location.Config.TextYOffsetTop.Name"),
+                I18N.Translate("Widget.Location.Config.TextYOffsetTop.Description"),
+                0,
+                -5,
+                5
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            new IntegerWidgetConfigVariable(
+                "TextYOffsetBottom",
+                I18N.Translate("Widget.Location.Config.TextYOffsetBottom.Name"),
+                I18N.Translate("Widget.Location.Config.TextYOffsetBottom.Description"),
+                0,
+                -5,
+                5
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
         ];
     }
 }

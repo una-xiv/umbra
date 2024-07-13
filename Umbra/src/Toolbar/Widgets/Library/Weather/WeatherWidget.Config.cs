@@ -72,6 +72,22 @@ internal partial class WeatherWidget
                 5
             ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             new IntegerWidgetConfigVariable(
+                "TextYOffsetTop",
+                I18N.Translate("Widget.Weather.Config.TextYOffsetTop.Name"),
+                I18N.Translate("Widget.Weather.Config.TextYOffsetTop.Description"),
+                0,
+                -5,
+                5
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            new IntegerWidgetConfigVariable(
+                "TextYOffsetBottom",
+                I18N.Translate("Widget.Weather.Config.TextYOffsetBottom.Name"),
+                I18N.Translate("Widget.Weather.Config.TextYOffsetBottom.Description"),
+                0,
+                -5,
+                5
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            new IntegerWidgetConfigVariable(
                 "Spacing",
                 I18N.Translate("Widget.Weather.Config.Spacing.Name"),
                 I18N.Translate("Widget.Weather.Config.Spacing.Description"),

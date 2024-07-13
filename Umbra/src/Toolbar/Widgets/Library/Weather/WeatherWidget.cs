@@ -82,6 +82,8 @@ internal partial class WeatherWidget(
 
         if (GetConfigValue<bool>("ShowTime")) {
             SetTwoLabels(currentWeather.Name, currentWeather.TimeString);
+            TopLabelNode.Style.TextOffset    = new(0, GetConfigValue<int>("TextYOffsetTop"));
+            BottomLabelNode.Style.TextOffset = new(0, GetConfigValue<int>("TextYOffsetBottom"));
         } else {
             SetLabel(currentWeather.Name);
             LabelNode.Style.TextOffset = new(0, GetConfigValue<int>("TextYOffset"));

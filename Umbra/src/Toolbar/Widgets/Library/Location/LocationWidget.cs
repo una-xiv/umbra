@@ -45,10 +45,11 @@ internal partial class LocationWidget(
     /// <inheritdoc/>
     protected override void OnUpdate()
     {
-        if (_zoneManager is null || !_zoneManager.HasCurrentZone)  return;
+        if (_zoneManager is null || !_zoneManager.HasCurrentZone) return;
         var zone = _zoneManager.CurrentZone;
 
         string name = zone.Name;
+
         if (zone.InstanceId > 0) {
             name += " " + (char)(SeIconChar.Instance1 + ((byte)zone.InstanceId - 1));
         }
@@ -57,6 +58,8 @@ internal partial class LocationWidget(
 
         if (GetConfigValue<bool>("ShowDistrict")) {
             SetTwoLabels(name, zone.CurrentDistrictName);
+            TopLabelNode.Style.TextOffset    = new(0, GetConfigValue<int>("TextYOffsetTop"));
+            BottomLabelNode.Style.TextOffset = new(0, GetConfigValue<int>("TextYOffsetBottom"));
         } else {
             SetLabel(name);
             LabelNode.Style.TextOffset = new(0, GetConfigValue<int>("TextYOffset"));
