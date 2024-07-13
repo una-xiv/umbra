@@ -94,8 +94,8 @@ internal partial class Toolbar
         }
 
         _toolbarNode.Style.Margin = new() {
-            Left  = ToolbarLeftMargin,
-            Right = ToolbarRightMargin
+            Left  = (int)(ToolbarLeftMargin / Node.ScaleFactor),
+            Right = (int)(ToolbarRightMargin / Node.ScaleFactor)
         };
 
         if (IsStretched) {

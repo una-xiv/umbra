@@ -70,11 +70,26 @@ internal partial class Toolbar
     {
         if (!AllowAutoHide) return true;
 
-        int y = ToolbarYPosition - (IsTopAligned ? 0 : _toolbarNode.Height);
-        int x = _toolbarNode.Width / 2;
+        int nodeWidth  = _toolbarNode.Width;
+        int nodeHeight = _toolbarNode.Height;
 
-        var bounds = new Rect(ToolbarXPosition - x, y, ToolbarXPosition + x, y + _toolbarNode.Height);
+        int y = ToolbarYPosition - (IsTopAligned ? 0 :nodeHeight);
+        int x = (nodeWidth / 2) + (ToolbarLeftMargin / 2) + (ToolbarRightMargin / 2);
+
+        var bounds = new Rect(ToolbarXPosition - x, y, ToolbarXPosition + x, y + nodeHeight);
         bounds.Expand(new(_toolbarNode.Height / 2, 0));
+
+        // Apply margins.
+        bounds.X1 += ToolbarLeftMargin;
+        bounds.X2 -= ToolbarRightMargin;
+
+        // Change the hover area height based on visibility. This requires the user to nearly touch the edge of the
+        // screen to show the toolbar, but allows for a larger area to hide it.
+        if (IsTopAligned) {
+            bounds.Y2 = _isVisible ? bounds.Y2 : bounds.Y2 - (bounds.Height - (int)(24 * Node.ScaleFactor));
+        } else {
+            bounds.Y1 = _isVisible ? bounds.Y1 : bounds.Y1 + (bounds.Height - (int)(24 * Node.ScaleFactor));
+        }
 
         return bounds.Contains(ImGui.GetMousePos());
     }
