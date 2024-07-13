@@ -48,10 +48,18 @@ internal class WorldMarkerRenderer(
     private readonly Dictionary<string, WorldMarkerNode> _nodes     = [];
     private readonly Dictionary<WorldMarkerNode, Point>  _positions = [];
 
+    private uint _lastZoneId;
+
     [OnDraw]
     private void OnDraw()
     {
         if (!Enabled || !zoneManager.HasCurrentZone || !visibility.AreMarkersVisible()) return;
+
+        if (_lastZoneId != zoneManager.CurrentZone.Id) {
+            _lastZoneId = zoneManager.CurrentZone.Id;
+            _nodes.Clear();
+            _positions.Clear();
+        }
 
         List<string> usedIds = [];
 
@@ -64,7 +72,6 @@ internal class WorldMarkerRenderer(
 
             Vector3 pos = registry.GetResolvedPosition(marker);
             if (!gameCamera.WorldToScreen(pos, out Vector2 screenPosition)) {
-                // Logger.Debug($"Failed to project marker {marker.Position} to screen space: {screenPosition}");
                 continue;
             }
 

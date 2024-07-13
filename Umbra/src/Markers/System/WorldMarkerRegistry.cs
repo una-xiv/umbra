@@ -27,7 +27,7 @@ using Umbra.Game;
 namespace Umbra.Markers.System;
 
 [Service]
-internal class WorldMarkerRegistry
+internal sealed class WorldMarkerRegistry : IDisposable
 {
     private Dictionary<uint, Dictionary<string, WorldMarker>>      WorldMarkers { get; } = [];
     private Dictionary<uint, Dictionary<string, ResolvedPosition>> Positions    { get; } = [];
@@ -52,6 +52,12 @@ internal class WorldMarkerRegistry
             WorldMarkers[map.RowId] = [];
             Positions[map.RowId]    = [];
         }
+    }
+
+    public void Dispose()
+    {
+        Positions.Clear();
+        WorldMarkers.Clear();
     }
 
     public List<WorldMarker> GetMarkers()
@@ -112,7 +118,22 @@ internal class WorldMarkerRegistry
         return marker.Key;
     }
 
-    [OnDraw(executionOrder: int.MaxValue - 1)]
+    /// <summary>
+    /// In some situations, the raycaster may not be able to resolve the
+    /// correct position of a marker because the collision data hasn't been
+    /// fully loaded yet. Since we can't know when the collision data is
+    /// actually loaded, we can periodically clear the cache of resolved
+    /// positions to force the raycaster to re-calculate the positions of all
+    /// cached markers in a particular zone.
+    /// </summary>
+    [OnTick(interval: 2000)]
+    private void PeriodicallyClearResolvedPositionCache()
+    {
+        if (!_zoneManager.HasCurrentZone) return;
+        Positions[_zoneManager.CurrentZone.Id].Clear();
+    }
+
+    [OnDraw(executionOrder: int.MinValue + 1)]
     private void UpdateResolvedPositions()
     {
         if (!_zoneManager.HasCurrentZone || !_visibility.AreMarkersVisible()) return;
@@ -150,7 +171,7 @@ internal class WorldMarkerRegistry
 
     private record ResolvedPosition
     {
-        public Vector3 Position { get; init; }
+        public Vector3 Position { get; set; }
         public Vector3 Resolved { get; init; }
     }
 }
