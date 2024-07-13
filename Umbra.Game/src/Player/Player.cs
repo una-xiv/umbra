@@ -250,6 +250,13 @@ internal sealed class Player : IPlayer
         return _jobInfoRepository.GetJobInfo(jobId);
     }
 
+    public unsafe uint GetFreeInventorySpace()
+    {
+        InventoryManager* im = InventoryManager.Instance();
+
+        return im == null ? 0 : im->GetEmptySlotsInBag();
+    }
+
     /// <summary>
     /// Returns true if the player has the specified item in their inventory.
     /// </summary>

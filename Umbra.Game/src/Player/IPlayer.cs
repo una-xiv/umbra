@@ -164,6 +164,11 @@ public interface IPlayer
     public JobInfo GetJobInfo(byte jobId);
 
     /// <summary>
+    /// Returns the amount of free space the player has in their main inventory.
+    /// </summary>
+    public uint GetFreeInventorySpace();
+
+    /// <summary>
     /// Returns true if the player has the specified item in their inventory.
     /// </summary>
     public bool HasItemInInventory(uint itemId, uint minItemCount = 1);
