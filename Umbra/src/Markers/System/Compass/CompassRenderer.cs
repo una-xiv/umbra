@@ -49,7 +49,7 @@ internal partial class CompassRenderer(
     [ConfigVariable("Markers.Compass.IconOpacity", "Markers", "MarkersCompass", 0, 100)]
     private static int IconOpacity { get; set; } = 100;
 
-    [OnDraw(executionOrder: int.MinValue)]
+    [OnDraw(executionOrder: int.MaxValue)]
     private void OnUpdate()
     {
         if (!Enabled || !visibility.AreMarkersVisible()) return;
