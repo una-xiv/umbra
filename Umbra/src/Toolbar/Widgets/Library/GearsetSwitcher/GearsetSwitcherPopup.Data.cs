@@ -67,6 +67,8 @@ internal sealed partial class GearsetSwitcherPopup
         AssignGearsetToDataLookupTables(gearset);
         GetGearsetListNodeFor(gearset.Category).AppendChild(gearsetNode);
         SetBackgroundGradientFor(gearset.Category);
+
+        Close();
     }
 
     /// <summary>
