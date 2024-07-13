@@ -125,7 +125,15 @@ internal sealed class MainMenuWidget(
                 SetRightIcon(null);
             }
 
-            SetLabel(displayMode is "TextOnly" or "TextAndIcon" ? _category.Name : null);
+            string? label    = displayMode is "TextOnly" or "TextAndIcon" ? _category.Name : null;
+            bool    hasLabel = !string.IsNullOrEmpty(label);
+
+            SetLabel(label);
+
+            LeftIconNode.Style.Margin  = new(0, 0, 0, hasLabel ? -2 : 0);
+            RightIconNode.Style.Margin = new(0, hasLabel ? -2 : 0, 0, 0);
+            Node.Style.Padding         = new(0, hasLabel ? 6 : 3);
+            Node.Tooltip               = displayMode is "IconOnly" && !string.IsNullOrEmpty(_category.Name) ? _category.Name : null;
         }
 
         Popup.UseGrayscaleIcons = GetConfigValue<bool>("UseGrayscaleIcons");
@@ -267,11 +275,22 @@ internal sealed class MainMenuWidget(
         if (item.Type == MainMenuItemType.Separator) return;
         _items[item.Id] = item;
 
-        if (item.ItemGroupId is not null && item.ItemGroupLabel is not null && Popup.HasGroup(item.ItemGroupId) == false) {
+        if (item.ItemGroupId is not null
+            && item.ItemGroupLabel is not null
+            && Popup.HasGroup(item.ItemGroupId) == false) {
             Popup.AddGroup(item.ItemGroupId, item.ItemGroupLabel, item.SortIndex);
         }
 
-        Popup.AddButton(item.Id, item.Name, item.SortIndex, item.Icon, item.ShortKey, item.Invoke, item.ItemGroupId, new(item.IconColor ?? 0));
+        Popup.AddButton(
+            item.Id,
+            item.Name,
+            item.SortIndex,
+            item.Icon,
+            item.ShortKey,
+            item.Invoke,
+            item.ItemGroupId,
+            new(item.IconColor ?? 0)
+        );
     }
 
     private void OnItemRemoved(MainMenuItem item)
@@ -281,7 +300,9 @@ internal sealed class MainMenuWidget(
         _items.Remove(item.Id);
         Popup.RemoveButton(item.Id);
 
-        if (item.ItemGroupId is not null && Popup.HasGroup(item.ItemGroupId) && Popup.GetGroupItemCount(item.ItemGroupId) == 0){
+        if (item.ItemGroupId is not null
+            && Popup.HasGroup(item.ItemGroupId)
+            && Popup.GetGroupItemCount(item.ItemGroupId) == 0) {
             Popup.RemoveGroup(item.ItemGroupId);
         }
     }
