@@ -22,7 +22,7 @@ namespace Umbra;
 [Service]
 internal partial class Toolbar(IPlayer player, UmbraVisibility visibility)
 {
-    [OnDraw(executionOrder: -1)]
+    [OnDraw(executionOrder: int.MaxValue)]
     private void DrawToolbar()
     {
         if (!Enabled || !visibility.IsToolbarVisible()) return;
