@@ -25,6 +25,12 @@ internal partial class GearsetSwitcherWidget
     protected override IEnumerable<IWidgetConfigVariable> GetConfigVariables()
     {
         return [
+            new BooleanWidgetConfigVariable(
+                "AutoCloseOnChange",
+                I18N.Translate("Widget.GearsetSwitcher.Config.AutoCloseOnChange.Name"),
+                I18N.Translate("Widget.GearsetSwitcher.Config.AutoCloseOnChange.Description"),
+                true
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             new SelectWidgetConfigVariable(
                 "DisplayMode",
                 I18N.Translate("Widget.GearsetSwitcher.Config.DisplayMode.Name"),
@@ -77,6 +83,22 @@ internal partial class GearsetSwitcherWidget
                 -5,
                 5
             ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            new IntegerWidgetConfigVariable(
+                "NameTextYOffset",
+                I18N.Translate("Widget.GearsetSwitcher.Config.NameTextYOffset.Name"),
+                I18N.Translate("Widget.GearsetSwitcher.Config.NameTextYOffset.Description"),
+                0,
+                -5,
+                5
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            new IntegerWidgetConfigVariable(
+                "InfoTextYOffset",
+                I18N.Translate("Widget.GearsetSwitcher.Config.InfoTextYOffset.Name"),
+                I18N.Translate("Widget.GearsetSwitcher.Config.InfoTextYOffset.Description"),
+                -1,
+                -5,
+                5
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             new BooleanWidgetConfigVariable(
                 "UseAlternateIconHeader",
                 I18N.Translate("Widget.GearsetSwitcher.Config.UseAlternateIconHeader.Name"),
@@ -102,22 +124,6 @@ internal partial class GearsetSwitcherWidget
                 I18N.Translate("Widget.GearsetSwitcher.Config.ButtonIconYOffset.Name"),
                 I18N.Translate("Widget.GearsetSwitcher.Config.ButtonIconYOffset.Description"),
                 1,
-                -5,
-                5
-            ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
-            new IntegerWidgetConfigVariable(
-                "NameTextYOffset",
-                I18N.Translate("Widget.GearsetSwitcher.Config.NameTextYOffset.Name"),
-                I18N.Translate("Widget.GearsetSwitcher.Config.NameTextYOffset.Description"),
-                0,
-                -5,
-                5
-            ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
-            new IntegerWidgetConfigVariable(
-                "InfoTextYOffset",
-                I18N.Translate("Widget.GearsetSwitcher.Config.InfoTextYOffset.Name"),
-                I18N.Translate("Widget.GearsetSwitcher.Config.InfoTextYOffset.Description"),
-                -1,
                 -5,
                 5
             ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },

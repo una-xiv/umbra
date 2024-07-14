@@ -67,6 +67,7 @@ internal sealed partial class GearsetSwitcherPopup : WidgetPopup, IDisposable
         _currentGearset = _gearsetRepository.CurrentGearset;
     }
 
+    public bool AutoCloseOnChange { get; set; }
     public bool ShowRoleNames { get; set; }
     public bool ShowCurrentJobGradient { get; set; }
     public bool ShowGearsetGradient { get; set; }

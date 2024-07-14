@@ -498,6 +498,8 @@
     "Widget.GearsetSwitcher.Config.TextAlign.Option.Right": "Rechts ausgerichtet",
     "Widget.GearsetSwitcher.Config.Decorate.Name": "Widget dekorieren",
     "Widget.GearsetSwitcher.Config.Decorate.Description": "Verziert das Ausrüstungsset-Umschalter-Widget mit einem Hintergrund und einem Rahmen.",
+    "Widget.GearsetSwitcher.Config.AutoCloseOnChange.Name": "Popup automatisch beim Ausrüstungswechsel schließen",
+    "Widget.GearsetSwitcher.Config.AutoCloseOnChange.Description": "Schließt das Popup automatisch, wenn ein Ausrüstungsset ausgewählt wird.",
     "Widget.GearsetSwitcher.Config.ShowRoleNames.Name": "Rollennamen anzeigen",
     "Widget.GearsetSwitcher.Config.ShowRoleNames.Description": "Ob die Rollennamen im Popup angezeigt werden sollen.",
     "Widget.GearsetSwitcher.Config.ShowCurrentJobGradient.Name": "Farbverlauf des aktuellen Jobs anzeigen",

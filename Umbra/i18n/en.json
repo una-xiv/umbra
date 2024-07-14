@@ -498,6 +498,8 @@
     "Widget.GearsetSwitcher.Config.TextAlign.Option.Right": "Right aligned",
     "Widget.GearsetSwitcher.Config.Decorate.Name": "Decorate the widget",
     "Widget.GearsetSwitcher.Config.Decorate.Description": "Decorates the gearset switcher widget with a background and border.",
+    "Widget.GearsetSwitcher.Config.AutoCloseOnChange.Name": "Auto-close popup on gearset change",
+    "Widget.GearsetSwitcher.Config.AutoCloseOnChange.Description": "Automatically closes the popup when a gearset is selected.",
     "Widget.GearsetSwitcher.Config.ShowRoleNames.Name": "Show role names",
     "Widget.GearsetSwitcher.Config.ShowRoleNames.Description": "Whether to show the role names in the popup.",
     "Widget.GearsetSwitcher.Config.ShowCurrentJobGradient.Name": "Show current-job gradient",

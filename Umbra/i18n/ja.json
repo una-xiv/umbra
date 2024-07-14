@@ -498,6 +498,8 @@
     "Widget.GearsetSwitcher.Config.TextAlign.Option.Right": "右揃え",
     "Widget.GearsetSwitcher.Config.Decorate.Name": "ウィジェットを装飾する",
     "Widget.GearsetSwitcher.Config.Decorate.Description": "ギアセット切り替えウィジェットに背景と枠線を付けます。",
+    "Widget.GearsetSwitcher.Config.AutoCloseOnChange.Name": "装備セット変更時にポップアップを自動的に閉じる",
+    "Widget.GearsetSwitcher.Config.AutoCloseOnChange.Description": "装備セットが選択されたときにポップアップを自動的に閉じます。",
     "Widget.GearsetSwitcher.Config.ShowRoleNames.Name": "役割名を表示",
     "Widget.GearsetSwitcher.Config.ShowRoleNames.Description": "ポップアップに役割名を表示するかどうか。",
     "Widget.GearsetSwitcher.Config.ShowCurrentJobGradient.Name": "現在のジョブのグラデーションを表示",

@@ -498,6 +498,8 @@
     "Widget.GearsetSwitcher.Config.TextAlign.Option.Right": "Aligné à droite",
     "Widget.GearsetSwitcher.Config.Decorate.Name": "Décorer le widget",
     "Widget.GearsetSwitcher.Config.Decorate.Description": "Décore le widget de sélecteur de set d'équipement avec un fond et une bordure.",
+    "Widget.GearsetSwitcher.Config.AutoCloseOnChange.Name": "Fermeture automatique de la popup lors du changement d'ensemble d'équipement",
+    "Widget.GearsetSwitcher.Config.AutoCloseOnChange.Description": "Ferme automatiquement la popup lorsqu'un ensemble d'équipement est sélectionné.",
     "Widget.GearsetSwitcher.Config.ShowRoleNames.Name": "Afficher les noms de rôle",
     "Widget.GearsetSwitcher.Config.ShowRoleNames.Description": "Indique si les noms de rôle doivent être affichés dans la fenêtre contextuelle.",
     "Widget.GearsetSwitcher.Config.ShowCurrentJobGradient.Name": "Afficher le dégradé du travail en cours",
