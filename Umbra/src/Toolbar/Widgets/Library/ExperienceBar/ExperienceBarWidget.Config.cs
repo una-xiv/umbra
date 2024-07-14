@@ -15,6 +15,7 @@
  */
 
 using System.Collections.Generic;
+using Umbra.Common;
 
 namespace Umbra.Widgets;
 
@@ -22,6 +23,35 @@ internal partial class ExperienceBarWidget
 {
     protected override IEnumerable<IWidgetConfigVariable> GetConfigVariables()
     {
-        return [];
+        return [
+            new BooleanWidgetConfigVariable(
+                "ShowExperience",
+                I18N.Translate("Widget.ExperienceBar.Config.ShowExperience.Name"),
+                I18N.Translate("Widget.ExperienceBar.Config.ShowExperience.Description"),
+                true
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            new BooleanWidgetConfigVariable(
+                "ShowLevel",
+                I18N.Translate("Widget.ExperienceBar.Config.ShowLevel.Name"),
+                I18N.Translate("Widget.ExperienceBar.Config.ShowLevel.Description"),
+                true
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            new IntegerWidgetConfigVariable(
+                "WidgetWidth",
+                I18N.Translate("Widget.ExperienceBar.Config.WidgetWidth.Name"),
+                I18N.Translate("Widget.ExperienceBar.Config.WidgetWidth.Description"),
+                100,
+                25,
+                500
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            new IntegerWidgetConfigVariable(
+                "TextYOffset",
+                I18N.Translate("Widget.InventorySpace.Config.TextYOffset.Name"),
+                I18N.Translate("Widget.InventorySpace.Config.TextYOffset.Description"),
+                0,
+                -5,
+                5
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+        ];
     }
 }

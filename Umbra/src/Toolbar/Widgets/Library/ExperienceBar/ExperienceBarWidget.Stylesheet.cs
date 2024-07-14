@@ -45,7 +45,9 @@ internal partial class ExperienceBarWidget : ToolbarWidget
                     OutlineColor = new("Widget.TextOutline"),
                     OutlineSize  = 1,
                     Size         = new(100, SafeHeight),
-                    TextOffset   = new(0, 1)
+                    TextOffset   = new(0, 1),
+                    TextOverflow = false,
+                    WordWrap     = false,
                 }
             ),
             new(

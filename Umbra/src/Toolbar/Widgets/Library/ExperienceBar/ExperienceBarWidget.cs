@@ -47,11 +47,27 @@ internal partial class ExperienceBarWidget(
             return;
         }
 
-        const int maxWidth = 100 - 8;
-        int       width    = (maxWidth * gearset.JobXp / 100);
+        var widgetWidth = GetConfigValue<int>("WidgetWidth");
+        var showLevel   = GetConfigValue<bool>("ShowLevel");
+        var showExp     = GetConfigValue<bool>("ShowExperience");
 
-        Node.Style.IsVisible                    = true;
-        Node.QuerySelector(".label")!.NodeValue = $"{gearset.JobXp}%";
-        Node.QuerySelector(".bar")!.Style.Size  = new(width, SafeHeight - 8);
+        int maxWidth = widgetWidth - 8;
+        int width    = (maxWidth * gearset.JobXp / 100);
+
+        Node.Style.IsVisible = true;
+        Node.Style.Size      = new(widgetWidth, SafeHeight);
+
+        var labelNode = Node.QuerySelector(".label")!;
+        var barNode   = Node.QuerySelector(".bar")!;
+
+        string expString    = showExp ? $"{gearset.JobXp}%" : "";
+        string levelString  = showLevel ? $"Lv. {gearset.JobLevel}" : "";
+        string separatorStr = showLevel && showExp ? " - " : "";
+        string label        = $"{levelString}{separatorStr}{expString}".Trim();
+
+        barNode.Style.Size         = new(width, SafeHeight - 8);
+        labelNode.Style.Size       = new(widgetWidth, SafeHeight);
+        labelNode.Style.TextOffset = new(0, GetConfigValue<int>("TextYOffset"));
+        labelNode.NodeValue        = label;
     }
 }
