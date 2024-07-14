@@ -296,6 +296,8 @@
     "Widget.InventorySpace.Description": "Affiche la quantité d'espace libre actuelle dans votre inventaire.",
     "Widget.InventorySpace.Config.Decorate.Name": "Décorer le widget",
     "Widget.InventorySpace.Config.Decorate.Description": "Décore le widget de localisation avec un arrière-plan et une bordure.",
+    "Widget.InventorySpace.Config.DesaturateIcon.Name": "Désaturer l'icône du widget",
+    "Widget.InventorySpace.Config.DesaturateIcon.Description": "Désature l'icône du widget pour qu'elle apparaisse en niveaux de gris.",
     "Widget.InventorySpace.Config.ShowTotal.Name": "Afficher l'espace d'inventaire total",
     "Widget.InventorySpace.Config.ShowTotal.Description": "Afficher ou non la quantité totale d'espace d'inventaire en plus de l'espace libre.",
     "Widget.InventorySpace.Config.WarningThreshold.Name": "Seuil d'avertissement",

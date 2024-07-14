@@ -66,11 +66,15 @@ internal partial class InventorySpaceWidget(
         var l = iconLocation == "Left" ? " " : "";
         var r = iconLocation == "Right" ? " " : "";
         SetLabel(GetConfigValue<bool>("ShowTotal") ? $"{l}{FreeSpace} / 140{r}" : $"{l}{FreeSpace}{r}");
+
         LabelNode.Style.TextOffset = new(0, GetConfigValue<int>("TextYOffset"));
     }
 
     private uint GetIconId()
     {
+        LeftIconNode.Style.ImageGrayscale  = false;
+        RightIconNode.Style.ImageGrayscale = false;
+
         if (FreeSpace <= GetConfigValue<int>("CriticalThreshold")) {
             return 60074; // Critical
         }
@@ -78,6 +82,9 @@ internal partial class InventorySpaceWidget(
         if (FreeSpace <= GetConfigValue<int>("WarningThreshold")) {
             return 60073; // Warning
         }
+
+        LeftIconNode.Style.ImageGrayscale  = GetConfigValue<bool>("DesaturateIcon");
+        RightIconNode.Style.ImageGrayscale = GetConfigValue<bool>("DesaturateIcon");
 
         return 2;
     }

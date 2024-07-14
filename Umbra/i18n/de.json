@@ -296,6 +296,8 @@
     "Widget.InventorySpace.Description": "Zeigt den aktuellen freien Platz im Inventar an.",
     "Widget.InventorySpace.Config.Decorate.Name": "Das Widget dekorieren",
     "Widget.InventorySpace.Config.Decorate.Description": "Dekoriert das Standort-Widget mit einem Hintergrund und einem Rahmen.",
+    "Widget.InventorySpace.Config.DesaturateIcon.Name": "Widget-Symbol entsättigen",
+    "Widget.InventorySpace.Config.DesaturateIcon.Description": "Entsättigt das Widget-Symbol, sodass es in Graustufen erscheint.",
     "Widget.InventorySpace.Config.ShowTotal.Name": "Gesamten Inventarplatz anzeigen",
     "Widget.InventorySpace.Config.ShowTotal.Description": "Ob die Gesamtmenge des Inventarplatzes zusätzlich zum freien Platz angezeigt werden soll.",
     "Widget.InventorySpace.Config.WarningThreshold.Name": "Warnschwelle",

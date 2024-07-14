@@ -296,6 +296,8 @@
     "Widget.InventorySpace.Description": "インベントリ内の現在の空きスペースを表示します。",
     "Widget.InventorySpace.Config.Decorate.Name": "ウィジェットを装飾する",
     "Widget.InventorySpace.Config.Decorate.Description": "背景と境界線で位置ウィジェットを装飾します。",
+    "Widget.InventorySpace.Config.DesaturateIcon.Name": "ウィジェットアイコンを脱色する",
+    "Widget.InventorySpace.Config.DesaturateIcon.Description": "ウィジェットアイコンを脱色して、グレースケールで表示させます。",
     "Widget.InventorySpace.Config.ShowTotal.Name": "総インベントリスペースを表示する",
     "Widget.InventorySpace.Config.ShowTotal.Description": "空きスペースに加えて総インベントリスペースを表示するかどうか。",
     "Widget.InventorySpace.Config.WarningThreshold.Name": "警告閾値",
