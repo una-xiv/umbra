@@ -635,6 +635,8 @@
     "Widget.CustomButton.Config.Command.Description": "ボタンがクリックされたときに実行されるコマンド。例: /dance。",
     "Widget.CustomButton.Config.Decorate.Name": "ボタンを装飾する",
     "Widget.CustomButton.Config.Decorate.Description": "カスタムボタンに背景と枠を付けます。",
+    "Widget.CustomButton.Config.DesaturateIcon.Name": "ウィジェットアイコンの色を抜く",
+    "Widget.CustomButton.Config.DesaturateIcon.Description": "ウィジェットアイコンをグレースケールにするために色を抜きます。",
     "Widget.CustomButton.Config.IconYOffset.Name": "アイコンの垂直オフセット",
     "Widget.CustomButton.Config.IconYOffset.Description": "ウィジェットの中心からアイコンの垂直方向のオフセット（ピクセル単位）。正の値はアイコンを下に、負の値はアイコンを上に移動します。",
     "Widget.CustomButton.Config.TextYOffset.Name": "テキストの垂直オフセット",

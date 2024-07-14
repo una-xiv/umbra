@@ -44,6 +44,12 @@ internal partial class CustomButtonWidget
                 I18N.Translate("Widget.CustomButton.Config.Decorate.Description"),
                 true
             ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            new BooleanWidgetConfigVariable(
+                "DesaturateIcon",
+                I18N.Translate("Widget.CustomButton.Config.DesaturateIcon.Name"),
+                I18N.Translate("Widget.CustomButton.Config.DesaturateIcon.Description"),
+                false
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             new IntegerWidgetConfigVariable(
                 "LeftIconId",
                 I18N.Translate("Widget.CustomButton.Config.LeftIconId.Name"),

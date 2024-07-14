@@ -635,6 +635,8 @@
     "Widget.CustomButton.Config.Command.Description": "The command that is executed when the button is clicked. For example: /dance.",
     "Widget.CustomButton.Config.Decorate.Name": "Decorate the button",
     "Widget.CustomButton.Config.Decorate.Description": "Decorates the custom button with a background and border.",
+    "Widget.CustomButton.Config.DesaturateIcon.Name": "Desaturate widget icon",
+    "Widget.CustomButton.Config.DesaturateIcon.Description": "Desaturates the widget icon to make it appear in grayscale.",
     "Widget.CustomButton.Config.IconYOffset.Name": "Icon vertical offset",
     "Widget.CustomButton.Config.IconYOffset.Description": "The vertical offset of the icon from the center of the widget in pixels. Positive values move the icon down, negative values move the icon up.",
     "Widget.CustomButton.Config.TextYOffset.Name": "Text vertical offset",

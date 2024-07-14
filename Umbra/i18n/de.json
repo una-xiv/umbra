@@ -635,6 +635,8 @@
     "Widget.CustomButton.Config.Command.Description": "Der Befehl, der ausgeführt wird, wenn die Schaltfläche angeklickt wird. Zum Beispiel: /tanzen.",
     "Widget.CustomButton.Config.Decorate.Name": "Schaltfläche dekorieren",
     "Widget.CustomButton.Config.Decorate.Description": "Verziert die benutzerdefinierte Schaltfläche mit einem Hintergrund und einem Rand.",
+    "Widget.CustomButton.Config.DesaturateIcon.Name": "Widget-Symbol entsättigen",
+    "Widget.CustomButton.Config.DesaturateIcon.Description": "Entsättigt das Widget-Symbol, um es in Graustufen erscheinen zu lassen.",
     "Widget.CustomButton.Config.IconYOffset.Name": "Vertikaler Offset des Symbols",
     "Widget.CustomButton.Config.IconYOffset.Description": "Der vertikale Versatz des Symbols vom Mittelpunkt des Widgets in Pixeln. Positive Werte bewegen das Symbol nach unten, negative Werte bewegen das Symbol nach oben.",
     "Widget.CustomButton.Config.TextYOffset.Name": "Vertikaler Offset des Textes",
