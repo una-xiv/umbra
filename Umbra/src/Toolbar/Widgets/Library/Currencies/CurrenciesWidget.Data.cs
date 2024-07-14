@@ -112,6 +112,8 @@ internal partial class CurrenciesWidget
 
     private unsafe string GetAmount(CurrencyType type)
     {
+        var showCap = GetConfigValue<bool>("ShowCap");
+
         switch (type) {
             case CurrencyType.Gil:
             case CurrencyType.Mgp:
@@ -125,7 +127,7 @@ internal partial class CurrenciesWidget
                 string cap = FormatNumber(GcSealsCap[PlayerState.Instance()->GetGrandCompanyRank()]);
                 string amt = FormatNumber(Player.GetItemCount(Currencies[type].Id));
 
-                return $"{amt} / {cap}";
+                return showCap ? $"{amt} / {cap}" : $"{amt}";
             }
             case CurrencyType.LimitedTomestone: {
                 string cap = FormatNumber((int)Currencies[type].Cap);
@@ -134,12 +136,13 @@ internal partial class CurrenciesWidget
                 int weeklyLimit = InventoryManager.GetLimitedTomestoneWeeklyLimit();
                 int weeklyCount = InventoryManager.Instance()->GetWeeklyAcquiredTomestoneCount();
 
-                return $"{amt} / {cap} ({weeklyCount} / {weeklyLimit})";
+                return showCap ? $"{amt} / {cap} ({weeklyCount} / {weeklyLimit})" : $"{amt}";
             }
             default: {
                 uint cap = Currencies[type].Cap;
                 int  amt = Player.GetItemCount(Currencies[type].Id);
-                return cap > 0 ? $"{FormatNumber(amt)} / {FormatNumber((int)cap)}" : FormatNumber(amt);
+
+                return showCap && cap > 0 ? $"{FormatNumber(amt)} / {FormatNumber((int)cap)}" : FormatNumber(amt);
             }
         }
     }

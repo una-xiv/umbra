@@ -77,6 +77,12 @@ internal partial class CurrenciesWidget
                 true
             ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             new BooleanWidgetConfigVariable(
+                "ShowCap",
+                I18N.Translate("Widget.Currencies.Config.ShowCap.Name"),
+                I18N.Translate("Widget.Currencies.Config.ShowCap.Description"),
+                true
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            new BooleanWidgetConfigVariable(
                 "DesaturateIcon",
                 I18N.Translate("Widget.Currencies.Config.DesaturateIcon.Name"),
                 I18N.Translate("Widget.Currencies.Config.DesaturateIcon.Description"),

@@ -435,6 +435,8 @@
     "Widget.Currencies.Config.ShowIcon.Description": "Indique s'il faut afficher l'icône de la devise suivie à côté du texte.",
     "Widget.Currencies.Config.ShowName.Name": "Afficher le nom de la devise suivie",
     "Widget.Currencies.Config.ShowName.Description": "Indique s'il faut afficher le nom de la devise suivie à côté de la valeur.",
+    "Widget.Currencies.Config.ShowCap.Name": "Afficher le plafond de la devise (si disponible)",
+    "Widget.Currencies.Config.ShowCap.Description": "Indiquer si le plafond de la devise suivie doit être affiché à côté de la valeur.",
     "Widget.Currencies.Config.CurrencySeparator.Name": "Séparateur de devises",
     "Widget.Currencies.Config.CurrencySeparator.Description": "Le caractère qui sépare les milliers dans la valeur de la devise pour une meilleure lisibilité.",
     "Widget.Currencies.Config.IconLocation.Name": "Emplacement de l'icône",

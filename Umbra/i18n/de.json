@@ -435,6 +435,8 @@
     "Widget.Currencies.Config.ShowIcon.Description": "Ob das Symbol der verfolgten Vermögen neben dem Text angezeigt werden soll.",
     "Widget.Currencies.Config.ShowName.Name": "Name der verfolgten Vermögen anzeigen",
     "Widget.Currencies.Config.ShowName.Description": "Ob der Name der verfolgten Vermögen neben dem Wert angezeigt werden soll.",
+    "Widget.Currencies.Config.ShowCap.Name": "Währungslimit anzeigen (falls verfügbar)",
+    "Widget.Currencies.Config.ShowCap.Description": "Ob das Währungslimit der verfolgten Währung neben dem Wert angezeigt werden soll.",
     "Widget.Currencies.Config.CurrencySeparator.Name": "Währungsseparator",
     "Widget.Currencies.Config.CurrencySeparator.Description": "Das Zeichen, das Tausenderstellen im Währungswert für eine bessere Lesbarkeit trennt.",
     "Widget.Currencies.Config.IconLocation.Name": "Symbolposition",
