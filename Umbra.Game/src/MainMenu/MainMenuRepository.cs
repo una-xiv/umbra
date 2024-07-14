@@ -135,28 +135,36 @@ internal sealed class MainMenuRepository : IMainMenuRepository
         var favorites = _travelDestinationRepository.Destinations.Where(d => !d.IsHousing).ToList();
         var housing   = _travelDestinationRepository.Destinations.Where(d => d.IsHousing).ToList();
 
-        const uint eternityRingId = 8575;
+        AddUsableTeleportItemToCategory(category, 8575,  900, "EternityRing");
+        AddUsableTeleportItemToCategory(category, 21069, 901, "GC_TheMaelstrom");
+        AddUsableTeleportItemToCategory(category, 21070, 902, "GC_TheOrderOfTheTwinAdder");
+        AddUsableTeleportItemToCategory(category, 21071, 903, "GC_TheImmortalFlames");
+        AddUsableTeleportItemToCategory(category, 28064, 904, "Firmament");
+        AddUsableTeleportItemToCategory(category, 41708, 905, "GoldSaucer");
 
-        var item = _dataManager.GetExcelSheet<Item>()!.GetRow(eternityRingId);
+        SyncTravelDestinationMenuEntries(category, favorites, "Favorite", 925);
+        SyncTravelDestinationMenuEntries(category, housing,   "Housing",  950);
+    }
+
+    private void AddUsableTeleportItemToCategory(MainMenuCategory category, uint itemId, short sortIndex, string metadataKey)
+    {
+        var item = _dataManager.GetExcelSheet<Item>()!.GetRow(itemId);
 
         if (item != null) {
-            MainMenuItem? entry = category.Items.FirstOrDefault(i => i.MetadataKey == "EternityRing");
+            MainMenuItem? entry = category.Items.FirstOrDefault(i => i.MetadataKey == metadataKey);
 
-            if (entry is not null && !_player.HasItemInInventory(eternityRingId)) {
+            if (entry is not null && !_player.HasItemInInventory(itemId)) {
                 category.RemoveItem(entry);
-            } else if (entry is null && _player.HasItemInInventory(eternityRingId)) {
+            } else if (entry is null && _player.HasItemInInventory(itemId)) {
                 category.AddItem(
-                    new(item.Name.ToDalamudString().TextValue, 900, () => _player.UseInventoryItem(eternityRingId)) {
-                        MetadataKey    = "EternityRing",
+                    new(item.Name.ToDalamudString().TextValue, sortIndex, () => _player.UseInventoryItem(itemId)) {
+                        MetadataKey    = metadataKey,
                         ItemGroupId    = "Travel",
                         ItemGroupLabel = "Destinations",
                     }
                 );
             }
         }
-
-        SyncTravelDestinationMenuEntries(category, favorites, "Favorite", 925);
-        SyncTravelDestinationMenuEntries(category, housing,   "Housing",  950);
     }
 
     private void SyncTravelDestinationMenuEntries(
