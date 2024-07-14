@@ -237,8 +237,8 @@ internal sealed class Player : IPlayer
         var ps = PlayerState.Instance();
 
         GrandCompanyId = ps->GrandCompany;
-        IsBattleMentor = ps->IsBattleMentor() && ps->MentorVersion == 2;
-        IsTradeMentor  = ps->IsTradeMentor() && ps->MentorVersion == 2;
+        IsBattleMentor = ps->IsBattleMentor() && ps->MentorVersion == 3;
+        IsTradeMentor  = ps->IsTradeMentor() && ps->MentorVersion == 3;
         IsMentor       = IsBattleMentor && IsTradeMentor;
     }
 
