@@ -63,9 +63,6 @@ internal sealed partial class TeleportWidget(
         Node.Style.Padding         = new(0, showText ? 6 : 3);
         Node.Tooltip               = !showText ? TeleportName : null;
 
-        LeftIconNode.Style.ImageGrayscale  = GetConfigValue<bool>("DesaturateIcon");
-        RightIconNode.Style.ImageGrayscale = GetConfigValue<bool>("DesaturateIcon");
-
         if (showIcon) {
             var desaturate = GetConfigValue<bool>("DesaturateIcon");
             LeftIconNode.Style.ImageGrayscale  = desaturate;
@@ -85,5 +82,8 @@ internal sealed partial class TeleportWidget(
 
         // No point in showing the menu if the player isn't allowed to teleport anyway.
         SetDisabled(!Player.CanUseTeleportAction);
+
+        LeftIconNode.Style.ImageGrayscale  = Node.IsDisabled || GetConfigValue<bool>("DesaturateIcon");
+        RightIconNode.Style.ImageGrayscale = Node.IsDisabled || GetConfigValue<bool>("DesaturateIcon");
     }
 }
