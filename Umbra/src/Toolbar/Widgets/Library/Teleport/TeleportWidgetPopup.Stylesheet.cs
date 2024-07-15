@@ -146,6 +146,18 @@ internal partial class TeleportWidgetPopup
                 }
             ),
             new(
+                ".region-spacer",
+                new() {
+                    Size          = new(ColumnWidth, 30),
+                    Padding       = new(8),
+                    FontSize      = 14,
+                    Color         = new("Widget.PopupMenuText"),
+                    TextAlign     = Anchor.MiddleLeft,
+                    TextOffset    = new(0, 1),
+                    IsAntialiased = false,
+                }
+            ),
+            new(
                 ".region-destinations",
                 new() {
                     Flow = Flow.Vertical,

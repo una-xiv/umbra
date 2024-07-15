@@ -24,6 +24,8 @@ internal partial class TeleportWidgetPopup : WidgetPopup
 {
     private string _selectedExpansion = string.Empty;
 
+    public int MinimumColumns { get; set; } = 1;
+
     /// <inheritdoc/>
     protected override bool CanOpen()
     {
