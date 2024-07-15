@@ -276,7 +276,7 @@ internal sealed class Player : IPlayer
         InventoryManager* im = InventoryManager.Instance();
         if (im == null) return false;
 
-        return im->GetInventoryItemCount(itemId) >= minItemCount;
+        return im->GetInventoryItemCount(itemId) + im->GetInventoryItemCount(itemId, true) >= minItemCount;
     }
 
     /// <summary>
@@ -294,10 +294,21 @@ internal sealed class Player : IPlayer
     public unsafe void UseInventoryItem(uint itemId)
     {
         if (IsCasting || IsOccupied || IsDead || IsJumping) return;
-        if (false == HasItemInInventory(itemId)) return;
+
+        InventoryManager* im = InventoryManager.Instance();
+        if (im == null) return;
 
         AgentInventoryContext* aic = AgentInventoryContext.Instance();
-        if (aic != null) aic->UseItem(itemId);
+        if (aic == null) return;
+
+        if (im->GetInventoryItemCount(itemId) > 0) {
+            aic->UseItem(itemId);
+            return;
+        }
+
+        if (im->GetInventoryItemCount(itemId, true) > 0) {
+            aic->UseItem(itemId + 1000000);
+        }
     }
 
     /// <summary>
