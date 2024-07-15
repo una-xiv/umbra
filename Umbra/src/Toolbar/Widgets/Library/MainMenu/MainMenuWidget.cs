@@ -110,7 +110,9 @@ internal sealed class MainMenuWidget(
                 }
             }
 
-            if (displayMode is "IconOnly" or "TextAndIcon") {
+            bool hasIcon = displayMode is "IconOnly" or "TextAndIcon";
+
+            if (hasIcon) {
                 uint iconId = (existingCustomIconId == 0 ? _category.GetIconId() : (uint)existingCustomIconId);
 
                 if (iconLocation is "Left") {
@@ -132,8 +134,11 @@ internal sealed class MainMenuWidget(
 
             LeftIconNode.Style.Margin  = new(0, 0, 0, hasLabel ? -2 : 0);
             RightIconNode.Style.Margin = new(0, hasLabel ? -2 : 0, 0, 0);
-            Node.Style.Padding         = new(0, hasLabel ? 6 : 3);
-            Node.Tooltip               = displayMode is "IconOnly" && !string.IsNullOrEmpty(_category.Name) ? _category.Name : null;
+            Node.Style.Padding         = new() { Left = hasIcon ? 3 : 0, Right = hasIcon ? 3 : 0 };
+
+            Node.Tooltip = displayMode is "IconOnly" && !string.IsNullOrEmpty(_category.Name)
+                ? _category.Name
+                : null;
         }
 
         Popup.UseGrayscaleIcons = GetConfigValue<bool>("UseGrayscaleIcons");
