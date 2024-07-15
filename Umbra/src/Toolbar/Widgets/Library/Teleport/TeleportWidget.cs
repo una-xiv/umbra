@@ -88,6 +88,7 @@ internal sealed partial class TeleportWidget(
         } else {
             expansionListLeft.Style.IsVisible = false;
             expansionListRight.Style.IsVisible = true;
+            expansionListRight.Style.TextAlign = Anchor.MiddleRight;
         }
 
         // No point in showing the menu if the player isn't allowed to teleport anyway.
