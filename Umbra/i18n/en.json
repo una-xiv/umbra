@@ -592,7 +592,7 @@
     "Widget.Teleport.Config.DisplayMode.Option.TextOnly": "Text only",
     "Widget.Teleport.Config.DisplayMode.Option.TextAndIcon": "Icon and text",
     "Widget.Teleport.Config.ExpansionNamePosition.Name": "Expansion info position",
-    "Widget.Teleport.Config.ExpansionNamePosition.Description": "Will put the expansion info on either the left or right side of the destination info.",
+    "Widget.Teleport.Config.ExpansionNamePosition.Description": "Places the list of expansions on either the left or ride side relative to the Aetheryte list.",
     "Widget.Teleport.Config.ExpansionNamePosition.Option.Left": "Left side",
     "Widget.Teleport.Config.ExpansionNamePosition.Option.Right": "Right side",
     "Widget.Volume.Name": "Volume Control",
