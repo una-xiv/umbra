@@ -198,4 +198,15 @@ public abstract class ToolbarWidget(
         Framework.Service<WidgetManager>().SaveWidgetState(Id);
         Framework.Service<WidgetManager>().SaveState();
     }
+
+    protected static Dictionary<string, string> GetColorSelectOptions()
+    {
+        Dictionary<string, string> result = [];
+
+        foreach (string id in Color.GetAssignedNames()) {
+            result[id] = I18N.Translate($"Color.{id}.Name");
+        }
+
+        return result;
+    }
 }
