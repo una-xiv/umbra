@@ -1,4 +1,4 @@
-﻿/* Umbra | (c) 2024 by Una              ____ ___        ___.
+/* Umbra | (c) 2024 by Una              ____ ___        ___.
  * Licensed under the terms of AGPL-3  |    |   \ _____ \_ |__ _______ _____
  *                                     |    |   //     \ | __ \\_  __ \\__  \
  * https://github.com/una-xiv/umbra    |    |  /|  Y Y  \| \_\ \|  | \/ / __ \_
@@ -22,6 +22,7 @@ using Lumina.Excel.GeneratedSheets;
 using Umbra.Common;
 using Umbra.Game;
 using TerritoryType = Lumina.Excel.GeneratedSheets.TerritoryType;
+using Una.Drawing;
 
 namespace Umbra.Widgets;
 
@@ -70,9 +71,12 @@ internal partial class TeleportWidgetPopup
 
             if (regionName == null || mapName == null || aetheryteName == null || mapId == null) continue;
 
+            var regionNameRowId = territory.Map.Value!.PlaceNameRegion.Row;
+            var territoryRowId   = territory.RowId;
+
             var expansionNodeId = $"Ex_{expansion.RowId}";
-            var regionNodeId    = $"Ex_{expansion.RowId}_{territory.Map.Value!.PlaceNameRegion.Row}";
-            var aetheryteNodeId = $"Ex_{expansion.RowId}_{territory.RowId}_{gameData.RowId}";
+            var regionNodeId    = $"Ex_{expansion.RowId}_{regionNameRowId}";
+            var aetheryteNodeId = $"Ex_{expansion.RowId}_{territoryRowId}_{gameData.RowId}";
 
             if (currentExNodeId == expansionNodeId) {
                 _selectedExpansion = expansionNodeId;
@@ -112,6 +116,8 @@ internal partial class TeleportWidgetPopup
 
             var mapNode = regionNode.Maps[$"Map_{mapId}"];
 
+            var partId = GetPartId(GetRegionFromRegionNamePlace(regionNameRowId), territoryRowId);
+            
             mapNode.Destinations.TryAdd(
                 aetheryteNodeId,
                 new() {
@@ -121,7 +127,7 @@ internal partial class TeleportWidgetPopup
                     SubIndex    = aetheryte.SubIndex,
                     GilCost     = aetheryte.GilCost,
                     SortIndex   = gameData.Order,
-                    IconId      = 63940, // TODO: Somehow grab the actual aetheryte icon?
+                    UldPartId   = partId
                 }
             );
         }
@@ -140,6 +146,58 @@ internal partial class TeleportWidgetPopup
             || entry.Ward > 0
             || EstateAetheryteIds.Contains(entry.AetheryteId);
     }
+
+    // gotten from Client::UI::Agent::AgentTeleport_Show -> sub_140C04360 -> sub_140C043D0 -> sub_140C06860
+    // sig: E8 ?? ?? ?? ?? 49 8D 4E F8 8B D8
+    // was added as a function with the new expansion so possibly unstable
+    private int GetPartId(uint region, uint territory)
+    {
+        return territory switch
+        {
+            819 => 8,
+            820 => 9,
+            958 => 11,
+            1186 or 1191 => 14,
+            _ => region switch
+            {
+                0 => 0,
+                1 => 1,
+                2 => 2,
+                3 => 4,
+                6 => 6,
+                7 => 7,
+                10 => 5,
+                12 => 10,
+                13 => 12,
+                _ => region - 16 > 1 ? 3 : 13
+            }
+        };
+    }
+
+    // gotten from Client::UI::Agent::AgentTeleport_Show -> sub_140C04360 -> sub_140C043D0 -> sub_140C064F0 
+    // sig: 48 83 EC 28 0F B7 4A 08
+    private uint GetRegionFromRegionNamePlace(uint placeNameRegion) => placeNameRegion switch
+    {
+        22 => 0,
+        23 => 1,
+        24 => 2,
+        25 => 3,
+        497 => 4,
+        498 => 5,
+        26 => 8,
+        2400 => 6,
+        2402 => 7,
+        2401 => 9,
+        2950 => 11,
+        3703 => 12,
+        3702 => 13,
+        3704 => 14,
+        3705 => 15,
+        4500 => 16,
+        4501 => 17,
+        4502 => 18,
+        _ => 19
+    };
 }
 
 internal struct TeleportExpansion
@@ -175,4 +233,5 @@ internal struct TeleportDestination
     public uint   GilCost     { get; set; }
     public int    SortIndex   { get; set; }
     public uint   IconId      { get; set; }
+    public int    UldPartId   { get; set; }
 }
