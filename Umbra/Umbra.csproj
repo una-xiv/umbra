@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
-    <Import Project="..\Dalamud.Plugin.Bootstrap.targets"/>
+    <Import Project="..\Dalamud.Plugin.Bootstrap.targets" />
 
     <PropertyGroup>
         <TargetFramework>net8.0-windows</TargetFramework>
@@ -31,18 +31,18 @@
     </ItemGroup>
 
     <ItemGroup>
-        <EmbeddedResource Include="images\logo.png" LogicalName="Logo.png"/>
-        <EmbeddedResource Include="images\shadow.png" LogicalName="Shadow.png"/>
+        <EmbeddedResource Include="images\logo.png" LogicalName="Logo.png" />
+        <EmbeddedResource Include="images\shadow.png" LogicalName="Shadow.png" />
     </ItemGroup>
 
     <ItemGroup>
-        <None Update="i18n\*.json" CopyToOutputDirectory="PreserveNewest"/>
+        <None Update="i18n\*.json" CopyToOutputDirectory="PreserveNewest" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Umbra.Common\Umbra.Common.csproj"/>
-        <ProjectReference Include="..\Umbra.Game\Umbra.Game.csproj"/>
-        <ProjectReference Include="..\drawing\Una.Drawing\Una.Drawing.csproj"/>
+        <ProjectReference Include="..\Umbra.Common\Umbra.Common.csproj" />
+        <ProjectReference Include="..\Umbra.Game\Umbra.Game.csproj" />
+        <ProjectReference Include="..\drawing\Una.Drawing\Una.Drawing.csproj" />
     </ItemGroup>
 
     <ItemGroup>
@@ -51,5 +51,13 @@
 
     <ItemGroup>
       <PackageReference Update="DalamudPackager" Version="2.1.13" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EditorConfigFiles Remove="D:\source\repos\umbra\Umbra\.editorconfig" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Include="D:\source\repos\umbra\Umbra\.editorconfig" />
     </ItemGroup>
 </Project>
