@@ -44,8 +44,8 @@ internal sealed partial class TeleportWidget(
 
         var teleportAction = Framework.Service<IDataManager>().GetExcelSheet<GeneralAction>()!.GetRow(7)!;
 
-        TeleportName = teleportAction.Name.ToString();
-        TeleportIcon = (uint)teleportAction.Icon;
+        TeleportName         = teleportAction.Name.ToString();
+        TeleportIcon         = (uint)teleportAction.Icon;
         Popup.MinimumColumns = GetConfigValue<int>("MinimumColumns");
     }
 
@@ -86,6 +86,6 @@ internal sealed partial class TeleportWidget(
 
         LeftIconNode.Style.ImageGrayscale  = Node.IsDisabled || GetConfigValue<bool>("DesaturateIcon");
         RightIconNode.Style.ImageGrayscale = Node.IsDisabled || GetConfigValue<bool>("DesaturateIcon");
-        Popup.MinimumColumns = GetConfigValue<int>("MinimumColumns");
+        Popup.MinimumColumns               = GetConfigValue<int>("MinimumColumns");
     }
 }
