@@ -35,10 +35,7 @@ internal partial class TeleportWidgetPopup : WidgetPopup
     {
         HydrateAetherytePoints();
         BuildNodes();
-
-        if (_selectedExpansion == string.Empty) {
-            ActivateExpansion(_expansions.Keys.First());
-        }
+        ActivateExpansion(_selectedExpansion, true);
     }
 
     /// <inheritdoc/>
@@ -50,9 +47,9 @@ internal partial class TeleportWidgetPopup : WidgetPopup
         _selectedExpansion = string.Empty;
     }
 
-    private void ActivateExpansion(string key)
+    private void ActivateExpansion(string key, bool force = false)
     {
-        if (key == _selectedExpansion) return;
+        if (!force && key == _selectedExpansion) return;
 
         if (_selectedExpansion != string.Empty) {
             Node.FindById("ExpansionList")!.QuerySelector(_selectedExpansion)!.TagsList.Remove("selected");

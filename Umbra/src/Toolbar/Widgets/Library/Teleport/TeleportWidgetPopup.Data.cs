@@ -20,6 +20,7 @@ using Dalamud.Game.ClientState.Aetherytes;
 using Dalamud.Plugin.Services;
 using Lumina.Excel.GeneratedSheets;
 using Umbra.Common;
+using Umbra.Game;
 
 namespace Umbra.Widgets;
 
@@ -38,6 +39,8 @@ internal partial class TeleportWidgetPopup
     /// </summary>
     private void HydrateAetherytePoints()
     {
+        IZone currentZone = Framework.Service<IZoneManager>().CurrentZone;
+
         foreach (var aetheryte in AetheryteList) {
             // Don't index housing aetherytes...
             if (IsAetherytePlayerHousing(aetheryte)) continue;
@@ -63,6 +66,10 @@ internal partial class TeleportWidgetPopup
             var expansionNodeId = $"Ex_{expansion.RowId}";
             var regionNodeId    = $"Ex_{expansion.RowId}_{territory.Map.Value!.PlaceNameRegion.Row}";
             var aetheryteNodeId = $"Ex_{expansion.RowId}_{territory.RowId}_{gameData.RowId}";
+
+            if (currentZone.Id == mapId) {
+                _selectedExpansion = expansionNodeId;
+            }
 
             _expansions.TryAdd(
                 expansionNodeId,
