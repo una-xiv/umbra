@@ -220,7 +220,6 @@ internal partial class TeleportWidgetPopup
                 ".destination-icon",
                 new() {
                     Size   = new(20, 20),
-                    //IconId = 111,
                     UldPartId = 3,
                     UldPartsId = 0,
                     UldResource = "ui/uld/Teleport",

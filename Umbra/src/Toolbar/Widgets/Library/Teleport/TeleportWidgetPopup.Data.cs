@@ -118,8 +118,6 @@ internal partial class TeleportWidgetPopup
 
             var partId = GetPartId(GetRegionFromRegionNamePlace(regionNameRowId), territoryRowId);
             
-            DebugLogger.Log($"PartId: {partId}, Aetheryte: {aetheryteName}");
-
             mapNode.Destinations.TryAdd(
                 aetheryteNodeId,
                 new() {
@@ -129,8 +127,7 @@ internal partial class TeleportWidgetPopup
                     SubIndex    = aetheryte.SubIndex,
                     GilCost     = aetheryte.GilCost,
                     SortIndex   = gameData.Order,
-                    UldPartId   = partId,
-                    IconId      = 63940, // TODO: Somehow grab the actual aetheryte icon?
+                    UldPartId   = partId
                 }
             );
         }
@@ -150,6 +147,9 @@ internal partial class TeleportWidgetPopup
             || EstateAetheryteIds.Contains(entry.AetheryteId);
     }
 
+    // gotten from Client::UI::Agent::AgentTeleport_Show -> sub_140C04360 -> sub_140C043D0 -> sub_140C06860
+    // sig: E8 ?? ?? ?? ?? 49 8D 4E F8 8B D8
+    // was added as a function with the new expansion so possibly unstable
     private int GetPartId(uint region, uint territory)
     {
         return territory switch
@@ -174,6 +174,8 @@ internal partial class TeleportWidgetPopup
         };
     }
 
+    // gotten from Client::UI::Agent::AgentTeleport_Show -> sub_140C04360 -> sub_140C043D0 -> sub_140C064F0 
+    // sig: 48 83 EC 28 0F B7 4A 08
     private uint GetRegionFromRegionNamePlace(uint placeNameRegion) => placeNameRegion switch
     {
         22 => 0,
