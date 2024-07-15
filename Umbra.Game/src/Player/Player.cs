@@ -14,6 +14,7 @@
  *     GNU Affero General Public License for more details.
  */
 
+using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using Dalamud.Game.ClientState.Conditions;
@@ -25,6 +26,7 @@ using FFXIVClientStructs.FFXIV.Client.UI.Info;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using Lumina.Excel.GeneratedSheets;
 using Umbra.Common;
+using Umbra.Game.Societies;
 
 namespace Umbra.Game;
 
@@ -158,11 +160,18 @@ internal sealed class Player : IPlayer
     /// </summary>
     public bool IsBattleMentor { get; private set; }
 
+    /// <summary>
+    /// Represents a list of societies (tribes) the player can be allied with
+    /// that contains tribe and reputation information.
+    /// </summary>
+    public IEnumerable<Society> Societies => _societiesRepository.Societies.Values.ToList();
+
     public IEquipmentRepository Equipment { get; }
 
-    private readonly IClientState      _clientState;
-    private readonly ICondition        _condition;
-    private readonly JobInfoRepository _jobInfoRepository;
+    private readonly IClientState        _clientState;
+    private readonly ICondition          _condition;
+    private readonly JobInfoRepository   _jobInfoRepository;
+    private readonly SocietiesRepository _societiesRepository;
 
     private readonly uint[] _acceptedOnlineStatusIds = [47, 32, 31, 27, 28, 29, 30, 12, 17, 21, 22, 23];
 
@@ -170,12 +179,14 @@ internal sealed class Player : IPlayer
         IClientState         clientState,
         ICondition           condition,
         IEquipmentRepository equipmentRepository,
-        JobInfoRepository    jobInfoRepository
+        JobInfoRepository    jobInfoRepository,
+        SocietiesRepository  societiesRepository
     )
     {
-        _clientState       = clientState;
-        _condition         = condition;
-        _jobInfoRepository = jobInfoRepository;
+        _clientState         = clientState;
+        _condition           = condition;
+        _jobInfoRepository   = jobInfoRepository;
+        _societiesRepository = societiesRepository;
 
         Equipment = equipmentRepository;
 

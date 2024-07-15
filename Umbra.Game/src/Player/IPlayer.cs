@@ -14,7 +14,9 @@
  *     GNU Affero General Public License for more details.
  */
 
+using System.Collections.Generic;
 using System.Numerics;
+using Umbra.Game.Societies;
 
 namespace Umbra.Game;
 
@@ -157,6 +159,12 @@ public interface IPlayer
     /// player's currently equipped gear.
     /// </summary>
     public IEquipmentRepository Equipment { get; }
+
+    /// <summary>
+    /// Represents a list of societies (tribes) the player can be allied with
+    /// that contains tribe and reputation information.
+    /// </summary>
+    public IEnumerable<Society> Societies { get; }
 
     /// <summary>
     /// Get the job information by the specified job ID.
