@@ -54,6 +54,7 @@ internal sealed partial class TeleportWidget(
         bool showText = GetConfigValue<string>("DisplayMode") != "IconOnly";
         bool showIcon = GetConfigValue<string>("DisplayMode") != "TextOnly";
         bool leftIcon = GetConfigValue<string>("IconLocation") == "Left";
+        bool leftExpansionList = GetConfigValue<string>("ExpansionNamePosition") == "Left";
 
         SetLabel(showText ? TeleportName : null);
         SetGhost(!GetConfigValue<bool>("Decorate"));
@@ -79,6 +80,14 @@ internal sealed partial class TeleportWidget(
         } else {
             SetLeftIcon(null);
             SetRightIcon(null);
+        }
+
+        if (leftExpansionList) {
+            expansionListLeft.Style.IsVisible = true;
+            expansionListRight.Style.IsVisible = false;
+        } else {
+            expansionListLeft.Style.IsVisible = false;
+            expansionListRight.Style.IsVisible = true;
         }
 
         // No point in showing the menu if the player isn't allowed to teleport anyway.

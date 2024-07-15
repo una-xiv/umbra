@@ -43,26 +43,22 @@ internal partial class TeleportWidgetPopup
             Anchor = Toolbar.IsTopAligned ? Anchor.TopLeft : Anchor.BottomLeft,
         };
 
-        if (GetConfigValue<string>("ExpansionNamePosition") == "Left")
-        {
-            Node.ChildNodes = [
-                new() { Id = "ExpansionList", Style   = alignmentStyle },
-                new() { Id = "DestinationList", Style = alignmentStyle }
-            ];
-        }
-        else
-        {
-            Node.ChildNodes = [
-                new() { Id = "DestinationList", Style = alignmentStyle },
-                new() { Id = "ExpansionList", Style   = alignmentStyle }
-            ];
-        }
+        Node.ChildNodes = [
+            new() { Id = "ExpansionListLeft", ClassList=["ExpansionList"], Style = alignmentStyle },
+            new() { Id = "DestinationList", Style = alignmentStyle },
+            new() { Id = "ExpansionListRight", ClassList=["ExpansionList"], Style = alignmentStyle },
 
-        Node expansionList = Node.FindById("ExpansionList")!;
-        expansionList.AppendChild(BuildTitleNode(!Toolbar.IsTopAligned));
+        ];
+
+        Node expansionListLeft = Node.FindById("ExpansionListLeft")!;
+        Node expansionListRight = Node.FindById("ExpansionListRight");
+
+        expansionListLeft.AppendChild(BuildTitleNode(!Toolbar.IsTopAligned));
+        expansionListRight.AppendChild(BuildTitleNode(!Toolbar.IsTopAligned));
 
         foreach (TeleportExpansion expansion in _expansions.Values) {
-            BuildExpansionNode(expansionList, expansion, !Toolbar.IsTopAligned);
+            BuildExpansionNode(expansionListLeft, expansion, !Toolbar.IsTopAligned);
+            BuildExpansionNode(expansionListRight, expansion, !Toolbar.IsTopAligned);
         }
     }
 
