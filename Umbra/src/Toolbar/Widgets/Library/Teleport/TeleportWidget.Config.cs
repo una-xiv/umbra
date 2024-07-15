@@ -72,7 +72,17 @@ internal sealed partial class TeleportWidget
                 3,
                 -5,
                 5
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") }
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            new SelectWidgetConfigVariable(
+                "ExpansionNamePosition",
+                I18N.Translate("Widget.Teleport.Config.ExpansionNamePosition.Name"),
+                I18N.Translate("Widget.Teleport.Config.ExpansionNamePosition.Description"),
+                "Left",
+                new() {
+                    { "Left", I18N.Translate("Widget.Teleport.Config.ExpansionNamePosition.Option.Left") },
+                    { "Right", I18N.Translate("Widget.Teleport.Config.ExpansionNamePosition.Option.Right") }
+                }
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
         ];
     }
 }

@@ -43,10 +43,20 @@ internal partial class TeleportWidgetPopup
             Anchor = Toolbar.IsTopAligned ? Anchor.TopLeft : Anchor.BottomLeft,
         };
 
-        Node.ChildNodes = [
-            new() { Id = "ExpansionList", Style   = alignmentStyle },
-            new() { Id = "DestinationList", Style = alignmentStyle }
-        ];
+        if (GetConfigValue<string>("ExpansionNamePosition") == "Left")
+        {
+            Node.ChildNodes = [
+                new() { Id = "ExpansionList", Style   = alignmentStyle },
+                new() { Id = "DestinationList", Style = alignmentStyle }
+            ];
+        }
+        else
+        {
+            Node.ChildNodes = [
+                new() { Id = "DestinationList", Style = alignmentStyle },
+                new() { Id = "ExpansionList", Style   = alignmentStyle }
+            ];
+        }
 
         Node expansionList = Node.FindById("ExpansionList")!;
         expansionList.AppendChild(BuildTitleNode(!Toolbar.IsTopAligned));

@@ -22,6 +22,7 @@ internal partial class TeleportWidgetPopup
 {
     private const int ExpansionWidth = 200;
     private const int ColumnWidth    = 300;
+    private const bool alignExpansionNameLeft = GetConfigValue<string>("ExpansionNamePosition") == "Left";
 
     private static Stylesheet Stylesheet { get; } = new(
         [
@@ -80,7 +81,7 @@ internal partial class TeleportWidgetPopup
                     Color          = new("Widget.PopupMenuText"),
                     OutlineColor   = new("Widget.PopupMenuTextOutline"),
                     OutlineSize    = 1,
-                    TextAlign      = Anchor.MiddleLeft,
+                    TextAlign      = alignExpansionNameLeft ? Anchor.MiddleLeft : Anchor.MiddleRight,
                     BorderRadius   = 8,
                     RoundedCorners = RoundedCorners.TopLeft | RoundedCorners.BottomLeft,
                     IsAntialiased  = false,
