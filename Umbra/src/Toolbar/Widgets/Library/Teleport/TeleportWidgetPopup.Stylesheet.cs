@@ -20,6 +20,9 @@ namespace Umbra.Widgets;
 
 internal partial class TeleportWidgetPopup
 {
+    private const int ExpansionWidth = 200;
+    private const int ColumnWidth    = 300;
+
     private static Stylesheet Stylesheet { get; } = new(
         [
             new(
@@ -28,41 +31,95 @@ internal partial class TeleportWidgetPopup
                     Flow = Flow.Horizontal,
                 }
             ),
+
+            new(
+                "#Title",
+                new() {
+                    Flow    = Flow.Horizontal,
+                    Size    = new(ExpansionWidth, 40),
+                    Gap     = 8,
+                    Padding = new(4),
+                }
+            ),
+            new(
+                "#TitleIcon",
+                new() {
+                    Size   = new(32, 32),
+                    IconId = 111, // Teleport icon.
+                }
+            ),
+            new(
+                "#TitleText",
+                new() {
+                    Size         = new(0, 32),
+                    FontSize     = 16,
+                    Color        = new("Widget.PopupMenuText"),
+                    OutlineColor = new("Widget.PopupMenuTextOutline"),
+                    OutlineSize  = 1,
+                    TextAlign    = Anchor.MiddleLeft,
+                }
+            ),
+
+            #region Expansions
+
             new(
                 "#ExpansionList",
                 new() {
-                    Flow = Flow.Horizontal,
+                    Flow    = Flow.Vertical,
+                    Size    = new(ExpansionWidth, 0),
+                    Gap     = 6,
+                    Padding = new(4) { Right = 0 },
                 }
             ),
             new(
                 ".expansion",
                 new() {
-                    Padding = new(8),
-                    Size    = new(ColumnWidth + 16, 0),
-                    Flow    = Flow.Vertical,
+                    Size           = new(ExpansionWidth - 4, 30),
+                    Padding        = new(8),
+                    FontSize       = 14,
+                    Color          = new("Widget.PopupMenuText"),
+                    OutlineColor   = new("Widget.PopupMenuTextOutline"),
+                    OutlineSize    = 1,
+                    TextAlign      = Anchor.MiddleLeft,
+                    BorderRadius   = 8,
+                    RoundedCorners = RoundedCorners.TopLeft | RoundedCorners.BottomLeft,
+                    IsAntialiased  = false,
                 }
             ),
             new(
-                ".expansion-header",
+                ".expansion:hover",
                 new() {
-                    Size          = new(ColumnWidth, 28),
-                    Flow          = Flow.Horizontal,
-                    FontSize      = 18,
-                    TextAlign     = Anchor.TopCenter,
-                    BorderWidth   = new() { Bottom = 1 },
-                    BorderColor   = new() { Bottom = new("Window.AccentColor") },
-                    IsAntialiased = false,
-                    Color         = new("Widget.PopupMenuText"),
-                    OutlineColor  = new("Widget.PopupMenuTextOutline"),
-                    OutlineSize   = 1,
+                    Color        = new("Widget.PopupMenuTextHover"),
+                    OutlineColor = new("Widget.PopupMenuTextOutlineHover"),
                 }
             ),
             new(
-                ".expansion-regions",
+                ".expansion:selected",
                 new() {
-                    Flow = Flow.Vertical,
-                    Gap  = 10,
-                    Size = new(ColumnWidth, 0),
+                    BackgroundColor = new(0x40000000),
+                }
+            ),
+
+            #endregion
+
+            #region Destinations
+
+            new(
+                "#DestinationList",
+                new() {
+                    Flow    = Flow.Horizontal,
+                    Padding = new(4) { Left = 0 },
+                }
+            ),
+            new(
+                "#RegionContainer",
+                new() {
+                    Flow            = Flow.Horizontal,
+                    Gap             = 15,
+                    Padding         = new(8),
+                    BackgroundColor = new(0x40000000),
+                    BorderRadius    = 5,
+                    IsAntialiased   = false,
                 }
             ),
             new(
@@ -75,18 +132,17 @@ internal partial class TeleportWidgetPopup
             new(
                 ".region-header",
                 new() {
-                    Flow            = Flow.Horizontal,
-                    Padding         = new(4),
-                    Margin          = new() { Top = 4 },
-                    Size            = new(ColumnWidth, 24),
-                    TextAlign       = Anchor.MiddleLeft,
-                    FontSize        = 15,
-                    Color           = new("Widget.PopupMenuText"),
-                    OutlineColor    = new("Widget.PopupMenuTextOutline"),
-                    OutlineSize     = 1,
-                    BackgroundColor = new(0x50FFFFFF),
-                    BorderRadius    = 6,
-                    TextOffset      = new(0, 1),
+                    Size          = new(ColumnWidth, 30),
+                    Padding       = new(8),
+                    FontSize      = 14,
+                    Color         = new("Widget.PopupMenuText"),
+                    OutlineColor  = new("Widget.PopupMenuTextOutline"),
+                    OutlineSize   = 1,
+                    TextAlign     = Anchor.MiddleLeft,
+                    TextOffset    = new(0, 1),
+                    IsAntialiased = false,
+                    BorderWidth   = new() { Bottom = 1 },
+                    BorderColor   = new() { Bottom = new("Window.AccentColor") },
                 }
             ),
             new(
@@ -96,26 +152,76 @@ internal partial class TeleportWidgetPopup
                     Gap  = 4,
                 }
             ),
+
+            #endregion
+
+            #region Map
+
+            new(
+                ".map",
+                new() {
+                    Flow = Flow.Vertical,
+                    Gap  = 4,
+                }
+            ),
+            new(
+                ".map-header",
+                new() {
+                    Size         = new(ColumnWidth, 0),
+                    Padding      = new(0, 8),
+                    FontSize     = 11,
+                    Color        = new("Widget.PopupMenuTextMuted"),
+                    OutlineColor = new("Widget.PopupMenuTextOutline"),
+                    OutlineSize  = 1,
+                    TextAlign    = Anchor.MiddleLeft,
+                }
+            ),
+            new(
+                ".map-destinations",
+                new() {
+                    Flow    = Flow.Vertical,
+                    Gap     = 4,
+                    Padding = new() { Left = 8, Bottom = 15 },
+                }
+            ),
+
+            #endregion
+
+            #region Destination
+
             new(
                 ".destination",
                 new() {
-                    Flow = Flow.Horizontal,
-                    Size = new(ColumnWidth, 20),
+                    Flow    = Flow.Horizontal,
+                    Gap     = 0,
+                    Size    = new(ColumnWidth - 16, 20),
+                    Padding = new() { Left = 4, Right = 8 },
+                }
+            ),
+            new(
+                ".destination:hover",
+                new() {
+                    BackgroundColor = new(0x40FFFFFF),
+                }
+            ),
+            new(
+                ".destination-icon",
+                new() {
+                    Size   = new(20, 20),
+                    IconId = 111,
                 }
             ),
             new(
                 ".destination-name",
                 new() {
-                    Flow         = Flow.Horizontal,
-                    Size         = new(ColumnWidth - 100, 20),
-                    Padding      = new(0, 8),
-                    TextAlign    = Anchor.MiddleLeft,
-                    TextOverflow = false,
-                    WordWrap     = false,
+                    Size         = new(ColumnWidth - 142, 20),
                     FontSize     = 13,
                     Color        = new("Widget.PopupMenuText"),
                     OutlineColor = new("Widget.PopupMenuTextOutline"),
                     OutlineSize  = 1,
+                    TextAlign    = Anchor.MiddleLeft,
+                    TextOverflow = false,
+                    WordWrap     = false,
                 }
             ),
             new(
@@ -128,18 +234,19 @@ internal partial class TeleportWidgetPopup
             new(
                 ".destination-cost",
                 new() {
-                    Flow         = Flow.Horizontal,
+                    Flow         = Flow.Vertical,
+                    Gap          = 4,
                     Size         = new(100, 20),
-                    Padding      = new(0, 8),
-                    TextAlign    = Anchor.MiddleRight,
-                    TextOverflow = false,
-                    WordWrap     = false,
                     FontSize     = 11,
                     Color        = new("Widget.PopupMenuTextMuted"),
-                    OutlineColor = new("Widget.PopupMenuTextOutlineDisabled"),
+                    OutlineColor = new("Widget.PopupMenuTextOutline"),
                     OutlineSize  = 1,
+                    TextAlign    = Anchor.MiddleRight,
+                    TextOffset   = new(0, 1),
                 }
             ),
+
+            #endregion
         ]
     );
 }

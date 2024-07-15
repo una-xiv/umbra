@@ -14,18 +14,20 @@
  *     GNU Affero General Public License for more details.
  */
 
-using Dalamud.Plugin.Services;
+using System.Linq;
 using Umbra.Common;
-using Una.Drawing;
+using Umbra.Game;
 
 namespace Umbra.Widgets;
 
 internal partial class TeleportWidgetPopup : WidgetPopup
 {
+    private string _selectedExpansion = string.Empty;
+
     /// <inheritdoc/>
     protected override bool CanOpen()
     {
-        return true;
+        return Framework.Service<IPlayer>().CanUseTeleportAction;
     }
 
     /// <inheritdoc/>
@@ -33,11 +35,31 @@ internal partial class TeleportWidgetPopup : WidgetPopup
     {
         HydrateAetherytePoints();
         BuildNodes();
+
+        if (_selectedExpansion == string.Empty) {
+            ActivateExpansion(_expansions.Keys.First());
+        }
     }
 
     /// <inheritdoc/>
     protected override void OnClose()
     {
+        ExpansionLists.Clear();
+
         _expansions.Clear();
+        _selectedExpansion = string.Empty;
+    }
+
+    private void ActivateExpansion(string key)
+    {
+        if (key == _selectedExpansion) return;
+
+        if (_selectedExpansion != string.Empty) {
+            Node.FindById("ExpansionList")!.QuerySelector(_selectedExpansion)!.TagsList.Remove("selected");
+        }
+
+        _selectedExpansion = key;
+        Node.FindById("ExpansionList")!.QuerySelector(key)!.TagsList.Add("selected");
+        Node.FindById("DestinationList")!.ChildNodes = [ExpansionLists[key]];
     }
 }

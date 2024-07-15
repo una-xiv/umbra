@@ -45,17 +45,20 @@ internal partial class TeleportWidgetPopup
             var gameData = aetheryte.AetheryteData.GameData;
             if (gameData == null) continue;
 
+            if (gameData.Invisible || !gameData.IsAetheryte) continue;
+
             var territory = gameData.Territory.Value;
             if (territory == null) continue;
 
             var expansion = territory.ExVersion.Value;
             if (expansion == null) continue;
 
-            var regionName    = territory.Map.Value?.PlaceNameRegion.Value?.Name.ToString();
-            var mapName       = territory.Map.Value?.PlaceName.Value?.Name.ToString();
-            var aetheryteName = gameData.PlaceName.Value?.Name.ToString();
+            var   regionName    = territory.Map.Value?.PlaceNameRegion.Value?.Name.ToString();
+            var   mapName       = territory.Map.Value?.PlaceName.Value?.Name.ToString();
+            var   aetheryteName = gameData.PlaceName.Value?.Name.ToString();
+            uint? mapId         = territory.Map.Value?.RowId;
 
-            if (regionName == null || mapName == null || aetheryteName == null) continue;
+            if (regionName == null || mapName == null || aetheryteName == null || mapId == null) continue;
 
             var expansionNodeId = $"Ex_{expansion.RowId}";
             var regionNodeId    = $"Ex_{expansion.RowId}_{territory.Map.Value!.PlaceNameRegion.Row}";
@@ -76,15 +79,26 @@ internal partial class TeleportWidgetPopup
             expansionNode.Regions.TryAdd(
                 regionNodeId,
                 new() {
-                    NodeId       = regionNodeId,
-                    Name         = regionName,
-                    Destinations = [],
+                    NodeId = regionNodeId,
+                    Name   = regionName,
+                    Maps   = [],
                 }
             );
 
             var regionNode = expansionNode.Regions[regionNodeId];
 
-            regionNode.Destinations.TryAdd(
+            regionNode.Maps.TryAdd(
+                $"Map_{mapId}",
+                new() {
+                    NodeId       = aetheryteNodeId,
+                    Name         = mapName,
+                    Destinations = [],
+                }
+            );
+
+            var mapNode = regionNode.Maps[$"Map_{mapId}"];
+
+            mapNode.Destinations.TryAdd(
                 aetheryteNodeId,
                 new() {
                     NodeId      = aetheryteNodeId,
@@ -92,6 +106,8 @@ internal partial class TeleportWidgetPopup
                     AetheryteId = aetheryte.AetheryteId,
                     SubIndex    = aetheryte.SubIndex,
                     GilCost     = aetheryte.GilCost,
+                    SortIndex   = gameData.Order,
+                    IconId      = 63940, // TODO: Somehow grab the actual aetheryte icon?
                 }
             );
         }
@@ -125,6 +141,14 @@ internal struct TeleportRegion
     public string NodeId { get; set; }
     public string Name   { get; set; }
 
+    public Dictionary<string, TeleportMap> Maps { get; set; }
+}
+
+internal struct TeleportMap
+{
+    public string NodeId { get; set; }
+    public string Name   { get; set; }
+
     public Dictionary<string, TeleportDestination> Destinations { get; set; }
 }
 
@@ -135,4 +159,6 @@ internal struct TeleportDestination
     public uint   AetheryteId { get; set; }
     public byte   SubIndex    { get; set; }
     public uint   GilCost     { get; set; }
+    public int    SortIndex   { get; set; }
+    public uint   IconId      { get; set; }
 }
