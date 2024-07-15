@@ -93,7 +93,7 @@ internal class SeparatorWidget(
                 I18N.Translate("Widget.Separator.Config.LineColor.Description"),
                 "Widget.TextMuted",
                 GetColorSelectOptions()
-            )
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
         ];
     }
 }
