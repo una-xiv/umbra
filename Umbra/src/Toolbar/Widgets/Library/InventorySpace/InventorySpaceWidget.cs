@@ -39,9 +39,7 @@ internal partial class InventorySpaceWidget(
         Player = Framework.Service<IPlayer>();
 
         Node.OnClick += _ => Framework.Service<IChatSender>().Send("/inventory");
-
-        SetLeftIcon(2);
-        SetLabel("140 / 140");
+        Node.OnRightClick += _ => Framework.Service<IChatSender>().Send("/keyitem");
     }
 
     /// <inheritdoc/>
