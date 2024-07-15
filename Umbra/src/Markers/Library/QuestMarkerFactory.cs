@@ -48,7 +48,7 @@ internal class QuestMarkerFactory(IZoneManager zoneManager) : WorldMarkerFactory
 
         foreach (ZoneMarker marker in markers) {
             string id =
-                $"QM_{marker.Type}_{marker.IconId}_{marker.WorldPosition.X:N0}_{marker.WorldPosition.Y:N0}_{marker.WorldPosition.Z:N0}";
+                $"QM_{zoneManager.CurrentZone.Id}_{marker.Type}_{marker.IconId}_{marker.WorldPosition.X:N0}_{marker.WorldPosition.Y:N0}_{marker.WorldPosition.Z:N0}";
 
             activeIds.Add(id);
 
