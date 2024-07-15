@@ -606,6 +606,8 @@
     "Widget.Volume.Config.ShowSys.Description": "Shows the system sounds volume control in the popup menu.",
     "Widget.Volume.Config.ShowPerf.Name": "Show Bard Performance Volume",
     "Widget.Volume.Config.ShowPerf.Description": "Shows the bard performance volume control in the popup menu.",
+    "Widget.Volume.Config.ValueStep.Name": "Volume value step",
+    "Widget.Volume.Config.ValueStep.Description": "The amount by which the volume should be increased or decreased when using the volume control slider.",
     "Widget.Volume.Config.Decorate.Name": "Decorate the widget",
     "Widget.Volume.Config.Decorate.Description": "Decorates the marker control widget with a background and border.",
     "Widget.Volume.Config.IconYOffset.Name": "Icon vertical offset",

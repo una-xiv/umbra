@@ -37,6 +37,7 @@ internal class VerticalSliderNode : Node
 
     public int MinValue { get; set; } = 0;
     public int MaxValue { get; set; } = 100;
+    public int Step     { get; set; } = 1;
 
     private int _value;
 
@@ -60,7 +61,7 @@ internal class VerticalSliderNode : Node
         int value = _value;
 
         ImGui.PushStyleVar(ImGuiStyleVar.GrabRounding, 8);
-        ImGui.PushStyleVar(ImGuiStyleVar.GrabMinSize, 14);
+        ImGui.PushStyleVar(ImGuiStyleVar.GrabMinSize,  14);
 
         ImGui.PushStyleColor(ImGuiCol.FrameBg,          0);
         ImGui.PushStyleColor(ImGuiCol.FrameBgHovered,   0x10000000);
@@ -69,7 +70,7 @@ internal class VerticalSliderNode : Node
         ImGui.PushStyleColor(ImGuiCol.SliderGrabActive, Color.GetNamedColor("Widget.PopupMenuTextHover"));
 
         if (ImGui.VSliderInt("##VS", size.ToVector2(), ref value, MinValue, MaxValue, "")) {
-            Value = value;
+            Value = (value / Step) * Step;
         }
 
         ImGui.PopStyleColor(5);

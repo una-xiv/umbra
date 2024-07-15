@@ -606,6 +606,8 @@
     "Widget.Volume.Config.ShowSys.Description": "Zeigt die Lautstärkeregelung für Systemklänge im Popup-Menü an.",
     "Widget.Volume.Config.ShowPerf.Name": "Lautstärke der Bardenaufführung anzeigen",
     "Widget.Volume.Config.ShowPerf.Description": "Zeigt die Lautstärkeregelung für Bardenaufführungen im Popup-Menü an.",
+    "Widget.Volume.Config.ValueStep.Name": "Lautstärkewert-Schritt",
+    "Widget.Volume.Config.ValueStep.Description": "Die Menge, um die die Lautstärke erhöht oder verringert werden soll, wenn der Lautstärkeregler verwendet wird.",
     "Widget.Volume.Config.Decorate.Name": "Widget dekorieren",
     "Widget.Volume.Config.Decorate.Description": "Dekoriert das Markersteuerungs-Widget mit einem Hintergrund und einem Rand.",
     "Widget.Volume.Config.IconYOffset.Name": "Vertikaler Symbolversatz",

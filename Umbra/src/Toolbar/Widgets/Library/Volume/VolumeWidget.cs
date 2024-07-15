@@ -57,6 +57,7 @@ internal sealed partial class VolumeWidget(
         Popup.ShowAmb     = GetConfigValue<bool>("ShowAmb");
         Popup.ShowSys     = GetConfigValue<bool>("ShowSys");
         Popup.ShowPerf    = GetConfigValue<bool>("ShowPerf");
+        Popup.ValueStep   = GetConfigValue<int>("ValueStep");
     }
 
     private void ToggleMute()

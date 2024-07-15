@@ -606,6 +606,8 @@
     "Widget.Volume.Config.ShowSys.Description": "Affiche le contrôle du volume des sons système dans le menu contextuel.",
     "Widget.Volume.Config.ShowPerf.Name": "Afficher le volume de la performance de barde",
     "Widget.Volume.Config.ShowPerf.Description": "Affiche le contrôle du volume de la performance de barde dans le menu contextuel.",
+    "Widget.Volume.Config.ValueStep.Name": "Pas de valeur de volume",
+    "Widget.Volume.Config.ValueStep.Description": "La quantité par laquelle le volume doit être augmenté ou diminué lors de l'utilisation du curseur de contrôle du volume.",
     "Widget.Volume.Config.Decorate.Name": "Décorer le widget",
     "Widget.Volume.Config.Decorate.Description": "Décore le widget de contrôle des marqueurs avec un fond et une bordure.",
     "Widget.Volume.Config.IconYOffset.Name": "Décalage vertical de l'icône",

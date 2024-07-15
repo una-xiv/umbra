@@ -81,6 +81,14 @@ internal sealed partial class VolumeWidget
                 I18N.Translate("Widget.Volume.Config.ShowPerf.Description"),
                 true
             ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
+            new IntegerWidgetConfigVariable(
+                "ValueStep",
+                I18N.Translate("Widget.Volume.Config.ValueStep.Name"),
+                I18N.Translate("Widget.Volume.Config.ValueStep.Description"),
+                1,
+                1,
+                25
+            ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
         ];
     }
 }

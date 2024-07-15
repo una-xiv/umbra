@@ -25,6 +25,7 @@ internal sealed partial class VolumeWidgetPopup : WidgetPopup
     public bool ShowAmb     { get; set; } = true;
     public bool ShowSys     { get; set; } = true;
     public bool ShowPerf    { get; set; } = true;
+    public int  ValueStep   { get; set; } = 1;
 
     private readonly List<AudioChannel> _channels = [];
     private readonly IGameConfig        _gameConfig;
@@ -61,6 +62,8 @@ internal sealed partial class VolumeWidgetPopup : WidgetPopup
                 _      => channel.Node.Style.IsVisible
             };
 
+            channel.Node.QuerySelector<VerticalSliderNode>(".channel--slider")!.Step = ValueStep;
+
             channel.Node.QuerySelector(".channel--value")!.NodeValue =
                 $"{_gameConfig.System.GetUInt(channel.VolumeConfigName)}%";
 
@@ -68,7 +71,7 @@ internal sealed partial class VolumeWidgetPopup : WidgetPopup
                 GetVolumeIcon(channel.VolumeConfigName, channel.MuteConfigName).ToIconString();
         }
 
-        Node.QuerySelector(".separator")!.Style.IsVisible = HasVisibleChannels;
+        Node.QuerySelector(".separator")!.Style.IsVisible    = HasVisibleChannels;
         Node.QuerySelector(".options-list")!.Style.IsVisible = ShowOptions;
     }
 
@@ -83,8 +86,7 @@ internal sealed partial class VolumeWidgetPopup : WidgetPopup
 
     protected override void OnClose() { }
 
-    private bool HasVisibleChannels =>
-        ShowBgm || ShowSfx || ShowVoc || ShowAmb || ShowSys || ShowPerf;
+    private bool HasVisibleChannels => ShowBgm || ShowSfx || ShowVoc || ShowAmb || ShowSys || ShowPerf;
 
     private void CreateChannelWidget(string id, string volumeConfigName, string muteConfigName)
     {
@@ -104,6 +106,7 @@ internal sealed partial class VolumeWidgetPopup : WidgetPopup
                     ClassList = ["channel--slider"],
                     MinValue  = 0,
                     MaxValue  = 100,
+                    Step      = ValueStep,
                 },
                 new() {
                     ClassList = ["channel--mute"],
