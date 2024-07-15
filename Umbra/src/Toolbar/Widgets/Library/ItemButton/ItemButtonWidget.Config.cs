@@ -32,6 +32,18 @@ internal partial class ItemButtonWidget
                 0,
                 0
             ),
+            new SelectWidgetConfigVariable(
+                "ItemUsage",
+                I18N.Translate("Widget.ItemButton.Config.ItemUsage.Name"),
+                I18N.Translate("Widget.ItemButton.Config.ItemUsage.Description"),
+                "HqBeforeNq",
+                new() {
+                    { "HqBeforeNq", I18N.Translate("Widget.ItemButton.Config.ItemUsage.Option.HqBeforeNq") },
+                    { "NqBeforeHq", I18N.Translate("Widget.ItemButton.Config.ItemUsage.Option.NqBeforeHq") },
+                    { "HqOnly", I18N.Translate("Widget.ItemButton.Config.ItemUsage.Option.HqOnly") },
+                    { "NqOnly", I18N.Translate("Widget.ItemButton.Config.ItemUsage.Option.NqOnly") }
+                }
+            ),
             new BooleanWidgetConfigVariable(
                 "Decorate",
                 I18N.Translate("Widget.ItemButton.Config.Decorate.Name"),

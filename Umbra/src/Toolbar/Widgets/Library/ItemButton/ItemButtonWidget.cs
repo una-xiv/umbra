@@ -100,7 +100,16 @@ internal sealed partial class ItemButtonWidget(
     private void UseItem(Node _)
     {
         if (!CanUseItem()) return;
-        Player.UseInventoryItem(ItemId);
+
+        ItemUsage usage = GetConfigValue<string>("ItemUsage") switch {
+            "HqBeforeNq" => ItemUsage.HqBeforeNq,
+            "NqBeforeHq" => ItemUsage.NqBeforeHq,
+            "OnlyHq"     => ItemUsage.HqOnly,
+            "OnlyNq"     => ItemUsage.NqOnly,
+            _            => ItemUsage.HqBeforeNq
+        };
+
+        Player.UseInventoryItem(ItemId, usage);
     }
 
     private bool CanUseItem()

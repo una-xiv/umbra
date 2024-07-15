@@ -189,7 +189,7 @@ public interface IPlayer
     /// <summary>
     /// Use the specified inventory item by its item ID.
     /// </summary>
-    public void UseInventoryItem(uint itemId);
+    public void UseInventoryItem(uint itemId, ItemUsage usage = ItemUsage.HqBeforeNq);
 
     /// <summary>
     /// Returns true if the specified general action is unlocked.

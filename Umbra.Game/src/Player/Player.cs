@@ -14,6 +14,7 @@
  *     GNU Affero General Public License for more details.
  */
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
@@ -291,7 +292,7 @@ internal sealed class Player : IPlayer
     /// <summary>
     /// Use the specified inventory item by its item ID.
     /// </summary>
-    public unsafe void UseInventoryItem(uint itemId)
+    public unsafe void UseInventoryItem(uint itemId, ItemUsage usage = ItemUsage.HqBeforeNq)
     {
         if (IsCasting || IsOccupied || IsDead || IsJumping) return;
 
@@ -301,13 +302,31 @@ internal sealed class Player : IPlayer
         AgentInventoryContext* aic = AgentInventoryContext.Instance();
         if (aic == null) return;
 
-        if (im->GetInventoryItemCount(itemId) > 0) {
-            aic->UseItem(itemId);
-            return;
-        }
+        switch (usage) {
+            case ItemUsage.HqOnly:
+                if (im->GetInventoryItemCount(itemId, true) > 0) aic->UseItem(itemId + 1000000);
+                return;
+            case ItemUsage.NqOnly:
+                if (im->GetInventoryItemCount(itemId) > 0) aic->UseItem(itemId);
+                return;
+            case ItemUsage.HqBeforeNq:
+                if (im->GetInventoryItemCount(itemId, true) > 0) {
+                    aic->UseItem(itemId + 1000000);
+                    return;
+                }
 
-        if (im->GetInventoryItemCount(itemId, true) > 0) {
-            aic->UseItem(itemId + 1000000);
+                if (im->GetInventoryItemCount(itemId) > 0) aic->UseItem(itemId);
+                return;
+            case ItemUsage.NqBeforeHq:
+                if (im->GetInventoryItemCount(itemId) > 0) {
+                    aic->UseItem(itemId);
+                    return;
+                }
+
+                if (im->GetInventoryItemCount(itemId, true) > 0) aic->UseItem(itemId + 1000000);
+                return;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(usage), usage, null);
         }
     }
 
@@ -366,4 +385,12 @@ internal sealed class Player : IPlayer
         var layout = AtkStage.Instance()->RaptureAtkUnitManager->GetAddonByName("HudLayout");
         IsEditingHud = layout != null && layout->IsVisible;
     }
+}
+
+public enum ItemUsage
+{
+    HqBeforeNq,
+    NqBeforeHq,
+    NqOnly,
+    HqOnly
 }
