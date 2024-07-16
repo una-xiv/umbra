@@ -69,7 +69,7 @@ internal sealed partial class TeleportWidget
                 "MinimumColumns",
                 I18N.Translate("Widget.Teleport.Config.MinimumColumns.Name"),
                 I18N.Translate("Widget.Teleport.Config.MinimumColumns.Description"),
-                3,
+                1,
                 -5,
                 5
             ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") }

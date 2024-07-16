@@ -176,6 +176,8 @@
     "CVAR.Window.EnableClipping.Description": "Ermöglicht es Fenstern, hinter nativen Spiel-Fenstern gerendert zu werden. Dies kann eine geringe Leistungseinbuße mit sich bringen und möglicherweise nicht für alle nativen Spiel-Fenster ordnungsgemäß funktionieren. Beachten Sie, dass diese Funktion nicht funktioniert, wenn die Unterstützung für mehrere Monitore in den Dalamud-Einstellungen aktiviert ist.",
     "CVAR.Toolbar.Enabled.Name": "Symbolleiste aktivieren",
     "CVAR.Toolbar.Enabled.Description": "Ob die Symbolleiste angezeigt werden soll. Verwenden Sie den Befehl \"/umbra\", um das Einstellungsfenster zu öffnen, wenn Sie die Symbolleiste deaktivieren möchten.",
+    "CVAR.Toolbar.PopupAlignmentMethod.Name": "Widget-Popup-Ausrichtungsmethode",
+    "CVAR.Toolbar.PopupAlignmentMethod.Description": "Die Methode, die verwendet wird, um Popup-Menüs an ihren Widgets auszurichten. Die Option 'Zentriert' versucht immer, ein Popup-Menü basierend auf der Widget-Position zu zentrieren, während die Methode 'Ausgerichtet' das Popup immer links oder rechts vom Widget ausrichtet, je nach Position des Widgets in der Symbolleiste. Letztere Option hilft auch, die Widget-Positionen zu stabilisieren, wenn das Widget-Popup dynamisch in der Größe verändert wird.",
     "CVAR.Toolbar.IsTopAligned.Name": "Die Symbolleiste am oberen Bildschirmrand platzieren.",
     "CVAR.Toolbar.IsTopAligned.Description": "Richtet die Symbolleiste am oberen Bildschirmrand aus, anstatt am unteren.",
     "CVAR.Toolbar.IsStretched.Name": "Die Symbolleiste bis zu den Bildschirmrändern strecken",

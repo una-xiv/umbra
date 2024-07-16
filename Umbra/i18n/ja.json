@@ -176,6 +176,8 @@
     "CVAR.Window.EnableClipping.Description": "ウィンドウがネイティブのゲームウィンドウの後ろにレンダリングされることを許可します。これにはわずかなパフォーマンスコストがかかる場合があり、すべてのネイティブのゲームウィンドウで正常に機能しない場合があります。この機能は、Dalamud設定でマルチモニターサポートが有効になっている場合に機能しません。",
     "CVAR.Toolbar.Enabled.Name": "ツールバーを有効にする",
     "CVAR.Toolbar.Enabled.Description": "ツールバーを表示するかどうかを決定します。ツールバーを無効にする場合は、「/umbra」コマンドを使用して設定ウィンドウを開きます。",
+    "CVAR.Toolbar.PopupAlignmentMethod.Name": "ウィジェットポップアップ配置方法",
+    "CVAR.Toolbar.PopupAlignmentMethod.Description": "ポップアップメニューをウィジェットに配置するために使用される方法です。「中央揃え」オプションは常にウィジェットの位置に基づいてポップアップメニューを中央に配置しようとしますが、「整列」方法は常にツールバー上のウィジェットの位置に応じてポップアップをウィジェットの左側または右側に配置します。後者のオプションは、ウィジェットポップアップのサイズが動的に変更される場合に、ウィジェットの位置を安定させるのにも役立ちます。",
     "CVAR.Toolbar.IsTopAligned.Name": "ツールバーを画面の上部に配置する",
     "CVAR.Toolbar.IsTopAligned.Description": "ツールバーを画面の下部ではなく上部に配置します。",
     "CVAR.Toolbar.IsStretched.Name": "ツールバーを画面端まで伸ばす",

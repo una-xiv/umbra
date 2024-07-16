@@ -176,6 +176,8 @@
     "CVAR.Window.EnableClipping.Description": "Allows windows to render behind native game windows. This may have a slight performance cost and may not work properly for all native game windows. Note that this feature does not work when Multi-monitor support is enabled in Dalamud settings.",
     "CVAR.Toolbar.Enabled.Name": "Enable the toolbar",
     "CVAR.Toolbar.Enabled.Description": "Whether to display the toolbar. Use the \"/umbra\" command to open the settings window if you decide to disable the toolbar.",
+    "CVAR.Toolbar.PopupAlignmentMethod.Name": "Widget popup alignment method",
+    "CVAR.Toolbar.PopupAlignmentMethod.Description": "The method used to align popup menus to their widgets. The 'Centered' option will always try to center a popup menu based on the widget location, while the 'aligned' method always aligns the popup to the left or right side of the widget, depending on the location of the widget on the toolbar. The latter option also helps stabilizing widget positions when the widget popup is dynamically resized.",
     "CVAR.Toolbar.IsTopAligned.Name": "Place the toolbar at the top of the screen.",
     "CVAR.Toolbar.IsTopAligned.Description": "Aligns the toolbar to the top of the screen rather than the bottom.",
     "CVAR.Toolbar.IsStretched.Name": "Stretch the toolbar to the screen edges",

@@ -16,6 +16,7 @@
 
 using System.Numerics;
 using ImGuiNET;
+using Umbra.Common;
 using Umbra.Style;
 using Una.Drawing;
 
@@ -23,6 +24,9 @@ namespace Umbra.Widgets;
 
 public abstract class WidgetPopup
 {
+    [ConfigVariable("Toolbar.PopupAlignmentMethod", "General", "Toolbar", options: ["Center", "Aligned"])]
+    public static string PopupAlignmentMethod { get; set; } = "Aligned";
+
     private readonly Node _popupNode = new() {
         Stylesheet = PopupStyles.WidgetPopupStylesheet,
         ClassList  = ["widget-popup"],
@@ -46,14 +50,11 @@ public abstract class WidgetPopup
         return true;
     }
 
-    protected virtual void OnUpdate()
-    {}
+    protected virtual void OnUpdate() { }
 
-    protected virtual void OnOpen()
-    {}
+    protected virtual void OnOpen() { }
 
-    protected virtual void OnClose()
-    {}
+    protected virtual void OnClose() { }
 
     private float _opacityDest;
     private float _opacity;
@@ -108,28 +109,14 @@ public abstract class WidgetPopup
         // Reflow to pre-calculate bounds.
         _popupNode.Reflow();
 
-        float width   = _popupNode.OuterWidth;
-        float height  = _popupNode.OuterHeight;
-        float actX    = activator.Node.Bounds.MarginRect.X1 + (activator.Node.OuterWidth / 2);
-        Rect  tBounds = activator.Node.ParentNode!.ParentNode!.Bounds.MarginRect;
-
-        // Calculate the position based on the anchor.
-        float windowX     = actX - (width / 2);
-        float windowY     = Toolbar.IsTopAligned ? tBounds.Y2 - 2 : tBounds.Y1 + 2;
-        float screenWidth = ImGui.GetMainViewport().WorkSize.X;
-        float deltaTime   = ImGui.GetIO().DeltaTime * 10;
-
-        if (!Toolbar.IsTopAligned) {
-            windowY -= height;
-        }
-
-        if (windowX < 16) {
-            windowX = 16;
-        } else if (windowX + width > screenWidth - 16) {
-            windowX = screenWidth - width - 16;
-        }
+        Vector2 size = new(_popupNode.OuterWidth, _popupNode.OuterHeight);
+        Vector2 pos  = PopupAlignmentMethod == "Aligned"
+            ? GetPopupPositionAligned(activator, size)
+            : GetPopupPositionCentered(activator, size);
 
         // Animate the popup.
+        float deltaTime = ImGui.GetIO().DeltaTime * 10;
+
         _opacityDest = 1;
         _yOffsetDest = 0;
 
@@ -157,13 +144,13 @@ public abstract class WidgetPopup
         // FIXME: This line breaks multi-monitor support.
         // ImGui.SetNextWindowViewport(ImGui.GetMainViewport().ID);
 
-        ImGui.SetNextWindowPos(new(windowX, windowY));
-        ImGui.SetNextWindowSize(new(width, height));
+        ImGui.SetNextWindowPos(new(pos.X, pos.Y));
+        ImGui.SetNextWindowSize(new(size.X, size.Y));
         ImGui.Begin($"###Popup_{activator.Id.GetHashCode():X}", PopupWindowFlags);
 
         bool hasFocus = ImGui.IsWindowFocused(ImGuiFocusedFlags.RootAndChildWindows);
 
-        _popupNode.Render(ImGui.GetWindowDrawList(), new((int)windowX, (int)(windowY + _yOffset)));
+        _popupNode.Render(ImGui.GetWindowDrawList(), new((int)pos.X, (int)(pos.Y + _yOffset)));
 
         ImGui.End();
         ImGui.PopStyleVar(4);
@@ -191,6 +178,63 @@ public abstract class WidgetPopup
         _opacityDest = 0;
         _yOffset     = Toolbar.IsTopAligned ? -32 : 32;
         _yOffsetDest = 0;
+    }
+
+    private static Vector2 GetPopupPositionAligned(ToolbarWidget activator, Vector2 size)
+    {
+        string toolbarColumnId      = activator.Node.ParentNode!.Id!;
+        Rect   activatorBoundingBox = activator.Node.Bounds.MarginRect;
+        Rect   toolbarBoundingBox   = activator.Node.ParentNode!.ParentNode!.Bounds.MarginRect;
+
+        float popupY = Toolbar.IsTopAligned ? toolbarBoundingBox.Y2 - 2 : (toolbarBoundingBox.Y1 + 2) - size.Y;
+
+        float originX = toolbarColumnId switch {
+            "Left"   => activatorBoundingBox.X1,
+            "Center" => activatorBoundingBox.X1 + (activatorBoundingBox.Width / 2),
+            "Right"  => activatorBoundingBox.X2,
+            _        => 0
+        };
+
+        float popupX = toolbarColumnId switch {
+            "Left"   => originX - 32,
+            "Center" => originX + ((activatorBoundingBox.Width / 2) - (size.X / 2)),
+            "Right"  => originX - size.X + 32,
+            _        => 0
+        };
+
+        var viewportPos = ImGui.GetMainViewport().WorkPos;
+        var viewportSize = ImGui.GetMainViewport().WorkSize;
+
+        if (popupX < viewportPos.X) {
+            popupX = viewportPos.X + 8;
+        } else if (popupX + size.X > viewportPos.X + viewportSize.X) {
+            popupX = viewportPos.X + (viewportSize.X - size.X - 8);
+        }
+
+        return new(popupX, popupY);
+    }
+
+    private static Vector2 GetPopupPositionCentered(ToolbarWidget activator, Vector2 size)
+    {
+        float actX    = activator.Node.Bounds.MarginRect.X1 + (activator.Node.OuterWidth / 2);
+        Rect  tBounds = activator.Node.ParentNode!.ParentNode!.Bounds.MarginRect;
+
+        float windowX     = actX - (size.X / 2);
+        float windowY     = Toolbar.IsTopAligned ? tBounds.Y2 - 2 : tBounds.Y1 + 2;
+        float screenWidth = ImGui.GetMainViewport().WorkSize.X;
+        float screenPosX  = ImGui.GetMainViewport().WorkPos.X;
+
+        if (!Toolbar.IsTopAligned) {
+            windowY -= size.Y;
+        }
+
+        if (windowX < screenPosX + 8) {
+            windowX = screenPosX + 8;
+        } else if (screenPosX + windowX + size.X > screenWidth - 8) {
+            windowX = screenPosX + screenWidth - size.X - 8;
+        }
+
+        return new(windowX, windowY);
     }
 
     private static ImGuiWindowFlags PopupWindowFlags =>

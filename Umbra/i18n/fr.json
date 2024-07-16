@@ -176,6 +176,8 @@
     "CVAR.Window.EnableClipping.Description": "Permet aux fenêtres d'être rendues derrière les fenêtres natives du jeu. Cela peut entraîner une légère perte de performance et ne pas fonctionner correctement pour toutes les fenêtres natives du jeu. Notez que cette fonctionnalité ne fonctionne pas si la prise en charge multi-moniteur est activée dans les paramètres de Dalamud.",
     "CVAR.Toolbar.Enabled.Name": "Activer la barre d'outils",
     "CVAR.Toolbar.Enabled.Description": "Détermine si la barre d'outils est affichée. Utilisez la commande \"/umbra\" pour ouvrir la fenêtre de configuration si vous souhaitez désactiver la barre d'outils.",
+    "CVAR.Toolbar.PopupAlignmentMethod.Name": "Méthode d'alignement des popups de widget",
+    "CVAR.Toolbar.PopupAlignmentMethod.Description": "La méthode utilisée pour aligner les menus contextuels sur leurs widgets. L'option 'Centré' essaiera toujours de centrer un menu contextuel en fonction de l'emplacement du widget, tandis que la méthode 'Aligné' aligne toujours le popup sur le côté gauche ou droit du widget, en fonction de l'emplacement du widget sur la barre d'outils. Cette dernière option aide également à stabiliser les positions des widgets lorsque le popup du widget est redimensionné dynamiquement.",
     "CVAR.Toolbar.IsTopAligned.Name": "Placer la barre d'outils en haut de l'écran.",
     "CVAR.Toolbar.IsTopAligned.Description": "Aligne la barre d'outils en haut de l'écran plutôt qu'en bas.",
     "CVAR.Toolbar.IsStretched.Name": "Étendre la barre d'outils jusqu'aux bords de l'écran",

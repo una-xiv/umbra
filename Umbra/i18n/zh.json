@@ -176,6 +176,8 @@
     "CVAR.Window.EnableClipping.Description": "允许原生游戏窗口遮挡Umbra插件窗口。该选项会带来一定的性能折损，且不是所有原生游戏窗口都能遮挡插件窗口。另外，当Dalamud设置中启用多显示器支持时，此功能将不起作用。",
     "CVAR.Toolbar.Enabled.Name": "启用工具栏",
     "CVAR.Toolbar.Enabled.Description": "是否显示工具栏。禁用工具栏后，请使用 \"/umbra\" 命令打开设置窗口。",
+    "CVAR.Toolbar.PopupAlignmentMethod.Name": "小部件弹出对齐方法",
+    "CVAR.Toolbar.PopupAlignmentMethod.Description": "用于将弹出菜单对齐到其小部件的方法。“居中”选项将始终尝试根据小部件的位置将弹出菜单居中，而“对齐”方法则始终根据小部件在工具栏上的位置将弹出对齐到小部件的左侧或右侧。后一个选项还可以帮助在小部件弹出动态调整大小时稳定小部件的位置。",
     "CVAR.Toolbar.IsTopAligned.Name": "将工具栏放置在屏幕顶部",
     "CVAR.Toolbar.IsTopAligned.Description": "将工具栏对齐到屏幕顶部而不是底部。",
     "CVAR.Toolbar.IsStretched.Name": "将工具栏拉伸到屏幕边缘",
