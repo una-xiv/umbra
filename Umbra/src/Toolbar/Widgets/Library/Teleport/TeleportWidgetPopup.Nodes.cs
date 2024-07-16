@@ -168,11 +168,7 @@ internal partial class TeleportWidgetPopup
             ChildNodes = [
                 new() {
                     ClassList = ["destination-icon"],
-                    Style = new() {
-                        UldPartId   = destination.UldPartId,
-                        UldPartsId  = 15,
-                        UldResource = "ui/uld/Teleport"
-                    },
+                    Style = new() { UldPartId   = destination.UldPartId },
                     InheritTags = true,
                 },
                 new() {
