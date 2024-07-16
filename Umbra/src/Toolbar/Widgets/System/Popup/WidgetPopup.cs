@@ -154,7 +154,9 @@ public abstract class WidgetPopup
         ImGui.PushStyleVar(ImGuiStyleVar.WindowBorderSize, 0f);
         ImGui.PushStyleVar(ImGuiStyleVar.WindowBorderSize, 0f);
 
-        ImGui.SetNextWindowViewport(ImGui.GetMainViewport().ID);
+        // FIXME: This line breaks multi-monitor support.
+        // ImGui.SetNextWindowViewport(ImGui.GetMainViewport().ID);
+
         ImGui.SetNextWindowPos(new(windowX, windowY));
         ImGui.SetNextWindowSize(new(width, height));
         ImGui.Begin($"###Popup_{activator.Id.GetHashCode():X}", PopupWindowFlags);
