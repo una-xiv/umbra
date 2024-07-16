@@ -17,6 +17,8 @@
 using System.Linq;
 using System.Numerics;
 using Dalamud.Interface;
+using ImGuiNET;
+using System;
 using Umbra.Common;
 using Umbra.Widgets;
 using Umbra.Widgets.System;
@@ -27,6 +29,8 @@ namespace Umbra.Windows.Library.AddWidget;
 
 internal class AddWidgetWindow : Window
 {
+    public event Action<string>? OnWidgetAdded;
+
     public string? SelectedWidgetId { get; private set; }
 
     protected override Vector2 MinSize     { get; } = new(400, 300);
@@ -80,9 +84,16 @@ internal class AddWidgetWindow : Window
             Close();
         };
 
-        Node.QuerySelector("#AddButton")!.OnMouseUp += _ => {
-            SelectedWidgetId = _selectedWidgetInfo?.Id;
-            Close();
+        Node addButton = Node.QuerySelector("#AddButton")!;
+
+        addButton.Tooltip = I18N.Translate("Settings.AddWidgetWindow.AddButtonTooltip");
+        addButton.OnMouseUp += _ => {
+            if (_selectedWidgetInfo is null) return;
+            OnWidgetAdded?.Invoke(_selectedWidgetInfo.Id);
+
+            if (!ImGui.GetIO().KeyShift) {
+                Close();
+            }
         };
     }
 

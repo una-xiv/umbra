@@ -117,6 +117,7 @@
     "Settings.AddWidgetWindow.Title": "Add Widget",
     "Settings.AddWidgetWindow.AddButton": "Add {0}",
     "Settings.AddWidgetWindow.AddButtonNone": "Add Widget",
+    "Settings.AddWidgetWindow.AddButtonTooltip": "Hold SHIFT to keep this window open to rapidly add more widget instances.",
     "Settings.PluginsModule.Title": "Plugins",
     "Settings.PluginsModule.Description": "This section allows you to add custom plugins to Umbra that provide additional toolbar widgets or world markers for you to use. Custom plugins come in the form of DLL files that you can add below. Please make sure to only load plugins from sources that you trust.",
     "Settings.PluginsModule.AddPlugin": "Add Plugin...",

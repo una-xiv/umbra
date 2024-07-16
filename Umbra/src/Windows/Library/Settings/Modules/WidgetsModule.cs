@@ -25,8 +25,6 @@ internal partial class WidgetsModule : SettingsModule
     public override string Id   => "WidgetsModule";
     public override string Name { get; } = I18N.Translate("Settings.WidgetsModule.Name");
 
-    private WidgetManager WidgetManager { get; } = Framework.Service<WidgetManager>();
-
     public WidgetsModule()
     {
         var wm = Framework.Service<WidgetManager>();

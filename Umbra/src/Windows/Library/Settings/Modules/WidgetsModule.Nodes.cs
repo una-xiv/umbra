@@ -74,6 +74,7 @@ internal partial class WidgetsModule
         foreach (var item in Node.QuerySelectorAll(".widget-instance--name")) {
             item.Style.Size = new(colSize - 60, 0);
         }
+
         foreach (var item in Node.QuerySelectorAll(".widget-instance--controls")) {
             item.Style.Size = new(colSize - 60, 0);
         }
@@ -125,28 +126,31 @@ internal partial class WidgetsModule
             SortIndex = int.MaxValue,
             ChildNodes = [
                 new() {
-                    ClassList   = ["widgets-column--add-new--label"],
-                    NodeValue   = $"{SeIconChar.BoxedPlus.ToIconString()} {I18N.Translate("Settings.WidgetsModule.AddWidget")}",
+                    ClassList = ["widgets-column--add-new--label"],
+                    NodeValue =
+                        $"{SeIconChar.BoxedPlus.ToIconString()} {I18N.Translate("Settings.WidgetsModule.AddWidget")}",
                     InheritTags = true,
                 }
             ]
         };
 
-        node.OnMouseUp += _ => {
-            Framework
-                .Service<WindowManager>()
-                .Present(
-                    "AddWidget",
-                    new AddWidgetWindow(),
-                    window => {
-                        if (window.SelectedWidgetId == null) return;
-
-                        Framework.Service<WidgetManager>().CreateWidget(window.SelectedWidgetId, id);
-                    }
-                );
-        };
-
+        node.OnMouseUp += _ => ShowAddWidgetWindow(id);
         return node;
+    }
+
+    private void ShowAddWidgetWindow(string id)
+    {
+        Framework
+            .Service<WindowManager>()
+            .Present(
+                "AddWidget",
+                new AddWidgetWindow(),
+                onCreate: window => {
+                    window.OnWidgetAdded += widgetId => {
+                        Framework.Service<WidgetManager>().CreateWidget(widgetId, id);
+                    };
+                }
+            );
     }
 
     private Node CreateWidgetInstanceNode(ToolbarWidget widget)
@@ -210,7 +214,8 @@ internal partial class WidgetsModule
         moveToLeftPanel.OnMouseUp   += _ => widget.Location = "Left";
         moveToCenterPanel.OnMouseUp += _ => widget.Location = "Center";
         moveToRightPanel.OnMouseUp  += _ => widget.Location = "Right";
-        deleteButton.OnMouseUp      += _ => {
+
+        deleteButton.OnMouseUp += _ => {
             if (ImGui.GetIO().KeyShift) {
                 Framework.Service<WidgetManager>().RemoveWidget(widget.Id);
             }

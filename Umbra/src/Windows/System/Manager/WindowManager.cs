@@ -32,9 +32,10 @@ internal class WindowManager
     /// </summary>
     /// <param name="id">A unique ID for this instance.</param>
     /// <param name="window">An instance of <see cref="Window"/></param>
-    /// <param name="callback">A callback function.</param>
+    /// <param name="onClose">A callback function.</param>
+    /// <param name="onCreate">A callback function that is invoked when the window is created.</param>
     /// <typeparam name="T"></typeparam>
-    public void Present<T>(string id, T window, Action<T>? callback = null) where T : Window
+    public void Present<T>(string id, T window, Action<T>? onClose = null, Action<T>? onCreate = null) where T : Window
     {
         Framework.DalamudFramework.Run(
             () => {
@@ -49,7 +50,9 @@ internal class WindowManager
                 };
 
                 _instances[id] = window;
-                _callbacks[id] = callback is not null ? o => callback((T)o) : null;
+                _callbacks[id] = onClose is not null ? o => onClose((T)o) : null;
+
+                onCreate?.Invoke(window);
             }
         );
     }

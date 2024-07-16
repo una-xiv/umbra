@@ -117,6 +117,7 @@
     "Settings.AddWidgetWindow.Title": "ウィジェットを追加",
     "Settings.AddWidgetWindow.AddButton": "{0}を追加",
     "Settings.AddWidgetWindow.AddButtonNone": "ウィジェットを追加",
+    "Settings.AddWidgetWindow.AddButtonTooltip": "SHIFTキーを押し続けて、このウィンドウを開いたままにして、ウィジェットのインスタンスを迅速に追加します。",
     "Settings.PluginsModule.Title": "プラグイン",
     "Settings.PluginsModule.Description": "このセクションでは、追加のツールバーボタンやワールドマーカーを提供するカスタムプラグインをUmbraに追加することができます。カスタムプラグインはDLLファイルの形式で提供され、以下に追加できます。信頼できるソースからのみプラグインを読み込むようにしてください。",
     "Settings.PluginsModule.AddPlugin": "プラグインを追加...",
