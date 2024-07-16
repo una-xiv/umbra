@@ -1,4 +1,4 @@
-﻿/* Umbra | (c) 2024 by Una              ____ ___        ___.
+/* Umbra | (c) 2024 by Una              ____ ___        ___.
  * Licensed under the terms of AGPL-3  |    |   \ _____ \_ |__ _______ _____
  *                                     |    |   //     \ | __ \\_  __ \\__  \
  * https://github.com/una-xiv/umbra    |    |  /|  Y Y  \| \_\ \|  | \/ / __ \_
@@ -243,7 +243,7 @@ internal partial class TeleportWidgetPopup
                 new() {
                     Size   = new(20, 20),
                     UldPartId = 3,
-                    UldPartsId = 0,
+                    UldPartsId = 16,
                     UldResource = "ui/uld/Teleport",
                 }
             ),
