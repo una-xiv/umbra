@@ -17,6 +17,7 @@
 using System.Linq;
 using Umbra.Common;
 using Umbra.Game;
+using Una.Drawing;
 
 namespace Umbra.Widgets;
 
@@ -24,7 +25,8 @@ internal partial class TeleportWidgetPopup : WidgetPopup
 {
     private string _selectedExpansion = string.Empty;
 
-    public int MinimumColumns { get; set; } = 1;
+    public int    MinimumColumns        { get; set; } = 1;
+    public string ExpansionMenuPosition { get; set; } = "Auto";
 
     /// <inheritdoc/>
     protected override bool CanOpen()
@@ -38,6 +40,15 @@ internal partial class TeleportWidgetPopup : WidgetPopup
         HydrateAetherytePoints();
         BuildNodes();
         ActivateExpansion(_selectedExpansion, true);
+
+        Node.QuerySelector("#DestinationList")!.TagsList.Add(ExpansionMenuPosition == "Left" ? "right" : "left");
+        Node.QuerySelector("#ExpansionList")!.TagsList.Add(ExpansionMenuPosition == "Left" ? "left" : "right");
+
+        foreach (var node in Node.FindById("ExpansionList")!.QuerySelectorAll(".expansion")) {
+            node.Style.RoundedCorners = ExpansionMenuPosition == "Left"
+                ? RoundedCorners.TopLeft | RoundedCorners.BottomLeft
+                : RoundedCorners.TopRight | RoundedCorners.BottomRight;
+        }
     }
 
     /// <inheritdoc/>
@@ -55,10 +66,11 @@ internal partial class TeleportWidgetPopup : WidgetPopup
 
         if (_selectedExpansion != string.Empty) {
             Node.FindById("ExpansionList")!.QuerySelector(_selectedExpansion)!.TagsList.Remove("selected");
+            Node.FindById("DestinationList")!.QuerySelector(_selectedExpansion)!.Style.IsVisible = false;
         }
 
         _selectedExpansion = key;
         Node.FindById("ExpansionList")!.QuerySelector(key)!.TagsList.Add("selected");
-        Node.FindById("DestinationList")!.ChildNodes = [ExpansionLists[key]];
+        Node.FindById("DestinationList")!.QuerySelector(key)!.Style.IsVisible = true;
     }
 }

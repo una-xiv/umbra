@@ -40,7 +40,9 @@ internal partial class TeleportWidgetPopup
     private void BuildNodes()
     {
         Una.Drawing.Style alignmentStyle = new() {
-            Anchor = Toolbar.IsTopAligned ? Anchor.TopLeft : Anchor.BottomLeft,
+            Anchor = Toolbar.IsTopAligned
+                ? (ExpansionMenuPosition == "Left" ? Anchor.TopLeft : Anchor.TopRight)
+                : (ExpansionMenuPosition == "Left" ? Anchor.BottomLeft : Anchor.BottomRight),
         };
 
         Node.ChildNodes = [
@@ -48,11 +50,13 @@ internal partial class TeleportWidgetPopup
             new() { Id = "DestinationList", Style = alignmentStyle }
         ];
 
-        Node expansionList = Node.FindById("ExpansionList")!;
+        Node expansionList   = Node.FindById("ExpansionList")!;
+        Node destinationList = Node.FindById("DestinationList")!;
+
         expansionList.AppendChild(BuildTitleNode(!Toolbar.IsTopAligned));
 
         foreach (TeleportExpansion expansion in _expansions.Values) {
-            BuildExpansionNode(expansionList, expansion, !Toolbar.IsTopAligned);
+            BuildExpansionNode(expansionList, destinationList, expansion, !Toolbar.IsTopAligned);
         }
     }
 
@@ -69,21 +73,27 @@ internal partial class TeleportWidgetPopup
         };
     }
 
-    private void BuildExpansionNode(Node targetNode, TeleportExpansion expansion, bool reverse)
+    private void BuildExpansionNode(Node targetNode, Node destinations, TeleportExpansion expansion, bool reverse)
     {
         Node node = new() {
             Id        = expansion.NodeId,
             NodeValue = expansion.Name,
             SortIndex = reverse ? 1 - expansion.SortIndex : expansion.SortIndex,
             ClassList = ["expansion"],
-            Style     = new() { Anchor = reverse ? Anchor.BottomLeft : Anchor.TopLeft }
+            Style = new() { Anchor = reverse ? Anchor.BottomLeft : Anchor.TopLeft }
         };
 
         node.OnMouseUp += n => ActivateExpansion(n.Id!);
         targetNode.AppendChild(node);
 
-        Node destinationList = new() { Id = "RegionContainer" };
+        Node destinationList = new() {
+            Id        = expansion.NodeId,
+            ClassList = ["region-container"],
+            Style     = new() { IsVisible = false }
+        };
+
         ExpansionLists[expansion.NodeId] = destinationList;
+        destinations.AppendChild(destinationList);
 
         foreach (var region in expansion.Regions.Values) {
             BuildRegionNode(destinationList, region);
@@ -157,11 +167,10 @@ internal partial class TeleportWidgetPopup
             SortIndex = destination.SortIndex,
             ChildNodes = [
                 new() {
-                    ClassList   = ["destination-icon"],
-                    Style       = new()
-                    {
-                        UldPartId = destination.UldPartId, 
-                        UldPartsId = 15, 
+                    ClassList = ["destination-icon"],
+                    Style = new() {
+                        UldPartId   = destination.UldPartId,
+                        UldPartsId  = 15,
                         UldResource = "ui/uld/Teleport"
                     },
                     InheritTags = true,

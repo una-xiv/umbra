@@ -68,7 +68,18 @@ internal partial class TeleportWidgetPopup
                     Flow    = Flow.Vertical,
                     Size    = new(ExpansionWidth, 0),
                     Gap     = 6,
+                }
+            ),
+            new(
+                "#ExpansionList:left",
+                new() {
                     Padding = new(4) { Right = 0 },
+                }
+            ),
+            new(
+                "#ExpansionList:right",
+                new() {
+                    Padding = new(4) { Left = 0 },
                 }
             ),
             new(
@@ -108,11 +119,22 @@ internal partial class TeleportWidgetPopup
                 "#DestinationList",
                 new() {
                     Flow    = Flow.Horizontal,
+                }
+            ),
+            new(
+                "#DestinationList:right",
+                new() {
                     Padding = new(4) { Left = 0 },
                 }
             ),
             new(
-                "#RegionContainer",
+                "#DestinationList:left",
+                new() {
+                    Padding = new(4) { Right = 0 },
+                }
+            ),
+            new(
+                ".region-container",
                 new() {
                     Flow            = Flow.Horizontal,
                     Gap             = 15,

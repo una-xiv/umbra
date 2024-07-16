@@ -65,6 +65,17 @@ internal sealed partial class TeleportWidget
                 -5,
                 5
             ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            new SelectWidgetConfigVariable(
+                "ExpansionListPosition",
+                I18N.Translate("Widget.Teleport.Config.ExpansionListPosition.Name"),
+                I18N.Translate("Widget.Teleport.Config.ExpansionListPosition.Description"),
+                "Auto",
+                new() {
+                    { "Auto", I18N.Translate("Widget.Teleport.Config.ExpansionListPosition.Option.Auto") },
+                    { "Left", I18N.Translate("Widget.Teleport.Config.ExpansionListPosition.Option.Left") },
+                    { "Right", I18N.Translate("Widget.Teleport.Config.ExpansionListPosition.Option.Right") }
+                }
+            ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
             new IntegerWidgetConfigVariable(
                 "MinimumColumns",
                 I18N.Translate("Widget.Teleport.Config.MinimumColumns.Name"),
@@ -72,7 +83,7 @@ internal sealed partial class TeleportWidget
                 1,
                 -5,
                 5
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") }
+            ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") }
         ];
     }
 }

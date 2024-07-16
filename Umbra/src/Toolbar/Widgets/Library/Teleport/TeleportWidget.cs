@@ -44,13 +44,15 @@ internal sealed partial class TeleportWidget(
 
         var teleportAction = Framework.Service<IDataManager>().GetExcelSheet<GeneralAction>()!.GetRow(7)!;
 
-        TeleportName         = teleportAction.Name.ToString();
-        TeleportIcon         = (uint)teleportAction.Icon;
-        Popup.MinimumColumns = GetConfigValue<int>("MinimumColumns");
+        TeleportName = teleportAction.Name.ToString();
+        TeleportIcon = (uint)teleportAction.Icon;
     }
 
     protected override void OnUpdate()
     {
+        Popup.MinimumColumns        = GetConfigValue<int>("MinimumColumns");
+        Popup.ExpansionMenuPosition = GetExpansionMenuPosition();
+
         bool showText = GetConfigValue<string>("DisplayMode") != "IconOnly";
         bool showIcon = GetConfigValue<string>("DisplayMode") != "TextOnly";
         bool leftIcon = GetConfigValue<string>("IconLocation") == "Left";
@@ -87,5 +89,15 @@ internal sealed partial class TeleportWidget(
         LeftIconNode.Style.ImageGrayscale  = Node.IsDisabled || GetConfigValue<bool>("DesaturateIcon");
         RightIconNode.Style.ImageGrayscale = Node.IsDisabled || GetConfigValue<bool>("DesaturateIcon");
         Popup.MinimumColumns               = GetConfigValue<int>("MinimumColumns");
+    }
+
+    private string GetExpansionMenuPosition()
+    {
+        return GetConfigValue<string>("ExpansionListPosition") switch {
+            "Auto"  => Node.ParentNode!.Id == "Right" ? "Right" : "Left",
+            "Left"  => "Left",
+            "Right" => "Right",
+            _       => "Top"
+        };
     }
 }
