@@ -24,7 +24,7 @@ namespace Umbra.Common;
 
 public static class I18N
 {
-    [ConfigVariable("General.LanguageOverride", "General", options: ["None", "en", "de", "fr", "ja"], requiresRestart: true)]
+    [ConfigVariable("General.LanguageOverride", "General", options: ["None", "en", "de", "fr", "ja", "zh"], requiresRestart: true)]
     internal static string LanguageOverride { get; set; } = "None";
 
     private static readonly Dictionary<string, Dictionary<string, string>> Translations = [];
