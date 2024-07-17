@@ -159,6 +159,26 @@ internal sealed class ZoneMarkerFactory(IDataManager dataManager)
 
     private readonly Dictionary<uint, ZoneMarkerType> _iconToTypeMap = [];
 
+    public ZoneMarker FromMinimapGatheringMarker(Sheet.Map map, MiniMapGatheringMarker marker)
+    {
+        var type = DetermineMarkerType(marker.MapMarker.IconId, "");
+
+        int x = marker.MapMarker.X;
+        int y = marker.MapMarker.Y;
+
+        Vector3 worldPosition = new(x / 16, 0, y / 16);
+        Vector2 mapPosition   = MapUtil.WorldToMap(new(worldPosition.X, worldPosition.Z), map);
+
+        return new(
+            type,
+            marker.TooltipText.ToString(),
+            mapPosition,
+            worldPosition,
+            marker.MapMarker.IconId,
+            0
+        );
+    }
+
     public unsafe ZoneMarker FromMapMarkerData(Sheet.Map map, MapMarkerData data)
     {
         var position = MapUtil.WorldToMap(new(data.X, data.Z), map);

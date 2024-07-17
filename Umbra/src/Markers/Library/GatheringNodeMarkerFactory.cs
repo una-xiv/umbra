@@ -40,6 +40,7 @@ internal class GatheringNodeMarkerFactory(
 
     private          int                 _displayIndex;
     private readonly List<GatheringNode> _gatheringNodes = [];
+    private readonly List<GatheringNode> _farAwayNodes   = [];
 
     public override List<IMarkerConfigVariable> GetConfigVariables()
     {
@@ -93,6 +94,8 @@ internal class GatheringNodeMarkerFactory(
     {
         _gatheringNodes.Clear();
 
+        List<string> activeKeys = [];
+
         foreach (var obj in objectTable) {
             if (!obj.IsTargetable
                 || obj.ObjectKind != ObjectKind.GatheringPoint)
@@ -102,7 +105,34 @@ internal class GatheringNodeMarkerFactory(
             if (node == null) continue;
 
             _gatheringNodes.Add(node.Value);
+            activeKeys.Add(CreateLocationKey(node.Value.Position));
         }
+
+        if (!zoneManager.HasCurrentZone) return;
+
+        zoneManager.CurrentZone.DynamicMarkers.Where(t => t.Type == ZoneMarkerType.GatheringNode).ToList().ForEach(
+            obj => {
+                // Don't add these types of markers if we already got one from the object table.
+                if (activeKeys.Contains(CreateLocationKey(obj.WorldPosition))) return;
+
+                _gatheringNodes.Add(new() {
+                    Key           = $"GN_{obj.WorldPosition.X:N0}_{obj.WorldPosition.Y:N0}_{obj.WorldPosition.Z:N0}",
+                    Position      = obj.WorldPosition,
+                    IconId        = obj.IconId,
+                    Label         = $"{obj.Name}",
+                    SubLabel      = null,
+                    ShowDirection = true,
+                });
+            }
+        );
+    }
+
+    private static string CreateLocationKey(Vector3 position)
+    {
+        var x = (int)(position.X / 5) * 5;
+        var z = (int)(position.Z / 5) * 5;
+
+        return $"{x}:{z}";
     }
 
     private GatheringNode? CreateNodeFromObject(IGameObject obj)

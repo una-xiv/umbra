@@ -118,10 +118,14 @@ internal sealed class Zone : IZone
         Map* map = Map.Instance();
         if (map == null) return;
 
-        // Logger.Debug($"Quest markers: {map->QuestMarkers.ToArray().SelectMany(m => m.MarkerData).Where(m => m.MapId == Id).Count()}");
-
         lock (DynamicMarkers) {
             DynamicMarkers.Clear();
+
+            foreach (var marker in agentMap->MiniMapGatheringMarkers) {
+                if (0 == marker.MapMarker.IconId) continue;
+                var m = _markerFactory.FromMinimapGatheringMarker(MapSheet, marker);
+                DynamicMarkers.Add(m);
+            }
 
             DynamicMarkers.AddRange(
                 map->ActiveLevequestMarkers
