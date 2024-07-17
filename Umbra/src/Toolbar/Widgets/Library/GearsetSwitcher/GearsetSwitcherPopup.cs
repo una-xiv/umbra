@@ -48,6 +48,8 @@ internal sealed partial class GearsetSwitcherPopup : WidgetPopup, IDisposable
     {
         _gearsetRepository = Framework.Service<IGearsetRepository>();
 
+        ForcePopupInMainViewport = true;
+
         CreateHeaderNode();
         CreateColumnsNode();
 

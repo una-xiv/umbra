@@ -38,6 +38,11 @@ public abstract class WidgetPopup
     protected abstract Node Node { get; }
 
     /// <summary>
+    /// Forces the popup to be placed within the main viewport.
+    /// </summary>
+    protected bool ForcePopupInMainViewport { get; set; } = false;
+
+    /// <summary>
     /// Closes the popup.
     /// </summary>
     protected void Close()
@@ -141,8 +146,13 @@ public abstract class WidgetPopup
         ImGui.PushStyleVar(ImGuiStyleVar.WindowBorderSize, 0f);
         ImGui.PushStyleVar(ImGuiStyleVar.WindowBorderSize, 0f);
 
-        // FIXME: This line breaks multi-monitor support.
-        // ImGui.SetNextWindowViewport(ImGui.GetMainViewport().ID);
+        if (ForcePopupInMainViewport) {
+            // NOTE: This line breaks multi-monitor support, but omitting it
+            //       seems to crash the game when the gearset switcher popup
+            //       is opened. Issue has been narrowed down to the fact that
+            //       the popup contains ImGui scrolling child frames.
+            ImGui.SetNextWindowViewport(ImGui.GetMainViewport().ID);
+        }
 
         ImGui.SetNextWindowPos(new(pos.X, pos.Y));
         ImGui.SetNextWindowSize(new(size.X, size.Y));
