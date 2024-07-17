@@ -14,16 +14,9 @@
  *     GNU Affero General Public License for more details.
  */
 
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using Dalamud.Plugin.Services;
-using FFXIVClientStructs.FFXIV.Client.Game.UI;
-using SkiaSharp;
 using Umbra.Common;
-using Umbra.Game;
 using Una.Drawing;
-using static FFXIVClientStructs.FFXIV.Client.UI.AddonRelicNoteBook;
 
 namespace Umbra.Widgets;
 
@@ -53,24 +46,53 @@ internal partial class TeleportWidgetPopup
         Node expansionList   = Node.FindById("ExpansionList")!;
         Node destinationList = Node.FindById("DestinationList")!;
 
-        expansionList.AppendChild(BuildTitleNode(!Toolbar.IsTopAligned));
-
         foreach (TeleportExpansion expansion in _expansions.Values) {
             BuildExpansionNode(expansionList, destinationList, expansion, !Toolbar.IsTopAligned);
         }
+
+        BuildFavoritesNodes(expansionList, destinationList);
     }
 
-    private static Node BuildTitleNode(bool reverse)
+    private void BuildFavoritesNodes(Node expansionList, Node destinationList)
     {
-        return new() {
-            Id        = "Title",
-            Style     = new() { Anchor = reverse ? Anchor.BottomLeft : Anchor.TopLeft },
-            SortIndex = reverse ? int.MinValue : int.MaxValue,
+        Node node = new() {
+            Id        = "Favorites",
+            NodeValue = I18N.Translate("Widget.Teleport.Favorites"),
+            SortIndex = int.MinValue + 1,
+            ClassList = ["expansion"],
+            Style = new() {
+                Anchor = !Toolbar.IsTopAligned ? Anchor.BottomLeft : Anchor.TopLeft,
+                Margin = new() {
+                    Top    = !Toolbar.IsTopAligned ? 16 : 0,
+                    Bottom = Toolbar.IsTopAligned ? 16 : 0,
+                }
+            }
+        };
+
+        expansionList.AppendChild(node);
+        node.OnMouseUp += n => ActivateExpansion(n.Id!);
+
+        Node destinationListFavorites = new() {
+            Id        = "Favorites",
+            ClassList = ["region-container"],
+            Style     = new() { IsVisible = false },
             ChildNodes = [
-                new() { Id = "TitleIcon" },
-                new() { Id = "TitleText", NodeValue = I18N.Translate("Widget.Teleport.Name"), },
+                new() {
+                    ClassList = ["region"],
+                    ChildNodes = [
+                        new() {
+                            ClassList = ["region-header"],
+                            NodeValue = I18N.Translate("Widget.Teleport.Favorites"),
+                        },
+                        new() {
+                            ClassList = ["favorite-destinations"],
+                        }
+                    ]
+                }
             ]
         };
+
+        destinationList.AppendChild(destinationListFavorites);
     }
 
     private void BuildExpansionNode(Node targetNode, Node destinations, TeleportExpansion expansion, bool reverse)
@@ -80,7 +102,7 @@ internal partial class TeleportWidgetPopup
             NodeValue = expansion.Name,
             SortIndex = reverse ? 1 - expansion.SortIndex : expansion.SortIndex,
             ClassList = ["expansion"],
-            Style = new() { Anchor = reverse ? Anchor.BottomLeft : Anchor.TopLeft }
+            Style     = new() { Anchor = reverse ? Anchor.BottomLeft : Anchor.TopLeft }
         };
 
         node.OnMouseUp += n => ActivateExpansion(n.Id!);
@@ -160,15 +182,21 @@ internal partial class TeleportWidgetPopup
         }
     }
 
-    private void BuildDestinationNode(Node targetNode, TeleportDestination destination)
+    private void BuildDestinationNode(
+        Node                targetNode,
+        TeleportDestination destination,
+        int?                sortIndex     = null,
+        bool                showSortables = false
+    )
     {
         Node node = new() {
+            Id        = destination.NodeId,
             ClassList = ["destination"],
-            SortIndex = destination.SortIndex,
+            SortIndex = sortIndex ?? destination.SortIndex,
             ChildNodes = [
                 new() {
-                    ClassList = ["destination-icon"],
-                    Style = new() { UldPartId   = destination.UldPartId },
+                    ClassList   = ["destination-icon"],
+                    Style       = new() { UldPartId = destination.UldPartId },
                     InheritTags = true,
                 },
                 new() {
@@ -186,23 +214,23 @@ internal partial class TeleportWidgetPopup
 
         targetNode.AppendChild(node);
 
-        node.OnMouseUp += _ => {
-            if (!Framework.Service<IPlayer>().CanUseTeleportAction) return;
+        node.OnRightClick += _ => {
+            _selectedDestination = destination;
 
-            if (ShowNotification) {
-                Framework
-                    .Service<IToastGui>()
-                    .ShowQuest(
-                        $"{I18N.Translate("Widget.Teleport.Name")}: {destination.Name}",
-                        new() { IconId = 111, PlaySound = true, DisplayCheckmark = false }
-                    );
+            ContextMenu!.SetEntryVisible("AddFav", !IsFavorite(destination));
+            ContextMenu!.SetEntryVisible("DelFav", IsFavorite(destination));
+            ContextMenu!.SetEntryVisible("MoveUp", showSortables);
+            ContextMenu!.SetEntryVisible("MoveDown", showSortables);
+
+            if (showSortables && IsFavorite(destination)) {
+                var indexAt = Favorites.IndexOf($"{destination.AetheryteId}:{destination.SubIndex}");
+                ContextMenu!.SetEntryDisabled("MoveUp", indexAt == 0);
+                ContextMenu!.SetEntryDisabled("MoveDown", indexAt == Favorites.Count - 1);
             }
 
-            unsafe {
-                Telepo.Instance()->Teleport(destination.AetheryteId, destination.SubIndex);
-            }
-
-            Close();
+            ContextMenu!.Present();
         };
+
+        node.OnMouseUp += _ => Teleport(destination);
     }
 }

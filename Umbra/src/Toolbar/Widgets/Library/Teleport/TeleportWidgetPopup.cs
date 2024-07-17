@@ -14,20 +14,35 @@
  *     GNU Affero General Public License for more details.
  */
 
-using System.Linq;
+using Dalamud.Plugin.Services;
+using FFXIVClientStructs.FFXIV.Client.Game.UI;
+using FFXIVClientStructs.FFXIV.Client.UI.Agent;
+using System;
 using Umbra.Common;
 using Umbra.Game;
 using Una.Drawing;
 
 namespace Umbra.Widgets;
 
-internal partial class TeleportWidgetPopup : WidgetPopup
+internal partial class TeleportWidgetPopup : WidgetPopup, IDisposable
 {
-    private string _selectedExpansion = string.Empty;
-
     public int    MinimumColumns        { get; set; } = 1;
     public string ExpansionMenuPosition { get; set; } = "Auto";
-    public bool   ShowNotification      { get; set; } = false;
+    public bool   ShowNotification      { get; set; }
+
+    private string               _selectedExpansion = string.Empty;
+    private TeleportDestination? _selectedDestination;
+
+    public TeleportWidgetPopup()
+    {
+        ConfigManager.CvarChanged += OnCvarChanged;
+        LoadFavorites();
+    }
+
+    public void Dispose()
+    {
+        ConfigManager.CvarChanged -= OnCvarChanged;
+    }
 
     /// <inheritdoc/>
     protected override bool CanOpen()
@@ -40,7 +55,38 @@ internal partial class TeleportWidgetPopup : WidgetPopup
     {
         HydrateAetherytePoints();
         BuildNodes();
+        LoadFavorites();
         ActivateExpansion(_selectedExpansion, true);
+
+        ContextMenu = new(
+            [
+                new("Teleport") {
+                    Label   = I18N.Translate("Widget.Teleport.Name"),
+                    IconId  = 111,
+                    OnClick = ContextMenuTeleport
+                },
+                new("ShowMap") {
+                    Label   = I18N.Translate("Widget.Teleport.OpenMap"),
+                    OnClick = ContextMenuShowOnMap
+                },
+                new("AddFav") {
+                    Label   = I18N.Translate("Widget.Teleport.Favorites.Add"),
+                    OnClick = ContextMenuAddToFavorites
+                },
+                new("DelFav") {
+                    Label   = I18N.Translate("Widget.Teleport.Favorites.Remove"),
+                    OnClick = ContextMenuRemoveFromFavorites
+                },
+                new("MoveUp") {
+                    Label   = I18N.Translate("Widget.Teleport.Favorites.MoveUp"),
+                    OnClick = () => ContextMenuMoveFavorite(-1),
+                },
+                new("MoveDown") {
+                    Label   = I18N.Translate("Widget.Teleport.Favorites.MoveDown"),
+                    OnClick = () => ContextMenuMoveFavorite(1),
+                }
+            ]
+        );
 
         Node.QuerySelector("#DestinationList")!.TagsList.Add(ExpansionMenuPosition == "Left" ? "right" : "left");
         Node.QuerySelector("#ExpansionList")!.TagsList.Add(ExpansionMenuPosition == "Left" ? "left" : "right");
@@ -73,5 +119,75 @@ internal partial class TeleportWidgetPopup : WidgetPopup
         _selectedExpansion = key;
         Node.FindById("ExpansionList")!.QuerySelector(key)!.TagsList.Add("selected");
         Node.FindById("DestinationList")!.QuerySelector(key)!.Style.IsVisible = true;
+    }
+
+    private void ContextMenuTeleport()
+    {
+        if (null == _selectedDestination) return;
+        Teleport(_selectedDestination.Value);
+    }
+
+    private unsafe void ContextMenuShowOnMap()
+    {
+        if (null == _selectedDestination) return;
+
+        AgentMap* am = AgentMap.Instance();
+        am->ShowMap(true, false);
+
+        OpenMapInfo info = new() {
+            Type        = MapType.Teleport,
+            MapId       = _selectedDestination.Value.MapId,
+            TerritoryId = _selectedDestination.Value.TerritoryId,
+        };
+
+        am->OpenMap(&info);
+    }
+
+    private void ContextMenuAddToFavorites()
+    {
+        if (null == _selectedDestination) return;
+        AddFavorite(_selectedDestination.Value);
+    }
+
+    private void ContextMenuRemoveFromFavorites()
+    {
+        if (null == _selectedDestination) return;
+        RemoveFavorite(_selectedDestination.Value);
+    }
+
+    private void ContextMenuMoveFavorite(int direction)
+    {
+        if (null == _selectedDestination) return;
+
+        var id = $"{_selectedDestination.Value.AetheryteId}:{_selectedDestination.Value.SubIndex}";
+        var index = Favorites.IndexOf(id);
+        if (index == -1) return;
+
+        var newIndex = index + direction;
+        if (newIndex < 0 || newIndex >= Favorites.Count) return;
+
+        Favorites.RemoveAt(index);
+        Favorites.Insert(newIndex, id);
+        PersistFavorites();
+    }
+
+    private void Teleport(TeleportDestination destination)
+    {
+        if (!Framework.Service<IPlayer>().CanUseTeleportAction) return;
+
+        if (ShowNotification) {
+            Framework
+                .Service<IToastGui>()
+                .ShowQuest(
+                    $"{I18N.Translate("Widget.Teleport.Name")}: {destination.Name}",
+                    new() { IconId = 111, PlaySound = true, DisplayCheckmark = false }
+                );
+        }
+
+        unsafe {
+            Telepo.Instance()->Teleport(destination.AetheryteId, destination.SubIndex);
+        }
+
+        Close();
     }
 }

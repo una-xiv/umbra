@@ -73,13 +73,13 @@ internal partial class TeleportWidgetPopup
             new(
                 "#ExpansionList:left",
                 new() {
-                    Padding = new(4) { Right = 0 },
+                    Padding = new(4) { Top = 16, Bottom = 16, Right = 0 },
                 }
             ),
             new(
                 "#ExpansionList:right",
                 new() {
-                    Padding = new(4) { Left = 0 },
+                    Padding = new(4) { Top = 16, Bottom = 16, Left = 0 },
                 }
             ),
             new(
@@ -118,7 +118,7 @@ internal partial class TeleportWidgetPopup
             new(
                 "#DestinationList",
                 new() {
-                    Flow    = Flow.Horizontal,
+                    Flow = Flow.Horizontal,
                 }
             ),
             new(
@@ -218,6 +218,14 @@ internal partial class TeleportWidgetPopup
                     Padding = new() { Left = 8, Bottom = 15 },
                 }
             ),
+            new(
+                ".favorite-destinations",
+                new() {
+                    Flow    = Flow.Vertical,
+                    Gap     = 8,
+                    Padding = new(8),
+                }
+            ),
 
             #endregion
 
@@ -241,9 +249,9 @@ internal partial class TeleportWidgetPopup
             new(
                 ".destination-icon",
                 new() {
-                    Size   = new(20, 20),
-                    UldPartId = 3,
-                    UldPartsId = 16,
+                    Size        = new(20, 20),
+                    UldPartId   = 3,
+                    UldPartsId  = 16,
                     UldResource = "ui/uld/Teleport",
                 }
             ),
