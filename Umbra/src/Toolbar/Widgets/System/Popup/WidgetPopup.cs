@@ -40,7 +40,7 @@ public abstract class WidgetPopup
     /// <summary>
     /// Forces the popup to be placed within the main viewport.
     /// </summary>
-    protected bool ForcePopupInMainViewport { get; set; } = false;
+    protected bool ForcePopupInMainViewport { get; set; }
 
     /// <summary>
     /// Closes the popup.
@@ -61,12 +61,16 @@ public abstract class WidgetPopup
 
     protected virtual void OnClose() { }
 
+    protected ContextMenu? ContextMenu { get; set; }
+
     private float _opacityDest;
     private float _opacity;
     private float _yOffsetDest;
     private float _yOffset;
     private bool  _shouldClose;
     private bool  _isOpen;
+
+    private ContextMenuManager _contextMenuManager = Framework.Service<ContextMenuManager>();
 
     /// <summary>
     /// True if the popup is currently open.
@@ -161,6 +165,10 @@ public abstract class WidgetPopup
         bool hasFocus = ImGui.IsWindowFocused(ImGuiFocusedFlags.RootAndChildWindows);
 
         _popupNode.Render(ImGui.GetWindowDrawList(), new((int)pos.X, (int)(pos.Y + _yOffset)));
+
+        if (ContextMenu is { ShouldRender: true }) {
+            _contextMenuManager.Draw();
+        }
 
         ImGui.End();
         ImGui.PopStyleVar(4);
