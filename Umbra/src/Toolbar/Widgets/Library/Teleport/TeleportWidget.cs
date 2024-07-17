@@ -89,6 +89,7 @@ internal sealed partial class TeleportWidget(
         LeftIconNode.Style.ImageGrayscale  = Node.IsDisabled || GetConfigValue<bool>("DesaturateIcon");
         RightIconNode.Style.ImageGrayscale = Node.IsDisabled || GetConfigValue<bool>("DesaturateIcon");
         Popup.MinimumColumns               = GetConfigValue<int>("MinimumColumns");
+        Popup.ShowNotification             = GetConfigValue<bool>("ShowNotification");
     }
 
     private string GetExpansionMenuPosition()

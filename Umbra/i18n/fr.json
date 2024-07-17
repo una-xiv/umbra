@@ -599,6 +599,8 @@
     "Widget.Teleport.Config.ExpansionListPosition.Option.Auto": "Automatique",
     "Widget.Teleport.Config.ExpansionListPosition.Option.Left": "Côté gauche",
     "Widget.Teleport.Config.ExpansionListPosition.Option.Right": "Côté droit",
+    "Widget.Teleport.Config.ShowNotification.Name": "Afficher la notification de téléportation",
+    "Widget.Teleport.Config.ShowNotification.Description": "Affiche une notification sur votre écran pour confirmer votre destination de téléportation après avoir cliqué sur une destination de téléportation dans le menu.",
     "Widget.Volume.Name": "Contrôle du volume",
     "Widget.Volume.Description": "Vous permet de contrôler le volume des différents canaux audio dans le jeu.",
     "Widget.Volume.Channel.Master": "Principal",

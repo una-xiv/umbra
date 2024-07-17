@@ -599,6 +599,8 @@
     "Widget.Teleport.Config.ExpansionListPosition.Option.Auto": "自動",
     "Widget.Teleport.Config.ExpansionListPosition.Option.Left": "左側",
     "Widget.Teleport.Config.ExpansionListPosition.Option.Right": "右側",
+    "Widget.Teleport.Config.ShowNotification.Name": "テレポート通知を表示",
+    "Widget.Teleport.Config.ShowNotification.Description": "メニューでテレポート先をクリックした後、どこにテレポートするかを確認するために画面に通知を表示します。",
     "Widget.Volume.Name": "音量コントロール",
     "Widget.Volume.Description": "ゲーム内の異なるオーディオチャンネルの音量を制御できます。",
     "Widget.Volume.Channel.Master": "マスター",

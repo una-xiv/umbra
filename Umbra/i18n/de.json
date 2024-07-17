@@ -599,6 +599,8 @@
     "Widget.Teleport.Config.ExpansionListPosition.Option.Auto": "Automatisch",
     "Widget.Teleport.Config.ExpansionListPosition.Option.Left": "Linke Seite",
     "Widget.Teleport.Config.ExpansionListPosition.Option.Right": "Rechte Seite",
+    "Widget.Teleport.Config.ShowNotification.Name": "Teleport-Benachrichtigung anzeigen",
+    "Widget.Teleport.Config.ShowNotification.Description": "Zeigt eine Benachrichtigung auf Ihrem Bildschirm an, um zu bestätigen, wohin Sie nach dem Klicken auf ein Teleport-Ziel im Menü teleportieren.",
     "Widget.Volume.Name": "Lautstärkeregelung",
     "Widget.Volume.Description": "Ermöglicht es Ihnen, die Lautstärke verschiedener Audio-Kanäle im Spiel zu steuern.",
     "Widget.Volume.Channel.Master": "Master",

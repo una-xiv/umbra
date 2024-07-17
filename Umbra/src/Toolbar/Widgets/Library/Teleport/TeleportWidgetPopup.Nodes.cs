@@ -189,12 +189,14 @@ internal partial class TeleportWidgetPopup
         node.OnMouseUp += _ => {
             if (!Framework.Service<IPlayer>().CanUseTeleportAction) return;
 
-            Framework
-                .Service<IToastGui>()
-                .ShowQuest(
-                    $"{I18N.Translate("Widget.Teleport.Name")}: {destination.Name}",
-                    new() { IconId = 111, PlaySound = true, DisplayCheckmark = false }
-                );
+            if (ShowNotification) {
+                Framework
+                    .Service<IToastGui>()
+                    .ShowQuest(
+                        $"{I18N.Translate("Widget.Teleport.Name")}: {destination.Name}",
+                        new() { IconId = 111, PlaySound = true, DisplayCheckmark = false }
+                    );
+            }
 
             unsafe {
                 Telepo.Instance()->Teleport(destination.AetheryteId, destination.SubIndex);

@@ -27,6 +27,7 @@ internal partial class TeleportWidgetPopup : WidgetPopup
 
     public int    MinimumColumns        { get; set; } = 1;
     public string ExpansionMenuPosition { get; set; } = "Auto";
+    public bool   ShowNotification      { get; set; } = false;
 
     /// <inheritdoc/>
     protected override bool CanOpen()
