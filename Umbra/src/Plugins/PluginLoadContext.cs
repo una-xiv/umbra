@@ -21,21 +21,22 @@ using System.Reflection;
 using System.Runtime.Loader;
 using Dalamud.Plugin;
 using Umbra.Common;
+using Umbra.Game;
 using Una.Drawing;
 
 namespace Umbra.Plugins;
 
 internal class PluginLoadContext(string name, DirectoryInfo directoryInfo) : AssemblyLoadContext(true)
 {
-    private record MonitoredPath(string Path, DateTime DateModified);
-
-    private List<MonitoredPath> MonitoredPaths { get; } = [];
-
     private static Dictionary<string, Assembly> KnownAssemblies { get; } = new() {
-        ["Umbra"]        = typeof(Plugin).Assembly,
-        ["Umbra.Common"] = typeof(Framework).Assembly,
-        ["Una.Drawing"]  = typeof(Node).Assembly,
-        ["Dalamud"]      = typeof(IDalamudPluginInterface).Assembly,
+        ["Umbra"]              = typeof(Plugin).Assembly,
+        ["Umbra.Common"]       = typeof(Framework).Assembly,
+        ["Umbra.Game"]         = typeof(IPlayer).Assembly,
+        ["Una.Drawing"]        = typeof(Node).Assembly,
+        ["Dalamud"]            = typeof(IDalamudPluginInterface).Assembly,
+        ["Lumina"]             = typeof(Lumina.GameData).Assembly,
+        ["Lumina.Excel"]       = typeof(Lumina.Excel.GeneratedSheets.Action).Assembly,
+        ["FFXIVClientStructs"] = typeof(FFXIVClientStructs.FFXIV.Client.System.Framework.Framework).Assembly,
     };
 
     internal Assembly LoadFromFile(string filePath)
@@ -52,10 +53,10 @@ internal class PluginLoadContext(string name, DirectoryInfo directoryInfo) : Ass
 
     protected override Assembly? Load(AssemblyName assemblyName)
     {
-        Logger.Info($"[{name}] Attempting to load {assemblyName.FullName}");
+        Logger.Debug($"[{name}] Attempting to load {assemblyName.FullName}");
 
         if (assemblyName.Name != null && KnownAssemblies.TryGetValue(assemblyName.Name, out Assembly? forwardedRef)) {
-            Logger.Info($"[{name}] Forwarded reference to {assemblyName.Name}");
+            Logger.Debug($"[{name}] Forwarded reference to {assemblyName.Name}");
             return forwardedRef;
         }
 
@@ -65,28 +66,12 @@ internal class PluginLoadContext(string name, DirectoryInfo directoryInfo) : Ass
         if (!file.Exists) return base.Load(assemblyName);
 
         try {
-            Logger.Info($"[{name}] Attempting to load {assemblyName.Name} from {file.FullName}");
-            MonitoredPaths.Add(new(file.FullName, file.LastWriteTime));
-
+            Logger.Debug($"[{name}] Attempting to load {assemblyName.Name} from {file.FullName}");
             return LoadFromFile(file.FullName);
         } catch (Exception e) {
             Logger.Error($"Failed to load {assemblyName.Name} from {file.FullName}: {e.Message}");
         }
 
         return base.Load(assemblyName);
-    }
-
-    internal bool IsChanged()
-    {
-        foreach (var m in MonitoredPaths) {
-            var f = new FileInfo(m.Path);
-
-            if (f.Exists && f.LastWriteTime != m.DateModified) {
-                Logger.Info($"Loaded Assembly Changed: {f.FullName}");
-                return true;
-            }
-        }
-
-        return false;
     }
 }

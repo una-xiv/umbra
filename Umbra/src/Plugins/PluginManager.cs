@@ -20,6 +20,8 @@ using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
 using Umbra.Common;
+using Framework = Umbra.Common.Framework;
+using Task = System.Threading.Tasks.Task;
 
 namespace Umbra.Plugins;
 
@@ -29,8 +31,10 @@ internal static class PluginManager
 
     public static List<Plugin> Plugins { get; private set; } = [];
 
-    private static List<string> CustomPluginPaths { get; set; } = [];
-    private static bool         HasRemovedPlugins { get; set; }
+    private static Dictionary<string, long> PluginTimestamps  { get; }      = [];
+    private static List<string>             CustomPluginPaths { get; set; } = [];
+    private static bool                     HasRemovedPlugins { get; set; }
+    private static bool                     IsDisposing       { get; set; }
 
     public static Plugin? AddPlugin(string path, bool store = true)
     {
@@ -107,16 +111,21 @@ internal static class PluginManager
             if (string.IsNullOrEmpty(plugin.LoadError) && plugin.Assembly != null) {
                 Logger.Info($"Loaded plugin: {plugin.Assembly.FullName}");
                 Framework.Assemblies.Add(plugin.Assembly!);
+                PluginTimestamps[plugin.File.FullName] = plugin.File.LastWriteTime.Ticks;
             } else {
                 Logger.Warning($"Failed to load plugin: {plugin.File.Name} ({plugin.LoadError})");
             }
         }
+
+        IsDisposing = false;
+        Task.Run(WatchForPluginFileChanges);
     }
 
     [WhenFrameworkDisposing]
     private static void Dispose()
     {
         HasRemovedPlugins = false;
+        IsDisposing       = true;
 
         foreach (Plugin plugin in Plugins) {
             if (plugin.IsDisposed) continue;
@@ -131,10 +140,37 @@ internal static class PluginManager
 
         Plugins.Clear();
         CustomPluginPaths.Clear();
+        PluginTimestamps.Clear();
     }
 
     private static void StoreCustomPluginsPaths()
     {
         ConfigManager.Set("CustomPluginPaths", JsonConvert.SerializeObject(CustomPluginPaths));
+    }
+
+    private static async void WatchForPluginFileChanges()
+    {
+        if (IsDisposing) return;
+
+        bool requiresRestart = false;
+
+        foreach ((string path, long timestamp) in PluginTimestamps) {
+            FileInfo file = new(path);
+
+            if (file.LastWriteTime.Ticks != timestamp) {
+                Logger.Info($"Plugin file changed: {file.Name}");
+                requiresRestart = true;
+                break;
+            }
+        }
+
+        await Task.Delay(500);
+
+        if (requiresRestart) {
+            Framework.Restart();
+            return;
+        }
+
+        WatchForPluginFileChanges();
     }
 }

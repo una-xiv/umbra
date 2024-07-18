@@ -34,8 +34,15 @@ internal class Plugin(string path) : IDisposable
 
     public void Dispose()
     {
+        if (Assembly != null) {
+            Framework.Assemblies.Remove(Assembly);
+        }
+
         _context?.Unload();
         Assembly   = null;
         IsDisposed = true;
+
+        GC.Collect();
+        GC.WaitForPendingFinalizers();
     }
 }
