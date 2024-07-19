@@ -14,6 +14,7 @@
  *     GNU Affero General Public License for more details.
  */
 
+using Dalamud.Interface;
 using Umbra.Common;
 using Umbra.Windows.Components;
 using Una.Drawing;
@@ -58,6 +59,15 @@ internal partial class SettingsWindow
                                 Style = new() {
                                     BackgroundGradient = GradientColor.Vertical(
                                         new(0x905B5EFF),
+                                        new(0)
+                                    ),
+                                    BackgroundGradientInset = new(4)
+                                }
+                            },
+                            new ButtonNode("DiscordButton", "Discord", null) {
+                                Style = new() {
+                                    BackgroundGradient = GradientColor.Vertical(
+                                        new(0x90FF9ECC),
                                         new(0)
                                     ),
                                     BackgroundGradientInset = new(4)

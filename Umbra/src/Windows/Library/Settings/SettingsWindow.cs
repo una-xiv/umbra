@@ -47,6 +47,7 @@ internal partial class SettingsWindow : Window
 
         Node.QuerySelector("RestartButton")!.OnMouseUp += _ => Framework.Restart();
         Node.QuerySelector("KoFiButton")!.OnMouseUp    += _ => Util.OpenLink("https://ko-fi.com/una_xiv");
+        Node.QuerySelector("DiscordButton")!.OnMouseUp += _ => Util.OpenLink("https://discord.gg/xaEnsuAhmm");
         Node.QuerySelector("CloseButton")!.OnMouseUp   += _ => Close();
         Node.QuerySelector("OobeButton")!.OnMouseUp    += _ => {
             Framework.Service<WindowManager>().Present("OOBE", new OobeWindow());
