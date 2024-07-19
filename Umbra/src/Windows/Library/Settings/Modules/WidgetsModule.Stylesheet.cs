@@ -43,6 +43,18 @@ internal partial class WidgetsModule
                     Color        = new("Window.Text"),
                     OutlineColor = new("Window.TextOutline"),
                     OutlineSize  = 1,
+                    Gap          = 8,
+                }
+            ),
+            new(
+                ".module-header--profile-name",
+                new() {
+                    Anchor       = Anchor.BottomRight,
+                    FontSize     = 13,
+                    Color        = new("Window.TextMuted"),
+                    OutlineColor = new("Window.TextOutline"),
+                    OutlineSize  = 1,
+                    Margin       = new() { Bottom = -4, Left = -2 },
                 }
             ),
             new(

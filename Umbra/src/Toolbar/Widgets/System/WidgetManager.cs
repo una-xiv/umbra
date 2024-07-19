@@ -36,6 +36,8 @@ internal sealed partial class WidgetManager : IDisposable
     private Toolbar Toolbar { get; }
     private IPlayer Player  { get; }
 
+    private byte lastJobId;
+
     public WidgetManager(Toolbar toolbar, IPlayer player)
     {
         Toolbar = toolbar;
@@ -48,7 +50,13 @@ internal sealed partial class WidgetManager : IDisposable
             }
         }
 
+        if (!_widgetProfiles.ContainsKey("Default") == false) {
+            _widgetProfiles["Default"] = WidgetConfigData;
+            SaveProfileData();
+        }
+
         ConfigManager.CvarChanged += OnCvarChanged;
+        LoadProfileData();
         LoadState();
     }
 
@@ -171,41 +179,63 @@ internal sealed partial class WidgetManager : IDisposable
             ClosePopup();
         }
 
+        widget.Node.Remove();
+        widget.Dispose();
+        widget.OpenPopup        -= OpenPopup;
+        widget.OpenPopupDelayed -= OpenPopupIfAnyIsOpen;
+
+        if (widget.Popup is IDisposable disposable) {
+            disposable.Dispose();
+        }
+
+        lock (_instances) {
+            _instances.Remove(guid);
+        }
+
+        lock (_widgetState) {
+            _widgetState.Remove(guid);
+        }
+
+        int sortIndexStart = widget.SortIndex;
+
+        var instances = _instances
+            .Values
+            .Where(w => w.Location == widget.Location && w.SortIndex > sortIndexStart)
+            .ToList();
+
+        if (instances.Count > 0) {
+            foreach (var w in instances) {
+                w.SortIndex--;
+                SaveWidgetState(w.Id);
+            }
+        }
+
+        if (saveState) {
+            SaveState();
+        }
+
+        OnWidgetRemoved?.Invoke(widget);
+    }
+
+    public void CreateCopyOfWidget(string id)
+    {
         Framework.DalamudFramework.Run(
             () => {
-                widget.Node.Remove();
-                widget.Dispose();
-                widget.OpenPopup        -= OpenPopup;
-                widget.OpenPopupDelayed -= OpenPopupIfAnyIsOpen;
+                lock (_widgetState) {
+                    if (!_instances.TryGetValue(id, out var widget)) return;
+                    if (!_widgetState.TryGetValue(id, out var config)) return;
 
-                if (widget.Popup is IDisposable disposable) {
-                    disposable.Dispose();
-                }
+                    // Generate a new GUID for the copied widget.
+                    string newGuid = Guid.NewGuid().ToString();
 
-                lock (_instances) {
-                    _instances.Remove(guid);
-                }
+                    // Create a new widget instance with the same configuration as the original.
+                    CreateWidget(widget.Info.Id, widget.Location, widget.SortIndex, newGuid, new(config.Config));
 
-                int sortIndexStart = widget.SortIndex;
+                    // Since we're copying the widget to the same place, we need to solve the sort indices.
+                    SolveSortIndices(widget.Location);
 
-                var instances = _instances
-                    .Values
-                    .Where(w => w.Location == widget.Location && w.SortIndex > sortIndexStart)
-                    .ToList();
-
-                if (instances.Count > 0) {
-                    foreach (var w in instances) {
-                        w.SortIndex--;
-                        SaveWidgetState(w.Id);
-                    }
-                }
-
-                if (saveState) {
-                    _widgetState.Remove(guid);
                     SaveState();
                 }
-
-                OnWidgetRemoved?.Invoke(widget);
             }
         );
     }
@@ -261,6 +291,14 @@ internal sealed partial class WidgetManager : IDisposable
     [OnTick]
     private void OnUpdateWidgets()
     {
+        byte jobId = Player.JobId;
+
+        if (UseJobAssociatedProfiles && jobId != lastJobId && ActiveProfile != JobToProfileName[jobId]) {
+            lastJobId = jobId;
+            ActivateProfile(JobToProfileName[jobId]);
+            return;
+        }
+
         lock (_instances) {
             foreach (var widget in _instances.Values) {
                 if (widget.Node.ParentNode is null) continue;
@@ -288,6 +326,7 @@ internal sealed partial class WidgetManager : IDisposable
     private void OnCvarChanged(string name)
     {
         if (name == "Toolbar.WidgetData") LoadState();
+        if (name == "Toolbar.ProfileData") LoadProfileData();
     }
 
     private struct WidgetConfigStruct

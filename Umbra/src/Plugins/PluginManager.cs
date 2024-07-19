@@ -110,7 +110,6 @@ internal static class PluginManager
 
             if (string.IsNullOrEmpty(plugin.LoadError) && plugin.Assembly != null) {
                 Logger.Info($"Loaded plugin: {plugin.Assembly.FullName}");
-                Framework.Assemblies.Add(plugin.Assembly!);
                 PluginTimestamps[plugin.File.FullName] = plugin.File.LastWriteTime.Ticks;
             } else {
                 Logger.Warning($"Failed to load plugin: {plugin.File.Name} ({plugin.LoadError})");

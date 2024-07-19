@@ -24,9 +24,9 @@ namespace Umbra.Windows.Settings;
 
 internal partial class SettingsWindow : Window
 {
-    protected override Vector2 MinSize     { get; } = new(1000, 540);
-    protected override Vector2 MaxSize     { get; } = new(1440, 1000);
-    protected override Vector2 DefaultSize { get; } = new(1000, 540);
+    protected override Vector2 MinSize     { get; } = new(1100, 600);
+    protected override Vector2 MaxSize     { get; } = new(1600, 1200);
+    protected override Vector2 DefaultSize { get; } = new(1100, 600);
     protected override string  Title       => I18N.Translate("Settings.Window.Title");
 
     /// <inheritdoc/>

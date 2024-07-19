@@ -52,6 +52,12 @@ internal partial class CurrenciesWidget
                 ""
             ),
             new BooleanWidgetConfigVariable(
+                "EnableMouseInteraction",
+                I18N.Translate("Widget.Currencies.Config.EnableMouseInteraction.Name"),
+                I18N.Translate("Widget.Currencies.Config.EnableMouseInteraction.Description"),
+                true
+            ),
+            new BooleanWidgetConfigVariable(
                 "Decorate",
                 I18N.Translate("Widget.Currencies.Config.Decorate.Name"),
                 I18N.Translate("Widget.Currencies.Config.Decorate.Description"),

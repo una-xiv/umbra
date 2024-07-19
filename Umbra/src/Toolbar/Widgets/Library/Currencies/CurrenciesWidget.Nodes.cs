@@ -30,7 +30,7 @@ internal partial class CurrenciesWidget
     {
         Framework.DalamudFramework.RunOnTick(
             () => {
-                Popup.Clear();
+                Popup?.Clear();
                 HydratePopupMenuInternal();
                 HydrateCustomCurrencies();
             },

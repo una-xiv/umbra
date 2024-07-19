@@ -28,6 +28,11 @@ public interface IPlayer
     public uint OnlineStatusId { get; }
 
     /// <summary>
+    /// The current job ID.
+    /// </summary>
+    public byte JobId { get; }
+
+    /// <summary>
     /// The player's current position in the world.
     /// </summary>
     public Vector3 Position { get; }

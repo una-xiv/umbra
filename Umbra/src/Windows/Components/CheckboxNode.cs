@@ -166,7 +166,7 @@ internal class CheckboxNode : Node
                     Anchor       = Anchor.TopLeft,
                     TextAlign    = Anchor.MiddleLeft,
                     TextOverflow = false,
-                    FontSize     = 13,
+                    FontSize     = 14,
                     Color        = new("Input.Text"),
                     WordWrap     = false,
                 }

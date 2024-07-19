@@ -38,7 +38,23 @@ internal partial class WidgetsModule
         ChildNodes = [
             new() {
                 ClassList = ["module-header"],
-                NodeValue = I18N.Translate("Settings.WidgetsModule.Name")
+                NodeValue = I18N.Translate("Settings.WidgetsModule.Name"),
+                ChildNodes = [
+                    new ButtonNode(
+                        "ManageProfiles",
+                        I18N.Translate("Settings.WidgetsModule.ManageProfiles"),
+                        FontAwesomeIcon.List
+                    ) {
+                        Style = new() {
+                            Anchor = Anchor.BottomRight,
+                            Margin = new() { Bottom = -8, Left = -2 },
+                        }
+                    },
+                    new() {
+                        ClassList = ["module-header--profile-name"],
+                        NodeValue = "Profile: Default"
+                    }
+                ]
             },
             new() {
                 ClassList = ["widgets-column-wrapper"],
@@ -182,6 +198,8 @@ internal partial class WidgetsModule
                                     { Tooltip = I18N.Translate("Settings.WidgetsModule.MoveToRight") },
                                 new ButtonNode("SettingsButton", null, FontAwesomeIcon.Cog)
                                     { Tooltip = I18N.Translate("Settings.WidgetsModule.EditWidget") },
+                                new ButtonNode("CopyButton", null, FontAwesomeIcon.Copy)
+                                    { Tooltip = I18N.Translate("Settings.WidgetsModule.CopyWidget") },
                                 new ButtonNode("DeleteButton", null, FontAwesomeIcon.TrashAlt)
                                     { Tooltip = I18N.Translate("Settings.WidgetsModule.DeleteWidget") },
                             ]
@@ -199,25 +217,23 @@ internal partial class WidgetsModule
         var moveToCenterPanel = node.QuerySelector<ButtonNode>("#MoveToCenterPanel")!;
         var moveToRightPanel  = node.QuerySelector<ButtonNode>("#MoveToRightPanel")!;
         var settingsButton    = node.QuerySelector<ButtonNode>("#SettingsButton")!;
+        var copyButton        = node.QuerySelector<ButtonNode>("#CopyButton")!;
         var deleteButton      = node.QuerySelector<ButtonNode>("#DeleteButton")!;
 
         settingsButton.IsDisabled = widget.GetConfigVariableList().Count == 0;
 
-        moveUp.OnMouseUp += _ => {
-            Framework.Service<WidgetManager>().UpdateWidgetSortIndex(widget.Id, -1, ImGui.GetIO().KeyCtrl);
-        };
+        WidgetManager wm = Framework.Service<WidgetManager>();
 
-        moveDown.OnMouseUp += _ => {
-            Framework.Service<WidgetManager>().UpdateWidgetSortIndex(widget.Id, 1, ImGui.GetIO().KeyCtrl);
-        };
-
+        moveUp.OnMouseUp            += _ => wm.UpdateWidgetSortIndex(widget.Id, -1, ImGui.GetIO().KeyCtrl);
+        moveDown.OnMouseUp          += _ => wm.UpdateWidgetSortIndex(widget.Id, 1,  ImGui.GetIO().KeyCtrl);
+        copyButton.OnMouseUp        += _ => wm.CreateCopyOfWidget(widget.Id);
         moveToLeftPanel.OnMouseUp   += _ => widget.Location = "Left";
         moveToCenterPanel.OnMouseUp += _ => widget.Location = "Center";
         moveToRightPanel.OnMouseUp  += _ => widget.Location = "Right";
 
         deleteButton.OnMouseUp += _ => {
             if (ImGui.GetIO().KeyShift) {
-                Framework.Service<WidgetManager>().RemoveWidget(widget.Id);
+                Framework.DalamudFramework.Run(() => wm.RemoveWidget(widget.Id));
             }
         };
 
@@ -227,8 +243,8 @@ internal partial class WidgetsModule
                 "WidgetInstanceConfig",
                 new WidgetConfigWindow(widget.Id),
                 _ => {
-                    Framework.Service<WidgetManager>().SaveWidgetState(widget.Id);
-                    Framework.Service<WidgetManager>().SaveState();
+                    wm.SaveWidgetState(widget.Id);
+                    wm.SaveState();
                 }
             );
 

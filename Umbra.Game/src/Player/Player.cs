@@ -40,6 +40,11 @@ internal sealed class Player : IPlayer
     public uint OnlineStatusId { get; private set; }
 
     /// <summary>
+    /// The current job ID.
+    /// </summary>
+    public byte JobId { get; private set; }
+
+    /// <summary>
     /// The player's current position in the world.
     /// </summary>
     public Vector3 Position { get; private set; }
@@ -205,6 +210,7 @@ internal sealed class Player : IPlayer
         Rotation       = _clientState.LocalPlayer.Rotation;
         IsDead         = _clientState.LocalPlayer.IsDead;
         IsInPvP        = _clientState.IsPvPExcludingDen;
+        JobId          = (byte)_clientState.LocalPlayer.ClassJob.Id;
 
         IsCasting = _clientState.LocalPlayer.IsCasting
             || _condition[ConditionFlag.Casting]

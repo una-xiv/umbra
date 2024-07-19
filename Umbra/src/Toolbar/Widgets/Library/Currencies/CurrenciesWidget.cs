@@ -69,6 +69,8 @@ internal sealed partial class CurrenciesWidget(
     /// <inheritdoc/>
     protected override void OnUpdate()
     {
+        Popup.IsDisabled = !GetConfigValue<bool>("EnableMouseInteraction");
+
         SetGhost(!GetConfigValue<bool>("Decorate"));
         Popup.UseGrayscaleIcons = GetConfigValue<bool>("DesaturateIcons");
 
