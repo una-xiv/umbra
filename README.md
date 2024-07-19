@@ -10,6 +10,8 @@ existing UI. Dive into a new level of convenience and customization with Umbra!
 
 Visit [Umbra's website](https://una-xiv.github.io/umbra/) for more information. 
 
+Join our [Discord server](https://discord.gg/xaEnsuAhmm) for announcements, support and preset sharing.
+
 ## IMPORTANT INFORMATION REGARDING FEATURE REQUESTS
 
 Since Umbra has support for "widgets" that can represent anything, it is very easy to let this plugin
