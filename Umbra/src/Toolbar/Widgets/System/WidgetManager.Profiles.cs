@@ -53,7 +53,7 @@ internal sealed partial class WidgetManager
     /// </summary>
     public bool CanDeleteProfile(string name)
     {
-        return name != ActiveProfile && name != "Default";
+        return name.Trim() != ActiveProfile && name != "Default";
     }
 
     /// <summary>
@@ -94,6 +94,8 @@ internal sealed partial class WidgetManager
     /// </summary>
     public void DeleteProfile(string name)
     {
+        name = name.Trim();
+
         if (!CanDeleteProfile(name)) {
             Logger.Warning($"Attempted to delete the active or default toolbar profile '{name}'. This is not allowed.");
             return;
@@ -116,8 +118,13 @@ internal sealed partial class WidgetManager
     /// </summary>
     public void CreateBlankProfile(string name)
     {
+        name = name.Trim();
+
         if (ProfileExists(name)) {
-            Logger.Warning($"Attempted to create a blank toolbar profile with the name '{name}', but a profile with that name already exists.");
+            Logger.Warning(
+                $"Attempted to create a blank toolbar profile with the name '{name}', but a profile with that name already exists."
+            );
+
             return;
         }
 
@@ -134,8 +141,13 @@ internal sealed partial class WidgetManager
     /// </summary>
     public void CreateCopiedProfile(string name)
     {
+        name = name.Trim();
+
         if (ProfileExists(name)) {
-            Logger.Warning($"Attempted to create a copied toolbar profile with the name '{name}', but a profile with that name already exists.");
+            Logger.Warning(
+                $"Attempted to create a copied toolbar profile with the name '{name}', but a profile with that name already exists."
+            );
+
             return;
         }
 
@@ -149,18 +161,25 @@ internal sealed partial class WidgetManager
 
     public void CreateFromClipboard(string name)
     {
+        name = name.Trim();
+
         if (ProfileExists(name)) {
-            Logger.Warning($"Attempted to create a toolbar profile with the name '{name}', but a profile with that name already exists.");
+            Logger.Warning(
+                $"Attempted to create a toolbar profile with the name '{name}', but a profile with that name already exists."
+            );
+
             return;
         }
 
         string data = ImGui.GetClipboardText();
+
         if (string.IsNullOrEmpty(data) || !data.StartsWith("TP;")) {
             PrintNotification(
                 I18N.Translate("ToolbarProfilesWindow.Notification.ImportedFailed.Title"),
                 I18N.Translate("ToolbarProfilesWindow.Notification.ImportedFailed.Description", "Invalid data."),
                 true
             );
+
             return;
         }
 
@@ -206,6 +225,8 @@ internal sealed partial class WidgetManager
 
     public void SetProfileNameForJob(byte jobId, string name)
     {
+        name = name.Trim();
+
         JobToProfileName[jobId] = name;
         SaveProfileData();
 
@@ -219,6 +240,7 @@ internal sealed partial class WidgetManager
     public void ExportProfileToClipboard()
     {
         ImGui.SetClipboardText($"TP;{WidgetConfigData}");
+
         PrintNotification(
             I18N.Translate("ToolbarProfilesWindow.Notification.Exported.Title"),
             I18N.Translate("ToolbarProfilesWindow.Notification.Exported.Description", ActiveProfile),

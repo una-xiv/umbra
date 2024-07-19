@@ -19,6 +19,7 @@ using System.Linq;
 using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.Plugin.Services;
 using Umbra.Common;
+using Umbra.Widgets.System;
 using Umbra.Windows;
 using Umbra.Windows.Oobe;
 using Umbra.Windows.Settings;
@@ -41,12 +42,19 @@ internal sealed class UmbraBindings : IDisposable
     private readonly IChatGui        _chatGui;
     private readonly ICommandManager _commandManager;
     private readonly WindowManager   _windowManager;
+    private readonly WidgetManager   _widgetManager;
 
-    public UmbraBindings(IChatGui chatGui, ICommandManager commandManager, WindowManager windowManager)
+    public UmbraBindings(
+        IChatGui chatGui,
+        ICommandManager commandManager,
+        WindowManager windowManager,
+        WidgetManager widgetManager
+    )
     {
         _chatGui        = chatGui;
         _commandManager = commandManager;
         _windowManager  = windowManager;
+        _widgetManager  = widgetManager;
 
         _commandManager.AddHandler(
             "/umbra",
@@ -64,14 +72,22 @@ internal sealed class UmbraBindings : IDisposable
             }
         );
 
+        _commandManager.AddHandler(
+            "/umbra-toolbar-profile",
+            new(HandleUmbraCommand) {
+                HelpMessage = "Switches the toolbar profile. Usage: /umbra-toolbar-profile <profile name>.",
+                ShowInHelp  = true,
+            }
+        );
+
         Framework.DalamudPlugin.UiBuilder.OpenConfigUi += () => _windowManager.Present("UmbraSettings", new SettingsWindow());
         Framework.DalamudPlugin.UiBuilder.OpenMainUi   += () => _windowManager.Present("UmbraSettings", new SettingsWindow());
 
         Node.ScaleFactor = 1.0f;
 
-        // #if DEBUG
+        #if DEBUG
         _windowManager.Present("UmbraSettings", new SettingsWindow());
-        // #endif
+        #endif
 
         if (IsFirstTimeStart) {
             _windowManager.Present("OOBE", new OobeWindow());
@@ -114,6 +130,17 @@ internal sealed class UmbraBindings : IDisposable
                 }
 
                 ConfigManager.Set(cvar.Id, !(bool)cvar.Value!);
+                break;
+            case "/umbra-toolbar-profile":
+                string profile = args.Trim();
+
+                if (profile == string.Empty || !_widgetManager.GetProfileNames().Contains(profile)) {
+                    _chatGui.PrintError("Usage: /umbra-toolbar-profile <profile name>.");
+                    _chatGui.Print($"Available profiles: {String.Join(", ", _widgetManager.GetProfileNames())}");
+                    return;
+                }
+
+                _widgetManager.ActivateProfile(profile);
                 break;
         }
     }
