@@ -736,6 +736,8 @@
     "Widget.WalkingIndicator.Config.Decorate.Description": "给步行指示器小组件加上背景和边框。",
     "Widget.WalkingIndicator.Config.IconYOffset.Name": "图标垂直偏移",
     "Widget.WalkingIndicator.Config.IconYOffset.Description": "图标相对于小组件中心的垂直偏移（以像素为单位）。正值向下移动图标，负值向上移动图标。",
+    "Widget.WalkingIndicator.Config.OnlyShowWhenWalking.Name": "仅在步行时显示",
+    "Widget.WalkingIndicator.Config.OnlyShowWhenWalking.Description": "仅在您步行时显示步行指示器，跑步时隐藏它。",
     "ColorGroup.Window.Name": "Window Colors",
     "ColorGroup.Window.Description": "Colors that are used for the window decorations.",
     "ColorGroup.Input.Name": "输入控件颜色",

@@ -736,6 +736,8 @@
     "Widget.WalkingIndicator.Config.Decorate.Description": "背景と枠線で歩行インジケーターウィジェットを装飾します。",
     "Widget.WalkingIndicator.Config.IconYOffset.Name": "アイコンの垂直オフセット",
     "Widget.WalkingIndicator.Config.IconYOffset.Description": "歩行アイコンのウィジェットの中心からの垂直オフセット（ピクセル単位）。正の値はアイコンを下に、負の値はアイコンを上に移動します。",
+    "Widget.WalkingIndicator.Config.OnlyShowWhenWalking.Name": "歩行中のみ表示",
+    "Widget.WalkingIndicator.Config.OnlyShowWhenWalking.Description": "歩行中のみ歩行インジケータを表示し、走っているときは非表示にします。",
     "ColorGroup.Window.Name": "ウィンドウの色",
     "ColorGroup.Window.Description": "ウィンドウの装飾に使用される色。",
     "ColorGroup.Input.Name": "入力コントロールの色",

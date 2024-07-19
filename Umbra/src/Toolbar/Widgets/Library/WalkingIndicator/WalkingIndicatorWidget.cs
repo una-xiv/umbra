@@ -32,9 +32,16 @@ internal class WalkingIndicatorWidget(
     public override WidgetPopup? Popup => null;
 
     /// <inheritdoc/>
-    protected override void Initialize()
+    protected override unsafe void Initialize()
     {
-        SetIcon(FontAwesomeIcon.Walking);
+        SetIcon(FontAwesomeIcon.Running);
+
+        Node.OnMouseUp += _ => {
+            Control* ctrl = Control.Instance();
+            if (ctrl == null) return;
+
+            ctrl->IsWalking = !ctrl->IsWalking;
+        };
     }
 
     /// <inheritdoc/>
@@ -44,12 +51,20 @@ internal class WalkingIndicatorWidget(
         SetIconYOffset(GetConfigValue<int>("IconYOffset"));
 
         Control* ctrl = Control.Instance();
-        Node.Style.IsVisible = ctrl != null && ctrl->IsWalking;
+        SetIcon(ctrl->IsWalking ? FontAwesomeIcon.Walking : FontAwesomeIcon.Running);
+
+        Node.Style.IsVisible = !GetConfigValue<bool>("OnlyShowWhenWalking") || ctrl->IsWalking;
     }
 
     protected override IEnumerable<IWidgetConfigVariable> GetConfigVariables()
     {
         return [
+            new BooleanWidgetConfigVariable(
+                "OnlyShowWhenWalking",
+                I18N.Translate("Widget.WalkingIndicator.Config.OnlyShowWhenWalking.Name"),
+                I18N.Translate("Widget.WalkingIndicator.Config.OnlyShowWhenWalking.Description"),
+                true
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             new BooleanWidgetConfigVariable(
                 "Decorate",
                 I18N.Translate("Widget.WalkingIndicator.Config.Decorate.Name"),

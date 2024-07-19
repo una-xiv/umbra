@@ -736,6 +736,8 @@
     "Widget.WalkingIndicator.Config.Decorate.Description": "Décore le widget de l'indicateur de marche avec un fond et une bordure.",
     "Widget.WalkingIndicator.Config.IconYOffset.Name": "Décalage vertical de l'icône",
     "Widget.WalkingIndicator.Config.IconYOffset.Description": "Le décalage vertical de l'icône de marche par rapport au centre du widget en pixels. Les valeurs positives déplacent l'icône vers le bas, les valeurs négatives déplacent l'icône vers le haut.",
+    "Widget.WalkingIndicator.Config.OnlyShowWhenWalking.Name": "Afficher uniquement en marchant",
+    "Widget.WalkingIndicator.Config.OnlyShowWhenWalking.Description": "Affiche l'indicateur de marche uniquement lorsque vous marchez et le masque lorsque vous courez.",
     "ColorGroup.Window.Name": "Couleurs de fenêtre",
     "ColorGroup.Window.Description": "Couleurs utilisées pour les décorations de fenêtre.",
     "ColorGroup.Input.Name": "Couleurs des contrôles de saisie",

@@ -736,6 +736,8 @@
     "Widget.WalkingIndicator.Config.Decorate.Description": "Dekoriert das Gehindikator-Widget mit einem Hintergrund und einem Rahmen.",
     "Widget.WalkingIndicator.Config.IconYOffset.Name": "Vertikaler Offset des Symbols",
     "Widget.WalkingIndicator.Config.IconYOffset.Description": "Der vertikale Versatz des Gehsymbols von der Mitte des Widgets in Pixeln. Positive Werte verschieben das Symbol nach unten, negative Werte verschieben das Symbol nach oben.",
+    "Widget.WalkingIndicator.Config.OnlyShowWhenWalking.Name": "Nur anzeigen, wenn zu Fuß",
+    "Widget.WalkingIndicator.Config.OnlyShowWhenWalking.Description": "Zeigt den Gehindikator nur an, wenn Sie zu Fuß gehen, und verbirgt ihn, wenn Sie laufen.",
     "ColorGroup.Window.Name": "Fensterfarben",
     "ColorGroup.Window.Description": "Farben, die für die Fensterdekoration verwendet werden.",
     "ColorGroup.Input.Name": "Eingabesteuerungen-Farben",
