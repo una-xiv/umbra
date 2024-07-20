@@ -28,6 +28,7 @@ internal partial class AppearanceModule : SettingsModule
     public AppearanceModule()
     {
         CreateFontControlNodes();
+        CreatePopupAppearancePanel();
         CreateColorProfileNodes();
         CreateColorControlNodes();
 

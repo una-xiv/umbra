@@ -39,6 +39,11 @@ internal partial class AppearanceModule
                 I18N.Translate("Settings.AppearanceModule.Fonts.Description")
             ),
             CreateSubcategory(
+                "PopupPanel",
+                I18N.Translate("Settings.AppearanceModule.PopupAppearance.Name"),
+                I18N.Translate("Settings.AppearanceModule.PopupAppearance.Description")
+            ),
+            CreateSubcategory(
                 "ColorPanel",
                 I18N.Translate("Settings.AppearanceModule.ColorProfiles.Name")
             ),
@@ -56,6 +61,7 @@ internal partial class AppearanceModule
     };
 
     private Node FontPanel          => Node.QuerySelector("#FontPanel > .appearance-subcategory-body")!;
+    private Node PopupPanel         => Node.QuerySelector("#PopupPanel > .appearance-subcategory-body")!;
     private Node ColorProfilesPanel => Node.QuerySelector("#ColorPanel > .appearance-subcategory-body")!;
 
     private void UpdateNodeSizes()

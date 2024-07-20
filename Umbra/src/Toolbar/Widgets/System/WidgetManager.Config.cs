@@ -44,6 +44,12 @@ internal partial class WidgetManager
     [ConfigVariable("Toolbar.UseJobAssociatedProfiles")]
     public static bool UseJobAssociatedProfiles { get; set; } = false;
 
+    [ConfigVariable("Toolbar.EnableWidgetPopupShadow")]
+    public static bool EnableWidgetPopupShadow { get; set; } = true;
+
+    [ConfigVariable("Toolbar.EnforceFloatingPopups")]
+    public static bool EnforceFloatingPopups { get; set; } = false;
+
     public readonly Dictionary<byte, string> JobToProfileName = [];
 
     private readonly Dictionary<string, WidgetConfigStruct> _widgetState    = [];

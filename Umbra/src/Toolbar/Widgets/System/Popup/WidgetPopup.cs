@@ -18,6 +18,7 @@ using System.Numerics;
 using ImGuiNET;
 using Umbra.Common;
 using Umbra.Style;
+using Umbra.Widgets.System;
 using Una.Drawing;
 
 namespace Umbra.Widgets;
@@ -104,7 +105,7 @@ public abstract class WidgetPopup
                 break;
         }
 
-        switch (!Toolbar.IsStretched) {
+        switch (!Toolbar.IsStretched || WidgetManager.EnforceFloatingPopups) {
             case true when !_popupNode.TagsList.Contains("floating"):
                 _popupNode.TagsList.Add("floating");
                 break;
@@ -143,6 +144,7 @@ public abstract class WidgetPopup
 
         _popupNode.Style.Opacity     = _opacity;
         _popupNode.Style.ShadowInset = (int)(_yOffset + 8);
+        _popupNode.Style.ShadowSize  = WidgetManager.EnableWidgetPopupShadow ? null : new(0);
 
         // Draw the popup window.
         ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding,    Vector2.Zero);
