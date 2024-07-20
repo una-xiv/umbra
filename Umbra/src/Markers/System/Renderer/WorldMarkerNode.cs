@@ -125,6 +125,7 @@ internal class WorldMarkerNode : Node
             iconList.AppendChild(
                 new() {
                     ClassList = ["icon", $"icon-{id}"],
+                    SortIndex = (int)marker.IconId,
                     Style = new() {
                         IconId    = marker.IconId,
                         IsVisible = marker.IconId > 0,
