@@ -68,17 +68,17 @@ internal sealed partial class CustomMenuWidget(
     protected override void OnUpdate()
     {
         SetGhost(!GetConfigValue<bool>("Decorate"));
-        SetLabel(GetConfigValue<string?>("Label"));
+        SetLabel(GetConfigValue<bool>("HideLabel") ? "" : GetConfigValue<string?>("Label"));
         UpdateIcons();
 
-        Popup.UseGrayscaleIcons            = false; // TODO: Make an option for this?
+        Popup.UseGrayscaleIcons            = GetConfigValue<bool>("DesaturateMenuIcons");
         LabelNode.Style.TextOffset         = new(0, GetConfigValue<int>("TextYOffset"));
         LeftIconNode.Style.ImageOffset     = new(0, GetConfigValue<int>("IconYOffset"));
         RightIconNode.Style.ImageOffset    = new(0, GetConfigValue<int>("IconYOffset"));
         LeftIconNode.Style.ImageGrayscale  = GetConfigValue<bool>("DesaturateIcon");
         RightIconNode.Style.ImageGrayscale = GetConfigValue<bool>("DesaturateIcon");
 
-        bool hasText = !string.IsNullOrEmpty(GetConfigValue<string?>("Label"));
+        bool hasText = !GetConfigValue<bool>("HideLabel") && !string.IsNullOrEmpty(GetConfigValue<string?>("Label"));
 
         LeftIconNode.Style.Margin  = new(0, 0, 0, hasText ? -2 : 0);
         RightIconNode.Style.Margin = new(0, hasText ? -2 : 0, 0, 0);
@@ -109,11 +109,12 @@ internal sealed partial class CustomMenuWidget(
     private void UpdateItemList()
     {
         for (var i = 0; i < MaxButtons; i++) {
-            var    id      = $"Button_{i}";
-            string label   = GetConfigValue<string>($"ButtonLabel_{i}").Trim();
-            string command = GetConfigValue<string>($"ButtonCommand_{i}").Trim();
-            string mode    = GetConfigValue<string>($"ButtonMode_{i}").Trim();
-            uint   iconId  = (uint)GetConfigValue<int>($"ButtonIconId_{i}");
+            var    id       = $"Button_{i}";
+            string label    = GetConfigValue<string>($"ButtonLabel_{i}").Trim();
+            string altLabel = GetConfigValue<string>($"ButtonAltLabel_{i}").Trim();
+            string command  = GetConfigValue<string>($"ButtonCommand_{i}").Trim();
+            string mode     = GetConfigValue<string>($"ButtonMode_{i}").Trim();
+            uint   iconId   = (uint)GetConfigValue<int>($"ButtonIconId_{i}");
 
             if (string.IsNullOrEmpty(command) && string.IsNullOrEmpty(label)) {
                 Popup.SetButtonVisibility(id, false);
@@ -125,7 +126,7 @@ internal sealed partial class CustomMenuWidget(
             switch (mode) {
                 case "Command":
                 case "URL":
-                    UpdateMenuItem(id, label, iconId);
+                    UpdateMenuItem(id, label, altLabel, iconId);
                     break;
                 case "Item":
                     UpdateItemMenuItem(id, command);
@@ -134,9 +135,10 @@ internal sealed partial class CustomMenuWidget(
         }
     }
 
-    private void UpdateMenuItem(string id, string label, uint iconId)
+    private void UpdateMenuItem(string id, string label, string altLabel, uint iconId)
     {
         Popup.SetButtonLabel(id, label);
+        Popup.SetButtonAltLabel(id, altLabel);
         Popup.SetButtonIcon(id, iconId);
         Popup.SetButtonDisabled(id, false);
     }
@@ -187,6 +189,7 @@ internal sealed partial class CustomMenuWidget(
                 if (!cmd.StartsWith("http://") && !cmd.StartsWith("https://")) {
                     cmd = "https://" + cmd;
                 }
+
                 Util.OpenLink(cmd);
                 return;
             case "Item":

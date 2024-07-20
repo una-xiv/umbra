@@ -32,6 +32,12 @@ internal partial class CustomButtonWidget
                 "My button",
                 32
             ),
+            new BooleanWidgetConfigVariable(
+                "HideLabel",
+                I18N.Translate("Widget.CustomButton.Config.HideLabel.Name"),
+                I18N.Translate("Widget.CustomButton.Config.HideLabel.Description"),
+                false
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             new SelectWidgetConfigVariable(
                 "Mode",
                 I18N.Translate("Widget.CustomButton.Config.Mode.Name"),
