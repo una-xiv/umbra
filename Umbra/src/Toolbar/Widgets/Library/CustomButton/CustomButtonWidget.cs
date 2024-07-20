@@ -16,6 +16,7 @@
 
 using System.Collections.Generic;
 using Dalamud.Plugin.Services;
+using Dalamud.Utility;
 using Umbra.Common;
 using Umbra.Game;
 using Una.Drawing;
@@ -75,18 +76,25 @@ internal sealed partial class CustomButtonWidget(
 
     private void InvokeCommand(Node _)
     {
-        Command = GetConfigValue<string>("Command");
+        Command = GetConfigValue<string>("Command").Trim();
 
-        if (string.IsNullOrEmpty(Command.Trim()) || !Command.StartsWith('/')) {
-            return;
+        switch (GetConfigValue<string>("Mode")) {
+            case "Command":
+                if (string.IsNullOrEmpty(Command) || !Command.StartsWith('/')) {
+                    return;
+                }
+
+                if (CommandManager.Commands.ContainsKey(Command.Split(" ", 2)[0])) {
+                    CommandManager.ProcessCommand(Command);
+                    return;
+                }
+
+                ChatSender.Send(Command);
+                return;
+            case "URL":
+                Util.OpenLink(Command);
+                return;
         }
-
-        if (CommandManager.Commands.ContainsKey(Command.Split(" ", 2)[0])) {
-            CommandManager.ProcessCommand(Command);
-            return;
-        }
-
-        ChatSender.Send(Command);
     }
 
     private void UpdateIcons()

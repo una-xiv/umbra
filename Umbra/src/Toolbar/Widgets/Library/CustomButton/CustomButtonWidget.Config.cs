@@ -32,6 +32,16 @@ internal partial class CustomButtonWidget
                 "My button",
                 32
             ),
+            new SelectWidgetConfigVariable(
+                "Mode",
+                I18N.Translate("Widget.CustomButton.Config.Mode.Name"),
+                I18N.Translate("Widget.CustomButton.Config.Mode.Description"),
+                "Command",
+                new() {
+                    { "Command", I18N.Translate("Widget.CustomButton.Config.Mode.Option.Command") },
+                    { "URL", I18N.Translate("Widget.CustomButton.Config.Mode.Option.URL") }
+                }
+            ),
             new StringWidgetConfigVariable(
                 "Command",
                 I18N.Translate("Widget.CustomButton.Config.Command.Name"),
