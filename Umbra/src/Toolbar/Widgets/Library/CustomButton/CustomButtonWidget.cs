@@ -92,6 +92,9 @@ internal sealed partial class CustomButtonWidget(
                 ChatSender.Send(Command);
                 return;
             case "URL":
+                if (!Command.StartsWith("http://") && !Command.StartsWith("https://")) {
+                    Command = $"https://{Command}";
+                }
                 Util.OpenLink(Command);
                 return;
         }

@@ -16,6 +16,7 @@
 
 using System.Numerics;
 using ImGuiNET;
+using System;
 using Umbra.Common;
 using Umbra.Style;
 using Umbra.Widgets.System;
@@ -27,6 +28,9 @@ public abstract class WidgetPopup
 {
     [ConfigVariable("Toolbar.PopupAlignmentMethod", "General", "Toolbar", options: ["Center", "Aligned"])]
     public static string PopupAlignmentMethod { get; set; } = "Aligned";
+
+    public event Action? OnPopupOpen;
+    public event Action? OnPopupClose;
 
     private readonly Node _popupNode = new() {
         Stylesheet = PopupStyles.WidgetPopupStylesheet,
@@ -71,7 +75,7 @@ public abstract class WidgetPopup
     private bool  _shouldClose;
     private bool  _isOpen;
 
-    private ContextMenuManager _contextMenuManager = Framework.Service<ContextMenuManager>();
+    private readonly ContextMenuManager _contextMenuManager = Framework.Service<ContextMenuManager>();
 
     /// <summary>
     /// True if the popup is currently open.
@@ -91,6 +95,7 @@ public abstract class WidgetPopup
         if (!_isOpen) {
             _isOpen      = true;
             _shouldClose = false;
+            OnPopupOpen?.Invoke();
             OnOpen();
         }
 
@@ -181,6 +186,7 @@ public abstract class WidgetPopup
             _isOpen      = false;
             _shouldClose = false;
             OnClose();
+            OnPopupClose?.Invoke();
         }
 
         return keepOpen;
@@ -191,6 +197,7 @@ public abstract class WidgetPopup
         if (_isOpen) {
             _isOpen      = false;
             _shouldClose = false;
+            OnPopupClose?.Invoke();
             OnClose();
         }
 
@@ -217,7 +224,7 @@ public abstract class WidgetPopup
 
         float popupX = toolbarColumnId switch {
             "Left"   => originX - 32,
-            "Center" => originX + ((activatorBoundingBox.Width / 2) - (size.X / 2)),
+            "Center" => originX - (size.X / 2),
             "Right"  => originX - size.X + 32,
             _        => 0
         };

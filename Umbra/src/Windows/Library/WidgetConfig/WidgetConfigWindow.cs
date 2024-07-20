@@ -27,7 +27,7 @@ internal partial class WidgetConfigWindow : Window
 {
     protected override string  Title       { get; }
     protected override Vector2 MinSize     { get; } = new(512, 300);
-    protected override Vector2 MaxSize     { get; } = new(720, 600);
+    protected override Vector2 MaxSize     { get; } = new(720, 1200);
     protected override Vector2 DefaultSize { get; } = new(512, 300);
 
     private WidgetManager Manager  { get; }
