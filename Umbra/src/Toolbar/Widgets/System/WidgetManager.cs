@@ -14,6 +14,7 @@
  *     GNU Affero General Public License for more details.
  */
 
+using Lumina.Misc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -161,6 +162,8 @@ internal sealed partial class WidgetManager : IDisposable
         widget.Setup();
         widget.OpenPopup        += OpenPopup;
         widget.OpenPopupDelayed += OpenPopupIfAnyIsOpen;
+
+        widget.Node.Id ??= $"UmbraWidget_{Crc32.Get(widget.Id)}";
 
         panel.AppendChild(widget.Node);
         SolveSortIndices(widget.Location);

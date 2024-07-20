@@ -45,6 +45,12 @@ internal abstract partial class Window
     /// </summary>
     protected abstract void OnClose();
 
+    ~Window()
+    {
+        _windowNode.Dispose();
+        Node.Dispose();
+    }
+
     /// <summary>
     /// Closes this window.
     /// </summary>
