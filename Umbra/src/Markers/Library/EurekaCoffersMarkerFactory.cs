@@ -85,12 +85,12 @@ internal sealed partial class EurekaCoffersMarkerFactory : WorldMarkerFactory
         _fateTable   = fateTable;
         _player      = player;
 
-        _chatGui.ChatMessageUnhandled += OnChatMessage;
+        _chatGui.CheckMessageHandled += OnChatMessage;
     }
 
     public override void Dispose()
     {
-        _chatGui.ChatMessageUnhandled -= OnChatMessage;
+        _chatGui.CheckMessageHandled -= OnChatMessage;
 
         base.Dispose();
     }
