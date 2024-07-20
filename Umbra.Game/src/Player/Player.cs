@@ -27,6 +27,7 @@ using FFXIVClientStructs.FFXIV.Client.UI.Info;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using Lumina.Excel.GeneratedSheets;
 using Umbra.Common;
+using Umbra.Game.Inventory;
 using Umbra.Game.Societies;
 
 namespace Umbra.Game;
@@ -174,6 +175,8 @@ internal sealed class Player : IPlayer
 
     public IEquipmentRepository Equipment { get; }
 
+    public IPlayerInventory Inventory { get; }
+
     private readonly IClientState        _clientState;
     private readonly ICondition          _condition;
     private readonly JobInfoRepository   _jobInfoRepository;
@@ -186,7 +189,8 @@ internal sealed class Player : IPlayer
         ICondition           condition,
         IEquipmentRepository equipmentRepository,
         JobInfoRepository    jobInfoRepository,
-        SocietiesRepository  societiesRepository
+        SocietiesRepository  societiesRepository,
+        IPlayerInventory     playerInventory
     )
     {
         _clientState         = clientState;
@@ -195,6 +199,7 @@ internal sealed class Player : IPlayer
         _societiesRepository = societiesRepository;
 
         Equipment = equipmentRepository;
+        Inventory = playerInventory;
 
         OnTick();
     }
@@ -266,13 +271,6 @@ internal sealed class Player : IPlayer
     public JobInfo GetJobInfo(byte jobId)
     {
         return _jobInfoRepository.GetJobInfo(jobId);
-    }
-
-    public unsafe uint GetFreeInventorySpace()
-    {
-        InventoryManager* im = InventoryManager.Instance();
-
-        return im == null ? 0 : im->GetEmptySlotsInBag();
     }
 
     /// <summary>

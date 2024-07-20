@@ -16,6 +16,7 @@
 
 using System.Collections.Generic;
 using System.Numerics;
+using Umbra.Game.Inventory;
 using Umbra.Game.Societies;
 
 namespace Umbra.Game;
@@ -172,14 +173,15 @@ public interface IPlayer
     public IEnumerable<Society> Societies { get; }
 
     /// <summary>
+    /// Returns a service instance that allows retrieving information about the
+    /// player's different inventory containers.
+    /// </summary>
+    public IPlayerInventory Inventory { get; }
+
+    /// <summary>
     /// Get the job information by the specified job ID.
     /// </summary>
     public JobInfo GetJobInfo(byte jobId);
-
-    /// <summary>
-    /// Returns the amount of free space the player has in their main inventory.
-    /// </summary>
-    public uint GetFreeInventorySpace();
 
     /// <summary>
     /// Returns true if the player has the specified item in their inventory.

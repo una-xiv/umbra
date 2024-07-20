@@ -24,6 +24,17 @@ internal partial class InventorySpaceWidget
     protected override IEnumerable<IWidgetConfigVariable> GetConfigVariables()
     {
         return [
+            new SelectWidgetConfigVariable(
+                "Source",
+                I18N.Translate("Widget.InventorySpace.Config.Source.Name"),
+                I18N.Translate("Widget.InventorySpace.Config.Source.Description"),
+                "Inventory",
+                new() {
+                    { "Inventory", I18N.Translate("Widget.InventorySpace.Config.Source.Option.Inventory") },
+                    { "SaddleBag", I18N.Translate("Widget.InventorySpace.Config.Source.Option.SaddleBag") },
+                    { "SaddleBagPremium", I18N.Translate("Widget.InventorySpace.Config.Source.Option.SaddleBagPremium") }
+                }
+            ),
             new IntegerWidgetConfigVariable(
                 "WarningThreshold",
                 I18N.Translate("Widget.InventorySpace.Config.WarningThreshold.Name"),
