@@ -74,7 +74,7 @@ internal unsafe class EquipmentRepository : IEquipmentRepository, IDisposable
         // Scanning while in PvP is useless, as gear is locked.
         if (_isInPvP) return;
 
-        ushort lowestDurability  = 30000;
+        ushort lowestDurability  = ushort.MaxValue;
         ushort highestSpiritbond = 0;
 
         for (var slot = 0; slot < 13; slot++) {
