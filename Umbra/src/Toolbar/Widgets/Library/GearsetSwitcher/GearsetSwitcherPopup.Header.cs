@@ -28,10 +28,10 @@ internal sealed partial class GearsetSwitcherPopup
     {
         const string uld = "ui/uld/Character";
 
-        Node bestInSlotButton = CreateUldHeaderButtonNode("BestInSlot", uld, 13, 2, "Equip recommended gear");
-        Node openGlamButton   = CreateUldHeaderButtonNode("OpenGlam",   uld, 13, 3, "Apply glamour plates");
-        Node updateButton     = CreateUldHeaderButtonNode("Update",     uld, 13, 1, "Update gearset");
-        Node duplicateButton  = CreateUldHeaderButtonNode("Duplicate",  uld, 15, 8, "Duplicate gearset");
+        Node bestInSlotButton = CreateUldHeaderButtonNode("BestInSlot", uld, 13, 2, I18N.Translate("Widget.GearsetSwitcher.EquipRecommendedGear"));
+        Node openGlamButton   = CreateUldHeaderButtonNode("OpenGlam",   uld, 13, 3, I18N.Translate("Widget.GearsetSwitcher.ContextMenu.LinkGlamourPlate"));
+        Node updateButton     = CreateUldHeaderButtonNode("Update",     uld, 13, 1, I18N.Translate("Widget.GearsetSwitcher.UpdateGearset"));
+        Node duplicateButton  = CreateUldHeaderButtonNode("Duplicate",  uld, 15, 8, I18N.Translate("Widget.GearsetSwitcher.CreateGearset"));
 
         Node node = new() {
             Stylesheet = GearsetSwitcherHeaderStylesheet,
