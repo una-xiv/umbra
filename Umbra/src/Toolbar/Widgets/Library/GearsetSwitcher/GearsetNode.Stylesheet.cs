@@ -111,6 +111,49 @@ internal partial class GearsetNode
                     Color     = new("Widget.PopupMenuTextMuted"),
                     FontSize  = 20,
                 }
+            ),
+            new(
+                ".gearset--ilvl:with-exp-bar",
+                new() {
+                    Margin = new() { Top = -5 },
+                }
+            ),
+            new(
+                ".gearset-exp-bar",
+                new() {
+                    Anchor          = Anchor.BottomLeft,
+                    Size            = new(NodeWidth - 10, 3),
+                    BackgroundColor = new("Window.Background"),
+                    BorderRadius    = 1,
+                    IsAntialiased   = false,
+                    Padding         = new(1),
+                    Margin          = new() { Bottom = -2 },
+                }
+            ),
+            new(
+                ".gearset-exp-bar--bar",
+                new() {
+                    Anchor          = Anchor.TopLeft,
+                    Size            = new(0, 1),
+                    BackgroundColor = new("Window.AccentColor"),
+                    BorderRadius    = 3,
+                    IsAntialiased   = false,
+                }
+            ),
+            new(
+                ".gearset-exp-bar--text",
+                new() {
+                    Anchor       = Anchor.BottomRight,
+                    TextAlign    = Anchor.TopRight,
+                    Size         = new(50, 14),
+                    Color        = new("Window.TextMuted"),
+                    OutlineColor = new("Window.TextOutline"),
+                    OutlineSize  = 1,
+                    Font         = 0,
+                    FontSize     = 11,
+                    TextOffset   = new(0, 1),
+                    Margin       = new() { Bottom = 0, Right = 2 },
+                }
             )
         ]
     );

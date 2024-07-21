@@ -41,20 +41,12 @@ internal sealed class JobInfoRepository : IDisposable
         dataManager.GetExcelSheet<ClassJob>()!
             .ToList()
             .ForEach(
-                cj => {
+                cj =>
+                {
                     _expArrayId[(byte)cj.RowId] = cj.ExpArrayIndex;
-                    _jobInfos[(byte)cj.RowId] = new(
-                        (byte)cj.RowId,
-                        Capitalize(cj.Name.ToDalamudString().TextValue),
-                        0,    // Level
-                        0,    // XP percent
-                        false // Is max level
-                    );
+                    _jobInfos[(byte)cj.RowId]   = new(cj);
                 }
             );
-
-        Logger.Debug($"JobInfos: {JsonSerializer.Serialize(_jobInfos)}");
-        Logger.Debug($"expArray: {JsonSerializer.Serialize(_expArrayId)}");
     }
 
     public void Dispose()
@@ -65,7 +57,7 @@ internal sealed class JobInfoRepository : IDisposable
     public JobInfo GetJobInfo(byte jobId)
     {
         return _jobInfos[jobId]
-         ?? throw new KeyNotFoundException($"Job #{jobId} does not exist.");
+            ?? throw new KeyNotFoundException($"Job #{jobId} does not exist.");
     }
 
     [OnTick(interval: 500)]
@@ -74,13 +66,15 @@ internal sealed class JobInfoRepository : IDisposable
         PlayerState* ps = PlayerState.Instance();
         if (ps == null) return;
 
-        foreach (var jobInfo in _jobInfos.Values) {
+        foreach (var jobInfo in _jobInfos.Values)
+        {
             if (_expArrayId[jobInfo.Id] == -1) continue;
 
             jobInfo.Level = ps->ClassJobLevels[_expArrayId[jobInfo.Id]];
 
             // Blue Mage hack.
-            if (jobInfo is { Id: 36, Level: 80 }) {
+            if (jobInfo is { Id: 36, Level: 80 })
+            {
                 jobInfo.XpPercent  = 0;
                 jobInfo.IsMaxLevel = true;
                 continue;
@@ -89,7 +83,8 @@ internal sealed class JobInfoRepository : IDisposable
             var grow = _dataManager.GetExcelSheet<ParamGrow>()!.GetRow((uint)jobInfo.Level);
 
             // Hardcoded max level.
-            if (jobInfo.Level == 100 || grow == null || grow.ExpToNext == 0) {
+            if (jobInfo.Level == 100 || grow == null || grow.ExpToNext == 0)
+            {
                 jobInfo.XpPercent  = 0;
                 jobInfo.IsMaxLevel = true;
                 continue;
@@ -99,28 +94,5 @@ internal sealed class JobInfoRepository : IDisposable
             jobInfo.XpPercent  = (byte)(currentXp / (float)grow.ExpToNext * 100);
             jobInfo.IsMaxLevel = false;
         }
-    }
-
-    private static string Capitalize(string input)
-    {
-        if (string.IsNullOrEmpty(input))
-        {
-            return input;
-        }
-
-        // Split the input string into words
-        var words = input.Split(' ');
-
-        // Capitalize the first letter of each word
-        for (int i = 0; i < words.Length; i++)
-        {
-            if (words[i].Length > 0)
-            {
-                words[i] = char.ToUpper(words[i][0]) + words[i].Substring(1);
-            }
-        }
-
-        // Join the words back into a single string
-        return string.Join(" ", words);
     }
 }

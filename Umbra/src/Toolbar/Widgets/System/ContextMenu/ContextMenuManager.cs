@@ -17,8 +17,9 @@ internal sealed class ContextMenuManager
     /// </summary>
     public void Present(ContextMenu menu, Action? closeCallback = null)
     {
-        if (null != _contextMenu && null != _closeCallback) {
-            _closeCallback.Invoke();
+        if (null != _contextMenu) {
+            _contextMenu.OnEntryInvoked -= OnEntryInvoked;
+            _closeCallback?.Invoke();
         }
 
         menu.OnEntryInvoked += OnEntryInvoked;

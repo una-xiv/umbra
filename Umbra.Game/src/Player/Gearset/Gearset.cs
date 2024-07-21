@@ -38,6 +38,7 @@ public sealed class Gearset(ushort id, IGearsetCategoryRepository categoryReposi
     public bool            HasMissingItems   { get; private set; }
     public bool            AppearanceDiffers { get; private set; }
     public bool            IsMainHandMissing { get; private set; }
+    public byte            GlamourSetLink    { get; private set; }
 
     public event Action? OnCreated;
     public event Action? OnChanged;
@@ -51,7 +52,8 @@ public sealed class Gearset(ushort id, IGearsetCategoryRepository categoryReposi
         RaptureGearsetModule* gsm         = RaptureGearsetModule.Instance();
         PlayerState*          playerState = PlayerState.Instance();
 
-        if (gsm == null || playerState == null) {
+        if (gsm == null || playerState == null)
+        {
             if (IsValid) OnRemoved?.Invoke();
             IsValid = false;
             return;
@@ -59,7 +61,8 @@ public sealed class Gearset(ushort id, IGearsetCategoryRepository categoryReposi
 
         var gearset = gsm->GetGearset(Id);
 
-        if (gearset == null || !gsm->IsValidGearset(Id)) {
+        if (gearset == null || !gsm->IsValidGearset(Id))
+        {
             if (IsValid) OnRemoved?.Invoke();
             IsValid   = false;
             IsCurrent = false;
@@ -80,75 +83,96 @@ public sealed class Gearset(ushort id, IGearsetCategoryRepository categoryReposi
         short  jobLevel        = player.GetJobInfo(jobId).Level;
         bool   isMaxLevel      = player.GetJobInfo(jobId).IsMaxLevel;
         bool   mainHandMissing = gearset->Flags.HasFlag(RaptureGearsetModule.GearsetFlag.MainHandMissing);
+        byte   glamourSetLink  = gearset->GlamourSetLink;
 
         // Check for missing items.
         var hasMissingItems   = false;
         var appearanceDiffers = false;
 
-        foreach (var item in gearset->Items) {
-            if (item.Flags.HasFlag(RaptureGearsetModule.GearsetItemFlag.ItemMissing)) {
+        foreach (var item in gearset->Items)
+        {
+            if (item.Flags.HasFlag(RaptureGearsetModule.GearsetItemFlag.ItemMissing))
+            {
                 hasMissingItems = true;
             }
 
-            if (item.Flags.HasFlag(RaptureGearsetModule.GearsetItemFlag.AppearanceDiffers)) {
+            if (item.Flags.HasFlag(RaptureGearsetModule.GearsetItemFlag.AppearanceDiffers))
+            {
                 appearanceDiffers = true;
             }
         }
 
         // Check for changes.
-        if (Name != name) {
+        if (Name != name)
+        {
             Name      = name;
             isChanged = true;
         }
 
-        if (JobId != jobId) {
+        if (JobId != jobId)
+        {
             JobId    = jobId;
             Category = categoryRepository.GetCategoryFromJobId(jobId);
         }
 
-        if (ItemLevel != itemLevel) {
+        if (ItemLevel != itemLevel)
+        {
             ItemLevel = itemLevel;
             isChanged = true;
         }
 
-        if (IsCurrent != isCurrent) {
+        if (IsCurrent != isCurrent)
+        {
             IsCurrent = isCurrent;
             isChanged = true;
         }
 
-        if (IsMaxLevel != isMaxLevel) {
+        if (IsMaxLevel != isMaxLevel)
+        {
             IsMaxLevel = isMaxLevel;
             isChanged  = true;
         }
 
-        if (JobXp != jobXp) {
+        if (JobXp != jobXp)
+        {
             JobXp     = jobXp;
             isChanged = true;
         }
 
-        if (JobName != jobName) {
+        if (JobName != jobName)
+        {
             JobName   = jobName;
             isChanged = true;
         }
 
-        if (JobLevel != jobLevel) {
+        if (JobLevel != jobLevel)
+        {
             JobLevel  = jobLevel;
             isChanged = true;
         }
 
-        if (IsMainHandMissing != mainHandMissing) {
+        if (IsMainHandMissing != mainHandMissing)
+        {
             IsMainHandMissing = mainHandMissing;
             isChanged         = true;
         }
 
-        if (AppearanceDiffers != appearanceDiffers) {
+        if (AppearanceDiffers != appearanceDiffers)
+        {
             AppearanceDiffers = appearanceDiffers;
             isChanged         = true;
         }
 
-        if (HasMissingItems != hasMissingItems) {
+        if (HasMissingItems != hasMissingItems)
+        {
             HasMissingItems = hasMissingItems;
             isChanged       = true;
+        }
+
+        if (GlamourSetLink != glamourSetLink)
+        {
+            GlamourSetLink = glamourSetLink;
+            isChanged      = true;
         }
 
         if (isNew)

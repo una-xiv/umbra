@@ -31,12 +31,14 @@ internal sealed partial class GearsetSwitcherWidget(
     public override GearsetSwitcherPopup Popup { get; } = new();
 
     private IGearsetRepository _gearsetRepository = null!;
+    private IPlayer            _player            = null!;
     private Gearset?           _currentGearset;
 
     /// <inheritdoc/>
     protected override void Initialize()
     {
         _gearsetRepository = Framework.Service<IGearsetRepository>();
+        _player            = Framework.Service<IPlayer>();
 
         Node.QuerySelector("#Label")!.Style.TextOffset = new(0, -1);
     }
@@ -81,14 +83,14 @@ internal sealed partial class GearsetSwitcherWidget(
         Node.QuerySelector("#LeftIcon")!.Style.Margin        = new();
         Node.QuerySelector("#RightIcon")!.Style.Margin       = new();
 
-        if (!Popup.IsOpen) return;
-
+        Popup.EnableRoleScrolling    = GetConfigValue<bool>("EnableRoleScrolling");
         Popup.AutoCloseOnChange      = GetConfigValue<bool>("AutoCloseOnChange");
         Popup.ShowRoleNames          = GetConfigValue<bool>("ShowRoleNames");
         Popup.ShowCurrentJobGradient = GetConfigValue<bool>("ShowCurrentJobGradient");
         Popup.ShowGearsetGradient    = GetConfigValue<bool>("ShowGearsetGradient");
-        Popup.UseAlternateHeaderIcon = GetConfigValue<bool>("UseAlternateIconHeader");
-        Popup.UseAlternateButtonIcon = GetConfigValue<bool>("UseAlternateIconButton");
+
+        Popup.HeaderIconType = GetConfigValue<string>("PopupHeaderIconType");
+        Popup.ButtonIconType = GetConfigValue<string>("PopupButtonIconType");
         Popup.HeaderIconYOffset      = GetConfigValue<int>("HeaderIconYOffset");
         Popup.ButtonIconYOffset      = GetConfigValue<int>("ButtonIconYOffset");
 
@@ -127,7 +129,7 @@ internal sealed partial class GearsetSwitcherWidget(
 
     private uint GetWidgetJobIconId(Gearset gearset)
     {
-        return gearset.JobId + 62000u + (GetConfigValue<bool>("UseAlternateIconWidget") ? 100u : 0u);
+        return _player.GetJobInfo(gearset.JobId).GetIcon(GetConfigValue<string>("WidgetButtonIconType"));
     }
 
     private bool VerifyGearsetEquipped()

@@ -14,6 +14,9 @@
  *     GNU Affero General Public License for more details.
  */
 
+using FFXIVClientStructs.FFXIV.Client.Game;
+using FFXIVClientStructs.FFXIV.Client.UI.Agent;
+using FFXIVClientStructs.FFXIV.Component.GUI;
 using System;
 using Umbra.Common;
 using Umbra.Game;
@@ -41,12 +44,15 @@ internal sealed partial class GearsetSwitcherPopup : WidgetPopup, IDisposable
     };
 
     private readonly IGearsetRepository _gearsetRepository;
+    private readonly IPlayer            _player;
 
     private Gearset? _currentGearset;
+    private Gearset? _ctxSelectedGearset;
 
     public GearsetSwitcherPopup()
     {
         _gearsetRepository = Framework.Service<IGearsetRepository>();
+        _player            = Framework.Service<IPlayer>();
 
         ForcePopupInMainViewport = true;
 
@@ -61,21 +67,94 @@ internal sealed partial class GearsetSwitcherPopup : WidgetPopup, IDisposable
         CreateRoleContainer(GearsetCategory.Crafter,  I18N.Translate("Widget.GearsetSwitcher.Role.Crafter"));
         CreateRoleContainer(GearsetCategory.Gatherer, I18N.Translate("Widget.GearsetSwitcher.Role.Gatherer"));
 
-        _gearsetRepository.OnGearsetCreated += OnGearsetCreated;
-        _gearsetRepository.OnGearsetRemoved += OnGearsetRemoved;
-        _gearsetRepository.OnGearsetChanged += OnGearsetChanged;
+        _gearsetRepository.OnGearsetCreated  += OnGearsetCreated;
+        _gearsetRepository.OnGearsetRemoved  += OnGearsetRemoved;
+        _gearsetRepository.OnGearsetChanged  += OnGearsetChanged;
+        _gearsetRepository.OnGearsetEquipped += OnGearsetEquipped;
 
         _gearsetRepository.GetGearsets().ForEach(OnGearsetCreated);
         _currentGearset = _gearsetRepository.CurrentGearset;
+
+        ContextMenu = new(
+            [
+                new("LinkGlam") {
+                    Label = I18N.Translate("Widget.GearsetSwitcher.ContextMenu.LinkGlamourPlate"),
+                    OnClick = () => {
+                        if (null == _ctxSelectedGearset) return;
+                        _gearsetRepository.OpenGlamourSetLinkWindow(_ctxSelectedGearset);
+                        Close();
+                    }
+                },
+                new("UnlinkGlam") {
+                    Label = I18N.Translate("Widget.GearsetSwitcher.ContextMenu.UnlinkGlamourPlate", ""),
+                    OnClick = () => {
+                        if (null == _ctxSelectedGearset) return;
+                        _gearsetRepository.UnlinkGlamourSet(_ctxSelectedGearset);
+                    }
+                },
+                new("EditBanner") {
+                    Label = I18N.Translate("Widget.GearsetSwitcher.ContextMenu.EditPortrait"),
+                    OnClick = () => {
+                        if (null == _ctxSelectedGearset) return;
+
+                        unsafe {
+                            AgentBannerEditor.Instance()->OpenForGearset(_ctxSelectedGearset.Id);
+                        }
+
+                        Close();
+                    }
+                },
+                new("MoveUp") {
+                    Label  = I18N.Translate("Widget.GearsetSwitcher.ContextMenu.MoveUp"),
+                    IconId = 60541u,
+                    OnClick = () => {
+                        if (null == _ctxSelectedGearset) return;
+                        _gearsetRepository.MoveGearsetUp(_ctxSelectedGearset);
+                    }
+                },
+                new("MoveDown") {
+                    Label  = I18N.Translate("Widget.GearsetSwitcher.ContextMenu.MoveDown"),
+                    IconId = 60545u,
+                    OnClick = () => {
+                        if (null == _ctxSelectedGearset) return;
+                        _gearsetRepository.MoveGearsetDown(_ctxSelectedGearset);
+                    }
+                },
+                new("Rename") {
+                    Label = I18N.Translate("Widget.GearsetSwitcher.ContextMenu.Rename"),
+                    OnClick = () => {
+                        if (null == _ctxSelectedGearset) return;
+
+                        unsafe {
+                            var result = stackalloc AtkValue[1];
+                            var values = stackalloc AtkValue[2];
+                            values[0].SetInt(10);                     // case
+                            values[1].SetInt(_ctxSelectedGearset.Id); // gearsetIndex
+                            AgentGearSet.Instance()->ReceiveEvent(result, values, 2, 0);
+                        }
+                    }
+                },
+                new("Delete") {
+                    Label  = I18N.Translate("Widget.GearsetSwitcher.ContextMenu.Delete"),
+                    IconId = 61502u,
+                    OnClick = () => {
+                        if (null == _ctxSelectedGearset) return;
+
+                        _gearsetRepository.DeleteGearset(_ctxSelectedGearset);
+                    },
+                },
+            ]
+        );
     }
 
-    public bool AutoCloseOnChange { get; set; }
-    public bool ShowRoleNames { get; set; }
+    public bool AutoCloseOnChange      { get; set; }
+    public bool ShowRoleNames          { get; set; }
     public bool ShowCurrentJobGradient { get; set; }
-    public bool ShowGearsetGradient { get; set; }
+    public bool ShowGearsetGradient    { get; set; }
 
-    public bool UseAlternateHeaderIcon { get; set; }
-    public bool UseAlternateButtonIcon { get; set; }
+    public string HeaderIconType      { get; set; } = "Default";
+    public string ButtonIconType      { get; set; } = "Default";
+    public bool   EnableRoleScrolling { get; set; }
 
     public int HeaderIconYOffset { get; set; }
     public int ButtonIconYOffset { get; set; }
@@ -120,6 +199,7 @@ internal sealed partial class GearsetSwitcherPopup : WidgetPopup, IDisposable
 
     protected override void OnOpen()
     {
+        _currentGearset = _gearsetRepository.CurrentGearset;
         SetBackgroundGradientFor(_currentGearset?.Category ?? GearsetCategory.None);
         UpdateNodes();
     }
@@ -139,9 +219,10 @@ internal sealed partial class GearsetSwitcherPopup : WidgetPopup, IDisposable
         }
 
         Node.QuerySelector("#HeaderIcon")!.Style.IconId =
-            _currentGearset.JobId + 62000u + (UseAlternateHeaderIcon ? 100u : 0u);
+            _player.GetJobInfo(_currentGearset.JobId).GetIcon(HeaderIconType);
 
         Node.QuerySelector("#HeaderIcon")!.Style.ImageOffset = new(0, HeaderIconYOffset);
+        Node.QuerySelector("#OpenGlam")!.IsDisabled          = !GameMain.IsInSanctuary();
 
         // Assign role containers to the configured columns.
         foreach ((GearsetCategory category, Node node) in RoleContainers) {
@@ -152,16 +233,22 @@ internal sealed partial class GearsetSwitcherPopup : WidgetPopup, IDisposable
                 target.AppendChild(node);
             }
 
-            Node listNode  = GetGearsetListNodeFor(category);
-            int  maxItems  = GetMaxItemsToDisplayForRole(category);
-            int  gapHeight = listNode.ComputedStyle.Gap;
-            int  setCount  = listNode.ChildNodes.Count;
-            int  setItems  = setCount < maxItems ? setCount : maxItems;
-            int  height    = (setItems * GearsetNode.NodeHeight) + ((setItems - 1) * gapHeight);
+            Node listNode = GetGearsetListNodeFor(category);
+            int  setCount = listNode.ChildNodes.Count;
 
-            listNode.Style.Size  = new(GearsetNode.NodeWidth, height);
-            node.Style.IsVisible = setCount > 0 && GetVisibilityForRole(category);
+            listNode.ParentNode!.Overflow = !EnableRoleScrolling;
 
+            if (EnableRoleScrolling) {
+                int maxItems  = GetMaxItemsToDisplayForRole(category);
+                int gapHeight = listNode.ComputedStyle.Gap;
+                int setItems  = setCount < maxItems ? setCount : maxItems;
+                int height    = (setItems * GearsetNode.NodeHeight) + ((setItems - 1) * gapHeight);
+                listNode.Style.Size = new(GearsetNode.NodeWidth, height);
+            } else {
+                listNode.Style.Size = new(GearsetNode.NodeWidth, 0);
+            }
+
+            node.Style.IsVisible                               = setCount > 0 && GetVisibilityForRole(category);
             node.QuerySelector("#RoleHeader")!.Style.IsVisible = ShowRoleNames;
         }
 
@@ -171,9 +258,9 @@ internal sealed partial class GearsetSwitcherPopup : WidgetPopup, IDisposable
     private void UpdateNodes()
     {
         foreach (GearsetNode node in NodeByGearset.Values) {
-            node.UseAlternateButtonIcon = UseAlternateButtonIcon;
-            node.ButtonIconYOffset      = ButtonIconYOffset;
-            node.ShowGearsetGradient    = ShowGearsetGradient;
+            node.ButtonIconType      = ButtonIconType;
+            node.ButtonIconYOffset   = ButtonIconYOffset;
+            node.ShowGearsetGradient = ShowGearsetGradient;
             node.Update();
         }
     }
@@ -181,13 +268,19 @@ internal sealed partial class GearsetSwitcherPopup : WidgetPopup, IDisposable
     /// <inheritdoc/>
     public void Dispose()
     {
-        _gearsetRepository.OnGearsetCreated -= OnGearsetCreated;
-        _gearsetRepository.OnGearsetRemoved -= OnGearsetRemoved;
-        _gearsetRepository.OnGearsetChanged -= OnGearsetChanged;
+        _gearsetRepository.OnGearsetCreated  -= OnGearsetCreated;
+        _gearsetRepository.OnGearsetRemoved  -= OnGearsetRemoved;
+        _gearsetRepository.OnGearsetChanged  -= OnGearsetChanged;
+        _gearsetRepository.OnGearsetEquipped -= OnGearsetEquipped;
 
         GearsetsByCategory.Clear();
         NodeByGearset.Clear();
         RoleContainers.Clear();
+    }
+
+    private void OnGearsetEquipped(Gearset _)
+    {
+        Close();
     }
 
     private void SetBackgroundGradientFor(GearsetCategory category)

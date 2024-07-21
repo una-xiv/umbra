@@ -37,6 +37,11 @@ public interface IGearsetRepository
     public event Action<Gearset>? OnGearsetRemoved;
 
     /// <summary>
+    /// Invoked when a gearset has been equipped.
+    /// </summary>
+    public event Action<Gearset>? OnGearsetEquipped;
+
+    /// <summary>
     /// A reference to the currently equipped gearset.
     /// </summary>
     public Gearset? CurrentGearset { get; }
@@ -51,7 +56,18 @@ public interface IGearsetRepository
     /// Equips the gearset with the given ID.
     /// </summary>
     /// <param name="id"></param>
-    public unsafe void EquipGearset(ushort id);
+    public void EquipGearset(ushort id);
+
+    /// <summary>
+    /// Opens the glamour selection window that allows linking
+    /// a glamour plate to the given gearset.
+    /// </summary>
+    public void OpenGlamourSetLinkWindow(Gearset gearset);
+
+    /// <summary>
+    /// Unlinks a linked glamour set from the given gearset.
+    /// </summary>
+    public void UnlinkGlamourSet(Gearset gearset);
 
     /// <summary>
     /// Find the previous gearset ID in the same category.
@@ -70,25 +86,25 @@ public interface IGearsetRepository
     /// <summary>
     /// Duplicates the currently equipped gearset.
     /// </summary>
-    public unsafe void DuplicateEquippedGearset();
+    public void DuplicateEquippedGearset();
 
     /// <summary>
     /// Updates the currently equipped gearset.
     /// </summary>
-    public unsafe void UpdateEquippedGearset();
+    public void UpdateEquippedGearset();
 
     /// <summary>
-    /// Deletes the currently equipped gearset.
+    /// Deletes the given gearset. Will show a confirmation dialog.
     /// </summary>
-    public unsafe void DeleteEquippedGearset();
+    public void DeleteGearset(Gearset gearset);
 
     /// <summary>
-    /// Moves the currently equipped gearset one slot up within the same category.
+    /// Moves the gearset one slot up within the same category.
     /// </summary>
-    public void MoveEquippedGearsetUp();
+    public void MoveGearsetUp(Gearset gearset);
 
     /// <summary>
-    /// Moves the currently equipped gearset one slot down within the same category.
+    /// Moves the gearset one slot down within the same category.
     /// </summary>
-    public void MoveEquippedGearsetDown();
+    public void MoveGearsetDown(Gearset gearset);
 }

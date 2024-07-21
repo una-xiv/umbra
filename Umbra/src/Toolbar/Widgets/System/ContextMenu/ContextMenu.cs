@@ -55,6 +55,22 @@ public class ContextMenu
         }
     }
 
+    public void SetEntryLabel(string id, string label)
+    {
+        var entry = GetEntry(id);
+        if (entry != null) {
+            entry.Label = label;
+        }
+    }
+
+    public void SetEntryIcon(string id, uint? iconId)
+    {
+        var entry = GetEntry(id);
+        if (entry != null) {
+            entry.IconId = iconId;
+        }
+    }
+
     public void Present()
     {
         Framework.Service<ContextMenuManager>().Present(this);
@@ -68,8 +84,8 @@ public class ContextMenu
                 new() {
                     Flow            = Flow.Vertical,
                     Padding         = new(8),
-                    BackgroundColor = new("Widget.PopupBackground"),
-                    StrokeColor     = new("Widget.PopupBorder"),
+                    BackgroundColor = new("Window.Background"),
+                    StrokeColor     = new("Window.Border"),
                     StrokeWidth     = 1,
                     StrokeInset     = 1,
                     ShadowSize      = new(32),

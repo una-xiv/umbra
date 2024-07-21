@@ -38,6 +38,11 @@ public class ContextMenuEntry(string? id)
         set => Node.Style.IsVisible = value;
     }
 
+    public string? Tooltip {
+        get => Node.Tooltip;
+        set => Node.Tooltip = value;
+    }
+
     public Action? OnClick {
         get => _onClick;
         set

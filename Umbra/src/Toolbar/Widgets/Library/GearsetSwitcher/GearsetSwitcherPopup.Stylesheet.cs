@@ -29,7 +29,7 @@ internal sealed partial class GearsetSwitcherPopup
                 new() {
                     Flow                    = Flow.Horizontal,
                     Padding                 = new(15),
-                    Size                    = new(0, 90),
+                    Size                    = new(0, 100),
                     Gap                     = 15,
                     BackgroundGradient      = GradientColor.Vertical(new(0), new(0x80C0A070)),
                     BackgroundGradientInset = new(4) { Bottom = 0 },
@@ -39,8 +39,14 @@ internal sealed partial class GearsetSwitcherPopup
                 "#HeaderIcon",
                 new() {
                     Anchor          = Anchor.MiddleLeft,
-                    Size            = new(64, 64),
+                    Size            = new(74, 74),
                     IconId          = 62101,
+                    ImageInset      = new(4),
+                    BackgroundColor = new(0x45FFFFFF),
+                    BorderRadius    = 8,
+                    StrokeColor     = new("Widget.Border"),
+                    StrokeWidth     = 1,
+                    IsAntialiased   = false,
                 }
             ),
             new(
@@ -48,7 +54,7 @@ internal sealed partial class GearsetSwitcherPopup
                 new() {
                     Anchor = Anchor.MiddleLeft,
                     Flow   = Flow.Vertical,
-                    Size   = new(0, 54),
+                    Size   = new(0, 64),
                 }
             ),
             new(
@@ -90,7 +96,6 @@ internal sealed partial class GearsetSwitcherPopup
                     OutlineSize  = 1,
                     TextOverflow = false,
                     WordWrap     = false,
-                    Padding      = new() { Top = 2 },
                 }
             ),
             new(
@@ -98,8 +103,31 @@ internal sealed partial class GearsetSwitcherPopup
                 new() {
                     Anchor = Anchor.BottomLeft,
                     Flow   = Flow.Horizontal,
-                    Gap    = 8,
-                    Margin = new() { Bottom = -4 },
+                    Gap    = 4,
+                    // Size   = new(0, 32),
+                    Margin = new() { Bottom = -8 },
+                }
+            ),
+            new(
+                ".header-button",
+                new() {
+                    Size           = new(32, 32),
+                    ImageGrayscale = true,
+                    Opacity        = 0.8f,
+                }
+            ),
+            new(
+                ".header-button:hover",
+                new() {
+                    ImageGrayscale = false,
+                    Opacity        = 1,
+                }
+            ),
+            new(
+                ".header-button:disabled",
+                new() {
+                    ImageGrayscale = true,
+                    Opacity        = 0.45f,
                 }
             ),
         ]

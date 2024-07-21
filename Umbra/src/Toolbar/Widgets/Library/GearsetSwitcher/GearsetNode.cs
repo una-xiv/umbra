@@ -14,7 +14,6 @@
  *     GNU Affero General Public License for more details.
  */
 
-using Dalamud.Game.Text;
 using Dalamud.Interface;
 using Umbra.Common;
 using Umbra.Game;
@@ -27,14 +26,17 @@ internal partial class GearsetNode : Node
     public const int NodeWidth  = 200;
     public const int NodeHeight = 40;
 
-    private readonly IGearsetRepository _repository;
-    private readonly Gearset            _gearset;
+    public readonly Gearset Gearset;
 
-    public GearsetNode(IGearsetRepository repository, Gearset gearset)
+    private readonly IGearsetRepository _repository;
+    private readonly IPlayer            _player;
+
+    public GearsetNode(IGearsetRepository repository, IPlayer player, Gearset gearset)
     {
         _repository = repository;
-        _gearset    = gearset;
+        _player     = player;
 
+        Gearset    = gearset;
         Stylesheet = GearsetSwitcherItemStylesheet;
         ClassList  = ["gearset"];
 
@@ -75,39 +77,69 @@ internal partial class GearsetNode : Node
                 ClassList = ["gearset--ilvl"],
                 NodeValue = gearset.Name
             },
+            new() {
+                Id        = "ExpBar",
+                ClassList = ["gearset-exp-bar"],
+                ChildNodes = [
+                    new() {
+                        Id        = "ExpBarFill",
+                        ClassList = ["gearset-exp-bar--bar"],
+                        Style     = new() { Size = new(25, NodeHeight - 14) },
+                    },
+                ]
+            },
+            new() {
+                Id        = "ExpBarText",
+                ClassList = ["gearset-exp-bar--text"],
+                NodeValue = "50%"
+            }
         ];
     }
 
-    public bool UseAlternateButtonIcon { get; set; } = false;
-    public int  ButtonIconYOffset      { get; set; } = 0;
-    public bool ShowGearsetGradient    { get; set; } = true;
+    public int    ButtonIconYOffset   { get; set; }
+    public string ButtonIconType      { get; set; } = "Default";
+    public bool   ShowGearsetGradient { get; set; } = true;
 
     public void Update()
     {
-        IconNode.Style.IconId      = _gearset.JobId + 62000u + (UseAlternateButtonIcon ? 100u : 0u);
+        IconNode.Style.IconId      = _player.GetJobInfo(Gearset.JobId).GetIcon(ButtonIconType);
         IconNode.Style.ImageOffset = new(0, ButtonIconYOffset);
 
-        NameNode.NodeValue = _gearset.Name;
+        NameNode.NodeValue = Gearset.Name;
         InfoNode.NodeValue = GetCurrentGearsetStatusText();
-        IlvlNode.NodeValue = _gearset.ItemLevel.ToString();
+        IlvlNode.NodeValue = Gearset.ItemLevel.ToString();
 
-        if (_gearset == _repository.CurrentGearset && !TagsList.Contains("current")) {
+        ExpBarNode.Style.IsVisible     = !Gearset.IsMaxLevel;
+        ExpBarTextNode.Style.IsVisible = !Gearset.IsMaxLevel;
+        ExpBarTextNode.NodeValue       = $"{Gearset.JobXp}%";
+        ExpBarFillNode.Style.Size      = new((NodeWidth - 12) * Gearset.JobXp / 100, 1);
+
+        switch (Gearset.IsMaxLevel) {
+            case false when !IlvlNode.TagsList.Contains("with-exp-bar"):
+                IlvlNode.TagsList.Add("with-exp-bar");
+                break;
+            case true when IlvlNode.TagsList.Contains("with-exp-bar"):
+                IlvlNode.TagsList.Remove("with-exp-bar");
+                break;
+        }
+
+        if (Gearset == _repository.CurrentGearset && !TagsList.Contains("current")) {
             TagsList.Add("current");
-        } else if (_gearset != _repository.CurrentGearset && TagsList.Contains("current")) {
+        } else if (Gearset != _repository.CurrentGearset && TagsList.Contains("current")) {
             TagsList.Remove("current");
         }
 
-        SetBackgroundGradientFor(_gearset.Category);
+        SetBackgroundGradientFor(Gearset.Category);
 
-        if (_gearset.IsMainHandMissing) {
+        if (Gearset.IsMainHandMissing) {
             WarnNode.Style.Color     = new(0xE00000DA);
             WarnNode.Style.IsVisible = true;
             WarnNode.Tooltip         = I18N.Translate("Widget.GearsetSwitcher.WarningTooltip.MissingMainHand");
-        } else if (_gearset.HasMissingItems) {
+        } else if (Gearset.HasMissingItems) {
             WarnNode.Style.Color     = new(0xE000DADF);
             WarnNode.Style.IsVisible = true;
             WarnNode.Tooltip         = I18N.Translate("Widget.GearsetSwitcher.WarningTooltip.MissingItems");
-        } else if (_gearset.AppearanceDiffers) {
+        } else if (Gearset.AppearanceDiffers) {
             WarnNode.Style.Color     = new(0xC0A0A0A0);
             WarnNode.Style.IsVisible = true;
             WarnNode.Tooltip         = I18N.Translate("Widget.GearsetSwitcher.WarningTooltip.AppearanceDiffers");
@@ -116,15 +148,18 @@ internal partial class GearsetNode : Node
         }
     }
 
-    private Node IconNode => QuerySelector("Icon")!;
-    private Node NameNode => QuerySelector("Name")!;
-    private Node InfoNode => QuerySelector("Info")!;
-    private Node IlvlNode => QuerySelector("ItemLevel")!;
-    private Node WarnNode => QuerySelector("ExclamationMark")!;
+    private Node IconNode       => QuerySelector("Icon")!;
+    private Node NameNode       => QuerySelector("Name")!;
+    private Node InfoNode       => QuerySelector("Info")!;
+    private Node IlvlNode       => QuerySelector("ItemLevel")!;
+    private Node WarnNode       => QuerySelector("ExclamationMark")!;
+    private Node ExpBarNode     => QuerySelector("ExpBar")!;
+    private Node ExpBarFillNode => QuerySelector("ExpBarFill")!;
+    private Node ExpBarTextNode => QuerySelector("ExpBarText")!;
 
     private string GetCurrentGearsetStatusText()
     {
-        return $"{I18N.Translate("Widget.GearsetSwitcher.JobLevel", _gearset.JobLevel)} {_gearset.JobName}";
+        return $"{I18N.Translate("Widget.GearsetSwitcher.JobLevel", Gearset.JobLevel)} {Gearset.JobName}";
     }
 
     private void SetBackgroundGradientFor(GearsetCategory category)

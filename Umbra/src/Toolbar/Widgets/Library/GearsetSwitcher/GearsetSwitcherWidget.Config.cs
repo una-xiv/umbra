@@ -24,6 +24,21 @@ internal partial class GearsetSwitcherWidget
     /// <inheritdoc/>
     protected override IEnumerable<IWidgetConfigVariable> GetConfigVariables()
     {
+        Dictionary<string, string> iconTypeChoices = new() {
+            { "Default", I18N.Translate("Widget.GearsetSwitcher.Config.IconType.Option.Default") },
+            { "Framed", I18N.Translate("Widget.GearsetSwitcher.Config.IconType.Option.Framed") },
+            { "Gearset", I18N.Translate("Widget.GearsetSwitcher.Config.IconType.Option.Gearset") },
+            { "Glowing", I18N.Translate("Widget.GearsetSwitcher.Config.IconType.Option.Glowing") },
+            { "Light", I18N.Translate("Widget.GearsetSwitcher.Config.IconType.Option.Light") },
+            { "Dark", I18N.Translate("Widget.GearsetSwitcher.Config.IconType.Option.Dark") },
+            { "Gold", I18N.Translate("Widget.GearsetSwitcher.Config.IconType.Option.Gold") },
+            { "Orange", I18N.Translate("Widget.GearsetSwitcher.Config.IconType.Option.Orange") },
+            { "Red", I18N.Translate("Widget.GearsetSwitcher.Config.IconType.Option.Red") },
+            { "Purple", I18N.Translate("Widget.GearsetSwitcher.Config.IconType.Option.Purple") },
+            { "Blue", I18N.Translate("Widget.GearsetSwitcher.Config.IconType.Option.Blue") },
+            { "Green", I18N.Translate("Widget.GearsetSwitcher.Config.IconType.Option.Green") }
+        };
+
         return [
             new BooleanWidgetConfigVariable(
                 "AutoCloseOnChange",
@@ -69,11 +84,12 @@ internal partial class GearsetSwitcherWidget
                 I18N.Translate("Widget.GearsetSwitcher.Config.Decorate.Description"),
                 true
             ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
-            new BooleanWidgetConfigVariable(
-                "UseAlternateIconWidget",
-                I18N.Translate("Widget.GearsetSwitcher.Config.UseAlternateIconWidget.Name"),
-                I18N.Translate("Widget.GearsetSwitcher.Config.UseAlternateIconWidget.Description"),
-                false
+            new SelectWidgetConfigVariable(
+                "WidgetButtonIconType",
+                I18N.Translate("Widget.GearsetSwitcher.Config.WidgetButtonIconType.Name"),
+                I18N.Translate("Widget.GearsetSwitcher.Config.WidgetButtonIconType.Description"),
+                "Default",
+                iconTypeChoices
             ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             new IntegerWidgetConfigVariable(
                 "IconYOffset",
@@ -100,16 +116,24 @@ internal partial class GearsetSwitcherWidget
                 5
             ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             new BooleanWidgetConfigVariable(
-                "UseAlternateIconHeader",
-                I18N.Translate("Widget.GearsetSwitcher.Config.UseAlternateIconHeader.Name"),
-                I18N.Translate("Widget.GearsetSwitcher.Config.UseAlternateIconHeader.Description"),
-                true
-            ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
-            new BooleanWidgetConfigVariable(
-                "UseAlternateIconButton",
-                I18N.Translate("Widget.GearsetSwitcher.Config.UseAlternateIconButton.Name"),
-                I18N.Translate("Widget.GearsetSwitcher.Config.UseAlternateIconButton.Description"),
+                "EnableRoleScrolling",
+                I18N.Translate("Widget.GearsetSwitcher.Config.EnableRoleScrolling.Name"),
+                I18N.Translate("Widget.GearsetSwitcher.Config.EnableRoleScrolling.Description"),
                 false
+            ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
+            new SelectWidgetConfigVariable(
+                "PopupHeaderIconType",
+                I18N.Translate("Widget.GearsetSwitcher.Config.PopupHeaderIconType.Name"),
+                I18N.Translate("Widget.GearsetSwitcher.Config.PopupHeaderIconType.Description"),
+                "Default",
+                iconTypeChoices
+            ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
+            new SelectWidgetConfigVariable(
+                "PopupButtonIconType",
+                I18N.Translate("Widget.GearsetSwitcher.Config.PopupButtonIconType.Name"),
+                I18N.Translate("Widget.GearsetSwitcher.Config.PopupButtonIconType.Description"),
+                "Default",
+                iconTypeChoices
             ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
             new IntegerWidgetConfigVariable(
                 "HeaderIconYOffset",

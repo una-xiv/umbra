@@ -14,10 +14,10 @@
  *     GNU Affero General Public License for more details.
  */
 
-using ImGuiNET;
+using FFXIVClientStructs.FFXIV.Client.UI.Agent;
+using FFXIVClientStructs.FFXIV.Client.UI.Misc;
 using Umbra.Common;
 using Umbra.Game;
-using Umbra.Windows.Components;
 using Una.Drawing;
 
 namespace Umbra.Widgets;
@@ -26,15 +26,12 @@ internal sealed partial class GearsetSwitcherPopup
 {
     private void CreateHeaderNode()
     {
-        ButtonNode updateButton    = new("Update", "Update", isSmall: true);
-        ButtonNode duplicateButton = new("Duplicate", "Duplicate", isSmall: true);
-        ButtonNode moveUpButton    = new("MoveUp", "Move Up", isSmall: true);
-        ButtonNode moveDownButton  = new("MoveDown", "Move Down", isSmall: true);
+        const string uld = "ui/uld/Character";
 
-        ButtonNode deleteButton = new("Delete", "Delete", isSmall: true) {
-            IsGhost = true,
-            Tooltip = I18N.Translate("Widget.GearsetSwitcher.DeleteButtonTooltip")
-        };
+        Node bestInSlotButton = CreateUldHeaderButtonNode("BestInSlot", uld, 13, 2, "Equip recommended gear");
+        Node openGlamButton   = CreateUldHeaderButtonNode("OpenGlam",   uld, 13, 3, "Apply glamour plates");
+        Node updateButton     = CreateUldHeaderButtonNode("Update",     uld, 13, 1, "Update gearset");
+        Node duplicateButton  = CreateUldHeaderButtonNode("Duplicate",  uld, 15, 8, "Duplicate gearset");
 
         Node node = new() {
             Stylesheet = GearsetSwitcherHeaderStylesheet,
@@ -57,11 +54,10 @@ internal sealed partial class GearsetSwitcherPopup
                         new() {
                             Id = "HeaderControls",
                             ChildNodes = [
+                                bestInSlotButton,
+                                openGlamButton,
                                 updateButton,
                                 duplicateButton,
-                                moveUpButton,
-                                moveDownButton,
-                                deleteButton
                             ]
                         }
                     ]
@@ -75,22 +71,24 @@ internal sealed partial class GearsetSwitcherPopup
 
         updateButton.OnMouseUp    += _ => _gearsetRepository.UpdateEquippedGearset();
         duplicateButton.OnMouseUp += _ => _gearsetRepository.DuplicateEquippedGearset();
-        moveUpButton.OnMouseUp    += _ => _gearsetRepository.MoveEquippedGearsetUp();
-        moveDownButton.OnMouseUp  += _ => _gearsetRepository.MoveEquippedGearsetDown();
+        openGlamButton.OnMouseUp += _ => {
+            _gearsetRepository.OpenGlamourSetLinkWindow(_gearsetRepository.CurrentGearset!);
+            Close();
+        };
 
-        deleteButton.OnMouseUp += _ => {
-            if (ImGui.GetIO().KeyShift) _gearsetRepository.DeleteEquippedGearset();
+        bestInSlotButton.OnMouseUp += _ => {
+            unsafe {
+                AgentModule.Instance()->GetAgentByInternalId(AgentId.RecommendEquip)->Show();
+            }
+            Close();
         };
 
         node.BeforeDraw += _ => {
             Gearset? gearset = _gearsetRepository.CurrentGearset;
             if (null == gearset) return;
 
-            moveUpButton.IsDisabled   = _gearsetRepository.FindPrevIdInCategory(gearset) == null;
-            moveDownButton.IsDisabled = _gearsetRepository.FindNextIdInCategory(gearset) == null;
-
-            node.QuerySelector("#HeaderItemLevel")!.NodeValue    = gearset.ItemLevel.ToString();
-            node.QuerySelector("#HeaderGearsetName")!.NodeValue  = gearset.Name;
+            node.QuerySelector("#HeaderItemLevel")!.NodeValue   = gearset.ItemLevel.ToString();
+            node.QuerySelector("#HeaderGearsetName")!.NodeValue = gearset.Name;
             node.QuerySelector("#HeaderGearsetInfo")!.NodeValue = GetCurrentGearsetStatusText();
         };
 
@@ -126,5 +124,25 @@ internal sealed partial class GearsetSwitcherPopup
         return _currentGearset.IsMaxLevel
             ? $"{I18N.Translate("Widget.GearsetSwitcher.JobLevel", jobLevel)}{jobName} - {I18N.Translate("Widget.GearsetSwitcher.ItemLevel", itemLevel)}"
             : $"{I18N.Translate("Widget.GearsetSwitcher.JobLevel", jobLevel)}{jobName} - {I18N.Translate("Widget.GearsetSwitcher.JobXp", jobXp)}";
+    }
+
+    private Node CreateUldHeaderButtonNode(
+        string id, string uld, int partsId, int partId, string tooltip, short rotation = 0
+    )
+    {
+        Node node = new() {
+            Id        = id,
+            ClassList = ["header-button"],
+            Style = new() {
+                UldResource   = uld,
+                UldPartsId    = partsId,
+                UldPartId     = partId,
+                ImageRotation = rotation,
+            }
+        };
+
+        node.Tooltip = tooltip;
+
+        return node;
     }
 }

@@ -14,6 +14,9 @@
  *     GNU Affero General Public License for more details.
  */
 
+using FFXIVClientStructs.FFXIV.Client.Game;
+using FFXIVClientStructs.FFXIV.Client.Game.UI;
+using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using System.Collections.Generic;
 using Umbra.Common;
 using Umbra.Game;
@@ -34,7 +37,9 @@ internal sealed partial class GearsetSwitcherPopup
     {
         AssignGearsetToDataLookupTables(gearset);
 
-        GearsetNode node = new(_gearsetRepository, gearset);
+        GearsetNode node = new(_gearsetRepository, _player, gearset);
+        node.OnRightClick += OnGearsetRightClick;
+
         GetGearsetListNodeFor(gearset.Category).AppendChild(NodeByGearset[gearset] = node);
     }
 
@@ -45,6 +50,7 @@ internal sealed partial class GearsetSwitcherPopup
     {
         Node gearsetNode = NodeByGearset[gearset];
 
+        gearsetNode.OnRightClick -= OnGearsetRightClick;
         gearsetNode.Remove();
 
         NodeByGearset.Remove(gearset);
@@ -64,8 +70,23 @@ internal sealed partial class GearsetSwitcherPopup
         AssignGearsetToDataLookupTables(gearset);
         GetGearsetListNodeFor(gearset.Category).AppendChild(gearsetNode);
         SetBackgroundGradientFor(gearset.Category);
+    }
 
-        if (AutoCloseOnChange) Close();
+    private unsafe void OnGearsetRightClick(Node node)
+    {
+        if (node is not GearsetNode gsNode) {
+            return;
+        }
+
+        _ctxSelectedGearset = gsNode.Gearset;
+        ContextMenu!.SetEntryLabel("UnlinkGlam", I18N.Translate("Widget.GearsetSwitcher.ContextMenu.UnlinkGlamourPlate", _ctxSelectedGearset.GlamourSetLink == 0 ? "" : _ctxSelectedGearset.GlamourSetLink.ToString()));
+        ContextMenu!.SetEntryDisabled("LinkGlam", !UIState.Instance()->IsUnlockLinkUnlocked(15) || !GameMain.IsInSanctuary());
+        ContextMenu!.SetEntryDisabled("UnlinkGlam", _ctxSelectedGearset.GlamourSetLink == 0);
+        ContextMenu!.SetEntryDisabled("EditBanner", !AgentBannerEditor.Instance()->IsActivatable());
+        ContextMenu!.SetEntryDisabled("MoveUp",   _gearsetRepository.FindPrevIdInCategory(_ctxSelectedGearset) == null);
+        ContextMenu!.SetEntryDisabled("MoveDown", _gearsetRepository.FindNextIdInCategory(_ctxSelectedGearset) == null);
+        ContextMenu!.SetEntryDisabled("Delete",   _ctxSelectedGearset.IsCurrent);
+        ContextMenu!.Present();
     }
 
     /// <summary>
