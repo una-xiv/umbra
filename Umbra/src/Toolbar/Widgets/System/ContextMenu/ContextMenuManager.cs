@@ -53,7 +53,7 @@ internal sealed class ContextMenuManager
         ImGui.PushStyleColor(ImGuiCol.Border,  0);
         ImGui.PushStyleColor(ImGuiCol.PopupBg, 0);
 
-        if (ImGui.BeginPopup(_contextMenu.Id)) {
+        if (ImGui.BeginPopup(_contextMenu.Id, ImGuiWindowFlags.NoMove | ImGuiWindowFlags.NoResize | ImGuiWindowFlags.NoCollapse | ImGuiWindowFlags.NoSavedSettings)) {
             var pos = ImGui.GetCursorScreenPos();
             _contextMenu.Node.Render(ImGui.GetWindowDrawList(), new((int)pos.X + 16, (int)pos.Y + 16));
             ImGui.EndPopup();
