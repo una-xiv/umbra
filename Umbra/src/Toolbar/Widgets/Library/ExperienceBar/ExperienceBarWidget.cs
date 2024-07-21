@@ -42,7 +42,9 @@ internal partial class ExperienceBarWidget(
     {
         var gearset = GearsetRepository.CurrentGearset;
 
-        if (gearset == null || gearset.IsMaxLevel) {
+        var displayAtMaxLevel = GetConfigValue<bool>("DisplayAtMaxLevel");
+
+        if (gearset == null || gearset.IsMaxLevel && !displayAtMaxLevel) {
             Node.Style.IsVisible = false;
             return;
         }
@@ -50,6 +52,8 @@ internal partial class ExperienceBarWidget(
         var widgetWidth = GetConfigValue<int>("WidgetWidth");
         var showLevel   = GetConfigValue<bool>("ShowLevel");
         var showExp     = GetConfigValue<bool>("ShowExperience");
+
+        if (gearset.IsMaxLevel) showExp = false;
 
         int maxWidth = widgetWidth - 8;
         int width    = (maxWidth * gearset.JobXp / 100);
