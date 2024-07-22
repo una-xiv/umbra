@@ -52,6 +52,13 @@ internal partial class InventorySpaceWidget(
             _                  => PlayerInventoryType.Inventory
         };
 
+        if (source != PlayerInventoryType.Inventory && Player.IsBoundByDuty) {
+            Node.Style.IsVisible = false;
+            return;
+        }
+
+        Node.Style.IsVisible = true;
+
         uint usedSpace    = Player.Inventory.GetOccupiedInventorySpace(source);
         uint totalSpace   = Player.Inventory.GetTotalInventorySpace(source);
         var  iconLocation = GetConfigValue<string>("IconLocation");
