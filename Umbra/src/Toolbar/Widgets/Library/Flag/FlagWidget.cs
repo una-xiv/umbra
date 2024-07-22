@@ -58,8 +58,10 @@ internal sealed unsafe partial class FlagWidget(
 
         LeftIconNode.Style.ImageGrayscale  = null == _aetheryteEntry;
         RightIconNode.Style.ImageGrayscale = null == _aetheryteEntry;
+        TopLabelNode.Style.TextOffset      = new(0, GetConfigValue<int>("TextYOffsetTop"));
+        BottomLabelNode.Style.TextOffset   = new(0, GetConfigValue<int>("TextYOffsetBottom"));
+        Node.Style.IsVisible               = true;
 
-        Node.Style.IsVisible = true;
         FlagMapMarker* marker = &AgentMap.Instance()->FlagMapMarker;
 
         SetGhost(!GetConfigValue<bool>("Decorate"));

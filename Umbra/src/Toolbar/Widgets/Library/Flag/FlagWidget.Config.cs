@@ -60,6 +60,22 @@ internal sealed partial class FlagWidget
                 -5,
                 5
             ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            new IntegerWidgetConfigVariable(
+                "TextYOffsetTop",
+                I18N.Translate("Widget.Flag.Config.TextYOffsetTop.Name"),
+                I18N.Translate("Widget.Flag.Config.TextYOffsetTop.Description"),
+                0,
+                -5,
+                5
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            new IntegerWidgetConfigVariable(
+                "TextYOffsetBottom",
+                I18N.Translate("Widget.Flag.Config.TextYOffsetBottom.Name"),
+                I18N.Translate("Widget.Flag.Config.TextYOffsetBottom.Description"),
+                0,
+                -5,
+                5
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
         ];
     }
 }
