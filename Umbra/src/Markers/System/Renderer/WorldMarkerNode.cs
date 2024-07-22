@@ -219,11 +219,10 @@ internal class WorldMarkerNode : Node
                     OutlineColor    = new(0xFF000000),
                     OutlineSize     = 1,
                     TextAlign       = Anchor.TopCenter,
-                    Size            = new(150, 16),
+                    Size            = new(150, 18),
                     TextOverflow    = false,
                     TextShadowColor = new(0xFF000000),
                     TextShadowSize  = 8,
-                    TextOffset      = new(0, 1),
                     WordWrap        = false,
                 }
             ),
@@ -236,12 +235,12 @@ internal class WorldMarkerNode : Node
                     OutlineColor    = new(0x90000000),
                     OutlineSize     = 1,
                     TextAlign       = Anchor.TopCenter,
-                    Size            = new(150, 14),
+                    Size            = new(150, 20),
                     TextOverflow    = false,
                     WordWrap        = false,
                     TextShadowColor = new(0xFF000000),
                     TextShadowSize  = 8,
-                    TextOffset      = new(0, 1),
+                    TextOffset      = new(0, -1),
                 }
             ),
             new(
@@ -253,8 +252,8 @@ internal class WorldMarkerNode : Node
                     OutlineColor = new(0x90000000),
                     OutlineSize  = 1,
                     TextAlign    = Anchor.TopCenter,
-                    Size         = new(150, 14),
-                    TextOffset   = new(0, 1),
+                    Size         = new(150, 20),
+                    TextOffset   = new(0, -1),
                 }
             )
         ]
