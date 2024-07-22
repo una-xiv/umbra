@@ -63,8 +63,13 @@ internal sealed class MainMenuRepository : IMainMenuRepository
                         .ToList()
                         .ForEach(
                             cmd => {
+                                uint? icon = cmd.Icon > 0 ? (uint)cmd.Icon : null;
+
+                                if (cmd.RowId == 35) icon = 111; // Teleport
+                                if (cmd.RowId == 36) icon = 112; // Return
+
                                 category.AddItem(
-                                    new(cmd.Name, cmd.SortID, cmd.RowId) { Icon = cmd.Icon > 0 ? (uint)cmd.Icon : null }
+                                    new(cmd.Name, cmd.SortID, cmd.RowId) { Icon = icon }
                                 );
                             }
                         );
@@ -162,6 +167,7 @@ internal sealed class MainMenuRepository : IMainMenuRepository
                         MetadataKey    = metadataKey,
                         ItemGroupId    = "Travel",
                         ItemGroupLabel = "Destinations",
+                        Icon           = (uint)_dataManager.GetExcelSheet<Item>()!.GetRow(itemId)!.Icon,
                     }
                 );
             }
@@ -227,6 +233,7 @@ internal sealed class MainMenuRepository : IMainMenuRepository
                     MetadataKey    = cacheKey,
                     IsDisabled     = isDisabled,
                     ShortKey       = gilCost,
+                    Icon           = dest.IconId,
                     ItemGroupId    = "Travel",
                     ItemGroupLabel = "Destinations",
                 }

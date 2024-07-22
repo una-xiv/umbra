@@ -26,6 +26,12 @@ namespace Umbra.Game;
 
 public class TravelDestination
 {
+    private const uint IconAetheryte = 60453u;
+    private const uint IconApartment = 60789u;
+    private const uint IconEstate    = 60751u;
+    private const uint IconFcHouse   = 60753u;
+    private const uint IconOther     = 60442u;
+
     public uint   Id             { get; private set; }
     public uint   SubId          { get; private set; }
     public uint   GilCost        { get; private set; }
@@ -37,6 +43,7 @@ public class TravelDestination
     public bool   IsSharedHouse  { get; private set; }
     public bool   IsFcHouse      { get; private set; }
     public bool   IsPrivateHouse { get; private set; }
+    public uint?  IconId         { get; private set; }
 
     private static readonly Dictionary<uint, string> InterfaceTexts = [];
     private static readonly Dictionary<uint, string> TerritoryNames = [];
@@ -63,6 +70,7 @@ public class TravelDestination
         IsFcHouse      = IsHousing && entry.AetheryteId is 56 or 57 or 58 or 96 or 164;
         IsPrivateHouse = IsHousing && !IsApartment && !IsSharedHouse && !IsFcHouse && entry.SubIndex > 0;
         Name           = GetDestinationName(entry);
+        IconId         = GetIconId();
     }
 
     private string GetDestinationName(IAetheryteEntry entry)
@@ -94,6 +102,15 @@ public class TravelDestination
 
         // Unknown (most likely also private estates)
         return $"{GetTerritoryName(entry.TerritoryId)} - {entry.AetheryteData.GameData!.PlaceName.Value!.Name}";
+    }
+
+    private uint? GetIconId()
+    {
+        if (IsApartment) return IconApartment;
+        if (IsFcHouse) return IconFcHouse;
+        if (IsHousing) return IconEstate;
+
+        return (Id > 0 && SubId == 0) ? IconAetheryte : IconOther;
     }
 
     private static unsafe string GetUiText(uint id)
