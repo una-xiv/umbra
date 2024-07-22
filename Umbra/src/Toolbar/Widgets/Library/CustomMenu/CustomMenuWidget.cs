@@ -71,6 +71,9 @@ internal sealed partial class CustomMenuWidget(
         SetLabel(GetConfigValue<bool>("HideLabel") ? "" : GetConfigValue<string?>("Label"));
         UpdateIcons();
 
+        string tooltipString = GetConfigValue<string>("Tooltip");
+        Node.Tooltip = !string.IsNullOrEmpty(tooltipString) ? tooltipString : null;
+
         Popup.UseGrayscaleIcons            = GetConfigValue<bool>("DesaturateMenuIcons");
         LabelNode.Style.TextOffset         = new(0, GetConfigValue<int>("TextYOffset"));
         LeftIconNode.Style.ImageOffset     = new(0, GetConfigValue<int>("IconYOffset"));

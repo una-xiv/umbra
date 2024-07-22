@@ -46,6 +46,12 @@ internal sealed partial class CustomMenuWidget
             "My Menu",
             32
         ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+        new StringWidgetConfigVariable(
+            "Tooltip",
+            I18N.Translate("Widget.CustomMenu.Config.Tooltip.Name"),
+            I18N.Translate("Widget.CustomMenu.Config.Tooltip.Description"),
+            ""
+        ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
         new BooleanWidgetConfigVariable(
             "HideLabel",
             I18N.Translate("Widget.CustomMenu.Config.HideLabel.Name"),

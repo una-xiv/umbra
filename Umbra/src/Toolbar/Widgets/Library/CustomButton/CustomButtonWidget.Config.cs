@@ -32,12 +32,12 @@ internal partial class CustomButtonWidget
                 "My button",
                 32
             ),
-            new BooleanWidgetConfigVariable(
-                "HideLabel",
-                I18N.Translate("Widget.CustomButton.Config.HideLabel.Name"),
-                I18N.Translate("Widget.CustomButton.Config.HideLabel.Description"),
-                false
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            new StringWidgetConfigVariable(
+                "Tooltip",
+                I18N.Translate("Widget.CustomButton.Config.Tooltip.Name"),
+                I18N.Translate("Widget.CustomButton.Config.Tooltip.Description"),
+                ""
+            ),
             new SelectWidgetConfigVariable(
                 "Mode",
                 I18N.Translate("Widget.CustomButton.Config.Mode.Name"),
@@ -54,6 +54,12 @@ internal partial class CustomButtonWidget
                 I18N.Translate("Widget.CustomButton.Config.Command.Description"),
                 "/echo Hello, world!"
             ),
+            new BooleanWidgetConfigVariable(
+                "HideLabel",
+                I18N.Translate("Widget.CustomButton.Config.HideLabel.Name"),
+                I18N.Translate("Widget.CustomButton.Config.HideLabel.Description"),
+                false
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             new BooleanWidgetConfigVariable(
                 "Decorate",
                 I18N.Translate("Widget.CustomButton.Config.Decorate.Name"),
