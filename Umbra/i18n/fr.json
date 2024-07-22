@@ -324,6 +324,8 @@
     "Widget.ExperienceBar.Config.WidgetWidth.Description": "La largeur de la barre d'expérience en pixels.",
     "Widget.ExperienceBar.Config.TextYOffset.Name": "Décalage vertical du texte",
     "Widget.ExperienceBar.Config.TextYOffset.Description": "Le décalage vertical du texte par rapport au centre du widget en pixels. Les valeurs positives déplacent le texte vers le bas, les valeurs négatives vers le haut.",
+    "Widget.ExperienceBar.Config.DisplayAtMaxLevel.Name": "Afficher le widget au niveau maximum",
+    "Widget.ExperienceBar.Config.DisplayAtMaxLevel.Description": "Afficher ou non la barre d'expérience lorsque le travail actuel est au niveau maximum.",
     "Widget.InventorySpace.Name": "Indicateur d'espace d'inventaire",
     "Widget.InventorySpace.Description": "Affiche la quantité d'espace libre actuelle dans votre inventaire.",
     "Widget.InventorySpace.Config.Source.Name": "Source d'inventaire",

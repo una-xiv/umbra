@@ -52,6 +52,12 @@ internal partial class ExperienceBarWidget
                 -5,
                 5
             ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            new BooleanWidgetConfigVariable(
+                "DisplayAtMaxLevel",
+                I18N.Translate("Widget.ExperienceBar.Config.DisplayAtMaxLevel.Name"),
+                I18N.Translate("Widget.ExperienceBar.Config.DisplayAtMaxLevel.Description"),
+                true
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
         ];
     }
 }
