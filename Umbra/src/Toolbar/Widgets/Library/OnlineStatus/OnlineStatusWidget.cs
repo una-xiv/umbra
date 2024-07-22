@@ -78,9 +78,15 @@ internal partial class OnlineStatusWidget(
                 break;
         }
 
-        LabelNode.Style.TextOffset      = new(0, GetConfigValue<int>("TextYOffset"));
-        LeftIconNode.Style.ImageOffset  = new(0, GetConfigValue<int>("IconYOffset"));
-        RightIconNode.Style.ImageOffset = new(0, GetConfigValue<int>("IconYOffset"));
+        LeftIconNode.Style.Margin  = new(0, 0, 0, showName ? -2 : 0);
+        RightIconNode.Style.Margin = new(0, showName ? -2 : 0, 0, 0);
+        Node.Style.Padding         = new(0, showName ? 6 : 3);
+
+        LabelNode.Style.TextOffset         = new(0, GetConfigValue<int>("TextYOffset"));
+        LeftIconNode.Style.ImageOffset     = new(0, GetConfigValue<int>("IconYOffset"));
+        RightIconNode.Style.ImageOffset    = new(0, GetConfigValue<int>("IconYOffset"));
+        LeftIconNode.Style.ImageGrayscale  = GetConfigValue<bool>("DesaturateIcon");
+        RightIconNode.Style.ImageGrayscale = GetConfigValue<bool>("DesaturateIcon");
     }
 
     private void UpdateStatus()

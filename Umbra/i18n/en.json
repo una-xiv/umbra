@@ -611,6 +611,8 @@
     "Widget.OnlineStatus.Config.IconLocation.Option.Right": "Right side",
     "Widget.OnlineStatus.Config.Decorate.Name": "Decorate the widget",
     "Widget.OnlineStatus.Config.Decorate.Description": "Decorates the online status widget with a background and border.",
+    "Widget.OnlineStatus.Config.DesaturateIcon.Name": "Desaturate widget icon",
+    "Widget.OnlineStatus.Config.DesaturateIcon.Description": "Desaturates the widget icon to make it appear in grayscale.",
     "Widget.OnlineStatus.Config.TextYOffset.Name": "Text vertical offset",
     "Widget.OnlineStatus.Config.TextYOffset.Description": "The vertical offset of the text from the center of the widget in pixels. Positive values move the text down, negative values move the text up.",
     "Widget.OnlineStatus.Config.IconYOffset.Name": "Icon vertical offset",

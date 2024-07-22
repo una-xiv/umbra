@@ -32,6 +32,12 @@ internal partial class OnlineStatusWidget
                 true
             ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             new BooleanWidgetConfigVariable(
+                "DesaturateIcon",
+                I18N.Translate("Widget.OnlineStatus.Config.DesaturateIcon.Name"),
+                I18N.Translate("Widget.OnlineStatus.Config.DesaturateIcon.Description"),
+                false
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            new BooleanWidgetConfigVariable(
                 "ShowName",
                 I18N.Translate("Widget.OnlineStatus.Config.ShowName.Name"),
                 I18N.Translate("Widget.OnlineStatus.Config.ShowName.Description"),

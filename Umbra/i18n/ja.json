@@ -611,6 +611,8 @@
     "Widget.OnlineStatus.Config.IconLocation.Option.Right": "右側",
     "Widget.OnlineStatus.Config.Decorate.Name": "ウィジェットを装飾",
     "Widget.OnlineStatus.Config.Decorate.Description": "オンライン状態ウィジェットを背景と枠で装飾します。",
+    "Widget.OnlineStatus.Config.DesaturateIcon.Name": "ウィジェットアイコンの彩度を下げる",
+    "Widget.OnlineStatus.Config.DesaturateIcon.Description": "ウィジェットアイコンの彩度を下げて、グレースケールで表示します。",
     "Widget.OnlineStatus.Config.TextYOffset.Name": "テキストの垂直オフセット",
     "Widget.OnlineStatus.Config.TextYOffset.Description": "ピクセル単位でウィジェットの中心からテキストの垂直オフセット。正の値はテキストを下に移動し、負の値はテキストを上に移動します。",
     "Widget.OnlineStatus.Config.IconYOffset.Name": "アイコンの垂直オフセット",

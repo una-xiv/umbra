@@ -611,6 +611,8 @@
     "Widget.OnlineStatus.Config.IconLocation.Option.Right": "Côté droit",
     "Widget.OnlineStatus.Config.Decorate.Name": "Décorer le widget",
     "Widget.OnlineStatus.Config.Decorate.Description": "Décore le widget d'état en ligne avec un fond et une bordure.",
+    "Widget.OnlineStatus.Config.DesaturateIcon.Name": "Désaturer l'icône du widget",
+    "Widget.OnlineStatus.Config.DesaturateIcon.Description": "Désature l'icône du widget pour qu'elle apparaisse en niveaux de gris.",
     "Widget.OnlineStatus.Config.TextYOffset.Name": "Décalage vertical du texte",
     "Widget.OnlineStatus.Config.TextYOffset.Description": "Le décalage vertical du texte par rapport au centre du widget en pixels. Les valeurs positives déplacent le texte vers le bas, les valeurs négatives déplacent le texte vers le haut.",
     "Widget.OnlineStatus.Config.IconYOffset.Name": "Décalage vertical de l'icône",

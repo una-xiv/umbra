@@ -611,6 +611,8 @@
     "Widget.OnlineStatus.Config.IconLocation.Option.Right": "右侧",
     "Widget.OnlineStatus.Config.Decorate.Name": "突出显示",
     "Widget.OnlineStatus.Config.Decorate.Description": "给在线状态小组件加上背景和边框。",
+    "Widget.OnlineStatus.Config.DesaturateIcon.Name": "去饱和挂件图标",
+    "Widget.OnlineStatus.Config.DesaturateIcon.Description": "将挂件图标去饱和，使其以灰度显示。",
     "Widget.OnlineStatus.Config.TextYOffset.Name": "文本垂直偏移",
     "Widget.OnlineStatus.Config.TextYOffset.Description": "文本相对于小组件中心的垂直偏移（以像素为单位）。正值向下移动文本，负值向上移动文本。",
     "Widget.OnlineStatus.Config.IconYOffset.Name": "图标垂直偏移",

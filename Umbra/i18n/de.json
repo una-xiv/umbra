@@ -611,6 +611,8 @@
     "Widget.OnlineStatus.Config.IconLocation.Option.Right": "Rechte Seite",
     "Widget.OnlineStatus.Config.Decorate.Name": "Widget dekorieren",
     "Widget.OnlineStatus.Config.Decorate.Description": "Dekoriert das Online-Status-Widget mit einem Hintergrund und einem Rand.",
+    "Widget.OnlineStatus.Config.DesaturateIcon.Name": "Widget-Symbol entsättigen",
+    "Widget.OnlineStatus.Config.DesaturateIcon.Description": "Entsättigt das Widget-Symbol, damit es in Graustufen erscheint.",
     "Widget.OnlineStatus.Config.TextYOffset.Name": "Vertikaler Textversatz",
     "Widget.OnlineStatus.Config.TextYOffset.Description": "Der vertikale Versatz des Textes vom Zentrum des Widgets in Pixeln. Positive Werte verschieben den Text nach unten, negative Werte verschieben den Text nach oben.",
     "Widget.OnlineStatus.Config.IconYOffset.Name": "Vertikaler Symbolversatz",
