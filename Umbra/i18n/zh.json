@@ -553,6 +553,8 @@
     "Widget.GearsetSwitcher.ContextMenu.MoveDown": "下移",
     "Widget.GearsetSwitcher.ContextMenu.Rename": "重命名装备套装",
     "Widget.GearsetSwitcher.ContextMenu.Delete": "删除装备套装",
+    "Widget.GearsetSwitcher.Config.ShowItemLevel.Name": "在工具栏小部件上显示物品等级",
+    "Widget.GearsetSwitcher.Config.ShowItemLevel.Description": "是否在工具栏小部件上显示当前装备的装备套件的物品等级或工作等级和经验值。",
     "Widget.GearsetSwitcher.Config.WidgetButtonIconType.Name": "小部件按钮图标类型",
     "Widget.GearsetSwitcher.Config.WidgetButtonIconType.Description": "工具栏小部件按钮上应显示的图标类型。",
     "Widget.GearsetSwitcher.Config.EnableRoleScrolling.Name": "限制角色容器高度并启用滚动",

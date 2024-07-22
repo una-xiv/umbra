@@ -46,6 +46,12 @@ internal partial class GearsetSwitcherWidget
                 I18N.Translate("Widget.GearsetSwitcher.Config.AutoCloseOnChange.Description"),
                 true
             ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            new BooleanWidgetConfigVariable(
+                "ShowItemLevel",
+                I18N.Translate("Widget.GearsetSwitcher.Config.ShowItemLevel.Name"),
+                I18N.Translate("Widget.GearsetSwitcher.Config.ShowItemLevel.Description"),
+                true
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             new SelectWidgetConfigVariable(
                 "DisplayMode",
                 I18N.Translate("Widget.GearsetSwitcher.Config.DisplayMode.Name"),

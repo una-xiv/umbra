@@ -553,6 +553,8 @@
     "Widget.GearsetSwitcher.ContextMenu.MoveDown": "Déplacer vers le bas",
     "Widget.GearsetSwitcher.ContextMenu.Rename": "Renommer l'ensemble d'équipement",
     "Widget.GearsetSwitcher.ContextMenu.Delete": "Supprimer l'ensemble d'équipement",
+    "Widget.GearsetSwitcher.Config.ShowItemLevel.Name": "Afficher le niveau d'objet sur le widget de la barre d'outils",
+    "Widget.GearsetSwitcher.Config.ShowItemLevel.Description": "Indique s'il faut afficher le niveau d'objet ou le niveau de travail et l'expérience de l'ensemble d'équipement actuellement équipé sur le widget de la barre d'outils.",
     "Widget.GearsetSwitcher.Config.WidgetButtonIconType.Name": "Type d'icône du bouton du widget",
     "Widget.GearsetSwitcher.Config.WidgetButtonIconType.Description": "Le type d'icône à afficher sur le bouton du widget de la barre d'outils.",
     "Widget.GearsetSwitcher.Config.EnableRoleScrolling.Name": "Limiter la hauteur des conteneurs de rôle et activer le défilement",

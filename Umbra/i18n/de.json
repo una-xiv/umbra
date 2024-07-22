@@ -553,6 +553,8 @@
     "Widget.GearsetSwitcher.ContextMenu.MoveDown": "Nach unten verschieben",
     "Widget.GearsetSwitcher.ContextMenu.Rename": "Ausrüstungssatz umbenennen",
     "Widget.GearsetSwitcher.ContextMenu.Delete": "Ausrüstungssatz löschen",
+    "Widget.GearsetSwitcher.Config.ShowItemLevel.Name": "Gegenstandsstufe im Toolbar-Widget anzeigen",
+    "Widget.GearsetSwitcher.Config.ShowItemLevel.Description": "Ob die Gegenstandsstufe oder die Jobstufe und Erfahrung des derzeit ausgerüsteten Ausrüstungssets im Toolbar-Widget angezeigt werden sollen.",
     "Widget.GearsetSwitcher.Config.WidgetButtonIconType.Name": "Widget-Schaltflächensymboltyp",
     "Widget.GearsetSwitcher.Config.WidgetButtonIconType.Description": "Der Symboltyp, der auf der Werkzeugleistenschaltfläche angezeigt werden soll.",
     "Widget.GearsetSwitcher.Config.EnableRoleScrolling.Name": "Begrenzen Sie die Höhe der Rollencontainer und aktivieren Sie das Scrollen",

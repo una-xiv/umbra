@@ -553,6 +553,8 @@
     "Widget.GearsetSwitcher.ContextMenu.MoveDown": "下に移動",
     "Widget.GearsetSwitcher.ContextMenu.Rename": "装備セットの名前を変更",
     "Widget.GearsetSwitcher.ContextMenu.Delete": "装備セットを削除",
+    "Widget.GearsetSwitcher.Config.ShowItemLevel.Name": "ツールバーウィジェットにアイテムレベルを表示",
+    "Widget.GearsetSwitcher.Config.ShowItemLevel.Description": "ツールバーウィジェットに現在装備しているギアセットのアイテムレベル、またはジョブレベルと経験値を表示するかどうか。",
     "Widget.GearsetSwitcher.Config.WidgetButtonIconType.Name": "ウィジェットボタンアイコンの種類",
     "Widget.GearsetSwitcher.Config.WidgetButtonIconType.Description": "ツールバーウィジェットボタンに表示されるアイコンの種類。",
     "Widget.GearsetSwitcher.Config.EnableRoleScrolling.Name": "役割コンテナの高さを制限しスクロールを有効にする",

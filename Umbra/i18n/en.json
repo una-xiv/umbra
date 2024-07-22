@@ -553,6 +553,8 @@
     "Widget.GearsetSwitcher.ContextMenu.MoveDown": "Move Down",
     "Widget.GearsetSwitcher.ContextMenu.Rename": "Rename Gearset",
     "Widget.GearsetSwitcher.ContextMenu.Delete": "Delete Gearset",
+    "Widget.GearsetSwitcher.Config.ShowItemLevel.Name": "Show item level on the toolbar widget",
+    "Widget.GearsetSwitcher.Config.ShowItemLevel.Description": "Whether to show the item level, or job level and experience, of the currently equipped gearset on the toolbar widget.",
     "Widget.GearsetSwitcher.Config.WidgetButtonIconType.Name": "Widget button icon type",
     "Widget.GearsetSwitcher.Config.WidgetButtonIconType.Description": "The type of icon that should be displayed on the toolbar widget button.",
     "Widget.GearsetSwitcher.Config.EnableRoleScrolling.Name": "Limit role container heights and enable scrolling",

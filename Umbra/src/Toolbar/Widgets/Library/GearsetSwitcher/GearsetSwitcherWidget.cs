@@ -53,6 +53,7 @@ internal sealed partial class GearsetSwitcherWidget(
         bool showText = GetConfigValue<string>("DisplayMode") != "IconOnly";
         bool showIcon = GetConfigValue<string>("DisplayMode") != "TextOnly";
         bool leftIcon = GetConfigValue<string>("IconLocation") == "Left";
+        bool showIlvl = GetConfigValue<bool>("ShowItemLevel");
 
         switch (GetConfigValue<string>("TextAlign")) {
             case "Left":
@@ -66,22 +67,28 @@ internal sealed partial class GearsetSwitcherWidget(
                 break;
         }
 
-        SetTwoLabels(
-            showText ? _currentGearset!.Name : null,
-            showText ? GetCurrentGearsetStatusText() : null
-        );
+        if (showText && showIlvl) {
+            SetTwoLabels(_currentGearset!.Name, GetCurrentGearsetStatusText());
+        } else if (showText && !showIlvl) {
+            SetLabel(_currentGearset!.Name);
+        } else {
+            SetTwoLabels(null, null);
+            SetLabel(null);
+        }
 
         SetLeftIcon(showIcon && leftIcon ? GetWidgetJobIconId(_currentGearset!) : null);
         SetRightIcon(showIcon && !leftIcon ? GetWidgetJobIconId(_currentGearset!) : null);
 
-        Node.Style.Padding                                   = showText ? new(0, 6) : new(0, 4);
-        Node.QuerySelector("#Label")!.Style.IsVisible        = showText;
-        Node.QuerySelector("#TopLabel")!.Style.TextOffset    = new(0, GetConfigValue<int>("NameTextYOffset"));
-        Node.QuerySelector("#BottomLabel")!.Style.TextOffset = new(0, GetConfigValue<int>("InfoTextYOffset"));
-        Node.QuerySelector("#LeftIcon")!.Style.ImageOffset   = new(0, GetConfigValue<int>("IconYOffset"));
-        Node.QuerySelector("#RightIcon")!.Style.ImageOffset  = new(0, GetConfigValue<int>("IconYOffset"));
-        Node.QuerySelector("#LeftIcon")!.Style.Margin        = new();
-        Node.QuerySelector("#RightIcon")!.Style.Margin       = new();
+        LeftIconNode.Style.Margin  = new(0, 0, 0, showText ? -2 : 0);
+        RightIconNode.Style.Margin = new(0, showText ? -2 : 0, 0, 0);
+        Node.Style.Padding         = new(0, showText ? 6 : 3);
+
+        LabelNode.Style.IsVisible        = showText;
+        LabelNode.Style.TextOffset       = new(0, GetConfigValue<int>("NameTextYOffset"));
+        TopLabelNode.Style.TextOffset    = new(0, GetConfigValue<int>("NameTextYOffset"));
+        BottomLabelNode.Style.TextOffset = new(0, GetConfigValue<int>("InfoTextYOffset"));
+        LeftIconNode.Style.ImageOffset   = new(0, GetConfigValue<int>("IconYOffset"));
+        RightIconNode.Style.ImageOffset  = new(0, GetConfigValue<int>("IconYOffset"));
 
         Popup.EnableRoleScrolling    = GetConfigValue<bool>("EnableRoleScrolling");
         Popup.AutoCloseOnChange      = GetConfigValue<bool>("AutoCloseOnChange");
