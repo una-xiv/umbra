@@ -49,6 +49,7 @@ internal partial class DurabilityWidget(
         var           dm = Framework.Service<IDataManager>();
         GeneralAction rp = dm.GetExcelSheet<GeneralAction>()!.GetRow(6)!;  // Repair
         GeneralAction sp = dm.GetExcelSheet<GeneralAction>()!.GetRow(14)!; // Extract Materia
+        GeneralAction am = dm.GetExcelSheet<GeneralAction>()!.GetRow(13)!; // Materia Melding
 
         Popup.AddButton(
             "Repair",
@@ -66,6 +67,15 @@ internal partial class DurabilityWidget(
             iconId: (uint)sp.Icon,
             groupId: "Actions",
             onClick: () => Player.UseGeneralAction(14)
+        );
+
+        Popup.AddButton(
+            "Melding",
+            am.Name.ToDalamudString().ToString(),
+            2,
+            iconId: (uint)sp.Icon,
+            groupId: "Actions",
+            onClick: () => Player.UseGeneralAction(13)
         );
     }
 
@@ -157,6 +167,7 @@ internal partial class DurabilityWidget(
         if (Popup.IsOpen) {
             Popup.SetButtonDisabled("Repair",  !Player.IsGeneralActionUnlocked(6));
             Popup.SetButtonDisabled("Extract", !Player.IsGeneralActionUnlocked(14));
+            Popup.SetButtonDisabled("Melding", !Player.IsGeneralActionUnlocked(13));
         }
     }
 
