@@ -653,6 +653,8 @@
     "Widget.Teleport.Config.ExpansionListPosition.Option.Right": "Rechte Seite",
     "Widget.Teleport.Config.ShowNotification.Name": "Teleport-Benachrichtigung anzeigen",
     "Widget.Teleport.Config.ShowNotification.Description": "Zeigt eine Benachrichtigung auf Ihrem Bildschirm an, um zu bestätigen, wohin Sie nach dem Klicken auf ein Teleport-Ziel im Menü teleportieren.",
+    "Widget.Teleport.Config.OpenFavoritesByDefault.Name": "Favoriten standardmäßig öffnen",
+    "Widget.Teleport.Config.OpenFavoritesByDefault.Description": "Öffnet standardmäßig die Favoritenliste, wenn das Teleport-Widget angeklickt wird, anstatt der Erweiterung, in der Sie sich gerade befinden.",
     "Widget.Volume.Name": "Lautstärkeregelung",
     "Widget.Volume.Description": "Ermöglicht es Ihnen, die Lautstärke verschiedener Audio-Kanäle im Spiel zu steuern.",
     "Widget.Volume.Channel.Master": "Master",

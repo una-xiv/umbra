@@ -653,6 +653,8 @@
     "Widget.Teleport.Config.ExpansionListPosition.Option.Right": "右側",
     "Widget.Teleport.Config.ShowNotification.Name": "テレポート通知を表示",
     "Widget.Teleport.Config.ShowNotification.Description": "メニューでテレポート先をクリックした後、どこにテレポートするかを確認するために画面に通知を表示します。",
+    "Widget.Teleport.Config.OpenFavoritesByDefault.Name": "デフォルトでお気に入りを開く",
+    "Widget.Teleport.Config.OpenFavoritesByDefault.Description": "テレポートウィジェットをクリックすると、現在いる拡張機能ではなく、お気に入りリストがデフォルトで開きます。",
     "Widget.Volume.Name": "音量コントロール",
     "Widget.Volume.Description": "ゲーム内の異なるオーディオチャンネルの音量を制御できます。",
     "Widget.Volume.Channel.Master": "マスター",

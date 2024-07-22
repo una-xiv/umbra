@@ -26,9 +26,10 @@ namespace Umbra.Widgets;
 
 internal partial class TeleportWidgetPopup : WidgetPopup, IDisposable
 {
-    public int    MinimumColumns        { get; set; } = 1;
-    public string ExpansionMenuPosition { get; set; } = "Auto";
-    public bool   ShowNotification      { get; set; }
+    public int    MinimumColumns         { get; set; } = 1;
+    public string ExpansionMenuPosition  { get; set; } = "Auto";
+    public bool   ShowNotification       { get; set; }
+    public bool   OpenFavoritesByDefault { get; set; }
 
     private string               _selectedExpansion = string.Empty;
     private TeleportDestination? _selectedDestination;
@@ -56,7 +57,11 @@ internal partial class TeleportWidgetPopup : WidgetPopup, IDisposable
         HydrateAetherytePoints();
         BuildNodes();
         LoadFavorites();
-        ActivateExpansion(_selectedExpansion, true);
+
+        ActivateExpansion(OpenFavoritesByDefault && Favorites.Count > 0
+            ? "Favorites"
+            : _selectedExpansion, true
+        );
 
         ContextMenu = new(
             [
@@ -159,7 +164,7 @@ internal partial class TeleportWidgetPopup : WidgetPopup, IDisposable
     {
         if (null == _selectedDestination) return;
 
-        var id = $"{_selectedDestination.Value.AetheryteId}:{_selectedDestination.Value.SubIndex}";
+        var id    = $"{_selectedDestination.Value.AetheryteId}:{_selectedDestination.Value.SubIndex}";
         var index = Favorites.IndexOf(id);
         if (index == -1) return;
 

@@ -71,6 +71,12 @@ internal sealed partial class TeleportWidget
                 I18N.Translate("Widget.Teleport.Config.ShowNotification.Description"),
                 false
             ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
+            new BooleanWidgetConfigVariable(
+                "OpenFavoritesByDefault",
+                I18N.Translate("Widget.Teleport.Config.OpenFavoritesByDefault.Name"),
+                I18N.Translate("Widget.Teleport.Config.OpenFavoritesByDefault.Description"),
+                false
+            ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
             new SelectWidgetConfigVariable(
                 "ExpansionListPosition",
                 I18N.Translate("Widget.Teleport.Config.ExpansionListPosition.Name"),

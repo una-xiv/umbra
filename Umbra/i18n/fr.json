@@ -653,6 +653,8 @@
     "Widget.Teleport.Config.ExpansionListPosition.Option.Right": "Côté droit",
     "Widget.Teleport.Config.ShowNotification.Name": "Afficher la notification de téléportation",
     "Widget.Teleport.Config.ShowNotification.Description": "Affiche une notification sur votre écran pour confirmer votre destination de téléportation après avoir cliqué sur une destination de téléportation dans le menu.",
+    "Widget.Teleport.Config.OpenFavoritesByDefault.Name": "Ouvrir les favoris par défaut",
+    "Widget.Teleport.Config.OpenFavoritesByDefault.Description": "Ouvre la liste des favoris par défaut lorsque le widget de téléportation est cliqué, plutôt que l'extension dans laquelle vous vous trouvez actuellement.",
     "Widget.Volume.Name": "Contrôle du volume",
     "Widget.Volume.Description": "Vous permet de contrôler le volume des différents canaux audio dans le jeu.",
     "Widget.Volume.Channel.Master": "Principal",

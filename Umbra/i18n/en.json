@@ -653,6 +653,8 @@
     "Widget.Teleport.Config.ExpansionListPosition.Option.Right": "Right side",
     "Widget.Teleport.Config.ShowNotification.Name": "Show teleport notification",
     "Widget.Teleport.Config.ShowNotification.Description": "Shows a notification on your screen to confirm where you are teleporting to after clicking a teleport destination in the menu.",
+    "Widget.Teleport.Config.OpenFavoritesByDefault.Name": "Open favorites by default",
+    "Widget.Teleport.Config.OpenFavoritesByDefault.Description": "Opens the favorites list by default when the teleport widget is clicked, rather than the expansion you're currently in.",
     "Widget.Volume.Name": "Volume Control",
     "Widget.Volume.Description": "Allows you to control the volume of different audio channels in the game.",
     "Widget.Volume.Channel.Master": "Master",
