@@ -109,7 +109,7 @@ public abstract class ToolbarWidget(
 
         if (Popup is null) return;
 
-        Node.OnClick             += _ => OpenPopup?.Invoke(this, Popup);
+        Node.OnMouseDown         += _ => OpenPopup?.Invoke(this, Popup);
         Node.OnDelayedMouseEnter += _ => OpenPopupDelayed?.Invoke(this, Popup);
     }
 
