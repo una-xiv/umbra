@@ -31,6 +31,12 @@ internal partial class WeatherWidget
                 true
             ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             new BooleanWidgetConfigVariable(
+                "ShowName",
+                I18N.Translate("Widget.Weather.Config.ShowName.Name"),
+                I18N.Translate("Widget.Weather.Config.ShowName.Description"),
+                true
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            new BooleanWidgetConfigVariable(
                 "ShowTime",
                 I18N.Translate("Widget.Weather.Config.ShowTime.Name"),
                 I18N.Translate("Widget.Weather.Config.ShowTime.Description"),
@@ -51,6 +57,14 @@ internal partial class WeatherWidget
                     { "Left", I18N.Translate("Widget.Weather.Config.IconLocation.Option.Left") },
                     { "Right", I18N.Translate("Widget.Weather.Config.IconLocation.Option.Right") },
                 }
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            new IntegerWidgetConfigVariable(
+                "IconYOffset",
+                I18N.Translate("Widget.ToolbarPin.Config.IconYOffset.Name"),
+                I18N.Translate("Widget.ToolbarPin.Config.IconYOffset.Description"),
+                -1,
+                -5,
+                5
             ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             new SelectWidgetConfigVariable(
                 "TextAlign",

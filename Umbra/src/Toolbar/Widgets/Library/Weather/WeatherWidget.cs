@@ -80,14 +80,29 @@ internal partial class WeatherWidget(
                 break;
         }
 
-        if (GetConfigValue<bool>("ShowTime")) {
+        bool showName = GetConfigValue<bool>("ShowName");
+        bool showTime = GetConfigValue<bool>("ShowTime");
+        bool hasText  = showName || showTime;
+
+        if (showName && showTime) {
             SetTwoLabels(currentWeather.Name, currentWeather.TimeString);
-            TopLabelNode.Style.TextOffset    = new(0, GetConfigValue<int>("TextYOffsetTop"));
-            BottomLabelNode.Style.TextOffset = new(0, GetConfigValue<int>("TextYOffsetBottom"));
-        } else {
+        } else if (showName) {
             SetLabel(currentWeather.Name);
-            LabelNode.Style.TextOffset = new(0, GetConfigValue<int>("TextYOffset"));
+        } else if (showTime) {
+            SetLabel(currentWeather.TimeString);
+        } else {
+            SetTwoLabels(null, null);
+            SetLabel(null);
         }
+
+        LeftIconNode.Style.ImageOffset   = new(0, GetConfigValue<int>("IconYOffset"));
+        RightIconNode.Style.ImageOffset  = new(0, GetConfigValue<int>("IconYOffset"));
+        LabelNode.Style.TextOffset       = new(0, GetConfigValue<int>("TextYOffset"));
+        TopLabelNode.Style.TextOffset    = new(0, GetConfigValue<int>("TextYOffsetTop"));
+        BottomLabelNode.Style.TextOffset = new(0, GetConfigValue<int>("TextYOffsetBottom"));
+        LeftIconNode.Style.Margin        = new(0, 0, 0, hasText ? -2 : 0);
+        RightIconNode.Style.Margin       = new(0, hasText ? -2 : 0, 0, 0);
+        Node.Style.Padding               = new(0, hasText ? 6 : 3);
 
         Node.QuerySelector("Label")!.Style.Margin = new() {
             Left  = iconLocation == "Left" ? spacing : 0,

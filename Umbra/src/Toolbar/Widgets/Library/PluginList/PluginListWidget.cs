@@ -16,6 +16,7 @@
 
 using Dalamud.Interface;
 using Dalamud.Plugin;
+using ImGuiNET;
 using Lumina.Misc;
 using System;
 using System.Collections.Generic;
@@ -91,6 +92,11 @@ internal sealed partial class PluginListWidget(
                 id,
                 plugin.Name,
                 onClick: () => {
+                    if ((ImGui.GetIO().KeyShift || ImGui.GetIO().KeyCtrl) && plugin.HasConfigUi) {
+                        plugin.OpenConfigUi();
+                        return;
+                    }
+
                     if (plugin.HasMainUi) {
                         plugin.OpenMainUi();
                     } else {
