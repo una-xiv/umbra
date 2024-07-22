@@ -200,6 +200,8 @@
     "CVAR.Toolbar.AutoHideDuringDuty.Description": "在副本任务期间自动隐藏工具栏，除非鼠标光标靠近。",
     "CVAR.Toolbar.AutoHideDuringPvp.Name": "在PVP期间自动隐藏工具栏",
     "CVAR.Toolbar.AutoHideDuringPvp.Description": "在PVP期间自动隐藏工具栏，除非鼠标光标靠近。",
+    "CVAR.Toolbar.EnableQuickSettingAccess.Name": "启用小部件快速设置访问",
+    "CVAR.Toolbar.EnableQuickSettingAccess.Description": "允许您通过按住 CONTROL + SHIFT 并在工具栏上右键单击小部件，快速访问小部件的设置。请注意，启用此设置后，一些小部件在悬停时可能会显示为可交互，但实际上并非如此。",
     "CVAR.Toolbar.Height.Name": "工具栏高度",
     "CVAR.Toolbar.Height.Description": "工具栏的高度，以像素为单位。",
     "CVAR.Toolbar.ItemSpacing.Name": "工具栏小组件间距",

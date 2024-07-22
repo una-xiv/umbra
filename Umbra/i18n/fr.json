@@ -200,6 +200,8 @@
     "CVAR.Toolbar.AutoHideDuringDuty.Description": "Force le comportement de masquage automatique pendant les devoirs, permettant à la barre d'outils d'être masquée pendant les devoirs, sauf si le curseur de la souris est à proximité.",
     "CVAR.Toolbar.AutoHideDuringPvp.Name": "Masquer automatiquement cette barre d'outils pendant le PvP",
     "CVAR.Toolbar.AutoHideDuringPvp.Description": "Force le comportement de masquage automatique pendant le PvP, permettant à la barre d'outils d'être masquée pendant le PvP, sauf si le curseur de la souris est à proximité.",
+    "CVAR.Toolbar.EnableQuickSettingAccess.Name": "Activer l'accès rapide aux paramètres des widgets",
+    "CVAR.Toolbar.EnableQuickSettingAccess.Description": "Permet d'accéder rapidement aux paramètres des widgets en maintenant CONTROL + MAJ et en faisant un clic droit sur eux depuis la barre d'outils. Notez que l'activation de ce paramètre peut faire en sorte que certains widgets semblent interactifs lorsqu'on passe la souris dessus, bien qu'ils ne le soient pas.",
     "CVAR.Toolbar.Height.Name": "Hauteur de la barre d'outils",
     "CVAR.Toolbar.Height.Description": "La hauteur de la barre d'outils en pixels.",
     "CVAR.Toolbar.ItemSpacing.Name": "Espacement des éléments de la barre d'outils",

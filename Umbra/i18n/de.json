@@ -200,6 +200,8 @@
     "CVAR.Toolbar.AutoHideDuringDuty.Description": "Erzwingt das automatische Ausblenden während Aufgaben, sodass die Symbolleiste während Aufgaben ausgeblendet wird, es sei denn, der Mauszeiger befindet sich in der Nähe.",
     "CVAR.Toolbar.AutoHideDuringPvp.Name": "Diese Symbolleiste während PvP automatisch ausblenden",
     "CVAR.Toolbar.AutoHideDuringPvp.Description": "Erzwingt das automatische Ausblenden während PvP, sodass die Symbolleiste während PvP ausgeblendet wird, es sei denn, der Mauszeiger befindet sich in der Nähe.",
+    "CVAR.Toolbar.EnableQuickSettingAccess.Name": "Schnellen Zugriff auf Widget-Einstellungen aktivieren",
+    "CVAR.Toolbar.EnableQuickSettingAccess.Description": "Ermöglicht den schnellen Zugriff auf die Einstellungen von Widgets, indem Sie STRG + UMSCHALT gedrückt halten und mit der rechten Maustaste auf sie in der Symbolleiste klicken. Beachten Sie, dass das Aktivieren dieser Einstellung dazu führen kann, dass einige Widgets interaktiv erscheinen, wenn Sie mit der Maus darüber fahren, obwohl sie es nicht sind.",
     "CVAR.Toolbar.Height.Name": "Werkzeugleistenhöhe",
     "CVAR.Toolbar.Height.Description": "Die Höhe der Werkzeugleiste in Pixel.",
     "CVAR.Toolbar.ItemSpacing.Name": "Abstand zwischen Symbolleisten Widgets",

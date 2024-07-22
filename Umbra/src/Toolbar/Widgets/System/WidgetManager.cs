@@ -14,12 +14,16 @@
  *     GNU Affero General Public License for more details.
  */
 
+using ImGuiNET;
 using Lumina.Misc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using Umbra.Common;
 using Umbra.Game;
+using Umbra.Windows;
+using Umbra.Windows.Library.WidgetConfig;
+using Una.Drawing;
 
 namespace Umbra.Widgets.System;
 
@@ -37,7 +41,9 @@ internal sealed partial class WidgetManager : IDisposable
     private Toolbar Toolbar { get; }
     private IPlayer Player  { get; }
 
-    private byte lastJobId;
+    private byte          _lastJobId;
+    private bool          _quickAccessEnabled;
+    private HashSet<Node> _subscribedQuickAccessNodes = [];
 
     public WidgetManager(Toolbar toolbar, IPlayer player)
     {
@@ -64,6 +70,12 @@ internal sealed partial class WidgetManager : IDisposable
     public void Dispose()
     {
         ConfigManager.CvarChanged -= OnCvarChanged;
+
+        foreach (var node in _subscribedQuickAccessNodes) {
+            node.OnRightClick -= InvokeInstanceQuickSettings;
+        }
+
+        _subscribedQuickAccessNodes.Clear();
 
         foreach (var widget in _instances.Values) {
             widget.Dispose();
@@ -164,6 +176,10 @@ internal sealed partial class WidgetManager : IDisposable
         widget.OpenPopupDelayed += OpenPopupIfAnyIsOpen;
 
         widget.Node.Id ??= $"UmbraWidget_{Crc32.Get(widget.Id)}";
+
+        if (EnableQuickSettingAccess && _subscribedQuickAccessNodes.Add(widget.Node)) {
+            widget.Node.OnRightClick += InvokeInstanceQuickSettings;
+        }
 
         panel.AppendChild(widget.Node);
         SolveSortIndices(widget.Location);
@@ -296,8 +312,8 @@ internal sealed partial class WidgetManager : IDisposable
     {
         byte jobId = Player.JobId;
 
-        if (UseJobAssociatedProfiles && jobId != lastJobId && ActiveProfile != JobToProfileName[jobId]) {
-            lastJobId = jobId;
+        if (UseJobAssociatedProfiles && jobId != _lastJobId && ActiveProfile != JobToProfileName[jobId]) {
+            _lastJobId = jobId;
             ActivateProfile(JobToProfileName[jobId]);
             return;
         }
@@ -326,10 +342,52 @@ internal sealed partial class WidgetManager : IDisposable
         }
     }
 
+    private void ToggleQuickAccessBindings()
+    {
+        Logger.Info($"Toggle Quick Access Bindings: {EnableQuickSettingAccess} (current={_quickAccessEnabled})");
+
+        if (_quickAccessEnabled && !EnableQuickSettingAccess) {
+            foreach (var instance in _instances.Values) {
+                instance.Node.OnRightClick -= InvokeInstanceQuickSettings;
+                _subscribedQuickAccessNodes.Remove(instance.Node);
+            }
+            _quickAccessEnabled = false;
+            return;
+        }
+
+        foreach (var instance in _instances.Values) {
+            if (_subscribedQuickAccessNodes.Add(instance.Node)) {
+                instance.Node.OnRightClick += InvokeInstanceQuickSettings;
+            }
+        }
+
+        _quickAccessEnabled = true;
+    }
+
+    private void InvokeInstanceQuickSettings(Node node)
+    {
+        if (node.ParentNode is null) return;
+        if (!(ImGui.GetIO().KeyCtrl && ImGui.GetIO().KeyShift)) return;
+
+        foreach ((string guid, ToolbarWidget widget) in _instances) {
+            if (widget.Node == node) {
+                node.CancelEvent = true;
+                Framework.Service<WindowManager>().Present("WidgetInstanceConfig",
+                    new WidgetConfigWindow(guid),
+                    _ => {
+                        SaveWidgetState(widget.Id);
+                        SaveState();
+                    });
+                break;
+            }
+        }
+    }
+
     private void OnCvarChanged(string name)
     {
         if (name == "Toolbar.WidgetData") LoadState();
         if (name == "Toolbar.ProfileData") LoadProfileData();
+        if (name == "Toolbar.EnableQuickSettingAccess") ToggleQuickAccessBindings();
     }
 
     private struct WidgetConfigStruct

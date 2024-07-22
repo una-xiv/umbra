@@ -200,6 +200,8 @@
     "CVAR.Toolbar.AutoHideDuringDuty.Description": "任務中に自動非表示動作を強制し、マウスカーソルが近くにない限り、任務中にツールバーが非表示になります。",
     "CVAR.Toolbar.AutoHideDuringPvp.Name": "PvP中にこのツールバーを自動的に非表示にする",
     "CVAR.Toolbar.AutoHideDuringPvp.Description": "PvP中に自動非表示動作を強制し、マウスカーソルが近くにない限り、PvP中にツールバーが非表示になります。",
+    "CVAR.Toolbar.EnableQuickSettingAccess.Name": "ウィジェットのクイック設定アクセスを有効にする",
+    "CVAR.Toolbar.EnableQuickSettingAccess.Description": "ツールバーから CONTROL + SHIFT を押しながらウィジェットを右クリックすることで、ウィジェットの設定に素早くアクセスできるようになります。この設定を有効にすると、一部のウィジェットがマウスを乗せると操作可能に見えることがありますが、実際にはそうではありません。",
     "CVAR.Toolbar.Height.Name": "ツールバーの高さ",
     "CVAR.Toolbar.Height.Description": "ツールバーの高さ（ピクセル単位）。",
     "CVAR.Toolbar.ItemSpacing.Name": "ツールバーウィジェットの間隔",

@@ -50,6 +50,9 @@ internal partial class WidgetManager
     [ConfigVariable("Toolbar.EnforceFloatingPopups")]
     public static bool EnforceFloatingPopups { get; set; } = false;
 
+    [ConfigVariable("Toolbar.EnableQuickSettingAccess", "General", "Toolbar")]
+    public static bool EnableQuickSettingAccess { get; set; } = false;
+
     public readonly Dictionary<byte, string> JobToProfileName = [];
 
     private readonly Dictionary<string, WidgetConfigStruct> _widgetState    = [];
@@ -61,8 +64,6 @@ internal partial class WidgetManager
     public void SaveState()
     {
         string data = Encode(JsonConvert.SerializeObject(_widgetState));
-
-        Logger.Info($"Saving state: {data}");
 
         _widgetProfiles[ActiveProfile] = data;
 
