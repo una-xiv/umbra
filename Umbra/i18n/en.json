@@ -370,6 +370,7 @@
     "Widget.DtrBar.Config.ItemSpacing.Description": "The distance between server info bar items in pixels.",
     "Widget.PluginList.Name": "Plugin List",
     "Widget.PluginList.Description": "Quick access to your installed Dalamud plugins that provide a main command and/or settings.",
+    "Widget.PluginList.Tooltip": "Right-click to open Dalamud's Plugin Installer window.",
     "Widget.PluginList.Config.Decorate.Name": "Decorate the widget",
     "Widget.PluginList.Config.Decorate.Description": "Decorates the mail indicator widget with a background and border.",
     "Widget.PluginList.Config.IconYOffset.Name": "Icon vertical offset",

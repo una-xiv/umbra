@@ -20,6 +20,7 @@ using Lumina.Misc;
 using System;
 using System.Collections.Generic;
 using Umbra.Common;
+using Umbra.Game;
 
 namespace Umbra.Widgets;
 
@@ -42,6 +43,9 @@ internal sealed partial class PluginListWidget(
 
         Popup.OnPopupOpen  += UpdatePluginList;
         Popup.OnPopupClose += ClearPluginList;
+
+        Node.OnRightClick += _ => Framework.Service<IChatSender>().Send("/xlplugins");
+        Node.Tooltip      =  I18N.Translate("Widget.PluginList.Tooltip");
 
         SetLabel(FontAwesomeIcon.Plug.ToIconString());
     }

@@ -370,6 +370,7 @@
     "Widget.DtrBar.Config.ItemSpacing.Description": "サーバー情報バーのアイテム間の距離（ピクセル単位）。",
     "Widget.PluginList.Name": "プラグインリスト",
     "Widget.PluginList.Description": "メインコマンドおよび/または設定を提供するインストールされたDalamudプラグインへの迅速なアクセス。",
+    "Widget.PluginList.Tooltip": "右クリックして Dalamud のプラグインインストーラーウィンドウを開きます。",
     "Widget.PluginList.Config.Decorate.Name": "ウィジェットを装飾する",
     "Widget.PluginList.Config.Decorate.Description": "背景と境界線でメールインジケーターウィジェットを装飾します。",
     "Widget.PluginList.Config.IconYOffset.Name": "アイコンの垂直オフセット",
