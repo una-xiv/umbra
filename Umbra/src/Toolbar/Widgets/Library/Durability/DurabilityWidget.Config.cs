@@ -53,6 +53,12 @@ internal partial class DurabilityWidget
                 I18N.Translate("Widget.Durability.Config.Decorate.Description"),
                 true
             ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            new BooleanWidgetConfigVariable(
+                "DesaturateIcon",
+                I18N.Translate("Widget.Durability.Config.DesaturateIcon.Name"),
+                I18N.Translate("Widget.Durability.Config.DesaturateIcon.Description"),
+                false
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             new SelectWidgetConfigVariable(
                 "DisplayMode",
                 I18N.Translate("Widget.Durability.Config.DisplayMode.Name"),
@@ -83,9 +89,34 @@ internal partial class DurabilityWidget
                 I18N.Translate("Widget.Durability.Config.IconLocation.Description"),
                 "Left",
                 new() {
-                    { "Left", I18N.Translate("Widget.Flag.Config.IconLocation.Option.Left") },
-                    { "Right", I18N.Translate("Widget.Flag.Config.IconLocation.Option.Right") }
+                    { "Left", I18N.Translate("Widget.Durability.Config.IconLocation.Option.Left") },
+                    { "Right", I18N.Translate("Widget.Durability.Config.IconLocation.Option.Right") },
+                    { "Hidden", I18N.Translate("Widget.Durability.Config.IconLocation.Option.Hidden") },
                 }
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            new IntegerWidgetConfigVariable(
+                "TextYOffset",
+                I18N.Translate("Widget.Durability.Config.TextYOffset.Name"),
+                I18N.Translate("Widget.Durability.Config.TextYOffset.Description"),
+                0,
+                -5,
+                5
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            new IntegerWidgetConfigVariable(
+                "TextYOffsetTop",
+                I18N.Translate("Widget.Durability.Config.TextYOffsetTop.Name"),
+                I18N.Translate("Widget.Durability.Config.TextYOffsetTop.Description"),
+                0,
+                -5,
+                5
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            new IntegerWidgetConfigVariable(
+                "TextYOffsetBottom",
+                I18N.Translate("Widget.Durability.Config.TextYOffsetBottom.Name"),
+                I18N.Translate("Widget.Durability.Config.TextYOffsetBottom.Description"),
+                0,
+                -5,
+                5
             ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
         ];
     }
