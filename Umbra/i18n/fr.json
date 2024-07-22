@@ -732,7 +732,7 @@
     "Widget.Companion.Withdraw": "Renvoyer",
     "Widget.Companion.Summon": "Invoquer",
     "Widget.Companion.Feed": "Nourrir",
-    "Widget.Companion.InfoWindow": "Informations du compagnon",
+    "Widget.Companion.InfoWindow": "Information",
     "Widget.CustomButton.Name": "Bouton Personnalisé",
     "Widget.CustomButton.Description": "Un bouton personnalisable qui peut être utilisé pour exécuter une commande.",
     "Widget.CustomButton.Config.HideLabel.Name": "Masquer l'étiquette du bouton",
