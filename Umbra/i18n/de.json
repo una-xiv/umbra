@@ -312,6 +312,8 @@
     "Widget.ExperienceBar.Config.WidgetWidth.Description": "Die Breite der Erfahrungsleiste in Pixeln.",
     "Widget.ExperienceBar.Config.TextYOffset.Name": "Vertikaler Textversatz",
     "Widget.ExperienceBar.Config.TextYOffset.Description": "Der vertikale Versatz des Textes vom Mittelpunkt des Widgets in Pixeln. Positive Werte verschieben den Text nach unten, negative Werte nach oben.",
+    "Widget.ExperienceBar.Config.DisplayAtMaxLevel.Name": "Widget bei maximalem Level anzeigen",
+    "Widget.ExperienceBar.Config.DisplayAtMaxLevel.Description": "Ob die Erfahrungsleiste angezeigt werden soll, wenn der aktuelle Job das maximale Level erreicht hat.",
     "Widget.InventorySpace.Name": "Inventarplatzanzeige",
     "Widget.InventorySpace.Description": "Zeigt den aktuellen freien Platz im Inventar an.",
     "Widget.InventorySpace.Config.Source.Name": "Inventarquelle",

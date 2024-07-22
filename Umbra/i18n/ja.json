@@ -312,6 +312,8 @@
     "Widget.ExperienceBar.Config.WidgetWidth.Description": "ピクセル単位での経験値バーの幅。",
     "Widget.ExperienceBar.Config.TextYOffset.Name": "テキストの垂直オフセット",
     "Widget.ExperienceBar.Config.TextYOffset.Description": "ウィジェットの中心からテキストの垂直オフセット（ピクセル単位）。正の値はテキストを下に移動し、負の値はテキストを上に移動します。",
+    "Widget.ExperienceBar.Config.DisplayAtMaxLevel.Name": "最大レベルでウィジェットを表示",
+    "Widget.ExperienceBar.Config.DisplayAtMaxLevel.Description": "現在のジョブが最大レベルに達したときに経験バーを表示するかどうか。",
     "Widget.InventorySpace.Name": "インベントリスペースインジケーター",
     "Widget.InventorySpace.Description": "インベントリ内の現在の空きスペースを表示します。",
     "Widget.InventorySpace.Config.Source.Name": "インベントリソース",
