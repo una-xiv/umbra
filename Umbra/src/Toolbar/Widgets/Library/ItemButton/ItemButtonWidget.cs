@@ -69,19 +69,10 @@ internal sealed partial class ItemButtonWidget(
 
         if (itemId != ItemId) {
             ItemId = itemId;
-            var item = DataManager.GetExcelSheet<Item>()!.GetRow(ItemId);
+            var item = Player.FindResolvedItem(itemId);
 
-            if (item == null) {
-                var eventItem = DataManager.GetExcelSheet<EventItem>()!.GetRow(ItemId);
-
-                if (eventItem != null) {
-                    ItemName = eventItem.Name.ToDalamudString().TextValue;
-                    IconId   = eventItem.Icon;
-                }
-            } else {
-                ItemName = item.Name.ToDalamudString().TextValue;
-                IconId   = item.Icon;
-            }
+            ItemName = item?.Name;
+            IconId   = item?.IconId;
         }
 
         bool showLabel = GetConfigValue<bool>("ShowLabel") && ItemName is not null;

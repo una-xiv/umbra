@@ -179,6 +179,7 @@ internal sealed class Player : IPlayer
 
     private readonly IClientState        _clientState;
     private readonly ICondition          _condition;
+    private readonly IDataManager        _dataManager;
     private readonly JobInfoRepository   _jobInfoRepository;
     private readonly SocietiesRepository _societiesRepository;
 
@@ -187,6 +188,7 @@ internal sealed class Player : IPlayer
     public Player(
         IClientState         clientState,
         ICondition           condition,
+        IDataManager         dataManager,
         IEquipmentRepository equipmentRepository,
         JobInfoRepository    jobInfoRepository,
         SocietiesRepository  societiesRepository,
@@ -195,6 +197,7 @@ internal sealed class Player : IPlayer
     {
         _clientState         = clientState;
         _condition           = condition;
+        _dataManager         = dataManager;
         _jobInfoRepository   = jobInfoRepository;
         _societiesRepository = societiesRepository;
 
@@ -281,7 +284,21 @@ internal sealed class Player : IPlayer
         InventoryManager* im = InventoryManager.Instance();
         if (im == null) return false;
 
-        return im->GetInventoryItemCount(itemId) + im->GetInventoryItemCount(itemId, true) >= minItemCount;
+        return (im->GetInventoryItemCount(itemId) + im->GetInventoryItemCount(itemId, true)) >= minItemCount;
+    }
+
+    /// <summary>
+    /// Finds an item or event item by its item ID.
+    /// </summary>
+    public ResolvedItem? FindResolvedItem(uint itemId)
+    {
+        Item? item = _dataManager.GetExcelSheet<Item>()!.GetRow(itemId);
+        if (item != null) return new(item.RowId, item.Name.ToString(), item.Icon);
+
+        EventItem? eventItem = _dataManager.GetExcelSheet<EventItem>()!.GetRow(itemId);
+        if (eventItem != null) return new(eventItem.RowId, eventItem.Name.ToString(), eventItem.Icon);
+
+        return null;
     }
 
     /// <summary>
@@ -290,7 +307,7 @@ internal sealed class Player : IPlayer
     public unsafe int GetItemCount(uint itemId)
     {
         InventoryManager* im = InventoryManager.Instance();
-        return im == null ? 0 : im->GetInventoryItemCount(itemId);
+        return im == null ? 0 : (im->GetInventoryItemCount(itemId) + im->GetInventoryItemCount(itemId, true));
     }
 
     /// <summary>
@@ -298,7 +315,7 @@ internal sealed class Player : IPlayer
     /// </summary>
     public unsafe void UseInventoryItem(uint itemId, ItemUsage usage = ItemUsage.HqBeforeNq)
     {
-        if (IsCasting || IsOccupied || IsDead || IsJumping) return;
+        if (IsCasting || IsOccupied || IsDead || IsJumping || IsBetweenAreas || IsInCutscene) return;
 
         InventoryManager* im = InventoryManager.Instance();
         if (im == null) return;
@@ -397,4 +414,11 @@ public enum ItemUsage
     NqBeforeHq,
     NqOnly,
     HqOnly
+}
+
+public readonly struct ResolvedItem(uint id, string name, uint iconId)
+{
+    public uint Id { get; }     = id;
+    public string Name { get; } = name;
+    public uint IconId { get; } = iconId;
 }

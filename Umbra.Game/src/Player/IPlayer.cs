@@ -189,6 +189,11 @@ public interface IPlayer
     public bool HasItemInInventory(uint itemId, uint minItemCount = 1);
 
     /// <summary>
+    /// Finds an item or event item by its item ID.
+    /// </summary>
+    public ResolvedItem? FindResolvedItem(uint itemId);
+
+    /// <summary>
     /// Get the count of the specified item in the player's inventory.
     /// </summary>
     public int GetItemCount(uint itemId);

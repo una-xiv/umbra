@@ -152,7 +152,7 @@ internal sealed partial class CustomMenuWidget(
             return;
         }
 
-        Item? item = DataManager.GetExcelSheet<Item>()!.GetRow(itemId);
+        ResolvedItem? item = Player.FindResolvedItem(itemId);
 
         if (null == item) {
             Popup.SetButtonIcon(id, null);
@@ -161,8 +161,8 @@ internal sealed partial class CustomMenuWidget(
             return;
         }
 
-        Popup.SetButtonLabel(id, item.Name);
-        Popup.SetButtonIcon(id, (uint)item.Icon);
+        Popup.SetButtonLabel(id, item.Value.Name);
+        Popup.SetButtonIcon(id, item.Value.IconId);
         Popup.SetButtonDisabled(id, !Player.HasItemInInventory(itemId));
         Popup.SetButtonAltLabel(id, Player.GetItemCount(itemId).ToString());
     }
