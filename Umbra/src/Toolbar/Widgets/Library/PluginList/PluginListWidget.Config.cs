@@ -14,7 +14,10 @@
  *     GNU Affero General Public License for more details.
  */
 
+using Dalamud.Plugin;
+using Lumina.Misc;
 using System.Collections.Generic;
+using System.Linq;
 using Umbra.Common;
 
 namespace Umbra.Widgets;
@@ -39,6 +42,29 @@ internal sealed partial class PluginListWidget
                 -5,
                 5
             ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            ..GetPluginListItems()
         ];
+    }
+
+    private static List<IWidgetConfigVariable> GetPluginListItems()
+    {
+        List<IWidgetConfigVariable> pluginList = [];
+        List<string>                usedNames  = [];
+
+        IEnumerable<IExposedPlugin> plugins = Framework.DalamudPlugin.InstalledPlugins.ToList();
+        plugins = plugins.OrderBy(p => p.Name);
+
+        foreach (IExposedPlugin plugin in plugins) {
+            if (usedNames.Contains(plugin.InternalName)) continue;
+            usedNames.Add(plugin.InternalName);
+            pluginList.Add(new BooleanWidgetConfigVariable(
+                $"EnabledPlugin_{Crc32.Get(plugin.InternalName)}",
+                plugin.Name,
+                null,
+                true
+            ) { Category = I18N.Translate("Widget.PluginList.Config.EnabledCategory") });
+        }
+
+        return pluginList;
     }
 }

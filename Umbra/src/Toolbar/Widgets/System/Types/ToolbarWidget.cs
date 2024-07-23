@@ -191,6 +191,14 @@ public abstract class ToolbarWidget(
         return c.Value;
     }
 
+    /// <summary>
+    /// Returns true of a config variable with the given name exists.
+    /// </summary>
+    public bool HasConfigVariable(string name)
+    {
+        return _configVariables.ContainsKey(name);
+    }
+
     public void SetConfigValue<T>(string name, T value)
     {
         if (!_configVariables.TryGetValue(name, out var cfg)) {

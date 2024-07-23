@@ -399,6 +399,7 @@
     "Widget.PluginList.Config.Decorate.Description": "Dekoriert das Mail-Indikator-Widget mit einem Hintergrund und einem Rahmen.",
     "Widget.PluginList.Config.IconYOffset.Name": "Vertikaler Versatz des Symbols",
     "Widget.PluginList.Config.IconYOffset.Description": "Der vertikale Versatz des Mail-Symbols vom Zentrum des Widgets in Pixeln. Positive Werte verschieben das Symbol nach unten, negative Werte verschieben das Symbol nach oben.",
+    "Widget.PluginList.Config.EnabledCategory": "Sichtbare Plugins (Starten Sie Umbra neu, um diese Liste zu aktualisieren)",
     "Widget.Separator.Name": "Trennlinie",
     "Widget.Separator.Description": "Eine einfache Trennlinie, die verwendet werden kann, um andere Widgets zu trennen.",
     "Widget.Separator.Config.Width.Name": "Zusätzliche Breite",

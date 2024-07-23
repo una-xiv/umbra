@@ -84,6 +84,8 @@ internal sealed partial class PluginListWidget(
             if (!plugin.IsLoaded || plugin is { HasMainUi: false, HasConfigUi: false }) continue;
 
             string id = $"Plugin_{Crc32.Get(plugin.InternalName)}";
+
+            if (HasConfigVariable($"Enabled{id}") && !GetConfigValue<bool>($"Enabled{id}")) continue;
             if (Popup.HasButton(id)) continue;
 
             usedPluginIds.Add(id);

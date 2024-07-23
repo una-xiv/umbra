@@ -399,6 +399,7 @@
     "Widget.PluginList.Config.Decorate.Description": "使用背景和边框装饰邮件指示器小部件。",
     "Widget.PluginList.Config.IconYOffset.Name": "图标垂直偏移",
     "Widget.PluginList.Config.IconYOffset.Description": "邮件图标相对于小部件中心的垂直偏移量（以像素为单位）。正值将图标向下移动，负值将图标向上移动。",
+    "Widget.PluginList.Config.EnabledCategory": "可见插件（重新启动 Umbra 以刷新此列表）",
     "Widget.Separator.Name": "分隔符",
     "Widget.Separator.Description": "一个简单的线分隔符，可用于分隔其他小部件。",
     "Widget.Separator.Config.Width.Name": "额外宽度",

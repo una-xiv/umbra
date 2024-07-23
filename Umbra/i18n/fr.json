@@ -399,6 +399,7 @@
     "Widget.PluginList.Config.Decorate.Description": "Décore le widget indicateur de courrier avec un arrière-plan et une bordure.",
     "Widget.PluginList.Config.IconYOffset.Name": "Décalage vertical de l'icône",
     "Widget.PluginList.Config.IconYOffset.Description": "Le décalage vertical de l'icône de courrier par rapport au centre du widget en pixels. Les valeurs positives déplacent l'icône vers le bas, les valeurs négatives déplacent l'icône vers le haut.",
+    "Widget.PluginList.Config.EnabledCategory": "Plugins visibles (redémarrez Umbra pour actualiser cette liste)",
     "Widget.Separator.Name": "Séparateur",
     "Widget.Separator.Description": "Une simple ligne de séparation qui peut être utilisée pour séparer d'autres widgets.",
     "Widget.Separator.Config.Width.Name": "Largeur supplémentaire",

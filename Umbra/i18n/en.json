@@ -399,6 +399,7 @@
     "Widget.PluginList.Config.Decorate.Description": "Decorates the mail indicator widget with a background and border.",
     "Widget.PluginList.Config.IconYOffset.Name": "Icon vertical offset",
     "Widget.PluginList.Config.IconYOffset.Description": "The vertical offset of the mail icon from the center of the widget in pixels. Positive values move the icon down, negative values move the icon up.",
+    "Widget.PluginList.Config.EnabledCategory": "Visible plugins (Restart Umbra to refresh this list)",
     "Widget.Separator.Name": "Separator",
     "Widget.Separator.Description": "A simple line separator that can be used to separate other widgets.",
     "Widget.Separator.Config.Width.Name": "Additional width",

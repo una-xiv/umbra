@@ -399,6 +399,7 @@
     "Widget.PluginList.Config.Decorate.Description": "背景と境界線でメールインジケーターウィジェットを装飾します。",
     "Widget.PluginList.Config.IconYOffset.Name": "アイコンの垂直オフセット",
     "Widget.PluginList.Config.IconYOffset.Description": "ウィジェットの中心からメールアイコンの垂直オフセット（ピクセル単位）。正の値はアイコンを下に移動し、負の値はアイコンを上に移動します。",
+    "Widget.PluginList.Config.EnabledCategory": "表示されているプラグイン（このリストを更新するにはUmbraを再起動してください）",
     "Widget.Separator.Name": "セパレーター",
     "Widget.Separator.Description": "他のウィジェットを分離するために使用できる単純な線のセパレーター。",
     "Widget.Separator.Config.Width.Name": "追加の幅",
