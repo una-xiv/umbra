@@ -92,6 +92,7 @@ internal partial class TeleportWidgetPopup
             ]
         };
 
+        FillEmptyColumns(destinationListFavorites);
         destinationList.AppendChild(destinationListFavorites);
     }
 
@@ -121,9 +122,13 @@ internal partial class TeleportWidgetPopup
             BuildRegionNode(destinationList, region);
         }
 
-        while (ExpansionLists[expansion.NodeId].ChildNodes.Count < MinimumColumns) {
-            ExpansionLists[expansion.NodeId]
-                .AppendChild(
+        FillEmptyColumns(destinationList);
+    }
+
+    private void FillEmptyColumns(Node targetNode)
+    {
+        while (targetNode.ChildNodes.Count < MinimumColumns) {
+            targetNode.AppendChild(
                     new() {
                         ClassList = ["region"],
                         ChildNodes = [
