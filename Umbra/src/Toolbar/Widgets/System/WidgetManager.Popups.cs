@@ -14,12 +14,16 @@
  *     GNU Affero General Public License for more details.
  */
 
+using System;
 using Umbra.Common;
 
 namespace Umbra.Widgets.System;
 
 internal partial class WidgetManager
 {
+    internal event Action<WidgetPopup>? OnPopupOpened;
+    internal event Action<WidgetPopup>? OnPopupClosed;
+
     private WidgetPopup?   _currentPopup;
     private ToolbarWidget? _currentActivator;
 
@@ -39,6 +43,8 @@ internal partial class WidgetManager
         _currentActivator = activator;
         _currentPopup     = popup;
 
+        OnPopupOpened?.Invoke(popup);
+
         Toolbar.AllowAutoHide = false;
     }
 
@@ -54,6 +60,10 @@ internal partial class WidgetManager
 
     private void ClosePopup()
     {
+        if (_currentPopup != null) {
+            OnPopupClosed?.Invoke(_currentPopup);
+        }
+
         _currentPopup?.Reset();
 
         _currentActivator = null;

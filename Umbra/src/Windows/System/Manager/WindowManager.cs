@@ -23,6 +23,9 @@ namespace Umbra.Windows;
 [Service]
 internal class WindowManager
 {
+    public event Action<Window>? OnWindowOpened;
+    public event Action<Window>? OnWindowClosed;
+
     private readonly Dictionary<string, Window>          _instances = [];
     private readonly Dictionary<string, Action<Window>?> _callbacks = [];
 
@@ -47,12 +50,14 @@ internal class WindowManager
                     _callbacks[id]?.Invoke(window);
                     _instances.Remove(id);
                     _callbacks.Remove(id);
+                    OnWindowClosed?.Invoke(window);
                 };
 
                 _instances[id] = window;
                 _callbacks[id] = onClose is not null ? o => onClose((T)o) : null;
 
                 onCreate?.Invoke(window);
+                OnWindowOpened?.Invoke(window);
             }
         );
     }
