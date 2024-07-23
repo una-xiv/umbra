@@ -110,9 +110,10 @@ internal partial class CompanionPopup
             new(
                 ".stance-button:hover",
                 new() {
-                    StrokeColor = new("Window.Border"),
-                    StrokeInset = 2,
-                    StrokeWidth = 1,
+                    StrokeColor    = new("Window.Border"),
+                    StrokeInset    = 2,
+                    StrokeWidth    = 1,
+                    ImageGrayscale = false,
                 }
             ),
             new(
