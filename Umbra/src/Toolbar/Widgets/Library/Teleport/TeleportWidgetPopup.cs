@@ -110,6 +110,7 @@ internal partial class TeleportWidgetPopup : WidgetPopup, IDisposable
         ExpansionLists.Clear();
 
         _expansions.Clear();
+        _destinations.Clear();
         _selectedExpansion = string.Empty;
     }
 
