@@ -30,16 +30,16 @@ internal sealed class UmbraSound : IDisposable
     [ConfigVariable("Sound.Enabled", "General", "Sound")]
     private static bool Enabled { get; set; } = true;
 
-    [ConfigVariable("Sound.OpenPopupId", "General", "Sound", 0, 100)]
+    [ConfigVariable("Sound.OpenPopupId", "General", "Sound", 0, 78)]
     private static int OpenPopupId { get; set; } = 14;
 
-    [ConfigVariable("Sound.ClosePopupId", "General", "Sound", 0, 100)]
+    [ConfigVariable("Sound.ClosePopupId", "General", "Sound", 0, 78)]
     private static int ClosePopupId { get; set; } = 15;
 
-    [ConfigVariable("Sound.OpenWindowId", "General", "Sound", 0, 100)]
+    [ConfigVariable("Sound.OpenWindowId", "General", "Sound", 0, 78)]
     private static int OpenWindowId { get; set; } = 23;
 
-    [ConfigVariable("Sound.CloseWindowId", "General", "Sound", 0, 100)]
+    [ConfigVariable("Sound.CloseWindowId", "General", "Sound", 0, 78)]
     private static int CloseWindowId { get; set; } = 24;
 
     private WidgetManager WidgetManager { get; }
@@ -84,7 +84,7 @@ internal sealed class UmbraSound : IDisposable
 
     private static void PlaySound(uint id)
     {
-        if (!Enabled) return;
+        if (!Enabled || id < 1) return;
 
         UIModule.PlaySound(id);
     }
