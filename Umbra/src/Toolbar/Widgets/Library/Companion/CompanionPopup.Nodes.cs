@@ -77,8 +77,8 @@ internal partial class CompanionPopup
         };
 
         node.OnClick    += _ => Companion.SetStance(actionId);
-        node.BeforeDraw += _ => {
-            node.Style.ImageGrayscale = !Companion.CanSetStance(actionId) || actionId != Companion.ActiveCommand;
+        node.BeforeDraw += n => {
+            node.Style.ImageGrayscale = !n.IsMouseOver && (!Companion.CanSetStance(actionId) || actionId != Companion.ActiveCommand);
             node.Style.Opacity        = Companion.CanSetStance(actionId) ? 1 : 0.33f;
         };
 
