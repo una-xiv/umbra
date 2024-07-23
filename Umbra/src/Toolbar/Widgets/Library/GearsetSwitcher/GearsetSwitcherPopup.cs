@@ -14,12 +14,15 @@
  *     GNU Affero General Public License for more details.
  */
 
+using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using FFXIVClientStructs.FFXIV.Component.GUI;
+using Lumina.Excel.GeneratedSheets;
 using System;
 using Umbra.Common;
 using Umbra.Game;
+using Umbra.Windows.Components;
 using Una.Drawing;
 
 namespace Umbra.Widgets;
@@ -43,6 +46,7 @@ internal sealed partial class GearsetSwitcherPopup : WidgetPopup, IDisposable
         }
     };
 
+    private readonly IDataManager       _dataManager;
     private readonly IGearsetRepository _gearsetRepository;
     private readonly IPlayer            _player;
 
@@ -51,6 +55,7 @@ internal sealed partial class GearsetSwitcherPopup : WidgetPopup, IDisposable
 
     public GearsetSwitcherPopup()
     {
+        _dataManager       = Framework.Service<IDataManager>();
         _gearsetRepository = Framework.Service<IGearsetRepository>();
         _player            = Framework.Service<IPlayer>();
 
@@ -202,6 +207,11 @@ internal sealed partial class GearsetSwitcherPopup : WidgetPopup, IDisposable
         _currentGearset = _gearsetRepository.CurrentGearset;
         SetBackgroundGradientFor(_currentGearset?.Category ?? GearsetCategory.None);
         UpdateNodes();
+
+        Node openGlamButton = Node.QuerySelector("#OpenGlam")!;
+
+        openGlamButton.Tooltip    = _dataManager.GetExcelSheet<GeneralAction>()!.GetRow(25)!.Name;
+        openGlamButton.IsDisabled = !_player.IsGeneralActionUnlocked(25);
     }
 
     /// <inheritdoc/>

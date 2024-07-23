@@ -72,7 +72,7 @@ internal sealed partial class GearsetSwitcherPopup
         updateButton.OnMouseUp    += _ => _gearsetRepository.UpdateEquippedGearset();
         duplicateButton.OnMouseUp += _ => _gearsetRepository.DuplicateEquippedGearset();
         openGlamButton.OnMouseUp += _ => {
-            _gearsetRepository.OpenGlamourSetLinkWindow(_gearsetRepository.CurrentGearset!);
+            _player.UseGeneralAction(25); // Glamour Plate.
             Close();
         };
 
