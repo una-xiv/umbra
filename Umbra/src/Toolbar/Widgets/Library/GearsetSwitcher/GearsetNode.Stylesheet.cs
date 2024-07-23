@@ -52,9 +52,9 @@ internal partial class GearsetNode
             new(
                 ".gearset--icon",
                 new() {
-                    Size         = new(30, 30),
-                    ImageInset   = new(2),
-                    BorderRadius = 6,
+                    Size          = new(29, 29),
+                    BorderRadius  = 6,
+                    IsAntialiased = false,
                 }
             ),
             new(
