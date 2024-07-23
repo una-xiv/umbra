@@ -63,6 +63,9 @@ internal partial class WidgetManager
 
     public void SaveState()
     {
+        if (_isLoadingState) return;
+        if (_isSavingState) return;
+
         string data = Encode(JsonConvert.SerializeObject(_widgetState));
 
         _widgetProfiles[ActiveProfile] = data;
@@ -131,6 +134,7 @@ internal partial class WidgetManager
 
     public void SaveWidgetState(string guid)
     {
+        if (_isLoadingState) return;
         if (!_instances.TryGetValue(guid, out ToolbarWidget? widget)) return;
 
         _widgetState[guid] = new() {
@@ -169,6 +173,8 @@ internal partial class WidgetManager
 
     private void SaveProfileData()
     {
+        if (_isLoadingState) return;
+
         ConfigManager.Set("Toolbar.WidgetProfiles", JsonConvert.SerializeObject(_widgetProfiles));
         ConfigManager.Set("Toolbar.JobToProfile", JsonConvert.SerializeObject(JobToProfileName));
     }
