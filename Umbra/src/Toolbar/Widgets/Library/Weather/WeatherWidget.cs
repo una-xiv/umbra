@@ -91,7 +91,6 @@ internal partial class WeatherWidget(
         } else if (showTime) {
             SetLabel(currentWeather.TimeString);
         } else {
-            SetTwoLabels(null, null);
             SetLabel(null);
         }
 
@@ -100,13 +99,16 @@ internal partial class WeatherWidget(
         LabelNode.Style.TextOffset       = new(0, GetConfigValue<int>("TextYOffset"));
         TopLabelNode.Style.TextOffset    = new(0, GetConfigValue<int>("TextYOffsetTop"));
         BottomLabelNode.Style.TextOffset = new(0, GetConfigValue<int>("TextYOffsetBottom"));
+
         LeftIconNode.Style.Margin        = new(0, 0, 0, hasText ? -2 : 0);
         RightIconNode.Style.Margin       = new(0, hasText ? -2 : 0, 0, 0);
         Node.Style.Padding               = new(0, hasText ? 6 : 3);
 
-        Node.QuerySelector("Label")!.Style.Margin = new() {
-            Left  = iconLocation == "Left" ? spacing : 0,
-            Right = iconLocation == "Right" ? spacing : 0
+        LeftIconNode.Style.Margin = new() {
+            Right = iconLocation == "Left" ? spacing : 0
+        };
+        RightIconNode.Style.Margin = new() {
+            Left  = iconLocation == "Right" ? spacing : 0,
         };
     }
 }
