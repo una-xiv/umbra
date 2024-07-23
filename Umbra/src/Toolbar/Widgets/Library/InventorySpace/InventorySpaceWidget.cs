@@ -78,11 +78,15 @@ internal partial class InventorySpaceWidget(
 
         string l = iconLocation == "Left" ? " " : "";
         string r = iconLocation == "Right" ? " " : "";
-        uint u   = GetConfigValue<bool>("ShowRemaining") ? totalSpace - usedSpace : usedSpace;
+        uint   u = GetConfigValue<bool>("ShowRemaining") ? totalSpace - usedSpace : usedSpace;
+        bool   d = GetConfigValue<bool>("Decorate");
 
         SetLabel(GetConfigValue<bool>("ShowTotal") ? $"{l}{u} / {totalSpace}{r}" : $"{l}{u}{r}");
 
         LabelNode.Style.TextOffset = new(0, GetConfigValue<int>("TextYOffset"));
+        LeftIconNode.Style.Margin  = new(0, d ? 0 : -2, 0, d ? -2 : 0);
+        RightIconNode.Style.Margin = new(0, d ? -2 : 0, 0, d ? 0 : -2);
+        // Node.Style.Padding         = new() { Left = 6, Right = 6 };
     }
 
     private uint GetIconId(PlayerInventoryType type, uint freeSpace)
