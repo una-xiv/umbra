@@ -30,6 +30,7 @@ internal partial class TeleportWidgetPopup : WidgetPopup, IDisposable
     public string ExpansionMenuPosition  { get; set; } = "Auto";
     public bool   ShowNotification       { get; set; }
     public bool   OpenFavoritesByDefault { get; set; }
+    public bool   ShowMapNames           { get; set; }
 
     private string               _selectedExpansion = string.Empty;
     private TeleportDestination? _selectedDestination;

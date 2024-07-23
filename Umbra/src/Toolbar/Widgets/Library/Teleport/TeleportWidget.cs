@@ -53,6 +53,7 @@ internal sealed partial class TeleportWidget(
         Popup.MinimumColumns         = GetConfigValue<int>("MinimumColumns");
         Popup.ExpansionMenuPosition  = GetExpansionMenuPosition();
         Popup.OpenFavoritesByDefault = GetConfigValue<bool>("OpenFavoritesByDefault");
+        Popup.ShowMapNames           = GetConfigValue<bool>("ShowMapNames");
 
         bool showText = GetConfigValue<string>("DisplayMode") != "IconOnly";
         bool showIcon = GetConfigValue<string>("DisplayMode") != "TextOnly";

@@ -163,16 +163,21 @@ internal partial class TeleportWidgetPopup
     {
         Node mapNode = new() {
             ClassList = ["map"],
-            ChildNodes = [
-                new() {
-                    ClassList = ["map-header"],
-                    NodeValue = map.Name,
-                },
-                new() {
-                    ClassList = ["map-destinations"],
-                }
-            ]
         };
+
+        if (ShowMapNames) {
+            mapNode.AppendChild(new() {
+                ClassList = ["map-header"],
+                NodeValue = map.Name,
+            });
+        }
+
+        Node destList = new() { ClassList = ["map-destinations"] };
+        mapNode.AppendChild(destList);
+
+        if (!ShowMapNames) {
+            destList.Style.Padding = new() { Left = 8 };
+        }
 
         targetNode.AppendChild(mapNode);
         Node destinationList = mapNode.QuerySelector(".map-destinations")!;
