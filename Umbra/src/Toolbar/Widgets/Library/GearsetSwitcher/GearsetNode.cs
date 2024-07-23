@@ -26,6 +26,13 @@ internal partial class GearsetNode : Node
     public const int NodeWidth  = 200;
     public const int NodeHeight = 40;
 
+    public int    ButtonIconYOffset { get; set; }
+    public string ButtonIconType    { get; set; } = "Default";
+    public string BackgroundType    { get; set; } = "GradientV";
+    public bool   ShowExperienceBar { get; set; } = true;
+    public bool   ShowItemLevel     { get; set; } = true;
+    public bool   ShowWarningIcon   { get; set; } = true;
+
     public readonly Gearset Gearset;
 
     private readonly IGearsetRepository _repository;
@@ -96,31 +103,33 @@ internal partial class GearsetNode : Node
         ];
     }
 
-    public int    ButtonIconYOffset   { get; set; }
-    public string ButtonIconType      { get; set; } = "Default";
-    public bool   ShowGearsetGradient { get; set; } = true;
-
     public void Update()
     {
         IconNode.Style.IconId      = _player.GetJobInfo(Gearset.JobId).GetIcon(ButtonIconType);
         IconNode.Style.ImageOffset = new(0, ButtonIconYOffset);
 
-        NameNode.NodeValue = Gearset.Name;
-        InfoNode.NodeValue = GetCurrentGearsetStatusText();
-        IlvlNode.NodeValue = Gearset.ItemLevel.ToString();
+        NameNode.NodeValue       = Gearset.Name;
+        InfoNode.NodeValue       = GetCurrentGearsetStatusText();
+        IlvlNode.NodeValue       = Gearset.ItemLevel.ToString();
+        IlvlNode.Style.IsVisible = ShowItemLevel;
 
-        ExpBarNode.Style.IsVisible     = !Gearset.IsMaxLevel;
-        ExpBarTextNode.Style.IsVisible = !Gearset.IsMaxLevel;
+        ExpBarNode.Style.IsVisible     = !Gearset.IsMaxLevel && ShowExperienceBar;
+        ExpBarTextNode.Style.IsVisible = !Gearset.IsMaxLevel && ShowExperienceBar;
         ExpBarTextNode.NodeValue       = $"{Gearset.JobXp}%";
         ExpBarFillNode.Style.Size      = new((NodeWidth - 12) * Gearset.JobXp / 100, 1);
+        WarnNode.Style.IsVisible       = ShowWarningIcon;
 
-        switch (Gearset.IsMaxLevel) {
-            case false when !IlvlNode.TagsList.Contains("with-exp-bar"):
-                IlvlNode.TagsList.Add("with-exp-bar");
-                break;
-            case true when IlvlNode.TagsList.Contains("with-exp-bar"):
-                IlvlNode.TagsList.Remove("with-exp-bar");
-                break;
+        if (!ShowExperienceBar) {
+            IlvlNode.TagsList.Remove("with-exp-bar");
+        } else {
+            switch (Gearset.IsMaxLevel) {
+                case false when !IlvlNode.TagsList.Contains("with-exp-bar"):
+                    IlvlNode.TagsList.Add("with-exp-bar");
+                    break;
+                case true when IlvlNode.TagsList.Contains("with-exp-bar"):
+                    IlvlNode.TagsList.Remove("with-exp-bar");
+                    break;
+            }
         }
 
         if (Gearset == _repository.CurrentGearset && !TagsList.Contains("current")) {
@@ -131,15 +140,15 @@ internal partial class GearsetNode : Node
 
         SetBackgroundGradientFor(Gearset.Category);
 
-        if (Gearset.IsMainHandMissing) {
+        if (ShowWarningIcon && Gearset.IsMainHandMissing) {
             WarnNode.Style.Color     = new(0xE00000DA);
             WarnNode.Style.IsVisible = true;
             WarnNode.Tooltip         = I18N.Translate("Widget.GearsetSwitcher.WarningTooltip.MissingMainHand");
-        } else if (Gearset.HasMissingItems) {
+        } else if (ShowWarningIcon && Gearset.HasMissingItems) {
             WarnNode.Style.Color     = new(0xE000DADF);
             WarnNode.Style.IsVisible = true;
             WarnNode.Tooltip         = I18N.Translate("Widget.GearsetSwitcher.WarningTooltip.MissingItems");
-        } else if (Gearset.AppearanceDiffers) {
+        } else if (ShowWarningIcon && Gearset.AppearanceDiffers) {
             WarnNode.Style.Color     = new(0xC0A0A0A0);
             WarnNode.Style.IsVisible = true;
             WarnNode.Tooltip         = I18N.Translate("Widget.GearsetSwitcher.WarningTooltip.AppearanceDiffers");
@@ -164,29 +173,60 @@ internal partial class GearsetNode : Node
 
     private void SetBackgroundGradientFor(GearsetCategory category)
     {
-        if (!ShowGearsetGradient) {
-            Style.BackgroundGradient = GradientColor.Vertical(new(0), new(0));
-            return;
-        }
-
         switch (category) {
             case GearsetCategory.Tank:
-                Style.BackgroundGradient = GradientColor.Vertical(new(0xA0a54a3b), new(0));
+                UpdateBackground(new("Role.Tank"));
                 break;
             case GearsetCategory.Healer:
-                Style.BackgroundGradient = GradientColor.Vertical(new(0xA02e613b), new(0));
+                UpdateBackground(new("Role.Healer"));
                 break;
             case GearsetCategory.Melee:
-                Style.BackgroundGradient = GradientColor.Vertical(new(0xA02e3069), new(0));
+                UpdateBackground(new("Role.MeleeDps"));
                 break;
             case GearsetCategory.Ranged:
-                Style.BackgroundGradient = GradientColor.Vertical(new(0xA02c89a6), new(0));
+                UpdateBackground(new("Role.PhysicalRangedDps"));
                 break;
             case GearsetCategory.Caster:
-                Style.BackgroundGradient = GradientColor.Vertical(new(0xA0a72a5a), new(0));
+                UpdateBackground(new("Role.MagicalRangedDps"));
+                break;
+            case GearsetCategory.Crafter:
+                UpdateBackground(new("Role.Crafter"));
+                break;
+            case GearsetCategory.Gatherer:
+                UpdateBackground(new("Role.Gatherer"));
                 break;
             default:
-                Style.BackgroundGradient = GradientColor.Vertical(new(0), new(0));
+                UpdateBackground(new(0));
+                break;
+        }
+    }
+
+    private void UpdateBackground(Color color)
+    {
+        switch (BackgroundType) {
+            case "GradientV":
+                Style.BackgroundColor    = null;
+                Style.BackgroundGradient = GradientColor.Vertical(color, new(0));
+                return;
+            case "GradientVI":
+                Style.BackgroundColor    = null;
+                Style.BackgroundGradient = GradientColor.Vertical(new(0), color);
+                return;
+            case "GradientH":
+                Style.BackgroundColor    = null;
+                Style.BackgroundGradient = GradientColor.Horizontal(color, new(0));
+                return;
+            case "GradientHI":
+                Style.BackgroundColor    = null;
+                Style.BackgroundGradient = GradientColor.Horizontal(new(0), color);
+                return;
+            case "Plain":
+                Style.BackgroundColor    = color;
+                Style.BackgroundGradient = null;
+                return;
+            default:
+                Style.BackgroundColor    = null;
+                Style.BackgroundGradient = null;
                 break;
         }
     }

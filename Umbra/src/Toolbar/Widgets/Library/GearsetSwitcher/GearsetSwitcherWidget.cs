@@ -90,16 +90,19 @@ internal sealed partial class GearsetSwitcherWidget(
         LeftIconNode.Style.ImageOffset   = new(0, GetConfigValue<int>("IconYOffset"));
         RightIconNode.Style.ImageOffset  = new(0, GetConfigValue<int>("IconYOffset"));
 
-        Popup.EnableRoleScrolling    = GetConfigValue<bool>("EnableRoleScrolling");
-        Popup.AutoCloseOnChange      = GetConfigValue<bool>("AutoCloseOnChange");
-        Popup.ShowRoleNames          = GetConfigValue<bool>("ShowRoleNames");
-        Popup.ShowCurrentJobGradient = GetConfigValue<bool>("ShowCurrentJobGradient");
-        Popup.ShowGearsetGradient    = GetConfigValue<bool>("ShowGearsetGradient");
+        Popup.EnableRoleScrolling         = GetConfigValue<bool>("EnableRoleScrolling");
+        Popup.AutoCloseOnChange           = GetConfigValue<bool>("AutoCloseOnChange");
+        Popup.ShowRoleNames               = GetConfigValue<bool>("ShowRoleNames");
+        Popup.ShowCurrentJobGradient      = GetConfigValue<bool>("ShowCurrentJobGradient");
+        Popup.GearsetButtonBackgroundType = GetConfigValue<string>("GearsetButtonBackgroundType");
+        Popup.ShowExperienceBar           = GetConfigValue<bool>("ShowExperienceBar");
+        Popup.ShowItemLevel               = GetConfigValue<bool>("ShowButtonItemLevel");
+        Popup.ShowWarningIcon             = GetConfigValue<bool>("ShowWarningIcon");
 
-        Popup.HeaderIconType = GetConfigValue<string>("PopupHeaderIconType");
-        Popup.ButtonIconType = GetConfigValue<string>("PopupButtonIconType");
-        Popup.HeaderIconYOffset      = GetConfigValue<int>("HeaderIconYOffset");
-        Popup.ButtonIconYOffset      = GetConfigValue<int>("ButtonIconYOffset");
+        Popup.HeaderIconType    = GetConfigValue<string>("PopupHeaderIconType");
+        Popup.ButtonIconType    = GetConfigValue<string>("PopupButtonIconType");
+        Popup.HeaderIconYOffset = GetConfigValue<int>("HeaderIconYOffset");
+        Popup.ButtonIconYOffset = GetConfigValue<int>("ButtonIconYOffset");
 
         Popup.ShowTank     = GetConfigValue<bool>("ShowTank");
         Popup.ShowHealer   = GetConfigValue<bool>("ShowHealer");

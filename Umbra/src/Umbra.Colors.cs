@@ -366,6 +366,13 @@ internal class UmbraColors
         Color.AssignByName("Widget.PopupMenuTextOutline",         0xA0000000);
         Color.AssignByName("Widget.PopupMenuTextOutlineHover",    0xA0000000);
         Color.AssignByName("Widget.PopupMenuTextOutlineDisabled", 0x30000000);
+        Color.AssignByName("Role.Tank",                           0xAFA54A3B);
+        Color.AssignByName("Role.Healer",                         0xAF12613B);
+        Color.AssignByName("Role.MeleeDps",                       0xAF2E3069);
+        Color.AssignByName("Role.PhysicalRangedDps",              0xAF2E3069);
+        Color.AssignByName("Role.MagicalRangedDps",               0xAF2E3069);
+        Color.AssignByName("Role.Crafter",                        0xAFA72A5A);
+        Color.AssignByName("Role.Gatherer",                       0xAF2C89A6);
     }
 
     private static void OnConfigProfileChanged(string _)

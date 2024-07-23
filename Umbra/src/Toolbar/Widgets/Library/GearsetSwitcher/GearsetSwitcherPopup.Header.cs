@@ -30,7 +30,7 @@ internal sealed partial class GearsetSwitcherPopup
 
         Node bestInSlotButton = CreateUldHeaderButtonNode("BestInSlot", uld, 13, 2, I18N.Translate("Widget.GearsetSwitcher.EquipRecommendedGear"));
         Node openGlamButton   = CreateUldHeaderButtonNode("OpenGlam",   uld, 13, 3, I18N.Translate("Widget.GearsetSwitcher.ContextMenu.LinkGlamourPlate"));
-        Node updateButton     = CreateUldHeaderButtonNode("Update",     uld, 13, 1, I18N.Translate("Widget.GearsetSwitcher.UpdateGearset"));
+        Node updateButton     = CreateUldHeaderButtonNode("Update",     uld, 15, 4, I18N.Translate("Widget.GearsetSwitcher.UpdateGearset"));
         Node duplicateButton  = CreateUldHeaderButtonNode("Duplicate",  uld, 15, 8, I18N.Translate("Widget.GearsetSwitcher.CreateGearset"));
 
         Node node = new() {

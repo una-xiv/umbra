@@ -22,9 +22,4 @@ public interface IGearsetCategoryRepository
     /// Returns a gearset category based on the given job ID.
     /// </summary>
     public GearsetCategory GetCategoryFromJobId(byte jobId);
-
-    /// <summary>
-    /// Returns the interface color based on the given gearset category.
-    /// </summary>
-    public uint GetCategoryColor(GearsetCategory category);
 }

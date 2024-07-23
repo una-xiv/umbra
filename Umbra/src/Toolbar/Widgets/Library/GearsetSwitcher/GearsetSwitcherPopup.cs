@@ -22,7 +22,6 @@ using Lumina.Excel.GeneratedSheets;
 using System;
 using Umbra.Common;
 using Umbra.Game;
-using Umbra.Windows.Components;
 using Una.Drawing;
 
 namespace Umbra.Widgets;
@@ -152,10 +151,13 @@ internal sealed partial class GearsetSwitcherPopup : WidgetPopup, IDisposable
         );
     }
 
-    public bool AutoCloseOnChange      { get; set; }
-    public bool ShowRoleNames          { get; set; }
-    public bool ShowCurrentJobGradient { get; set; }
-    public bool ShowGearsetGradient    { get; set; }
+    public bool   AutoCloseOnChange           { get; set; }
+    public bool   ShowRoleNames               { get; set; }
+    public bool   ShowCurrentJobGradient      { get; set; }
+    public bool   ShowWarningIcon             { get; set; } = true;
+    public bool   ShowExperienceBar           { get; set; } = true;
+    public bool   ShowItemLevel               { get; set; } = true;
+    public string GearsetButtonBackgroundType { get; set; } = "GradientV";
 
     public string HeaderIconType      { get; set; } = "Default";
     public string ButtonIconType      { get; set; } = "Default";
@@ -268,9 +270,12 @@ internal sealed partial class GearsetSwitcherPopup : WidgetPopup, IDisposable
     private void UpdateNodes()
     {
         foreach (GearsetNode node in NodeByGearset.Values) {
-            node.ButtonIconType      = ButtonIconType;
-            node.ButtonIconYOffset   = ButtonIconYOffset;
-            node.ShowGearsetGradient = ShowGearsetGradient;
+            node.ButtonIconType    = ButtonIconType;
+            node.ButtonIconYOffset = ButtonIconYOffset;
+            node.BackgroundType    = GearsetButtonBackgroundType;
+            node.ShowItemLevel     = ShowItemLevel;
+            node.ShowWarningIcon   = ShowWarningIcon;
+            node.ShowExperienceBar = ShowExperienceBar;
             node.Update();
         }
     }
@@ -306,24 +311,32 @@ internal sealed partial class GearsetSwitcherPopup : WidgetPopup, IDisposable
 
         switch (category) {
             case GearsetCategory.Tank:
-                hg.Style.BackgroundGradient = GradientColor.Vertical(new(0),          new(0x90a54a3b));
-                bg.Style.BackgroundGradient = GradientColor.Vertical(new(0xA0a54a3b), new(0));
+                hg.Style.BackgroundGradient = GradientColor.Vertical(new(0),           new("Role.Tank"));
+                bg.Style.BackgroundGradient = GradientColor.Vertical(new("Role.Tank"), new(0));
                 break;
             case GearsetCategory.Healer:
-                hg.Style.BackgroundGradient = GradientColor.Vertical(new(0),          new(0x902e613b));
-                bg.Style.BackgroundGradient = GradientColor.Vertical(new(0xA02e613b), new(0));
+                hg.Style.BackgroundGradient = GradientColor.Vertical(new(0),             new("Role.Healer"));
+                bg.Style.BackgroundGradient = GradientColor.Vertical(new("Role.Healer"), new(0));
                 break;
             case GearsetCategory.Melee:
-                hg.Style.BackgroundGradient = GradientColor.Vertical(new(0),          new(0x902e3069));
-                bg.Style.BackgroundGradient = GradientColor.Vertical(new(0xA02e3069), new(0));
+                hg.Style.BackgroundGradient = GradientColor.Vertical(new(0),               new("Role.MeleeDps"));
+                bg.Style.BackgroundGradient = GradientColor.Vertical(new("Role.MeleeDps"), new(0));
                 break;
             case GearsetCategory.Ranged:
-                hg.Style.BackgroundGradient = GradientColor.Vertical(new(0),          new(0x902c89a6));
-                bg.Style.BackgroundGradient = GradientColor.Vertical(new(0xA02c89a6), new(0));
+                hg.Style.BackgroundGradient = GradientColor.Vertical(new(0), new("Role.PhysicalRangedDps"));
+                bg.Style.BackgroundGradient = GradientColor.Vertical(new("Role.PhysicalRangedDps"), new(0));
                 break;
             case GearsetCategory.Caster:
-                hg.Style.BackgroundGradient = GradientColor.Vertical(new(0),          new(0x90a72a5a));
-                bg.Style.BackgroundGradient = GradientColor.Vertical(new(0xA0a72a5a), new(0));
+                hg.Style.BackgroundGradient = GradientColor.Vertical(new(0), new("Role.MagicalRangedDps"));
+                bg.Style.BackgroundGradient = GradientColor.Vertical(new("Role.MagicalRangedDps"), new(0));
+                break;
+            case GearsetCategory.Crafter:
+                hg.Style.BackgroundGradient = GradientColor.Vertical(new(0),              new("Role.Crafter"));
+                bg.Style.BackgroundGradient = GradientColor.Vertical(new("Role.Crafter"), new(0));
+                break;
+            case GearsetCategory.Gatherer:
+                hg.Style.BackgroundGradient = GradientColor.Vertical(new(0),               new("Role.Gatherer"));
+                bg.Style.BackgroundGradient = GradientColor.Vertical(new("Role.Gatherer"), new(0));
                 break;
             default:
                 bg.Style.BackgroundGradient = GradientColor.Vertical(new(0), new(0));

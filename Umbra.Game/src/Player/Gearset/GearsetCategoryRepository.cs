@@ -53,18 +53,4 @@ internal sealed class GearsetCategoryRepository : IGearsetCategoryRepository
             ? category
             : GearsetCategory.None;
     }
-
-    public uint GetCategoryColor(GearsetCategory category)
-    {
-        return category switch {
-            GearsetCategory.Tank     => 0xFFA54A3B,
-            GearsetCategory.Healer   => 0xFF12613B,
-            GearsetCategory.Melee    => 0xFF2E3069,
-            GearsetCategory.Ranged   => 0xFF2E3069, // 0xFF2C89A6,
-            GearsetCategory.Caster   => 0xFF2E3069, // 0xFFA72A5A,
-            GearsetCategory.Crafter  => 0xFFA72A5A,
-            GearsetCategory.Gatherer => 0xFF2C89A6,
-            _                        => 0xFFFFFF
-        };
-    }
 }
