@@ -69,6 +69,12 @@ internal partial class InventorySpaceWidget
                 I18N.Translate("Widget.InventorySpace.Config.ShowTotal.Description"),
                 true
             ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            new BooleanWidgetConfigVariable(
+                "ShowRemaining",
+                I18N.Translate("Widget.InventorySpace.Config.ShowRemaining.Name"),
+                I18N.Translate("Widget.InventorySpace.Config.ShowRemaining.Description"),
+                false
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             new SelectWidgetConfigVariable(
                 "IconLocation",
                 I18N.Translate("Widget.InventorySpace.Config.IconLocation.Name"),

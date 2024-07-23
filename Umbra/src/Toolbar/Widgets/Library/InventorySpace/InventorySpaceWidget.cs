@@ -76,9 +76,11 @@ internal partial class InventorySpaceWidget(
                 break;
         }
 
-        var l = iconLocation == "Left" ? " " : "";
-        var r = iconLocation == "Right" ? " " : "";
-        SetLabel(GetConfigValue<bool>("ShowTotal") ? $"{l}{usedSpace} / {totalSpace}{r}" : $"{l}{usedSpace}{r}");
+        string l = iconLocation == "Left" ? " " : "";
+        string r = iconLocation == "Right" ? " " : "";
+        uint u   = GetConfigValue<bool>("ShowRemaining") ? totalSpace - usedSpace : usedSpace;
+
+        SetLabel(GetConfigValue<bool>("ShowTotal") ? $"{l}{u} / {totalSpace}{r}" : $"{l}{u}{r}");
 
         LabelNode.Style.TextOffset = new(0, GetConfigValue<int>("TextYOffset"));
     }
