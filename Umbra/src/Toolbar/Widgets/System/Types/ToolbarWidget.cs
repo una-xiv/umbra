@@ -14,6 +14,7 @@
  *     GNU Affero General Public License for more details.
  */
 
+using ImGuiNET;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -109,7 +110,14 @@ public abstract class ToolbarWidget(
 
         if (Popup is null) return;
 
-        Node.OnMouseDown         += _ => OpenPopup?.Invoke(this, Popup);
+        Node.OnMouseDown += _ => {
+            if (WidgetManager.EnableQuickSettingAccess && ImGui.GetIO().KeyCtrl && ImGui.GetIO().KeyShift) {
+                return;
+            }
+
+            OpenPopup?.Invoke(this, Popup);
+        };
+
         Node.OnDelayedMouseEnter += _ => OpenPopupDelayed?.Invoke(this, Popup);
     }
 

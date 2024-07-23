@@ -170,12 +170,11 @@ internal sealed partial class WidgetManager : IDisposable
 
         widget.SortIndex = sortIndex ?? panel.ChildNodes.Count;
         widget.Location  = location;
+        widget.Node.Id ??= $"UmbraWidget_{Crc32.Get(widget.Id)}";
 
         widget.Setup();
         widget.OpenPopup        += OpenPopup;
         widget.OpenPopupDelayed += OpenPopupIfAnyIsOpen;
-
-        widget.Node.Id ??= $"UmbraWidget_{Crc32.Get(widget.Id)}";
 
         if (EnableQuickSettingAccess && _subscribedQuickAccessNodes.Add(widget.Node)) {
             widget.Node.OnRightClick += InvokeInstanceQuickSettings;
@@ -196,6 +195,10 @@ internal sealed partial class WidgetManager : IDisposable
 
         if (_currentActivator is not null && _currentActivator == widget) {
             ClosePopup();
+        }
+
+        if (_subscribedQuickAccessNodes.Remove(widget.Node)) {
+            widget.Node.OnRightClick -= InvokeInstanceQuickSettings;
         }
 
         widget.Node.Remove();
@@ -307,7 +310,7 @@ internal sealed partial class WidgetManager : IDisposable
         }
     }
 
-    [OnTick]
+    [OnTick(interval: 16)]
     private void OnUpdateWidgets()
     {
         byte jobId = Player.JobId;
@@ -344,12 +347,11 @@ internal sealed partial class WidgetManager : IDisposable
 
     private void ToggleQuickAccessBindings()
     {
-        Logger.Info($"Toggle Quick Access Bindings: {EnableQuickSettingAccess} (current={_quickAccessEnabled})");
-
         if (_quickAccessEnabled && !EnableQuickSettingAccess) {
             foreach (var instance in _instances.Values) {
-                instance.Node.OnRightClick -= InvokeInstanceQuickSettings;
-                _subscribedQuickAccessNodes.Remove(instance.Node);
+                if (_subscribedQuickAccessNodes.Remove(instance.Node)) {
+                    instance.Node.OnRightClick -= InvokeInstanceQuickSettings;
+                }
             }
             _quickAccessEnabled = false;
             return;
