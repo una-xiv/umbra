@@ -93,7 +93,7 @@ internal sealed class MainMenuRepository : IMainMenuRepository
 
         Categories[MenuCategory.System]
             .AddItem(
-                new(I18N.Translate("Widget.MainMenu.CustomItem.DalamudSettings"), 1001, "/xlsettings") {
+                new(I18N.Translate("Widget.MainMenu.CustomItem.DalamudPlugins"), 1001, "/xlplugins") {
                     Icon           = SeIconChar.BoxedLetterD,
                     IconColor      = 0xFF5151FF,
                     ItemGroupId    = "Dalamud",
@@ -103,7 +103,7 @@ internal sealed class MainMenuRepository : IMainMenuRepository
 
         Categories[MenuCategory.System]
             .AddItem(
-                new(I18N.Translate("Widget.MainMenu.CustomItem.DalamudPlugins"), 1002, "/xlplugins") {
+                new(I18N.Translate("Widget.MainMenu.CustomItem.DalamudSettings"), 1002, "/xlsettings") {
                     Icon           = SeIconChar.BoxedLetterD,
                     IconColor      = 0xFF5151FF,
                     ItemGroupId    = "Dalamud",
