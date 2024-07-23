@@ -8,6 +8,8 @@
     "Edit": "編集",
     "Delete": "削除",
     "Apply": "適用",
+    "Copy": "コピー",
+    "Paste": "貼り付け",
     "UnableToApplyGlamourPlatesHere": "このエリアではグラマープレートを適用できません。",
     "Housing.Subdivision": "地区",
     "Housing.Ward": "区画",

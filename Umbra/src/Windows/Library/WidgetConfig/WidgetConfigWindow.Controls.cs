@@ -17,6 +17,7 @@
 using System;
 using System.Linq;
 using Dalamud.Interface;
+using Lumina.Misc;
 using Umbra.Common;
 using Umbra.Widgets;
 using Umbra.Windows.Components;
@@ -112,7 +113,7 @@ internal partial class WidgetConfigWindow
         }
 
         var node = new SelectNode(
-            GetNextControlId(),
+            GetNextControlId(cvar),
             selectedValue,
             cvar.Options.Values.ToList(),
             cvar.Name,
@@ -131,7 +132,7 @@ internal partial class WidgetConfigWindow
     private CheckboxNode RenderBooleanControl(BooleanWidgetConfigVariable cvar)
     {
         CheckboxNode node = new(
-            GetNextControlId(),
+            GetNextControlId(cvar),
             Instance.GetConfigValue<bool>(cvar.Id),
             cvar.Name,
             cvar.Description
@@ -145,7 +146,7 @@ internal partial class WidgetConfigWindow
     private IntegerInputNode RenderIntegerControl(IntegerWidgetConfigVariable cvar)
     {
         var node = new IntegerInputNode(
-            GetNextControlId(),
+            GetNextControlId(cvar),
             Instance.GetConfigValue<int>(cvar.Id),
             cvar.MinValue,
             cvar.MaxValue,
@@ -161,7 +162,7 @@ internal partial class WidgetConfigWindow
     private FloatInputNode RenderFloatControl(FloatWidgetConfigVariable cvar)
     {
         var node = new FloatInputNode(
-            GetNextControlId(),
+            GetNextControlId(cvar),
             Instance.GetConfigValue<float>(cvar.Id),
             cvar.MinValue,
             cvar.MaxValue,
@@ -177,7 +178,7 @@ internal partial class WidgetConfigWindow
     private StringInputNode RenderStringControl(StringWidgetConfigVariable cvar)
     {
         var node = new StringInputNode(
-            GetNextControlId(),
+            GetNextControlId(cvar),
             Instance.GetConfigValue<string>(cvar.Id),
             (uint)cvar.MaxLength,
             cvar.Name,
@@ -189,16 +190,11 @@ internal partial class WidgetConfigWindow
         return node;
     }
 
-
-    private uint _controlId;
-
     /// <summary>
     /// Returns a new ID for the control node.
     /// </summary>
-    private string GetNextControlId()
+    private string GetNextControlId(IWidgetConfigVariable cvar)
     {
-        _controlId++;
-
-        return $"control-{_controlId}";
+        return $"control-{Crc32.Get(cvar.Id)}";
     }
 }

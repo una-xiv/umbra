@@ -39,6 +39,13 @@ internal partial class WidgetConfigWindow
                 ClassList = ["widget-config-footer"],
                 ChildNodes = [
                     new() {
+                        ClassList = ["widget-config-footer--buttons", "left-side"],
+                        ChildNodes = [
+                            new ButtonNode("CopyToClipboard",    I18N.Translate("Copy")),
+                            new ButtonNode("PasteFromClipboard", I18N.Translate("Paste")),
+                        ]
+                    },
+                    new() {
                         ClassList = ["widget-config-footer--buttons"],
                         ChildNodes = [
                             new ButtonNode("CloseButton", I18N.Translate("Close")),

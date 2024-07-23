@@ -8,6 +8,8 @@
     "Edit": "Edit",
     "Delete": "Delete",
     "Apply": "Apply",
+    "Copy": "Copy",
+    "Paste": "Paste",
     "UnableToApplyGlamourPlatesHere": "Glamour plates cannot be applied in this area.",
     "Housing.Subdivision": "Subdivision",
     "Housing.Ward": "Ward",

@@ -14,11 +14,13 @@
  *     GNU Affero General Public License for more details.
  */
 
+using Lumina.Misc;
 using System.Collections.Generic;
 using System.Numerics;
 using Umbra.Common;
 using Umbra.Widgets;
 using Umbra.Widgets.System;
+using Umbra.Windows.Components;
 using Una.Drawing;
 
 namespace Umbra.Windows.Library.WidgetConfig;
@@ -38,13 +40,18 @@ internal partial class WidgetConfigWindow : Window
         Manager  = Framework.Service<WidgetManager>();
         Instance = Manager.GetInstance(guid);
         Title    = Instance.Info.Name;
-
-        Node.QuerySelector("#CloseButton")!.OnMouseUp += _ => Close();
     }
 
     protected override void OnOpen()
     {
-        Manager.OnWidgetRemoved += OnWidgetRemoved;
+        Manager.OnWidgetRemoved       += OnWidgetRemoved;
+        Instance.OnConfigValueChanged += OnConfigValueChanged;
+
+        Node.QuerySelector("#CloseButton")!.OnMouseUp        += CloseWindow;
+        Node.QuerySelector("#CopyToClipboard")!.OnMouseUp    += CopyToClipboard;
+        Node.QuerySelector("#PasteFromClipboard")!.OnMouseUp += PasteFromClipboard;
+
+        Node.QuerySelector("#PasteFromClipboard")!.IsDisabled = !Manager.HasInstanceClipboardData(Instance);
 
         Dictionary<string, Node> groups = new();
 
@@ -66,6 +73,10 @@ internal partial class WidgetConfigWindow : Window
     protected override void OnClose()
     {
         Manager.OnWidgetRemoved -= OnWidgetRemoved;
+
+        Node.QuerySelector("#CloseButton")!.OnMouseUp        -= CloseWindow;
+        Node.QuerySelector("#CopyToClipboard")!.OnMouseUp    -= CopyToClipboard;
+        Node.QuerySelector("#PasteFromClipboard")!.OnMouseUp -= PasteFromClipboard;
     }
 
     protected override void OnUpdate(int instanceId)
@@ -78,5 +89,38 @@ internal partial class WidgetConfigWindow : Window
         if (widget == Instance) {
             Close();
         }
+    }
+
+    private void OnConfigValueChanged(IWidgetConfigVariable cvar)
+    {
+        var ctrl = Node.QuerySelector($"#control-{Crc32.Get(cvar.Id)}");
+        if (ctrl == null) return;
+
+        if (cvar is IntegerWidgetConfigVariable i) {
+            ((IntegerInputNode)ctrl).Value = Instance.GetConfigValue<int>(i.Id);
+        } else if (cvar is FloatWidgetConfigVariable f) {
+            ((FloatInputNode)ctrl).Value = Instance.GetConfigValue<float>(f.Id);
+        } else if (cvar is StringWidgetConfigVariable s) {
+            ((StringInputNode)ctrl).Value = Instance.GetConfigValue<string>(s.Id);
+        } else if (cvar is SelectWidgetConfigVariable l) {
+            ((SelectNode)ctrl).Value = l.Options[Instance.GetConfigValue<string>(l.Id)];
+        } else if (cvar is BooleanWidgetConfigVariable b) {
+            ((CheckboxNode)ctrl).Value = Instance.GetConfigValue<bool>(b.Id);
+        }
+    }
+
+    private void CloseWindow(Node _)
+    {
+        Close();
+    }
+
+    private void CopyToClipboard(Node _)
+    {
+        Instance.CopyInstanceSettingsToClipboard();
+    }
+
+    private void PasteFromClipboard(Node _)
+    {
+        Instance.PasteInstanceSettingsFromClipboard();
     }
 }

@@ -15,9 +15,11 @@
  */
 
 using ImGuiNET;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Umbra.Common;
 using Umbra.Widgets.System;
 using Una.Drawing;
@@ -30,6 +32,7 @@ public abstract class ToolbarWidget(
     Dictionary<string, object>? configValues = null
 ) : IDisposable
 {
+    internal event Action<IWidgetConfigVariable>? OnConfigValueChanged;
     internal event Action<ToolbarWidget, WidgetPopup>? OpenPopup;
     internal event Action<ToolbarWidget, WidgetPopup>? OpenPopupDelayed;
 
@@ -156,9 +159,10 @@ public abstract class ToolbarWidget(
     }
 
     /// <inheritdoc/>
+#pragma warning disable CA1816
     public virtual void Dispose()
+#pragma warning restore CA1816
     {
-        GC.SuppressFinalize(this);
     }
 
     /// <summary>
@@ -210,6 +214,49 @@ public abstract class ToolbarWidget(
         }
 
         c.Value = value;
+
+        Logger.Info($"Set config value '{name}' to '{value}'.");
+
+        Framework.Service<WidgetManager>().SaveWidgetState(Id);
+        Framework.Service<WidgetManager>().SaveState();
+
+        OnConfigValueChanged?.Invoke(c);
+    }
+
+    public void CopyInstanceSettingsToClipboard()
+    {
+        var config = Convert.ToBase64String(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(_configValues)));
+
+        Logger.Info(JsonConvert.SerializeObject(_configValues));
+
+        ImGui.SetClipboardText($"WI|{Info.Id}|{config}");
+    }
+
+    public void PasteInstanceSettingsFromClipboard()
+    {
+        string? clipboard = ImGui.GetClipboardText();
+
+        if (string.IsNullOrEmpty(clipboard)) return;
+        if (!clipboard.StartsWith("WI|")) return;
+
+        string[] parts = clipboard.Split('|');
+
+        if (parts.Length < 3) return;
+        if (parts[1] != Info.Id) return;
+
+        string config = Encoding.UTF8.GetString(Convert.FromBase64String(parts[2]));
+
+        Dictionary<string, object>? values = JsonConvert.DeserializeObject<Dictionary<string, object>>(config);
+        if (values == null) return;
+
+        foreach ((string key, object value) in values) {
+            if (_configVariables.TryGetValue(key, out IWidgetConfigVariable? cfg)) {
+                if (cfg is IUntypedWidgetConfigVariable u) {
+                    u.SetValue(value);
+                    OnConfigValueChanged?.Invoke(cfg);
+                }
+            }
+        }
 
         Framework.Service<WidgetManager>().SaveWidgetState(Id);
         Framework.Service<WidgetManager>().SaveState();

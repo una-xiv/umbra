@@ -160,7 +160,7 @@ internal partial class WidgetsModule
             .Service<WindowManager>()
             .Present(
                 "AddWidget",
-                new AddWidgetWindow(),
+                new AddWidgetWindow(id),
                 onCreate: window => {
                     window.OnWidgetAdded += widgetId => {
                         Framework.Service<WidgetManager>().CreateWidget(widgetId, id);

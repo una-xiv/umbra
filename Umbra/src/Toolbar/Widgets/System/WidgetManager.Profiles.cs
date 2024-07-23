@@ -20,6 +20,7 @@ using ImGuiNET;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Text;
 using Umbra.Common;
 using Umbra.Game;
 
@@ -246,6 +247,40 @@ internal sealed partial class WidgetManager
             I18N.Translate("ToolbarProfilesWindow.Notification.Exported.Description", ActiveProfile),
             false
         );
+    }
+
+    public bool HasInstanceClipboardData(ToolbarWidget instance)
+    {
+        var data = ImGui.GetClipboardText();
+        return data.StartsWith($"WI|{instance.Info.Id}|");
+    }
+
+    public bool CanCreateInstanceFromClipboard()
+    {
+        var data = ImGui.GetClipboardText();
+        if (data == null || !data.StartsWith("WI|")) return false;
+
+        string[] parts = data.Split('|');
+        return parts.Length == 3 && _widgetInfos.ContainsKey(parts[1]);
+    }
+
+    public void CreateInstanceFromClipboard(string location)
+    {
+        string? clipboard = ImGui.GetClipboardText();
+        if (string.IsNullOrEmpty(clipboard)) return;
+
+        string[] parts = clipboard.Split('|');
+        if (parts.Length < 3) return;
+
+        string id = parts[1];
+
+        Dictionary<string, object>? config =
+            JsonConvert.DeserializeObject<Dictionary<string, object>>(Encoding.UTF8.GetString(Convert.FromBase64String(parts[2])));
+
+        if (null == config) return;
+        if (!_widgetInfos.TryGetValue(id, out var info)) return;
+
+        CreateWidget(info.Id, location, null,  null, new(config));
     }
 
     private void PrintNotification(string title, string content, bool isError)

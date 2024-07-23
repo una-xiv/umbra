@@ -66,6 +66,12 @@ internal partial class WidgetConfigWindow
                 }
             ),
             new(
+                ".widget-config-footer--buttons.left-side",
+                new() {
+                    Anchor = Anchor.MiddleLeft,
+                }
+            ),
+            new(
                 ".widget-config-category",
                 new() {
                     Flow            = Flow.Vertical,

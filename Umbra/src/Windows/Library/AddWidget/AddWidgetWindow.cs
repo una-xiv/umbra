@@ -27,7 +27,7 @@ using Una.Drawing;
 
 namespace Umbra.Windows.Library.AddWidget;
 
-internal class AddWidgetWindow : Window
+internal class AddWidgetWindow(string locationId) : Window
 {
     public event Action<string>? OnWidgetAdded;
 
@@ -39,6 +39,7 @@ internal class AddWidgetWindow : Window
     protected override string  Title       { get; } = I18N.Translate("Settings.AddWidgetWindow.Title");
 
     private WidgetInfo? _selectedWidgetInfo;
+    private WidgetManager WidgetManager => Framework.Service<WidgetManager>();
 
     protected override Node Node { get; } = new() {
         Stylesheet = AddWidgetStylesheet,
@@ -57,6 +58,16 @@ internal class AddWidgetWindow : Window
                 ClassList = ["add-widget-footer"],
                 ChildNodes = [
                     new() {
+                        ClassList = ["add-widget-footer--buttons", "left-side"],
+                        ChildNodes = [
+                            new ButtonNode(
+                                "PasteButton",
+                                I18N.Translate("Paste"),
+                                FontAwesomeIcon.Paste
+                            ),
+                        ]
+                    },
+                    new() {
                         ClassList = ["add-widget-footer--buttons"],
                         ChildNodes = [
                             new ButtonNode("CancelButton", I18N.Translate("Cancel")),
@@ -70,8 +81,7 @@ internal class AddWidgetWindow : Window
 
     protected override void OnOpen()
     {
-        Framework
-            .Service<WidgetManager>()
+        WidgetManager
             .GetWidgetInfoList()
             .OrderBy(w => w.Name)
             .ToList()
@@ -85,8 +95,20 @@ internal class AddWidgetWindow : Window
         };
 
         Node addButton = Node.QuerySelector("#AddButton")!;
+        Node pasteButton = Node.QuerySelector("#PasteButton")!;
 
-        addButton.Tooltip = I18N.Translate("Settings.AddWidgetWindow.AddButtonTooltip");
+        addButton.Tooltip           = I18N.Translate("Settings.AddWidgetWindow.AddButtonTooltip");
+        pasteButton.Tooltip         = I18N.Translate("Settings.AddWidgetWindow.AddButtonTooltip");
+        pasteButton.Style.IsVisible = WidgetManager.CanCreateInstanceFromClipboard();
+
+        pasteButton.OnMouseUp += _ => {
+            WidgetManager.CreateInstanceFromClipboard(locationId);
+
+            if (!ImGui.GetIO().KeyShift) {
+                Close();
+            }
+        };
+
         addButton.OnMouseUp += _ => {
             if (_selectedWidgetInfo is null) return;
             OnWidgetAdded?.Invoke(_selectedWidgetInfo.Id);
@@ -201,6 +223,12 @@ internal class AddWidgetWindow : Window
                 new() {
                     Anchor = Anchor.MiddleRight,
                     Gap    = 15,
+                }
+            ),
+            new(
+                ".add-widget-footer--buttons.left-side",
+                new() {
+                    Anchor = Anchor.MiddleLeft,
                 }
             ),
             new(

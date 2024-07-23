@@ -8,6 +8,8 @@
     "Edit": "Modifier",
     "Delete": "Supprimer",
     "Apply": "Appliquer",
+    "Copy": "Copier",
+    "Paste": "Coller",
     "UnableToApplyGlamourPlatesHere": "Les plaques de glamour ne peuvent pas être appliquées dans cette zone.",
     "Housing.Subdivision": "Sous-division",
     "Housing.Ward": "Secteur",

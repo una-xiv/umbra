@@ -113,6 +113,8 @@ internal class CheckboxNode : Node
         };
     }
 
+    public void SetValueInternal(bool c) => _value = c;
+
     private Node BoxNode         => QuerySelector(".checkbox--box")!;
     private Node LabelNode       => QuerySelector(".checkbox--text--label")!;
     private Node DescriptionNode => QuerySelector(".checkbox--text--description")!;
