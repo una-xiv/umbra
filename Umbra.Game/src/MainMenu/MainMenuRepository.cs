@@ -91,8 +91,6 @@ internal sealed class MainMenuRepository : IMainMenuRepository
 
         Categories[MenuCategory.System].AddItem(new(-1000));
 
-        
-
         Categories[MenuCategory.System]
             .AddItem(
                 new(I18N.Translate("Widget.MainMenu.CustomItem.DalamudPlugins"), 1001, "/xlplugins") {
