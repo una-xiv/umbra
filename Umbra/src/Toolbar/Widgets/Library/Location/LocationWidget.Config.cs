@@ -32,6 +32,12 @@ internal partial class LocationWidget
                 true
             ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             new BooleanWidgetConfigVariable(
+                "UseTwoLabels",
+                I18N.Translate("Widget.Location.Config.UseTwoLabels.Name"),
+                I18N.Translate("Widget.Location.Config.UseTwoLabels.Description"),
+                true
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            new BooleanWidgetConfigVariable(
                 "Decorate",
                 I18N.Translate("Widget.Location.Config.Decorate.Name"),
                 I18N.Translate("Widget.Location.Config.Decorate.Description"),
