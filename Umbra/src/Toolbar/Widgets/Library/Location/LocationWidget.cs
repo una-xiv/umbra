@@ -55,13 +55,15 @@ internal partial class LocationWidget(
         }
 
         SetGhost(!GetConfigValue<bool>("Decorate"));
+        bool showDistrict = GetConfigValue<bool>("ShowDistrict");
+        bool useTwoLabels = GetConfigValue<bool>("UseTwoLabels");
 
-        if (GetConfigValue<bool>("ShowDistrict")) {
+        if (useTwoLabels && showDistrict) {
             SetTwoLabels(name, zone.CurrentDistrictName);
             TopLabelNode.Style.TextOffset    = new(0, GetConfigValue<int>("TextYOffsetTop"));
             BottomLabelNode.Style.TextOffset = new(0, GetConfigValue<int>("TextYOffsetBottom"));
         } else {
-            SetLabel(name);
+            SetLabel(showDistrict ? $"{name} - {zone.CurrentDistrictName}" : name);
             LabelNode.Style.TextOffset = new(0, GetConfigValue<int>("TextYOffset"));
         }
 

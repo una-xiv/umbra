@@ -381,6 +381,8 @@
     "Widget.Location.Config.TextYOffsetBottom.Description": "Der vertikale Versatz des Textes vom Zentrum in Pixeln. Nur anwendbar, wenn der Bezirksname angezeigt wird. Positive Werte verschieben den Text nach unten, negative Werte verschieben den Text nach oben.",
     "Widget.Location.Config.ShowDistrict.Name": "Bezirksname anzeigen",
     "Widget.Location.Config.ShowDistrict.Description": "Ob der Name der aktuellen Unterzone / des Bezirks angezeigt werden soll.",
+    "Widget.Location.Config.UseTwoLabels.Name": "Verwenden Sie zwei Beschriftungen",
+    "Widget.Location.Config.UseTwoLabels.Description": "Ob zwei separate Beschriftungen für den Karten- und Bezirksnamen verwendet werden sollen.",
     "Widget.DtrBar.Name": "Server-Infoleiste",
     "Widget.DtrBar.Description": "Zeigt eine Gruppe von Widgets an, die aus der Infoleiste des Spiels stammen.",
     "Widget.DtrBar.Config.DecorateMode.Name": "Dekorationsmodus",

@@ -16,6 +16,7 @@
 
 using Umbra.Common;
 using Umbra.Game;
+using Una.Drawing;
 
 namespace Umbra.Widgets;
 
@@ -50,10 +51,17 @@ internal sealed partial class CompanionPopup : WidgetPopup
         Node.QuerySelector(".header-text-name")!.NodeValue = Companion.CompanionName;
         Node.QuerySelector(".header-time-left")!.NodeValue = Companion.TimeLeftString;
 
-        Node.QuerySelector(".header-text-info")!.NodeValue = I18N.Translate(
-            "Widget.Companion.Info",
-            Companion.Level,
-            $"{Companion.CurrentXp / (float)Companion.RequiredXp:P0}"
-        );
+        Node infoNode = Node.QuerySelector(".header-text-info")!;
+
+        if (Companion.Level < 20) {
+            infoNode.Style.IsVisible = true;
+            infoNode.NodeValue = I18N.Translate(
+                "Widget.Companion.Info",
+                Companion.Level,
+                $"{Companion.CurrentXp / (float)Companion.RequiredXp:P0}"
+            );
+        } else {
+            infoNode.Style.IsVisible = false;
+        }
     }
 }

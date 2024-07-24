@@ -381,6 +381,8 @@
     "Widget.Location.Config.TextYOffsetBottom.Description": "テキストの中心からの垂直オフセット（ピクセル単位）。地区名が表示される場合のみ適用されます。正の値はテキストを下に移動し、負の値はテキストを上に移動します。",
     "Widget.Location.Config.ShowDistrict.Name": "地区名を表示",
     "Widget.Location.Config.ShowDistrict.Description": "現在のサブゾーン/地区の名前を表示するかどうか。",
+    "Widget.Location.Config.UseTwoLabels.Name": "2つのラベルを使用する",
+    "Widget.Location.Config.UseTwoLabels.Description": "地図名と地区名に2つの別々のラベルを使用するかどうか。",
     "Widget.DtrBar.Name": "サーバー情報バー",
     "Widget.DtrBar.Description": "インゲームサーバー情報バーから発信されるウィジェットのグループを表示します。",
     "Widget.DtrBar.Config.DecorateMode.Name": "装飾モード",

@@ -381,6 +381,8 @@
     "Widget.Location.Config.TextYOffsetBottom.Description": "底部文本距中心的垂直偏移（像素）。仅在显示区域名称时适用。正值将文本下移，负值将文本上移。",
     "Widget.Location.Config.ShowDistrict.Name": "显示区域名称",
     "Widget.Location.Config.ShowDistrict.Description": "是否显示当前子区/区域名称。",
+    "Widget.Location.Config.UseTwoLabels.Name": "使用两个标签",
+    "Widget.Location.Config.UseTwoLabels.Description": "是否为地图名称和地区名称使用两个单独的标签。",
     "Widget.DtrBar.Name": "服务器信息栏",
     "Widget.DtrBar.Description": "显示游戏内服务器信息栏的小组件",
     "Widget.DtrBar.Config.DecorateMode.Name": "突出显示",

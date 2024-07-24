@@ -381,6 +381,8 @@
     "Widget.Location.Config.TextYOffsetBottom.Description": "Le décalage vertical du texte par rapport au centre en pixels. Applicable uniquement lorsque le nom du district est affiché. Les valeurs positives déplacent le texte vers le bas, les valeurs négatives déplacent le texte vers le haut.",
     "Widget.Location.Config.ShowDistrict.Name": "Afficher le nom du district",
     "Widget.Location.Config.ShowDistrict.Description": "Afficher ou non le nom de la sous-zone / du district actuel.",
+    "Widget.Location.Config.UseTwoLabels.Name": "Utiliser deux étiquettes",
+    "Widget.Location.Config.UseTwoLabels.Description": "S'il faut utiliser deux étiquettes distinctes pour le nom de la carte et du district.",
     "Widget.DtrBar.Name": "Barre d'infos du serveur",
     "Widget.DtrBar.Description": "Affiche un groupe de widgets qui proviennent de la barre d'infos du serveur en jeu.",
     "Widget.DtrBar.Config.DecorateMode.Name": "Mode de décoration",
