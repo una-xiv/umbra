@@ -97,7 +97,7 @@ internal sealed class CompanionManager : ICompanionManager
     public bool CanSummon()
     {
         return HasGysahlGreens
-            && _player is { IsBoundByDuty: false, IsOccupied: false, IsCasting: false, IsDead: false };
+            && _player is { IsBoundByInstancedDuty: false, IsOccupied: false, IsCasting: false, IsDead: false };
     }
 
     public void Summon()
