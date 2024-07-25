@@ -79,6 +79,22 @@ internal sealed class GearsetRepository : IGearsetRepository, IDisposable
         OnTick();
     }
 
+    public unsafe void OpenPortraitEditorForGearset(Gearset gs)
+    {
+        var entries = RaptureGearsetModule.Instance()->Entries;
+        var index = 0;
+
+        foreach (var entry in entries) {
+            if (entry.ClassJob == 0) continue;
+            if (entry.Id == gs.Id) {
+                AgentBannerEditor.Instance()->OpenForGearset(index);
+                break;
+            }
+
+            index++;
+        }
+    }
+
     private unsafe void OnLinkGlamourPlateToGearset(RaptureGearsetModule* gsm, int gearsetId, byte glamourPlateId)
     {
         _linkGlamourPlateHook!.Original(gsm, gearsetId, glamourPlateId);

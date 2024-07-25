@@ -65,6 +65,12 @@ public interface IGearsetRepository
     public void OpenGlamourSetLinkWindow(Gearset gearset);
 
     /// <summary>
+    /// Opens the portrait (banner) editor window for the given gearset.
+    /// </summary>
+    /// <param name="gs"></param>
+    public void OpenPortraitEditorForGearset(Gearset gs);
+
+    /// <summary>
     /// Unlinks a linked glamour set from the given gearset.
     /// </summary>
     public void UnlinkGlamourSet(Gearset gearset);

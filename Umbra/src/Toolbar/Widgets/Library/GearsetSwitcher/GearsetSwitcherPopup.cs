@@ -17,6 +17,7 @@
 using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
+using FFXIVClientStructs.FFXIV.Client.UI.Misc;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using Lumina.Excel.GeneratedSheets;
 using System;
@@ -100,11 +101,7 @@ internal sealed partial class GearsetSwitcherPopup : WidgetPopup, IDisposable
                     Label = I18N.Translate("Widget.GearsetSwitcher.ContextMenu.EditPortrait"),
                     OnClick = () => {
                         if (null == _ctxSelectedGearset) return;
-
-                        unsafe {
-                            AgentBannerEditor.Instance()->OpenForGearset(_ctxSelectedGearset.Id);
-                        }
-
+                        _gearsetRepository.OpenPortraitEditorForGearset(_ctxSelectedGearset);
                         Close();
                     }
                 },
