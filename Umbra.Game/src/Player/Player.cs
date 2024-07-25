@@ -123,6 +123,11 @@ internal sealed class Player : IPlayer
     public bool IsBoundByDuty { get; private set; }
 
     /// <summary>
+    /// True if the player is currently bound by duty in an instance.
+    /// </summary>
+    public bool IsBoundByInstancedDuty { get; private set; }
+
+    /// <summary>
     /// True if the player is currently occupied in a quest event.
     /// </summary>
     public bool IsInQuestEvent { get; private set; }
@@ -245,6 +250,8 @@ internal sealed class Player : IPlayer
         IsBoundByDuty = _condition[ConditionFlag.BoundByDuty]
             || _condition[ConditionFlag.BoundByDuty56]
             || _condition[ConditionFlag.BoundByDuty95];
+
+        IsBoundByInstancedDuty = _condition[ConditionFlag.BoundByDuty56];
 
         IsInCutscene = _condition[ConditionFlag.OccupiedInCutSceneEvent]
             || _condition[ConditionFlag.WatchingCutscene]

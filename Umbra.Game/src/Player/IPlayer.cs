@@ -111,6 +111,11 @@ public interface IPlayer
     public bool IsBoundByDuty { get; }
 
     /// <summary>
+    /// True if the player is currently bound by duty in an instance.
+    /// </summary>
+    public bool IsBoundByInstancedDuty { get; }
+
+    /// <summary>
     /// True if the player is currently occupied in a quest event.
     /// </summary>
     public bool IsInQuestEvent { get; }
