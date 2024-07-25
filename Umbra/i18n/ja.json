@@ -829,6 +829,7 @@
     "Widget.CustomMenu.Config.ButtonMode.Option.Command": "チャットコマンド",
     "Widget.CustomMenu.Config.ButtonMode.Option.URL": "URLでウェブサイトを開く",
     "Widget.CustomMenu.Config.ButtonMode.Option.Item": "インベントリからアイテムを使用する",
+    "Widget.CustomMenu.Config.ButtonMode.Option.Separator": "セパレーター",
     "Widget.CustomMenu.Config.InverseOrder.Name": "エントリー順序の逆転",
     "Widget.CustomMenu.Config.InverseOrder.Description": "メニューエントリーの順序を逆にします。",
     "Widget.CustomMenu.Config.CloseOnClick.Name": "アイテムをクリックするとメニューを閉じる",

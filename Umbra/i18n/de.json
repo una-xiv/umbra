@@ -829,6 +829,7 @@
     "Widget.CustomMenu.Config.ButtonMode.Option.Command": "Chat-Befehl",
     "Widget.CustomMenu.Config.ButtonMode.Option.URL": "Öffnen einer Website per URL",
     "Widget.CustomMenu.Config.ButtonMode.Option.Item": "Verwendung eines Items aus Ihrem Inventar",
+    "Widget.CustomMenu.Config.ButtonMode.Option.Separator": "Separator",
     "Widget.CustomMenu.Config.InverseOrder.Name": "Umgekehrte Eintragsreihenfolge",
     "Widget.CustomMenu.Config.InverseOrder.Description": "Kehrt die Reihenfolge der Menüeinträge um.",
     "Widget.CustomMenu.Config.CloseOnClick.Name": "Menü schließen beim Anklicken eines Elements",

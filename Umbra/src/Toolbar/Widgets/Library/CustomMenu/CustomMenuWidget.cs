@@ -55,12 +55,12 @@ internal sealed partial class CustomMenuWidget(
     {
         Popup.OnPopupOpen += UpdateItemList;
 
-        for (var i = 0; i < MaxButtons; i++) {
-            int i1 = i;
-            var id = $"Button_{i}";
-            Popup.AddButton(id, "", onClick: () => InvokeMenuItem(i1));
-            Popup.SetButtonVisibility(id, false);
-        }
+        // for (var i = 0; i < MaxButtons; i++) {
+        //     int i1 = i;
+        //     var id = $"Button_{i}";
+        //     Popup.AddButton(id, "", onClick: () => InvokeMenuItem(i1));
+        //     Popup.SetButtonVisibility(id, false);
+        // }
     }
 
     /// <inheritdoc/>
@@ -111,25 +111,33 @@ internal sealed partial class CustomMenuWidget(
 
     private void UpdateItemList()
     {
-        bool inverseOrder = GetConfigValue<bool>("InverseOrder");
+        Popup.Clear();
+
+        bool    inverseOrder = GetConfigValue<bool>("InverseOrder");
+        string? lastGroupId  = null;
 
         for (var i = 0; i < MaxButtons; i++) {
-            var       id       = $"Button_{i}";
-            string    label    = GetConfigValue<string>($"ButtonLabel_{i}").Trim();
-            string    altLabel = GetConfigValue<string>($"ButtonAltLabel_{i}").Trim();
-            string    command  = GetConfigValue<string>($"ButtonCommand_{i}").Trim();
-            string    mode     = GetConfigValue<string>($"ButtonMode_{i}").Trim();
-            uint      iconId   = (uint)GetConfigValue<int>($"ButtonIconId_{i}");
-            ItemUsage usage    = ParseItemUsageString(GetConfigValue<string>($"ButtonItemUsage_{i}"));
+            var       id        = $"Button_{i}";
+            int       sortIndex = (inverseOrder ? -i : i);
+            string    label     = GetConfigValue<string>($"ButtonLabel_{i}").Trim();
+            string    altLabel  = GetConfigValue<string>($"ButtonAltLabel_{i}").Trim();
+            string    command   = GetConfigValue<string>($"ButtonCommand_{i}").Trim();
+            string    mode      = GetConfigValue<string>($"ButtonMode_{i}").Trim();
+            uint      iconId    = (uint)GetConfigValue<int>($"ButtonIconId_{i}");
+            ItemUsage usage     = ParseItemUsageString(GetConfigValue<string>($"ButtonItemUsage_{i}"));
 
-            Popup.SetButtonSortIndex(id, inverseOrder ? -i : i);
-
-            if (string.IsNullOrEmpty(command) && string.IsNullOrEmpty(label)) {
-                Popup.SetButtonVisibility(id, false);
+            if (mode == "Separator") {
+                Popup.AddGroup(id, label, sortIndex);
+                lastGroupId = id;
                 continue;
             }
 
-            Popup.SetButtonVisibility(id, true);
+            if (string.IsNullOrEmpty(command) && string.IsNullOrEmpty(label)) {
+                continue;
+            }
+
+            int i1 = i;
+            Popup.AddButton(id, label, sortIndex, iconId, altLabel, () => InvokeMenuItem(i1), groupId: lastGroupId);
 
             switch (mode) {
                 case "Command":
@@ -138,6 +146,12 @@ internal sealed partial class CustomMenuWidget(
                     break;
                 case "Item":
                     UpdateItemMenuItem(id, command, usage);
+                    break;
+                case "Separator":
+                    Popup.SetButtonLabel(id, "");
+                    Popup.SetButtonAltLabel(id, "");
+                    Popup.SetButtonIcon(id, null);
+                    Popup.SetButtonDisabled(id, true);
                     break;
             }
         }
@@ -201,8 +215,8 @@ internal sealed partial class CustomMenuWidget(
                 Util.OpenLink(cmd);
                 return;
             case "Item":
-                uint itemId = uint.Parse(cmd, NumberStyles.Any, null);
-                ItemUsage usage = ParseItemUsageString(GetConfigValue<string>($"ButtonItemUsage_{index}"));
+                uint      itemId = uint.Parse(cmd, NumberStyles.Any, null);
+                ItemUsage usage  = ParseItemUsageString(GetConfigValue<string>($"ButtonItemUsage_{index}"));
 
                 if (!Player.HasItemInInventory(itemId, 1, usage)) {
                     return;

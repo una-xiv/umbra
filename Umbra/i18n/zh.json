@@ -829,6 +829,7 @@
     "Widget.CustomMenu.Config.ButtonMode.Option.Command": "聊天命令",
     "Widget.CustomMenu.Config.ButtonMode.Option.URL": "通过URL打开网站",
     "Widget.CustomMenu.Config.ButtonMode.Option.Item": "使用库存中的物品",
+    "Widget.CustomMenu.Config.ButtonMode.Option.Separator": "分隔符",
     "Widget.CustomMenu.Config.InverseOrder.Name": "逆序条目",
     "Widget.CustomMenu.Config.InverseOrder.Description": "颠倒菜单条目的顺序。",
     "Widget.CustomMenu.Config.CloseOnClick.Name": "点击条目时关闭菜单",

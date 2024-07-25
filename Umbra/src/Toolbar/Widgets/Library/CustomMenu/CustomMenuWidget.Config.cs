@@ -123,6 +123,18 @@ internal sealed partial class CustomMenuWidget
     private static IEnumerable<IWidgetConfigVariable> CreateButtonVariables(int buttonIndex)
     {
         return [
+            new SelectWidgetConfigVariable(
+                $"ButtonMode_{buttonIndex}",
+                I18N.Translate("Widget.CustomMenu.Config.ButtonMode.Name"),
+                I18N.Translate("Widget.CustomMenu.Config.ButtonMode.Description"),
+                "Command",
+                new() {
+                    { "Command", I18N.Translate("Widget.CustomMenu.Config.ButtonMode.Option.Command") },
+                    { "URL", I18N.Translate("Widget.CustomMenu.Config.ButtonMode.Option.URL") },
+                    { "Item", I18N.Translate("Widget.CustomMenu.Config.ButtonMode.Option.Item") },
+                    { "Separator", I18N.Translate("Widget.CustomMenu.Config.ButtonMode.Option.Separator") }
+                }
+            ) { Category = I18N.Translate("Widget.CustomMenu.Config.ButtonId", buttonIndex + 1) },
             new StringWidgetConfigVariable(
                 $"ButtonLabel_{buttonIndex}",
                 I18N.Translate("Widget.CustomMenu.Config.ButtonLabel.Name"),
@@ -142,17 +154,6 @@ internal sealed partial class CustomMenuWidget
                 I18N.Translate("Widget.CustomMenu.Config.ButtonIconId.Name"),
                 I18N.Translate("Widget.CustomMenu.Config.ButtonIconId.Description"),
                 0
-            ) { Category = I18N.Translate("Widget.CustomMenu.Config.ButtonId", buttonIndex + 1) },
-            new SelectWidgetConfigVariable(
-                $"ButtonMode_{buttonIndex}",
-                I18N.Translate("Widget.CustomMenu.Config.ButtonMode.Name"),
-                I18N.Translate("Widget.CustomMenu.Config.ButtonMode.Description"),
-                "Command",
-                new() {
-                    { "Command", I18N.Translate("Widget.CustomMenu.Config.ButtonMode.Option.Command") },
-                    { "URL", I18N.Translate("Widget.CustomMenu.Config.ButtonMode.Option.URL") },
-                    { "Item", I18N.Translate("Widget.CustomMenu.Config.ButtonMode.Option.Item") },
-                }
             ) { Category = I18N.Translate("Widget.CustomMenu.Config.ButtonId", buttonIndex + 1) },
             new StringWidgetConfigVariable(
                 $"ButtonCommand_{buttonIndex}",

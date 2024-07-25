@@ -63,9 +63,17 @@ public class MenuPopup : WidgetPopup
                 n.Bounds.MarginSize.Width  = n.Bounds.PaddingSize.Width + n.ComputedStyle.Margin.HorizontalSize;
 
                 if (n.ClassList.Contains("button-group--header")) {
+                    if (n.QuerySelector(".button-group--label")!.NodeValue is string str && string.IsNullOrEmpty(str)) {
+                        n.QuerySelector(".button-group--label")!.Style.IsVisible = false;
+                    } else {
+                        n.QuerySelector(".button-group--label")!.Style.IsVisible = true;
+                    }
+
+                    int labelWidth = n.QuerySelector(".button-group--label")!.InnerWidth;
+                    int lineWidth  = labelWidth > 10 ? (width - labelWidth) / 2 - 4 : (width / 2);
+
                     foreach (var line in n.QuerySelectorAll(".button-group--line")) {
-                        line.Bounds.ContentSize.Width =
-                            (width - n.QuerySelector(".button-group--label")!.InnerWidth) / 2 - 4;
+                        line.Bounds.ContentSize.Width = lineWidth;
 
                         line.Bounds.PaddingSize.Width =
                             line.Bounds.ContentSize.Width + line.ComputedStyle.Padding.HorizontalSize;
