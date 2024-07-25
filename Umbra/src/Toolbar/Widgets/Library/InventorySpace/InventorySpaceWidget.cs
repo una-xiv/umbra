@@ -52,17 +52,19 @@ internal partial class InventorySpaceWidget(
             _                  => PlayerInventoryType.Inventory
         };
 
-        if (source != PlayerInventoryType.Inventory && Player.IsBoundByDuty) {
-            Node.Style.IsVisible = false;
-            return;
-        }
-
         Node.Style.IsVisible = true;
 
         uint usedSpace    = Player.Inventory.GetOccupiedInventorySpace(source);
         uint totalSpace   = Player.Inventory.GetTotalInventorySpace(source);
         var  iconLocation = GetConfigValue<string>("IconLocation");
 
+        if (totalSpace == 0) {
+            // Inventory is not loaded or unavailable in current content.
+            Node.Style.IsVisible = false;
+            return;
+        }
+
+        Node.Style.IsVisible = true;
         SetGhost(!GetConfigValue<bool>("Decorate"));
 
         switch (iconLocation) {
@@ -86,7 +88,6 @@ internal partial class InventorySpaceWidget(
         LabelNode.Style.TextOffset = new(0, GetConfigValue<int>("TextYOffset"));
         LeftIconNode.Style.Margin  = new(0, d ? 0 : -2, 0, d ? -2 : 0);
         RightIconNode.Style.Margin = new(0, d ? -2 : 0, 0, d ? 0 : -2);
-        // Node.Style.Padding         = new() { Left = 6, Right = 6 };
     }
 
     private uint GetIconId(PlayerInventoryType type, uint freeSpace)
