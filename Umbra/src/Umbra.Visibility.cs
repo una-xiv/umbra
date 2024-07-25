@@ -14,6 +14,7 @@
  *     GNU Affero General Public License for more details.
  */
 
+using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Plugin.Services;
 using Umbra.Common;
 using Umbra.Game;
@@ -68,12 +69,14 @@ public sealed class UmbraVisibility
     private readonly IClientState _clientState;
     private readonly IGameGui     _gameGui;
     private readonly IPlayer      _player;
+    private readonly ICondition   _condition;
 
-    public UmbraVisibility(IClientState clientState, IGameGui gameGui, IPlayer player)
+    public UmbraVisibility(IClientState clientState, IGameGui gameGui, IPlayer player, ICondition condition)
     {
         _clientState = clientState;
         _gameGui     = gameGui;
         _player      = player;
+        _condition   = condition;
 
         Framework.DalamudPlugin.UiBuilder.DisableAutomaticUiHide = true;
         Framework.DalamudPlugin.UiBuilder.DisableCutsceneUiHide  = true;
@@ -83,6 +86,9 @@ public sealed class UmbraVisibility
 
     public bool IsToolbarVisible()
     {
+        // Always disable when visiting the aesthetician.
+        if (_condition[ConditionFlag.CreatingCharacter]) return false;
+
         if (_clientState.IsGPosing && !ShowToolbarInGPose) return false;
 
         if (_gameGui.GameUiHidden && !ShowToolbarOnUserHide) return false;
@@ -102,6 +108,9 @@ public sealed class UmbraVisibility
 
     public bool AreMarkersVisible()
     {
+        // Always disable when visiting the aesthetician.
+        if (_condition[ConditionFlag.CreatingCharacter]) return false;
+
         // Always disable markers when in PvP.
         if (_player.IsInPvP) return false;
 

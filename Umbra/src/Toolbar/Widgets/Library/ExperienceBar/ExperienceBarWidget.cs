@@ -14,6 +14,10 @@
  *     GNU Affero General Public License for more details.
  */
 
+using FFXIVClientStructs.FFXIV.Client.Game;
+using FFXIVClientStructs.FFXIV.Client.Game.UI;
+using FFXIVClientStructs.FFXIV.Client.UI;
+using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using System.Collections.Generic;
 using Umbra.Common;
 using Umbra.Game;
@@ -58,6 +62,7 @@ internal partial class ExperienceBarWidget(
         int maxWidth = widgetWidth - 8;
         int width    = (maxWidth * gearset.JobXp / 100);
 
+        Node.Tooltip         = GetTooltipText();
         Node.Style.IsVisible = true;
         Node.Style.Size      = new(widgetWidth, SafeHeight);
 
@@ -73,5 +78,25 @@ internal partial class ExperienceBarWidget(
         labelNode.Style.Size       = new(widgetWidth, SafeHeight);
         labelNode.Style.TextOffset = new(0, GetConfigValue<int>("TextYOffset"));
         labelNode.NodeValue        = label;
+    }
+
+    private unsafe string? GetTooltipText()
+    {
+        AgentHUD* hud = AgentHUD.Instance();
+        if (hud == null) return null;
+
+        if (hud->ExpIsMaxLevel) return null;
+
+        uint currentXp = hud->ExpCurrentExperience;
+        uint neededXp  = hud->ExpNeededExperience;
+        uint restedXp  = hud->ExpRestedExperience;
+
+        // Add decimals to the values.
+        string currentXpStr = currentXp.ToString("N0");
+        string neededXpStr  = neededXp.ToString("N0");
+        string restedXpStr  = restedXp.ToString("N0");
+        string restedStr    = restedXp > 0 ? $" - {I18N.Translate("Rested")}: {restedXpStr}" : "";
+
+        return $"{I18N.Translate("Experience")}: {currentXpStr} / {neededXpStr}{restedStr}";
     }
 }
