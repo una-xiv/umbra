@@ -106,6 +106,18 @@ internal sealed partial class CustomMenuWidget
             I18N.Translate("Widget.CustomMenu.Config.DesaturateMenuIcons.Description"),
             false
         ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
+        new BooleanWidgetConfigVariable(
+            "InverseOrder",
+            I18N.Translate("Widget.CustomMenu.Config.InverseOrder.Name"),
+            I18N.Translate("Widget.CustomMenu.Config.InverseOrder.Description"),
+            false
+        ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
+        new BooleanWidgetConfigVariable(
+            "CloseOnClick",
+            I18N.Translate("Widget.CustomMenu.Config.CloseOnClick.Name"),
+            I18N.Translate("Widget.CustomMenu.Config.CloseOnClick.Description"),
+            true
+        ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
     ];
 
     private static IEnumerable<IWidgetConfigVariable> CreateButtonVariables(int buttonIndex)
@@ -147,6 +159,18 @@ internal sealed partial class CustomMenuWidget
                 I18N.Translate("Widget.CustomMenu.Config.ButtonCommand.Name"),
                 I18N.Translate("Widget.CustomMenu.Config.ButtonCommand.Description"),
                 ""
+            ) { Category = I18N.Translate("Widget.CustomMenu.Config.ButtonId", buttonIndex + 1) },
+            new SelectWidgetConfigVariable(
+                $"ButtonItemUsage_{buttonIndex}",
+                I18N.Translate("Widget.CustomMenu.Config.ItemUsage.Name"),
+                I18N.Translate("Widget.CustomMenu.Config.ItemUsage.Description"),
+                "HqBeforeNq",
+                new() {
+                    { "HqBeforeNq", I18N.Translate("Widget.CustomMenu.Config.ItemUsage.Option.HqBeforeNq") },
+                    { "NqBeforeHq", I18N.Translate("Widget.CustomMenu.Config.ItemUsage.Option.NqBeforeHq") },
+                    { "HqOnly", I18N.Translate("Widget.CustomMenu.Config.ItemUsage.Option.HqOnly") },
+                    { "NqOnly", I18N.Translate("Widget.CustomMenu.Config.ItemUsage.Option.NqOnly") }
+                }
             ) { Category = I18N.Translate("Widget.CustomMenu.Config.ButtonId", buttonIndex + 1) },
         ];
     }

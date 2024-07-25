@@ -19,7 +19,7 @@ public readonly struct EquipmentSlot(string itemName, uint iconId, byte slotId, 
 }
 
 [Service]
-internal unsafe class EquipmentRepository : IEquipmentRepository, IDisposable
+internal unsafe class EquipmentRepository : IEquipmentRepository
 {
     /// <summary>
     /// Returns a list of the player's currently equipped gear.
@@ -38,34 +38,21 @@ internal unsafe class EquipmentRepository : IEquipmentRepository, IDisposable
     /// </summary>
     public byte HighestSpiritbond { get; private set; }
 
-    private readonly IClientState        _clientState;
     private readonly IDataManager        _dataManager;
     private readonly InventoryManager*   _inventoryManager;
     private readonly InventoryContainer* _equipmentContainer;
 
-    private bool           _isInPvP;
-
-    public EquipmentRepository(IClientState clientState, IDataManager dataManager)
+    public EquipmentRepository(IDataManager dataManager)
     {
-        _clientState            = clientState;
         _dataManager            = dataManager;
         _inventoryManager       = InventoryManager.Instance();
         _equipmentContainer     = _inventoryManager->GetInventoryContainer(InventoryType.EquippedItems);
-
-        _clientState.EnterPvP += OnEnterPvP;
-        _clientState.LeavePvP += OnLeavePvP;
 
         for (var slot = 0; slot < 13; slot++) {
             Slots.Add(new("", 0, 0, 0, 0));
         }
 
         Update();
-    }
-
-    public void Dispose()
-    {
-        _clientState.EnterPvP -= OnEnterPvP;
-        _clientState.LeavePvP -= OnLeavePvP;
     }
 
     [OnTick(interval: 1000)]
@@ -99,30 +86,4 @@ internal unsafe class EquipmentRepository : IEquipmentRepository, IDisposable
         LowestDurability  = (byte)(lowestDurability / 300f);
         HighestSpiritbond = (byte)(highestSpiritbond / 100f);
     }
-
-    private void OnEnterPvP()
-    {
-        _isInPvP = true;
-    }
-
-    private void OnLeavePvP()
-    {
-        _isInPvP = false;
-    }
-
-    internal static readonly string[] SlotNames = [
-        "mhand",
-        "ohand",
-        "head",
-        "body",
-        "hands",
-        "rip belt",
-        "legs",
-        "feet",
-        "ear",
-        "neck",
-        "bracer",
-        "ring1",
-        "ring2"
-    ];
 }

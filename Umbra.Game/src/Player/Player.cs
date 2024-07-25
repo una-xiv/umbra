@@ -286,12 +286,24 @@ internal sealed class Player : IPlayer
     /// <summary>
     /// Returns true if the player has the specified item in their inventory.
     /// </summary>
-    public unsafe bool HasItemInInventory(uint itemId, uint minItemCount = 1)
-    {
+    public unsafe bool HasItemInInventory(
+        uint itemId,
+        uint minItemCount = 1,
+        ItemUsage itemUsage = ItemUsage.HqBeforeNq
+    ) {
         InventoryManager* im = InventoryManager.Instance();
         if (im == null) return false;
 
-        return (im->GetInventoryItemCount(itemId) + im->GetInventoryItemCount(itemId, true)) >= minItemCount;
+        var nqCount = im->GetInventoryItemCount(itemId);
+        var hqCount = im->GetInventoryItemCount(itemId, true);
+
+        return itemUsage switch {
+            ItemUsage.HqOnly     => hqCount >= minItemCount,
+            ItemUsage.NqOnly     => nqCount >= minItemCount,
+            ItemUsage.HqBeforeNq => hqCount >= minItemCount || nqCount >= minItemCount,
+            ItemUsage.NqBeforeHq => nqCount >= minItemCount || hqCount >= minItemCount,
+            _                    => false
+        };
     }
 
     /// <summary>
@@ -311,10 +323,18 @@ internal sealed class Player : IPlayer
     /// <summary>
     /// Get the count of the specified item in the player's inventory.
     /// </summary>
-    public unsafe int GetItemCount(uint itemId)
+    public unsafe int GetItemCount(uint itemId, ItemUsage itemUsage = ItemUsage.HqBeforeNq)
     {
         InventoryManager* im = InventoryManager.Instance();
-        return im == null ? 0 : (im->GetInventoryItemCount(itemId) + im->GetInventoryItemCount(itemId, true));
+        if (im == null) return 0;
+
+        return itemUsage switch {
+            ItemUsage.HqOnly     => im->GetInventoryItemCount(itemId, true),
+            ItemUsage.NqOnly     => im->GetInventoryItemCount(itemId),
+            ItemUsage.HqBeforeNq => im->GetInventoryItemCount(itemId, true) + im->GetInventoryItemCount(itemId),
+            ItemUsage.NqBeforeHq => im->GetInventoryItemCount(itemId) + im->GetInventoryItemCount(itemId, true),
+            _                    => 0
+        };
     }
 
     /// <summary>

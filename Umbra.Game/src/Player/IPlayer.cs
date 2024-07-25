@@ -191,7 +191,7 @@ public interface IPlayer
     /// <summary>
     /// Returns true if the player has the specified item in their inventory.
     /// </summary>
-    public bool HasItemInInventory(uint itemId, uint minItemCount = 1);
+    public bool HasItemInInventory(uint itemId, uint minItemCount = 1, ItemUsage itemUsage = ItemUsage.HqBeforeNq);
 
     /// <summary>
     /// Finds an item or event item by its item ID.
@@ -201,7 +201,7 @@ public interface IPlayer
     /// <summary>
     /// Get the count of the specified item in the player's inventory.
     /// </summary>
-    public int GetItemCount(uint itemId);
+    public int GetItemCount(uint itemId, ItemUsage itemUsage = ItemUsage.HqBeforeNq);
 
     /// <summary>
     /// Use the specified inventory item by its item ID.

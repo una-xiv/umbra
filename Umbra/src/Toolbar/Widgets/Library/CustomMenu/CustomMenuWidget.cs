@@ -39,7 +39,6 @@ internal sealed partial class CustomMenuWidget(
     private ICommandManager  CommandManager  { get; } = Framework.Service<ICommandManager>();
     private IChatSender      ChatSender      { get; } = Framework.Service<IChatSender>();
     private ITextureProvider TextureProvider { get; } = Framework.Service<ITextureProvider>();
-    private IDataManager     DataManager     { get; } = Framework.Service<IDataManager>();
     private IPlayer          Player          { get; } = Framework.Service<IPlayer>();
 
     private uint? LeftIconId  { get; set; }
@@ -74,6 +73,7 @@ internal sealed partial class CustomMenuWidget(
         string tooltipString = GetConfigValue<string>("Tooltip");
         Node.Tooltip = !string.IsNullOrEmpty(tooltipString) ? tooltipString : null;
 
+        Popup.CloseOnItemClick             = GetConfigValue<bool>("CloseOnClick");
         Popup.UseGrayscaleIcons            = GetConfigValue<bool>("DesaturateMenuIcons");
         LabelNode.Style.TextOffset         = new(0, GetConfigValue<int>("TextYOffset"));
         LeftIconNode.Style.ImageOffset     = new(0, GetConfigValue<int>("IconYOffset"));
@@ -111,13 +111,18 @@ internal sealed partial class CustomMenuWidget(
 
     private void UpdateItemList()
     {
+        bool inverseOrder = GetConfigValue<bool>("InverseOrder");
+
         for (var i = 0; i < MaxButtons; i++) {
-            var    id       = $"Button_{i}";
-            string label    = GetConfigValue<string>($"ButtonLabel_{i}").Trim();
-            string altLabel = GetConfigValue<string>($"ButtonAltLabel_{i}").Trim();
-            string command  = GetConfigValue<string>($"ButtonCommand_{i}").Trim();
-            string mode     = GetConfigValue<string>($"ButtonMode_{i}").Trim();
-            uint   iconId   = (uint)GetConfigValue<int>($"ButtonIconId_{i}");
+            var       id       = $"Button_{i}";
+            string    label    = GetConfigValue<string>($"ButtonLabel_{i}").Trim();
+            string    altLabel = GetConfigValue<string>($"ButtonAltLabel_{i}").Trim();
+            string    command  = GetConfigValue<string>($"ButtonCommand_{i}").Trim();
+            string    mode     = GetConfigValue<string>($"ButtonMode_{i}").Trim();
+            uint      iconId   = (uint)GetConfigValue<int>($"ButtonIconId_{i}");
+            ItemUsage usage    = ParseItemUsageString(GetConfigValue<string>($"ButtonItemUsage_{i}"));
+
+            Popup.SetButtonSortIndex(id, inverseOrder ? -i : i);
 
             if (string.IsNullOrEmpty(command) && string.IsNullOrEmpty(label)) {
                 Popup.SetButtonVisibility(id, false);
@@ -132,7 +137,7 @@ internal sealed partial class CustomMenuWidget(
                     UpdateMenuItem(id, label, altLabel, iconId);
                     break;
                 case "Item":
-                    UpdateItemMenuItem(id, command);
+                    UpdateItemMenuItem(id, command, usage);
                     break;
             }
         }
@@ -146,7 +151,7 @@ internal sealed partial class CustomMenuWidget(
         Popup.SetButtonDisabled(id, false);
     }
 
-    private void UpdateItemMenuItem(string id, string command)
+    private void UpdateItemMenuItem(string id, string command, ItemUsage usage)
     {
         if (false == uint.TryParse(command, NumberStyles.Any, null, out uint itemId)) {
             Popup.SetButtonIcon(id, null);
@@ -166,8 +171,8 @@ internal sealed partial class CustomMenuWidget(
 
         Popup.SetButtonLabel(id, item.Value.Name);
         Popup.SetButtonIcon(id, item.Value.IconId);
-        Popup.SetButtonDisabled(id, !Player.HasItemInInventory(itemId));
-        Popup.SetButtonAltLabel(id, Player.GetItemCount(itemId).ToString());
+        Popup.SetButtonDisabled(id, !Player.HasItemInInventory(itemId, 1, usage));
+        Popup.SetButtonAltLabel(id, Player.GetItemCount(itemId, usage).ToString());
     }
 
     private void InvokeMenuItem(int index)
@@ -197,12 +202,13 @@ internal sealed partial class CustomMenuWidget(
                 return;
             case "Item":
                 uint itemId = uint.Parse(cmd, NumberStyles.Any, null);
+                ItemUsage usage = ParseItemUsageString(GetConfigValue<string>($"ButtonItemUsage_{index}"));
 
-                if (!Player.HasItemInInventory(itemId)) {
+                if (!Player.HasItemInInventory(itemId, 1, usage)) {
                     return;
                 }
 
-                Player.UseInventoryItem(itemId);
+                Player.UseInventoryItem(itemId, usage);
                 return;
         }
     }
@@ -232,5 +238,16 @@ internal sealed partial class CustomMenuWidget(
         } catch {
             return false;
         }
+    }
+
+    private static ItemUsage ParseItemUsageString(string usage)
+    {
+        return usage switch {
+            "HqBeforeNq" => ItemUsage.HqBeforeNq,
+            "NqBeforeHq" => ItemUsage.NqBeforeHq,
+            "HqOnly"     => ItemUsage.HqOnly,
+            "NqOnly"     => ItemUsage.NqOnly,
+            _            => ItemUsage.HqBeforeNq
+        };
     }
 }

@@ -95,8 +95,8 @@ internal sealed partial class ItemButtonWidget(
         ItemUsage usage = GetConfigValue<string>("ItemUsage") switch {
             "HqBeforeNq" => ItemUsage.HqBeforeNq,
             "NqBeforeHq" => ItemUsage.NqBeforeHq,
-            "OnlyHq"     => ItemUsage.HqOnly,
-            "OnlyNq"     => ItemUsage.NqOnly,
+            "HqOnly"     => ItemUsage.HqOnly,
+            "NqOnly"     => ItemUsage.NqOnly,
             _            => ItemUsage.HqBeforeNq
         };
 
