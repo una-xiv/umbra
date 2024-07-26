@@ -24,7 +24,7 @@ internal class Plugin(string path) : IDisposable
         }
 
         try {
-            _context = new(file.Name, file.Directory!);
+            _context = new(file.Directory!);
             Assembly = _context.LoadFromFile(file.FullName);
 
             Framework.Assemblies.Add(Assembly);

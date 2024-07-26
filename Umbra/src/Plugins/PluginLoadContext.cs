@@ -26,7 +26,7 @@ using Una.Drawing;
 
 namespace Umbra.Plugins;
 
-internal class PluginLoadContext(string name, DirectoryInfo directoryInfo) : AssemblyLoadContext(true)
+internal class PluginLoadContext(DirectoryInfo directoryInfo) : AssemblyLoadContext(true)
 {
     private static Dictionary<string, Assembly> KnownAssemblies { get; } = new() {
         ["Umbra"]              = typeof(Plugin).Assembly,
@@ -38,8 +38,6 @@ internal class PluginLoadContext(string name, DirectoryInfo directoryInfo) : Ass
         ["Lumina.Excel"]       = typeof(Lumina.Excel.GeneratedSheets.Action).Assembly,
         ["FFXIVClientStructs"] = typeof(FFXIVClientStructs.FFXIV.Client.System.Framework.Framework).Assembly,
     };
-
-    private Dictionary<string, Version> UsedAssemblies { get; } = [];
 
     internal Assembly LoadFromFile(string filePath)
     {
