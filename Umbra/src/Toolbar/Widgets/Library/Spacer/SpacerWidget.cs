@@ -27,17 +27,22 @@ internal class SpacerWidget(WidgetInfo info, string? guid = null, Dictionary<str
     public override WidgetPopup? Popup { get; } = null;
 
     public override Node Node { get; } = new() {
+        ClassList = ["toolbar-widget-spacer"],
         Style = new() {
             Anchor = Anchor.MiddleLeft,
-            Size   = new(2, 28)
-        }
+            Size   = new(2, SafeHeight),
+        },
     };
 
-    protected override void Initialize() { }
+    protected override void Initialize()
+    {
+        // This node is never interactable.
+        Node.IsDisabled = true;
+    }
 
     protected override void OnUpdate()
     {
-        Node.Style.Size = new(GetConfigValue<int>("Width"), 28);
+        Node.Style.Size = new(GetConfigValue<int>("Width"), SafeHeight);
     }
 
     protected override IEnumerable<IWidgetConfigVariable> GetConfigVariables()
