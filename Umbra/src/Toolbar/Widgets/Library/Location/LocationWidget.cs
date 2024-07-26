@@ -16,6 +16,7 @@
 
 using System.Collections.Generic;
 using Dalamud.Game.Text;
+using FFXIVClientStructs.FFXIV.Client.UI;
 using Umbra.Common;
 using Umbra.Game;
 
@@ -32,14 +33,23 @@ internal partial class LocationWidget(
     public override WidgetPopup? Popup { get; } = null;
 
     private IZoneManager? _zoneManager;
+    private IPlayer?      _player;
 
     /// <inheritdoc/>
     protected override void Initialize()
     {
         _zoneManager = Framework.Service<IZoneManager>();
+        _player      = Framework.Service<IPlayer>();
 
         SetGhost(!GetConfigValue<bool>("Decorate"));
         SetTwoLabels("Location Name", "District Name");
+
+        Node.OnClick += _ => {
+            unsafe {
+                // Open map.
+                UIModule.Instance()->ExecuteMainCommand(16);
+            }
+        };
     }
 
     /// <inheritdoc/>
