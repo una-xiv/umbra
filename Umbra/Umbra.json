@@ -1,9 +1,9 @@
 {
   "Author": "Una",
   "Name": "Umbra XIV",
-  "Description": "Adds quality of life improvements to the game and consolidates common UI elements and actions into a single uniform interface.",
+  "Description": "Adds quality of life improvements to the game and consolidates common UI elements and actions into a single uniform interface in the form of a toolbar.",
   "InternalName": "Umbra",
-  "Punchline":  "Ain't you a pretty little thing?",
+  "Punchline":  "Adds a fully customizable toolbar and 3D world markers to the game.",
   "RepoUrl": "https://github.com/una-xiv/umbra",
   "Tags": [
     "ui",
