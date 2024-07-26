@@ -47,6 +47,7 @@ internal sealed partial class GearsetSwitcherWidget(
     protected override void OnUpdate()
     {
         SetGhost(!GetConfigValue<bool>("Decorate"));
+        base.OnUpdate();
 
         if (!VerifyGearsetEquipped()) return;
 

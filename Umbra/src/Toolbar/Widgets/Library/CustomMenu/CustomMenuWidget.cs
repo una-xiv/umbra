@@ -54,13 +54,6 @@ internal sealed partial class CustomMenuWidget(
     protected override void Initialize()
     {
         Popup.OnPopupOpen += UpdateItemList;
-
-        // for (var i = 0; i < MaxButtons; i++) {
-        //     int i1 = i;
-        //     var id = $"Button_{i}";
-        //     Popup.AddButton(id, "", onClick: () => InvokeMenuItem(i1));
-        //     Popup.SetButtonVisibility(id, false);
-        // }
     }
 
     /// <inheritdoc/>
@@ -86,6 +79,8 @@ internal sealed partial class CustomMenuWidget(
         LeftIconNode.Style.Margin  = new(0, 0, 0, hasText ? -2 : 0);
         RightIconNode.Style.Margin = new(0, hasText ? -2 : 0, 0, 0);
         Node.Style.Padding         = new(0, hasText ? 6 : 3);
+
+        base.OnUpdate();
     }
 
     private void UpdateIcons()

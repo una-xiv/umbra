@@ -90,5 +90,7 @@ internal partial class LocationWidget(
                 SetTextAlignRight();
                 break;
         }
+
+        base.OnUpdate();
     }
 }

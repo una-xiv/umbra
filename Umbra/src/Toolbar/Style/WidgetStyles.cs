@@ -122,6 +122,8 @@ internal class WidgetStyles
                     OutlineColor = new("Widget.TextOutline"),
                     OutlineSize  = 1,
                     TextOffset   = new(0, 1),
+                    TextOverflow = false,
+                    WordWrap     = false,
                 }
             ),
             new(
@@ -150,6 +152,8 @@ internal class WidgetStyles
                     IsVisible    = false,
                     FontSize     = 12,
                     Stretch      = true,
+                    TextOverflow = false,
+                    WordWrap     = false,
                 }
             ),
             new(
@@ -171,6 +175,8 @@ internal class WidgetStyles
                     IsVisible    = false,
                     FontSize     = 9,
                     Stretch      = true,
+                    TextOverflow = false,
+                    WordWrap     = false,
                 }
             ),
             new(

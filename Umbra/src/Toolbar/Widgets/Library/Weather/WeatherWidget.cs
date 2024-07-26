@@ -110,5 +110,7 @@ internal partial class WeatherWidget(
         RightIconNode.Style.Margin = new() {
             Left  = iconLocation == "Right" ? spacing : 0,
         };
+
+        base.OnUpdate();
     }
 }

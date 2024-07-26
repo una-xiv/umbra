@@ -121,6 +121,7 @@ internal partial class GearsetSwitcherWidget
                 -5,
                 5
             ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            ..DefaultToolbarWidgetConfigVariables,
             new BooleanWidgetConfigVariable(
                 "EnableRoleScrolling",
                 I18N.Translate("Widget.GearsetSwitcher.Config.EnableRoleScrolling.Name"),

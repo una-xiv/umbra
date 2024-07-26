@@ -93,6 +93,8 @@ internal sealed unsafe partial class FlagWidget(
             $"{_zoneName}{(_aetheryteName is null ? "" : $" <{_flagCoords}>")}",
             _aetheryteName ?? $"<{_flagCoords}>"
         );
+
+        base.OnUpdate();
     }
 
     private void OnClick()

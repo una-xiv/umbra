@@ -242,6 +242,8 @@
     "Widget.ConfigCategory.GearsetRoleOptions": "{0}オプション",
     "Widget.ConfigCategory.TimeSource": "時間源",
     "Widget.ConfigCategory.FormatOptions": "時間形式オプション",
+    "Widgets.DefaultToolbarWidget.Config.LabelMaxWidth.Name": "ラベルの最大幅",
+    "Widgets.DefaultToolbarWidget.Config.LabelMaxWidth.Description": "ラベルの最大幅（ピクセル単位）。この値よりもラベルが長い場合は切り捨てられ、三点リーダーが追加されます。固定幅を無効にして、ラベルの内容に基づいてウィジェットが自動的に幅を調整するようにするには、0に設定します。",
     "Widget.Accessibility.Name": "アクセシビリティ",
     "Widget.Accessibility.Description": "アクセシビリティ機能への迅速なアクセスを提供します。",
     "Widget.Accessibility.Config.Decorate.Name": "ウィジェットの装飾",

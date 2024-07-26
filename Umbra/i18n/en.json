@@ -242,6 +242,8 @@
     "Widget.ConfigCategory.GearsetRoleOptions": "{0} Options",
     "Widget.ConfigCategory.TimeSource": "Time Source",
     "Widget.ConfigCategory.FormatOptions": "Time Format Options",
+    "Widgets.DefaultToolbarWidget.Config.LabelMaxWidth.Name": "Max label width",
+    "Widgets.DefaultToolbarWidget.Config.LabelMaxWidth.Description": "The maximum width of the label in pixels. If the label is longer than this value, it will be truncated and an ellipsis will be added. Set to 0 to disable fixed width and let the widget automatically adjust its width based on the label content.",
     "Widget.Accessibility.Name": "Accessibility",
     "Widget.Accessibility.Description": "Provides you with quick access to accessibility features.",
     "Widget.Accessibility.Config.Decorate.Name": "Decorate the widget",

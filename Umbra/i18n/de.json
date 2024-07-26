@@ -242,6 +242,8 @@
     "Widget.ConfigCategory.GearsetRoleOptions": "{0}-Optionen",
     "Widget.ConfigCategory.TimeSource": "Zeitquelle",
     "Widget.ConfigCategory.FormatOptions": "Zeitformat-Optionen",
+    "Widgets.DefaultToolbarWidget.Config.LabelMaxWidth.Name": "Maximale Etikettenbreite",
+    "Widgets.DefaultToolbarWidget.Config.LabelMaxWidth.Description": "Die maximale Breite des Labels in Pixeln. Wenn das Label länger als dieser Wert ist, wird es abgeschnitten und ein Auslassungszeichen wird hinzugefügt. Auf 0 setzen, um die feste Breite zu deaktivieren und das Widget automatisch die Breite basierend auf dem Labelinhalt anpassen zu lassen.",
     "Widget.Accessibility.Name": "Barrierefreiheit",
     "Widget.Accessibility.Description": "Bietet Ihnen schnellen Zugriff auf Barrierefreiheitsfunktionen.",
     "Widget.Accessibility.Config.Decorate.Name": "Widget dekorieren",

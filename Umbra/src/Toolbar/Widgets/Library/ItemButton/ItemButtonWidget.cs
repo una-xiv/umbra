@@ -86,6 +86,8 @@ internal sealed partial class ItemButtonWidget(
         LeftIconNode.Style.Margin  = new() { Left  = showLabel ? -3 : 0 };
         RightIconNode.Style.Margin = new() { Right = showLabel ? -3 : 0 };
         Node.Style.Padding         = new(0, showLabel ? 6 : 4);
+
+        base.OnUpdate();
     }
 
     private void UseItem(Node _)

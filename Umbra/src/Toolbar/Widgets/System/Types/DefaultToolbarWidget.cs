@@ -17,6 +17,7 @@
 using System;
 using System.Collections.Generic;
 using Dalamud.Game.Text.SeStringHandling;
+using Umbra.Common;
 using Umbra.Style;
 using Una.Drawing;
 
@@ -84,11 +85,12 @@ public abstract class DefaultToolbarWidget(
             rightIconNode.Style.FontSize = (SafeHeight - 2) / 2;
 
             var halfSize = (int)Math.Ceiling(SafeHeight / 2f);
-            labelNode.Style.Size           = new(0, SafeHeight);
+
+            labelNode.Style.Size           = new(labelNode.Style.Size?.Width ?? 0, SafeHeight);
             labelNode.Style.FontSize       = (halfSize / 2) + 6;
-            topLabelNode.Style.Size        = new(0, halfSize - 2);
+            topLabelNode.Style.Size        = new(topLabelNode.Style.Size?.Width ?? 0, halfSize - 2);
             topLabelNode.Style.FontSize    = (halfSize / 2) + 4;
-            bottomLabelNode.Style.Size     = new(0, halfSize - 2);
+            bottomLabelNode.Style.Size     = new(bottomLabelNode.Style.Size?.Width ?? 0, halfSize - 2);
             bottomLabelNode.Style.FontSize = (halfSize / 2) + 2;
 
             bool leftIconVisible  = leftIconNode.Style.IsVisible ?? false;
@@ -103,7 +105,10 @@ public abstract class DefaultToolbarWidget(
         }
     };
 
-    protected override void OnUpdate() { }
+    protected override void OnUpdate()
+    {
+        SetLabelWidth(GetConfigValue<int>("LabelMaxWidth"));
+    }
 
     protected void SetGhost(bool isGhost)
     {
@@ -166,10 +171,11 @@ public abstract class DefaultToolbarWidget(
         LabelNode.Style.IsVisible       = !string.IsNullOrEmpty(topLabel) || !string.IsNullOrEmpty(bottomLabel);
     }
 
-    protected void SetLabelMaxWidth(int maxWidth)
+    protected void SetLabelWidth(int maxWidth)
     {
-        // TODO: Make an actual "maxWidth" style option.
-        Node.QuerySelector("Label")!.Style.Size!.Width = maxWidth;
+        LabelNode.Style.Size!.Width       = maxWidth;
+        TopLabelNode.Style.Size!.Width    = maxWidth;
+        BottomLabelNode.Style.Size!.Width = maxWidth;
     }
 
     protected void SetDisabled(bool isDisabled)
@@ -207,4 +213,15 @@ public abstract class DefaultToolbarWidget(
     protected Node BottomLabelNode => Node.QuerySelector("#BottomLabel")!;
     protected Node LeftIconNode    => Node.QuerySelector("#LeftIcon")!;
     protected Node RightIconNode   => Node.QuerySelector("#RightIcon")!;
+
+    protected IList<IWidgetConfigVariable> DefaultToolbarWidgetConfigVariables { get; } = [
+        new IntegerWidgetConfigVariable(
+            "LabelMaxWidth",
+            I18N.Translate("Widgets.DefaultToolbarWidget.Config.LabelMaxWidth.Name"),
+            I18N.Translate("Widgets.DefaultToolbarWidget.Config.LabelMaxWidth.Description"),
+            0,
+            0,
+            500
+        ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+    ];
 }

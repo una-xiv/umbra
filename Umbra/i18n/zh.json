@@ -242,6 +242,8 @@
     "Widget.ConfigCategory.GearsetRoleOptions": "{0} 选项",
     "Widget.ConfigCategory.TimeSource": "时间来源",
     "Widget.ConfigCategory.FormatOptions": "时间格式选项",
+    "Widgets.DefaultToolbarWidget.Config.LabelMaxWidth.Name": "标签最大宽度",
+    "Widgets.DefaultToolbarWidget.Config.LabelMaxWidth.Description": "标签的最大宽度，以像素为单位。如果标签长度超过此值，则会被截断并添加省略号。设置为0以禁用固定宽度，并让小部件根据标签内容自动调整其宽度。",
     "Widget.Accessibility.Name": "无障碍",
     "Widget.Accessibility.Description": "快速访问无障碍功能。",
     "Widget.Accessibility.Config.Decorate.Name": "突出显示",

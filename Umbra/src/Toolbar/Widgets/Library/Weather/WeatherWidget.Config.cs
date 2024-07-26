@@ -109,6 +109,7 @@ internal partial class WeatherWidget
                 0,
                 64
             ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            ..DefaultToolbarWidgetConfigVariables,
             new IntegerWidgetConfigVariable(
                 "MaxForecastEntries",
                 I18N.Translate("Widget.Weather.Config.MaxForecastEntries.Name"),
