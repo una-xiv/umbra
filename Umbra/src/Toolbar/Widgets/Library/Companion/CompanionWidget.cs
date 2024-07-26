@@ -14,6 +14,7 @@
  *     GNU Affero General Public License for more details.
  */
 
+using FFXIVClientStructs.FFXIV.Client.UI;
 using System.Collections.Generic;
 using System.Numerics;
 using Umbra.Common;
@@ -36,7 +37,14 @@ internal sealed partial class CompanionWidget(
     /// <inheritdoc/>
     protected override void Initialize()
     {
-        Node.OnClick += _ => TrySummonIfInactive();
+        Node.OnClick      += _ => TrySummonIfInactive();
+        Node.OnRightClick += _ => {
+            unsafe {
+                if (UIModule.Instance()->IsMainCommandUnlocked(42)) {
+                    UIModule.Instance()->ExecuteMainCommand(42); // Open companion window.
+                }
+            }
+        };
 
         Node.QuerySelector("#Label")!.Style.Font = 1;
     }
