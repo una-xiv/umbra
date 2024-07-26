@@ -768,7 +768,7 @@
     "Widget.Companion.Withdraw": "Fortschicken",
     "Widget.Companion.Summon": "Herbeirufen",
     "Widget.Companion.Feed": "Füttern",
-    "Widget.Companion.InfoWindow": "Begleiterinformation",
+    "Widget.Companion.InfoWindow": "Begleiterinfo",
     "Widget.CustomButton.Name": "Benutzerdefinierte Schaltfläche",
     "Widget.CustomButton.Description": "Eine anpassbare Schaltfläche, die verwendet werden kann, um einen Befehl auszuführen.",
     "Widget.CustomButton.Config.HideLabel.Name": "Schaltflächenbeschriftung ausblenden",
