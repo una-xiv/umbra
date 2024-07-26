@@ -290,6 +290,15 @@ internal sealed partial class WidgetManager : IDisposable
     }
 
     /// <summary>
+    /// Returns the amount of instances of a widget with the given ID that are
+    /// currently active on the toolbar.
+    /// </summary>
+    public uint GetWidgetInstanceCount(string widgetId)
+    {
+        return (uint)_instances.Values.Count(w => w.Info.Id == widgetId);
+    }
+
+    /// <summary>
     /// Updates the sort indices of all widgets to ensure there are no gaps.
     /// </summary>
     /// <param name="location"></param>

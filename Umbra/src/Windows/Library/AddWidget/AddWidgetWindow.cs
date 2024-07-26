@@ -38,7 +38,7 @@ internal class AddWidgetWindow(string locationId) : Window
     protected override Vector2 DefaultSize { get; } = new(400, 300);
     protected override string  Title       { get; } = I18N.Translate("Settings.AddWidgetWindow.Title");
 
-    private WidgetInfo? _selectedWidgetInfo;
+    private WidgetInfo?   _selectedWidgetInfo;
     private WidgetManager WidgetManager => Framework.Service<WidgetManager>();
 
     protected override Node Node { get; } = new() {
@@ -94,7 +94,7 @@ internal class AddWidgetWindow(string locationId) : Window
             Close();
         };
 
-        Node addButton = Node.QuerySelector("#AddButton")!;
+        Node addButton   = Node.QuerySelector("#AddButton")!;
         Node pasteButton = Node.QuerySelector("#PasteButton")!;
 
         addButton.Tooltip           = I18N.Translate("Settings.AddWidgetWindow.AddButtonTooltip");
@@ -148,6 +148,8 @@ internal class AddWidgetWindow(string locationId) : Window
 
     private Node CreateWidgetNode(WidgetInfo info)
     {
+        uint instanceCount = WidgetManager.GetWidgetInstanceCount(info.Id);
+
         Node node = new() {
             ClassList = ["widget"],
             ChildNodes = [
@@ -159,6 +161,11 @@ internal class AddWidgetWindow(string locationId) : Window
                     ClassList = ["widget--description"],
                     NodeValue = info.Description,
                     Style     = new() { IsVisible = false },
+                },
+                new() {
+                    ClassList = ["widget-instance-count"],
+                    NodeValue = $"{instanceCount}",
+                    TagsList  = instanceCount > 0 ? ["used"] : [],
                 }
             ]
         };
@@ -265,6 +272,28 @@ internal class AddWidgetWindow(string locationId) : Window
                     TextOverflow = false,
                     WordWrap     = true,
                     LineHeight   = 1.5f,
+                }
+            ),
+            new(
+                ".widget-instance-count",
+                new() {
+                    Anchor        = Anchor.TopRight,
+                    Color         = new("Window.Text"),
+                    OutlineColor  = new("Window.TextOutline"),
+                    OutlineSize   = 1,
+                    FontSize      = 13,
+                    Size          = new(28, 28),
+                    TextAlign     = Anchor.MiddleCenter,
+                    BorderRadius  = 14,
+                    IsAntialiased = false,
+                    Opacity       = 0,
+                }
+            ),
+            new(
+                ".widget-instance-count:used",
+                new() {
+                    BackgroundColor = new(0x50FFFFFF),
+                    Opacity         = 1,
                 }
             ),
         ]
