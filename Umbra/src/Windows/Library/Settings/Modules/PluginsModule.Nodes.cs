@@ -80,7 +80,7 @@ internal partial class PluginsModule
                     ChildNodes = [
                         new() {
                             ClassList = ["plugin-load-error-icon"],
-                            NodeValue = FontAwesomeIcon.ExclamationTriangle,
+                            NodeValue = FontAwesomeIcon.ExclamationTriangle.ToIconString(),
                         },
                         new() {
                             ClassList = ["plugin-load-error-message"],
@@ -100,7 +100,7 @@ internal partial class PluginsModule
                             I18N.Translate("Settings.PluginsModule.RemovePluginButton"),
                             FontAwesomeIcon.Trash
                         ) {
-                            IsDisabled = plugin.IsDisposed
+                            IsDisabled = string.IsNullOrEmpty(plugin.LoadError) && plugin.IsDisposed
                         },
                     ]
                 },
@@ -129,7 +129,6 @@ internal partial class PluginsModule
         } else {
             node.QuerySelector(".plugin-load-info")!.Style.IsVisible  = false;
             node.QuerySelector(".plugin-load-error")!.Style.IsVisible = true;
-            node.QuerySelector(".plugin-load-error")!.NodeValue       = plugin.LoadError;
         }
 
         node.QuerySelector<ButtonNode>("RemoveButton")!.OnMouseUp += _ => {
@@ -159,8 +158,13 @@ internal partial class PluginsModule
         Node.QuerySelector(".plugins-footer")!.Style.Size       = new(size.Width - 30, 0);
         Node.QuerySelector(".plugins-changed")!.Style.IsVisible = PluginManager.IsRestartRequired();
 
+
         foreach (Node node in Node.QuerySelectorAll(".plugin")) {
             node.Style.Size = new(size.Width - 30, 0);
+        }
+
+        foreach (Node node in Node.QuerySelectorAll(".plugin-load-error-message")) {
+            node.Style.Size = new(size.Width - 250, 0);
         }
     }
 }

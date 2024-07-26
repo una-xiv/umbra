@@ -106,7 +106,12 @@ internal static class PluginManager
 
             if (null == plugin) continue;
 
-            plugin.Load();
+            try {
+                plugin.Load();
+            } catch (Exception) {
+                Logger.Warning($"Failed to load plugin: {plugin.File.Name} (Incompatible version)");
+                plugin.Dispose();
+            }
 
             if (string.IsNullOrEmpty(plugin.LoadError) && plugin.Assembly != null) {
                 Logger.Info($"Loaded plugin: {plugin.Assembly.FullName}");

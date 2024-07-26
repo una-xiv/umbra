@@ -26,9 +26,11 @@ internal class Plugin(string path) : IDisposable
         try {
             _context = new(file.Name, file.Directory!);
             Assembly = _context.LoadFromFile(file.FullName);
+
             Framework.Assemblies.Add(Assembly);
         } catch (Exception e) {
             LoadError = e.Message;
+            Dispose();
             Logger.Error($"Failed to load plugin: {file.FullName}: {e.Message}");
         }
     }

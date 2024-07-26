@@ -126,8 +126,8 @@ internal partial class PluginsModule
                     Font         = 2,
                     FontSize     = 16,
                     Size         = new(22, 22),
-                    TextAlign    = Anchor.MiddleCenter,
-                    TextOffset   = new(0, 1),
+                    TextAlign    = Anchor.TopLeft,
+                    TextOffset   = new(0, -3),
                     Color        = new("Window.AccentColor"),
                     OutlineColor = new("Window.TextOutline"),
                     OutlineSize  = 1,
@@ -136,7 +136,7 @@ internal partial class PluginsModule
             new(
                 ".plugin-load-error-message",
                 new() {
-                    FontSize     = 11,
+                    FontSize     = 12,
                     Color        = new("Window.Text"),
                     OutlineColor = new("Window.TextOutline"),
                     OutlineSize  = 1,
