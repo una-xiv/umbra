@@ -173,6 +173,13 @@ public abstract class DefaultToolbarWidget(
 
     protected void SetLabelWidth(int maxWidth)
     {
+        if (null == LabelNode.Style.Size) {
+            LabelNode.Style.Size       = new(maxWidth, SafeHeight);
+            TopLabelNode.Style.Size    = new(maxWidth, SafeHeight);
+            BottomLabelNode.Style.Size = new(maxWidth, SafeHeight);
+            return;
+        }
+
         LabelNode.Style.Size!.Width       = maxWidth;
         TopLabelNode.Style.Size!.Width    = maxWidth;
         BottomLabelNode.Style.Size!.Width = maxWidth;
