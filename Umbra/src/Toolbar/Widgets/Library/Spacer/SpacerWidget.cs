@@ -36,12 +36,11 @@ internal class SpacerWidget(WidgetInfo info, string? guid = null, Dictionary<str
 
     protected override void Initialize()
     {
-        // This node is never interactable.
-        Node.IsDisabled = true;
     }
 
     protected override void OnUpdate()
     {
+        Node.IsDisabled = true;
         Node.Style.Size = new(GetConfigValue<int>("Width"), SafeHeight);
     }
 

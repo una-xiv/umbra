@@ -72,6 +72,11 @@ public class PartyMemberWorldMarkerFactory(IPlayer player, IPartyList partyList,
             return;
         }
 
+        if (player.IsBetweenAreas) {
+            RemoveAllMarkers();
+            return;
+        }
+
         var fadeDist = GetConfigValue<int>("FadeDistance");
         var fadeAttn = GetConfigValue<int>("FadeAttenuation");
 
@@ -80,6 +85,7 @@ public class PartyMemberWorldMarkerFactory(IPlayer player, IPartyList partyList,
         bool         showOnCompass = GetConfigValue<bool>("ShowOnCompass");
         bool         showIcon      = GetConfigValue<bool>("ShowIcon");
         bool         showName      = GetConfigValue<bool>("ShowName");
+        uint         mapId         = zoneManager.CurrentZone.Id;
 
         foreach (var member in partyList) {
             if (member.MaxHP == 0 || member.ClassJob.Id == 0) continue; // Probably not in this area.
@@ -87,7 +93,7 @@ public class PartyMemberWorldMarkerFactory(IPlayer player, IPartyList partyList,
             // Remove markers for party members that are close to the player.
             if (Vector3.Distance(member.Position, playerPos) < 50) continue;
 
-            string key = $"PM_{member.ObjectId}";
+            string key = $"PM_{mapId}_{member.ContentId}";
             usedKeys.Add(key);
 
             SetMarker(
