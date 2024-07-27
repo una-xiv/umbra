@@ -292,7 +292,7 @@ internal sealed partial class GearsetSwitcherPopup : WidgetPopup, IDisposable
 
     private void OnGearsetEquipped(Gearset _)
     {
-        Close();
+        if (AutoCloseOnChange) Close();
     }
 
     private void SetBackgroundGradientFor(GearsetCategory category)
