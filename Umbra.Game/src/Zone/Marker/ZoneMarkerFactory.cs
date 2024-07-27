@@ -14,6 +14,7 @@
  *     GNU Affero General Public License for more details.
  */
 
+using Dalamud.Memory;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
@@ -182,7 +183,7 @@ internal sealed class ZoneMarkerFactory(IDataManager dataManager)
     public unsafe ZoneMarker FromMapMarkerData(Sheet.Map map, MapMarkerData data)
     {
         var position = MapUtil.WorldToMap(new(data.X, data.Z), map);
-        var name     = SanitizeMarkerName(data.TooltipString->ToString());
+        var name     = SanitizeMarkerName(MemoryHelper.ReadSeString(data.TooltipString).ToString());
         var type     = DetermineMarkerType(data.IconId, name);
 
         return new(
