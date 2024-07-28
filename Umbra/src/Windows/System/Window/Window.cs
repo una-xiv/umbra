@@ -19,7 +19,7 @@ using Una.Drawing;
 
 namespace Umbra.Windows;
 
-internal abstract partial class Window
+internal abstract partial class Window : IDisposable
 {
     internal event Action? RequestClose;
 
@@ -45,7 +45,7 @@ internal abstract partial class Window
     /// </summary>
     protected abstract void OnClose();
 
-    ~Window()
+    public void Dispose()
     {
         _windowNode.Dispose();
         Node.Dispose();

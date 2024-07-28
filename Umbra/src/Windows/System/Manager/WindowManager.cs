@@ -21,13 +21,21 @@ using Umbra.Common;
 namespace Umbra.Windows;
 
 [Service]
-internal class WindowManager
+internal class WindowManager : IDisposable
 {
     public event Action<Window>? OnWindowOpened;
     public event Action<Window>? OnWindowClosed;
 
     private readonly Dictionary<string, Window>          _instances = [];
     private readonly Dictionary<string, Action<Window>?> _callbacks = [];
+
+    public void Dispose()
+    {
+        foreach (var win in _instances.Values)
+            win.Dispose();
+
+        _instances.Clear();
+    }
 
     /// <summary>
     /// Presents a window and invokes the given callback once the window is
