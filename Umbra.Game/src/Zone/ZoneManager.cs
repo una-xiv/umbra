@@ -22,7 +22,7 @@ using Umbra.Common;
 namespace Umbra.Game;
 
 [Service]
-internal sealed class ZoneManager(ZoneFactory factory, IClientState clientState) : IZoneManager
+internal sealed class ZoneManager(ZoneFactory factory, IClientState clientState) : IZoneManager, IDisposable
 {
     public event Action<IZone>? ZoneChanged;
 
@@ -38,6 +38,13 @@ internal sealed class ZoneManager(ZoneFactory factory, IClientState clientState)
 
             return _zone;
         }
+    }
+
+    public void Dispose()
+    {
+        foreach (var handler in ZoneChanged?.GetInvocationList() ?? []) ZoneChanged -= (Action<IZone>)handler;
+
+        _zone = null;
     }
 
     public IZone GetZone(uint zoneId)

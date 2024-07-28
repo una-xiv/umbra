@@ -20,7 +20,7 @@ using FFXIVClientStructs.FFXIV.Client.UI.Misc;
 
 namespace Umbra.Game;
 
-public sealed class Gearset(ushort id, IGearsetCategoryRepository categoryRepository, IPlayer player)
+public sealed class Gearset(ushort id, IGearsetCategoryRepository categoryRepository, IPlayer player) : IDisposable
 {
     public ushort Id { get; } = id;
 
@@ -43,6 +43,13 @@ public sealed class Gearset(ushort id, IGearsetCategoryRepository categoryReposi
     public event Action? OnCreated;
     public event Action? OnChanged;
     public event Action? OnRemoved;
+
+    public void Dispose()
+    {
+        foreach (var handler in OnCreated?.GetInvocationList() ?? []) OnCreated -= (Action)handler;
+        foreach (var handler in OnChanged?.GetInvocationList() ?? []) OnChanged -= (Action)handler;
+        foreach (var handler in OnRemoved?.GetInvocationList() ?? []) OnRemoved -= (Action)handler;
+    }
 
     /// <summary>
     /// Synchronizes the gearset information from the game client.

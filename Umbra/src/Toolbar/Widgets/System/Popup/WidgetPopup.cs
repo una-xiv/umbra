@@ -52,6 +52,9 @@ public abstract class WidgetPopup : IDisposable
         OnDisposed();
         ContextMenu?.Dispose();
         _popupNode.Dispose();
+
+        foreach (var handler in OnPopupOpen?.GetInvocationList() ?? []) OnPopupOpen -= (Action)handler;
+        foreach (var handler in OnPopupClose?.GetInvocationList() ?? []) OnPopupClose -= (Action)handler;
     }
 
     /// <summary>
