@@ -28,6 +28,8 @@
     "WeatherForecast.XMinutes": "{0} minutes",
     "WeatherForecast.AnHour": "une heure",
     "WeatherForecast.XHours": "{0} heures",
+    "Markers.AetherCurrents.Name": "Vents éthérés",
+    "Markers.AetherCurrents.Description": "Affiche les marqueurs mondiaux des vents éthérés à proximité dans la zone actuelle.",
     "Markers.PartyMembers.Name": "Membres du groupe",
     "Markers.PartyMembers.Description": "Affiche les marqueurs mondiaux pour les membres de votre groupe éloignés de vous mais présents sur la même carte.",
     "Markers.PartyMembers.Config.ShowIcon.Name": "Afficher les icônes des membres du groupe",

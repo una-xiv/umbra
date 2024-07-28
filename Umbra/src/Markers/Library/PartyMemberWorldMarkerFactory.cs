@@ -1,8 +1,4 @@
-﻿using Dalamud.Memory;
-using Dalamud.Plugin.Services;
-using FFXIVClientStructs.FFXIV.Client.Game.Group;
-using FFXIVClientStructs.FFXIV.Client.System.String;
-using FFXIVClientStructs.FFXIV.Client.UI;
+﻿using Dalamud.Plugin.Services;
 using System.Collections.Generic;
 using System.Numerics;
 using Umbra.Common;
@@ -11,7 +7,7 @@ using Umbra.Game;
 namespace Umbra.Markers.Library;
 
 [Service]
-public class PartyMemberWorldMarkerFactory(IPlayer player, IPartyList partyList, IZoneManager zoneManager)
+internal class PartyMemberWorldMarkerFactory(IPlayer player, IPartyList partyList, IZoneManager zoneManager)
     : WorldMarkerFactory
 {
     /// <inheritdoc/>
@@ -27,6 +23,7 @@ public class PartyMemberWorldMarkerFactory(IPlayer player, IPartyList partyList,
     public override List<IMarkerConfigVariable> GetConfigVariables()
     {
         return [
+            ..DefaultStateConfigVariables,
             new BooleanMarkerConfigVariable(
                 "ShowIcon",
                 I18N.Translate("Markers.PartyMembers.Config.ShowIcon.Name"),
@@ -39,7 +36,6 @@ public class PartyMemberWorldMarkerFactory(IPlayer player, IPartyList partyList,
                 I18N.Translate("Markers.PartyMembers.Config.ShowName.Description"),
                 true
             ),
-            ..DefaultStateConfigVariables,
             new IntegerMarkerConfigVariable(
                 "FadeDistance",
                 I18N.Translate("Settings.MarkersModule.Config.FadeDistance.Name"),

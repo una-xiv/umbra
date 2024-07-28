@@ -28,6 +28,8 @@
     "WeatherForecast.XMinutes": "{0} Minuten",
     "WeatherForecast.AnHour": "eine Stunde",
     "WeatherForecast.XHours": "{0} Stunden",
+    "Markers.AetherCurrents.Name": "Windätherquelle",
+    "Markers.AetherCurrents.Description": "Zeigt Weltmarkierungen für alle nahegelegenen windätherquellen in der aktuellen Zone an.",
     "Markers.PartyMembers.Name": "Gruppenmitglieder",
     "Markers.PartyMembers.Description": "Zeigt Weltmarkierungen für Ihre Gruppenmitglieder an, die weit von Ihnen entfernt sind, sich aber auf derselben Karte befinden.",
     "Markers.PartyMembers.Config.ShowIcon.Name": "Gruppenmitgliedersymbole anzeigen",

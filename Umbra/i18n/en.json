@@ -28,6 +28,8 @@
     "WeatherForecast.XMinutes": "{0} minutes",
     "WeatherForecast.AnHour": "an hour",
     "WeatherForecast.XHours": "{0} hours",
+    "Markers.AetherCurrents.Name": "Aether Currents",
+    "Markers.AetherCurrents.Description": "Shows world markers for any nearby Aether Currents in the current zone.",
     "Markers.PartyMembers.Name": "Party Members",
     "Markers.PartyMembers.Description": "Shows world markers for your party members that are far away from you but in the same map.",
     "Markers.PartyMembers.Config.ShowIcon.Name": "Show party member icons",

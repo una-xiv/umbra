@@ -28,6 +28,8 @@
     "WeatherForecast.XMinutes": "{0}分钟",
     "WeatherForecast.AnHour": "1小时",
     "WeatherForecast.XHours": "{0}小时",
+    "Markers.AetherCurrents.Name": "以太之流",
+    "Markers.AetherCurrents.Description": "显示当前区域内任何附近的以太之流的世界标记。",
     "Markers.PartyMembers.Name": "队员",
     "Markers.PartyMembers.Description": "显示在同一地图上但离你很远的队员的世界标记。",
     "Markers.PartyMembers.Config.ShowIcon.Name": "显示队员图标",
