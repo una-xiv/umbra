@@ -99,7 +99,7 @@ internal sealed partial class CustomMenuWidget(
         }
     }
 
-    public override void Dispose()
+    protected override void OnDisposed()
     {
         Popup.OnPopupOpen -= UpdateItemList;
     }

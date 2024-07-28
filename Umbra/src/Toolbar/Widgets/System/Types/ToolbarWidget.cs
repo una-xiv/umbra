@@ -32,7 +32,7 @@ public abstract class ToolbarWidget(
     Dictionary<string, object>? configValues = null
 ) : IDisposable
 {
-    internal event Action<IWidgetConfigVariable>? OnConfigValueChanged;
+    internal event Action<IWidgetConfigVariable>?      OnConfigValueChanged;
     internal event Action<ToolbarWidget, WidgetPopup>? OpenPopup;
     internal event Action<ToolbarWidget, WidgetPopup>? OpenPopupDelayed;
 
@@ -75,6 +75,8 @@ public abstract class ToolbarWidget(
 
     private readonly Dictionary<string, IWidgetConfigVariable> _configVariables = new();
     private readonly Dictionary<string, object>                _configValues    = configValues ?? [];
+
+    private bool _isDisposed;
 
     public void Setup()
     {
@@ -159,11 +161,19 @@ public abstract class ToolbarWidget(
     }
 
     /// <inheritdoc/>
-#pragma warning disable CA1816
-    public virtual void Dispose()
-#pragma warning restore CA1816
+    public void Dispose()
     {
+        if (_isDisposed) return;
+        _isDisposed = true;
+
+        OnDisposed();
+        Node.Dispose();
     }
+
+    /// <summary>
+    /// Invoked when the widget is being disposed.
+    /// </summary>
+    protected virtual void OnDisposed() { }
 
     /// <summary>
     /// Initialization method that is called when the widget is created and

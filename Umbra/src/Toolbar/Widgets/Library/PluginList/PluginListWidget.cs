@@ -52,7 +52,7 @@ internal sealed partial class PluginListWidget(
     }
 
     /// <inheritdoc/>
-    public override void Dispose()
+    protected override void OnDisposed()
     {
         Popup.OnPopupOpen  -= UpdatePluginList;
         Popup.OnPopupClose -= ClearPluginList;

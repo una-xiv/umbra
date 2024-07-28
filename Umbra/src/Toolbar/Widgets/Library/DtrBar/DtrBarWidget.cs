@@ -112,10 +112,8 @@ internal sealed partial class DtrBarWidget(
     }
 
     /// <inheritdoc/>
-    public override void Dispose()
+    protected override void OnDisposed()
     {
-        base.Dispose();
-
         if (_repository is not null) {
             _repository.OnEntryAdded   -= OnDtrBarEntryAdded;
             _repository.OnEntryRemoved -= OnDtrBarEntryRemoved;

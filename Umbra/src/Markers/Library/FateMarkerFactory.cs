@@ -82,7 +82,7 @@ internal class FateMarkerFactory(IZoneManager zoneManager) : WorldMarkerFactory
             }
 
             activeIds.Add(id);
-            string prefix = fate->IsExpBonus ? $"{SeIconChar.BoxedStar.ToIconString()} " : "";
+            string prefix = fate->IsBonus ? $"{SeIconChar.BoxedStar.ToIconString()} " : "";
 
             SetMarker(
                 new() {

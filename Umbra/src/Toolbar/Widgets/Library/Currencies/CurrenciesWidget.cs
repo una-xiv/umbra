@@ -137,7 +137,7 @@ internal sealed partial class CurrenciesWidget(
     }
 
     /// <inheritdoc/>
-    public override void Dispose()
+    protected override void OnDisposed()
     {
         _updateTimer.Stop();
         _updateTimer.Dispose();
