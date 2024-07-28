@@ -72,4 +72,9 @@ internal class HorizontalSlideNode : Node
         ImGui.PopStyleVar(4);
         ImGui.PopID();
     }
+
+    protected override void OnDisposed()
+    {
+        foreach (var handler in OnValueChanged?.GetInvocationList() ?? [])  OnValueChanged -= (Action<int>)handler;
+    }
 }

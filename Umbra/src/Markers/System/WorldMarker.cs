@@ -109,6 +109,10 @@ public sealed record WorldMarker : IDisposable
     /// </summary>
     public void Dispose()
     {
+        foreach (var handler in OnKeyChanged?.GetInvocationList() ?? []) OnKeyChanged -= (Action<string, string>)handler;
+        foreach (var handler in OnMapIdChanged?.GetInvocationList() ?? []) OnMapIdChanged -= (Action<uint, uint>)handler;
+
         OnDisposed?.Invoke();
+        OnDisposed = null;
     }
 }

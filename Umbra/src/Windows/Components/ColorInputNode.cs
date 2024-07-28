@@ -86,6 +86,10 @@ internal class ColorInputNode : Node
         Description = description;
     }
 
+    protected override void OnDisposed()
+    {
+        foreach (var handler in OnValueChanged?.GetInvocationList() ?? [])  OnValueChanged -= (Action<uint>)handler;
+    }
 
     protected override void OnDraw(ImDrawListPtr drawList)
     {

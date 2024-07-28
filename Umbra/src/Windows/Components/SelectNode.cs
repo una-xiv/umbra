@@ -170,6 +170,11 @@ internal class SelectNode : Node
         ImGui.PopStyleColor(7);
     }
 
+    protected override void OnDisposed()
+    {
+        foreach (var handler in OnValueChanged?.GetInvocationList() ?? [])  OnValueChanged -= (Action<string>)handler;
+    }
+
     private Node SelectBoxNode   => QuerySelector(".select--box")!;
     private Node LabelNode       => QuerySelector(".select--label")!;
     private Node DescriptionNode => QuerySelector(".select--description")!;

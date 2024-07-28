@@ -35,6 +35,9 @@ internal class WindowManager : IDisposable
             win.Dispose();
 
         _instances.Clear();
+
+        foreach (var handler in OnWindowOpened?.GetInvocationList() ?? []) OnWindowOpened -= (Action<Window>)handler;
+        foreach (var handler in OnWindowClosed?.GetInvocationList() ?? []) OnWindowClosed -= (Action<Window>)handler;
     }
 
     /// <summary>

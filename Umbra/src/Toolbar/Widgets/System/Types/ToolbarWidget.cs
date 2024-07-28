@@ -166,6 +166,18 @@ public abstract class ToolbarWidget(
         if (_isDisposed) return;
         _isDisposed = true;
 
+        foreach (var handler in OnConfigValueChanged?.GetInvocationList() ?? []) {
+            OnConfigValueChanged -= (Action<IWidgetConfigVariable>)handler;
+        }
+
+        foreach (var handler in OpenPopup?.GetInvocationList() ?? []) {
+            OpenPopup -= (Action<ToolbarWidget, WidgetPopup>)handler;
+        }
+
+        foreach (var handler in OpenPopupDelayed?.GetInvocationList() ?? []) {
+            OpenPopupDelayed -= (Action<ToolbarWidget, WidgetPopup>)handler;
+        }
+
         foreach (var cfg in _configVariables.Values) {
             if (cfg is IUntypedWidgetConfigVariable u) {
                 u.Dispose();

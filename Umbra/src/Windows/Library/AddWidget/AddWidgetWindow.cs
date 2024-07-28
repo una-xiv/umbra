@@ -79,6 +79,11 @@ internal class AddWidgetWindow(string locationId) : Window
         ]
     };
 
+    protected override void OnDisposed()
+    {
+        foreach (var handler in OnWidgetAdded?.GetInvocationList() ?? [])  OnWidgetAdded -= (Action<string>)handler;
+    }
+
     protected override void OnOpen()
     {
         WidgetManager

@@ -45,8 +45,11 @@ internal abstract partial class Window : IDisposable
     /// </summary>
     protected abstract void OnClose();
 
+    protected virtual void OnDisposed() { }
+
     public void Dispose()
     {
+        OnDisposed();
         _windowNode.Dispose();
         Node.Dispose();
     }

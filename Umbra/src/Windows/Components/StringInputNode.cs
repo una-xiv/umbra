@@ -145,6 +145,11 @@ internal class StringInputNode : Node
         ImGui.PopStyleColor(7);
     }
 
+    protected override void OnDisposed()
+    {
+        foreach (var handler in OnValueChanged?.GetInvocationList() ?? [])  OnValueChanged -= (Action<string>)handler;
+    }
+
     private Node SelectBoxNode   => QuerySelector(".input--box")!;
     private Node LabelNode       => QuerySelector(".input--label")!;
     private Node DescriptionNode => QuerySelector(".input--description")!;

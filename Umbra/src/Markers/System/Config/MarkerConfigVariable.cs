@@ -20,7 +20,7 @@ using Umbra.Common;
 namespace Umbra.Markers;
 
 internal abstract class MarkerConfigVariable<T>(string id, string name, string? description, T defaultValue)
-    : IMarkerConfigVariable, IUntypedMarkerConfigVariable
+    : IMarkerConfigVariable, IUntypedMarkerConfigVariable, IDisposable
 {
     public event Action<T>? ValueChanged;
 
@@ -86,4 +86,10 @@ internal abstract class MarkerConfigVariable<T>(string id, string name, string? 
     /// <param name="value"></param>
     /// <returns></returns>
     protected abstract T Sanitize(object? value);
+
+    public void Dispose()
+    {
+        foreach (var handler in ValueChanged?.GetInvocationList() ?? []) ValueChanged -= (Action<T>)handler;
+        foreach (var handler in UntypedValueChanged?.GetInvocationList() ?? []) UntypedValueChanged -= (Action<object>)handler;
+    }
 }

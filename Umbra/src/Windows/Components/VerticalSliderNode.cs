@@ -77,4 +77,9 @@ internal class VerticalSliderNode : Node
         ImGui.PopStyleVar(2);
         ImGui.PopID();
     }
+
+    protected override void OnDisposed()
+    {
+        foreach (var handler in OnValueChanged?.GetInvocationList() ?? [])  OnValueChanged -= (Action<int>)handler;
+    }
 }
