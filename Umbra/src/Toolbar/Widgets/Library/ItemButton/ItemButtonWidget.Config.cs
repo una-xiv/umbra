@@ -45,6 +45,12 @@ internal partial class ItemButtonWidget
                 }
             ),
             new BooleanWidgetConfigVariable(
+                "HideIfNotOwned",
+                I18N.Translate("Widget.ItemButton.Config.HideIfNotOwned.Name"),
+                I18N.Translate("Widget.ItemButton.Config.HideIfNotOwned.Description"),
+                true
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            new BooleanWidgetConfigVariable(
                 "Decorate",
                 I18N.Translate("Widget.ItemButton.Config.Decorate.Name"),
                 I18N.Translate("Widget.ItemButton.Config.Decorate.Description"),

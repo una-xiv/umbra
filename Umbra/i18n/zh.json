@@ -862,6 +862,8 @@
     "Widget.ItemButton.Config.ItemUsage.Option.NqBeforeHq": "先普通品质，后高品质",
     "Widget.ItemButton.Config.ItemUsage.Option.HqOnly": "仅高品质",
     "Widget.ItemButton.Config.ItemUsage.Option.NqOnly": "仅普通品质",
+    "Widget.ItemButton.Config.HideIfNotOwned.Name": "如果物品不在你的库存中，则隐藏按钮",
+    "Widget.ItemButton.Config.HideIfNotOwned.Description": "如果配置的物品不在你的库存中，则从工具栏中隐藏按钮。",
     "Widget.ItemButton.Config.Decorate.Name": "突出显示图标",
     "Widget.ItemButton.Config.Decorate.Description": "给道具按钮加上背景和边框。",
     "Widget.ItemButton.Config.ShowLabel.Name": "显示按钮标签",

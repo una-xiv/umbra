@@ -862,6 +862,8 @@
     "Widget.ItemButton.Config.ItemUsage.Option.NqBeforeHq": "Normal quality first, fallback to high quality",
     "Widget.ItemButton.Config.ItemUsage.Option.HqOnly": "High quality only",
     "Widget.ItemButton.Config.ItemUsage.Option.NqOnly": "Normal quality only",
+    "Widget.ItemButton.Config.HideIfNotOwned.Name": "Hide the button if the item is not in your inventory",
+    "Widget.ItemButton.Config.HideIfNotOwned.Description": "Hides the button from the toolbar if the configured item is not in your inventory.",
     "Widget.ItemButton.Config.Decorate.Name": "Decorate the button",
     "Widget.ItemButton.Config.Decorate.Description": "Decorates the custom button with a background and border.",
     "Widget.ItemButton.Config.ShowLabel.Name": "Show button label",

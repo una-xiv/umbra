@@ -862,6 +862,8 @@
     "Widget.ItemButton.Config.ItemUsage.Option.NqBeforeHq": "Zuerst normale Qualität, Rückfall auf hohe Qualität",
     "Widget.ItemButton.Config.ItemUsage.Option.HqOnly": "Nur hohe Qualität",
     "Widget.ItemButton.Config.ItemUsage.Option.NqOnly": "Nur normale Qualität",
+    "Widget.ItemButton.Config.HideIfNotOwned.Name": "Schaltfläche ausblenden, wenn der Artikel nicht im Inventar ist",
+    "Widget.ItemButton.Config.HideIfNotOwned.Description": "Blendet die Schaltfläche in der Symbolleiste aus, wenn der konfigurierte Artikel nicht im Inventar ist.",
     "Widget.ItemButton.Config.Decorate.Name": "Schaltfläche dekorieren",
     "Widget.ItemButton.Config.Decorate.Description": "Verziert die benutzerdefinierte Schaltfläche mit einem Hintergrund und einem Rand.",
     "Widget.ItemButton.Config.ShowLabel.Name": "Schaltflächenbeschriftung anzeigen",

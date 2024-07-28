@@ -75,6 +75,9 @@ internal sealed partial class ItemButtonWidget(
             IconId   = item?.IconId;
         }
 
+        Node.Style.IsVisible = !GetConfigValue<bool>("HideIfNotOwned")
+            || Player.HasItemInInventory(ItemId, 1, GetItemUsage());
+
         bool showLabel = GetConfigValue<bool>("ShowLabel") && ItemName is not null;
 
         SetLabel(ItemName);
@@ -94,15 +97,18 @@ internal sealed partial class ItemButtonWidget(
     {
         if (!CanUseItem()) return;
 
-        ItemUsage usage = GetConfigValue<string>("ItemUsage") switch {
+        Player.UseInventoryItem(ItemId, GetItemUsage());
+    }
+
+    private ItemUsage GetItemUsage()
+    {
+        return GetConfigValue<string>("ItemUsage") switch {
             "HqBeforeNq" => ItemUsage.HqBeforeNq,
             "NqBeforeHq" => ItemUsage.NqBeforeHq,
             "HqOnly"     => ItemUsage.HqOnly,
             "NqOnly"     => ItemUsage.NqOnly,
             _            => ItemUsage.HqBeforeNq
         };
-
-        Player.UseInventoryItem(ItemId, usage);
     }
 
     private bool CanUseItem()

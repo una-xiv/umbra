@@ -862,6 +862,8 @@
     "Widget.ItemButton.Config.ItemUsage.Option.NqBeforeHq": "最初に通常品質、次に高品質",
     "Widget.ItemButton.Config.ItemUsage.Option.HqOnly": "高品質のみ",
     "Widget.ItemButton.Config.ItemUsage.Option.NqOnly": "通常品質のみ",
+    "Widget.ItemButton.Config.HideIfNotOwned.Name": "アイテムが在庫にない場合はボタンを非表示",
+    "Widget.ItemButton.Config.HideIfNotOwned.Description": "設定されたアイテムが在庫にない場合、ツールバーからボタンを非表示にします。",
     "Widget.ItemButton.Config.Decorate.Name": "ボタンを装飾する",
     "Widget.ItemButton.Config.Decorate.Description": "カスタムボタンに背景と枠を付けます。",
     "Widget.ItemButton.Config.ShowLabel.Name": "ボタンラベルを表示する",
