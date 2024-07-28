@@ -41,7 +41,7 @@ internal partial class TeleportWidgetPopup : WidgetPopup, IDisposable
         LoadFavorites();
     }
 
-    public void Dispose()
+    protected override void OnDisposed()
     {
         ConfigManager.CvarChanged -= OnCvarChanged;
     }

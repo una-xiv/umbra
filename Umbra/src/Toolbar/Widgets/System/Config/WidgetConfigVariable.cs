@@ -20,7 +20,7 @@ using Umbra.Common;
 namespace Umbra.Widgets;
 
 public abstract class WidgetConfigVariable<T>(string id, string name, string? description, T defaultValue)
-    : IWidgetConfigVariable, IUntypedWidgetConfigVariable
+    : IWidgetConfigVariable, IUntypedWidgetConfigVariable, IDisposable
 {
     public event Action<T>? ValueChanged;
 
@@ -91,4 +91,19 @@ public abstract class WidgetConfigVariable<T>(string id, string name, string? de
     /// <param name="value"></param>
     /// <returns></returns>
     protected abstract T Sanitize(object? value);
+
+    public void Dispose()
+    {
+        if (null != UntypedValueChanged) {
+            foreach (var delegateHandler in UntypedValueChanged.GetInvocationList()) {
+                UntypedValueChanged -= (Action<object>)delegateHandler;
+            }
+        }
+
+        if (null != ValueChanged) {
+            foreach (var delegateHandler in ValueChanged.GetInvocationList()) {
+                ValueChanged -= (Action<T>)delegateHandler;
+            }
+        }
+    }
 }

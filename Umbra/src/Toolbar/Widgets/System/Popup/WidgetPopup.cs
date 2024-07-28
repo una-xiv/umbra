@@ -24,7 +24,7 @@ using Una.Drawing;
 
 namespace Umbra.Widgets;
 
-public abstract class WidgetPopup
+public abstract class WidgetPopup : IDisposable
 {
     [ConfigVariable("Toolbar.PopupAlignmentMethod", "General", "Toolbar", options: ["Center", "Aligned"])]
     public static string PopupAlignmentMethod { get; set; } = "Aligned";
@@ -47,6 +47,13 @@ public abstract class WidgetPopup
     /// </summary>
     protected bool ForcePopupInMainViewport { get; set; }
 
+    public void Dispose()
+    {
+        OnDisposed();
+        ContextMenu?.Dispose();
+        _popupNode.Dispose();
+    }
+
     /// <summary>
     /// Closes the popup.
     /// </summary>
@@ -65,6 +72,8 @@ public abstract class WidgetPopup
     protected virtual void OnOpen() { }
 
     protected virtual void OnClose() { }
+
+    protected virtual void OnDisposed() { }
 
     protected ContextMenu? ContextMenu { get; set; }
 

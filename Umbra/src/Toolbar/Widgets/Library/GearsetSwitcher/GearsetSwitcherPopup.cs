@@ -278,7 +278,7 @@ internal sealed partial class GearsetSwitcherPopup : WidgetPopup, IDisposable
     }
 
     /// <inheritdoc/>
-    public void Dispose()
+    protected override void OnDisposed()
     {
         _gearsetRepository.OnGearsetCreated  -= OnGearsetCreated;
         _gearsetRepository.OnGearsetRemoved  -= OnGearsetRemoved;

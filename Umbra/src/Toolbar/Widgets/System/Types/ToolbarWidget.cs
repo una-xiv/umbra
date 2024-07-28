@@ -166,8 +166,16 @@ public abstract class ToolbarWidget(
         if (_isDisposed) return;
         _isDisposed = true;
 
+        foreach (var cfg in _configVariables.Values) {
+            if (cfg is IUntypedWidgetConfigVariable u) {
+                u.Dispose();
+            }
+        }
+
         OnDisposed();
+        Popup?.Dispose();
         Node.Dispose();
+        _configVariables.Clear();
     }
 
     /// <summary>

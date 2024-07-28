@@ -31,4 +31,6 @@ public interface IUntypedWidgetConfigVariable
     /// Sets the value of this variable to the given untyped value.
     /// </summary>
     public void SetValue(object value);
+
+    public void Dispose();
 }

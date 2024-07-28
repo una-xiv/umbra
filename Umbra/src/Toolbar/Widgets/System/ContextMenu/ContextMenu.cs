@@ -6,7 +6,7 @@ using Una.Drawing;
 
 namespace Umbra.Widgets;
 
-public class ContextMenu
+public class ContextMenu : IDisposable
 {
     public Action<ContextMenuEntry>? OnEntryInvoked;
 
@@ -32,6 +32,17 @@ public class ContextMenu
             entry.OnInvoke += () => OnEntryInvoked?.Invoke(e);
             _entries.TryAdd(entry.Id, entry);
         }
+    }
+
+    public void Dispose()
+    {
+        if (OnEntryInvoked != null) {
+            foreach (var delegateHandler in OnEntryInvoked.GetInvocationList()) {
+                OnEntryInvoked -= (Action<ContextMenuEntry>)delegateHandler;
+            }
+        }
+
+        Node.Dispose();
     }
 
     public ContextMenuEntry? GetEntry(string id)
