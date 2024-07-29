@@ -186,7 +186,7 @@ public abstract class WorldMarkerFactory : IDisposable
             "Enabled",
             I18N.Translate("Settings.MarkersModule.Config.Enabled.Name"),
             null,
-            true
+            false
         ),
         new BooleanMarkerConfigVariable(
             "ShowOnCompass",
