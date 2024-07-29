@@ -62,6 +62,12 @@ internal partial class ItemButtonWidget
                 I18N.Translate("Widget.ItemButton.Config.ShowLabel.Description"),
                 true
             ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            new BooleanWidgetConfigVariable(
+                "ShowCount",
+                I18N.Translate("Widget.ItemButton.Config.ShowCount.Name"),
+                I18N.Translate("Widget.ItemButton.Config.ShowCount.Description"),
+                true
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             new SelectWidgetConfigVariable(
                 "IconLocation",
                 I18N.Translate("Widget.ItemButton.Config.IconLocation.Name"),

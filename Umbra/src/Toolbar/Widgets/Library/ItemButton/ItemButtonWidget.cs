@@ -79,13 +79,19 @@ internal sealed partial class ItemButtonWidget(
             || Player.HasItemInInventory(ItemId, 1, GetItemUsage());
 
         bool showLabel = GetConfigValue<bool>("ShowLabel") && ItemName is not null;
+        bool showCount = GetConfigValue<bool>("ShowCount");
+        int  owned     = Player.GetItemCount(itemId, GetItemUsage());
 
-        SetLabel(ItemName);
+        string name  = showLabel ? ItemName ?? "" : "";
+        string count = showCount ? $"{owned}" : "";
+        string label = showLabel && showCount ? $"{ItemName} x {owned}" : name + count;
+
+        SetLabel(label);
         SetDisabled(!CanUseItem());
         UpdateIcons();
 
-        Node.Tooltip               = showLabel ? null : ItemName;
-        LabelNode.Style.IsVisible  = showLabel;
+        Node.Tooltip               = showLabel ? null : label;
+        LabelNode.Style.IsVisible  = showLabel || showCount;
         LeftIconNode.Style.Margin  = new() { Left  = showLabel ? -3 : 0 };
         RightIconNode.Style.Margin = new() { Right = showLabel ? -3 : 0 };
         Node.Style.Padding         = new(0, showLabel ? 6 : 4);
