@@ -91,11 +91,11 @@ internal partial class RetainerListPopup : WidgetPopup
             ChildNodes = [
                 new() {
                     ClassList = ["cell", "job-icon"],
-                    Style     = new() { IconId = retainer.Job.GetIcon(JobIconType) }
+                    Style     = new() { IconId = retainer.Job?.GetIcon(JobIconType) }
                 },
                 new() {
                     ClassList = ["cell", "job-level"],
-                    NodeValue = retainer.Job.Level.ToString()
+                    NodeValue = retainer.Job?.Level.ToString()
                 },
                 new() {
                     ClassList = ["cell", "name"],
@@ -128,8 +128,8 @@ internal partial class RetainerListPopup : WidgetPopup
         Node? node = Node.FindById(GetNodeIdOf(retainer));
         if (null == node) return;
 
-        node.QuerySelector(".cell.job-icon")!.Style.IconId  = retainer.Job.GetIcon(JobIconType);
-        node.QuerySelector(".cell.job-level")!.NodeValue    = retainer.Job.Level.ToString();
+        node.QuerySelector(".cell.job-icon")!.Style.IconId  = retainer.Job?.GetIcon(JobIconType);
+        node.QuerySelector(".cell.job-level")!.NodeValue    = retainer.Job?.Level.ToString();
         node.QuerySelector(".cell.name")!.NodeValue         = retainer.Name;
         node.QuerySelector(".cell.gil")!.NodeValue          = $"{SeIconChar.Gil.ToIconString()} {FormatNumber(retainer.Gil)}";
         node.QuerySelector(".cell.items.inv")!.NodeValue    = retainer.ItemCount.ToString();

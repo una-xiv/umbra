@@ -28,12 +28,12 @@ internal unsafe class RetainerRepository(
         List<Retainer> retainers = [];
 
         foreach (var r in rm->Retainers) {
-            if (r.ClassJob == 0) continue;
+            if (r.RetainerId == 0 || string.IsNullOrEmpty(r.NameString)) continue;
 
             retainers.Add(
                 new() {
                     Name            = r.NameString,
-                    Job             = CreateJobInfoFor(&r),
+                    Job             = r.ClassJob != 0 ? CreateJobInfoFor(&r) : null,
                     Gil             = r.Gil,
                     MarketItemCount = r.MarketItemCount,
                     ItemCount       = r.ItemCount,
