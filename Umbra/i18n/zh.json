@@ -426,6 +426,7 @@
     "Widget.RetainerList.Popup.Market": "在售物品",
     "Widget.RetainerList.Popup.Gil": "金币",
     "Widget.RetainerList.Popup.Venture": "冒险",
+    "Widget.RetainerList.Popup.Completed": "已完成",
     "Widget.RetainerList.Config.IconType.Name": "职位图标类型",
     "Widget.RetainerList.Config.IconType.Description": "用于表示雇员职位的图标类型。",
     "Widget.RetainerList.Config.IconType.Option.Default": "默认",

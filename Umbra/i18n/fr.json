@@ -426,6 +426,7 @@
     "Widget.RetainerList.Popup.Market": "Articles en vente",
     "Widget.RetainerList.Popup.Gil": "Gils",
     "Widget.RetainerList.Popup.Venture": "Mission",
+    "Widget.RetainerList.Popup.Completed": "Terminé",
     "Widget.RetainerList.Config.IconType.Name": "Type d'icône de métier",
     "Widget.RetainerList.Config.IconType.Description": "Le type d'icône utilisé pour représenter le métier du servant.",
     "Widget.RetainerList.Config.IconType.Option.Default": "Par défaut",

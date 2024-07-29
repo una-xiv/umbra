@@ -426,6 +426,7 @@
     "Widget.RetainerList.Popup.Market": "販売中のアイテム",
     "Widget.RetainerList.Popup.Gil": "ギル",
     "Widget.RetainerList.Popup.Venture": "ベンチャー",
+    "Widget.RetainerList.Popup.Completed": "完了",
     "Widget.RetainerList.Config.IconType.Name": "ジョブアイコンの種類",
     "Widget.RetainerList.Config.IconType.Description": "リテイナーのジョブを表すために使用されるアイコンの種類。",
     "Widget.RetainerList.Config.IconType.Option.Default": "デフォルト",

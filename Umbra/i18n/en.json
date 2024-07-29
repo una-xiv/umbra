@@ -426,6 +426,7 @@
     "Widget.RetainerList.Popup.Market": "Items on sale",
     "Widget.RetainerList.Popup.Gil": "Gil",
     "Widget.RetainerList.Popup.Venture": "Venture",
+    "Widget.RetainerList.Popup.Completed": "Completed",
     "Widget.RetainerList.Config.IconType.Name": "Job icon type",
     "Widget.RetainerList.Config.IconType.Description": "The type of icon that is used to represent the job of the retainer.",
     "Widget.RetainerList.Config.IconType.Option.Default": "Default",

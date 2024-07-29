@@ -147,7 +147,7 @@ internal partial class RetainerListPopup : WidgetPopup
         DateTime now             = DateTime.Now;
 
         if (localTargetTime <= now) {
-            return "Completed";
+            return I18N.Translate("Widget.RetainerList.Popup.Completed");
         }
 
         TimeSpan remainingTime = localTargetTime - now;
