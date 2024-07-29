@@ -20,6 +20,7 @@ using System.Linq;
 using Dalamud.Game.Text;
 using Dalamud.Plugin.Services;
 using Dalamud.Utility;
+using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using Lumina.Excel.GeneratedSheets;
 using Umbra.Common;
@@ -68,9 +69,14 @@ internal sealed class MainMenuRepository : IMainMenuRepository
                                 if (cmd.RowId == 35) icon = 111; // Teleport
                                 if (cmd.RowId == 36) icon = 112; // Return
 
-                                category.AddItem(
-                                    new(cmd.Name, cmd.SortID, cmd.RowId) { Icon = icon }
-                                );
+                                MainMenuItem item = new(cmd.Name, cmd.SortID, cmd.RowId) { Icon = icon };
+
+                                if (cmd.RowId == 36) {
+                                    // Add cooldown time for Return.
+                                    item.ShortKey = _player.GetActionCooldownString(ActionType.GeneralAction, 8);
+                                }
+
+                                category.AddItem(item);
                             }
                         );
                 }
@@ -168,6 +174,7 @@ internal sealed class MainMenuRepository : IMainMenuRepository
                         ItemGroupId    = "Travel",
                         ItemGroupLabel = "Destinations",
                         Icon           = (uint)_dataManager.GetExcelSheet<Item>()!.GetRow(itemId)!.Icon,
+                        ShortKey       = _player.GetActionCooldownString(ActionType.Item, itemId),
                     }
                 );
             }

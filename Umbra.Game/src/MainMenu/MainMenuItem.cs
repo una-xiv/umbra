@@ -17,6 +17,7 @@
 using System;
 using Dalamud.Memory;
 using Dalamud.Utility;
+using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.UI;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using Umbra.Common;
@@ -129,6 +130,11 @@ public sealed class MainMenuItem : IDisposable
             == (
                 agentHud->IsMainCommandEnabled(CommandId!.Value) && uiModule->IsMainCommandUnlocked(CommandId!.Value)
             );
+
+        if (CommandId == 36) {
+            // Add cooldown time for "Return".
+            ShortKey = Framework.Service<IPlayer>().GetActionCooldownString(ActionType.GeneralAction, 8);
+        }
 
         OnUpdate?.Invoke();
     }

@@ -14,6 +14,7 @@
  *     GNU Affero General Public License for more details.
  */
 
+using FFXIVClientStructs.FFXIV.Client.Game;
 using System.Collections.Generic;
 using System.Numerics;
 using Umbra.Game.Inventory;
@@ -217,4 +218,9 @@ public interface IPlayer
     /// Uses the specified general action by its ID.
     /// </summary>
     public void UseGeneralAction(uint actionId);
+
+    /// <summary>
+    /// Returns the cooldown time of the specified action in the format "hh:mm:ss".
+    /// </summary>
+    public string GetActionCooldownString(ActionType actionType, uint actionId);
 }

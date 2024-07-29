@@ -427,6 +427,29 @@ internal sealed class Player : IPlayer
         }
     }
 
+    public unsafe string GetActionCooldownString(ActionType type, uint actionId)
+    {
+        try {
+            ActionManager* am = ActionManager.Instance();
+            if (am == null) return "";
+
+            if (am->IsActionOffCooldown(type, actionId)) return "";
+            if (!am->IsRecastTimerActive(type, actionId)) return "";
+
+            float recastTime  = am->GetRecastTime(type, actionId);
+            float elapsedTime = am->GetRecastTimeElapsed(type, actionId);
+
+            if (recastTime <= 0 || elapsedTime <= 0) return "";
+
+            TimeSpan ts = TimeSpan.FromSeconds(recastTime - elapsedTime);
+
+            return $"{ts.Hours:D2}:{ts.Minutes:D2}:{ts.Seconds:D2}";
+        } catch {
+            // Fall-through.
+            return "";
+        }
+    }
+
     [OnTick(interval: 1000)]
     internal unsafe void CheckForHudEditingMode()
     {
