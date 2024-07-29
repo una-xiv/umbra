@@ -1,4 +1,6 @@
-﻿using FFXIVClientStructs.FFXIV.Client.Game.Event;
+﻿using Dalamud.Game.ClientState.Objects.Types;
+using Dalamud.Plugin.Services;
+using FFXIVClientStructs.FFXIV.Client.Game.Event;
 using FFXIVClientStructs.FFXIV.Client.Game.Object;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using System.Collections.Generic;
@@ -8,7 +10,7 @@ using Umbra.Game;
 namespace Umbra.Markers.Library;
 
 [Service]
-internal class AetherCurrentsWorldMarkerFactory(IZoneManager zoneManager) : WorldMarkerFactory
+internal class AetherCurrentsWorldMarkerFactory(IObjectTable objectTable, IZoneManager zoneManager) : WorldMarkerFactory
 {
     /// <inheritdoc/>
     public override string Id { get; } = "AetherCurrents";
@@ -51,13 +53,11 @@ internal class AetherCurrentsWorldMarkerFactory(IZoneManager zoneManager) : Worl
 
         PlayerState* ps = PlayerState.Instance();
 
-        foreach (GameObject* obj in GameObjectManager.Instance()->Objects.GameObjectIdSorted) {
-            try {
-                if (null == obj || null == obj->EventHandler) continue;
-            } catch {
-                // May throw on some protected memory read error.
-                continue;
-            }
+        foreach (IGameObject gameObject in objectTable) {
+            if (!gameObject.IsValid()) continue;
+
+            var obj = (GameObject*)gameObject.Address;
+            if (obj == null || obj->EventHandler == null) continue;
 
             if (obj->EventHandler->Info.EventId.ContentId != EventHandlerType.AetherCurrent) continue;
 
