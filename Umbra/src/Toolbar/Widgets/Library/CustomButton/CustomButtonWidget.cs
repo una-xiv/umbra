@@ -75,6 +75,8 @@ internal sealed partial class CustomButtonWidget(
         LeftIconNode.Style.Margin  = new(0, 0, 0, hasText ? -2 : 0);
         RightIconNode.Style.Margin = new(0, hasText ? -2 : 0, 0, 0);
         Node.Style.Padding         = new(0, hasText ? 6 : 3);
+
+        base.OnUpdate();
     }
 
     private void InvokeCommand(Node _)

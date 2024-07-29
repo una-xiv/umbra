@@ -102,6 +102,7 @@ internal partial class CustomButtonWidget
                 -5,
                 5
             ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            ..DefaultToolbarWidgetConfigVariables,
         ];
     }
 }
