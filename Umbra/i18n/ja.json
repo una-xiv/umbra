@@ -46,6 +46,8 @@
     "Markers.Flag.Description": "現在のゾーンに配置されたフラッグのワールドマーカーを表示します。",
     "Markers.GatheringNodes.Name": "採集ノードマーカー",
     "Markers.GatheringNodes.Description": "周囲のアクティブな採集ノードのワールドマーカーを表示します。",
+    "Markers.GatheringNodes.ShowContents.Name": "ノードの内容を表示",
+    "Markers.GatheringNodes.ShowContents.Description": "マーカー上の収集ノードの内容を表示します。",
     "Markers.Hunt.Name": "ハントマーカー",
     "Markers.Hunt.Description": "現在のゾーンのC/B/A/S/SSランクのモブのワールドマーカーを表示します。",
     "Markers.Hunt.ShowC": "Cランクモブを表示",

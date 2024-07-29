@@ -46,6 +46,8 @@
     "Markers.Flag.Description": "在地图上标记旗标的位置。",
     "Markers.GatheringNodes.Name": "采集点标记",
     "Markers.GatheringNodes.Description": "显示周围的采集点",
+    "Markers.GatheringNodes.ShowContents.Name": "显示节点内容",
+    "Markers.GatheringNodes.ShowContents.Description": "在标记上显示采集节点的内容。",
     "Markers.Hunt.Name": "狩猎标记",
     "Markers.Hunt.Description": "显示当前区域内普通/B/A/S/SS等级狩猎怪物标记",
     "Markers.Hunt.ShowC": "显示普通狩猎怪物",

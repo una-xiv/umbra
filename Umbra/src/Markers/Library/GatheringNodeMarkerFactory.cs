@@ -46,6 +46,12 @@ internal class GatheringNodeMarkerFactory(
     {
         return [
             ..DefaultStateConfigVariables,
+            new BooleanMarkerConfigVariable(
+                "ShowContents",
+                I18N.Translate("Markers.GatheringNodes.ShowContents.Name"),
+                I18N.Translate("Markers.GatheringNodes.ShowContents.Description"),
+                true
+            ),
             ..DefaultFadeConfigVariables
         ];
     }
@@ -69,6 +75,7 @@ internal class GatheringNodeMarkerFactory(
 
         var fadeDist = GetConfigValue<int>("FadeDistance");
         var fadeAttn = GetConfigValue<int>("FadeAttenuation");
+        var showCtns = GetConfigValue<bool>("ShowContents");
 
         foreach (GatheringNode node in _gatheringNodes) {
             activeIds.Add(node.Key);
@@ -80,7 +87,7 @@ internal class GatheringNodeMarkerFactory(
                     Position      = node.Position,
                     IconId        = node.IconId,
                     Label         = node.Label,
-                    SubLabel      = node.SubLabel,
+                    SubLabel      = showCtns ? node.SubLabel : null,
                     ShowOnCompass = node.ShowDirection && GetConfigValue<bool>("ShowOnCompass"),
                     FadeDistance  = new(fadeDist, fadeDist + fadeAttn)
                 }

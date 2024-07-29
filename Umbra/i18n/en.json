@@ -46,6 +46,8 @@
     "Markers.Flag.Description": "Shows a world marker for the placed flag in the current zone.",
     "Markers.GatheringNodes.Name": "Gathering Node Markers",
     "Markers.GatheringNodes.Description": "Shows world markers for the active gathering nodes around you.",
+    "Markers.GatheringNodes.ShowContents.Name": "Show node contents",
+    "Markers.GatheringNodes.ShowContents.Description": "Shows the contents of the gathering nodes on the markers.",
     "Markers.Hunt.Name": "Hunt Markers",
     "Markers.Hunt.Description": "Shows world markers for the C/B/A/S/SS-rank mobs in the current zone.",
     "Markers.Hunt.ShowC": "Show C-rank mobs",

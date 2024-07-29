@@ -46,6 +46,8 @@
     "Markers.Flag.Description": "Zeigt eine Weltmarkierung für die platzierte Flagge in der aktuellen Zone an.",
     "Markers.GatheringNodes.Name": "Sammelknoten-Markierungen",
     "Markers.GatheringNodes.Description": "Zeigt Weltmarkierungen für die aktiven Sammelknoten um Sie herum an.",
+    "Markers.GatheringNodes.ShowContents.Name": "Knoteninhalt anzeigen",
+    "Markers.GatheringNodes.ShowContents.Description": "Zeigt den Inhalt der Sammelknoten auf den Markierungen an.",
     "Markers.Hunt.Name": "Jagdmarkierungen",
     "Markers.Hunt.Description": "Zeigt Weltmarkierungen für die C/B/A/S/SS-Rang-Mobs in der aktuellen Zone an.",
     "Markers.Hunt.ShowC": "C-Rang-Mobs anzeigen",
