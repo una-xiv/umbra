@@ -27,9 +27,15 @@ internal sealed partial class CompanionWidget
         return [
             new BooleanWidgetConfigVariable(
                 "Decorate",
-                I18N.Translate("Widget.Companion.Decorate.Name"),
-                I18N.Translate("Widget.Companion.Decorate.Description"),
+                I18N.Translate("Widget.Companion.Config.Decorate.Name"),
+                I18N.Translate("Widget.Companion.Config.Decorate.Description"),
                 true
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            new BooleanWidgetConfigVariable(
+                "DesaturateIcon",
+                I18N.Translate("Widget.Companion.Config.DesaturateIcon.Name"),
+                I18N.Translate("Widget.Companion.Config.DesaturateIcon.Description"),
+                false
             ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             new SelectWidgetConfigVariable(
                 "DisplayMode",
