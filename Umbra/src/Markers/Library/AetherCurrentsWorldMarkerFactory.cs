@@ -52,7 +52,12 @@ internal class AetherCurrentsWorldMarkerFactory(IZoneManager zoneManager) : Worl
         PlayerState* ps = PlayerState.Instance();
 
         foreach (GameObject* obj in GameObjectManager.Instance()->Objects.GameObjectIdSorted) {
-            if (null == obj || null == obj->EventHandler) continue;
+            try {
+                if (null == obj || null == obj->EventHandler) continue;
+            } catch {
+                // May throw on some protected memory read error.
+                continue;
+            }
 
             if (obj->EventHandler->Info.EventId.ContentId != EventHandlerType.AetherCurrent) continue;
 
