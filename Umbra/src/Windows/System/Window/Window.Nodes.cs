@@ -36,9 +36,14 @@ internal abstract partial class Window
                     },
                     new() {
                         Id        = "CloseButton",
-                        ClassList = ["window--close-button"],
+                        ClassList = ["window--titlebar-button", "close-button"],
                         NodeValue = FontAwesomeIcon.Times.ToIconString(),
-                    }
+                    },
+                    new() {
+                        Id        = "MinimizeButton",
+                        ClassList = ["window--titlebar-button"],
+                        NodeValue = FontAwesomeIcon.WindowMinimize.ToIconString(),
+                    },
                 ]
             },
             new() {

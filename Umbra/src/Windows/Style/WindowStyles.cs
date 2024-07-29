@@ -75,7 +75,7 @@ internal static class WindowStyles
                 }
             ),
             new(
-                ".window--close-button",
+                ".window--titlebar-button",
                 new() {
                     Anchor          = Anchor.TopRight,
                     Size            = new(22, 22),
@@ -95,7 +95,7 @@ internal static class WindowStyles
                 }
             ),
             new(
-                ".window--close-button:hover",
+                ".window--titlebar-button.close-button:hover",
                 new() {
                     BackgroundColor = new("Window.TitlebarCloseButtonHover"),
                     Color           = new("Window.TitlebarCloseButtonXHover"),

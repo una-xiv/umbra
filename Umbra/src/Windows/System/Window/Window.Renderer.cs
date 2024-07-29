@@ -37,22 +37,37 @@ internal abstract partial class Window
 
     public bool IsFocused { get; private set; }
     public bool IsHovered { get; private set; }
+    public bool IsMinimized { get; private set; }
 
     private void RenderWindow(string id)
     {
         ImGui.SetNextWindowViewport(ImGui.GetMainViewport().ID);
-        ImGui.SetNextWindowSizeConstraints(MinSize * Node.ScaleFactor, MaxSize * Node.ScaleFactor);
         ImGui.SetNextWindowSize(DefaultSize, ImGuiCond.FirstUseEver);
+
+        if (!IsMinimized) {
+            ImGui.SetNextWindowSizeConstraints(MinSize * Node.ScaleFactor, MaxSize * Node.ScaleFactor);
+
+            if (CurrentWindowSize.Y > 35) {
+                ImGui.SetNextWindowSize(CurrentWindowSize, ImGuiCond.Always);
+            }
+        } else {
+            ImGui.SetNextWindowSizeConstraints(MinSize with { Y = 35 }, MaxSize with { Y = 35 });
+        }
+
         ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding,    new Vector2(0, 0));
         ImGui.PushStyleVar(ImGuiStyleVar.WindowRounding,   0);
         ImGui.PushStyleVar(ImGuiStyleVar.WindowBorderSize, 0);
         ImGui.PushStyleVar(ImGuiStyleVar.FramePadding,     new Vector2(0, 0));
         ImGui.PushStyleVar(ImGuiStyleVar.FrameRounding,    0);
         ImGui.PushStyleVar(ImGuiStyleVar.FrameBorderSize,  0);
-        ImGui.Begin($"{id}", ImGuiWindowFlags);
+        ImGui.Begin($"{id}", ImGuiWindowFlags | (IsMinimized ? ImGuiWindowFlags.NoSavedSettings : ImGuiWindowFlags.None));
 
         IsFocused = ImGui.IsWindowFocused(ImGuiFocusedFlags.RootAndChildWindows);
         IsHovered = ImGui.IsWindowHovered(ImGuiHoveredFlags.RootAndChildWindows);
+
+        if (!IsMinimized) {
+            CurrentWindowSize = ImGui.GetWindowSize();
+        }
 
         Vector2 size = ImGui.GetWindowSize() / Node.ScaleFactor;
         size.X = (float)Math.Floor(size.X);
@@ -131,7 +146,9 @@ internal abstract partial class Window
         ImGui.SetCursorPos(new(0, 0));
         ImGui.BeginChild($"Window_{id}##{instanceId}", ImGui.GetWindowSize(), false);
 
-        OnUpdate(instanceId);
+        if (!IsMinimized) {
+            OnUpdate(instanceId);
+        }
 
         Vector2 ps = ImGui.GetWindowPos();
         Point   pt = new((int)ps.X + 2, (int)ps.Y + 2);

@@ -14,7 +14,10 @@
  *     GNU Affero General Public License for more details.
  */
 
+using Dalamud.Interface;
+using ImGuiNET;
 using System;
+using System.Numerics;
 using Una.Drawing;
 
 namespace Umbra.Windows;
@@ -73,6 +76,7 @@ internal abstract partial class Window : IDisposable
 
             if (ContentNode.ChildNodes.Count == 0) {
                 ContentNode.AppendChild(Node);
+                MinimizeButtonNode.OnMouseUp                        += ToggleMinimize;
                 _windowNode.QuerySelector("CloseButton")!.OnMouseUp += _ => Close();
             }
 
@@ -81,10 +85,32 @@ internal abstract partial class Window : IDisposable
 
         TitlebarNode.QuerySelector("TitleText")!.NodeValue = Title;
 
+        MinimizeButtonNode.NodeValue = IsMinimized
+            ? FontAwesomeIcon.ChevronDown.ToIconString()
+            : FontAwesomeIcon.WindowMinimize.ToIconString();
+
         RenderWindow(id);
     }
 
-    private Node TitlebarNode => _windowNode.QuerySelector(".window--titlebar")!;
-    private Node TitlebarTextNode => _windowNode.QuerySelector(".window--titlebar-text")!;
-    private Node ContentNode => _windowNode.QuerySelector(".window--content")!;
+    private Node TitlebarNode       => _windowNode.QuerySelector(".window--titlebar")!;
+    private Node TitlebarTextNode   => _windowNode.QuerySelector(".window--titlebar-text")!;
+    private Node ContentNode        => _windowNode.QuerySelector(".window--content")!;
+    private Node MinimizeButtonNode => _windowNode.QuerySelector("#MinimizeButton")!;
+
+    private Vector2 CurrentWindowSize { get; set; }
+    private Vector2 StoredWindowSize  { get; set; }
+
+    private void ToggleMinimize(Node _)
+    {
+        IsMinimized = !IsMinimized;
+
+        if (IsMinimized) {
+            StoredWindowSize            = CurrentWindowSize;
+            ContentNode.Style.IsVisible = false;
+            ImGui.SetWindowSize(CurrentWindowSize with { Y = 35 }, ImGuiCond.FirstUseEver);
+        } else {
+            ContentNode.Style.IsVisible = true;
+            ImGui.SetWindowSize(CurrentWindowSize, ImGuiCond.Once);
+        }
+    }
 }
