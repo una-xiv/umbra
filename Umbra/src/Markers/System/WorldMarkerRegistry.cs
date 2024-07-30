@@ -146,7 +146,7 @@ internal sealed class WorldMarkerRegistry : IDisposable
     [MethodImpl(MethodImplOptions.AggressiveOptimization)]
     private void UpdateResolvedPositionOf(WorldMarker marker)
     {
-        if (_zoneManager.CurrentZone.Id != marker.MapId) return;
+        if (!_zoneManager.HasCurrentZone || _zoneManager.CurrentZone.Id != marker.MapId) return;
 
         if (Positions[_zoneManager.CurrentZone.Id].TryGetValue(marker.Key, out ResolvedPosition? resolved)) {
             if (marker.Position.Equals(resolved.Position)) {

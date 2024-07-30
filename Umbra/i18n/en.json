@@ -61,6 +61,8 @@
     "Markers.TripleTriad.Description": "Shows world markers for unobtained Triple Triad cards in the current zone.",
     "Markers.TripleTriad.ShowLockedCards.Name": "Show locked cards",
     "Markers.TripleTriad.ShowLockedCards.Description": "Shows markers for cards that are locked behind incomplete quests or other requirements.",
+    "Markers.Vista.Name": "Sightseeing Log Markers",
+    "Markers.Vista.Description": "Shows world markers for the sightseeing log vistas in the current zone that are not yet completed.",
     "Markers.Waymark.Name": "Waymark Markers",
     "Markers.Waymark.Description": "Shows world markers for the placed waymarks in the current zone.",
     "Settings.Window.Title": "Umbra Settings",

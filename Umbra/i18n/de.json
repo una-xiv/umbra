@@ -61,6 +61,8 @@
     "Markers.TripleTriad.Description": "Zeigt Weltmarkierungen für nicht erhaltene Triple Triad-Karten in der aktuellen Zone an.",
     "Markers.TripleTriad.ShowLockedCards.Name": "Gesperrte Karten anzeigen",
     "Markers.TripleTriad.ShowLockedCards.Description": "Zeigt Markierungen für Karten an, die hinter unvollständigen Quests oder anderen Anforderungen gesperrt sind.",
+    "Markers.Vista.Name": "Besichtigungsprotokollmarkierungen",
+    "Markers.Vista.Description": "Zeigt Weltmarkierungen für die Besichtigungsprotokoll-Vistas in der aktuellen Zone an, die noch nicht abgeschlossen sind.",
     "Markers.Waymark.Name": "Wegmarkierungsmarken",
     "Markers.Waymark.Description": "Zeigt Weltmarkierungen für die platzierten Wegmarken in der aktuellen Zone an.",
     "Settings.Window.Title": "Umbra-Einstellungen",

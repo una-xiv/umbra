@@ -61,6 +61,8 @@
     "Markers.TripleTriad.Description": "現在のゾーンで未取得のトリプルトライアドカードのワールドマーカーを表示します。",
     "Markers.TripleTriad.ShowLockedCards.Name": "ロックされたカードを表示",
     "Markers.TripleTriad.ShowLockedCards.Description": "未完了のクエストや他の条件にロックされているカードのマーカーを表示します。",
+    "Markers.Vista.Name": "観光ログマーカー",
+    "Markers.Vista.Description": "現在のゾーンでまだ完了していない観光ログのビスタのワールドマーカーを表示します。",
     "Markers.Waymark.Name": "ウェイマークマーカー",
     "Markers.Waymark.Description": "現在のゾーンに配置されたウェイマークの世界マーカーを表示します。",
     "Settings.Window.Title": "Umbra設定",
