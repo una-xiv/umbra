@@ -1,36 +1,28 @@
 ﻿using Dalamud.Plugin.Services;
+using FFXIVClientStructs.FFXIV.Client.UI.Agent;
+using FFXIVClientStructs.FFXIV.Component.GUI;
 using Lumina.Excel.GeneratedSheets;
 using System.Collections.Generic;
 using System.Linq;
 using Umbra.Common;
+using Una.Drawing;
 
 namespace Umbra.Widgets.Library.CollectionItemButton;
 
 internal partial class CollectionItemButtonWidget
 {
-    private IDataManager DataManager { get; } = Framework.Service<IDataManager>();
-
-    private Dictionary<string, CollectionItem> Items { get; } = [];
-
-    private void LoadCollectionItems()
+    /// <summary>
+    /// Invokes the specified item.
+    /// </summary>
+    private unsafe void Invoke(Node _)
     {
-        foreach (var entry in DataManager.GetExcelSheet<McGuffin>()!.ToList()) {
-            var uiData = entry.UIData.Value;
-            if (uiData == null || uiData.Icon == 0) continue;
+        if (!Items.TryGetValue(GetConfigValue<string>("Item"), out var item)) return;
 
-            Items.TryAdd(entry.RowId.ToString(), new(entry.RowId, uiData.Icon, uiData.Name.ToString()));
-        }
-    }
+        var result = stackalloc AtkValue[1];
+        var values = stackalloc AtkValue[2];
+        values[0].SetInt(1);
+        values[1].SetUInt(item.Id);
 
-    private readonly struct CollectionItem(uint id, uint icon, string name)
-    {
-        public readonly uint   Id   = id;
-        public readonly uint   Icon = icon;
-        public readonly string Name = name;
-    }
-
-    private void Invoke(CollectionItem item)
-    {
-
+        AgentModule.Instance()->GetAgentByInternalId(AgentId.McGuffin)->ReceiveEvent(result, values, 2, 0);
     }
 }
