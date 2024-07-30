@@ -38,12 +38,13 @@ internal sealed partial class CurrenciesWidget(
     {
         SyncTrackedCurrencyOptions();
         HydratePopupMenu();
+        UpdateMenuItems(true);
 
         _updateTimer.Elapsed   += (_, _) => UpdateMenuItems();
         _updateTimer.AutoReset =  true;
         _updateTimer.Start();
 
-        Node.OnClick      += _ => UpdateMenuItems();
+        Node.OnClick      += _ => UpdateMenuItems(true);
         Node.OnRightClick += _ => OpenCurrenciesWindow();
     }
 
@@ -143,9 +144,9 @@ internal sealed partial class CurrenciesWidget(
         _updateTimer.Dispose();
     }
 
-    private void UpdateMenuItems()
+    private void UpdateMenuItems(bool force = false)
     {
-        if (!Popup.IsOpen) return;
+        if (!force && !Popup.IsOpen) return;
 
         byte gcId = Player.GrandCompanyId;
 
@@ -160,7 +161,10 @@ internal sealed partial class CurrenciesWidget(
             if (currency.Type == CurrencyType.TwinAdder && gcId != 2) continue;
             if (currency.Type == CurrencyType.ImmortalFlames && gcId != 3) continue;
 
-            Popup.SetButtonAltLabel($"Currency_{currency.Id}", GetAmount(currency.Type));
+            string id = $"Currency_{currency.Id}";
+
+            Popup.SetButtonAltLabel(id, GetAmount(currency.Type));
+            Popup.SetButtonVisibility(id, GetConfigValue<bool>($"EnabledCurrency_{currency.Id}"));
         }
     }
 

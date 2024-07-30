@@ -585,6 +585,7 @@
     "Widget.MainMenu.CustomItem.DalamudPlugins": "ダラムドプラグイン",
     "Widget.Currencies.Name": "通貨",
     "Widget.Currencies.Description": "現在のギルと会社クレジットの金額を表示します。",
+    "Widget.Currencies.Config.EnabledCurrencyGroup": "ポップアップメニューに表示される通貨",
     "Widget.Currencies.Config.TrackedCurrency.Name": "追跡される通貨",
     "Widget.Currencies.Config.TrackedCurrency.Description": "トールバーのウィジェットに追跡され、表示される通貨。",
     "Widget.Currencies.Config.ShowIcon.Name": "追跡される通貨アイコンを表示する",

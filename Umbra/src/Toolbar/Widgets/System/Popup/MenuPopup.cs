@@ -442,7 +442,9 @@ public class MenuPopup : WidgetPopup
                 }
             ],
             BeforeReflow = node => {
-                node.Style.IsVisible = node.QuerySelector("Items")!.ChildNodes.Count > 0;
+                node.Style.IsVisible = node.QuerySelector("Items")!.ChildNodes.Count > 0
+                    && node.QuerySelector("Items")!.ChildNodes.Any(n => n.IsVisible);
+
                 return true;
             }
         };

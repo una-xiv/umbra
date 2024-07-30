@@ -585,6 +585,7 @@
     "Widget.MainMenu.CustomItem.DalamudPlugins": "Plugins Dalamud",
     "Widget.Currencies.Name": "Devises",
     "Widget.Currencies.Description": "Affiche le montant actuel de gils et de crédits de la compagnie.",
+    "Widget.Currencies.Config.EnabledCurrencyGroup": "Devises visibles dans le menu contextuel",
     "Widget.Currencies.Config.TrackedCurrency.Name": "Devise suivie",
     "Widget.Currencies.Config.TrackedCurrency.Description": "La devise qui doit être suivie et affichée dans le widget sur la barre d'outils.",
     "Widget.Currencies.Config.ShowIcon.Name": "Afficher l'icône de la devise suivie",

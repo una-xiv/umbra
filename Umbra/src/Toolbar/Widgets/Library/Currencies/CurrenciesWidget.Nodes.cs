@@ -63,6 +63,8 @@ internal partial class CurrenciesWidget
                     );
                 }
             );
+
+            Popup.SetButtonVisibility($"Currency_{currency.Id}", GetConfigValue<bool>($"EnabledCurrency_{currency.Id}"));
         }
 
         // Add groups.
@@ -90,6 +92,8 @@ internal partial class CurrenciesWidget
                     );
                 }
             );
+
+            Popup.SetButtonVisibility($"Currency_{currency.Id}", GetConfigValue<bool>($"EnabledCurrency_{currency.Id}"));
         }
     }
 

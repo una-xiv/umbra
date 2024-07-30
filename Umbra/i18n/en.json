@@ -585,6 +585,7 @@
     "Widget.MainMenu.CustomItem.DalamudPlugins": "Dalamud Plugins",
     "Widget.Currencies.Name": "Currencies",
     "Widget.Currencies.Description": "Shows the current amount of gil and company credits.",
+    "Widget.Currencies.Config.EnabledCurrencyGroup": "Visible currencies in the popup menu",
     "Widget.Currencies.Config.TrackedCurrency.Name": "Tracked currency",
     "Widget.Currencies.Config.TrackedCurrency.Description": "The currency that should be tracked and displayed in the widget on the toolbar.",
     "Widget.Currencies.Config.ShowIcon.Name": "Show tracked currency icon",

@@ -102,7 +102,7 @@ internal partial class WidgetConfigWindow : Window
             ((FloatInputNode)ctrl).Value = Instance.GetConfigValue<float>(f.Id);
         } else if (cvar is StringWidgetConfigVariable s) {
             ((StringInputNode)ctrl).Value = Instance.GetConfigValue<string>(s.Id);
-        } else if (cvar is SelectWidgetConfigVariable l) {
+        } else if (cvar is SelectWidgetConfigVariable l && l.Options.ContainsKey(Instance.GetConfigValue<string>(l.Id))) {
             ((SelectNode)ctrl).Value = l.Options[Instance.GetConfigValue<string>(l.Id)];
         } else if (cvar is BooleanWidgetConfigVariable b) {
             ((CheckboxNode)ctrl).Value = Instance.GetConfigValue<bool>(b.Id);

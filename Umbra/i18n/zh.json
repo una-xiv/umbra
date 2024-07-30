@@ -585,6 +585,7 @@
     "Widget.MainMenu.CustomItem.DalamudPlugins": "Dalamud 插件",
     "Widget.Currencies.Name": "货币",
     "Widget.Currencies.Description": "显示当前的金币和军票。",
+    "Widget.Currencies.Config.EnabledCurrencyGroup": "弹出菜单中可见的货币",
     "Widget.Currencies.Config.TrackedCurrency.Name": "跟踪的货币",
     "Widget.Currencies.Config.TrackedCurrency.Description": "应在工具栏上显示的小组件中跟踪和显示的货币。",
     "Widget.Currencies.Config.ShowIcon.Name": "显示跟踪货币图标",

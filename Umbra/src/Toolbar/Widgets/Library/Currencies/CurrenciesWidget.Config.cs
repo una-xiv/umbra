@@ -118,6 +118,20 @@ internal partial class CurrenciesWidget
                 I18N.Translate("Widget.Currencies.Config.DesaturateIcons.Description"),
                 true
             ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
+            ..GetEnabledCurrenciesVariables()
         ];
+    }
+
+    private static List<IWidgetConfigVariable> GetEnabledCurrenciesVariables()
+    {
+        List<IWidgetConfigVariable> variables = [];
+
+        foreach (var currency in Currencies.Values) {
+            variables.Add(new BooleanWidgetConfigVariable($"EnabledCurrency_{currency.Id}", currency.Name, null, true) {
+                Category = I18N.Translate("Widget.Currencies.Config.EnabledCurrencyGroup")
+            });
+        }
+
+        return variables;
     }
 }

@@ -585,6 +585,7 @@
     "Widget.MainMenu.CustomItem.DalamudPlugins": "Dalamud-Plugins",
     "Widget.Currencies.Name": "Vermögen",
     "Widget.Currencies.Description": "Zeigt den aktuellen Betrag an Gil und Firmenpunkten an.",
+    "Widget.Currencies.Config.EnabledCurrencyGroup": "Sichtbare Währungen im Popup-Menü",
     "Widget.Currencies.Config.TrackedCurrency.Name": "Verfolgte Vermögen",
     "Widget.Currencies.Config.TrackedCurrency.Description": "Die Vermögen, die verfolgt und im Widget in der Symbolleiste angezeigt werden soll.",
     "Widget.Currencies.Config.ShowIcon.Name": "Symbol der verfolgten Vermögen anzeigen",

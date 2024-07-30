@@ -105,7 +105,7 @@ internal partial class CurrenciesWidget
     {
         if (false == CustomCurrencies.ContainsKey(id)) return "";
 
-        return CustomCurrencies[id].Cap > 1
+        return CustomCurrencies[id].Cap > 1 && GetConfigValue<bool>("ShowCap")
             ? $"{FormatNumber(Player.GetItemCount(id))} / {FormatNumber((int)CustomCurrencies[id].Cap)}"
             : $"{FormatNumber(Player.GetItemCount(id))}";
     }
@@ -207,7 +207,9 @@ internal partial class CurrenciesWidget
     {
         if (CustomCurrencies.Count > 0) {
             foreach (uint id in CustomCurrencies.Keys) {
-                Popup.SetButtonAltLabel($"CustomCurrency_{id}", GetCustomAmount(id));
+                if (Popup.HasButton($"CustomCurrency_{id}")) {
+                    Popup.SetButtonAltLabel($"CustomCurrency_{id}", GetCustomAmount(id));
+                }
             }
         }
 
