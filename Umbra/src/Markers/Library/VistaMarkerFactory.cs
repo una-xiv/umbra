@@ -78,7 +78,7 @@ public class VistaMarkerFactory : WorldMarkerFactory, IDisposable
             Level? level = vista.Level.Value;
             if (level == null) continue;
 
-            string subLabel = $"#{vista.RowId - 2162688}";
+            string subLabel = "";
 
             if (vista is { MinTime: > 0, MaxTime: > 0 }) {
                 subLabel += GetVistaTime(vista);
