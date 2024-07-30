@@ -47,11 +47,14 @@ internal abstract partial class Window
         if (!IsMinimized) {
             ImGui.SetNextWindowSizeConstraints(MinSize * Node.ScaleFactor, MaxSize * Node.ScaleFactor);
 
-            if (CurrentWindowSize.Y > 35) {
+            if (CurrentWindowSize.Y > 35 * Node.ScaleFactor) {
                 ImGui.SetNextWindowSize(CurrentWindowSize, ImGuiCond.Always);
             }
         } else {
-            ImGui.SetNextWindowSizeConstraints(MinSize with { Y = 35 }, MaxSize with { Y = 35 });
+            ImGui.SetNextWindowSizeConstraints(
+                MinSize with { Y = 35 * Node.ScaleFactor },
+                MaxSize with { Y = 35 * Node.ScaleFactor }
+            );
         }
 
         ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding,    new Vector2(0, 0));

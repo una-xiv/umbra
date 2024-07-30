@@ -107,7 +107,7 @@ internal abstract partial class Window : IDisposable
         if (IsMinimized) {
             StoredWindowSize            = CurrentWindowSize;
             ContentNode.Style.IsVisible = false;
-            ImGui.SetWindowSize(CurrentWindowSize with { Y = 35 }, ImGuiCond.FirstUseEver);
+            ImGui.SetWindowSize(CurrentWindowSize with { Y = 35 * Node.ScaleFactor }, ImGuiCond.FirstUseEver);
         } else {
             ContentNode.Style.IsVisible = true;
             ImGui.SetWindowSize(CurrentWindowSize, ImGuiCond.Once);
