@@ -69,7 +69,6 @@ public class VistaMarkerFactory : WorldMarkerFactory, IDisposable
         List<Adventure> vistas  = VistaByMap.GetValueOrDefault(mapId, []);
 
         foreach (var vista in vistas) {
-            if (!IsAdventureUnlocked(vista)) continue;
             if (IsAdventureComplete(vista)) continue;
 
             string id = $"Vista_{vista.RowId}";
@@ -157,18 +156,6 @@ public class VistaMarkerFactory : WorldMarkerFactory, IDisposable
         PlayerState* ps = PlayerState.Instance();
         if (ps == null) return false;
 
-        // The name is misleading, this actually tests if the player has _completed_ the vista.
-        return ps->IsAdventureExPhaseComplete(id);
-    }
-
-    private unsafe bool IsAdventureUnlocked(Adventure adv)
-    {
-        uint id = adv.RowId - 2162688;
-
-        PlayerState* ps = PlayerState.Instance();
-        if (ps == null) return false;
-
-        // The name is misleading, this actually tests if the player can _see_ the vista.
         return ps->IsAdventureComplete(id);
     }
 
