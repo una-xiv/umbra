@@ -44,10 +44,10 @@ internal sealed class ClipRectProvider
                     return;
                 }
 
-                var node = GetWindowBoundsNode(unitBase, rootNode);
+                // var node = GetWindowBoundsNode(unitBase, rootNode);
 
                 FFXIVClientStructs.FFXIV.Common.Math.Bounds bounds;
-                node->GetBounds(&bounds);
+                unitBase->GetWindowBounds(&bounds);
 
                 var start = new Vector2(bounds.Pos1.X + 1, bounds.Pos1.Y);
                 var end   = new Vector2(bounds.Pos2.X - 1, bounds.Pos2.Y - 1);
@@ -114,56 +114,5 @@ internal sealed class ClipRectProvider
 
             iterator((IntPtr)unit, name ?? string.Empty);
         }
-    }
-
-    /// <summary>
-    /// Finds the first image node from a window that encapsulates the entire window.
-    /// </summary>
-    /// <remarks>
-    /// Attempts to find an AtkComponentWindow node inside the baseNode. If
-    /// found, it will then attempt to find the first image node inside the
-    /// window node. This always seems to span the entire window bounds. If
-    /// no such node could be found, the given root node is returned instead.
-    /// </remarks>
-    private unsafe AtkResNode* GetWindowBoundsNode(AtkUnitBase* baseNode, AtkResNode* rootNode)
-    {
-        var uldManager = baseNode->UldManager;
-
-        for (var i = 0; i < uldManager.NodeListCount; i++) {
-            var childNode = uldManager.NodeList[i];
-
-            if (childNode == null) {
-                continue;
-            }
-
-            if (childNode->ParentNode != rootNode) {
-                continue;
-            }
-
-            if (null == childNode->GetComponent()) {
-                continue;
-            }
-
-            var componentNode = (AtkComponentNode*)childNode;
-            var cmpUldManager = componentNode->Component->UldManager;
-            var cmpObjectList = (AtkUldComponentInfo*)cmpUldManager.Objects;
-
-            if (cmpObjectList == null) continue;
-
-            if (cmpObjectList->ComponentType == ComponentType.Window) {
-                // The first image node we find perfectly encapsulates the entire window.
-                for (var j = 0; j < cmpUldManager.NodeListCount; j++) {
-                    var c = cmpUldManager.NodeList[j];
-
-                    if (c == null || c->Type != NodeType.Image) {
-                        continue;
-                    }
-
-                    return c;
-                }
-            }
-        }
-
-        return rootNode;
     }
 }
