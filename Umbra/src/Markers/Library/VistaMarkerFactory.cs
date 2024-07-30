@@ -69,7 +69,8 @@ public class VistaMarkerFactory : WorldMarkerFactory, IDisposable
         List<Adventure> vistas  = VistaByMap.GetValueOrDefault(mapId, []);
 
         foreach (var vista in vistas) {
-            if (ps->IsAdventureComplete(vista.RowId - 2162688)) continue;
+            if (!IsAdventureUnlocked(vista)) continue;
+            if (IsAdventureComplete(vista)) continue;
 
             string id = $"Vista_{vista.RowId}";
             usedIds.Add(id);
@@ -77,7 +78,7 @@ public class VistaMarkerFactory : WorldMarkerFactory, IDisposable
             Level? level = vista.Level.Value;
             if (level == null) continue;
 
-            string subLabel = "";
+            string subLabel = $"#{vista.RowId - 2162688}";
 
             if (vista is { MinTime: > 0, MaxTime: > 0 }) {
                 subLabel += GetVistaTime(vista);
@@ -147,6 +148,28 @@ public class VistaMarkerFactory : WorldMarkerFactory, IDisposable
         }
 
         return new(hours, mins, 0);
+    }
+
+    private unsafe bool IsAdventureComplete(Adventure adv)
+    {
+        uint id = adv.RowId - 2162688;
+
+        PlayerState* ps = PlayerState.Instance();
+        if (ps == null) return false;
+
+        // The name is misleading, this actually tests if the player has _completed_ the vista.
+        return ps->IsAdventureExPhaseComplete(id);
+    }
+
+    private unsafe bool IsAdventureUnlocked(Adventure adv)
+    {
+        uint id = adv.RowId - 2162688;
+
+        PlayerState* ps = PlayerState.Instance();
+        if (ps == null) return false;
+
+        // The name is misleading, this actually tests if the player can _see_ the vista.
+        return ps->IsAdventureComplete(id);
     }
 
     private static readonly IReadOnlyDictionary<uint, uint[]> AdventureToWeatherIds = new Dictionary<uint, uint[]> {
