@@ -36,6 +36,8 @@
     "Markers.PartyMembers.Config.ShowIcon.Description": "Indique s'il faut afficher les icônes des membres du groupe sur les marqueurs mondiaux.",
     "Markers.PartyMembers.Config.ShowName.Name": "Afficher les noms des membres du groupe",
     "Markers.PartyMembers.Config.ShowName.Description": "Afficher les noms des membres du groupe sur les marqueurs du monde.",
+    "Markers.PartyMembers.Config.IconType.Name": "Type d'icône de travail",
+    "Markers.PartyMembers.Config.IconType.Description": "Le type d'icône utilisé sur le marqueur mondial. Applicable uniquement si 'Afficher les icônes des membres du groupe' est activé.",
     "Markers.EurekaCoffers.Name": "Coffres de lapin d'Eureka",
     "Markers.EurekaCoffers.Description": "Affiche les marqueurs flottants pour les Coffres de lapin dans les zones d'Eureka après avoir utilisé l'objet Carotte porte-bonheur.",
     "Markers.EurekaCoffers.EnableMapMarkers.Name": "Activer les marqueurs de carte pour les coffres détectés",

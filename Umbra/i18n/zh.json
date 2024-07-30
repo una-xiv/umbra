@@ -36,6 +36,8 @@
     "Markers.PartyMembers.Config.ShowIcon.Description": "是否在世界标记上显示队员图标。",
     "Markers.PartyMembers.Config.ShowName.Name": "显示队员姓名",
     "Markers.PartyMembers.Config.ShowName.Description": "是否在世界标记上显示队员姓名。",
+    "Markers.PartyMembers.Config.IconType.Name": "职位图标类型",
+    "Markers.PartyMembers.Config.IconType.Description": "世界标记上使用的图标类型。仅当启用“显示队员图标”时适用。",
     "Markers.EurekaCoffers.Name": "优雷卡幸福兔箱子",
     "Markers.EurekaCoffers.Description": "使用胡萝卜后在地图上显示兔子箱子的位置",
     "Markers.EurekaCoffers.EnableMapMarkers.Name": "显示检测到的优雷卡幸福兔箱子",

@@ -36,6 +36,8 @@
     "Markers.PartyMembers.Config.ShowIcon.Description": "Ob die Gruppenmitgliedersymbole auf den Weltmarkierungen angezeigt werden sollen.",
     "Markers.PartyMembers.Config.ShowName.Name": "Parteinamen anzeigen",
     "Markers.PartyMembers.Config.ShowName.Description": "Ob die Namen der Parteimitglieder auf den Weltmarkierungen angezeigt werden sollen.",
+    "Markers.PartyMembers.Config.IconType.Name": "Job-Symboltyp",
+    "Markers.PartyMembers.Config.IconType.Description": "Der Symboltyp, der auf dem Weltmarker verwendet wird. Nur anwendbar, wenn 'Partei-Mitgliedersymbole anzeigen' aktiviert ist.",
     "Markers.EurekaCoffers.Name": "Eureka Bunny-Kisten",
     "Markers.EurekaCoffers.Description": "Zeigt Weltmarkierungen für die Bunny-Kisten in den Eureka-Zonen an, nachdem Sie den Glückskarotten-Gegenstand verwendet haben.",
     "Markers.EurekaCoffers.EnableMapMarkers.Name": "Kartenmarkierungen für erkannte Kisten aktivieren",

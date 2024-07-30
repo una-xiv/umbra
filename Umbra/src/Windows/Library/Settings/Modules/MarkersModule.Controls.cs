@@ -14,6 +14,8 @@
  *     GNU Affero General Public License for more details.
  */
 
+using System;
+using System.Linq;
 using Umbra.Common;
 using Umbra.Markers;
 using Umbra.Windows.Components;
@@ -30,6 +32,8 @@ internal sealed partial class MarkersModule
                 return RenderCheckboxNode(factory, b);
             case IntegerMarkerConfigVariable i:
                 return RenderIntegerNode(factory, i);
+            case SelectMarkerConfigVariable s:
+                return RenderSelectNode(factory, s);
             default:
                 Logger.Warning($"Cannot render control node for config variable: {cvar.Id}");
                 return null;
@@ -65,6 +69,35 @@ internal sealed partial class MarkersModule
 
         node.OnValueChanged += v => {
             factory.SetConfigValue(cvar.Id, v);
+        };
+
+        return node;
+    }
+
+    private static SelectNode RenderSelectNode(WorldMarkerFactory factory, SelectMarkerConfigVariable cvar)
+    {
+        if (cvar.Options.Count == 0)
+            throw new InvalidOperationException("A select control must have at least one option.");
+
+        if (!cvar.Options.TryGetValue(factory.GetConfigValue<string>(cvar.Id), out string? selectedValue)) {
+            selectedValue = cvar.Options.First().Value;
+        }
+
+        Logger.Info($"Selected value: {selectedValue}");
+
+        var node = new SelectNode(
+            cvar.Id,
+            selectedValue,
+            cvar.Options.Values.ToList(),
+            cvar.Name,
+            cvar.Description
+        );
+
+        node.OnValueChanged += newValue => {
+            if (cvar.Options.ContainsValue(newValue)) {
+                Logger.Info($"Setting {cvar.Id} to {newValue} ({cvar.Options.First(x => x.Value == newValue).Key})");
+                factory.SetConfigValue(cvar.Id, cvar.Options.First(x => x.Value == newValue).Key);
+            }
         };
 
         return node;

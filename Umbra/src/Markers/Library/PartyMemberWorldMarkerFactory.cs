@@ -19,9 +19,12 @@ internal class PartyMemberWorldMarkerFactory(IPlayer player, IPartyList partyLis
     /// <inheritdoc/>
     public override string Description { get; } = I18N.Translate("Markers.PartyMembers.Description");
 
+    private Dictionary<uint, JobInfo> JobInfoCache { get; } = [];
+
     /// <inheritdoc/>
     public override List<IMarkerConfigVariable> GetConfigVariables()
     {
+
         return [
             ..DefaultStateConfigVariables,
             new BooleanMarkerConfigVariable(
@@ -35,6 +38,26 @@ internal class PartyMemberWorldMarkerFactory(IPlayer player, IPartyList partyLis
                 I18N.Translate("Markers.PartyMembers.Config.ShowName.Name"),
                 I18N.Translate("Markers.PartyMembers.Config.ShowName.Description"),
                 true
+            ),
+            new SelectMarkerConfigVariable(
+                "IconType",
+                I18N.Translate("Markers.PartyMembers.Config.IconType.Name"),
+                I18N.Translate("Markers.PartyMembers.Config.IconType.Description"),
+                "Default",
+                new() {
+                    { "Default", I18N.Translate("Widget.GearsetSwitcher.Config.IconType.Option.Default") },
+                    { "Framed", I18N.Translate("Widget.GearsetSwitcher.Config.IconType.Option.Framed") },
+                    { "Gearset", I18N.Translate("Widget.GearsetSwitcher.Config.IconType.Option.Gearset") },
+                    { "Glowing", I18N.Translate("Widget.GearsetSwitcher.Config.IconType.Option.Glowing") },
+                    { "Light", I18N.Translate("Widget.GearsetSwitcher.Config.IconType.Option.Light") },
+                    { "Dark", I18N.Translate("Widget.GearsetSwitcher.Config.IconType.Option.Dark") },
+                    { "Gold", I18N.Translate("Widget.GearsetSwitcher.Config.IconType.Option.Gold") },
+                    { "Orange", I18N.Translate("Widget.GearsetSwitcher.Config.IconType.Option.Orange") },
+                    { "Red", I18N.Translate("Widget.GearsetSwitcher.Config.IconType.Option.Red") },
+                    { "Purple", I18N.Translate("Widget.GearsetSwitcher.Config.IconType.Option.Purple") },
+                    { "Blue", I18N.Translate("Widget.GearsetSwitcher.Config.IconType.Option.Blue") },
+                    { "Green", I18N.Translate("Widget.GearsetSwitcher.Config.IconType.Option.Green") }
+                }
             ),
             new IntegerMarkerConfigVariable(
                 "FadeDistance",
@@ -81,6 +104,7 @@ internal class PartyMemberWorldMarkerFactory(IPlayer player, IPartyList partyLis
         bool         showOnCompass = GetConfigValue<bool>("ShowOnCompass");
         bool         showIcon      = GetConfigValue<bool>("ShowIcon");
         bool         showName      = GetConfigValue<bool>("ShowName");
+        string       iconType      = GetConfigValue<string>("IconType");
         uint         mapId         = zoneManager.CurrentZone.Id;
 
         foreach (var member in partyList) {
@@ -92,11 +116,16 @@ internal class PartyMemberWorldMarkerFactory(IPlayer player, IPartyList partyLis
             string key = $"PM_{mapId}_{member.ContentId}";
             usedKeys.Add(key);
 
+            if (!JobInfoCache.TryGetValue(member.ClassJob.Id, out var jobInfo)) {
+                jobInfo = new(member.ClassJob.GameData!);
+                JobInfoCache[member.ClassJob.Id] = jobInfo;
+            }
+
             SetMarker(
                 new() {
                     Key           = key,
                     Label         = showName ? member.Name.TextValue : "",
-                    IconId        = showIcon ? 62000u + member.ClassJob.Id : 0,
+                    IconId        = showIcon ? jobInfo.GetIcon(iconType) : 0,
                     Position      = member.Position with { Y = member.Position.Y + 1.5f },
                     MapId         = zoneManager.CurrentZone.Id,
                     FadeDistance  = new(fadeDist, fadeDist + fadeAttn),

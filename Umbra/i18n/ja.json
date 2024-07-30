@@ -36,6 +36,8 @@
     "Markers.PartyMembers.Config.ShowIcon.Description": "ワールドマーカーにパーティーメンバーのアイコンを表示するかどうか。",
     "Markers.PartyMembers.Config.ShowName.Name": "パーティーメンバーの名前を表示",
     "Markers.PartyMembers.Config.ShowName.Description": "ワールドマーカーにパーティーメンバーの名前を表示するかどうか。",
+    "Markers.PartyMembers.Config.IconType.Name": "ジョブアイコンタイプ",
+    "Markers.PartyMembers.Config.IconType.Description": "ワールドマーカーに使用されるアイコンの種類。「パーティメンバーアイコンを表示」が有効な場合にのみ適用されます。",
     "Markers.EurekaCoffers.Name": "エウレカ・バニー宝箱",
     "Markers.EurekaCoffers.Description": "ラッキーキャロットアイテムを使用した後、エウレカゾーンのバニー宝箱のワールドマーカーを表示します。",
     "Markers.EurekaCoffers.EnableMapMarkers.Name": "検出された宝箱の地図マーカーを有効にする",
