@@ -29,7 +29,7 @@ namespace Umbra.Game;
 [Service]
 internal sealed class CompanionManager : ICompanionManager
 {
-    private const uint GysahlGreensIconId   = 4868;
+    private const uint GysahlGreensItemId   = 4868;
     private const uint FollowActionIconId   = 902;
     private const uint DefenderStanceIconId = 903;
     private const uint AttackerStanceIconId = 904;
@@ -74,7 +74,7 @@ internal sealed class CompanionManager : ICompanionManager
         uint objectId = ui->Buddy.CompanionInfo.Companion->EntityId;
 
         IsActive        = objectId > 0 && null != _objectTable.SearchById(objectId);
-        HasGysahlGreens = _player.HasItemInInventory(GysahlGreensIconId);
+        HasGysahlGreens = _player.HasItemInInventory(GysahlGreensItemId);
         CompanionName   = buddy.NameString;
         TimeLeft        = buddy.TimeLeft;
         Level           = buddy.Rank;
@@ -94,10 +94,15 @@ internal sealed class CompanionManager : ICompanionManager
         um->ExecuteMainCommand(42);
     }
 
-    public bool CanSummon()
+    public unsafe bool CanSummon()
     {
-        return HasGysahlGreens
+        bool isOk = HasGysahlGreens
             && _player is { IsBoundByInstancedDuty: false, IsOccupied: false, IsCasting: false, IsDead: false };
+
+        ActionManager* am = ActionManager.Instance();
+        if (am == null) return isOk;
+
+        return isOk && am->GetActionStatus(ActionType.Item, GysahlGreensItemId) == 0;
     }
 
     public void Summon()
@@ -112,7 +117,7 @@ internal sealed class CompanionManager : ICompanionManager
             return;
         }
 
-        _player.UseInventoryItem(GysahlGreensIconId);
+        _player.UseInventoryItem(GysahlGreensItemId);
     }
 
     public string GetStanceName(uint id)
