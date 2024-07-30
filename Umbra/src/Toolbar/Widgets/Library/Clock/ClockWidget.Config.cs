@@ -96,6 +96,14 @@ internal partial class ClockWidget
                 5
             ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             new IntegerWidgetConfigVariable(
+                "PrefixYOffset",
+                I18N.Translate("Widget.Clock.Config.PrefixYOffset.Name"),
+                I18N.Translate("Widget.Clock.Config.PrefixYOffset.Description"),
+                0,
+                -5,
+                5
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            new IntegerWidgetConfigVariable(
                 "CustomWidth",
                 I18N.Translate("Widget.Clock.Config.CustomWidth.Name"),
                 I18N.Translate("Widget.Clock.Config.CustomWidth.Description"),

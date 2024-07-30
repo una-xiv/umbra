@@ -283,6 +283,8 @@
     "Widget.Clock.Description": "Affiche l'heure locale actuelle, du serveur ou d'Eorzéa avec de nombreuses options de personnalisation.",
     "Widget.Clock.Config.TextYOffset.Name": "Décalage vertical du texte",
     "Widget.Clock.Config.TextYOffset.Description": "Le décalage vertical du texte de l'horloge par rapport au centre de l'horloge en pixels. Les valeurs positives déplacent le texte vers le bas, les valeurs négatives déplacent le texte vers le haut.",
+    "Widget.Clock.Config.PrefixYOffset.Name": "Décalage vertical du préfixe",
+    "Widget.Clock.Config.PrefixYOffset.Description": "Le décalage vertical du texte/symbole de préfixe par rapport au centre de l'horloge en pixels. Les valeurs positives déplacent le texte vers le bas, les valeurs négatives déplacent le texte vers le haut.",
     "Widget.Clock.Config.ShowSeconds.Name": "Afficher les secondes",
     "Widget.Clock.Config.ShowSeconds.Description": "Indique si la partie des secondes de l'horloge doit être affichée.",
     "Widget.Clock.Config.ClickToSwitch.Name": "Activer le clic pour changer la source de temps",

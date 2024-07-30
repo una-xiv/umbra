@@ -85,15 +85,16 @@ internal partial class ClockWidget(
 
         int halfSize   = SafeHeight / 2;
 
-        PrefixNode.NodeValue       = useCustomPrefix ? GetConfigValue<string>("PrefixText") : GetPrefixIcon().ToIconString();
-        PrefixNode.Style.Font      = useCustomPrefix ? 3u : 4u;
-        PrefixNode.Style.IsVisible = isPrefixVisible;
-        PrefixNode.Style.Size      = new(0, SafeHeight);
-        PrefixNode.Style.FontSize  = halfSize;
-        TimeNode.Style.TextOffset  = new(0, GetConfigValue<int>("TextYOffset"));
-        TimeNode.Style.Size        = new(GetConfigValue<int>("CustomWidth"), SafeHeight);
-        TimeNode.Style.Padding     = new() { Left = isPrefixVisible ? 0 : 6, Right = 6 };
-        TimeNode.Style.FontSize    = halfSize;
+        PrefixNode.NodeValue        = useCustomPrefix ? GetConfigValue<string>("PrefixText") : GetPrefixIcon().ToIconString();
+        PrefixNode.Style.Font       = useCustomPrefix ? 3u : 4u;
+        PrefixNode.Style.IsVisible  = isPrefixVisible;
+        PrefixNode.Style.Size       = new(0, SafeHeight);
+        PrefixNode.Style.FontSize   = halfSize;
+        PrefixNode.Style.TextOffset = new(0, GetConfigValue<int>("PrefixYOffset"));
+        TimeNode.Style.TextOffset   = new(0, GetConfigValue<int>("TextYOffset"));
+        TimeNode.Style.Size         = new(GetConfigValue<int>("CustomWidth"), SafeHeight);
+        TimeNode.Style.Padding      = new() { Left = isPrefixVisible ? 0 : 6, Right = 6 };
+        TimeNode.Style.FontSize     = halfSize;
 
         DateTime time        = GetTime();
         var      use24H      = GetConfigValue<bool>("Use24HourFormat");

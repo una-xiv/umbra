@@ -283,6 +283,8 @@
     "Widget.Clock.Description": "Zeigt die aktuelle lokale, Server- oder Eorzea-Zeit mit vielen Anpassungsoptionen an.",
     "Widget.Clock.Config.TextYOffset.Name": "Vertikaler Textversatz",
     "Widget.Clock.Config.TextYOffset.Description": "Der vertikale Versatz des Uhrtextes von der Mitte der Uhr in Pixeln. Positive Werte bewegen den Text nach unten, negative Werte bewegen den Text nach oben.",
+    "Widget.Clock.Config.PrefixYOffset.Name": "Vertikaler Versatz des Präfixes",
+    "Widget.Clock.Config.PrefixYOffset.Description": "Der vertikale Versatz des Präfixtextes/-symbols vom Mittelpunkt der Uhr in Pixeln. Positive Werte verschieben den Text nach unten, negative Werte verschieben den Text nach oben.",
     "Widget.Clock.Config.ShowSeconds.Name": "Sekunden anzeigen",
     "Widget.Clock.Config.ShowSeconds.Description": "Ob der Sekundenanteil der Uhr angezeigt werden soll.",
     "Widget.Clock.Config.ClickToSwitch.Name": "Klicken zum Umschalten der Zeitquelle aktivieren",

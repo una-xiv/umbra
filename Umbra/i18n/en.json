@@ -283,6 +283,8 @@
     "Widget.Clock.Description": "Displays the current local, server or Eorzea time with lots of customization options.",
     "Widget.Clock.Config.TextYOffset.Name": "Text vertical offset",
     "Widget.Clock.Config.TextYOffset.Description": "The vertical offset of the clock text from the center of the clock in pixels. Positive values move the text down, negative values move the text up.",
+    "Widget.Clock.Config.PrefixYOffset.Name": "Prefix vertical offset",
+    "Widget.Clock.Config.PrefixYOffset.Description": "The vertical offset of the prefix text/symbol from the center of the clock in pixels. Positive values move the text down, negative values move the text up.",
     "Widget.Clock.Config.ShowSeconds.Name": "Show seconds",
     "Widget.Clock.Config.ShowSeconds.Description": "Whether to show the seconds part of the clock.",
     "Widget.Clock.Config.ClickToSwitch.Name": "Enable click to switch time source",

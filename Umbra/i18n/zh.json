@@ -283,6 +283,8 @@
     "Widget.Clock.Description": "显示当前本地时间、服务器时间或艾欧泽亚时间。",
     "Widget.Clock.Config.TextYOffset.Name": "文本垂直偏移",
     "Widget.Clock.Config.TextYOffset.Description": "时钟文本距时钟中心的垂直偏移（像素）。正值将文本下移，负值将文本上移。",
+    "Widget.Clock.Config.PrefixYOffset.Name": "前缀垂直偏移",
+    "Widget.Clock.Config.PrefixYOffset.Description": "前缀文字/符号相对于时钟中心的垂直偏移，单位为像素。正值将文本向下移动，负值将文本向上移动。",
     "Widget.Clock.Config.ShowSeconds.Name": "显示秒数",
     "Widget.Clock.Config.ShowSeconds.Description": "是否显示时钟的秒数部分。",
     "Widget.Clock.Config.ClickToSwitch.Name": "启用点击切换时间来源",

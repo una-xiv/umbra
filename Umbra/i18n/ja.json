@@ -283,6 +283,8 @@
     "Widget.Clock.Description": "現在のローカル、サーバー、またはEorzea時間をさまざまなカスタマイズオプションで表示します。",
     "Widget.Clock.Config.TextYOffset.Name": "テキストの縦オフセット",
     "Widget.Clock.Config.TextYOffset.Description": "時計の中心からテキストの垂直オフセット（ピクセル単位）。正の値はテキストを下に、負の値はテキストを上に移動します。",
+    "Widget.Clock.Config.PrefixYOffset.Name": "プレフィックスの垂直オフセット",
+    "Widget.Clock.Config.PrefixYOffset.Description": "時計の中心からプレフィックステキスト/シンボルの垂直オフセット（ピクセル単位）。正の値はテキストを下に移動し、負の値はテキストを上に移動します。",
     "Widget.Clock.Config.ShowSeconds.Name": "秒を表示",
     "Widget.Clock.Config.ShowSeconds.Description": "時計の秒部分を表示するかどうか。",
     "Widget.Clock.Config.ClickToSwitch.Name": "クリックで時刻源を切り替える",
