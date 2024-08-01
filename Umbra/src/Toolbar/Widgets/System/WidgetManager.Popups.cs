@@ -43,7 +43,7 @@ internal partial class WidgetManager
         _currentActivator = activator;
         _currentPopup     = popup;
 
-        OnPopupOpened?.Invoke(popup);
+        _currentPopup.OnPopupOpen += InvokeOnPopupOpened;
 
         Toolbar.AllowAutoHide = false;
     }
@@ -61,6 +61,7 @@ internal partial class WidgetManager
     private void ClosePopup()
     {
         if (_currentPopup != null) {
+            _currentPopup.OnPopupOpen -= InvokeOnPopupOpened;
             OnPopupClosed?.Invoke(_currentPopup);
         }
 
@@ -80,5 +81,10 @@ internal partial class WidgetManager
         if (!_currentPopup.Render(_currentActivator)) {
             ClosePopup();
         }
+    }
+
+    private void InvokeOnPopupOpened()
+    {
+        if (null != _currentPopup) OnPopupOpened?.Invoke(_currentPopup);
     }
 }

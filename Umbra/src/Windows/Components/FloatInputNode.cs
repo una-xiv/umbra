@@ -27,7 +27,8 @@ internal class FloatInputNode : Node
 
     public float Value {
         get => _value;
-        set {
+        set
+        {
             if (_value == value) return;
             _value = value;
             OnValueChanged?.Invoke(value);
@@ -70,6 +71,7 @@ internal class FloatInputNode : Node
 
         ChildNodes = [
             new() {
+                Id        = "Label",
                 ClassList = ["input--label"],
                 NodeValue = label,
             },
@@ -142,7 +144,7 @@ internal class FloatInputNode : Node
 
     protected override void OnDisposed()
     {
-        foreach (var handler in OnValueChanged?.GetInvocationList() ?? [])  OnValueChanged -= (Action<float>)handler;
+        foreach (var handler in OnValueChanged?.GetInvocationList() ?? []) OnValueChanged -= (Action<float>)handler;
     }
 
     private Node SelectBoxNode   => QuerySelector(".input--box")!;

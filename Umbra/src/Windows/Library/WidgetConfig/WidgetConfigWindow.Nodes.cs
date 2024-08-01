@@ -14,6 +14,7 @@
  *     GNU Affero General Public License for more details.
  */
 
+using Dalamud.Interface;
 using Umbra.Common;
 using Umbra.Windows.Components;
 using Una.Drawing;
@@ -26,6 +27,19 @@ internal partial class WidgetConfigWindow
         Stylesheet = WidgetConfigWindowStylesheet,
         ClassList  = ["widget-config-window"],
         ChildNodes = [
+            new() {
+                Id = "SearchPanel",
+                ChildNodes = [
+                    new() {
+                        Id        = "SearchIcon",
+                        NodeValue = FontAwesomeIcon.Search.ToIconString(),
+                    },
+                    new() {
+                        Id         = "SearchInputWrapper",
+                        ChildNodes = [new StringInputNode("Search", "", 128, null, null, 0, true)]
+                    }
+                ]
+            },
             new() {
                 ClassList = ["widget-config-list--wrapper"],
                 Overflow  = false,
@@ -61,7 +75,10 @@ internal partial class WidgetConfigWindow
         Node.Style.Size = ContentSize;
 
         Node.QuerySelector(".widget-config-list--wrapper")!.Style.Size =
-            new(ContentSize.Width, ContentSize.Height - 50);
+            new(ContentSize.Width, ContentSize.Height - 95);
+
+        Node.QuerySelector("#SearchPanel")!.Style.Size        = new(ContentSize.Width, 0);
+        Node.QuerySelector("#SearchInputWrapper")!.Style.Size = new(ContentSize.Width - 55, 0);
 
         Node.QuerySelector(".widget-config-footer")!.Style.Size = new(ContentSize.Width, 50);
 

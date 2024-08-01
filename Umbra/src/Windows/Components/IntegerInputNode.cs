@@ -63,6 +63,7 @@ internal class IntegerInputNode : Node
 
         ChildNodes = [
             new() {
+                Id        = "Label",
                 ClassList = ["input--label"],
                 NodeValue = label,
             },

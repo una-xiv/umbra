@@ -16,6 +16,7 @@
 
 using Lumina.Misc;
 using System.Collections.Generic;
+using System.Linq;
 using System.Numerics;
 using Umbra.Common;
 using Umbra.Widgets;
@@ -47,9 +48,10 @@ internal partial class WidgetConfigWindow : Window
         Manager.OnWidgetRemoved       += OnWidgetRemoved;
         Instance.OnConfigValueChanged += OnConfigValueChanged;
 
-        Node.QuerySelector("#CloseButton")!.OnMouseUp        += CloseWindow;
-        Node.QuerySelector("#CopyToClipboard")!.OnMouseUp    += CopyToClipboard;
-        Node.QuerySelector("#PasteFromClipboard")!.OnMouseUp += PasteFromClipboard;
+        Node.QuerySelector("#CloseButton")!.OnMouseUp                  += CloseWindow;
+        Node.QuerySelector("#CopyToClipboard")!.OnMouseUp              += CopyToClipboard;
+        Node.QuerySelector("#PasteFromClipboard")!.OnMouseUp           += PasteFromClipboard;
+        Node.QuerySelector<StringInputNode>("#Search")!.OnValueChanged += OnSearchValueChanged;
 
         Node.QuerySelector("#PasteFromClipboard")!.IsDisabled = !Manager.HasInstanceClipboardData(Instance);
 
@@ -62,7 +64,7 @@ internal partial class WidgetConfigWindow : Window
             }
 
             if (!groups.TryGetValue(opt.Category, out Node? categoryNode)) {
-                categoryNode = RenderCategory(opt.Category);
+                categoryNode         = RenderCategory(opt.Category);
                 groups[opt.Category] = categoryNode;
             }
 
@@ -74,9 +76,10 @@ internal partial class WidgetConfigWindow : Window
     {
         Manager.OnWidgetRemoved -= OnWidgetRemoved;
 
-        Node.QuerySelector("#CloseButton")!.OnMouseUp        -= CloseWindow;
-        Node.QuerySelector("#CopyToClipboard")!.OnMouseUp    -= CopyToClipboard;
-        Node.QuerySelector("#PasteFromClipboard")!.OnMouseUp -= PasteFromClipboard;
+        Node.QuerySelector("#CloseButton")!.OnMouseUp                  -= CloseWindow;
+        Node.QuerySelector("#CopyToClipboard")!.OnMouseUp              -= CopyToClipboard;
+        Node.QuerySelector("#PasteFromClipboard")!.OnMouseUp           -= PasteFromClipboard;
+        Node.QuerySelector<StringInputNode>("#Search")!.OnValueChanged -= OnSearchValueChanged;
     }
 
     protected override void OnUpdate(int instanceId)
@@ -102,7 +105,8 @@ internal partial class WidgetConfigWindow : Window
             ((FloatInputNode)ctrl).Value = Instance.GetConfigValue<float>(f.Id);
         } else if (cvar is StringWidgetConfigVariable s) {
             ((StringInputNode)ctrl).Value = Instance.GetConfigValue<string>(s.Id);
-        } else if (cvar is SelectWidgetConfigVariable l && l.Options.ContainsKey(Instance.GetConfigValue<string>(l.Id))) {
+        } else if (cvar is SelectWidgetConfigVariable l
+                   && l.Options.ContainsKey(Instance.GetConfigValue<string>(l.Id))) {
             ((SelectNode)ctrl).Value = l.Options[Instance.GetConfigValue<string>(l.Id)];
         } else if (cvar is BooleanWidgetConfigVariable b) {
             ((CheckboxNode)ctrl).Value = Instance.GetConfigValue<bool>(b.Id);
@@ -122,5 +126,25 @@ internal partial class WidgetConfigWindow : Window
     private void PasteFromClipboard(Node _)
     {
         Instance.PasteInstanceSettingsFromClipboard();
+    }
+
+    private void OnSearchValueChanged(string search)
+    {
+        foreach (var control in Node.QuerySelectorAll(".widget-config-control")) {
+            if (string.IsNullOrEmpty(search)) {
+                control.Style.IsVisible = true;
+                continue;
+            }
+
+            Node   labelNode   = control.QuerySelector("#Label")!;
+            string labelString = labelNode.NodeValue?.ToString() ?? string.Empty;
+
+            control.Style.IsVisible = labelString.Contains(search, System.StringComparison.OrdinalIgnoreCase);
+        }
+
+        // Hide empty categories.
+        foreach (var category in Node.QuerySelectorAll(".widget-config-category")) {
+            category.Style.IsVisible = category.QuerySelector(".widget-config-category--content")!.ChildNodes.Any(x => x.Style.IsVisible == true);
+        }
     }
 }

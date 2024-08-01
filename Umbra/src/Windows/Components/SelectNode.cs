@@ -84,6 +84,7 @@ internal class SelectNode : Node
 
         ChildNodes = [
             new() {
+                Id        = "Label",
                 ClassList = ["select--label"],
                 NodeValue = label,
             },

@@ -120,6 +120,7 @@ internal partial class WidgetConfigWindow
             cvar.Description
         );
 
+        node.ClassList.Add("widget-config-control");
         node.OnValueChanged += newValue => {
             if (cvar.Options.ContainsValue(newValue)) {
                 cvar.SetValue(cvar.Options.First(x => x.Value == newValue).Key);
@@ -138,6 +139,7 @@ internal partial class WidgetConfigWindow
             cvar.Description
         );
 
+        node.ClassList.Add("widget-config-control");
         node.OnValueChanged += newValue => cvar.SetValue(newValue);
 
         return node;
@@ -154,6 +156,7 @@ internal partial class WidgetConfigWindow
             cvar.Description
         );
 
+        node.ClassList.Add("widget-config-control");
         node.OnValueChanged += newValue => cvar.SetValue(newValue);
 
         return node;
@@ -170,6 +173,7 @@ internal partial class WidgetConfigWindow
             cvar.Description
         );
 
+        node.ClassList.Add("widget-config-control");
         node.OnValueChanged += newValue => cvar.SetValue(newValue);
 
         return node;
@@ -185,6 +189,7 @@ internal partial class WidgetConfigWindow
             cvar.Description
         );
 
+        node.ClassList.Add("widget-config-control");
         node.OnValueChanged += cvar.SetValue;
 
         return node;

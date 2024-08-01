@@ -46,6 +46,19 @@ internal class AddWidgetWindow(string locationId) : Window
         ClassList  = ["add-widget-window"],
         ChildNodes = [
             new() {
+                Id = "SearchPanel",
+                ChildNodes = [
+                    new() {
+                        Id        = "SearchIcon",
+                        NodeValue = FontAwesomeIcon.Search.ToIconString(),
+                    },
+                    new() {
+                        Id         = "SearchInputWrapper",
+                        ChildNodes = [new StringInputNode("Search", "", 128, null, null, 0, true)]
+                    }
+                ]
+            },
+            new() {
                 ClassList = ["add-widget-list--wrapper"],
                 Overflow  = false,
                 ChildNodes = [
@@ -122,13 +135,17 @@ internal class AddWidgetWindow(string locationId) : Window
                 Close();
             }
         };
+
+        Node.QuerySelector<StringInputNode>("#Search")!.OnValueChanged += OnSearchValueChanged;
     }
 
     protected override void OnUpdate(int instanceId)
     {
         Node.Style.Size                                             = ContentSize;
-        Node.QuerySelector(".add-widget-list--wrapper")!.Style.Size = new(ContentSize.Width, ContentSize.Height - 50);
+        Node.QuerySelector(".add-widget-list--wrapper")!.Style.Size = new(ContentSize.Width, ContentSize.Height - 95);
         Node.QuerySelector(".add-widget-footer")!.Style.Size        = new(ContentSize.Width, 50);
+        Node.QuerySelector("#SearchPanel")!.Style.Size              = new(ContentSize.Width, 0);
+        Node.QuerySelector("#SearchInputWrapper")!.Style.Size       = new(ContentSize.Width - 55, 0);
         Node.QuerySelector("#AddButton")!.IsDisabled                = _selectedWidgetInfo is null;
 
         var addButton = Node.QuerySelector<ButtonNode>("#AddButton")!;
@@ -149,7 +166,10 @@ internal class AddWidgetWindow(string locationId) : Window
         }
     }
 
-    protected override void OnClose() { }
+    protected override void OnClose()
+    {
+        Node.QuerySelector<StringInputNode>("#Search")!.OnValueChanged -= OnSearchValueChanged;
+    }
 
     private Node CreateWidgetNode(WidgetInfo info)
     {
@@ -192,12 +212,51 @@ internal class AddWidgetWindow(string locationId) : Window
         return node;
     }
 
+    private void OnSearchValueChanged(string value)
+    {
+        foreach (Node node in Node.QuerySelectorAll(".widget")) {
+            string label = node.QuerySelector(".widget--name")!.NodeValue?.ToString() ?? "";
+            node.Style.IsVisible = string.IsNullOrEmpty(value) || label.Contains(value, StringComparison.OrdinalIgnoreCase);
+        }
+    }
+
     private static Stylesheet AddWidgetStylesheet { get; } = new(
         [
             new(
                 ".add-widget-window",
                 new() {
                     Flow = Flow.Vertical,
+                }
+            ),
+            new(
+                "#SearchPanel",
+                new() {
+                    Flow            = Flow.Horizontal,
+                    Size            = new(0, 45),
+                    FontSize        = 16,
+                    BackgroundColor = new("Window.BackgroundLight"),
+                    BorderColor     = new() { Bottom = new("Window.Border") },
+                    BorderWidth     = new() { Bottom = 1 },
+                    IsAntialiased   = false,
+                    Padding         = new(10, 15),
+                    Gap             = 5,
+                }
+            ),
+            new("#SearchInputWrapper", new() {
+                Flow = Flow.Horizontal,
+                Size = new(0, 30),
+            }),
+            new(
+                "#SearchIcon",
+                new() {
+                    Size         = new(26, 26),
+                    Font         = 2,
+                    FontSize     = 18,
+                    Color        = new("Window.TextMuted"),
+                    OutlineColor = new("Window.TextOutline"),
+                    OutlineSize  = 1,
+                    TextAlign    = Anchor.MiddleLeft,
+                    TextOffset   = new(0, -1),
                 }
             ),
             new(
