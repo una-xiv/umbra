@@ -66,11 +66,9 @@ internal partial class InventorySpaceWidget(
 
         Node.Style.IsVisible = true;
 
-        string l = iconLocation == "Left" ? " " : "";
-        string r = iconLocation == "Right" ? " " : "";
-        uint   u = GetConfigValue<bool>("ShowRemaining") ? totalSpace - usedSpace : usedSpace;
+        uint u = GetConfigValue<bool>("ShowRemaining") ? totalSpace - usedSpace : usedSpace;
 
-        SetLabel(GetConfigValue<bool>("ShowTotal") ? $"{l}{u} / {totalSpace}{r}" : $"{l}{u}{r}");
+        SetLabel(GetConfigValue<bool>("ShowTotal") ? $"{u} / {totalSpace}" : $"{u}");
         SetIcon(GetIconId(source, totalSpace - usedSpace));
 
         base.OnUpdate();

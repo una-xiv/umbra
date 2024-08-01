@@ -75,8 +75,6 @@ public abstract class DefaultToolbarWidget(
             Node topLabelNode    = node.QuerySelector("#TopLabel")!;
             Node bottomLabelNode = node.QuerySelector("#BottomLabel")!;
 
-            bool hasLabelValue = labelNode.NodeValue is not null;
-
             leftIconNode.Style.IsVisible  = leftIconNode.Style.IconId is not null;
             rightIconNode.Style.IsVisible = rightIconNode.Style.IconId is not null;
 
@@ -88,16 +86,6 @@ public abstract class DefaultToolbarWidget(
             topLabelNode.Style.FontSize    = (halfSize / 2) + 4;
             bottomLabelNode.Style.Size     = new(bottomLabelNode.Style.Size?.Width ?? 0, halfSize - 2);
             bottomLabelNode.Style.FontSize = (halfSize / 2) + 2;
-
-            bool leftIconVisible  = leftIconNode.Style.IsVisible ?? false;
-            bool rightIconVisible = rightIconNode.Style.IsVisible ?? false;
-
-            labelNode.Style.Margin = new(
-                0,
-                !hasLabelValue || rightIconVisible ? 0 : 6,
-                0,
-                !hasLabelValue || leftIconVisible ? 0 : 6
-            );
         }
     };
 
@@ -162,6 +150,9 @@ public abstract class DefaultToolbarWidget(
             || !string.IsNullOrEmpty(TopLabelNode.NodeValue?.ToString())
             || !string.IsNullOrEmpty(BottomLabelNode.NodeValue?.ToString());
 
+        bool liv = LeftIconNode.Style.IsVisible ?? false;
+        bool riv = RightIconNode.Style.IsVisible ?? false;
+
         LabelNode.Style.IsVisible          = displayMode is not "IconOnly" && hasLabel;
         LeftIconNode.Style.ImageOffset     = iconOffset;
         RightIconNode.Style.ImageOffset    = iconOffset;
@@ -169,7 +160,9 @@ public abstract class DefaultToolbarWidget(
         RightIconNode.Style.ImageGrayscale = Node.IsDisabled || desaturateIcon;
         LeftIconNode.Style.Margin          = new(0);
         RightIconNode.Style.Margin         = new(0);
-        LabelNode.Style.Padding            = new(0, 1);
+        LabelNode.Style.Padding            = new(0, riv ? 0 : 5, 0, liv ? 0 : 5);
+        TopLabelNode.Style.Padding         = new(0, 1);
+        BottomLabelNode.Style.Padding      = new(0, 1);
         Node.Style.Padding                 = new(0, isGhost ? 0 : 3);
         Node.Tooltip                       = displayMode is "IconOnly" ? LabelNode.NodeValue?.ToString() : null;
     }

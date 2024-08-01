@@ -48,6 +48,7 @@ internal sealed partial class PluginListWidget(
         Node.OnRightClick += _ => Framework.Service<IChatSender>().Send("/xlplugins");
         Node.Tooltip      =  I18N.Translate("Widget.PluginList.Tooltip");
 
+        SetLabelWidth(26);
         SetLabel(FontAwesomeIcon.Plug.ToIconString());
     }
 
