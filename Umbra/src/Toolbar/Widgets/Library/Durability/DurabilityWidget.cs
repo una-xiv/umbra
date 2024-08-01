@@ -154,8 +154,11 @@ internal partial class DurabilityWidget(
         RightIconNode.Style.Margin = new(0, hasText ? -2 : 0, 0, 0);
         Node.Style.Padding         = new(0, hasText ? 6 : 3);
 
+        List<EquipmentSlot> slots = [..Player.Equipment.Slots];
+        slots.Sort((a, b) => b.Spiritbond.CompareTo(a.Spiritbond));
+
         for (var i = 0; i < 13; i++) {
-            EquipmentSlot eq = Player.Equipment.Slots[i];
+            EquipmentSlot eq = slots[i];
 
             var slotId1 = $"Slot_{i}";
             Popup.SetButtonVisibility(slotId1, !eq.IsEmpty);

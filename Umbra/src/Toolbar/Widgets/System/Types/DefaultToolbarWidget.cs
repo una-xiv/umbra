@@ -185,6 +185,13 @@ public abstract class DefaultToolbarWidget(
     protected void SetIcon(uint? iconId)
     {
         _singleIconId = iconId;
+
+        if (null == iconId) {
+            LeftIconNode.Style.IsVisible  = false;
+            RightIconNode.Style.IsVisible = false;
+            LeftIconNode.Style.IconId     = null;
+            RightIconNode.Style.IconId    = null;
+        }
     }
 
     protected void SetLeftIcon(uint? iconId)
