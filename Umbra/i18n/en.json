@@ -431,6 +431,8 @@
     "Widget.Location.Config.ShowDistrict.Description": "Whether to show the name of the current sub-zone / district.",
     "Widget.Location.Config.UseTwoLabels.Name": "Use two labels",
     "Widget.Location.Config.UseTwoLabels.Description": "Whether to use two separate labels for the map and district name.",
+    "Widget.Location.Config.ShowCoordinates.Name": "Show coordinates",
+    "Widget.Location.Config.ShowCoordinates.Description": "Whether to show the current player coordinates. Enabling this will replace the district name with the player coordinates.",
     "Widget.DtrBar.Name": "Server Info Bar",
     "Widget.DtrBar.Description": "Displays a group of widgets that originate from the In-game server info bar.",
     "Widget.DtrBar.Config.DecorateMode.Name": "Decorate mode",

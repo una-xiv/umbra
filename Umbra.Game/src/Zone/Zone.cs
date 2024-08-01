@@ -18,6 +18,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using Dalamud.Plugin.Services;
+using Dalamud.Utility;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
@@ -44,21 +45,25 @@ internal sealed class Zone : IZone
     public bool                  IsSanctuary         { get; private set; }
     public string                CurrentDistrictName { get; private set; }
     public uint                  InstanceId          { get; private set; }
+    public Vector2               PlayerCoordinates   { get; private set; }
 
     private readonly IDataManager            _dataManager;
     private readonly ZoneMarkerFactory       _markerFactory;
     private readonly WeatherForecastProvider _forecastProvider;
+    private readonly IPlayer                 _player;
 
     public Zone(
         IDataManager            dataManager,
         WeatherForecastProvider forecastProvider,
         ZoneMarkerFactory       markerFactory,
+        IPlayer                 player,
         uint                    zoneId
     )
     {
         _dataManager      = dataManager;
         _markerFactory    = markerFactory;
         _forecastProvider = forecastProvider;
+        _player           = player;
 
         Id                  = zoneId;
         MapSheet            = dataManager.GetExcelSheet<Sheet.Map>()!.GetRow(zoneId)!;
@@ -88,6 +93,8 @@ internal sealed class Zone : IZone
         AgentMap* agentMap = AgentMap.Instance();
         if (agentMap == null || agentMap->CurrentMapId == 0) return;
 
+        PlayerCoordinates = MapUtil.WorldToMap(new(_player.Position.X, _player.Position.Z), MapSheet);
+
         if (agentMap->CurrentMapId != Id) {
             DynamicMarkers.Clear();
             return;
@@ -97,7 +104,7 @@ internal sealed class Zone : IZone
         if (territoryInfo == null) return;
 
         IsSanctuary = territoryInfo->InSanctuary;
-        InstanceId = UIState.Instance()->PublicInstance.InstanceId;
+        InstanceId  = UIState.Instance()->PublicInstance.InstanceId;
 
         HousingManager* housingManager = HousingManager.Instance();
 

@@ -38,6 +38,12 @@ internal partial class LocationWidget
                 true
             ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             new BooleanWidgetConfigVariable(
+                "ShowCoordinates",
+                I18N.Translate("Widget.Location.Config.ShowCoordinates.Name"),
+                I18N.Translate("Widget.Location.Config.ShowCoordinates.Description"),
+                false
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            new BooleanWidgetConfigVariable(
                 "Decorate",
                 I18N.Translate("Widget.Location.Config.Decorate.Name"),
                 I18N.Translate("Widget.Location.Config.Decorate.Description"),

@@ -431,6 +431,8 @@
     "Widget.Location.Config.ShowDistrict.Description": "Ob der Name der aktuellen Unterzone / des Bezirks angezeigt werden soll.",
     "Widget.Location.Config.UseTwoLabels.Name": "Verwenden Sie zwei Beschriftungen",
     "Widget.Location.Config.UseTwoLabels.Description": "Ob zwei separate Beschriftungen für den Karten- und Bezirksnamen verwendet werden sollen.",
+    "Widget.Location.Config.ShowCoordinates.Name": "Koordinaten anzeigen",
+    "Widget.Location.Config.ShowCoordinates.Description": "Ob die aktuellen Spielerkoordinaten angezeigt werden sollen. Wenn diese Option aktiviert ist, wird der Bezirksname durch die Spielerkoordinaten ersetzt.",
     "Widget.DtrBar.Name": "Server-Infoleiste",
     "Widget.DtrBar.Description": "Zeigt eine Gruppe von Widgets an, die aus der Infoleiste des Spiels stammen.",
     "Widget.DtrBar.Config.DecorateMode.Name": "Dekorationsmodus",

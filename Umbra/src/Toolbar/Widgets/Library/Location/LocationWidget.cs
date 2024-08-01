@@ -17,6 +17,7 @@
 using System.Collections.Generic;
 using Dalamud.Game.Text;
 using FFXIVClientStructs.FFXIV.Client.UI;
+using System.Numerics;
 using Umbra.Common;
 using Umbra.Game;
 
@@ -68,12 +69,19 @@ internal partial class LocationWidget(
         bool showDistrict = GetConfigValue<bool>("ShowDistrict");
         bool useTwoLabels = GetConfigValue<bool>("UseTwoLabels");
 
+        string districtLabel = showDistrict ? zone.CurrentDistrictName : string.Empty;
+
+        if (showDistrict && GetConfigValue<bool>("ShowCoordinates")) {
+            Vector2 coords = zone.PlayerCoordinates;
+            districtLabel = $"X: {coords.X:F1}, Y: {coords.Y:F1}";
+        }
+
         if (useTwoLabels && showDistrict) {
-            SetTwoLabels(name, zone.CurrentDistrictName);
+            SetTwoLabels(name, districtLabel);
             TopLabelNode.Style.TextOffset    = new(0, GetConfigValue<int>("TextYOffsetTop"));
             BottomLabelNode.Style.TextOffset = new(0, GetConfigValue<int>("TextYOffsetBottom"));
         } else {
-            SetLabel(showDistrict ? $"{name} - {zone.CurrentDistrictName}" : name);
+            SetLabel(showDistrict ? $"{name} - {districtLabel}" : name);
             LabelNode.Style.TextOffset = new(0, GetConfigValue<int>("TextYOffset"));
         }
 

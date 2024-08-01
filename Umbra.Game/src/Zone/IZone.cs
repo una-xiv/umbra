@@ -38,4 +38,5 @@ public interface IZone
     public string                CurrentDistrictName { get; }
     public bool                  IsSanctuary         { get; }
     public uint                  InstanceId          { get; }
+    public Vector2               PlayerCoordinates   { get; }
 }

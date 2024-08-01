@@ -431,6 +431,8 @@
     "Widget.Location.Config.ShowDistrict.Description": "是否显示当前子区/区域名称。",
     "Widget.Location.Config.UseTwoLabels.Name": "使用两个标签",
     "Widget.Location.Config.UseTwoLabels.Description": "是否为地图名称和地区名称使用两个单独的标签。",
+    "Widget.Location.Config.ShowCoordinates.Name": "显示坐标",
+    "Widget.Location.Config.ShowCoordinates.Description": "是否显示当前玩家坐标。启用此选项将用玩家坐标替换区域名称。",
     "Widget.DtrBar.Name": "服务器信息栏",
     "Widget.DtrBar.Description": "显示游戏内服务器信息栏的小组件",
     "Widget.DtrBar.Config.DecorateMode.Name": "突出显示",

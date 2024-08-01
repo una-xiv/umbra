@@ -26,7 +26,8 @@ namespace Umbra.Game;
 internal sealed class ZoneFactory(
     IDataManager            dataManager,
     WeatherForecastProvider weatherForecastProvider,
-    ZoneMarkerFactory       markerFactory
+    ZoneMarkerFactory       markerFactory,
+    IPlayer                 player
 ) : IDisposable
 {
     private readonly Dictionary<uint, Zone> _zoneCache = [];
@@ -41,7 +42,7 @@ internal sealed class ZoneFactory(
             throw new InvalidOperationException($"Zone {zoneId} does not exist");
         }
 
-        var zone = new Zone(dataManager, weatherForecastProvider, markerFactory, zoneId);
+        var zone = new Zone(dataManager, weatherForecastProvider, markerFactory, player, zoneId);
 
         _zoneCache[zoneId] = zone;
 

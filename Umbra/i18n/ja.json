@@ -431,6 +431,8 @@
     "Widget.Location.Config.ShowDistrict.Description": "現在のサブゾーン/地区の名前を表示するかどうか。",
     "Widget.Location.Config.UseTwoLabels.Name": "2つのラベルを使用する",
     "Widget.Location.Config.UseTwoLabels.Description": "地図名と地区名に2つの別々のラベルを使用するかどうか。",
+    "Widget.Location.Config.ShowCoordinates.Name": "座標を表示",
+    "Widget.Location.Config.ShowCoordinates.Description": "現在のプレイヤー座標を表示するかどうか。これを有効にすると、地区名がプレイヤー座標に置き換わります。",
     "Widget.DtrBar.Name": "サーバー情報バー",
     "Widget.DtrBar.Description": "インゲームサーバー情報バーから発信されるウィジェットのグループを表示します。",
     "Widget.DtrBar.Config.DecorateMode.Name": "装飾モード",
