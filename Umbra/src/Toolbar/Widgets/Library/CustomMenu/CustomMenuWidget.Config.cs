@@ -35,6 +35,7 @@ internal sealed partial class CustomMenuWidget
         return [
             ..ToolbarWidgetVariables,
             ..DefaultToolbarWidgetConfigVariables,
+            ..SingleLabelTextOffsetVariables,
             ..buttonVariables
         ];
     }

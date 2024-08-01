@@ -73,6 +73,12 @@ internal sealed partial class CustomMenuWidget(
 
     private void UpdateIcons()
     {
+        if (GetConfigValue<string>("DisplayMode") == "TextOnly") {
+            SetLeftIcon(null);
+            SetRightIcon(null);
+            return;
+        }
+
         var leftIconId  = (uint)GetConfigValue<int>("LeftIconId");
         var rightIconId = (uint)GetConfigValue<int>("RightIconId");
 
