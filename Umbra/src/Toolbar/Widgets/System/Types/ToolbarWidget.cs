@@ -116,6 +116,8 @@ public abstract class ToolbarWidget(
         if (Popup is null) return;
 
         Node.OnMouseDown += _ => {
+            if (Node.IsDisabled) return;
+
             if (WidgetManager.EnableQuickSettingAccess && ImGui.GetIO().KeyCtrl && ImGui.GetIO().KeyShift) {
                 return;
             }
@@ -123,7 +125,10 @@ public abstract class ToolbarWidget(
             OpenPopup?.Invoke(this, Popup);
         };
 
-        Node.OnDelayedMouseEnter += _ => OpenPopupDelayed?.Invoke(this, Popup);
+        Node.OnDelayedMouseEnter += _ => {
+            if (Node.IsDisabled) return;
+            OpenPopupDelayed?.Invoke(this, Popup);
+        };
     }
 
     /// <summary>
