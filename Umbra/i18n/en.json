@@ -59,6 +59,8 @@
     "Markers.Hunt.ShowSS": "Show SS-rank mobs",
     "Markers.Quest.Name": "Quest Objective Markers",
     "Markers.Quest.Description": "Shows world markers for objectives of active quests in the current zone.",
+    "Markers.TreasureCoffer.Name": "Treasure Coffer Markers",
+    "Markers.TreasureCoffer.Description": "Shows world markers for the treasure coffers that are near you.",
     "Markers.TripleTriad.Name": "Triple Triad Card Markers",
     "Markers.TripleTriad.Description": "Shows world markers for unobtained Triple Triad cards in the current zone.",
     "Markers.TripleTriad.ShowLockedCards.Name": "Show locked cards",

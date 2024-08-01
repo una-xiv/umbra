@@ -59,6 +59,8 @@
     "Markers.Hunt.ShowSS": "SSランクモブを表示",
     "Markers.Quest.Name": "クエスト目標マーカー",
     "Markers.Quest.Description": "現在のゾーンでアクティブなクエストの目標のワールドマーカーを表示します。",
+    "Markers.TreasureCoffer.Name": "宝箱マーカー",
+    "Markers.TreasureCoffer.Description": "近くにある宝箱のワールドマーカーを表示します。",
     "Markers.TripleTriad.Name": "トリプルトライアドカードマーカー",
     "Markers.TripleTriad.Description": "現在のゾーンで未取得のトリプルトライアドカードのワールドマーカーを表示します。",
     "Markers.TripleTriad.ShowLockedCards.Name": "ロックされたカードを表示",

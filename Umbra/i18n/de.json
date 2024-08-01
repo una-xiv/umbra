@@ -59,6 +59,8 @@
     "Markers.Hunt.ShowSS": "SS-Rang-Mobs anzeigen",
     "Markers.Quest.Name": "Quest-Zielmarkierungen",
     "Markers.Quest.Description": "Zeigt Weltmarkierungen für Ziele aktiver Quests in der aktuellen Zone an.",
+    "Markers.TreasureCoffer.Name": "Schatzkiste Markierungen",
+    "Markers.TreasureCoffer.Description": "Zeigt Weltmarkierungen für die Schatzkisten an, die in Ihrer Nähe sind.",
     "Markers.TripleTriad.Name": "Triple Triad-Kartenmarkierungen",
     "Markers.TripleTriad.Description": "Zeigt Weltmarkierungen für nicht erhaltene Triple Triad-Karten in der aktuellen Zone an.",
     "Markers.TripleTriad.ShowLockedCards.Name": "Gesperrte Karten anzeigen",

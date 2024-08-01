@@ -59,6 +59,8 @@
     "Markers.Hunt.ShowSS": "显示SS级恶名精英",
     "Markers.Quest.Name": "任务目标标记",
     "Markers.Quest.Description": "显示当前地区内进行中任务目标的标记",
+    "Markers.TreasureCoffer.Name": "宝箱标记",
+    "Markers.TreasureCoffer.Description": "显示您附近宝箱的世界标记。",
     "Markers.TripleTriad.Name": "九宫幻卡NPC标记",
     "Markers.TripleTriad.Description": "显示当前地区内未获取九宫幻卡NPC的标记",
     "Markers.TripleTriad.ShowLockedCards.Name": "显示无法获取的幻卡",

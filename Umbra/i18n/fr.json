@@ -59,6 +59,8 @@
     "Markers.Hunt.ShowSS": "Afficher les mobs de rang SS",
     "Markers.Quest.Name": "Marqueurs d'objectif de quête",
     "Markers.Quest.Description": "Affiche les marqueurs flottants pour les objectifs des quêtes actives dans la zone actuelle.",
+    "Markers.TreasureCoffer.Name": "Marqueurs de Coffre au Trésor",
+    "Markers.TreasureCoffer.Description": "Affiche les marqueurs mondiaux pour les coffres au trésor qui sont près de vous.",
     "Markers.TripleTriad.Name": "Marqueurs de cartes Triple Triade",
     "Markers.TripleTriad.Description": "Affiche les marqueurs flottants pour les cartes Triple Triade non obtenues dans la zone actuelle.",
     "Markers.TripleTriad.ShowLockedCards.Name": "Afficher les cartes verrouillées",
