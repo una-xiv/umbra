@@ -297,6 +297,10 @@ public abstract class ToolbarWidget(
         Framework.Service<WidgetManager>().SaveState();
     }
 
+    /// <summary>
+    /// Returns a dictionary of color options for the user to select from in a
+    /// configuration variable.
+    /// </summary>
     protected static Dictionary<string, string> GetColorSelectOptions()
     {
         Dictionary<string, string> result = [];
@@ -306,5 +310,13 @@ public abstract class ToolbarWidget(
         }
 
         return result;
+    }
+
+    /// <summary>
+    /// Opens the settings window for this widget instance.
+    /// </summary>
+    protected void OpenSettingsWindow()
+    {
+        Framework.Service<WidgetManager>().OpenWidgetSettingsWindow(this);
     }
 }

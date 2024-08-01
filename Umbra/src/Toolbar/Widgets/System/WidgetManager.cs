@@ -88,14 +88,22 @@ internal sealed partial class WidgetManager : IDisposable
         _instances.Clear();
         _widgetState.Clear();
 
-        foreach (var handler in OnWidgetCreated?.GetInvocationList() ?? []) OnWidgetCreated -= (Action<ToolbarWidget>)handler;
-        foreach (var handler in OnWidgetRemoved?.GetInvocationList() ?? []) OnWidgetRemoved -= (Action<ToolbarWidget>)handler;
-        foreach (var handler in OnWidgetRelocated?.GetInvocationList() ?? []) OnWidgetRelocated -= (Action<ToolbarWidget, string>)handler;
+        foreach (var handler in OnWidgetCreated?.GetInvocationList() ?? [])
+            OnWidgetCreated -= (Action<ToolbarWidget>)handler;
+
+        foreach (var handler in OnWidgetRemoved?.GetInvocationList() ?? [])
+            OnWidgetRemoved -= (Action<ToolbarWidget>)handler;
+
+        foreach (var handler in OnWidgetRelocated?.GetInvocationList() ?? [])
+            OnWidgetRelocated -= (Action<ToolbarWidget, string>)handler;
+
         foreach (var handler in OnPopupOpened?.GetInvocationList() ?? []) OnPopupOpened -= (Action<WidgetPopup>)handler;
         foreach (var handler in OnPopupClosed?.GetInvocationList() ?? []) OnPopupClosed -= (Action<WidgetPopup>)handler;
         foreach (var handler in ProfileCreated?.GetInvocationList() ?? []) ProfileCreated -= (Action<string>)handler;
         foreach (var handler in ProfileRemoved?.GetInvocationList() ?? []) ProfileRemoved -= (Action<string>)handler;
-        foreach (var handler in ActiveProfileChanged?.GetInvocationList() ?? []) ActiveProfileChanged -= (Action<string>)handler;
+
+        foreach (var handler in ActiveProfileChanged?.GetInvocationList() ?? [])
+            ActiveProfileChanged -= (Action<string>)handler;
     }
 
     /// <summary>
@@ -180,9 +188,9 @@ internal sealed partial class WidgetManager : IDisposable
 
         _instances[widget.Id] = widget;
 
-        widget.SortIndex = sortIndex ?? panel.ChildNodes.Count;
-        widget.Location  = location;
-        widget.Node.Id ??= $"UmbraWidget_{Crc32.Get(widget.Id)}";
+        widget.SortIndex =   sortIndex ?? panel.ChildNodes.Count;
+        widget.Location  =   location;
+        widget.Node.Id   ??= $"UmbraWidget_{Crc32.Get(widget.Id)}";
 
         widget.Setup();
         widget.OpenPopup        += OpenPopup;
@@ -280,7 +288,7 @@ internal sealed partial class WidgetManager : IDisposable
 
         if (false == allTheWay) {
             // Swap the sort index of the widget with the one above or below it.
-            ToolbarWidget?replacementWidget = _instances.Values.FirstOrDefault(
+            ToolbarWidget? replacementWidget = _instances.Values.FirstOrDefault(
                 w => w.Location == widget.Location && w.SortIndex == widget.SortIndex + direction
             );
 
@@ -308,6 +316,27 @@ internal sealed partial class WidgetManager : IDisposable
     public uint GetWidgetInstanceCount(string widgetId)
     {
         return (uint)_instances.Values.Count(w => w.Info.Id == widgetId);
+    }
+
+    /// <summary>
+    /// Opens the settings window for the given widget instance.
+    /// </summary>
+    public void OpenWidgetSettingsWindow(ToolbarWidget widget)
+    {
+        if (_currentActivator is not null) {
+            ClosePopup();
+        }
+
+        Framework
+            .Service<WindowManager>()
+            .Present(
+                "WidgetInstanceConfig",
+                new WidgetConfigWindow(widget.Id),
+                _ => {
+                    SaveWidgetState(widget.Id);
+                    SaveState();
+                }
+            );
     }
 
     /// <summary>
@@ -374,6 +403,7 @@ internal sealed partial class WidgetManager : IDisposable
                     instance.Node.OnRightClick -= InvokeInstanceQuickSettings;
                 }
             }
+
             _quickAccessEnabled = false;
             return;
         }
@@ -392,15 +422,10 @@ internal sealed partial class WidgetManager : IDisposable
         if (node.ParentNode is null) return;
         if (!(ImGui.GetIO().KeyCtrl && ImGui.GetIO().KeyShift)) return;
 
-        foreach ((string guid, ToolbarWidget widget) in _instances) {
+        foreach (ToolbarWidget widget in _instances.Values) {
             if (widget.Node == node) {
                 node.CancelEvent = true;
-                Framework.Service<WindowManager>().Present("WidgetInstanceConfig",
-                    new WidgetConfigWindow(guid),
-                    _ => {
-                        SaveWidgetState(widget.Id);
-                        SaveState();
-                    });
+                OpenWidgetSettingsWindow(widget);
                 break;
             }
         }
