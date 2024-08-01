@@ -158,7 +158,11 @@ public abstract class DefaultToolbarWidget(
             BottomLabelNode.Style.TextOffset = new Vector2(0, GetConfigValue<int>("TextYOffsetBottom"));
         }
 
-        LabelNode.Style.IsVisible          = displayMode is not "IconOnly";
+        bool hasLabel = !string.IsNullOrEmpty(LabelNode.NodeValue?.ToString())
+            || !string.IsNullOrEmpty(TopLabelNode.NodeValue?.ToString())
+            || !string.IsNullOrEmpty(BottomLabelNode.NodeValue?.ToString());
+
+        LabelNode.Style.IsVisible          = displayMode is not "IconOnly" && hasLabel;
         LeftIconNode.Style.ImageOffset     = iconOffset;
         RightIconNode.Style.ImageOffset    = iconOffset;
         LeftIconNode.Style.ImageGrayscale  = Node.IsDisabled || desaturateIcon;

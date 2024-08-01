@@ -61,7 +61,7 @@ internal sealed partial class CompanionWidget(
 
         SetDisabled(!Companion.HasGysahlGreens || !Companion.CanSummon());
 
-        if (Companion.TimeLeft > 0 && (GetConfigValue<string>("DisplayMode") is "TextAndIcon" or "TextOnly")) {
+        if (GetConfigValue<string>("DisplayMode") is "TextAndIcon" or "TextOnly") {
             UpdateWidgetText();
         }
 
