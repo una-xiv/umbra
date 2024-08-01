@@ -43,48 +43,9 @@ internal partial class LocationWidget
                 I18N.Translate("Widget.Location.Config.ShowCoordinates.Description"),
                 false
             ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
-            new BooleanWidgetConfigVariable(
-                "Decorate",
-                I18N.Translate("Widget.Location.Config.Decorate.Name"),
-                I18N.Translate("Widget.Location.Config.Decorate.Description"),
-                false
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
-            new SelectWidgetConfigVariable(
-                "TextAlign",
-                I18N.Translate("Widget.Location.Config.TextAlign.Name"),
-                I18N.Translate("Widget.Location.Config.TextAlign.Description"),
-                "Left",
-                new() {
-                    { "Left", I18N.Translate("Widget.Location.Config.TextAlign.Option.Left") },
-                    { "Center", I18N.Translate("Widget.Location.Config.TextAlign.Option.Center") },
-                    { "Right", I18N.Translate("Widget.Location.Config.TextAlign.Option.Right") },
-                }
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
-            new IntegerWidgetConfigVariable(
-                "TextYOffset",
-                I18N.Translate("Widget.Location.Config.TextYOffset.Name"),
-                I18N.Translate("Widget.Location.Config.TextYOffset.Description"),
-                -1,
-                -5,
-                5
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
-            new IntegerWidgetConfigVariable(
-                "TextYOffsetTop",
-                I18N.Translate("Widget.Location.Config.TextYOffsetTop.Name"),
-                I18N.Translate("Widget.Location.Config.TextYOffsetTop.Description"),
-                0,
-                -5,
-                5
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
-            new IntegerWidgetConfigVariable(
-                "TextYOffsetBottom",
-                I18N.Translate("Widget.Location.Config.TextYOffsetBottom.Name"),
-                I18N.Translate("Widget.Location.Config.TextYOffsetBottom.Description"),
-                0,
-                -5,
-                5
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
-            ..DefaultToolbarWidgetConfigVariables
+            ..DefaultToolbarWidgetConfigVariables,
+            ..SingleLabelTextOffsetVariables,
+            ..TwoLabelTextOffsetVariables,
         ];
     }
 }

@@ -25,50 +25,8 @@ internal partial class OnlineStatusWidget
     protected override IEnumerable<IWidgetConfigVariable> GetConfigVariables()
     {
         return [
-            new BooleanWidgetConfigVariable(
-                "Decorate",
-                I18N.Translate("Widget.OnlineStatus.Config.Decorate.Name"),
-                I18N.Translate("Widget.OnlineStatus.Config.Decorate.Description"),
-                true
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
-            new BooleanWidgetConfigVariable(
-                "DesaturateIcon",
-                I18N.Translate("Widget.OnlineStatus.Config.DesaturateIcon.Name"),
-                I18N.Translate("Widget.OnlineStatus.Config.DesaturateIcon.Description"),
-                false
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
-            new BooleanWidgetConfigVariable(
-                "ShowName",
-                I18N.Translate("Widget.OnlineStatus.Config.ShowName.Name"),
-                I18N.Translate("Widget.OnlineStatus.Config.ShowName.Description"),
-                true
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
-            new SelectWidgetConfigVariable(
-                "IconLocation",
-                I18N.Translate("Widget.OnlineStatus.Config.IconLocation.Name"),
-                I18N.Translate("Widget.OnlineStatus.Config.IconLocation.Description"),
-                "Left",
-                new() {
-                    { "Left", I18N.Translate("Widget.OnlineStatus.Config.IconLocation.Option.Left") },
-                    { "Right", I18N.Translate("Widget.OnlineStatus.Config.IconLocation.Option.Right") }
-                }
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
-            new IntegerWidgetConfigVariable(
-                "TextYOffset",
-                I18N.Translate("Widget.OnlineStatus.Config.TextYOffset.Name"),
-                I18N.Translate("Widget.OnlineStatus.Config.TextYOffset.Description"),
-                -1,
-                -5,
-                5
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
-            new IntegerWidgetConfigVariable(
-                "IconYOffset",
-                I18N.Translate("Widget.OnlineStatus.Config.IconYOffset.Name"),
-                I18N.Translate("Widget.OnlineStatus.Config.IconYOffset.Description"),
-                0,
-                -5,
-                5
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            ..DefaultToolbarWidgetConfigVariables,
+            ..SingleLabelTextOffsetVariables,
         ];
     }
 }

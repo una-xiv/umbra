@@ -34,8 +34,12 @@ internal partial class WeatherWidget(
         _zoneManager = Framework.Service<IZoneManager>();
 
         SetGhost(!GetConfigValue<bool>("Decorate"));
-        SetIconSize(30);
-        SetLeftIcon(60277u);
+
+        if (GetConfigValue<int>("IconSize") == 0) {
+            SetIconSize(30);
+        }
+
+        SetIcon(60277u);
         SetTwoLabels("Weather name here", "1 hour and 43 minutes");
         SetTextAlignLeft();
     }
@@ -48,41 +52,10 @@ internal partial class WeatherWidget(
         var currentWeather = zone.CurrentWeather;
         if (null == currentWeather) return;
 
-        SetGhost(!GetConfigValue<bool>("Decorate"));
         Popup.MaxEntries = (uint)GetConfigValue<int>("MaxForecastEntries");
-
-        var showIcon     = GetConfigValue<bool>("ShowIcon");
-        var iconLocation = GetConfigValue<string>("IconLocation");
-
-        switch (iconLocation) {
-            case "Left":
-                SetLeftIcon(showIcon ? currentWeather.IconId : null);
-                SetRightIcon(null);
-                break;
-            case "Right":
-                SetLeftIcon(null);
-                SetRightIcon(showIcon ? currentWeather.IconId : null);
-                break;
-        }
-
-        var textAlign = GetConfigValue<string>("TextAlign");
-        var spacing   = GetConfigValue<int>("Spacing");
-
-        switch (textAlign) {
-            case "Left":
-                SetTextAlignLeft();
-                break;
-            case "Center":
-                SetTextAlignCenter();
-                break;
-            case "Right":
-                SetTextAlignRight();
-                break;
-        }
 
         bool showName = GetConfigValue<bool>("ShowName");
         bool showTime = GetConfigValue<bool>("ShowTime");
-        bool hasText  = showName || showTime;
 
         if (showName && showTime) {
             SetTwoLabels(currentWeather.Name, currentWeather.TimeString);
@@ -94,23 +67,13 @@ internal partial class WeatherWidget(
             SetLabel(null);
         }
 
-        LeftIconNode.Style.ImageOffset   = new(0, GetConfigValue<int>("IconYOffset"));
-        RightIconNode.Style.ImageOffset  = new(0, GetConfigValue<int>("IconYOffset"));
-        LabelNode.Style.TextOffset       = new(0, GetConfigValue<int>("TextYOffset"));
-        TopLabelNode.Style.TextOffset    = new(0, GetConfigValue<int>("TextYOffsetTop"));
-        BottomLabelNode.Style.TextOffset = new(0, GetConfigValue<int>("TextYOffsetBottom"));
-
-        LeftIconNode.Style.Margin        = new(0, 0, 0, hasText ? -2 : 0);
-        RightIconNode.Style.Margin       = new(0, hasText ? -2 : 0, 0, 0);
-        Node.Style.Padding               = new(0, hasText ? 6 : 3);
-
-        LeftIconNode.Style.Margin = new() {
-            Right = iconLocation == "Left" ? spacing : 0
-        };
-        RightIconNode.Style.Margin = new() {
-            Left  = iconLocation == "Right" ? spacing : 0,
-        };
+        SetIcon(currentWeather.IconId);
 
         base.OnUpdate();
+
+        var iconLocation = GetConfigValue<string>("IconLocation");
+        var spacing      = GetConfigValue<int>("Spacing");
+        LeftIconNode.Style.Margin  = new() {Right = iconLocation == "Left" ? spacing : 0};
+        RightIconNode.Style.Margin = new() {Left  = iconLocation == "Right" ? spacing : 0};
     }
 }

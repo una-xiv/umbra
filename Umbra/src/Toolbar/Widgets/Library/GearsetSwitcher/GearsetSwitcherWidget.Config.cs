@@ -40,6 +40,7 @@ internal partial class GearsetSwitcherWidget
         };
 
         return [
+            ..DefaultToolbarWidgetConfigVariables,
             new BooleanWidgetConfigVariable(
                 "AutoCloseOnChange",
                 I18N.Translate("Widget.GearsetSwitcher.Config.AutoCloseOnChange.Name"),
@@ -53,75 +54,14 @@ internal partial class GearsetSwitcherWidget
                 true
             ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             new SelectWidgetConfigVariable(
-                "DisplayMode",
-                I18N.Translate("Widget.GearsetSwitcher.Config.DisplayMode.Name"),
-                I18N.Translate("Widget.GearsetSwitcher.Config.DisplayMode.Description"),
-                "TextAndIcon",
-                new() {
-                    { "TextAndIcon", I18N.Translate("Widget.GearsetSwitcher.Config.DisplayMode.Option.TextAndIcon") },
-                    { "TextOnly", I18N.Translate("Widget.GearsetSwitcher.Config.DisplayMode.Option.TextOnly") },
-                    { "IconOnly", I18N.Translate("Widget.GearsetSwitcher.Config.DisplayMode.Option.IconOnly") }
-                }
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
-            new SelectWidgetConfigVariable(
-                "IconLocation",
-                I18N.Translate("Widget.GearsetSwitcher.Config.IconLocation.Name"),
-                I18N.Translate("Widget.GearsetSwitcher.Config.IconLocation.Description"),
-                "Left",
-                new() {
-                    { "Left", I18N.Translate("Widget.GearsetSwitcher.Config.IconLocation.Option.Left") },
-                    { "Right", I18N.Translate("Widget.GearsetSwitcher.Config.IconLocation.Option.Right") }
-                }
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
-            new SelectWidgetConfigVariable(
-                "TextAlign",
-                I18N.Translate("Widget.GearsetSwitcher.Config.TextAlign.Name"),
-                I18N.Translate("Widget.GearsetSwitcher.Config.TextAlign.Description"),
-                "Left",
-                new() {
-                    { "Left", I18N.Translate("Widget.GearsetSwitcher.Config.TextAlign.Option.Left") },
-                    { "Center", I18N.Translate("Widget.GearsetSwitcher.Config.TextAlign.Option.Center") },
-                    { "Right", I18N.Translate("Widget.GearsetSwitcher.Config.TextAlign.Option.Right") }
-                }
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
-            new BooleanWidgetConfigVariable(
-                "Decorate",
-                I18N.Translate("Widget.GearsetSwitcher.Config.Decorate.Name"),
-                I18N.Translate("Widget.GearsetSwitcher.Config.Decorate.Description"),
-                true
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
-            new SelectWidgetConfigVariable(
                 "WidgetButtonIconType",
                 I18N.Translate("Widget.GearsetSwitcher.Config.WidgetButtonIconType.Name"),
                 I18N.Translate("Widget.GearsetSwitcher.Config.WidgetButtonIconType.Description"),
                 "Default",
                 iconTypeChoices
             ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
-            new IntegerWidgetConfigVariable(
-                "IconYOffset",
-                I18N.Translate("Widget.GearsetSwitcher.Config.IconYOffset.Name"),
-                I18N.Translate("Widget.GearsetSwitcher.Config.IconYOffset.Description"),
-                1,
-                -5,
-                5
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
-            new IntegerWidgetConfigVariable(
-                "NameTextYOffset",
-                I18N.Translate("Widget.GearsetSwitcher.Config.NameTextYOffset.Name"),
-                I18N.Translate("Widget.GearsetSwitcher.Config.NameTextYOffset.Description"),
-                0,
-                -5,
-                5
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
-            new IntegerWidgetConfigVariable(
-                "InfoTextYOffset",
-                I18N.Translate("Widget.GearsetSwitcher.Config.InfoTextYOffset.Name"),
-                I18N.Translate("Widget.GearsetSwitcher.Config.InfoTextYOffset.Description"),
-                -1,
-                -5,
-                5
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
-            ..DefaultToolbarWidgetConfigVariables,
+            ..SingleLabelTextOffsetVariables,
+            ..TwoLabelTextOffsetVariables,
             new BooleanWidgetConfigVariable(
                 "EnableRoleScrolling",
                 I18N.Translate("Widget.GearsetSwitcher.Config.EnableRoleScrolling.Name"),

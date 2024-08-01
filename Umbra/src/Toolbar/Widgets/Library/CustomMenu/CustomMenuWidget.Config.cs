@@ -59,18 +59,6 @@ internal sealed partial class CustomMenuWidget
             I18N.Translate("Widget.CustomMenu.Config.HideLabel.Description"),
             false
         ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
-        new BooleanWidgetConfigVariable(
-            "Decorate",
-            I18N.Translate("Widget.CustomMenu.Config.Decorate.Name"),
-            I18N.Translate("Widget.CustomMenu.Config.Decorate.Description"),
-            true
-        ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
-        new BooleanWidgetConfigVariable(
-            "DesaturateIcon",
-            I18N.Translate("Widget.CustomMenu.Config.DesaturateIcon.Name"),
-            I18N.Translate("Widget.CustomMenu.Config.DesaturateIcon.Description"),
-            false
-        ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
         new IntegerWidgetConfigVariable(
             "LeftIconId",
             I18N.Translate("Widget.CustomMenu.Config.LeftIconId.Name"),
@@ -84,22 +72,6 @@ internal sealed partial class CustomMenuWidget
             I18N.Translate("Widget.CustomMenu.Config.RightIconId.Description"),
             0,
             0
-        ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
-        new IntegerWidgetConfigVariable(
-            "TextYOffset",
-            I18N.Translate("Widget.CustomMenu.Config.TextYOffset.Name"),
-            I18N.Translate("Widget.CustomMenu.Config.TextYOffset.Description"),
-            -1,
-            -5,
-            5
-        ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
-        new IntegerWidgetConfigVariable(
-            "IconYOffset",
-            I18N.Translate("Widget.CustomMenu.Config.IconYOffset.Name"),
-            I18N.Translate("Widget.CustomMenu.Config.IconYOffset.Description"),
-            0,
-            -5,
-            5
         ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
         new BooleanWidgetConfigVariable(
             "DesaturateMenuIcons",

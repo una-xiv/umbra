@@ -31,7 +31,7 @@ internal partial class OnlineStatusWidget(
 {
     private IPlayer _player = null!;
     private uint?   _statusId;
-    private bool?   _showName;
+    private string? _displayMode;
     private uint?   _iconId;
 
     /// <inheritdoc/>
@@ -48,11 +48,11 @@ internal partial class OnlineStatusWidget(
     /// <inheritdoc/>
     protected override void OnUpdate()
     {
-        var showName = GetConfigValue<bool>("ShowName");
+        var displayMode = GetConfigValue<string>("DisplayMode");
 
-        if (_statusId != _player.OnlineStatusId || _showName != showName) {
-            _statusId = _player.OnlineStatusId;
-            _showName = showName;
+        if (_statusId != _player.OnlineStatusId || _displayMode != displayMode) {
+            _statusId    = _player.OnlineStatusId;
+            _displayMode = displayMode;
             UpdateStatus();
         }
 
@@ -65,28 +65,8 @@ internal partial class OnlineStatusWidget(
         SetPopupStatusOption(30, _player.IsBattleMentor);
         SetPopupStatusOption(29, _player.IsTradeMentor);
 
-        SetGhost(!GetConfigValue<bool>("Decorate"));
-
-        switch (GetConfigValue<string>("IconLocation")) {
-            case "Left":
-                SetLeftIcon(_iconId);
-                SetRightIcon(null);
-                break;
-            case "Right":
-                SetLeftIcon(null);
-                SetRightIcon(_iconId);
-                break;
-        }
-
-        LeftIconNode.Style.Margin  = new(0, 0, 0, showName ? -2 : 0);
-        RightIconNode.Style.Margin = new(0, showName ? -2 : 0, 0, 0);
-        Node.Style.Padding         = new(0, showName ? 6 : 3);
-
-        LabelNode.Style.TextOffset         = new(0, GetConfigValue<int>("TextYOffset"));
-        LeftIconNode.Style.ImageOffset     = new(0, GetConfigValue<int>("IconYOffset"));
-        RightIconNode.Style.ImageOffset    = new(0, GetConfigValue<int>("IconYOffset"));
-        LeftIconNode.Style.ImageGrayscale  = GetConfigValue<bool>("DesaturateIcon");
-        RightIconNode.Style.ImageGrayscale = GetConfigValue<bool>("DesaturateIcon");
+        SetIcon(_iconId);
+        base.OnUpdate();
     }
 
     private void UpdateStatus()
@@ -94,11 +74,9 @@ internal partial class OnlineStatusWidget(
         uint statusId = _player.OnlineStatusId == 0 ? 47 : _player.OnlineStatusId;
         var  status   = GetStatusById(statusId);
 
-        SetLabel(GetConfigValue<bool>("ShowName") ? status.Name.ToDalamudString().TextValue : null);
+        SetLabel(status.Name.ToDalamudString().TextValue);
 
         _iconId = status.Icon;
-
-        LabelNode.Style.IsVisible = GetConfigValue<bool>("ShowName");
 
         foreach (Node node in Node.QuerySelectorAll(".icon")) {
             node.Style.Margin = new();

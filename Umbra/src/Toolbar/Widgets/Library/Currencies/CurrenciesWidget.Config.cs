@@ -57,24 +57,12 @@ internal partial class CurrenciesWidget
                 I18N.Translate("Widget.Currencies.Config.EnableMouseInteraction.Description"),
                 true
             ),
-            new BooleanWidgetConfigVariable(
-                "Decorate",
-                I18N.Translate("Widget.Currencies.Config.Decorate.Name"),
-                I18N.Translate("Widget.Currencies.Config.Decorate.Description"),
-                true
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             new StringWidgetConfigVariable(
                 "CustomLabel",
                 I18N.Translate("Widget.Currencies.Config.CustomWidgetLabel.Name"),
                 I18N.Translate("Widget.Currencies.Config.CustomWidgetLabel.Description"),
                 "",
                 32
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
-            new BooleanWidgetConfigVariable(
-                "ShowIcon",
-                I18N.Translate("Widget.Currencies.Config.ShowIcon.Name"),
-                I18N.Translate("Widget.Currencies.Config.ShowIcon.Description"),
-                true
             ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             new BooleanWidgetConfigVariable(
                 "ShowName",
@@ -88,30 +76,8 @@ internal partial class CurrenciesWidget
                 I18N.Translate("Widget.Currencies.Config.ShowCap.Description"),
                 true
             ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
-            new BooleanWidgetConfigVariable(
-                "DesaturateIcon",
-                I18N.Translate("Widget.Currencies.Config.DesaturateIcon.Name"),
-                I18N.Translate("Widget.Currencies.Config.DesaturateIcon.Description"),
-                true
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
-            new SelectWidgetConfigVariable(
-                "IconLocation",
-                I18N.Translate("Widget.Currencies.Config.IconLocation.Name"),
-                I18N.Translate("Widget.Currencies.Config.IconLocation.Description"),
-                "Left",
-                new() {
-                    { "Left", I18N.Translate("Widget.Currencies.Config.IconLocation.Option.Left") },
-                    { "Right", I18N.Translate("Widget.Currencies.Config.IconLocation.Option.Right") }
-                }
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
-            new IntegerWidgetConfigVariable(
-                "TextYOffset",
-                I18N.Translate("Widget.Currencies.Config.TextYOffset.Name"),
-                I18N.Translate("Widget.Currencies.Config.TextYOffset.Description"),
-                0,
-                -5,
-                5
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            ..DefaultToolbarWidgetConfigVariables,
+            ..SingleLabelTextOffsetVariables,
             new BooleanWidgetConfigVariable(
                 "DesaturateIcons",
                 I18N.Translate("Widget.Currencies.Config.DesaturateIcons.Name"),

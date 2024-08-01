@@ -31,7 +31,6 @@ internal sealed partial class CurrenciesWidget(
 {
     private readonly Timer _updateTimer           = new(1000);
     private          byte  _currentGrandCompanyId = 0;
-    private          bool? _useGrayscaleIcon;
 
     /// <inheritdoc/>
     protected override void Initialize()
@@ -70,39 +69,19 @@ internal sealed partial class CurrenciesWidget(
     /// <inheritdoc/>
     protected override void OnUpdate()
     {
-        Popup.IsDisabled = !GetConfigValue<bool>("EnableMouseInteraction");
-
-        SetGhost(!GetConfigValue<bool>("Decorate"));
+        Popup.IsDisabled        = !GetConfigValue<bool>("EnableMouseInteraction");
         Popup.UseGrayscaleIcons = GetConfigValue<bool>("DesaturateIcons");
 
         UpdateCustomIdList();
 
-        Node.QuerySelector("#Label")!.Style.TextOffset = new(0, GetConfigValue<int>("TextYOffset"));
-
         var trackedCurrencyId = GetConfigValue<string>("TrackedCurrency");
-        var useGrayscaleIcon  = GetConfigValue<bool>("DesaturateIcon");
 
         if (uint.TryParse(GetConfigValue<string>("TrackedCurrency"), out uint customId)) {
             if (CustomCurrencies.TryGetValue(customId, out Currency? customCurrency)) {
-                if (GetConfigValue<string>("IconLocation") == "Left") {
-                    SetLeftIcon(GetConfigValue<bool>("ShowIcon") ? customCurrency.Icon : null);
-                    SetRightIcon(null);
-                } else {
-                    SetLeftIcon(null);
-                    SetRightIcon(GetConfigValue<bool>("ShowIcon") ? customCurrency.Icon : null);
-                }
-
-                if (_useGrayscaleIcon != useGrayscaleIcon) {
-                    _useGrayscaleIcon = useGrayscaleIcon;
-
-                    foreach (var node in Node.QuerySelectorAll(".icon")) {
-                        node.Style.ImageGrayscale = useGrayscaleIcon;
-                    }
-                }
-
                 string customName = GetConfigValue<bool>("ShowName") ? $" {customCurrency.Name}" : "";
                 SetLabel($"{GetCustomAmount(customCurrency.Id)}{customName}");
-
+                SetIcon(customCurrency.Icon);
+                base.OnUpdate();
                 return;
             }
         }
@@ -112,29 +91,16 @@ internal sealed partial class CurrenciesWidget(
             string label       = I18N.Translate("Widget.Currencies.Name");
 
             SetLabel(string.IsNullOrEmpty(customLabel) ? label : customLabel);
-            SetLeftIcon(null);
-            SetRightIcon(null);
+            SetIcon(null);
+            base.OnUpdate();
             return;
-        }
-
-        if (GetConfigValue<string>("IconLocation") == "Left") {
-            SetLeftIcon(GetConfigValue<bool>("ShowIcon") ? currency.Icon : null);
-            SetRightIcon(null);
-        } else {
-            SetLeftIcon(null);
-            SetRightIcon(GetConfigValue<bool>("ShowIcon") ? currency.Icon : null);
-        }
-
-        if (_useGrayscaleIcon != useGrayscaleIcon) {
-            _useGrayscaleIcon = useGrayscaleIcon;
-
-            foreach (var node in Node.QuerySelectorAll(".icon")) {
-                node.Style.ImageGrayscale = useGrayscaleIcon;
-            }
         }
 
         string name = GetConfigValue<bool>("ShowName") ? $" {currency.Name}" : "";
         SetLabel($"{GetAmount(currency.Type)}{name}");
+        SetIcon(currency.Icon);
+
+        base.OnUpdate();
     }
 
     /// <inheritdoc/>

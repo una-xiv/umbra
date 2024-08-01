@@ -60,22 +60,13 @@ internal sealed partial class CompanionWidget(
         Node.Style.IsVisible = true;
 
         SetDisabled(!Companion.HasGysahlGreens || !Companion.CanSummon());
-        SetGhost(!GetConfigValue<bool>("Decorate"));
 
-        var displayMode = GetConfigValue<string>("DisplayMode");
-
-        if (Companion.TimeLeft > 0 && (displayMode is "TextAndIcon" or "TextOnly")) {
+        if (Companion.TimeLeft > 0 && (GetConfigValue<string>("DisplayMode") is "TextAndIcon" or "TextOnly")) {
             UpdateWidgetText();
         }
 
         UpdateWidgetIcon();
-
-        Vector2 iconOffset     = new(0, GetConfigValue<int>("IconYOffset"));
-        bool    desaturateIcon = GetConfigValue<bool>("DesaturateIcon");
-        LeftIconNode.Style.ImageOffset     = iconOffset;
-        RightIconNode.Style.ImageOffset    = iconOffset;
-        LeftIconNode.Style.ImageGrayscale  = Node.IsDisabled || desaturateIcon;
-        RightIconNode.Style.ImageGrayscale = Node.IsDisabled || desaturateIcon;
+        base.OnUpdate();
     }
 
     private void UpdateWidgetText()
@@ -90,32 +81,7 @@ internal sealed partial class CompanionWidget(
 
     private void UpdateWidgetIcon()
     {
-        var iconLocation = GetConfigValue<string>("IconLocation");
-        var displayMode  = GetConfigValue<string>("DisplayMode");
-
-        switch (iconLocation) {
-            case "Left":
-                SetLeftIcon(Companion.TimeLeft > 0 && displayMode == "TextOnly" ? null : Companion.IconId);
-                SetRightIcon(null);
-                break;
-            case "Right":
-                SetLeftIcon(null);
-                SetRightIcon(Companion.TimeLeft > 0 && displayMode == "TextOnly" ? null : Companion.IconId);
-                break;
-        }
-
-        if (displayMode == "IconOnly" || Companion.TimeLeft < 1 || !Companion.IsActive) {
-            Node.Style.Padding                             = new(0, 4);
-            Node.QuerySelector("#LeftIcon")!.Style.Margin  = new() { Left  = 0 };
-            Node.QuerySelector("#RightIcon")!.Style.Margin = new() { Right = 0 };
-            Node.QuerySelector("#Label")!.Style.IsVisible  = false;
-        } else {
-            Node.Style.Padding                             = new(0, 6);
-            Node.QuerySelector("#LeftIcon")!.Style.Margin  = new() { Left  = -3 };
-            Node.QuerySelector("#RightIcon")!.Style.Margin = new() { Right = -3 };
-            Node.QuerySelector("#Label")!.Style.IsVisible  = true;
-            Node.QuerySelector("#Label")!.Style.Padding    = new(0, 4);
-        }
+        SetIcon(Companion.IconId);
     }
 
     /// <summary>

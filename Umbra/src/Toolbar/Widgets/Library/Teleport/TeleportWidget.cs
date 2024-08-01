@@ -50,48 +50,17 @@ internal sealed partial class TeleportWidget(
 
     protected override void OnUpdate()
     {
-        Popup.MinimumColumns         = GetConfigValue<int>("MinimumColumns");
         Popup.ExpansionMenuPosition  = GetExpansionMenuPosition();
+        Popup.MinimumColumns         = GetConfigValue<int>("MinimumColumns");
         Popup.OpenFavoritesByDefault = GetConfigValue<bool>("OpenFavoritesByDefault");
         Popup.ShowMapNames           = GetConfigValue<bool>("ShowMapNames");
+        Popup.ShowNotification       = GetConfigValue<bool>("ShowNotification");
 
-        bool showText = GetConfigValue<string>("DisplayMode") != "IconOnly";
-        bool showIcon = GetConfigValue<string>("DisplayMode") != "TextOnly";
-        bool leftIcon = GetConfigValue<string>("IconLocation") == "Left";
-
-        SetLabel(showText ? TeleportName : null);
-        SetGhost(!GetConfigValue<bool>("Decorate"));
-
-        LeftIconNode.Style.Margin  = new(0, 0, 0, showText ? -2 : 0);
-        RightIconNode.Style.Margin = new(0, showText ? -2 : 0, 0, 0);
-        LabelNode.Style.TextOffset = new(0, GetConfigValue<int>("TextYOffset"));
-        Node.Style.Padding         = new() { Left = showIcon ? 3 : 0, Right = showIcon ? 3 : 0 };
-        Node.Tooltip               = !showText ? TeleportName : null;
-
-        if (showIcon) {
-            var desaturate = GetConfigValue<bool>("DesaturateIcon");
-            LeftIconNode.Style.ImageGrayscale  = desaturate;
-            RightIconNode.Style.ImageGrayscale = desaturate;
-
-            if (leftIcon) {
-                SetLeftIcon(TeleportIcon);
-                SetRightIcon(null);
-            } else {
-                SetLeftIcon(null);
-                SetRightIcon(TeleportIcon);
-            }
-        } else {
-            SetLeftIcon(null);
-            SetRightIcon(null);
-        }
-
-        // No point in showing the menu if the player isn't allowed to teleport anyway.
         SetDisabled(!Player.CanUseTeleportAction);
+        SetLabel(TeleportName);
+        SetIcon(TeleportIcon);
 
-        LeftIconNode.Style.ImageGrayscale  = Node.IsDisabled || GetConfigValue<bool>("DesaturateIcon");
-        RightIconNode.Style.ImageGrayscale = Node.IsDisabled || GetConfigValue<bool>("DesaturateIcon");
-        Popup.MinimumColumns               = GetConfigValue<int>("MinimumColumns");
-        Popup.ShowNotification             = GetConfigValue<bool>("ShowNotification");
+        base.OnUpdate();
     }
 
     private string GetExpansionMenuPosition()

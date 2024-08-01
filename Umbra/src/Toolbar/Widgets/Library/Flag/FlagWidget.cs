@@ -53,42 +53,15 @@ internal sealed unsafe partial class FlagWidget(
             return;
         }
 
+        Node.Style.IsVisible = true;
+
         SetDisabled(Player is { IsBoundByDuty: false, CanUseTeleportAction: false });
         UpdateWidgetInfoState();
-
-        LeftIconNode.Style.ImageGrayscale  = null == _aetheryteEntry;
-        RightIconNode.Style.ImageGrayscale = null == _aetheryteEntry;
-        TopLabelNode.Style.TextOffset      = new(0, GetConfigValue<int>("TextYOffsetTop"));
-        BottomLabelNode.Style.TextOffset   = new(0, GetConfigValue<int>("TextYOffsetBottom"));
-        Node.Style.IsVisible               = true;
 
         FlagMapMarker* marker = &AgentMap.Instance()->FlagMapMarker;
 
         SetGhost(!GetConfigValue<bool>("Decorate"));
-
-        switch (GetConfigValue<string>("IconLocation")) {
-            case "Left":
-                SetLeftIcon(marker->MapMarker.IconId);
-                SetRightIcon(null);
-                break;
-            case "Right":
-                SetLeftIcon(null);
-                SetRightIcon(marker->MapMarker.IconId);
-                break;
-        }
-
-        switch (GetConfigValue<string>("TextAlign")) {
-            case "Left":
-                SetTextAlignLeft();
-                break;
-            case "Center":
-                SetTextAlignCenter();
-                break;
-            case "Right":
-                SetTextAlignRight();
-                break;
-        }
-
+        SetIcon(marker->MapMarker.IconId);
         SetTwoLabels(
             $"{_zoneName}{(_aetheryteName is null ? "" : $" <{_flagCoords}>")}",
             _aetheryteName ?? $"<{_flagCoords}>"

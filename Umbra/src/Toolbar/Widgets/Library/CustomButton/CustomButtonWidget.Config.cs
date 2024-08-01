@@ -60,18 +60,6 @@ internal partial class CustomButtonWidget
                 I18N.Translate("Widget.CustomButton.Config.HideLabel.Description"),
                 false
             ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
-            new BooleanWidgetConfigVariable(
-                "Decorate",
-                I18N.Translate("Widget.CustomButton.Config.Decorate.Name"),
-                I18N.Translate("Widget.CustomButton.Config.Decorate.Description"),
-                true
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
-            new BooleanWidgetConfigVariable(
-                "DesaturateIcon",
-                I18N.Translate("Widget.CustomButton.Config.DesaturateIcon.Name"),
-                I18N.Translate("Widget.CustomButton.Config.DesaturateIcon.Description"),
-                false
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             new IntegerWidgetConfigVariable(
                 "LeftIconId",
                 I18N.Translate("Widget.CustomButton.Config.LeftIconId.Name"),
@@ -86,23 +74,8 @@ internal partial class CustomButtonWidget
                 0,
                 0
             ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
-            new IntegerWidgetConfigVariable(
-                "TextYOffset",
-                I18N.Translate("Widget.CustomButton.Config.TextYOffset.Name"),
-                I18N.Translate("Widget.CustomButton.Config.TextYOffset.Description"),
-                -1,
-                -5,
-                5
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
-            new IntegerWidgetConfigVariable(
-                "IconYOffset",
-                I18N.Translate("Widget.CustomButton.Config.IconYOffset.Name"),
-                I18N.Translate("Widget.CustomButton.Config.IconYOffset.Description"),
-                0,
-                -5,
-                5
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             ..DefaultToolbarWidgetConfigVariables,
+            ..SingleLabelTextOffsetVariables,
         ];
     }
 }

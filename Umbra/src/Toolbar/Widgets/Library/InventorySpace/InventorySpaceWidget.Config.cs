@@ -52,18 +52,6 @@ internal partial class InventorySpaceWidget
                 100
             ),
             new BooleanWidgetConfigVariable(
-                "Decorate",
-                I18N.Translate("Widget.InventorySpace.Config.Decorate.Name"),
-                I18N.Translate("Widget.InventorySpace.Config.Decorate.Description"),
-                true
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
-            new BooleanWidgetConfigVariable(
-                "DesaturateIcon",
-                I18N.Translate("Widget.InventorySpace.Config.DesaturateIcon.Name"),
-                I18N.Translate("Widget.InventorySpace.Config.DesaturateIcon.Description"),
-                false
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
-            new BooleanWidgetConfigVariable(
                 "ShowTotal",
                 I18N.Translate("Widget.InventorySpace.Config.ShowTotal.Name"),
                 I18N.Translate("Widget.InventorySpace.Config.ShowTotal.Description"),
@@ -75,24 +63,8 @@ internal partial class InventorySpaceWidget
                 I18N.Translate("Widget.InventorySpace.Config.ShowRemaining.Description"),
                 false
             ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
-            new SelectWidgetConfigVariable(
-                "IconLocation",
-                I18N.Translate("Widget.InventorySpace.Config.IconLocation.Name"),
-                I18N.Translate("Widget.InventorySpace.Config.IconLocation.Description"),
-                "Left",
-                new() {
-                    { "Left", I18N.Translate("Widget.InventorySpace.Config.IconLocation.Option.Left") },
-                    { "Right", I18N.Translate("Widget.InventorySpace.Config.IconLocation.Option.Right") }
-                }
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
-            new IntegerWidgetConfigVariable(
-                "TextYOffset",
-                I18N.Translate("Widget.InventorySpace.Config.TextYOffset.Name"),
-                I18N.Translate("Widget.InventorySpace.Config.TextYOffset.Description"),
-                0,
-                -5,
-                5
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            ..DefaultToolbarWidgetConfigVariables,
+            ..SingleLabelTextOffsetVariables,
         ];
     }
 }

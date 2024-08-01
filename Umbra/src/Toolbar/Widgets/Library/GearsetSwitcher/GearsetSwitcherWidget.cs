@@ -46,27 +46,12 @@ internal sealed partial class GearsetSwitcherWidget(
     /// <inheritdoc/>
     protected override void OnUpdate()
     {
-        SetGhost(!GetConfigValue<bool>("Decorate"));
-        base.OnUpdate();
-
         if (!VerifyGearsetEquipped()) return;
 
-        bool showText = GetConfigValue<string>("DisplayMode") != "IconOnly";
-        bool showIcon = GetConfigValue<string>("DisplayMode") != "TextOnly";
-        bool leftIcon = GetConfigValue<string>("IconLocation") == "Left";
-        bool showIlvl = GetConfigValue<bool>("ShowItemLevel");
+        SetIcon(GetWidgetJobIconId(_currentGearset!));
 
-        switch (GetConfigValue<string>("TextAlign")) {
-            case "Left":
-                SetTextAlignLeft();
-                break;
-            case "Center":
-                SetTextAlignCenter();
-                break;
-            case "Right":
-                SetTextAlignRight();
-                break;
-        }
+        bool showText = GetConfigValue<string>("DisplayMode") != "IconOnly";
+        bool showIlvl = GetConfigValue<bool>("ShowItemLevel");
 
         if (showText && showIlvl) {
             SetTwoLabels(_currentGearset!.Name, GetCurrentGearsetStatusText());
@@ -77,19 +62,7 @@ internal sealed partial class GearsetSwitcherWidget(
             SetLabel(null);
         }
 
-        SetLeftIcon(showIcon && leftIcon ? GetWidgetJobIconId(_currentGearset!) : null);
-        SetRightIcon(showIcon && !leftIcon ? GetWidgetJobIconId(_currentGearset!) : null);
-
-        LeftIconNode.Style.Margin  = new(0, 0, 0, showText ? -2 : 0);
-        RightIconNode.Style.Margin = new(0, showText ? -2 : 0, 0, 0);
-        Node.Style.Padding         = new(0, showText ? 6 : 3);
-
-        LabelNode.Style.IsVisible        = showText;
-        LabelNode.Style.TextOffset       = new(0, GetConfigValue<int>("NameTextYOffset"));
-        TopLabelNode.Style.TextOffset    = new(0, GetConfigValue<int>("NameTextYOffset"));
-        BottomLabelNode.Style.TextOffset = new(0, GetConfigValue<int>("InfoTextYOffset"));
-        LeftIconNode.Style.ImageOffset   = new(0, GetConfigValue<int>("IconYOffset"));
-        RightIconNode.Style.ImageOffset  = new(0, GetConfigValue<int>("IconYOffset"));
+        base.OnUpdate();
 
         Popup.EnableRoleScrolling         = GetConfigValue<bool>("EnableRoleScrolling");
         Popup.AutoCloseOnChange           = GetConfigValue<bool>("AutoCloseOnChange");
@@ -147,8 +120,7 @@ internal sealed partial class GearsetSwitcherWidget(
     {
         if (_gearsetRepository.CurrentGearset is null) {
             SetLabel("No gearset equipped");
-            SetLeftIcon(null);
-            SetRightIcon(null);
+            SetIcon(null);
             SetDisabled(true);
             _currentGearset = null!;
             return false;

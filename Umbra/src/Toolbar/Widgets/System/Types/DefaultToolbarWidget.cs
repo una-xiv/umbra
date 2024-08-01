@@ -17,6 +17,7 @@
 using System;
 using System.Collections.Generic;
 using Dalamud.Game.Text.SeStringHandling;
+using System.Numerics;
 using Umbra.Common;
 using Umbra.Style;
 using Una.Drawing;
@@ -79,11 +80,6 @@ public abstract class DefaultToolbarWidget(
             leftIconNode.Style.IsVisible  = leftIconNode.Style.IconId is not null;
             rightIconNode.Style.IsVisible = rightIconNode.Style.IconId is not null;
 
-            leftIconNode.Style.Size      = new(SafeHeight - 6, SafeHeight - 6);
-            leftIconNode.Style.FontSize  = (SafeHeight - 2) / 2;
-            rightIconNode.Style.Size     = new(SafeHeight - 6, SafeHeight - 6);
-            rightIconNode.Style.FontSize = (SafeHeight - 2) / 2;
-
             var halfSize = (int)Math.Ceiling(SafeHeight / 2f);
 
             labelNode.Style.Size           = new(labelNode.Style.Size?.Width ?? 0, SafeHeight);
@@ -105,9 +101,73 @@ public abstract class DefaultToolbarWidget(
         }
     };
 
+    private uint? _singleIconId;
+
     protected override void OnUpdate()
     {
+        bool isGhost = !GetConfigValue<bool>("Decorate");
+
+        SetGhost(isGhost);
         SetLabelWidth(GetConfigValue<int>("LabelMaxWidth"));
+        SetIconSize(GetConfigValue<int>("IconSize"));
+
+        var displayMode    = GetConfigValue<string>("DisplayMode");
+        var iconLocation   = GetConfigValue<string>("IconLocation");
+        var desaturateIcon = GetConfigValue<bool>("DesaturateIcon");
+        var iconOffset     = new Vector2(0, GetConfigValue<int>("IconYOffset"));
+
+        if (null != _singleIconId) {
+            if (displayMode is "TextAndIcon" or "IconOnly") {
+                switch (iconLocation) {
+                    case "Left":
+                        SetLeftIcon(_singleIconId);
+                        SetRightIcon(null);
+                        break;
+                    case "Right":
+                        SetLeftIcon(null);
+                        SetRightIcon(_singleIconId);
+                        break;
+                }
+            } else {
+                SetLeftIcon(null);
+                SetRightIcon(null);
+            }
+        }
+
+        switch (GetConfigValue<string>("TextAlign")) {
+            case "Left":
+                SetTextAlignLeft();
+                break;
+            case "Right":
+                SetTextAlignRight();
+                break;
+            case "Center":
+                SetTextAlignCenter();
+                break;
+        }
+
+        if (HasConfigVariable("TextYOffset")) {
+            LabelNode.Style.TextOffset = new Vector2(0, GetConfigValue<int>("TextYOffset"));
+        }
+
+        if (HasConfigVariable("TextYOffsetTop")) {
+            TopLabelNode.Style.TextOffset = new Vector2(0, GetConfigValue<int>("TextYOffsetTop"));
+        }
+
+        if (HasConfigVariable("TextYOffsetBottom")) {
+            BottomLabelNode.Style.TextOffset = new Vector2(0, GetConfigValue<int>("TextYOffsetBottom"));
+        }
+
+        LabelNode.Style.IsVisible          = displayMode is not "IconOnly";
+        LeftIconNode.Style.ImageOffset     = iconOffset;
+        RightIconNode.Style.ImageOffset    = iconOffset;
+        LeftIconNode.Style.ImageGrayscale  = Node.IsDisabled || desaturateIcon;
+        RightIconNode.Style.ImageGrayscale = Node.IsDisabled || desaturateIcon;
+        LeftIconNode.Style.Margin          = new(0);
+        RightIconNode.Style.Margin         = new(0);
+        LabelNode.Style.Padding            = new(0, 1);
+        Node.Style.Padding                 = new(0, isGhost ? 0 : 3);
+        Node.Tooltip                       = displayMode is "IconOnly" ? LabelNode.NodeValue?.ToString() : null;
     }
 
     protected void SetGhost(bool isGhost)
@@ -122,20 +182,31 @@ public abstract class DefaultToolbarWidget(
         }
     }
 
+    protected void SetIcon(uint? iconId)
+    {
+        _singleIconId = iconId;
+    }
+
     protected void SetLeftIcon(uint? iconId)
     {
-        Node.QuerySelector("LeftIcon")!.Style.IconId = iconId;
+        LeftIconNode.Style.IsVisible = iconId != null;
+        LeftIconNode.Style.IconId    = iconId;
     }
 
     protected void SetRightIcon(uint? iconId)
     {
-        Node.QuerySelector("RightIcon")!.Style.IconId = iconId;
+        RightIconNode.Style.IsVisible = iconId != null;
+        RightIconNode.Style.IconId    = iconId;
     }
 
     protected void SetIconSize(int size)
     {
-        Node.QuerySelector("LeftIcon")!.Style.Size  = new(size, size);
-        Node.QuerySelector("RightIcon")!.Style.Size = new(size, size);
+        Size sz = size > 0 ? new(size, size) : new(SafeHeight - 6, SafeHeight - 6);
+
+        LeftIconNode.Style.FontSize  = size > 0 ? size : (SafeHeight - 2) / 2;
+        RightIconNode.Style.FontSize = size > 0 ? size : (SafeHeight - 2) / 2;
+        LeftIconNode.Style.Size      = sz;
+        RightIconNode.Style.Size     = sz;
     }
 
     protected void SetLabel(string? label)
@@ -222,6 +293,66 @@ public abstract class DefaultToolbarWidget(
     protected Node RightIconNode   => Node.QuerySelector("#RightIcon")!;
 
     protected IList<IWidgetConfigVariable> DefaultToolbarWidgetConfigVariables { get; } = [
+        new BooleanWidgetConfigVariable(
+            "Decorate",
+            I18N.Translate("Widgets.DefaultToolbarWidget.Config.Decorate.Name"),
+            I18N.Translate("Widgets.DefaultToolbarWidget.Config.Decorate.Description"),
+            true
+        ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+        new BooleanWidgetConfigVariable(
+            "DesaturateIcon",
+            I18N.Translate("Widgets.DefaultToolbarWidget.Config.DesaturateIcon.Name"),
+            I18N.Translate("Widgets.DefaultToolbarWidget.Config.DesaturateIcon.Description"),
+            false
+        ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+        new SelectWidgetConfigVariable(
+            "DisplayMode",
+            I18N.Translate("Widgets.DefaultToolbarWidget.Config.DisplayMode.Name"),
+            I18N.Translate("Widgets.DefaultToolbarWidget.Config.DisplayMode.Description"),
+            "TextAndIcon",
+            new() {
+                { "TextAndIcon", I18N.Translate("Widgets.DefaultToolbarWidget.Config.DisplayMode.Option.TextAndIcon") },
+                { "TextOnly", I18N.Translate("Widgets.DefaultToolbarWidget.Config.DisplayMode.Option.TextOnly") },
+                { "IconOnly", I18N.Translate("Widgets.DefaultToolbarWidget.Config.DisplayMode.Option.IconOnly") }
+            }
+        ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+        new SelectWidgetConfigVariable(
+            "IconLocation",
+            I18N.Translate("Widgets.DefaultToolbarWidget.Config.IconLocation.Name"),
+            I18N.Translate("Widgets.DefaultToolbarWidget.Config.IconLocation.Description"),
+            "Left",
+            new() {
+                { "Left", I18N.Translate("Widgets.DefaultToolbarWidget.Config.IconLocation.Option.Left") },
+                { "Right", I18N.Translate("Widgets.DefaultToolbarWidget.Config.IconLocation.Option.Right") }
+            }
+        ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+        new SelectWidgetConfigVariable(
+            "TextAlign",
+            I18N.Translate("Widgets.DefaultToolbarWidget.Config.TextAlign.Name"),
+            I18N.Translate("Widgets.DefaultToolbarWidget.Config.TextAlign.Description"),
+            "Left",
+            new() {
+                { "Left", I18N.Translate("Widgets.DefaultToolbarWidget.Config.TextAlign.Option.Left") },
+                { "Center", I18N.Translate("Widgets.DefaultToolbarWidget.Config.TextAlign.Option.Center") },
+                { "Right", I18N.Translate("Widgets.DefaultToolbarWidget.Config.TextAlign.Option.Right") }
+            }
+        ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+        new IntegerWidgetConfigVariable(
+            "IconSize",
+            I18N.Translate("Widgets.DefaultToolbarWidget.Config.IconSize.Name"),
+            I18N.Translate("Widgets.DefaultToolbarWidget.Config.IconSize.Description"),
+            0,
+            0,
+            42
+        ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+        new IntegerWidgetConfigVariable(
+            "IconYOffset",
+            I18N.Translate("Widgets.DefaultToolbarWidget.Config.IconYOffset.Name"),
+            I18N.Translate("Widgets.DefaultToolbarWidget.Config.IconYOffset.Description"),
+            0,
+            -5,
+            5
+        ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
         new IntegerWidgetConfigVariable(
             "LabelMaxWidth",
             I18N.Translate("Widgets.DefaultToolbarWidget.Config.LabelMaxWidth.Name"),
@@ -229,6 +360,36 @@ public abstract class DefaultToolbarWidget(
             0,
             0,
             500
+        ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+    ];
+
+    protected IList<IWidgetConfigVariable> SingleLabelTextOffsetVariables { get; } = [
+        new IntegerWidgetConfigVariable(
+            "TextYOffset",
+            I18N.Translate("Widgets.DefaultToolbarWidget.Config.TextYOffset.Name"),
+            I18N.Translate("Widgets.DefaultToolbarWidget.Config.TextYOffset.Description"),
+            0,
+            -5,
+            5
+        ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+    ];
+
+    protected IList<IWidgetConfigVariable> TwoLabelTextOffsetVariables { get; } = [
+        new IntegerWidgetConfigVariable(
+            "TextYOffsetTop",
+            I18N.Translate("Widgets.DefaultToolbarWidget.Config.TextYOffsetTop.Name"),
+            I18N.Translate("Widgets.DefaultToolbarWidget.Config.TextYOffsetTop.Description"),
+            1,
+            -5,
+            5
+        ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+        new IntegerWidgetConfigVariable(
+            "TextYOffsetBottom",
+            I18N.Translate("Widgets.DefaultToolbarWidget.Config.TextYOffsetBottom.Name"),
+            I18N.Translate("Widgets.DefaultToolbarWidget.Config.TextYOffsetBottom.Description"),
+            -1,
+            -5,
+            5
         ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
     ];
 }

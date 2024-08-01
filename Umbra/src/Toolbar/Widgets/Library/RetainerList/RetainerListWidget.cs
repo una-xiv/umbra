@@ -20,6 +20,7 @@ internal partial class RetainerListWidget(
     protected override void Initialize()
     {
         SetLabel(Info.Name);
+        SetIcon(60560u);
     }
 
     /// <inheritdoc/>
@@ -31,42 +32,6 @@ internal partial class RetainerListWidget(
 
         Popup.JobIconType = GetConfigValue<string>("IconType");
 
-        UpdateIcons();
-        SetGhost(!GetConfigValue<bool>("Decorate"));
-
-        string displayMode = GetConfigValue<string>("DisplayMode");
-        bool   showLabel   = displayMode is "TextOnly" or "TextAndIcon";
-
-        Node.Tooltip               = showLabel ? null : Info.Name;
-        LabelNode.Style.IsVisible  = showLabel;
-        LabelNode.Style.TextOffset = new(0, GetConfigValue<int>("TextYOffset"));
-        LeftIconNode.Style.Margin  = new() { Left  = showLabel ? -3 : 0 };
-        RightIconNode.Style.Margin = new() { Right = showLabel ? -3 : 0 };
-        Node.Style.Padding         = new(0, showLabel ? 6 : 4);
-    }
-
-    private void UpdateIcons()
-    {
-        if (GetConfigValue<string>("DisplayMode") is "TextOnly") {
-            SetLeftIcon(null);
-            SetRightIcon(null);
-            return;
-        }
-
-        bool useGrayscaleIcons = GetConfigValue<bool>("DesaturateIcon");
-
-        LeftIconNode.Style.ImageGrayscale = useGrayscaleIcons;
-        RightIconNode.Style.ImageGrayscale = useGrayscaleIcons;
-
-        switch (GetConfigValue<string>("IconLocation")) {
-            case "Left":
-                SetLeftIcon(60560u);
-                SetRightIcon(null);
-                break;
-            case "Right":
-                SetLeftIcon(null);
-                SetRightIcon(60560u);
-                break;
-        }
+        base.OnUpdate();
     }
 }

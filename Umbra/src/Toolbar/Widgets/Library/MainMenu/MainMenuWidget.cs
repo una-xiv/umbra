@@ -40,13 +40,10 @@ internal sealed class MainMenuWidget(
     private IMainMenuRepository? _repository;
     private MainMenuCategory?    _category;
     private string?              _selectedCategory;
-    private bool?                _decorate;
     private string?              _displayMode;
     private string?              _iconLocation;
     private int?                 _customIconId;
     private bool?                _showItemIcons;
-    private bool?                _useGrayscaleIcon;
-    private int?                 _iconSize;
 
     public override string GetInstanceName()
     {
@@ -76,18 +73,10 @@ internal sealed class MainMenuWidget(
 
         if (_category is null) return;
 
-        var decorate         = GetConfigValue<bool>("Decorate");
         var displayMode      = GetConfigValue<string>("DisplayMode");
         var iconLocation     = GetConfigValue<string>("IconLocation");
         var customIconId     = GetConfigValue<int>("CustomIconId");
         var showItemIcons    = GetConfigValue<bool>("ShowItemIcons");
-        var useGrayscaleIcon = GetConfigValue<bool>("UseGrayscaleIcon");
-        var iconSize         = GetConfigValue<int>("IconSize");
-
-        if (decorate != _decorate) {
-            _decorate = decorate;
-            SetGhost(!decorate);
-        }
 
         if (_showItemIcons != showItemIcons) {
             _showItemIcons = showItemIcons;
@@ -116,32 +105,12 @@ internal sealed class MainMenuWidget(
             bool hasIcon = displayMode is "IconOnly" or "TextAndIcon";
 
             if (hasIcon) {
-                uint iconId = (existingCustomIconId == 0 ? _category.GetIconId() : (uint)existingCustomIconId);
-
-                if (iconLocation is "Left") {
-                    SetLeftIcon(iconId);
-                    SetRightIcon(null);
-                } else {
-                    SetLeftIcon(null);
-                    SetRightIcon(iconId);
-                }
+                SetIcon((existingCustomIconId == 0 ? _category.GetIconId() : (uint)existingCustomIconId));
             } else {
-                SetLeftIcon(null);
-                SetRightIcon(null);
+                SetIcon(null);
             }
 
-            string? label    = displayMode is "TextOnly" or "TextAndIcon" ? _category.Name : null;
-            bool    hasLabel = !string.IsNullOrEmpty(label);
-
-            SetLabel(label);
-
-            LeftIconNode.Style.Margin  = new(0, 0, 0, hasLabel ? -2 : 0);
-            RightIconNode.Style.Margin = new(0, hasLabel ? -2 : 0, 0, 0);
-            Node.Style.Padding         = new() { Left = hasIcon ? 3 : 0, Right = hasIcon ? 3 : 0 };
-
-            Node.Tooltip = displayMode is "IconOnly" && !string.IsNullOrEmpty(_category.Name)
-                ? _category.Name
-                : null;
+            SetLabel(_category.Name);
         }
 
         Popup.UseGrayscaleIcons = GetConfigValue<bool>("UseGrayscaleIcons");
@@ -155,20 +124,7 @@ internal sealed class MainMenuWidget(
             }
         }
 
-        LabelNode.Style.TextOffset = new(0, GetConfigValue<int>("TextYOffset"));
-
-        if (_useGrayscaleIcon != useGrayscaleIcon) {
-            _useGrayscaleIcon = useGrayscaleIcon;
-
-            foreach (var node in Node.QuerySelectorAll(".icon")) {
-                node.Style.ImageGrayscale = useGrayscaleIcon;
-            }
-        }
-
-        if (_iconSize != iconSize) {
-            _iconSize = iconSize;
-            SetIconSize(iconSize);
-        }
+        base.OnUpdate();
     }
 
     /// <inheritdoc/>
@@ -184,27 +140,6 @@ internal sealed class MainMenuWidget(
                 MenuCategory.Character.ToString(),
                 repository.GetCategories().ToDictionary(c => c.Category.ToString(), c => c.Name)
             ),
-            new SelectWidgetConfigVariable(
-                "DisplayMode",
-                I18N.Translate("Widget.MainMenu.Config.DisplayMode.Name"),
-                I18N.Translate("Widget.MainMenu.Config.DisplayMode.Description"),
-                "TextOnly",
-                new() {
-                    { "TextOnly", I18N.Translate("Widget.MainMenu.Config.DisplayMode.Option.TextOnly") },
-                    { "IconOnly", I18N.Translate("Widget.MainMenu.Config.DisplayMode.Option.IconOnly") },
-                    { "TextAndIcon", I18N.Translate("Widget.MainMenu.Config.DisplayMode.Option.TextAndIcon") }
-                }
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
-            new SelectWidgetConfigVariable(
-                "IconLocation",
-                I18N.Translate("Widget.MainMenu.Config.IconLocation.Name"),
-                I18N.Translate("Widget.MainMenu.Config.IconLocation.Description"),
-                "Left",
-                new() {
-                    { "Left", I18N.Translate("Widget.MainMenu.Config.IconLocation.Option.Left") },
-                    { "Right", I18N.Translate("Widget.MainMenu.Config.IconLocation.Option.Right") },
-                }
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             new IntegerWidgetConfigVariable(
                 "CustomIconId",
                 I18N.Translate("Widget.MainMenu.Config.CustomIconId.Name"),
@@ -212,34 +147,8 @@ internal sealed class MainMenuWidget(
                 0,
                 0
             ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
-            new IntegerWidgetConfigVariable(
-                "IconSize",
-                I18N.Translate("Widget.MainMenu.Config.IconSize.Name"),
-                I18N.Translate("Widget.MainMenu.Config.IconSize.Description"),
-                18,
-                16,
-                48
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
-            new BooleanWidgetConfigVariable(
-                "UseGrayscaleIcon",
-                I18N.Translate("Widget.MainMenu.Config.GrayscaleIcon.Name"),
-                I18N.Translate("Widget.MainMenu.Config.GrayscaleIcon.Description"),
-                true
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
-            new BooleanWidgetConfigVariable(
-                "Decorate",
-                I18N.Translate("Widget.MainMenu.Config.Decorate.Name"),
-                I18N.Translate("Widget.MainMenu.Config.Decorate.Description"),
-                false
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
-            new IntegerWidgetConfigVariable(
-                "TextYOffset",
-                I18N.Translate("Widget.MainMenu.Config.TextYOffset.Name"),
-                I18N.Translate("Widget.MainMenu.Config.TextYOffset.Description"),
-                0,
-                -5,
-                5
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            ..DefaultToolbarWidgetConfigVariables,
+            ..SingleLabelTextOffsetVariables,
             new BooleanWidgetConfigVariable(
                 "ShowItemIcons",
                 I18N.Translate("Widget.MainMenu.Config.ShowItemIcons.Name"),

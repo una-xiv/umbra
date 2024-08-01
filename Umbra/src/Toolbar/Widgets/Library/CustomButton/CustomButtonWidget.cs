@@ -57,26 +57,14 @@ internal sealed partial class CustomButtonWidget(
     /// <inheritdoc/>
     protected override void OnUpdate()
     {
-        SetGhost(!GetConfigValue<bool>("Decorate"));
         SetLabel(GetConfigValue<bool>("HideLabel") ? "" : GetConfigValue<string?>("Label"));
         UpdateIcons();
+
+        base.OnUpdate();
 
         string tooltipString = GetConfigValue<string>("Tooltip");
         Node.Tooltip = !string.IsNullOrEmpty(tooltipString) ? tooltipString : null;
 
-        LabelNode.Style.TextOffset         = new(0, GetConfigValue<int>("TextYOffset"));
-        LeftIconNode.Style.ImageOffset     = new(0, GetConfigValue<int>("IconYOffset"));
-        RightIconNode.Style.ImageOffset    = new(0, GetConfigValue<int>("IconYOffset"));
-        LeftIconNode.Style.ImageGrayscale  = GetConfigValue<bool>("DesaturateIcon");
-        RightIconNode.Style.ImageGrayscale = GetConfigValue<bool>("DesaturateIcon");
-
-        bool hasText = !GetConfigValue<bool>("HideLabel") && !string.IsNullOrEmpty(GetConfigValue<string?>("Label"));
-
-        LeftIconNode.Style.Margin  = new(0, 0, 0, hasText ? -2 : 0);
-        RightIconNode.Style.Margin = new(0, hasText ? -2 : 0, 0, 0);
-        Node.Style.Padding         = new(0, hasText ? 6 : 3);
-
-        base.OnUpdate();
     }
 
     private void InvokeCommand(Node _)

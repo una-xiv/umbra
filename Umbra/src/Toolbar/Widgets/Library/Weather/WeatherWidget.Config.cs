@@ -25,12 +25,6 @@ internal partial class WeatherWidget
     {
         return [
             new BooleanWidgetConfigVariable(
-                "ShowIcon",
-                I18N.Translate("Widget.Weather.Config.ShowIcon.Name"),
-                I18N.Translate("Widget.Weather.Config.ShowIcon.Description"),
-                true
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
-            new BooleanWidgetConfigVariable(
                 "ShowName",
                 I18N.Translate("Widget.Weather.Config.ShowName.Name"),
                 I18N.Translate("Widget.Weather.Config.ShowName.Description"),
@@ -42,65 +36,9 @@ internal partial class WeatherWidget
                 I18N.Translate("Widget.Weather.Config.ShowTime.Description"),
                 true
             ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
-            new BooleanWidgetConfigVariable(
-                "Decorate",
-                I18N.Translate("Widget.Weather.Config.Decorate.Name"),
-                I18N.Translate("Widget.Weather.Config.Decorate.Description"),
-                false
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
-            new SelectWidgetConfigVariable(
-                "IconLocation",
-                I18N.Translate("Widget.Weather.Config.IconLocation.Name"),
-                I18N.Translate("Widget.Weather.Config.IconLocation.Description"),
-                "Left",
-                new() {
-                    { "Left", I18N.Translate("Widget.Weather.Config.IconLocation.Option.Left") },
-                    { "Right", I18N.Translate("Widget.Weather.Config.IconLocation.Option.Right") },
-                }
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
-            new IntegerWidgetConfigVariable(
-                "IconYOffset",
-                I18N.Translate("Widget.ToolbarPin.Config.IconYOffset.Name"),
-                I18N.Translate("Widget.ToolbarPin.Config.IconYOffset.Description"),
-                -1,
-                -5,
-                5
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
-            new SelectWidgetConfigVariable(
-                "TextAlign",
-                I18N.Translate("Widget.Weather.Config.TextAlign.Name"),
-                I18N.Translate("Widget.Weather.Config.TextAlign.Description"),
-                "Left",
-                new() {
-                    { "Left", I18N.Translate("Widget.Weather.Config.TextAlign.Option.Left") },
-                    { "Center", I18N.Translate("Widget.Weather.Config.TextAlign.Option.Center") },
-                    { "Right", I18N.Translate("Widget.Weather.Config.TextAlign.Option.Right") },
-                }
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
-            new IntegerWidgetConfigVariable(
-                "TextYOffset",
-                I18N.Translate("Widget.Weather.Config.TextYOffset.Name"),
-                I18N.Translate("Widget.Weather.Config.TextYOffset.Description"),
-                -1,
-                -5,
-                5
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
-            new IntegerWidgetConfigVariable(
-                "TextYOffsetTop",
-                I18N.Translate("Widget.Weather.Config.TextYOffsetTop.Name"),
-                I18N.Translate("Widget.Weather.Config.TextYOffsetTop.Description"),
-                0,
-                -5,
-                5
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
-            new IntegerWidgetConfigVariable(
-                "TextYOffsetBottom",
-                I18N.Translate("Widget.Weather.Config.TextYOffsetBottom.Name"),
-                I18N.Translate("Widget.Weather.Config.TextYOffsetBottom.Description"),
-                0,
-                -5,
-                5
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            ..DefaultToolbarWidgetConfigVariables,
+            ..SingleLabelTextOffsetVariables,
+            ..TwoLabelTextOffsetVariables,
             new IntegerWidgetConfigVariable(
                 "Spacing",
                 I18N.Translate("Widget.Weather.Config.Spacing.Name"),
@@ -109,7 +47,6 @@ internal partial class WeatherWidget
                 0,
                 64
             ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
-            ..DefaultToolbarWidgetConfigVariables,
             new IntegerWidgetConfigVariable(
                 "MaxForecastEntries",
                 I18N.Translate("Widget.Weather.Config.MaxForecastEntries.Name"),

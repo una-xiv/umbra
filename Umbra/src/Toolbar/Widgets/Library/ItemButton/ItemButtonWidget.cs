@@ -59,12 +59,6 @@ internal sealed partial class ItemButtonWidget(
     /// <inheritdoc/>
     protected override void OnUpdate()
     {
-        SetGhost(!GetConfigValue<bool>("Decorate"));
-
-        LabelNode.Style.TextOffset      = new(0, GetConfigValue<int>("TextYOffset"));
-        LeftIconNode.Style.ImageOffset  = new(0, GetConfigValue<int>("IconYOffset"));
-        RightIconNode.Style.ImageOffset = new(0, GetConfigValue<int>("IconYOffset"));
-
         var itemId = (uint)GetConfigValue<int>("ItemId");
 
         if (itemId != ItemId) {
@@ -88,15 +82,11 @@ internal sealed partial class ItemButtonWidget(
 
         SetLabel(label);
         SetDisabled(!CanUseItem());
-        UpdateIcons();
-
-        Node.Tooltip               = showLabel ? null : label;
-        LabelNode.Style.IsVisible  = showLabel || showCount;
-        LeftIconNode.Style.Margin  = new() { Left  = showLabel ? -3 : 0 };
-        RightIconNode.Style.Margin = new() { Right = showLabel ? -3 : 0 };
-        Node.Style.Padding         = new(0, showLabel ? 6 : 4);
+        SetIcon(IconId ?? 14);
 
         base.OnUpdate();
+
+        Node.Tooltip               = showLabel ? null : label;
     }
 
     private void UseItem(Node _)
@@ -129,19 +119,5 @@ internal sealed partial class ItemButtonWidget(
             || Player.IsInCutscene
             || Player.IsInIdleCam
         );
-    }
-
-    private void UpdateIcons()
-    {
-        switch (GetConfigValue<string>("IconLocation")) {
-            case "Left":
-                SetLeftIcon(IconId ?? 14);
-                SetRightIcon(null);
-                break;
-            case "Right":
-                SetLeftIcon(null);
-                SetRightIcon(IconId ?? 14);
-                break;
-        }
     }
 }

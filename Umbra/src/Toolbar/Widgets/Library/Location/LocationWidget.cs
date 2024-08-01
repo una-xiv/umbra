@@ -34,13 +34,11 @@ internal partial class LocationWidget(
     public override WidgetPopup? Popup { get; } = null;
 
     private IZoneManager? _zoneManager;
-    private IPlayer?      _player;
 
     /// <inheritdoc/>
     protected override void Initialize()
     {
         _zoneManager = Framework.Service<IZoneManager>();
-        _player      = Framework.Service<IPlayer>();
 
         SetGhost(!GetConfigValue<bool>("Decorate"));
         SetTwoLabels("Location Name", "District Name");
@@ -65,7 +63,6 @@ internal partial class LocationWidget(
             name += " " + (char)(SeIconChar.Instance1 + ((byte)zone.InstanceId - 1));
         }
 
-        SetGhost(!GetConfigValue<bool>("Decorate"));
         bool showDistrict = GetConfigValue<bool>("ShowDistrict");
         bool useTwoLabels = GetConfigValue<bool>("UseTwoLabels");
 
@@ -78,25 +75,8 @@ internal partial class LocationWidget(
 
         if (useTwoLabels && showDistrict) {
             SetTwoLabels(name, districtLabel);
-            TopLabelNode.Style.TextOffset    = new(0, GetConfigValue<int>("TextYOffsetTop"));
-            BottomLabelNode.Style.TextOffset = new(0, GetConfigValue<int>("TextYOffsetBottom"));
         } else {
             SetLabel(showDistrict ? $"{name} - {districtLabel}" : name);
-            LabelNode.Style.TextOffset = new(0, GetConfigValue<int>("TextYOffset"));
-        }
-
-        var textAlign = GetConfigValue<string>("TextAlign");
-
-        switch (textAlign) {
-            case "Left":
-                SetTextAlignLeft();
-                break;
-            case "Center":
-                SetTextAlignCenter();
-                break;
-            case "Right":
-                SetTextAlignRight();
-                break;
         }
 
         base.OnUpdate();
