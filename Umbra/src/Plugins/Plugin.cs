@@ -44,8 +44,5 @@ internal class Plugin(string path) : IDisposable
         _context?.Unload();
         Assembly   = null;
         IsDisposed = true;
-
-        GC.Collect();
-        GC.WaitForPendingFinalizers();
     }
 }
