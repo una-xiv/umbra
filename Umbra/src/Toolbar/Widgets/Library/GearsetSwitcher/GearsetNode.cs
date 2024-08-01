@@ -168,7 +168,9 @@ internal partial class GearsetNode : Node
 
     private string GetCurrentGearsetStatusText()
     {
-        return $"{I18N.Translate("Widget.GearsetSwitcher.JobLevel", Gearset.JobLevel)} {Gearset.JobName}";
+        string jobName = Gearset.JobName != Gearset.Name ? Gearset.JobName : string.Empty;
+
+        return $"{I18N.Translate("Widget.GearsetSwitcher.JobLevel", Gearset.JobLevel)} {jobName}".TrimEnd();
     }
 
     private void SetBackgroundGradientFor(GearsetCategory category)
