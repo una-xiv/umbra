@@ -21,4 +21,6 @@ public interface IWidgetConfigVariable
     public string Id { get; }
 
     public string Category { get; }
+
+    public bool IsHidden { get; }
 }

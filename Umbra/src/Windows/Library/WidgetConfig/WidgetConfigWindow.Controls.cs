@@ -29,6 +29,8 @@ internal partial class WidgetConfigWindow
 {
     private void RenderControl(IWidgetConfigVariable cvar, Node targetNode)
     {
+        if (cvar.IsHidden) return;
+
         Node? node = null;
 
         switch (cvar) {

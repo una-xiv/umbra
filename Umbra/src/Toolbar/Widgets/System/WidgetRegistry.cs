@@ -14,6 +14,7 @@
  *     GNU Affero General Public License for more details.
  */
 
+using Dalamud.Plugin;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,12 +36,29 @@ internal static class WidgetRegistry
             .ForEach(type =>
             {
                 var info = type.GetCustomAttribute<ToolbarWidgetAttribute>();
-                if (info is null) return;
+                if (info != null) {
+                    string name = I18N.Has(info.Name) ? I18N.Translate(info.Name) : info.Name;
+                    string desc = I18N.Has(info.Description) ? I18N.Translate(info.Description) : info.Description;
 
-                string name = I18N.Has(info.Name) ? I18N.Translate(info.Name) : info.Name;
-                string desc = I18N.Has(info.Description) ? I18N.Translate(info.Description) : info.Description;
+                    RegisteredWidgets.Add((type, new(info.Id, name, desc)));
+                    return;
+                }
 
-                RegisteredWidgets.Add((type, new(info.Id, name, desc)));
+                var info2 = type.GetCustomAttribute<InteropToolbarWidgetAttribute>();
+                if (info2 != null) {
+                    // This code runs after the login event, so we can safely check for loaded plugins.
+                    IExposedPlugin? plugin = Framework.DalamudPlugin.InstalledPlugins
+                        .FirstOrDefault(p => p.InternalName == info2.PluginName && p.IsLoaded);
+
+                    if (plugin == null) {
+                        return;
+                    }
+
+                    string name = I18N.Has(info2.Name) ? I18N.Translate(info2.Name) : info2.Name;
+                    string desc = I18N.Has(info2.Description) ? I18N.Translate(info2.Description) : info2.Description;
+
+                    RegisteredWidgets.Add((type, new(info2.Id, name, desc)));
+                }
             });
     }
 

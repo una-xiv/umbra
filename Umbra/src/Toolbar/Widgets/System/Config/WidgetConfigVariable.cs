@@ -33,6 +33,11 @@ public abstract class WidgetConfigVariable<T>(string id, string name, string? de
     public string Id { get; } = id;
 
     /// <summary>
+    /// Whether this variable should be hidden from the configuration interface.
+    /// </summary>
+    public bool IsHidden { get; set; }
+
+    /// <summary>
     /// Specifies the display name of this variable.
     /// </summary>
     public string Name { get; } = name;

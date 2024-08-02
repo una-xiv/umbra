@@ -107,7 +107,7 @@ public static class I18N
         Translations.Clear();
     }
 
-    [Conditional("DEBUG")]
+    // [Conditional("DEBUG")]
     private static void ValidateTranslationKeys()
     {
         var en = Translations["en"];

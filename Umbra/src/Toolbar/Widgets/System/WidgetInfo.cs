@@ -14,11 +14,14 @@
  *     GNU Affero General Public License for more details.
  */
 
+using Dalamud.Plugin;
+
 namespace Umbra.Widgets;
 
-public class WidgetInfo(string id, string name, string description)
+public class WidgetInfo(string id, string name, string description, IExposedPlugin? plugin = null)
 {
-    public string Id          { get; } = id;
-    public string Name        { get; } = name;
-    public string Description { get; } = description;
+    public string          Id             { get; } = id;
+    public string          Name           { get; } = name;
+    public string          Description    { get; } = description;
+    public IExposedPlugin? RequiredPlugin { get; } = plugin;
 }
