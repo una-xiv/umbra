@@ -36,6 +36,11 @@ namespace Umbra.Game;
 internal sealed class Player : IPlayer
 {
     /// <summary>
+    /// The name of the player.
+    /// </summary>
+    public string Name => _clientState.LocalPlayer?.Name.TextValue ?? "Unnamed Player";
+
+    /// <summary>
     /// The current online status ID.
     /// </summary>
     public uint OnlineStatusId { get; private set; }

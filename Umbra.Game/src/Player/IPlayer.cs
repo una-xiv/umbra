@@ -25,6 +25,11 @@ namespace Umbra.Game;
 public interface IPlayer
 {
     /// <summary>
+    /// The name of the player.
+    /// </summary>
+    public string Name { get; }
+
+    /// <summary>
     /// The current online status ID.
     /// </summary>
     public uint OnlineStatusId { get; }

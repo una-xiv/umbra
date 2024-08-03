@@ -83,7 +83,7 @@ internal sealed class MainMenuRepository : IMainMenuRepository
             );
 
         // Add Dalamud items to the system menu.
-        Categories[MenuCategory.System].AddItem(new(-998));
+        Categories[MenuCategory.System].AddItem(new(998));
 
         Categories[MenuCategory.System]
             .AddItem(
@@ -95,7 +95,7 @@ internal sealed class MainMenuRepository : IMainMenuRepository
                 }
             );
 
-        Categories[MenuCategory.System].AddItem(new(-1000));
+        Categories[MenuCategory.System].AddItem(new(1000));
 
         Categories[MenuCategory.System]
             .AddItem(
@@ -127,6 +127,16 @@ internal sealed class MainMenuRepository : IMainMenuRepository
     {
         return Categories.GetValueOrDefault(category)
             ?? throw new Exception($"Category {category} not found.");
+    }
+
+    public MainMenuItem? FindById(string id)
+    {
+        foreach (var category in Categories.Values) {
+            var item = category.Items.FirstOrDefault(i => i.Id == id);
+            if (item is not null) return item;
+        }
+
+        return null;
     }
 
     [OnTick(interval: 500)]

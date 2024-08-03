@@ -20,30 +20,32 @@ using Dalamud.Utility;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.UI;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
+using Lumina.Misc;
 using Umbra.Common;
 
 namespace Umbra.Game;
 
 public sealed class MainMenuItem : IDisposable
 {
-    public string           Name           { get; set; }
-    public string           ShortKey       { get; set; } = string.Empty;
-    public MainMenuItemType Type           { get; set; }
-    public string?          ChatCommand    { get; set; }
-    public Action?          Callback       { get; set; }
-    public uint?            CommandId      { get; set; }
-    public short            SortIndex      { get; set; }
-    public bool             IsDisabled     { get; set; }
-    public object?          Icon           { get; set; }
-    public uint?            IconColor      { get; set; }
-    public string?          MetadataKey    { get; set; }
-    public string?          ItemGroupId    { get; set; }
-    public string?          ItemGroupLabel { get; set; }
+    public string            Name           { get; set; }
+    public string            ShortKey       { get; set; } = string.Empty;
+    public MainMenuItemType  Type           { get; set; }
+    public string?           ChatCommand    { get; set; }
+    public Action?           Callback       { get; set; }
+    public uint?             CommandId      { get; set; }
+    public short             SortIndex      { get; set; }
+    public bool              IsDisabled     { get; set; }
+    public object?           Icon           { get; set; }
+    public uint?             IconColor      { get; set; }
+    public string?           MetadataKey    { get; set; }
+    public string?           ItemGroupId    { get; set; }
+    public string?           ItemGroupLabel { get; set; }
+    public MainMenuCategory? Category       { get; set; }
 
     public Action? OnUpdate;
     public Action? OnDisposed;
 
-    public string Id => $"{Type}-{SortIndex}-{Name.GetHashCode()}";
+    public string Id => $"Item-{Crc32.Get(Category?.Category.ToString() ?? "X").ToString()}-{Type}-{SortIndex}-{Name.GetHashCode()}";
 
     public void Dispose()
     {

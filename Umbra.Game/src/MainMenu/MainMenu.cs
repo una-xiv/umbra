@@ -30,6 +30,8 @@ public sealed class MainMenuCategory(MenuCategory category, string name)
 
     public void AddItem(MainMenuItem item)
     {
+        item.Category = this;
+
         Items.Add(item);
         Items.Sort((a, b) => a.SortIndex.CompareTo(b.SortIndex));
         OnItemAdded?.Invoke(item);

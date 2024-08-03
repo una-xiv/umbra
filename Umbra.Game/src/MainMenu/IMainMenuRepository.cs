@@ -3,7 +3,7 @@
  *                                     |    |   //     \ | __ \\_  __ \\__  \
  * https://github.com/una-xiv/umbra    |    |  /|  Y Y  \| \_\ \|  | \/ / __ \_
  *                                     |______//__|_|  /____  /|__|   (____  /
- *     Umbra.Game is free software: you can          \/     \/             \/ 
+ *     Umbra.Game is free software: you can          \/     \/             \/
  *     redistribute it and/or modify it under the terms of the GNU Affero
  *     General Public License as published by the Free Software Foundation,
  *     either version 3 of the License, or (at your option) any later version.
@@ -22,4 +22,6 @@ public interface IMainMenuRepository
     public List<MainMenuCategory> GetCategories();
 
     public MainMenuCategory GetCategory(MenuCategory category);
+
+    public MainMenuItem? FindById(string id);
 }

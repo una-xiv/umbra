@@ -51,6 +51,7 @@ internal static class WidgetRegistry
                         .FirstOrDefault(p => p.InternalName == info2.PluginName && p.IsLoaded);
 
                     if (plugin == null) {
+                        Logger.Warning($"Could not load widget {info2.Name} because it relies on plugin {info2.PluginName} which is not loaded.");
                         return;
                     }
 
