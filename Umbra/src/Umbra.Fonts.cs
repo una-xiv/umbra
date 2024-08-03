@@ -52,7 +52,7 @@ internal sealed class UmbraFonts
         FontFamilies.Add("Dalamud Monospace", new(true, GetDalamudFontAsset("Inconsolata-Regular.ttf")));
         FontFamilies.Add("Dalamud Icons", new(true, GetDalamudFontAsset("FontAwesomeFreeSolid.otf")));
 
-        foreach (string name in FontRegistry.Instance.GetFontFamilies()) {
+        foreach (string name in FontRegistry.GetFontFamilies()) {
             FontFamilies.Add(name, new(false, name));
         }
 
@@ -127,9 +127,9 @@ internal sealed class UmbraFonts
         if (!FontFamilies.TryGetValue(name, out var font)) return;
 
         if (font.IsFile) {
-            FontRegistry.Instance.SetNativeFontFamily(fontId, new FileInfo(font.Name), sizeOffset);
+            FontRegistry.SetNativeFontFamily(fontId, new FileInfo(font.Name), sizeOffset);
         } else {
-            FontRegistry.Instance.SetNativeFontFamily(fontId, font.Name, fontId == 3 ? SKFontStyleWeight.ExtraBold : SKFontStyleWeight.Medium, sizeOffset);
+            FontRegistry.SetNativeFontFamily(fontId, font.Name, fontId == 3 ? SKFontStyleWeight.ExtraBold : SKFontStyleWeight.Medium, sizeOffset);
         }
     }
 }
