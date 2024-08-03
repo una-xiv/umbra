@@ -133,7 +133,7 @@ internal sealed class MainMenuRepository : IMainMenuRepository
     {
         foreach (var category in Categories.Values) {
             var item = category.Items.FirstOrDefault(i => i.Id == id);
-            if (item is not null) return item;
+            if (item != null) return item;
         }
 
         return null;

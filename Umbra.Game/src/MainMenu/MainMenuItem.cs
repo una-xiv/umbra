@@ -45,7 +45,7 @@ public sealed class MainMenuItem : IDisposable
     public Action? OnUpdate;
     public Action? OnDisposed;
 
-    public string Id => $"Item-{Crc32.Get(Category?.Category.ToString() ?? "X").ToString()}-{Type}-{SortIndex}-{Name.GetHashCode()}";
+    public string Id => $"Item-{Crc32.Get(Category?.Category.ToString() ?? "X").ToString()}-{Type}-{Crc32.Get(Name)}";
 
     public void Dispose()
     {

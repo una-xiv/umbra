@@ -238,6 +238,7 @@ internal sealed partial class UnifiedMainMenuPopup : WidgetPopup
                 node = CreatePinnedItem(id, sortIndex);
 
                 if (null == node) {
+                    Logger.Warning($"Detected an invalid menu item id in pinned items: {id}");
                     PinnedItems.Remove(id);
                     continue;
                 }
