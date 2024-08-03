@@ -46,8 +46,8 @@ internal partial class ExperienceBarWidget
             ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             new IntegerWidgetConfigVariable(
                 "TextYOffset",
-                I18N.Translate("Widget.InventorySpace.Config.TextYOffset.Name"),
-                I18N.Translate("Widget.InventorySpace.Config.TextYOffset.Description"),
+                I18N.Translate("Widgets.DefaultToolbarWidget.Config.TextYOffset.Name"),
+                I18N.Translate("Widgets.DefaultToolbarWidget.Config.TextYOffset.Description"),
                 0,
                 -5,
                 5
