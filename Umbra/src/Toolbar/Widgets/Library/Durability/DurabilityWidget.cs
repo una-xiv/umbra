@@ -19,6 +19,7 @@ using Dalamud.Interface;
 using Dalamud.Plugin.Services;
 using Dalamud.Utility;
 using Lumina.Excel.GeneratedSheets;
+using System.Linq;
 using Umbra.Common;
 using Umbra.Game;
 
@@ -34,7 +35,10 @@ internal partial class DurabilityWidget(
     /// <inheritdoc/>
     public override MenuPopup Popup { get; } = new();
 
-    private IPlayer Player { get; } = Framework.Service<IPlayer>();
+    private IPlayer      Player      { get; } = Framework.Service<IPlayer>();
+    private IDataManager DataManager { get; } = Framework.Service<IDataManager>();
+
+    private static List<uint> _darkMatterItemIds = [5594, 5595, 5596, 5597, 5598, 10386, 17837, 33916];
 
     /// <inheritdoc/>
     protected override void Initialize()
@@ -168,7 +172,7 @@ internal partial class DurabilityWidget(
         }
 
         if (Popup.IsOpen) {
-            Popup.SetButtonDisabled("Repair",  !Player.IsGeneralActionUnlocked(6));
+            Popup.SetButtonDisabled("Repair",  !UpdateRepairButtonState());
             Popup.SetButtonDisabled("Extract", !Player.IsGeneralActionUnlocked(14));
             Popup.SetButtonDisabled("Melding", !Player.IsGeneralActionUnlocked(13));
         }
@@ -185,5 +189,35 @@ internal partial class DurabilityWidget(
         }
 
         return 61512;
+    }
+
+    private bool UpdateRepairButtonState()
+    {
+        if (!Player.IsGeneralActionUnlocked(6)) {
+            Popup.SetButtonAltLabel("Repair", null);
+            return false;
+        }
+
+        uint highestDarkMatterType  = 0;
+        int  highestDarkMatterCount = 0;
+
+        foreach (uint itemId in _darkMatterItemIds) {
+            var count = Player.GetItemCount(itemId);
+
+            if (count > 0 && itemId > highestDarkMatterType) {
+                highestDarkMatterCount = count;
+                highestDarkMatterType  = itemId;
+            }
+        }
+
+        if (0 == highestDarkMatterType) {
+            Popup.SetButtonAltLabel("Repair", null);
+            return false;
+        }
+
+        Item item = DataManager.GetExcelSheet<Item>()!.GetRow(highestDarkMatterType)!;
+        Popup.SetButtonAltLabel("Repair", $"{item.Name.ToDalamudString().TextValue} x {highestDarkMatterCount}");
+
+        return true;
     }
 }
