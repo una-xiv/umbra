@@ -25,9 +25,17 @@ using Umbra.Common;
 namespace Umbra.Game.Societies;
 
 [Service]
-internal sealed class SocietiesRepository(IDataManager dataManager) : IDisposable
+internal sealed class SocietiesRepository : IDisposable
 {
     public Dictionary<uint, Society> Societies { get; } = [];
+
+    private IDataManager DataManager { get; }
+
+    public SocietiesRepository(IDataManager dataManager)
+    {
+        DataManager = dataManager;
+        OnTick();
+    }
 
     [OnTick(interval: 2000)]
     private unsafe void OnTick()
@@ -40,8 +48,12 @@ internal sealed class SocietiesRepository(IDataManager dataManager) : IDisposabl
                 (BeastTribe tribe, BeastReputationRank rank, ushort currentRep, ushort requiredRep) =
                     GetTribe((byte)(i));
 
+                string name = tribe.Name.ToString();
+
                 Societies[tribe.RowId] = new() {
-                    Name           = tribe.Name.ToString(),
+                    Id             = tribe.RowId,
+                    Name           = name[0].ToString().ToUpper() + name[1..],
+                    RankId         = rank.RowId,
                     Rank           = rank.AlliedNames.ToString(),
                     ExpansionId    = tribe.Expansion.Row,
                     ExpansionName  = tribe.Expansion.Value!.Name.ToString(),
@@ -64,8 +76,8 @@ internal sealed class SocietiesRepository(IDataManager dataManager) : IDisposabl
 
         var                 rank       = (byte)(tribe.Rank & 0x7F);
         ushort              currentRep = tribe.Value;
-        var                 tribeRow   = dataManager.GetExcelSheet<BeastTribe>()!.GetRow(index)!;
-        BeastReputationRank rankRow    = dataManager.GetExcelSheet<BeastReputationRank>()!.GetRow(rank)!;
+        var                 tribeRow   = DataManager.GetExcelSheet<BeastTribe>()!.GetRow(index)!;
+        BeastReputationRank rankRow    = DataManager.GetExcelSheet<BeastReputationRank>()!.GetRow(rank)!;
 
         if (rank >= tribeRow.MaxRank) {
             return (tribeRow, rankRow, currentRep, 0);

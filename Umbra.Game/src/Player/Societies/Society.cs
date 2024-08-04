@@ -18,9 +18,11 @@ namespace Umbra.Game.Societies;
 
 public struct Society
 {
+    public uint   Id             { get; init; }
     public uint   ExpansionId    { get; init; }
     public string ExpansionName  { get; init; }
     public string Name           { get; init; }
+    public uint   RankId         { get; init; }
     public string Rank           { get; init; }
     public uint   IconId         { get; init; }
     public uint   CurrencyItemId { get; init; }
