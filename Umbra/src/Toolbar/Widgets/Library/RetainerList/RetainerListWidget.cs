@@ -30,7 +30,12 @@ internal partial class RetainerListWidget(
         // The game performs the same checks when opening the timer window. (Thanks Hasel!)
         SetDisabled(Player.CurrentWorldName != Player.HomeWorldName || Player.IsBoundByInstancedDuty);
 
-        Popup.JobIconType = GetConfigValue<string>("IconType");
+        Popup.JobIconType       = GetConfigValue<string>("IconType");
+        Popup.CurrencySeparator = GetConfigValue<string>("CurrencySeparator");
+        Popup.ShowGil           = GetConfigValue<bool>("ShowGil");
+        Popup.ShowInventory     = GetConfigValue<bool>("ShowInventory");
+        Popup.ShowItemsOnSale   = GetConfigValue<bool>("ShowItemsOnSale");
+        Popup.ShowVenture       = GetConfigValue<bool>("ShowVenture");
 
         base.OnUpdate();
     }
