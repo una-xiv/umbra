@@ -41,7 +41,7 @@ internal sealed partial class SocietiesWidget(
             SetLabel(GetConfigValue<string>("ButtonLabel"));
             SetIcon((uint)GetConfigValue<int>("ButtonIconId"));
         } else {
-            int    pct = (100 * society.Value.CurrentRep / society.Value.RequiredRep);
+            int    pct = society.Value.RequiredRep > 0 ? (100 * society.Value.CurrentRep / society.Value.RequiredRep) : 100;
             string rep = pct is < 100 and > 0 ? $" ({pct}%)" : "";
 
             SetTwoLabels(society.Value.Name, $"{society.Value.Rank}{rep}");
