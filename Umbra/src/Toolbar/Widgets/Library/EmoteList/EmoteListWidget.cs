@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text.Json;
 using Umbra.Common;
+using Umbra.Game;
 using NotImplementedException = System.NotImplementedException;
 
 namespace Umbra.Widgets.Library.EmoteList;
@@ -17,6 +18,10 @@ internal sealed partial class EmoteListWidget(
     /// <inheritdoc/>
     protected override void Initialize()
     {
+        Node.OnRightClick += _ => {
+            Framework.Service<IChatSender>().Send("/emotelist");
+        };
+
         Popup.OnCategoryChanged += OnEmoteCategoryChanged;
         Popup.OnKeepOpenChanged += OnKeepOpenChanged;
         Popup.OnEmotesChanged   += OnEmotesChanged;
