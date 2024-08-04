@@ -85,8 +85,6 @@ internal sealed partial class UnifiedMainMenuPopup : WidgetPopup
 
         bool isTop = BannerLocation == "Top" || (BannerLocation == "Auto" && !Toolbar.IsTopAligned);
 
-        Logger.Info($"Is Top? {isTop}");
-
         HeaderNode.SortIndex          = !isTop ? 1000 : -1000;
         HeaderLabelNameNode.NodeValue = Player.Name.Split(' ').First();
         HeaderLabelInfoNode.NodeValue = $"{I18N.Translate("Widget.GearsetSwitcher.JobLevel", job.Level)} {job.Name}";

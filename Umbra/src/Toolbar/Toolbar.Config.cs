@@ -31,7 +31,7 @@ internal partial class Toolbar
 
     [ConfigVariable("Toolbar.AutoHideDuringDuty", category: "General", subCategory: "Toolbar")]
     private static bool AutoHideDuringDuty { get; set; } = false;
-    
+
     [ConfigVariable("Toolbar.AutoHideDuringPvp", category: "General", subCategory: "Toolbar")]
     private static bool AutoHideDuringPvp { get; set; } = false;
 
@@ -50,13 +50,13 @@ internal partial class Toolbar
     [ConfigVariable("Toolbar.Height", "General", "Toolbar", min: 26, max: 64)]
     public static int Height { get; set; } = 32;
 
-    [ConfigVariable("Toolbar.ItemSpacing", "General", "Toolbar", min: 1, max: 32)]
+    [ConfigVariable("Toolbar.ItemSpacing", "General", "Toolbar", min: 0, max: 1000)]
     public static int ItemSpacing { get; set; } = 6;
 
-    [ConfigVariable("Toolbar.MarginLeft", "General", "Toolbar", min: -1, max: 16384)]
+    [ConfigVariable("Toolbar.MarginLeft", "General", "Toolbar", min: -16384, max: 16384)]
     private static int ToolbarLeftMargin { get; set; } = 0;
 
-    [ConfigVariable("Toolbar.MarginRight", "General", "Toolbar", min: -1, max: 16384)]
+    [ConfigVariable("Toolbar.MarginRight", "General", "Toolbar", min: -16384, max: 16384)]
     private static int ToolbarRightMargin { get; set; } = 0;
 
     [ConfigVariable("Toolbar.YOffset", "General", "Toolbar", min: -16384, max: 16384)]
