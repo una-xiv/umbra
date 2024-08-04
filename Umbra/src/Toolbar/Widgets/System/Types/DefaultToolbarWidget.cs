@@ -181,6 +181,8 @@ public abstract class DefaultToolbarWidget(
 
     protected void SetIcon(uint? iconId)
     {
+        if (iconId == 0) iconId = null;
+
         _singleIconId = iconId;
 
         if (null == iconId) {
