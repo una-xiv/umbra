@@ -1,4 +1,5 @@
 ﻿using Dalamud.Plugin.Services;
+using Dalamud.Utility;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using Lumina.Excel.GeneratedSheets;
 using System;
@@ -155,6 +156,11 @@ public class VistaMarkerFactory : WorldMarkerFactory, IDisposable
 
         PlayerState* ps = PlayerState.Instance();
         if (ps == null) return false;
+
+        if (Util.GetScmVersion() == "10.0.0.10") {
+            // FIXME: Remove this once Dalamud has (finally) updated.
+            return ps->IsAdventureExPhaseComplete(id);
+        }
 
         return ps->IsAdventureComplete(id);
     }
