@@ -27,8 +27,10 @@ internal sealed partial class UnifiedMainMenu(
 
     protected override void OnUpdate()
     {
-        Popup.MenuHeight   = GetConfigValue<int>("FixedMenuHeight");
-        Popup.AvatarIconId = (uint)GetConfigValue<int>("AvatarIconId");
+        Popup.AvatarIconId    = (uint)GetConfigValue<int>("AvatarIconId");
+        Popup.MenuHeight      = GetConfigValue<int>("FixedMenuHeight");
+        Popup.BannerLocation  = GetConfigValue<string>("BannerLocation");
+        Popup.DesaturateIcons = GetConfigValue<bool>("DesaturateIcons");
 
         SetLabel(GetConfigValue<string>("Label"));
         SetIcon((uint)GetConfigValue<int>("IconId"));
@@ -44,7 +46,9 @@ internal sealed partial class UnifiedMainMenu(
     private void HydratePinnedItems()
     {
         try {
-            List<string>? pinnedItems = JsonConvert.DeserializeObject<List<string>>(GetConfigValue<string>("PinnedItems"));
+            List<string>? pinnedItems =
+                JsonConvert.DeserializeObject<List<string>>(GetConfigValue<string>("PinnedItems"));
+
             if (pinnedItems != null) {
                 Popup.SetPinnedItems(pinnedItems);
             }

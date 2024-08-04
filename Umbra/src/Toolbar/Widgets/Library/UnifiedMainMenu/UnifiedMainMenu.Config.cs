@@ -23,6 +23,12 @@ internal sealed partial class UnifiedMainMenu
             ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             ..DefaultToolbarWidgetConfigVariables,
             ..SingleLabelTextOffsetVariables,
+            new BooleanWidgetConfigVariable(
+                "DesaturateIcons",
+                I18N.Translate("Widget.UnifiedMainMenu.Config.DesaturateIcons.Name"),
+                I18N.Translate("Widget.UnifiedMainMenu.Config.DesaturateIcons.Description"),
+                false
+            ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
             new IntegerWidgetConfigVariable(
                 "AvatarIconId",
                 I18N.Translate("Widget.UnifiedMainMenu.Config.AvatarIconId.Name"),
@@ -37,6 +43,17 @@ internal sealed partial class UnifiedMainMenu
                 0,
                 0,
                 1000
+            ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
+            new SelectWidgetConfigVariable(
+                "BannerLocation",
+                I18N.Translate("Widget.UnifiedMainMenu.Config.BannerLocation.Name"),
+                I18N.Translate("Widget.UnifiedMainMenu.Config.BannerLocation.Description"),
+                "Auto",
+                new() {
+                    { "Auto", I18N.Translate("Widget.UnifiedMainMenu.Config.BannerLocation.Option.Auto") },
+                    { "Top", I18N.Translate("Widget.UnifiedMainMenu.Config.BannerLocation.Option.Top") },
+                    { "Bottom", I18N.Translate("Widget.UnifiedMainMenu.Config.BannerLocation.Option.Bottom") },
+                }
             ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
             new StringWidgetConfigVariable(
                 "PinnedItems",

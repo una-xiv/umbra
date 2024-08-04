@@ -12,9 +12,11 @@ internal sealed partial class UnifiedMainMenuPopup : WidgetPopup
 {
     public event Action<List<string>>? OnPinnedItemsChanged;
 
-    public int          MenuHeight   { get; set; }
-    public uint         AvatarIconId { get; set; } = 76985;
-    public List<string> PinnedItems  { get; private set; } = [];
+    public int          MenuHeight      { get; set; }
+    public uint         AvatarIconId    { get; set; }         = 76985;
+    public string       BannerLocation  { get; set; }         = "Auto";
+    public bool         DesaturateIcons { get; set; }         = false;
+    public List<string> PinnedItems     { get; private set; } = [];
 
     private IMainMenuRepository MainMenuRepository { get; } = Framework.Service<IMainMenuRepository>();
     private IPlayer             Player             { get; } = Framework.Service<IPlayer>();
@@ -81,12 +83,16 @@ internal sealed partial class UnifiedMainMenuPopup : WidgetPopup
     {
         JobInfo job = Player.GetJobInfo(Player.JobId);
 
-        HeaderNode.SortIndex          = Toolbar.IsTopAligned ? 1000 : -1000;
+        bool isTop = BannerLocation == "Top" || (BannerLocation == "Auto" && !Toolbar.IsTopAligned);
+
+        Logger.Info($"Is Top? {isTop}");
+
+        HeaderNode.SortIndex          = !isTop ? 1000 : -1000;
         HeaderLabelNameNode.NodeValue = Player.Name.Split(' ').First();
         HeaderLabelInfoNode.NodeValue = $"{I18N.Translate("Widget.GearsetSwitcher.JobLevel", job.Level)} {job.Name}";
 
-        Node.TagsList.Remove(Toolbar.IsTopAligned ? "bottom" : "top");
-        Node.TagsList.Add(Toolbar.IsTopAligned ? "top" : "bottom");
+        Node.TagsList.Remove(!isTop ? "bottom" : "top");
+        Node.TagsList.Add(!isTop ? "top" : "bottom");
 
         // Find the max height of the popup.
         if (MenuHeight == 0) {
@@ -124,13 +130,18 @@ internal sealed partial class UnifiedMainMenuPopup : WidgetPopup
                         PinnedItems.Remove(entry.Id);
                         UpdatePinnedItems();
                     }
+
                     continue;
                 }
 
-                if (node2 != null) node2.IsDisabled = entry.IsDisabled;
+                if (node2 != null) {
+                    node2.IsDisabled                                                 = entry.IsDisabled;
+                    node2.QuerySelector(".pinned-entry--icon")!.Style.ImageGrayscale = DesaturateIcons;
+                }
 
-                node1.IsDisabled                               = entry.IsDisabled;
-                node1.QuerySelector(".entry--info")!.NodeValue = entry.ShortKey;
+                node1.IsDisabled                                          = entry.IsDisabled;
+                node1.QuerySelector(".entry--info")!.NodeValue            = entry.ShortKey;
+                node1.QuerySelector(".entry--icon")!.Style.ImageGrayscale = DesaturateIcons;
             }
         }
     }
@@ -229,6 +240,7 @@ internal sealed partial class UnifiedMainMenuPopup : WidgetPopup
     private void UpdatePinnedItems()
     {
         var sortIndex = 0;
+
         foreach (var id in PinnedItems.ToArray()) {
             sortIndex++;
 
