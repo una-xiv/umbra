@@ -28,8 +28,8 @@ internal sealed partial class SocietiesWidgetPopup : WidgetPopup
             Node societyNode   = GetOrCreateSocietyNode(society, expansionNode);
 
             const int barWidth = 154;
-            int       expWidth = (barWidth * society.CurrentRep / society.RequiredRep);
-            int       expPct   = (100 * society.CurrentRep / society.RequiredRep);
+            int       expWidth = society.RequiredRep > 0 ? (barWidth * society.CurrentRep / society.RequiredRep) : barWidth;
+            int       expPct   = society.RequiredRep > 0 ? (100 * society.CurrentRep / society.RequiredRep) : 100;
 
             societyNode.QuerySelector(".society--exp-bar--bar")!.Style.Size = new(expWidth, 2);
             societyNode.QuerySelector(".society--rank--value")!.NodeValue   = $"{expPct}%";
