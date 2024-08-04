@@ -141,17 +141,22 @@ internal sealed partial class GearsetSwitcherWidget(
         short jobLevel  = _currentGearset!.JobLevel;
         short jobXp     = _currentGearset!.JobXp;
         short itemLevel = _currentGearset!.ItemLevel;
-        bool maxLevel   = _currentGearset!.IsMaxLevel;
+        bool  maxLevel  = _currentGearset!.IsMaxLevel;
 
         string itemLevelStr = I18N.Translate("Widget.GearsetSwitcher.ItemLevel", itemLevel);
         string expStr       = maxLevel ? "" : $" - {I18N.Translate("Widget.GearsetSwitcher.JobXp", jobXp)}";
         string jobLevelStr  = $"{I18N.Translate("Widget.GearsetSwitcher.JobLevel", jobLevel)}{expStr}";
 
-        PlayerState* ps       = PlayerState.Instance();
-        bool         isSynced = ps != null && ps->IsLevelSynced == 1 && ps->SyncedLevel != jobLevel;
+        bool isSynced = false;
 
-        if (isSynced) {
-            jobLevelStr = $"{SeIconChar.Experience.ToIconString()} {I18N.Translate("Widget.GearsetSwitcher.JobLevel", ps->SyncedLevel)}{expStr}";
+        if (GetConfigValue<bool>("ShowSyncedLevelInInfo")) {
+            PlayerState* ps = PlayerState.Instance();
+            isSynced = ps != null && ps->IsLevelSynced == 1 && ps->SyncedLevel != jobLevel;
+
+            if (isSynced) {
+                jobLevelStr =
+                    $"{SeIconChar.Experience.ToIconString()} {I18N.Translate("Widget.GearsetSwitcher.JobLevel", ps->SyncedLevel)}{expStr}";
+            }
         }
 
         return infoType switch {
