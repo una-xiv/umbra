@@ -146,6 +146,7 @@ internal sealed partial class DtrBarWidget(
         };
 
         if (entry.IsInteractive) {
+            node.Tooltip =  entry.TooltipText?.TextValue;
             node.OnClick += _ => entry.InvokeClickAction();
         }
 
@@ -175,6 +176,7 @@ internal sealed partial class DtrBarWidget(
             SetNodeLabel(node, entry);
         }
 
+        node.Tooltip   = entry.TooltipText?.TextValue;
         node.SortIndex = entry.SortIndex;
     }
 
