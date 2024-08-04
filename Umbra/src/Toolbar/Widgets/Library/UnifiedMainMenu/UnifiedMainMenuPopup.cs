@@ -142,6 +142,10 @@ internal sealed partial class UnifiedMainMenuPopup : WidgetPopup
                 node1.QuerySelector(".entry--icon")!.Style.ImageGrayscale = DesaturateIcons;
             }
         }
+
+        foreach (Node node in Node.QuerySelectorAll(".category--icon")) {
+            node.Style.ImageGrayscale = DesaturateIcons;
+        }
     }
 
     private void ActivateCategory(MainMenuCategory category)
