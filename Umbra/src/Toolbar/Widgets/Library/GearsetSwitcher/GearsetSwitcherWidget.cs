@@ -14,6 +14,8 @@
  *     GNU Affero General Public License for more details.
  */
 
+using Dalamud.Game.Text;
+using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using System.Collections.Generic;
 using Umbra.Common;
 using Umbra.Game;
@@ -51,11 +53,11 @@ internal sealed partial class GearsetSwitcherWidget(
         SetIcon(GetWidgetJobIconId(_currentGearset!));
 
         bool showText = GetConfigValue<string>("DisplayMode") != "IconOnly";
-        bool showIlvl = GetConfigValue<bool>("ShowItemLevel");
+        bool showInfo = GetConfigValue<string>(_currentGearset!.IsMaxLevel ? "InfoTypeMaxLevel" : "InfoType") != "None";
 
-        if (showText && showIlvl) {
+        if (showText && showInfo) {
             SetTwoLabels(_currentGearset!.Name, GetCurrentGearsetStatusText());
-        } else if (showText && !showIlvl) {
+        } else if (showText && !showInfo) {
             SetLabel(_currentGearset!.Name);
         } else {
             SetTwoLabels(null, null);
@@ -131,14 +133,32 @@ internal sealed partial class GearsetSwitcherWidget(
         return true;
     }
 
-    private string GetCurrentGearsetStatusText()
+    private unsafe string GetCurrentGearsetStatusText()
     {
+        string infoType = GetConfigValue<string>(_currentGearset!.IsMaxLevel ? "InfoTypeMaxLevel" : "InfoType");
+        if (infoType == "None") return string.Empty;
+
         short jobLevel  = _currentGearset!.JobLevel;
         short jobXp     = _currentGearset!.JobXp;
         short itemLevel = _currentGearset!.ItemLevel;
+        bool maxLevel   = _currentGearset!.IsMaxLevel;
 
-        return _currentGearset!.IsMaxLevel
-            ? I18N.Translate("Widget.GearsetSwitcher.ItemLevel", itemLevel)
-            : $"{I18N.Translate("Widget.GearsetSwitcher.JobLevel", jobLevel)} - {I18N.Translate("Widget.GearsetSwitcher.JobXp", jobXp)}";
+        string itemLevelStr = I18N.Translate("Widget.GearsetSwitcher.ItemLevel", itemLevel);
+        string expStr       = maxLevel ? "" : $" - {I18N.Translate("Widget.GearsetSwitcher.JobXp", jobXp)}";
+        string jobLevelStr  = $"{I18N.Translate("Widget.GearsetSwitcher.JobLevel", jobLevel)}{expStr}";
+
+        PlayerState* ps       = PlayerState.Instance();
+        bool         isSynced = ps != null && ps->IsLevelSynced == 1 && ps->SyncedLevel != jobLevel;
+
+        if (isSynced) {
+            jobLevelStr = $"{SeIconChar.Experience.ToIconString()} {I18N.Translate("Widget.GearsetSwitcher.JobLevel", ps->SyncedLevel)}{expStr}";
+        }
+
+        return infoType switch {
+            "Auto"      => !isSynced && maxLevel ? itemLevelStr : jobLevelStr,
+            "JobLevel"  => jobLevelStr,
+            "ItemLevel" => itemLevelStr,
+            _           => string.Empty
+        };
     }
 }

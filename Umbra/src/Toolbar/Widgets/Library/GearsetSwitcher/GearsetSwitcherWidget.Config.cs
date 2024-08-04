@@ -39,18 +39,33 @@ internal partial class GearsetSwitcherWidget
             { "Green", I18N.Translate("Widget.GearsetSwitcher.Config.IconType.Option.Green") }
         };
 
+        Dictionary<string, string> infoTypeChoices = new() {
+            { "None", I18N.Translate("Widget.GearsetSwitcher.Config.InfoType.Option.None") },
+            { "Auto", I18N.Translate("Widget.GearsetSwitcher.Config.InfoType.Option.Auto") },
+            { "ItemLevel", I18N.Translate("Widget.GearsetSwitcher.Config.InfoType.Option.ItemLevel") },
+            { "JobLevel", I18N.Translate("Widget.GearsetSwitcher.Config.InfoType.Option.JobLevel") },
+        };
+
         return [
             ..DefaultToolbarWidgetConfigVariables,
-            new BooleanWidgetConfigVariable(
-                "AutoCloseOnChange",
-                I18N.Translate("Widget.GearsetSwitcher.Config.AutoCloseOnChange.Name"),
-                I18N.Translate("Widget.GearsetSwitcher.Config.AutoCloseOnChange.Description"),
-                true
+            new SelectWidgetConfigVariable(
+                "InfoType",
+                I18N.Translate("Widget.GearsetSwitcher.Config.InfoType.Name"),
+                I18N.Translate("Widget.GearsetSwitcher.Config.InfoType.Description"),
+                "Auto",
+                infoTypeChoices
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            new SelectWidgetConfigVariable(
+                "InfoTypeMaxLevel",
+                I18N.Translate("Widget.GearsetSwitcher.Config.InfoTypeMaxLevel.Name"),
+                I18N.Translate("Widget.GearsetSwitcher.Config.InfoTypeMaxLevel.Description"),
+                "Auto",
+                infoTypeChoices
             ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             new BooleanWidgetConfigVariable(
-                "ShowItemLevel",
-                I18N.Translate("Widget.GearsetSwitcher.Config.ShowItemLevel.Name"),
-                I18N.Translate("Widget.GearsetSwitcher.Config.ShowItemLevel.Description"),
+                "ShowSyncedLevelInInfo",
+                I18N.Translate("Widget.GearsetSwitcher.Config.ShowSyncedLevelInInfo.Name"),
+                I18N.Translate("Widget.GearsetSwitcher.Config.ShowSyncedLevelInInfo.Description"),
                 true
             ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             new SelectWidgetConfigVariable(
@@ -62,6 +77,12 @@ internal partial class GearsetSwitcherWidget
             ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             ..SingleLabelTextOffsetVariables,
             ..TwoLabelTextOffsetVariables,
+            new BooleanWidgetConfigVariable(
+                "AutoCloseOnChange",
+                I18N.Translate("Widget.GearsetSwitcher.Config.AutoCloseOnChange.Name"),
+                I18N.Translate("Widget.GearsetSwitcher.Config.AutoCloseOnChange.Description"),
+                true
+            ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
             new BooleanWidgetConfigVariable(
                 "EnableRoleScrolling",
                 I18N.Translate("Widget.GearsetSwitcher.Config.EnableRoleScrolling.Name"),
@@ -134,12 +155,22 @@ internal partial class GearsetSwitcherWidget
                 I18N.Translate("Widget.GearsetSwitcher.Config.GearsetButtonBackgroundType.Description"),
                 "GradientV",
                 new() {
-                    { "None", I18N.Translate("Widget.GearsetSwitcher.Config.GearsetButtonBackgroundType.Option.None") },
-                    { "GradientV", I18N.Translate("Widget.GearsetSwitcher.Config.GearsetButtonBackgroundType.Option.GradientV") },
-                    { "GradientVI", I18N.Translate("Widget.GearsetSwitcher.Config.GearsetButtonBackgroundType.Option.GradientVI") },
-                    { "GradientH", I18N.Translate("Widget.GearsetSwitcher.Config.GearsetButtonBackgroundType.Option.GradientH") },
-                    { "GradientHI", I18N.Translate("Widget.GearsetSwitcher.Config.GearsetButtonBackgroundType.Option.GradientHI") },
-                    { "Plain", I18N.Translate("Widget.GearsetSwitcher.Config.GearsetButtonBackgroundType.Option.Plain") },
+                    { "None", I18N.Translate("Widget.GearsetSwitcher.Config.GearsetButtonBackgroundType.Option.None") }, {
+                        "GradientV",
+                        I18N.Translate("Widget.GearsetSwitcher.Config.GearsetButtonBackgroundType.Option.GradientV")
+                    }, {
+                        "GradientVI",
+                        I18N.Translate("Widget.GearsetSwitcher.Config.GearsetButtonBackgroundType.Option.GradientVI")
+                    }, {
+                        "GradientH",
+                        I18N.Translate("Widget.GearsetSwitcher.Config.GearsetButtonBackgroundType.Option.GradientH")
+                    }, {
+                        "GradientHI",
+                        I18N.Translate("Widget.GearsetSwitcher.Config.GearsetButtonBackgroundType.Option.GradientHI")
+                    }, {
+                        "Plain",
+                        I18N.Translate("Widget.GearsetSwitcher.Config.GearsetButtonBackgroundType.Option.Plain")
+                    },
                 }
             ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
 
