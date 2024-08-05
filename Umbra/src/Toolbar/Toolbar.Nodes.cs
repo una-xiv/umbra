@@ -28,8 +28,9 @@ internal partial class Toolbar
         Id         = "Toolbar",
         ClassList  = ["toolbar"],
         Style = new() {
-            Size = new(1920, Height),
-            Gap  = ItemSpacing,
+            Size    = new(1920, Height),
+            Gap     = ItemSpacing,
+            Opacity = 1,
         },
         ChildNodes = [
             new() {
@@ -62,12 +63,17 @@ internal partial class Toolbar
     /// </summary>
     private void RenderToolbarNode()
     {
-        _toolbarNode.Style.ShadowSize = new(EnableShadow && (
-            !EnableInactiveColors || IsCursorNearToolbar()
-        ) ? (Height * 2) : 0);
+        _toolbarNode.Style.ShadowSize = new(
+            EnableShadow
+            && (
+                !EnableInactiveColors || IsCursorNearToolbar()
+            )
+                ? (Height * 2)
+                : 0
+        );
 
         _toolbarNode.Style.Gap     = ItemSpacing * 2;
-        _toolbarNode.Style.Opacity = player.IsEditingHud ? 0.66f : null;
+        _toolbarNode.Style.Opacity = player.IsEditingHud ? 0.66f : _autoHideOpacity;
         LeftPanel.Style.Gap        = ItemSpacing;
         CenterPanel.Style.Gap      = ItemSpacing;
         RightPanel.Style.Gap       = ItemSpacing;
@@ -155,7 +161,8 @@ internal partial class Toolbar
     /// <summary>
     /// Returns the horizontal position of the toolbar.
     /// </summary>
-    private static int ToolbarXPosition => (int)(ImGui.GetMainViewport().WorkPos.X + (ImGui.GetMainViewport().WorkSize.X / 2));
+    private static int ToolbarXPosition =>
+        (int)(ImGui.GetMainViewport().WorkPos.X + (ImGui.GetMainViewport().WorkSize.X / 2));
 
     /// <summary>
     /// Returns the vertical position of the toolbar.
