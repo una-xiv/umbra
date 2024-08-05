@@ -27,7 +27,9 @@ internal sealed class GameCamera : IGameCamera
     private Vector3 _cameraPosition;
     private Vector3 _lookAtVector;
 
-    public unsafe bool WorldToScreen(Vector3 worldPos, out Vector2 screenPos)
+    public unsafe bool WorldToScreen(
+        Vector3 worldPos, out Vector2 screenPos, int horizontalOffset = 0, int verticalOffset = 0
+    )
     {
         CameraManager* cmPtr = CameraManager.Instance();
 
@@ -44,10 +46,10 @@ internal sealed class GameCamera : IGameCamera
         _lookAtVector   = cmPtr->CurrentCamera->LookAtVector;
         _cameraPosition = cmPtr->CurrentCamera->Position;
 
-        bool isInViewport = screenPos.X >= 0
-            && screenPos.X <= ImGui.GetIO().DisplaySize.X
-            && screenPos.Y >= 0
-            && screenPos.Y <= ImGui.GetIO().DisplaySize.Y;
+        bool isInViewport = screenPos.X >= horizontalOffset
+            && screenPos.X <= ImGui.GetIO().DisplaySize.X - horizontalOffset
+            && screenPos.Y >= verticalOffset
+            && screenPos.Y <= ImGui.GetIO().DisplaySize.Y - verticalOffset;
 
         return isInViewport && IsInFrontOfCamera(worldPos);
     }

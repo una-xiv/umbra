@@ -49,6 +49,12 @@ internal partial class CompassRenderer(
     [ConfigVariable("Markers.Compass.IconOpacity", "Markers", "MarkersCompass", 0, 100)]
     private static int IconOpacity { get; set; } = 100;
 
+    [ConfigVariable("Markers.Compass.SafeZoneOffsetWidth", "Markers", "MarkersCompass", 0, 1000)]
+    private static int SafeZoneOffsetWidth { get; set; } = 0;
+
+    [ConfigVariable("Markers.Compass.SafeZoneOffsetHeight", "Markers", "MarkersCompass", 0, 1000)]
+    private static int SafeZoneOffsetHeight { get; set; } = 0;
+
     [OnDraw(executionOrder: int.MaxValue)]
     private void OnUpdate()
     {
@@ -69,7 +75,7 @@ internal partial class CompassRenderer(
             Vector3 pos = registry.GetResolvedPosition(marker);
 
             // Skip rendering if the marker itself is in view.
-            if (gameCamera.WorldToScreen(pos, out Vector2 markerScreenPosition))
+            if (gameCamera.WorldToScreen(pos, out Vector2 markerScreenPosition, SafeZoneOffsetWidth, SafeZoneOffsetHeight))
                 continue;
 
             Vector2 direction = Vector2.Normalize(gameCamera.IsInFrontOfCamera(pos) ? markerScreenPosition - playerScreenPosition : playerScreenPosition - markerScreenPosition);
