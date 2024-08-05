@@ -41,8 +41,6 @@ internal sealed class Plugin : IDalamudPlugin
         PluginInterface = plugin;
         plugin.Inject(this);
 
-        PluginLog.Info($"Commits: {FFXIVClientStructs.ThisAssembly.Git.Commits}");
-
         DrawingLib.Setup(plugin);
 
         RegisterServices();

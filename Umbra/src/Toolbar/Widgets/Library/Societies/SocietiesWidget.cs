@@ -33,21 +33,25 @@ internal sealed partial class SocietiesWidget(
     {
         Popup.MinItemsBeforeHorizontalView = GetConfigValue<int>("MinItemsBeforeHorizontalView");
 
+        string?  tooltip;
         uint     trackedTribeId = (uint)GetConfigValue<int>("TrackedTribeId");
         Society? society        = Player.Societies.FirstOrDefault(s => s.Id == trackedTribeId);
 
         if (0 == trackedTribeId || !society.HasValue) {
             SetLabel(GetConfigValue<string>("ButtonLabel"));
             SetIcon((uint)GetConfigValue<int>("ButtonIconId"));
+            tooltip = null;
         } else {
             int    pct = society.Value.RequiredRep > 0 ? (100 * society.Value.CurrentRep / society.Value.RequiredRep) : 100;
             string rep = pct is < 100 and > 0 ? $" ({pct}%)" : "";
 
             SetTwoLabels(society.Value.Name, $"{society.Value.Rank}{rep}");
             SetIcon(society.Value.IconId);
+            tooltip = $"{society.Value.Name} - {society.Value.Rank}{rep}";
         }
 
         base.OnUpdate();
+        Node.Tooltip = tooltip;
     }
 
     private void OnSocietySelected(Society society)
