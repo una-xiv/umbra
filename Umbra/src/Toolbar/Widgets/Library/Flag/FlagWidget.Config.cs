@@ -27,6 +27,12 @@ internal sealed partial class FlagWidget
         return [
             ..DefaultToolbarWidgetConfigVariables,
             ..TwoLabelTextOffsetVariables,
+            new StringWidgetConfigVariable(
+                "ChatMessagePrefix",
+                I18N.Translate("Widget.Flag.Config.ChatMessagePrefix.Name"),
+                I18N.Translate("Widget.Flag.Config.ChatMessagePrefix.Description"),
+                ""
+            )
         ];
     }
 }

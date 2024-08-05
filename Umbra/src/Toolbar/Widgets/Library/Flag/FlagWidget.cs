@@ -18,6 +18,7 @@ using System.Collections.Generic;
 using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
+using System;
 using Umbra.Common;
 using Umbra.Game;
 
@@ -37,12 +38,15 @@ internal sealed unsafe partial class FlagWidget(
     private IPlayer        Player        { get; } = Framework.Service<IPlayer>();
     private IToastGui      ToastGui      { get; } = Framework.Service<IToastGui>();
 
+    private long lastBroadcast;
+
     /// <inheritdoc/>
     protected override void Initialize()
     {
-        Node.Tooltip      =  I18N.Translate("Widget.Flag.Tooltip");
-        Node.OnClick      += _ => OnClick();
-        Node.OnRightClick += _ => OnRightClick();
+        Node.Tooltip       =  I18N.Translate("Widget.Flag.Tooltip");
+        Node.OnClick       += _ => OnClick();
+        Node.OnRightClick  += _ => OnRightClick();
+        Node.OnMiddleClick += _ => Broadcast();
     }
 
     /// <inheritdoc/>
@@ -92,5 +96,28 @@ internal sealed unsafe partial class FlagWidget(
     {
         if (!IsFlagMarkerSet()) return;
         AgentMap.Instance()->IsFlagMarkerSet = 0;
+    }
+
+    private void Broadcast()
+    {
+        if (!IsFlagMarkerSet()) return;
+
+        // Make sure a chat prefix message has actually been set.
+        string chatMessagePrefix = GetConfigValue<string>("ChatMessagePrefix");
+        if (string.IsNullOrEmpty(chatMessagePrefix)) {
+            return;
+        }
+
+        long now = DateTimeOffset.Now.ToUnixTimeSeconds();
+
+        // Prohibit spamming the chat.
+        if (now - lastBroadcast < 3) {
+            Framework.Service<IChatGui>().PrintError(I18N.Translate("Widget.Flag.Error.SpamProtect"));
+            return;
+        }
+
+        lastBroadcast = now;
+
+        Framework.Service<IChatSender>().Send($"{chatMessagePrefix} <flag>");
     }
 }
