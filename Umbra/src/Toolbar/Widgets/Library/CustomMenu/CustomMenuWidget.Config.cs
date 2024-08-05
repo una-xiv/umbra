@@ -21,7 +21,7 @@ namespace Umbra.Widgets;
 
 internal sealed partial class CustomMenuWidget
 {
-    private const int MaxButtons = 16;
+    private const int MaxButtons = 24;
 
     /// <inheritdoc/>
     protected override IEnumerable<IWidgetConfigVariable> GetConfigVariables()

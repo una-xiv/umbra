@@ -668,6 +668,7 @@
     "Widget.MarkerControl.Config.IconYOffset.Description": "Le décalage vertical de l'icône de marqueur par rapport au centre du widget en pixels. Les valeurs positives déplacent l'icône vers le bas, les valeurs négatives déplacent l'icône vers le haut.",
     "Widget.Societies.Name": "Relations sociétales",
     "Widget.Societies.Description": "Affiche le statut actuel de vos relations sociétales (anciennement connues sous le nom de tribus bestiales).",
+    "Widget.Societies.ContextMenu.Teleport": "Téléporter vers un Aetheryte à proximité",
     "Widget.Societies.Config.ButtonLabel.Name": "Libellé du bouton (si non suivi)",
     "Widget.Societies.Config.ButtonLabel.Description": "Le libellé qui doit être affiché sur le bouton du widget lorsqu'aucune relation sociétale n'est suivie.",
     "Widget.Societies.Config.ButtonIconId.Name": "Type d'icône du bouton (si non suivi)",

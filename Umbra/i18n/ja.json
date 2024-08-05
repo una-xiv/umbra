@@ -668,6 +668,7 @@
     "Widget.MarkerControl.Config.IconYOffset.Description": "ピクセル単位でウィジェットの中心からマーカーアイコンの垂直オフセット。正の値はアイコンを下に移動し、負の値はアイコンを上に移動します。",
     "Widget.Societies.Name": "社会関係",
     "Widget.Societies.Description": "現在の社会関係の状況を表示します（以前は獣族と呼ばれていました）。",
+    "Widget.Societies.ContextMenu.Teleport": "近くのエーテライトにテレポート",
     "Widget.Societies.Config.ButtonLabel.Name": "ボタンラベル（追跡していない場合）",
     "Widget.Societies.Config.ButtonLabel.Description": "社会関係が追跡されていない場合にウィジェットボタンに表示されるラベル。",
     "Widget.Societies.Config.ButtonIconId.Name": "ボタンアイコンの種類（追跡していない場合）",

@@ -17,6 +17,19 @@ internal sealed partial class SocietiesWidgetPopup : WidgetPopup
     private IDataManager DataManager { get; } = Framework.Service<IDataManager>();
     private IPlayer      Player      { get; } = Framework.Service<IPlayer>();
 
+    public SocietiesWidgetPopup()
+    {
+        ContextMenu = new(
+            [
+                new("Teleport") {
+                    Label   = I18N.Translate("Widget.Societies.ContextMenu.Teleport"),
+                    IconId  = 60453u,
+                    OnClick = TeleportToSelectedSociety,
+                }
+            ]
+        );
+    }
+
     protected override void OnOpen()
     {
         var itemCount = 0;
@@ -28,8 +41,8 @@ internal sealed partial class SocietiesWidgetPopup : WidgetPopup
             Node societyNode   = GetOrCreateSocietyNode(society, expansionNode);
 
             const int barWidth = 154;
-            int       expWidth = society.RequiredRep > 0 ? (barWidth * society.CurrentRep / society.RequiredRep) : barWidth;
-            int       expPct   = society.RequiredRep > 0 ? (100 * society.CurrentRep / society.RequiredRep) : 100;
+            int expWidth = society.RequiredRep > 0 ? (barWidth * society.CurrentRep / society.RequiredRep) : barWidth;
+            int expPct = society.RequiredRep > 0 ? (100 * society.CurrentRep / society.RequiredRep) : 100;
 
             societyNode.QuerySelector(".society--exp-bar--bar")!.Style.Size = new(expWidth, 2);
             societyNode.QuerySelector(".society--rank--value")!.NodeValue   = $"{expPct}%";
@@ -46,13 +59,5 @@ internal sealed partial class SocietiesWidgetPopup : WidgetPopup
         } else {
             Node.TagsList.Remove("vertical");
         }
-
-        // foreach (var society in Player.Societies) {
-        //     // Skip societies with no progress to avoid giving spoilers.
-        //     // if (society.RankId == 0) continue;
-        //
-        //     Node expansionNode = GetOrCreateExpansionNodeFor(society.ExpansionId, society.ExpansionName);
-        //     expansionNode.AppendChild(CreateSocietyNode(society));
-        // }
     }
 }

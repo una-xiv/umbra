@@ -668,6 +668,7 @@
     "Widget.MarkerControl.Config.IconYOffset.Description": "Der vertikale Versatz des Marker-Symbols vom Zentrum des Widgets in Pixeln. Positive Werte verschieben das Symbol nach unten, negative Werte verschieben das Symbol nach oben.",
     "Widget.Societies.Name": "Gesellschaftliche Beziehungen",
     "Widget.Societies.Description": "Zeigt den aktuellen Status Ihrer gesellschaftlichen Beziehungen (früher bekannt als Bestienstämme).",
+    "Widget.Societies.ContextMenu.Teleport": "Teleportiere zu einem nahegelegenen Ätheryten",
     "Widget.Societies.Config.ButtonLabel.Name": "Schaltflächenbeschriftung (wenn nicht verfolgt)",
     "Widget.Societies.Config.ButtonLabel.Description": "Die Beschriftung, die auf der Schaltfläche des Widgets angezeigt werden soll, wenn keine gesellschaftlichen Beziehungen verfolgt werden.",
     "Widget.Societies.Config.ButtonIconId.Name": "Schaltflächensymboltyp (wenn nicht verfolgt)",

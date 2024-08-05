@@ -668,6 +668,7 @@
     "Widget.MarkerControl.Config.IconYOffset.Description": "标记图标相对于小组件中心的垂直偏移（以像素为单位）。正值向下移动图标，负值向上移动图标。",
     "Widget.Societies.Name": "社会关系",
     "Widget.Societies.Description": "显示当前的社会关系状态（以前称为野兽部落）。",
+    "Widget.Societies.ContextMenu.Teleport": "传送到附近的以太之光",
     "Widget.Societies.Config.ButtonLabel.Name": "按钮标签（未跟踪时）",
     "Widget.Societies.Config.ButtonLabel.Description": "当没有社会关系被跟踪时，应该显示在小部件按钮上的标签。",
     "Widget.Societies.Config.ButtonIconId.Name": "按钮图标类型（未跟踪时）",

@@ -104,6 +104,11 @@ internal sealed partial class SocietiesWidgetPopup
             Close();
         };
 
+        node.OnRightClick += _ => {
+            _selectedSocietyId = society.Id;
+            ContextMenu?.Present();
+        };
+
         return node;
     }
 }
