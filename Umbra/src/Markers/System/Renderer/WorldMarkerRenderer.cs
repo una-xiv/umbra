@@ -71,6 +71,7 @@ internal class WorldMarkerRenderer(
             string nodeId = GetNodeId(marker);
 
             Vector3 pos = registry.GetResolvedPosition(marker);
+
             if (!gameCamera.WorldToScreen(pos, out Vector2 screenPosition)) {
                 continue;
             }
@@ -118,7 +119,10 @@ internal class WorldMarkerRenderer(
                 > 0)
                 continue;
 
-            node.Render(ImGui.GetBackgroundDrawList(), _positions[node], true);
+            Point   pos     = _positions[node];
+            Vector2 workPos = ImGui.GetMainViewport().WorkPos;
+
+            node.Render(ImGui.GetBackgroundDrawList(), new((int)workPos.X + pos.X, (int)workPos.Y + pos.Y), true);
         }
     }
 

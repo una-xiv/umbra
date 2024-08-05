@@ -163,5 +163,5 @@ internal partial class Toolbar
     private static int ToolbarYPosition =>
         IsTopAligned
             ? (int)ImGui.GetMainViewport().WorkPos.Y + YOffset
-            : (int)ImGui.GetIO().DisplaySize.Y - YOffset;
+            : (int)ImGui.GetMainViewport().WorkPos.Y + (int)ImGui.GetIO().DisplaySize.Y - YOffset;
 }

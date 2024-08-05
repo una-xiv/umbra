@@ -41,7 +41,7 @@ internal abstract partial class Window
 
     private void RenderWindow(string id)
     {
-        ImGui.SetNextWindowViewport(ImGui.GetMainViewport().ID);
+        // ImGui.SetNextWindowViewport(ImGui.GetMainViewport().ID);
         ImGui.SetNextWindowSize(DefaultSize, ImGuiCond.FirstUseEver);
 
         if (!IsMinimized) {

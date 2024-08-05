@@ -59,6 +59,7 @@ internal partial class CompassRenderer(
         float   clampSize = iconSize * 2.5f;
         uint    iconColor = (0xFFFFFFFFu).ApplyAlphaComponent(IconOpacity / 100f);
         Vector2 vpSize    = ImGui.GetMainViewport().Size;
+        Vector2 workPos   = ImGui.GetMainViewport().WorkPos;
 
         if (!gameCamera.WorldToScreen(player.Position, out Vector2 playerScreenPosition)) return;
 
@@ -78,8 +79,8 @@ internal partial class CompassRenderer(
             iconPos.X = Math.Clamp(iconPos.X, clampSize, vpSize.X - clampSize);
             iconPos.Y = Math.Clamp(iconPos.Y, clampSize, vpSize.Y - clampSize);
 
-            Vector2 p1 = iconPos - new Vector2(iconSize / 2);
-            Vector2 p2 = iconPos + new Vector2(iconSize / 2);
+            Vector2 p1 = iconPos - new Vector2(iconSize / 2) + workPos;
+            Vector2 p2 = iconPos + new Vector2(iconSize / 2) + workPos;
 
             // Skip rendering if the marker is behind a UI window.
             if (!ShouldRenderAt(new(p1, p2))) continue;
@@ -91,7 +92,7 @@ internal partial class CompassRenderer(
                 .GetBackgroundDrawList()
                 .AddImage(icon.ImGuiHandle, p1, p2, Vector2.Zero, Vector2.One, iconColor);
 
-            DrawDirectionArrowAt(iconPos, direction, iconSize, iconColor);
+            DrawDirectionArrowAt(iconPos + workPos, direction, iconSize, iconColor);
         }
     }
 
