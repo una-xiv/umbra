@@ -15,7 +15,6 @@
  */
 
 using ImGuiNET;
-using Umbra.Common;
 using Una.Drawing;
 
 namespace Umbra;
