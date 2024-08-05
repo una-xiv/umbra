@@ -23,6 +23,15 @@ using Una.Drawing;
 
 namespace Umbra;
 
+enum FontId : uint
+{
+    Default = 0,
+    Monospace = 1,
+    FontAwesome = 2,
+    Emphasis = 3,
+    WorldMarkers = 4,
+}
+
 [Service]
 internal sealed class UmbraFonts
 {
@@ -44,6 +53,12 @@ internal sealed class UmbraFonts
     [ConfigVariable("Font.Emphasis.Size")]
     private static float EmphasisFontOffset { get; set; } = 0;
 
+    [ConfigVariable("Font.WorldMarkers.Name")]
+    private static string WorldMarkersFont { get; set; } = "Dalamud Default";
+
+    [ConfigVariable("Font.WorldMarkers.Size")]
+    private static float WorldMarkersFontOffset { get; set; } = 0;
+
     private Dictionary<string, FontConfig> FontFamilies { get; } = [];
 
     public UmbraFonts()
@@ -56,9 +71,10 @@ internal sealed class UmbraFonts
             FontFamilies.Add(name, new(false, name));
         }
 
-        ApplyFont(0, DefaultFont, DefaultFontOffset);
-        ApplyFont(1, MonospaceFont, MonospaceFontOffset);
-        ApplyFont(3, EmphasisFont, EmphasisFontOffset);
+        ApplyFont((uint)FontId.Default,      DefaultFont,      DefaultFontOffset);
+        ApplyFont((uint)FontId.Monospace,    MonospaceFont,    MonospaceFontOffset);
+        ApplyFont((uint)FontId.Emphasis,     EmphasisFont,     EmphasisFontOffset);
+        ApplyFont((uint)FontId.WorldMarkers, WorldMarkersFont, WorldMarkersFontOffset);
 
         ConfigManager.CvarChanged += OnCvarChanged;
     }
@@ -66,30 +82,6 @@ internal sealed class UmbraFonts
     public List<string> GetFontFamilies()
     {
         return FontFamilies.Keys.ToList();
-    }
-
-    public void SetDefaultFont(string name, float sizeOffset)
-    {
-        if (!FontFamilies.TryGetValue(name, out var font)) return;
-
-        ConfigManager.Set("Font.Default.Name", name);
-        ConfigManager.Set("Font.Default.Size", sizeOffset);
-    }
-
-    public void SetMonospaceFont(string name, float sizeOffset)
-    {
-        if (!FontFamilies.TryGetValue(name, out var font)) return;
-
-        ConfigManager.Set("Font.Monospace.Name", name);
-        ConfigManager.Set("Font.Monospace.Size", sizeOffset);
-    }
-
-    public void SetEmphasisFont(string name, float sizeOffset)
-    {
-        if (!FontFamilies.TryGetValue(name, out var font)) return;
-
-        ConfigManager.Set("Font.Emphasis.Name", name);
-        ConfigManager.Set("Font.Emphasis.Size", sizeOffset);
     }
 
     private readonly struct FontConfig(bool isFile, string name)
@@ -111,13 +103,16 @@ internal sealed class UmbraFonts
     {
         switch (name) {
             case "Font.Default.Name" or "Font.Default.Size":
-                ApplyFont(0, DefaultFont, DefaultFontOffset);
+                ApplyFont((uint)FontId.Default, DefaultFont, DefaultFontOffset);
                 break;
             case "Font.Monospace.Name" or "Font.Monospace.Size":
-                ApplyFont(1, MonospaceFont, MonospaceFontOffset);
+                ApplyFont((uint)FontId.Monospace, MonospaceFont, MonospaceFontOffset);
                 break;
             case "Font.Emphasis.Name" or "Font.Emphasis.Size":
-                ApplyFont(3, EmphasisFont, EmphasisFontOffset);
+                ApplyFont((uint)FontId.Emphasis, EmphasisFont, EmphasisFontOffset);
+                break;
+            case "Font.WorldMarkers.Name" or "Font.WorldMarkers.Size":
+                ApplyFont((uint)FontId.WorldMarkers, WorldMarkersFont, WorldMarkersFontOffset);
                 break;
         }
     }

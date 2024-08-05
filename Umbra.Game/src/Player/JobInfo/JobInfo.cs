@@ -56,6 +56,18 @@ public class JobInfo(ClassJob cj)
         { JobIconType.Green, CrestIconConvert(cj.RowId,  7) },
     };
 
+    public string ColorName { get => Category switch
+        {
+            JobCategory.Tank              => "Role.Tank",
+            JobCategory.Healer            => "Role.Healer",
+            JobCategory.MeleeDps          => "Role.MeleeDps",
+            JobCategory.PhysicalRangedDps => "Role.PhysicalRangedDps",
+            JobCategory.MagicalRangedDps  => "Role.MagicalRangedDps",
+            JobCategory.Crafter           => "Role.Crafter",
+            JobCategory.Gatherer          => "Role.Gatherer",
+            _                             => "Role.Unknown"
+        };
+    }
 
     private static string Capitalize(string input)
     {

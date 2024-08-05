@@ -55,6 +55,29 @@ internal sealed partial class UnifiedMainMenu
                     { "Bottom", I18N.Translate("Widget.UnifiedMainMenu.Config.BannerLocation.Option.Bottom") },
                 }
             ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
+            new SelectWidgetConfigVariable(
+                "BannerNameStyle",
+                I18N.Translate("Widget.UnifiedMainMenu.Config.BannerNameStyle.Name"),
+                I18N.Translate("Widget.UnifiedMainMenu.Config.BannerNameStyle.Description"),
+                "FirstName",
+                new() {
+                    { "FirstName", I18N.Translate("Widget.UnifiedMainMenu.Config.BannerNameStyle.Option.FirstName") },
+                    { "LastName", I18N.Translate("Widget.UnifiedMainMenu.Config.BannerNameStyle.Option.LastName") },
+                    { "FullName", I18N.Translate("Widget.UnifiedMainMenu.Config.BannerNameStyle.Option.FullName") },
+                    { "Initials", I18N.Translate("Widget.UnifiedMainMenu.Config.BannerNameStyle.Option.Initials") },
+                }
+            ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
+            new SelectWidgetConfigVariable(
+                "BannerColorStyle",
+                I18N.Translate("Widget.UnifiedMainMenu.Config.BannerColorStyle.Name"),
+                I18N.Translate("Widget.UnifiedMainMenu.Config.BannerColorStyle.Description"),
+                "AccentColor",
+                new() {
+                    { "AccentColor", I18N.Translate("Widget.UnifiedMainMenu.Config.BannerColorStyle.Option.AccentColor") },
+                    { "RoleColor", I18N.Translate("Widget.UnifiedMainMenu.Config.BannerColorStyle.Option.RoleColor") },
+                    { "None", I18N.Translate("Widget.UnifiedMainMenu.Config.BannerColorStyle.Option.None") },
+                }
+            ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
             new StringWidgetConfigVariable(
                 "PinnedItems",
                 "",

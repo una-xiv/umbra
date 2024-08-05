@@ -63,7 +63,7 @@ internal class WorldMarkerNode : Node
         QuerySelector(".label-list")!.Style.Size     = new(width, 0);
         QuerySelector(".distance-label")!.Style.Size = new(width, 14);
 
-        foreach (Node childNode in QuerySelectorAll(".label")) childNode.Style.Size = new(width, 16);
+        foreach (Node childNode in QuerySelectorAll(".label")) childNode.Style.Size     = new(width, 16);
         foreach (Node childNode in QuerySelectorAll(".sub-label")) childNode.Style.Size = new(width, 14);
     }
 
@@ -214,6 +214,7 @@ internal class WorldMarkerNode : Node
                 ".label",
                 new() {
                     Anchor          = Anchor.TopCenter,
+                    Font            = (uint)FontId.WorldMarkers,
                     FontSize        = 13,
                     Color           = new(0xFFFFFFFF),
                     OutlineColor    = new(0xFF000000),
@@ -230,6 +231,7 @@ internal class WorldMarkerNode : Node
                 ".sub-label",
                 new() {
                     Anchor          = Anchor.TopCenter,
+                    Font            = (uint)FontId.WorldMarkers,
                     FontSize        = 12,
                     Color           = new(0xD0FFFFFF),
                     OutlineColor    = new(0x90000000),
@@ -246,6 +248,7 @@ internal class WorldMarkerNode : Node
             new(
                 ".distance-label",
                 new() {
+                    Font         = (uint)FontId.WorldMarkers,
                     Anchor       = Anchor.TopCenter,
                     FontSize     = 12,
                     Color        = new(0xD0FFFFFF),

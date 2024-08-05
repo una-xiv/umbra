@@ -32,7 +32,7 @@ internal partial class AppearanceModule
                 "Font.Default.Size",
                 I18N.Translate("Settings.AppearanceModule.Fonts.Default.Name"),
                 I18N.Translate("Settings.AppearanceModule.Fonts.Default.Description"),
-                0
+                (uint)FontId.Default
             )
         );
 
@@ -43,7 +43,7 @@ internal partial class AppearanceModule
                 "Font.Monospace.Size",
                 I18N.Translate("Settings.AppearanceModule.Fonts.Monospace.Name"),
                 I18N.Translate("Settings.AppearanceModule.Fonts.Monospace.Description"),
-                1
+                (uint)FontId.Monospace
             )
         );
 
@@ -54,7 +54,18 @@ internal partial class AppearanceModule
                 "Font.Emphasis.Size",
                 I18N.Translate("Settings.AppearanceModule.Fonts.Emphasis.Name"),
                 I18N.Translate("Settings.AppearanceModule.Fonts.Emphasis.Description"),
-                3
+                (uint)FontId.Emphasis
+            )
+        );
+
+        FontPanel.ChildNodes.Add(
+            CreateFontSelector(
+                "WorldMarkersFont",
+                "Font.WorldMarkers.Name",
+                "Font.WorldMarkers.Size",
+                I18N.Translate("Settings.AppearanceModule.Fonts.WorldMarkers.Name"),
+                I18N.Translate("Settings.AppearanceModule.Fonts.WorldMarkers.Description"),
+                (uint)FontId.WorldMarkers
             )
         );
     }

@@ -12,11 +12,13 @@ internal sealed partial class UnifiedMainMenuPopup : WidgetPopup
 {
     public event Action<List<string>>? OnPinnedItemsChanged;
 
-    public int          MenuHeight      { get; set; }
-    public uint         AvatarIconId    { get; set; }         = 76985;
-    public string       BannerLocation  { get; set; }         = "Auto";
-    public bool         DesaturateIcons { get; set; }         = false;
-    public List<string> PinnedItems     { get; private set; } = [];
+    public int          MenuHeight       { get; set; }
+    public uint         AvatarIconId     { get; set; }         = 76985;
+    public string       BannerLocation   { get; set; }         = "Auto";
+    public string       BannerNameStyle  { get; set; }         = "FirstName";
+    public string       BannerColorStyle { get; set; }         = "AccentColor";
+    public bool         DesaturateIcons  { get; set; }         = false;
+    public List<string> PinnedItems      { get; private set; } = [];
 
     private IMainMenuRepository MainMenuRepository { get; } = Framework.Service<IMainMenuRepository>();
     private IPlayer             Player             { get; } = Framework.Service<IPlayer>();
@@ -86,11 +88,13 @@ internal sealed partial class UnifiedMainMenuPopup : WidgetPopup
         bool isTop = BannerLocation == "Top" || (BannerLocation == "Auto" && !Toolbar.IsTopAligned);
 
         HeaderNode.SortIndex          = !isTop ? 1000 : -1000;
-        HeaderLabelNameNode.NodeValue = Player.Name.Split(' ').First();
+        HeaderLabelNameNode.NodeValue = GetPlayerName();
         HeaderLabelInfoNode.NodeValue = $"{I18N.Translate("Widget.GearsetSwitcher.JobLevel", job.Level)} {job.Name}";
 
         Node.TagsList.Remove(!isTop ? "bottom" : "top");
         Node.TagsList.Add(!isTop ? "top" : "bottom");
+
+        UpdateBannerColor();
 
         // Find the max height of the popup.
         if (MenuHeight == 0) {
@@ -263,5 +267,41 @@ internal sealed partial class UnifiedMainMenuPopup : WidgetPopup
 
             node.SortIndex = sortIndex;
         }
+    }
+
+    private string GetPlayerName()
+    {
+        string[] name = Player.Name.Split(' ');
+
+        return BannerNameStyle switch {
+            "FirstName" => $"{name[0]}",
+            "LastName"  => $"{name[1]}",
+            "FullName"  => $"{name[0]} {name[1]}",
+            "Initials"  => $"{name[0][0]}. {name[1][0]}.",
+            _           => Player.Name
+        };
+    }
+
+    private void UpdateBannerColor()
+    {
+        Color? color = new(0);
+
+        switch (BannerColorStyle) {
+            case "AccentColor":
+                color = new("Window.AccentColor");
+                break;
+            case "RoleColor":
+                color = new(Player.GetJobInfo(Player.JobId).ColorName);
+                break;
+            case "None":
+                color = new(0);
+                break;
+        }
+
+        bool isTop = HeaderNode.TagsList.Contains("top");
+        HeaderNode.Style.BackgroundGradient = GradientColor.Vertical(
+                isTop ? null : color,
+                isTop ? color : null
+        );
     }
 }
