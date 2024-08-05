@@ -155,17 +155,7 @@ public class VistaMarkerFactory : WorldMarkerFactory, IDisposable
         uint id = adv.RowId - 2162688;
 
         PlayerState* ps = PlayerState.Instance();
-        if (ps == null) return false;
-
-        // TODO: Remove this ugly hack once Dalamud stg has been updated to release.
-        //       The signatures of these methods got swapped around in a later CS version.
-        if (int.TryParse(FFXIVClientStructs.ThisAssembly.Git.Commits, out int commits)) {
-            if (commits < 4791) {
-                return ps->IsAdventureExPhaseComplete(id);
-            }
-        }
-
-        return ps->IsAdventureComplete(id);
+        return ps != null && ps->IsAdventureComplete(id);
     }
 
     private static readonly IReadOnlyDictionary<uint, uint[]> AdventureToWeatherIds = new Dictionary<uint, uint[]> {

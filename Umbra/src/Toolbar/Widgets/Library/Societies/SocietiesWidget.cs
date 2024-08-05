@@ -20,7 +20,6 @@ internal sealed partial class SocietiesWidget(
     protected override void Initialize()
     {
         SetLabel(Info.Name);
-        SetConfigValue("TrackedTribeId", 0);
 
         Popup.OnSocietySelected += OnSocietySelected;
     }
