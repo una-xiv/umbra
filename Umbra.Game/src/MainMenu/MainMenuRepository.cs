@@ -30,11 +30,25 @@ namespace Umbra.Game;
 [Service]
 internal sealed class MainMenuRepository : IMainMenuRepository
 {
-    public readonly Dictionary<MenuCategory, MainMenuCategory> Categories = [];
+    public Dictionary<MenuCategory, MainMenuCategory> Categories {
+        get
+        {
+            long now = DateTimeOffset.Now.ToUnixTimeSeconds();
+            if (now - _lastSyncTime > 3) {
+                _lastSyncTime = now;
+                SyncLists();
+            }
 
-    private readonly IDataManager                 _dataManager;
-    private readonly ITravelDestinationRepository _travelDestinationRepository;
-    private readonly IPlayer                      _player;
+            return _categories;
+        }
+    }
+
+    private readonly Dictionary<MenuCategory, MainMenuCategory> _categories = [];
+    private readonly IDataManager                               _dataManager;
+    private readonly ITravelDestinationRepository               _travelDestinationRepository;
+    private readonly IPlayer                                    _player;
+
+    private long _lastSyncTime = 0;
 
     public MainMenuRepository(
         IDataManager                 dataManager,
@@ -51,11 +65,11 @@ internal sealed class MainMenuRepository : IMainMenuRepository
             .ForEach(
                 cmd => {
                     if (cmd.Name == "" || null == Enum.GetName(typeof(MenuCategory), cmd.RowId)) return;
-                    Categories[(MenuCategory)cmd.RowId] = new((MenuCategory)cmd.RowId, cmd.Name);
+                    _categories[(MenuCategory)cmd.RowId] = new((MenuCategory)cmd.RowId, cmd.Name);
                 }
             );
 
-        Categories
+        _categories
             .Values.ToList()
             .ForEach(
                 category => {
@@ -83,9 +97,9 @@ internal sealed class MainMenuRepository : IMainMenuRepository
             );
 
         // Add Dalamud items to the system menu.
-        Categories[MenuCategory.System].AddItem(new(998));
+        _categories[MenuCategory.System].AddItem(new(998));
 
-        Categories[MenuCategory.System]
+        _categories[MenuCategory.System]
             .AddItem(
                 new(I18N.Translate("Widget.MainMenu.CustomItem.UmbraSettings"), 999, "/umbra") {
                     Icon           = SeIconChar.BoxedLetterU,
@@ -95,9 +109,9 @@ internal sealed class MainMenuRepository : IMainMenuRepository
                 }
             );
 
-        Categories[MenuCategory.System].AddItem(new(1000));
+        _categories[MenuCategory.System].AddItem(new(1000));
 
-        Categories[MenuCategory.System]
+        _categories[MenuCategory.System]
             .AddItem(
                 new(I18N.Translate("Widget.MainMenu.CustomItem.DalamudPlugins"), 1001, "/xlplugins") {
                     Icon           = SeIconChar.BoxedLetterD,
@@ -107,7 +121,7 @@ internal sealed class MainMenuRepository : IMainMenuRepository
                 }
             );
 
-        Categories[MenuCategory.System]
+        _categories[MenuCategory.System]
             .AddItem(
                 new(I18N.Translate("Widget.MainMenu.CustomItem.DalamudSettings"), 1002, "/xlsettings") {
                     Icon           = SeIconChar.BoxedLetterD,
@@ -126,7 +140,7 @@ internal sealed class MainMenuRepository : IMainMenuRepository
     public MainMenuCategory GetCategory(MenuCategory category)
     {
         return Categories.GetValueOrDefault(category)
-            ?? throw new Exception($"Category {category} not found.");
+            ?? throw new($"Category {category} not found.");
     }
 
     public MainMenuItem? FindById(string id)
@@ -139,19 +153,20 @@ internal sealed class MainMenuRepository : IMainMenuRepository
         return null;
     }
 
-    [OnTick(interval: 500)]
-    public void OnTick()
+    private void SyncLists()
     {
         SyncTravelDestinations();
 
-        foreach (var category in Categories) {
+        foreach (var category in _categories) {
             category.Value.Update();
         }
     }
 
     private void SyncTravelDestinations()
     {
-        if (!Categories.TryGetValue(MenuCategory.Travel, out var category)) return;
+        if (!_categories.TryGetValue(MenuCategory.Travel, out var category)) return;
+
+        _travelDestinationRepository.Sync();
 
         var favorites = _travelDestinationRepository.Destinations.Where(d => !d.IsHousing).ToList();
         var housing   = _travelDestinationRepository.Destinations.Where(d => d.IsHousing).ToList();
@@ -168,7 +183,9 @@ internal sealed class MainMenuRepository : IMainMenuRepository
         SyncTravelDestinationMenuEntries(category, housing,   "Housing",  950);
     }
 
-    private void AddUsableTeleportItemToCategory(MainMenuCategory category, uint itemId, short sortIndex, string metadataKey)
+    private void AddUsableTeleportItemToCategory(
+        MainMenuCategory category, uint itemId, short sortIndex, string metadataKey
+    )
     {
         var item = _dataManager.GetExcelSheet<Item>()!.GetRow(itemId);
 

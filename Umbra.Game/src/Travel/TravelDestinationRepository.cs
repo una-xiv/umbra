@@ -53,9 +53,7 @@ public class TravelDestinationRepository : ITravelDestinationRepository
             .ToList();
     }
 
-    // We need to do this periodically in case the user adds/removes favorites.
-    [OnTick(interval: 1000)]
-    internal void UpdateList()
+    public void Sync()
     {
         if (!_zoneManager.HasCurrentZone) return;
 

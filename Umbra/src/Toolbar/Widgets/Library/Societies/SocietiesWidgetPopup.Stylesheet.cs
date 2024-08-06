@@ -11,14 +11,38 @@ internal sealed partial class SocietiesWidgetPopup
             new(
                 "#Popup",
                 new() {
+                    Flow    = Flow.Vertical,
                     Padding = new(8),
-                    Gap     = 8,
+                    Gap     = 4,
                 }
             ),
             new(
-                "#Popup:vertical",
+                "#AllowanceStatus",
                 new() {
-                    Flow = Flow.Vertical
+                    Size          = new(ItemWidth, 0),
+                    Padding       = new(6, 4) { Top = 0 },
+                    Font          = 0,
+                    FontSize      = 11,
+                    Color         = new("Widget.PopupMenuTextMuted"),
+                    OutlineColor  = new("Widget.PopupMenuTextOutlineDisabled"),
+                    OutlineSize   = 1,
+                    TextAlign     = Anchor.MiddleCenter,
+                    BorderColor   = new() { Bottom = new("Widget.Border") },
+                    BorderWidth   = new() { Bottom = 1 },
+                    IsAntialiased = false,
+                }
+            ),
+            new(
+                "#List",
+                new() {
+                    Flow = Flow.Horizontal,
+                    Gap  = 8,
+                }
+            ),
+            new(
+                "#List:vertical",
+                new() {
+                    Flow = Flow.Vertical,
                 }
             ),
             new(

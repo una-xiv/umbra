@@ -1,6 +1,7 @@
 ﻿using FFXIVClientStructs.FFXIV.Component.GUI;
 using Lumina.Excel.GeneratedSheets;
 using System.Linq;
+using Umbra.Common;
 using Umbra.Game.Societies;
 using Una.Drawing;
 
@@ -11,6 +12,23 @@ internal sealed partial class SocietiesWidgetPopup
     protected override Node Node { get; } = new() {
         Id         = "Popup",
         Stylesheet = Stylesheet,
+        ChildNodes = [
+            new() {
+                Id        = "AllowanceStatus",
+                NodeValue = I18N.Translate("Widget.CustomDeliveries.AllowanceStatus", "12"),
+                SortIndex = -1,
+                BeforeDraw = node => {
+                    var height = node.Height;
+                    var width  = node.ParentNode!.Width - 16;
+                    node.Bounds.ContentSize = new(width, height);
+                    node.Bounds.PaddingSize = new(width, height);
+                    node.Bounds.MarginSize  = new(width, height);
+                }
+            },
+            new() {
+                Id = "List"
+            }
+        ]
     };
 
     private Node GetOrCreateExpansionNodeFor(uint id, string name)
@@ -36,7 +54,7 @@ internal sealed partial class SocietiesWidgetPopup
             ]
         };
 
-        Node.AppendChild(expansionNode);
+        Node.FindById("List")!.AppendChild(expansionNode);
 
         return expansionNode.QuerySelector(".expansion--items")!;
     }
@@ -44,6 +62,7 @@ internal sealed partial class SocietiesWidgetPopup
     private Node GetOrCreateSocietyNode(Society society, Node expansionNode)
     {
         Node? node = expansionNode.QuerySelector($"#Society_{society.Id}");
+
         if (null != node) {
             return node;
         }
@@ -54,7 +73,7 @@ internal sealed partial class SocietiesWidgetPopup
             ChildNodes = [
                 new() {
                     ClassList = ["society--icon"],
-                    Style     = new() { IconId = society.IconId },
+                    Style     = { IconId = society.IconId },
                 },
                 new() {
                     ClassList = ["society--body"],
@@ -86,7 +105,8 @@ internal sealed partial class SocietiesWidgetPopup
                     ChildNodes = [
                         new() {
                             ClassList = ["society--currency--icon"],
-                            Style     = new() { IconId = DataManager.GetExcelSheet<Item>()!.GetRow(society.CurrencyItemId)!.Icon },
+                            Style = new()
+                                { IconId = DataManager.GetExcelSheet<Item>()!.GetRow(society.CurrencyItemId)!.Icon },
                         },
                         new() {
                             ClassList = ["society--currency--value"],

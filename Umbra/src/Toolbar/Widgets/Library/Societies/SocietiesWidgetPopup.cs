@@ -14,8 +14,9 @@ internal sealed partial class SocietiesWidgetPopup : WidgetPopup
 
     public event Action<Society>? OnSocietySelected;
 
-    private IDataManager DataManager { get; } = Framework.Service<IDataManager>();
-    private IPlayer      Player      { get; } = Framework.Service<IPlayer>();
+    private IDataManager         DataManager { get; } = Framework.Service<IDataManager>();
+    private IPlayer              Player      { get; } = Framework.Service<IPlayer>();
+    private ISocietiesRepository Repository  { get; } = Framework.Service<ISocietiesRepository>();
 
     public SocietiesWidgetPopup()
     {
@@ -33,6 +34,8 @@ internal sealed partial class SocietiesWidgetPopup : WidgetPopup
     protected override void OnOpen()
     {
         var itemCount = 0;
+
+        Node.FindById("AllowanceStatus")!.NodeValue = I18N.Translate("Widget.CustomDeliveries.AllowanceStatus", 12 - Repository.WeeklyAllowance);
 
         foreach (Society society in Player.Societies.OrderBy(s => s.ExpansionId)) {
             if (society.RankId == 0) continue;
@@ -55,9 +58,9 @@ internal sealed partial class SocietiesWidgetPopup : WidgetPopup
         }
 
         if (itemCount < MinItemsBeforeHorizontalView) {
-            Node.TagsList.Add("vertical");
+            Node.FindById("List")!.TagsList.Add("vertical");
         } else {
-            Node.TagsList.Remove("vertical");
+            Node.FindById("List")!.TagsList.Remove("vertical");
         }
     }
 }

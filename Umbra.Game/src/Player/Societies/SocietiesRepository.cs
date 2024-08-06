@@ -25,9 +25,10 @@ using Umbra.Common;
 namespace Umbra.Game.Societies;
 
 [Service]
-internal sealed class SocietiesRepository : IDisposable
+internal sealed class SocietiesRepository : ISocietiesRepository, IDisposable
 {
-    public Dictionary<uint, Society> Societies { get; } = [];
+    public Dictionary<uint, Society> Societies       { get; } = [];
+    public uint                      WeeklyAllowance { get; private set; }
 
     private IDataManager DataManager { get; }
 
@@ -42,6 +43,8 @@ internal sealed class SocietiesRepository : IDisposable
     {
         QuestManager* qm = QuestManager.Instance();
         if (null == qm) return;
+
+        WeeklyAllowance = qm->GetBeastTribeAllowance();
 
         lock (Societies) {
             for (var i = 1; i < qm->BeastReputation.Length + 1; i++) {
