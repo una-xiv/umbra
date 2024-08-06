@@ -19,6 +19,7 @@ using System.Collections.Generic;
 using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Application.Network.WorkDefinitions;
 using FFXIVClientStructs.FFXIV.Client.Game;
+using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using Lumina.Excel.GeneratedSheets;
 using Umbra.Common;
 
@@ -30,11 +31,32 @@ internal sealed class SocietiesRepository : ISocietiesRepository, IDisposable
     public Dictionary<uint, Society> Societies       { get; } = [];
     public uint                      WeeklyAllowance { get; private set; }
 
+    internal static Dictionary<uint, uint> SocietyToAetheryteId { get; } = new() {
+        { 1, 19 },   // Amalj'aa - Little Ala Mhigo
+        { 2, 4 },    // Sylphs - The Hawthorne Hut
+        { 3, 16 },   // Kobolds - Camp Overlook
+        { 4, 14 },   // Sahagin - Aleport
+        { 5, 7 },    // Ixal - Fallgourd Float
+        { 6, 73 },   // Vanu Vanu - Ok'Zundu
+        { 7, 76 },   // Vath - Tailfeather
+        { 8, 79 },   // Moogles - Zenith
+        { 9, 105 },  // Kojin - Tamamizu
+        { 10, 99 },  // Ananta - The Peering Stones
+        { 11, 128 }, // Namazu - Dhoro Iloh
+        { 12, 144 }, // Pixies - Lydha Lran
+        { 13, 143 }, // Qitari - Fanow
+        { 14, 136 }, // Dwarves - The Ostall Imperative
+        { 15, 169 }, // Arkasodara - Yedlihmad
+        { 16, 181 }, // Omicrons - Base Omicron
+        { 17, 175 }, // Loporrits - Bestways Burrow
+    };
+
     private IDataManager DataManager { get; }
 
     public SocietiesRepository(IDataManager dataManager)
     {
         DataManager = dataManager;
+
         OnTick();
     }
 
@@ -72,7 +94,19 @@ internal sealed class SocietiesRepository : ISocietiesRepository, IDisposable
     /// <inheritdoc/>
     public void Dispose() { }
 
-    public unsafe (BeastTribe tribe, BeastReputationRank rank, ushort currentRep, ushort neededRep) GetTribe(byte index)
+    /// <inheritdoc/>
+    public unsafe void TeleportToAetheryte(uint societyId)
+    {
+        if (!Framework.Service<IPlayer>().CanUseTeleportAction ||
+            !SocietyToAetheryteId.TryGetValue(societyId, out uint aetheryteId)
+        ) {
+            return;
+        }
+
+        Telepo.Instance()->Teleport(aetheryteId, 0);
+    }
+
+    private unsafe (BeastTribe tribe, BeastReputationRank rank, ushort currentRep, ushort neededRep) GetTribe(byte index)
     {
         QuestManager*       qm    = QuestManager.Instance();
         BeastReputationWork tribe = qm->BeastReputation[index - 1];
@@ -86,6 +120,6 @@ internal sealed class SocietiesRepository : ISocietiesRepository, IDisposable
             return (tribeRow, rankRow, currentRep, 0);
         }
 
-        return (tribeRow, rankRow, currentRep, rankRow!.RequiredReputation);
+        return (tribeRow, rankRow, currentRep, rankRow.RequiredReputation);
     }
 }

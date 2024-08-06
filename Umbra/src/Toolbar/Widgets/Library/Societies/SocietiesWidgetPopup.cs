@@ -18,6 +18,8 @@ internal sealed partial class SocietiesWidgetPopup : WidgetPopup
     private IPlayer              Player      { get; } = Framework.Service<IPlayer>();
     private ISocietiesRepository Repository  { get; } = Framework.Service<ISocietiesRepository>();
 
+    private uint? _selectedSocietyId;
+
     public SocietiesWidgetPopup()
     {
         ContextMenu = new(
@@ -25,7 +27,9 @@ internal sealed partial class SocietiesWidgetPopup : WidgetPopup
                 new("Teleport") {
                     Label   = I18N.Translate("Widget.Societies.ContextMenu.Teleport"),
                     IconId  = 60453u,
-                    OnClick = TeleportToSelectedSociety,
+                    OnClick = () => {
+                        if (null != _selectedSocietyId) Repository.TeleportToAetheryte(_selectedSocietyId.Value);
+                    },
                 }
             ]
         );
@@ -35,7 +39,10 @@ internal sealed partial class SocietiesWidgetPopup : WidgetPopup
     {
         var itemCount = 0;
 
-        Node.FindById("AllowanceStatus")!.NodeValue = I18N.Translate("Widget.CustomDeliveries.AllowanceStatus", 12 - Repository.WeeklyAllowance);
+        Node.FindById("AllowanceStatus")!.NodeValue = I18N.Translate(
+            "Widget.CustomDeliveries.AllowanceStatus",
+            12 - Repository.WeeklyAllowance
+        );
 
         foreach (Society society in Player.Societies.OrderBy(s => s.ExpansionId)) {
             if (society.RankId == 0) continue;

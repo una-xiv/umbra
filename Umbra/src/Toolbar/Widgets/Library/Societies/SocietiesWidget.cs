@@ -3,6 +3,7 @@ using System.Linq;
 using Umbra.Common;
 using Umbra.Game;
 using Umbra.Game.Societies;
+using Una.Drawing;
 
 namespace Umbra.Widgets.Library.Societies;
 
@@ -15,18 +16,21 @@ internal sealed partial class SocietiesWidget(
 {
     public override SocietiesWidgetPopup Popup { get; } = new();
 
-    private IPlayer Player { get; } = Framework.Service<IPlayer>();
+    private IPlayer              Player     { get; } = Framework.Service<IPlayer>();
+    private ISocietiesRepository Repository { get; } = Framework.Service<ISocietiesRepository>();
 
     protected override void Initialize()
     {
         SetLabel(Info.Name);
 
         Popup.OnSocietySelected += OnSocietySelected;
+        Node.OnRightClick       += TeleportToSociety;
     }
 
     protected override void OnDisposed()
     {
         Popup.OnSocietySelected -= OnSocietySelected;
+        Node.OnRightClick       -= TeleportToSociety;
     }
 
     protected override void OnUpdate()
@@ -42,7 +46,10 @@ internal sealed partial class SocietiesWidget(
             SetIcon((uint)GetConfigValue<int>("ButtonIconId"));
             tooltip = null;
         } else {
-            int    pct = society.Value.RequiredRep > 0 ? (100 * society.Value.CurrentRep / society.Value.RequiredRep) : 100;
+            int pct = society.Value.RequiredRep > 0
+                ? (100 * society.Value.CurrentRep / society.Value.RequiredRep)
+                : 100;
+
             string rep = pct is < 100 and > 0 ? $" ({pct}%)" : "";
 
             SetTwoLabels(society.Value.Name, $"{society.Value.Rank}{rep}");
@@ -61,5 +68,13 @@ internal sealed partial class SocietiesWidget(
         } else {
             SetConfigValue("TrackedTribeId", (int)society.Id);
         }
+    }
+
+    private void TeleportToSociety(Node _)
+    {
+        int trackedTribeId = GetConfigValue<int>("TrackedTribeId");
+        if (trackedTribeId == 0) return;
+
+        Repository.TeleportToAetheryte((uint)trackedTribeId);
     }
 }

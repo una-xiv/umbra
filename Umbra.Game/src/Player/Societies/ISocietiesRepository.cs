@@ -13,4 +13,10 @@ public interface ISocietiesRepository
     /// The number of weekly allowances left.
     /// </summary>
     public uint WeeklyAllowance { get; }
+
+    /// <summary>
+    /// Teleports to an Aetheryte near the society's location.
+    /// </summary>
+    /// <param name="societyId"></param>
+    public void TeleportToAetheryte(uint societyId);
 }
