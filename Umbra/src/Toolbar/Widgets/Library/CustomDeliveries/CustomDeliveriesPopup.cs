@@ -17,6 +17,11 @@ internal sealed partial class CustomDeliveriesPopup : WidgetPopup
 
     protected override void OnOpen()
     {
+        Node.FindById("AllowanceStatus")!.NodeValue = I18N.Translate(
+            "Widget.CustomDeliveries.AllowanceStatus",
+            Repository.DeliveriesRemainingThisWeek
+        );
+
         foreach (var npc in Repository.Npcs.Values) {
             CreateOrUpdateNpcNode(npc);
         }

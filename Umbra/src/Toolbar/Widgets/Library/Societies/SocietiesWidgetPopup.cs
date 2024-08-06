@@ -54,8 +54,8 @@ internal sealed partial class SocietiesWidgetPopup : WidgetPopup
         var itemCount = 0;
 
         Node.FindById("AllowanceStatus")!.NodeValue = I18N.Translate(
-            "Widget.CustomDeliveries.AllowanceStatus",
-            12 - Repository.WeeklyAllowance
+            "Widget.Societies.AllowanceStatus",
+            Repository.WeeklyAllowance
         );
 
         foreach (Society society in Player.Societies.OrderBy(s => s.ExpansionId)) {

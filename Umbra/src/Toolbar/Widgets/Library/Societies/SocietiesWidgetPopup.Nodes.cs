@@ -15,7 +15,7 @@ internal sealed partial class SocietiesWidgetPopup
         ChildNodes = [
             new() {
                 Id        = "AllowanceStatus",
-                NodeValue = I18N.Translate("Widget.CustomDeliveries.AllowanceStatus", "12"),
+                NodeValue = I18N.Translate("Widget.Societies.AllowanceStatus", "12"),
                 SortIndex = -1,
                 BeforeDraw = node => {
                     var height = node.Height;
