@@ -35,7 +35,9 @@ internal sealed partial class SocietiesWidget(
 
     protected override void OnUpdate()
     {
+        Popup.TrackedSocietyId             = (uint)GetConfigValue<int>("TrackedTribeId");
         Popup.MinItemsBeforeHorizontalView = GetConfigValue<int>("MinItemsBeforeHorizontalView");
+        Popup.PrimaryAction                = GetConfigValue<string>("PrimaryAction");
 
         string?  tooltip;
         uint     trackedTribeId = (uint)GetConfigValue<int>("TrackedTribeId");
@@ -61,12 +63,12 @@ internal sealed partial class SocietiesWidget(
         Node.Tooltip = tooltip;
     }
 
-    private void OnSocietySelected(Society society)
+    private void OnSocietySelected(Society? society)
     {
-        if (GetConfigValue<int>("TrackedTribeId") == (int)society.Id) {
+        if (society == null || GetConfigValue<int>("TrackedTribeId") == (int)society.Value.Id) {
             SetConfigValue("TrackedTribeId", 0);
         } else {
-            SetConfigValue("TrackedTribeId", (int)society.Id);
+            SetConfigValue("TrackedTribeId", (int)society.Value.Id);
         }
     }
 

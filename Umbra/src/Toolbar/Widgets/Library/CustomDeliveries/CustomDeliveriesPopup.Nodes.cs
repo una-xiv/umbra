@@ -68,10 +68,26 @@ internal sealed partial class CustomDeliveriesPopup
             ]
         };
 
-        node.OnMouseUp += _ => OnNpcSelected?.Invoke(npc.Id);
+        node.OnMouseUp += _ => {
+            switch (PrimaryAction) {
+                case "Track":
+                    OnNpcSelected?.Invoke(npc.Id);
+                    break;
+                case "Teleport":
+                    Repository.TeleportToNearbyAetheryte(npc.Id);
+                    break;
+                case "OpenWindow":
+                    Repository.OpenCustomDeliveriesWindow(npc.Id);
+                    break;
+            }
+
+            Close();
+        };
 
         node.OnRightClick += _ => {
             _selectedNpcId = npc.Id;
+            ContextMenu?.SetEntryDisabled("Track", TrackedNpcId == npc.Id);
+            ContextMenu?.SetEntryDisabled("Untrack", TrackedNpcId != npc.Id);
             ContextMenu?.Present();
         };
 

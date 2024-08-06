@@ -8,6 +8,8 @@ namespace Umbra.Widgets.Library.CustomDeliveries;
 internal sealed partial class CustomDeliveriesPopup : WidgetPopup
 {
     public Action<int>? OnNpcSelected;
+    public int          TrackedNpcId  { get; set; }
+    public string       PrimaryAction { get; set; } = "Teleport";
 
     private ICustomDeliveriesRepository Repository { get; } = Framework.Service<ICustomDeliveriesRepository>();
 
@@ -21,6 +23,22 @@ internal sealed partial class CustomDeliveriesPopup : WidgetPopup
 
         ContextMenu = new(
             [
+                new("Track") {
+                    Label = I18N.Translate("Widget.CustomDeliveries.ContextMenu.Track"),
+                    OnClick = () => {
+                        if (_selectedNpcId == 0) return;
+                        OnNpcSelected?.Invoke(_selectedNpcId);
+                        Close();
+                    }
+                },
+                new("Untrack") {
+                    Label = I18N.Translate("Widget.CustomDeliveries.ContextMenu.Untrack"),
+                    OnClick = () => {
+                        if (_selectedNpcId == 0) return;
+                        OnNpcSelected?.Invoke(0);
+                        Close();
+                    }
+                },
                 new("OpenWindow") {
                     Label = I18N.Translate("Widget.CustomDeliveries.ContextMenu.OpenWindow"),
                     OnClick = () => {

@@ -36,6 +36,17 @@ internal sealed class CustomDeliveriesWidget(
             ..DefaultToolbarWidgetConfigVariables,
             ..SingleLabelTextOffsetVariables,
             ..TwoLabelTextOffsetVariables,
+            new SelectWidgetConfigVariable(
+                "PrimaryAction",
+                I18N.Translate("Widget.CustomDeliveries.Config.PrimaryAction.Name"),
+                I18N.Translate("Widget.CustomDeliveries.Config.PrimaryAction.Description"),
+                "Teleport",
+                new() {
+                    { "Track", I18N.Translate("Widget.CustomDeliveries.Config.PrimaryAction.Option.Track") },
+                    { "Teleport", I18N.Translate("Widget.CustomDeliveries.Config.PrimaryAction.Option.Teleport") },
+                    { "OpenWindow", I18N.Translate("Widget.CustomDeliveries.Config.PrimaryAction.Option.OpenWindow") },
+                }
+            ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
             new IntegerWidgetConfigVariable("TrackedNpcId", "", null, 0) { IsHidden = true }
         ];
     }
@@ -44,7 +55,8 @@ internal sealed class CustomDeliveriesWidget(
     protected override void Initialize()
     {
         Popup.OnNpcSelected += OnNpcSelected;
-        Node.OnRightClick   += _ => {
+
+        Node.OnRightClick += _ => {
             int trackedNpcId = GetConfigValue<int>("TrackedNpcId");
             if (trackedNpcId != 0) Repository.TeleportToNearbyAetheryte(trackedNpcId);
         };
@@ -58,8 +70,11 @@ internal sealed class CustomDeliveriesWidget(
     /// <inheritdoc/>
     protected override void OnUpdate()
     {
-        int npcId = GetConfigValue<int>("TrackedNpcId");
-        CustomDeliveryNpc? npc = Repository.Npcs.GetValueOrDefault(npcId);
+        int                npcId = GetConfigValue<int>("TrackedNpcId");
+        CustomDeliveryNpc? npc   = Repository.Npcs.GetValueOrDefault(npcId);
+
+        Popup.TrackedNpcId  = npcId;
+        Popup.PrimaryAction = GetConfigValue<string>("PrimaryAction");
 
         SetIcon((uint)GetConfigValue<int>("ButtonIcon"));
 

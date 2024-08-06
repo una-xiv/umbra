@@ -120,12 +120,23 @@ internal sealed partial class SocietiesWidgetPopup
         expansionNode.AppendChild(node);
 
         node.OnMouseUp += _ => {
-            OnSocietySelected?.Invoke(society);
+            switch (PrimaryAction) {
+                case "Teleport":
+                    Repository.TeleportToAetheryte(society.Id);
+                    break;
+                case "Track":
+                    OnSocietySelected?.Invoke(society);
+                    break;
+            }
+
             Close();
         };
 
         node.OnRightClick += _ => {
             _selectedSocietyId = society.Id;
+
+            ContextMenu?.SetEntryDisabled("Track", society.Id == TrackedSocietyId);
+            ContextMenu?.SetEntryDisabled("Untrack", society.Id != TrackedSocietyId);
             ContextMenu?.Present();
         };
 
