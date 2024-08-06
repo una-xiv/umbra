@@ -44,6 +44,10 @@ internal sealed class CustomDeliveriesWidget(
     protected override void Initialize()
     {
         Popup.OnNpcSelected += OnNpcSelected;
+        Node.OnRightClick   += _ => {
+            int trackedNpcId = GetConfigValue<int>("TrackedNpcId");
+            if (trackedNpcId != 0) Repository.TeleportToNearbyAetheryte(trackedNpcId);
+        };
     }
 
     protected override void OnDisposed()
@@ -66,6 +70,10 @@ internal sealed class CustomDeliveriesWidget(
         }
 
         base.OnUpdate();
+
+        if (GetConfigValue<string>("DisplayMode") == "IconOnly") {
+            Node.Tooltip = npc?.Name;
+        }
     }
 
     private void OnNpcSelected(int npcId)
