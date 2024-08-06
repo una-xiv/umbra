@@ -280,6 +280,8 @@
     "Widgets.DefaultToolbarWidget.Config.IconLocation.Option.Right": "右側",
     "Widgets.DefaultToolbarWidget.Config.IconSize.Name": "カスタムアイコンサイズ",
     "Widgets.DefaultToolbarWidget.Config.IconSize.Description": "ボタンアイコンのカスタムサイズ（ピクセル単位）。デフォルトサイズを使用するには0に設定します。",
+    "Widgets.DefaultToolbarWidget.Config.IconColor.Name": "カスタムアイコンの色",
+    "Widgets.DefaultToolbarWidget.Config.IconColor.Description": "アイコン画像に適用するカスタムカラーマスクです。",
     "Widgets.DefaultToolbarWidget.Config.TextAlign.Name": "テキストの配置",
     "Widgets.DefaultToolbarWidget.Config.TextAlign.Description": "ウィジェットテキストの配置。",
     "Widgets.DefaultToolbarWidget.Config.TextAlign.Option.Left": "左揃え",

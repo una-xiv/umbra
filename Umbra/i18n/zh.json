@@ -280,6 +280,8 @@
     "Widgets.DefaultToolbarWidget.Config.IconLocation.Option.Right": "右侧",
     "Widgets.DefaultToolbarWidget.Config.IconSize.Name": "自定义图标大小",
     "Widgets.DefaultToolbarWidget.Config.IconSize.Description": "按钮图标的自定义大小（以像素为单位）。设置为0以使用默认大小。",
+    "Widgets.DefaultToolbarWidget.Config.IconColor.Name": "自定义图标颜色",
+    "Widgets.DefaultToolbarWidget.Config.IconColor.Description": "应用于图标图像的自定义颜色蒙版。",
     "Widgets.DefaultToolbarWidget.Config.TextAlign.Name": "文本对齐",
     "Widgets.DefaultToolbarWidget.Config.TextAlign.Description": "小部件文本的对齐方式。",
     "Widgets.DefaultToolbarWidget.Config.TextAlign.Option.Left": "左对齐",

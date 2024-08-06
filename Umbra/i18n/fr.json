@@ -280,6 +280,8 @@
     "Widgets.DefaultToolbarWidget.Config.IconLocation.Option.Right": "Côté droit",
     "Widgets.DefaultToolbarWidget.Config.IconSize.Name": "Taille de l'icône personnalisée",
     "Widgets.DefaultToolbarWidget.Config.IconSize.Description": "Une taille personnalisée pour l'icône du bouton en pixels. Réglez sur 0 pour utiliser la taille par défaut.",
+    "Widgets.DefaultToolbarWidget.Config.IconColor.Name": "Couleur d'icône personnalisée",
+    "Widgets.DefaultToolbarWidget.Config.IconColor.Description": "Un masque de couleur personnalisé à appliquer à l'image de l'icône.",
     "Widgets.DefaultToolbarWidget.Config.TextAlign.Name": "Alignement du texte",
     "Widgets.DefaultToolbarWidget.Config.TextAlign.Description": "L'alignement du texte du widget.",
     "Widgets.DefaultToolbarWidget.Config.TextAlign.Option.Left": "Aligné à gauche",

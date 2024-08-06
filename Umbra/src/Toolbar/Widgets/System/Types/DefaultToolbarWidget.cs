@@ -98,6 +98,7 @@ public abstract class DefaultToolbarWidget(
         SetGhost(isGhost);
         SetLabelWidth(GetConfigValue<int>("LabelMaxWidth"));
         SetIconSize(GetConfigValue<int>("IconSize"));
+        SetIconColor(new(GetConfigValue<uint>("IconColor")));
 
         var displayMode    = GetConfigValue<string>("DisplayMode");
         var iconLocation   = GetConfigValue<string>("IconLocation");
@@ -213,6 +214,14 @@ public abstract class DefaultToolbarWidget(
         RightIconNode.Style.FontSize = size > 0 ? size : (SafeHeight - 2) / 2;
         LeftIconNode.Style.Size      = sz;
         RightIconNode.Style.Size     = sz;
+    }
+
+    protected void SetIconColor(Color color)
+    {
+        LeftIconNode.Style.Color       = color;
+        LeftIconNode.Style.ImageColor  = color;
+        RightIconNode.Style.Color      = color;
+        RightIconNode.Style.ImageColor = color;
     }
 
     protected void SetLabel(string? label)
@@ -331,6 +340,12 @@ public abstract class DefaultToolbarWidget(
                 { "Left", I18N.Translate("Widgets.DefaultToolbarWidget.Config.IconLocation.Option.Left") },
                 { "Right", I18N.Translate("Widgets.DefaultToolbarWidget.Config.IconLocation.Option.Right") }
             }
+        ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+        new ColorWidgetConfigVariable(
+            "IconColor",
+            I18N.Translate("Widgets.DefaultToolbarWidget.Config.IconColor.Name"),
+            I18N.Translate("Widgets.DefaultToolbarWidget.Config.IconColor.Description"),
+            0xFFFFFFFF
         ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
         new SelectWidgetConfigVariable(
             "TextAlign",

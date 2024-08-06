@@ -40,6 +40,9 @@ internal partial class WidgetConfigWindow
             case BooleanWidgetConfigVariable b:
                 node = RenderBooleanControl(b);
                 break;
+            case ColorWidgetConfigVariable b:
+                node = RenderColorControl(b);
+                break;
             case IntegerWidgetConfigVariable i:
                 node = RenderIntegerControl(i);
                 break;
@@ -137,6 +140,21 @@ internal partial class WidgetConfigWindow
         CheckboxNode node = new(
             GetNextControlId(cvar),
             Instance.GetConfigValue<bool>(cvar.Id),
+            cvar.Name,
+            cvar.Description
+        );
+
+        node.ClassList.Add("widget-config-control");
+        node.OnValueChanged += newValue => cvar.SetValue(newValue);
+
+        return node;
+    }
+
+    private ColorInputNode RenderColorControl(ColorWidgetConfigVariable cvar)
+    {
+        var node = new ColorInputNode(
+            GetNextControlId(cvar),
+            Instance.GetConfigValue<uint>(cvar.Id),
             cvar.Name,
             cvar.Description
         );

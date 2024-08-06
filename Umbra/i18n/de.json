@@ -280,6 +280,8 @@
     "Widgets.DefaultToolbarWidget.Config.IconLocation.Option.Right": "Rechte Seite",
     "Widgets.DefaultToolbarWidget.Config.IconSize.Name": "Benutzerdefinierte Symbolgröße",
     "Widgets.DefaultToolbarWidget.Config.IconSize.Description": "Eine benutzerdefinierte Größe für das Schaltflächensymbol in Pixeln. Auf 0 setzen, um die Standardgröße zu verwenden.",
+    "Widgets.DefaultToolbarWidget.Config.IconColor.Name": "Benutzerdefinierte Symbolfarbe",
+    "Widgets.DefaultToolbarWidget.Config.IconColor.Description": "Eine benutzerdefinierte Farbmaske, die auf das Symbolbild angewendet wird.",
     "Widgets.DefaultToolbarWidget.Config.TextAlign.Name": "Textausrichtung",
     "Widgets.DefaultToolbarWidget.Config.TextAlign.Description": "Die Ausrichtung des Widget-Textes.",
     "Widgets.DefaultToolbarWidget.Config.TextAlign.Option.Left": "Linksbündig",
