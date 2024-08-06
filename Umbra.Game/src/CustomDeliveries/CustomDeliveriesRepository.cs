@@ -110,9 +110,10 @@ internal sealed unsafe class CustomDeliveriesRepository : ICustomDeliveriesRepos
                 if (npc.IconId == 0) {
                     // Not all NPCs have an icon, so we need to manually set it.
                     iconId = (i + 1) switch {
-                        6 => 61666,
-                        9 => 61671,
-                        _ => 0,
+                        6  => 61666,
+                        9  => 61671,
+                        10 => 61673,
+                        _  => 0,
                     };
                 }
 
