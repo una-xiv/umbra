@@ -46,7 +46,6 @@ internal sealed partial class PluginListWidget(
         Popup.OnPopupClose += ClearPluginList;
 
         Node.OnRightClick += _ => Framework.Service<IChatSender>().Send("/xlplugins");
-        Node.Tooltip      =  I18N.Translate("Widget.PluginList.Tooltip");
 
         SetLabelWidth(26);
         SetLabel(FontAwesomeIcon.Plug.ToIconString());
@@ -67,6 +66,7 @@ internal sealed partial class PluginListWidget(
         Node.Style.Padding                            = new(0, 2);
         Node.QuerySelector("Label")!.Style.Font       = 2;
         Node.QuerySelector("Label")!.Style.TextOffset = new(0, GetConfigValue<int>("IconYOffset"));
+        Node.Tooltip = GetConfigValue<bool>("ShowTooltip") ? I18N.Translate("Widget.PluginList.Tooltip") : null;
     }
 
     private void UpdatePluginList()

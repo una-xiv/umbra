@@ -29,6 +29,12 @@ internal sealed partial class PluginListWidget
     {
         return [
             new BooleanWidgetConfigVariable(
+                "ShowTooltip",
+                I18N.Translate("Widget.PluginList.Config.ShowTooltip.Name"),
+                I18N.Translate("Widget.PluginList.Config.ShowTooltip.Description"),
+                true
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            new BooleanWidgetConfigVariable(
                 "Decorate",
                 I18N.Translate("Widget.PluginList.Config.Decorate.Name"),
                 I18N.Translate("Widget.PluginList.Config.Decorate.Description"),
@@ -61,7 +67,7 @@ internal sealed partial class PluginListWidget
                 $"EnabledPlugin_{Crc32.Get(plugin.InternalName)}",
                 plugin.Name,
                 null,
-                true
+                plugin.InternalName == "Umbra" // Always enable one entry. We know for sure this one exists.
             ) { Category = I18N.Translate("Widget.PluginList.Config.EnabledCategory") });
         }
 

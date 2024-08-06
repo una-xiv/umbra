@@ -447,6 +447,8 @@
     "Widget.PluginList.Name": "Plugin-Liste",
     "Widget.PluginList.Description": "Schneller Zugriff auf Ihre installierten Dalamud-Plugins, die einen Hauptbefehl und/oder Einstellungen bereitstellen.",
     "Widget.PluginList.Tooltip": "Rechtsklick, um das Plugin-Installationsfenster von Dalamud zu öffnen. Halten Sie die Steuerung oder Umschalttaste gedrückt, während Sie auf ein Plugin im Menü klicken, um dessen Konfigurationsfenster zu öffnen, falls es auch ein Hauptfenster hat.",
+    "Widget.PluginList.Config.ShowTooltip.Name": "Widget-Tooltip anzeigen",
+    "Widget.PluginList.Config.ShowTooltip.Description": "Ob ein Tooltip mit Steuerungshinweisen angezeigt werden soll, wenn der Mauszeiger über die Plugin-Listen-Widget bewegt wird.",
     "Widget.PluginList.Config.Decorate.Name": "Das Widget dekorieren",
     "Widget.PluginList.Config.Decorate.Description": "Dekoriert das Mail-Indikator-Widget mit einem Hintergrund und einem Rahmen.",
     "Widget.PluginList.Config.IconYOffset.Name": "Vertikaler Versatz des Symbols",

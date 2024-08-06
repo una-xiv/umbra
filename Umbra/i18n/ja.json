@@ -447,6 +447,8 @@
     "Widget.PluginList.Name": "プラグインリスト",
     "Widget.PluginList.Description": "メインコマンドおよび/または設定を提供するインストールされたDalamudプラグインへの迅速なアクセス。",
     "Widget.PluginList.Tooltip": "右クリックしてDalamudのプラグインインストーラーウィンドウを開きます。メニューのプラグインをクリックしながらCtrlまたはShiftキーを押し続けると、メインウィンドウがある場合はその設定ウィンドウが開きます。",
+    "Widget.PluginList.Config.ShowTooltip.Name": "ウィジェットツールチップを表示する",
+    "Widget.PluginList.Config.ShowTooltip.Description": "プラグインリストウィジェットをホバーすると、コントロールのヒントが表示されるツールチップを表示するかどうか。",
     "Widget.PluginList.Config.Decorate.Name": "ウィジェットを装飾する",
     "Widget.PluginList.Config.Decorate.Description": "背景と境界線でメールインジケーターウィジェットを装飾します。",
     "Widget.PluginList.Config.IconYOffset.Name": "アイコンの垂直オフセット",

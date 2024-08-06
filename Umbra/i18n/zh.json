@@ -447,6 +447,8 @@
     "Widget.PluginList.Name": "插件列表",
     "Widget.PluginList.Description": "快速访问您已安装的提供主命令和/或设置的Dalamud插件。",
     "Widget.PluginList.Tooltip": "右键单击以打开 Dalamud 的插件安装程序窗口。按住控制或 Shift 键并单击菜单中的插件以打开其配置窗口（如果它也有主窗口）。",
+    "Widget.PluginList.Config.ShowTooltip.Name": "显示小部件工具提示",
+    "Widget.PluginList.Config.ShowTooltip.Description": "在将鼠标悬停在插件列表小部件上时，是否显示带有控制提示的工具提示。",
     "Widget.PluginList.Config.Decorate.Name": "装饰小部件",
     "Widget.PluginList.Config.Decorate.Description": "使用背景和边框装饰邮件指示器小部件。",
     "Widget.PluginList.Config.IconYOffset.Name": "图标垂直偏移",
