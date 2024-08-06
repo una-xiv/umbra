@@ -79,14 +79,13 @@ internal partial class WidgetConfigWindow
 
         Node.QuerySelector("#SearchPanel")!.Style.Size        = new(ContentSize.Width, 0);
         Node.QuerySelector("#SearchInputWrapper")!.Style.Size = new(ContentSize.Width - 55, 0);
-
         Node.QuerySelector(".widget-config-footer")!.Style.Size = new(ContentSize.Width, 50);
 
         foreach (var categoryNode in Node.QuerySelectorAll(".widget-config-category")) {
             categoryNode.Style.Size = new(ContentSize.Width - 30, 0);
         }
 
-        foreach (var widgetNode in Node.QuerySelectorAll(".control")) {
+        foreach (var widgetNode in Node.QuerySelectorAll(".widget-config-control")) {
             widgetNode.Style.Size = new(ContentSize.Width - 30, 0);
         }
     }

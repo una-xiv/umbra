@@ -67,8 +67,8 @@ internal sealed partial class CustomMenuWidget(
         string tooltipString = GetConfigValue<string>("Tooltip");
         Node.Tooltip = !string.IsNullOrEmpty(tooltipString) ? tooltipString : null;
 
-        Popup.CloseOnItemClick             = GetConfigValue<bool>("CloseOnClick");
-        Popup.UseGrayscaleIcons            = GetConfigValue<bool>("DesaturateMenuIcons");
+        Popup.CloseOnItemClick  = GetConfigValue<bool>("CloseOnClick");
+        Popup.UseGrayscaleIcons = GetConfigValue<bool>("DesaturateMenuIcons");
     }
 
     private void UpdateIcons()
@@ -113,6 +113,7 @@ internal sealed partial class CustomMenuWidget(
             string    command   = GetConfigValue<string>($"ButtonCommand_{i}").Trim();
             string    mode      = GetConfigValue<string>($"ButtonMode_{i}").Trim();
             uint      iconId    = (uint)GetConfigValue<int>($"ButtonIconId_{i}");
+            uint      iconColor = GetConfigValue<uint>($"ButtonIconColor_{i}");
             ItemUsage usage     = ParseItemUsageString(GetConfigValue<string>($"ButtonItemUsage_{i}"));
 
             if (mode == "Separator") {
@@ -127,6 +128,7 @@ internal sealed partial class CustomMenuWidget(
 
             int i1 = i;
             Popup.AddButton(id, label, sortIndex, iconId, altLabel, () => InvokeMenuItem(i1), groupId: lastGroupId);
+            Popup.SetButtonIconColor(id, new(iconColor));
 
             switch (mode) {
                 case "Command":

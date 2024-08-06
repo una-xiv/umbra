@@ -818,6 +818,8 @@
     "Widget.CustomMenu.Config.ButtonAltLabel.Description": "メニュー項目の右側に表示されるサブラベルで、通常はアイテム数、ショートカットなどに使用されます。このオプションは、アイテムモードが選択され、コマンドフィールドに有効なアイテムIDが入力された場合は無視されます。",
     "Widget.CustomMenu.Config.ButtonIconId.Name": "アイコンID",
     "Widget.CustomMenu.Config.ButtonIconId.Description": "ボタンに表示するアイコンID。正しいIDを取得するには、コマンド「/xldata icons」を使用して利用可能なアイコンを閲覧します。アイコンを非表示にするにはID 0を使用します。アイテムモードが選択され、コマンドフィールドに有効なアイテムIDが指定されている場合、このオプションは無視されます。",
+    "Widget.CustomMenu.Config.ButtonIconColor.Name": "アイコンの色",
+    "Widget.CustomMenu.Config.ButtonIconColor.Description": "このメニューアイテムのアイコンに適用するカスタムカラーマスクです。色マスクを効果的に無効にし、アイコンの元の色を使用するには、純白（#FFFFFF）を使用してください。",
     "Widget.CustomMenu.Config.ButtonCommand.Name": "コマンド、URL、またはアイテムID",
     "Widget.CustomMenu.Config.ButtonCommand.Description": "選択されたモードに応じて、ボタンをクリックしたときに実行される指定されたコマンドを呼び出します。例えば：/dance、またはURLモードが選択されている場合、デフォルトのブラウザでウェブサイトを開きます。アイテムモードが選択され、コマンドフィールドに有効なアイテムIDが指定されている場合、ボタンの名前とアイコンはアイテムの名前とアイコンに上書きされます。",
     "Widget.CustomMenu.Config.ButtonMode.Name": "ボタンモード",

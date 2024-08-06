@@ -129,6 +129,12 @@ internal sealed partial class CustomMenuWidget
                 I18N.Translate("Widget.CustomMenu.Config.ButtonIconId.Description"),
                 0
             ) { Category = I18N.Translate("Widget.CustomMenu.Config.ButtonId", buttonIndex + 1) },
+            new ColorWidgetConfigVariable(
+                $"ButtonIconColor_{buttonIndex}",
+                I18N.Translate("Widget.CustomMenu.Config.ButtonIconColor.Name"),
+                I18N.Translate("Widget.CustomMenu.Config.ButtonIconColor.Description"),
+                0xFFFFFFFF
+            ) { Category = I18N.Translate("Widget.CustomMenu.Config.ButtonId", buttonIndex + 1) },
             new StringWidgetConfigVariable(
                 $"ButtonCommand_{buttonIndex}",
                 I18N.Translate("Widget.CustomMenu.Config.ButtonCommand.Name"),

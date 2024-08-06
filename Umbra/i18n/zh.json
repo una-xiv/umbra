@@ -818,6 +818,8 @@
     "Widget.CustomMenu.Config.ButtonAltLabel.Description": "显示在菜单项右侧的子标签，通常用于项目计数、快捷方式等。当选择了项目模式并在命令字段中提供了有效的项目ID时，此选项将被忽略。",
     "Widget.CustomMenu.Config.ButtonIconId.Name": "图标ID",
     "Widget.CustomMenu.Config.ButtonIconId.Description": "应显示在按钮上的图标ID。使用命令“/xldata icons”浏览可用图标以获取正确的ID。使用ID 0隐藏图标。当选择了物品模式并在命令字段中给出有效的物品ID时，此选项将被忽略。",
+    "Widget.CustomMenu.Config.ButtonIconColor.Name": "图标颜色",
+    "Widget.CustomMenu.Config.ButtonIconColor.Description": "自定义颜色掩码以应用于此菜单项的图标。使用纯白色（#FFFFFF）可以有效禁用颜色掩码并使用图标的原始颜色。",
     "Widget.CustomMenu.Config.ButtonCommand.Name": "命令、URL或物品ID",
     "Widget.CustomMenu.Config.ButtonCommand.Description": "根据所选模式，调用点击按钮时执行的指定命令。例如：/dance., 或者如果选择了URL模式，将在默认浏览器中打开一个网站。当选择了物品模式并在命令字段中给出有效的物品ID时，按钮的名称和图标将被物品的名称和图标覆盖。",
     "Widget.CustomMenu.Config.ButtonMode.Name": "按钮模式",

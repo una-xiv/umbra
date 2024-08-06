@@ -818,6 +818,8 @@
     "Widget.CustomMenu.Config.ButtonAltLabel.Description": "Une sous-étiquette affichée sur le côté droit de l'élément de menu, généralement utilisée pour les comptes d'articles, les raccourcis, etc. Cette option est ignorée lorsque le mode Article est sélectionné et qu'un ID d'article valide est donné dans le champ de commande.",
     "Widget.CustomMenu.Config.ButtonIconId.Name": "ID de l'icône",
     "Widget.CustomMenu.Config.ButtonIconId.Description": "L'ID de l'icône qui doit être affichée sur le bouton. Utilisez la commande \"/xldata icons\" pour parcourir les icônes disponibles et obtenir l'ID correcte. Utilisez l'ID 0 pour masquer l'icône. Cette option est ignorée lorsque le mode Article est sélectionné et qu'un ID d'article valide est donné dans le champ de commande.",
+    "Widget.CustomMenu.Config.ButtonIconColor.Name": "Couleur de l'icône",
+    "Widget.CustomMenu.Config.ButtonIconColor.Description": "Un masque de couleur personnalisé à appliquer à l'icône de cet élément de menu. Utilisez du blanc pur (#FFFFFF) pour désactiver efficacement le masque de couleur et utiliser les couleurs originales de l'icône.",
     "Widget.CustomMenu.Config.ButtonCommand.Name": "Commande, URL ou ID d'article",
     "Widget.CustomMenu.Config.ButtonCommand.Description": "Selon le mode sélectionné, invoque la commande donnée qui est exécutée lorsque le bouton est cliqué. Par exemple : /dance., ou ouvre un site Web dans votre navigateur par défaut si le mode URL est sélectionné. Lorsque le mode Article est sélectionné et qu'un ID d'article valide est donné dans le champ de commande, le nom et l'icône du bouton seront remplacés par le nom et l'icône de l'article.",
     "Widget.CustomMenu.Config.ButtonMode.Name": "Mode du bouton",

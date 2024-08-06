@@ -84,6 +84,30 @@ internal class ColorInputNode : Node
 
         Label       = label;
         Description = description;
+
+        BeforeReflow += _ => {
+            int maxWidth = ParentNode!.Bounds.ContentSize.Width - ParentNode!.ComputedStyle.Padding.HorizontalSize;
+            int padding  = ComputedStyle.Gap + BoxNode.OuterWidth;
+            int width    = (int)((maxWidth - padding) / ScaleFactor);
+            int labelHeight;
+
+            if (LabelNode.Style.Size?.Width == width && DescriptionNode.Style.Size?.Width == width) {
+                return false;
+            }
+
+            if (string.IsNullOrEmpty((string?)DescriptionNode.NodeValue)) {
+                DescriptionNode.Style.IsVisible = false;
+                labelHeight                     = 24;
+            } else {
+                DescriptionNode.Style.IsVisible = true;
+                labelHeight                     = 0;
+            }
+
+            LabelNode.Style.Size       = new(width, labelHeight);
+            DescriptionNode.Style.Size = new(width, 0);
+
+            return true;
+        };
     }
 
     protected override void OnDisposed()

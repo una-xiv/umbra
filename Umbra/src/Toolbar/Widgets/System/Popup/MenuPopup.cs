@@ -250,6 +250,19 @@ public class MenuPopup : WidgetPopup
         }
     }
 
+    public void SetButtonIconColor(string id, Color color)
+    {
+        Node? node = Node.QuerySelector($"{id}.button > .button--icon");
+
+        if (node is null) {
+            Logger.Warning($"Attempted to set icon color for non-existent button: {id}");
+            return;
+        }
+
+        node.Style.Color      = color;
+        node.Style.ImageColor = color;
+    }
+
     public void SetButtonSortIndex(string id, int sortIndex)
     {
         Node? node = Node.QuerySelector($"{id}.button");

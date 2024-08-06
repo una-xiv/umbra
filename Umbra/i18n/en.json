@@ -818,6 +818,8 @@
     "Widget.CustomMenu.Config.ButtonAltLabel.Description": "A sub-label that is displayed on the right side on the menu item, typically used for item counts, shortcuts, etc. This option is ignored when the Item-mode is selected and a valid item ID is given in the command field.",
     "Widget.CustomMenu.Config.ButtonIconId.Name": "Icon ID",
     "Widget.CustomMenu.Config.ButtonIconId.Description": "The icon ID that should be displayed on the button. Use the command \"/xldata icons\" to browse available icons to get the correct ID. Use ID 0 to hide the icon. This option is ignored when the Item-mode is selected and a valid item ID is given in the command field.",
+    "Widget.CustomMenu.Config.ButtonIconColor.Name": "Icon color",
+    "Widget.CustomMenu.Config.ButtonIconColor.Description": "A custom color mask to apply to the icon of this menu item. Use solid white (#FFFFFF) to effectively disable the color mask and use the icon's original colors.",
     "Widget.CustomMenu.Config.ButtonCommand.Name": "Command, URL or Item ID",
     "Widget.CustomMenu.Config.ButtonCommand.Description": "Depending on the selected mode, invokes the given command that is executed when the button is clicked. For example: /dance., or opens a website in your default browser if the URL mode is selected. When the Item-mode is selected and a valid item ID is given in the command field, the button name and icon of the button will be overridden with the item's name and icon.",
     "Widget.CustomMenu.Config.ButtonMode.Name": "Button mode",
