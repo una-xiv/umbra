@@ -39,6 +39,15 @@ internal sealed class UmbraBindings : IDisposable
     [ConfigVariable("General.UseThreadedStyleComputation", "General", "Experimental")]
     public static bool UseThreadedStyleComputation { get; set; } = false;
 
+    [ConfigVariable("General.EnableHitchWarnings", "General", "DeveloperTools")]
+    public static bool EnableHitchWarnings { get; set; } = false;
+
+    [ConfigVariable("General.TickHitchThresholdMs", "General", "DeveloperTools", min: 0.1f, max: 50f)]
+    public static float TickHitchThresholdMs { get; set; } = 4.0f;
+
+    [ConfigVariable("General.DrawHitchThresholdMs", "General", "DeveloperTools", min: 0.1f, max: 50f)]
+    public static float DrawHitchThresholdMs { get; set; } = 5.0f;
+
     private ICommandManager _commandManager;
 
     private readonly IChatGui        _chatGui;
@@ -83,6 +92,7 @@ internal sealed class UmbraBindings : IDisposable
 
         Framework.DalamudPlugin.UiBuilder.OpenConfigUi += OpenSettingsWindow;
         Framework.DalamudPlugin.UiBuilder.OpenMainUi   += OpenSettingsWindow;
+        Framework.SetSchedulerHitchWarnings(EnableHitchWarnings, TickHitchThresholdMs, DrawHitchThresholdMs);
 
         Node.ScaleFactor = 1.0f;
 
@@ -116,8 +126,9 @@ internal sealed class UmbraBindings : IDisposable
     private void OnTick()
     {
         Node.ScaleFactor = (float)Math.Round(Math.Clamp(UiScale / 100f, 0.5f, 3.0f), 2);
-
         Node.UseThreadedStyleComputation = UseThreadedStyleComputation;
+
+        Framework.SetSchedulerHitchWarnings(EnableHitchWarnings, TickHitchThresholdMs, DrawHitchThresholdMs);
     }
 
     private void HandleUmbraCommand(string command, string args)

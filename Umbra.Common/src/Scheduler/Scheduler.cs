@@ -19,11 +19,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Dalamud.Plugin.Services;
+using System.Diagnostics;
 
 namespace Umbra.Common;
 
 internal static class Scheduler
 {
+    internal static bool  EnableHitchWarnings  { get; set; } = false;
+    internal static float TickHitchThresholdMs { get; set; } = 50.0f;
+    internal static float DrawHitchThresholdMs { get; set; } = 16.0f;
+
     private static List<TickHandler> _onTickHandlers = [];
     private static List<DrawHandler> _onDrawHandlers = [];
 
@@ -109,7 +114,9 @@ internal static class Scheduler
         return [
             .. Framework
                 .Assemblies.SelectMany(assembly => assembly.GetTypes())
-                .SelectMany(type => type.GetMethods(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public))
+                .SelectMany(
+                    type => type.GetMethods(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)
+                )
                 .Where(method => method.GetCustomAttribute<OnDrawAttribute>() != null)
                 .Select(
                     method => {
@@ -123,11 +130,19 @@ internal static class Scheduler
         ];
     }
 
-    private class TickHandler(MethodBase method, Type serviceType, long interval)
+    private class TickHandler(MethodBase method, Type serviceType, long interval) : IDisposable
     {
-        private bool    _isRunning = true;
-        private long    _elapsedTime;
-        private object? _instance;
+        private bool       _isRunning = true;
+        private long       _elapsedTime;
+        private object?    _instance;
+        private Stopwatch? _stopwatch = new();
+
+        public void Dispose()
+        {
+            _stopwatch?.Stop();
+            _stopwatch = null;
+            _isRunning = false;
+        }
 
         public void Invoke(double deltaTime)
         {
@@ -148,17 +163,34 @@ internal static class Scheduler
             _elapsedTime += (long)deltaTime;
             if (_elapsedTime < interval) return;
 
+            _stopwatch?.Start();
             method.Invoke(_instance, null);
+
+            if (EnableHitchWarnings && _stopwatch?.ElapsedMilliseconds > TickHitchThresholdMs) {
+                Logger.Warning(
+                    $"Tick hitch detected of {_stopwatch.ElapsedMilliseconds}ms in \"{serviceType.Name}.{method.Name}\"."
+                );
+            }
+
+            _stopwatch?.Reset();
             _elapsedTime = 0;
         }
     }
 
-    private class DrawHandler(MethodBase method, Type serviceType, int executionOrder)
+    private class DrawHandler(MethodBase method, Type serviceType, int executionOrder) : IDisposable
     {
         public readonly int ExecutionOrder = executionOrder;
 
-        private bool    _isRunning = true;
-        private object? _instance;
+        private bool       _isRunning = true;
+        private object?    _instance;
+        private Stopwatch? _stopwatch = new();
+
+        public void Dispose()
+        {
+            _stopwatch?.Stop();
+            _stopwatch = null;
+            _isRunning = false;
+        }
 
         public void Invoke()
         {
@@ -176,7 +208,16 @@ internal static class Scheduler
                 _instance = ServiceContainer.GetInstance(definition.Type);
             }
 
+            _stopwatch?.Start();
             method.Invoke(_instance, null);
+
+            if (EnableHitchWarnings && _stopwatch?.ElapsedMilliseconds > DrawHitchThresholdMs) {
+                Logger.Warning(
+                    $"Draw hitch detected of {_stopwatch.ElapsedMilliseconds}ms in \"{serviceType.Name}.{method.Name}\"."
+                );
+            }
+
+            _stopwatch?.Reset();
         }
     }
 }

@@ -57,15 +57,19 @@ public static class Framework
             await (Task)initializer.Invoke(null, null)!;
         }
 
-        await dalamudFramework.RunOnFrameworkThread(() => {
-            foreach (var initializer in GetMethodInfoListWith<WhenFrameworkCompilingAttribute>()) {
-                try {
-                    initializer.Invoke(null, null);
-                } catch (Exception e) {
-                    Logger.Error($"Failed to run initializer {initializer.DeclaringType?.Name}::{initializer.Name}: {e}");
+        await dalamudFramework.RunOnFrameworkThread(
+            () => {
+                foreach (var initializer in GetMethodInfoListWith<WhenFrameworkCompilingAttribute>()) {
+                    try {
+                        initializer.Invoke(null, null);
+                    } catch (Exception e) {
+                        Logger.Error(
+                            $"Failed to run initializer {initializer.DeclaringType?.Name}::{initializer.Name}: {e}"
+                        );
+                    }
                 }
             }
-        });
+        );
 
         Scheduler.Start();
     }
@@ -87,6 +91,16 @@ public static class Framework
         Dispose();
         await Task.Delay(500);
         await Compile(DalamudFramework, DalamudPlugin, LocalCharacterId);
+    }
+
+    /// <summary>
+    /// Enables logging of hitch warnings of the scheduler in the console.
+    /// </summary>
+    public static void SetSchedulerHitchWarnings(bool enabled, float tickThresholdMs, float drawThresholdMs)
+    {
+        Scheduler.EnableHitchWarnings  = enabled;
+        Scheduler.TickHitchThresholdMs = tickThresholdMs;
+        Scheduler.DrawHitchThresholdMs = drawThresholdMs;
     }
 
     /// <summary>
@@ -134,8 +148,7 @@ public static class Framework
     /// <param name="assembly"></param>
     public static void RegisterAssembly(Assembly assembly)
     {
-        if (Assemblies.Contains(assembly))
-            return;
+        if (Assemblies.Contains(assembly)) return;
 
         Assemblies.Add(assembly);
     }
@@ -151,18 +164,21 @@ public static class Framework
 
     private static List<MethodInfo> GetMethodInfoListWith<T>() where T : Attribute
     {
-        List<MethodInfo> methods = Assemblies.SelectMany(assembly => assembly.GetTypes())
+        List<MethodInfo> methods = Assemblies
+            .SelectMany(assembly => assembly.GetTypes())
             .SelectMany(type => type.GetMethods(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic))
             .Where(method => method.GetCustomAttributes<T>().Any())
             .ToList();
 
         if (typeof(T).GetInterfaces().Contains(typeof(IExecutionOrderAware))) {
-            methods.Sort((a, b) => {
-                var orderA = a.GetCustomAttribute<T>() as IExecutionOrderAware;
-                var orderB = b.GetCustomAttribute<T>() as IExecutionOrderAware;
+            methods.Sort(
+                (a, b) => {
+                    var orderA = a.GetCustomAttribute<T>() as IExecutionOrderAware;
+                    var orderB = b.GetCustomAttribute<T>() as IExecutionOrderAware;
 
-                return orderA!.ExecutionOrder.CompareTo(orderB!.ExecutionOrder);
-            });
+                    return orderA!.ExecutionOrder.CompareTo(orderB!.ExecutionOrder);
+                }
+            );
         }
 
         return methods;

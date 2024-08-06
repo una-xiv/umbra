@@ -70,6 +70,22 @@ internal partial class CvarModule
             return node;
         }
 
+        if (cvar is { Default: float, Min: not null, Max: not null }) {
+            var node = new FloatInputNode(
+                cvar.Slug,
+                (float)(cvar.Value ?? cvar.Default),
+                (float)cvar.Min,
+                (float)cvar.Max,
+                I18N.Translate($"CVAR.{cvar.Id}.Name"),
+                I18N.Has($"CVAR.{cvar.Id}.Description") ? I18N.Translate($"CVAR.{cvar.Id}.Description") : null
+            );
+
+            node.ClassList.Add("cvar");
+            node.OnValueChanged += value => ConfigManager.Set(cvar.Id, value);
+
+            return node;
+        }
+
         return null;
     }
 }
