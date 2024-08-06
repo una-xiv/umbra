@@ -11,8 +11,20 @@ public interface ICustomDeliveriesRepository
     public Dictionary<int, CustomDeliveryNpc> Npcs { get; }
 
     /// <summary>
+    /// Returns the amount of deliveries the player can still make this week.
+    /// </summary>
+    public int DeliveriesRemainingThisWeek { get; }
+
+    /// <summary>
     /// Opens the "Satisfaction Supply" window for the specified NPC.
     /// </summary>
-    /// <param name="npcId"></param>
+    /// <param name="npcId">The ID of the supply npc (1~10)</param>
     public void OpenCustomDeliveriesWindow(int npcId);
+
+    /// <summary>
+    /// Teleports the player to a nearby aetheryte for the specified NPC.
+    /// Does nothing if the player is not allowed to teleport in its current conditions.
+    /// </summary>
+    /// <param name="npcId">The ID of the supply npc (1~10)</param>
+    public void TeleportToNearbyAetheryte(int npcId);
 }
