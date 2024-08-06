@@ -540,6 +540,8 @@
     "Widget.Currencies.Config.ShowName.Description": "Indique s'il faut afficher le nom de la devise suivie à côté de la valeur.",
     "Widget.Currencies.Config.ShowCap.Name": "Afficher le plafond de la devise (si disponible)",
     "Widget.Currencies.Config.ShowCap.Description": "Indiquer si le plafond de la devise suivie doit être affiché à côté de la valeur.",
+    "Widget.Currencies.Config.ShowCapOnWidget.Name": "Afficher le plafond de la devise sur le widget de la barre d'outils",
+    "Widget.Currencies.Config.ShowCapOnWidget.Description": "Afficher ou non le plafond de la devise suivie sur le widget lui-même.",
     "Widget.Currencies.Config.CurrencySeparator.Name": "Séparateur de devises",
     "Widget.Currencies.Config.CurrencySeparator.Description": "Le caractère qui sépare les milliers dans la valeur de la devise pour une meilleure lisibilité.",
     "Widget.Currencies.Config.CustomWidgetLabel.Name": "Étiquette de widget personnalisée",

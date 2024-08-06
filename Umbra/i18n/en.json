@@ -540,6 +540,8 @@
     "Widget.Currencies.Config.ShowName.Description": "Whether to show the name of the tracked currency next to the value.",
     "Widget.Currencies.Config.ShowCap.Name": "Show currency cap (if available)",
     "Widget.Currencies.Config.ShowCap.Description": "Whether to show the currency cap of the tracked currency next to the value.",
+    "Widget.Currencies.Config.ShowCapOnWidget.Name": "Show currency cap on the toolbar widget",
+    "Widget.Currencies.Config.ShowCapOnWidget.Description": "Whether to show the currency cap of the tracked currency on the widget itself.",
     "Widget.Currencies.Config.CurrencySeparator.Name": "Currency separator",
     "Widget.Currencies.Config.CurrencySeparator.Description": "The character that separates thousands in the currency value for better readability.",
     "Widget.Currencies.Config.CustomWidgetLabel.Name": "Custom widget label",

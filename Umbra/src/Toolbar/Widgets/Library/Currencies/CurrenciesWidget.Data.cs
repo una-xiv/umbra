@@ -101,19 +101,17 @@ internal partial class CurrenciesWidget
         };
     }
 
-    private string GetCustomAmount(uint id)
+    private string GetCustomAmount(uint id, bool showCap)
     {
         if (false == CustomCurrencies.ContainsKey(id)) return "";
 
-        return CustomCurrencies[id].Cap > 1 && GetConfigValue<bool>("ShowCap")
+        return CustomCurrencies[id].Cap > 1 && showCap
             ? $"{FormatNumber(Player.GetItemCount(id))} / {FormatNumber((int)CustomCurrencies[id].Cap)}"
             : $"{FormatNumber(Player.GetItemCount(id))}";
     }
 
-    private unsafe string GetAmount(CurrencyType type)
+    private unsafe string GetAmount(CurrencyType type, bool showCap)
     {
-        var showCap = GetConfigValue<bool>("ShowCap");
-
         switch (type) {
             case CurrencyType.Gil:
             case CurrencyType.Mgp:
@@ -208,7 +206,7 @@ internal partial class CurrenciesWidget
         if (CustomCurrencies.Count > 0) {
             foreach (uint id in CustomCurrencies.Keys) {
                 if (Popup.HasButton($"CustomCurrency_{id}")) {
-                    Popup.SetButtonAltLabel($"CustomCurrency_{id}", GetCustomAmount(id));
+                    Popup.SetButtonAltLabel($"CustomCurrency_{id}", GetCustomAmount(id, GetConfigValue<bool>("ShowCap")));
                 }
             }
         }

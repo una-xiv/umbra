@@ -540,6 +540,8 @@
     "Widget.Currencies.Config.ShowName.Description": "是否在数值旁边显示跟踪货币的名称。",
     "Widget.Currencies.Config.ShowCap.Name": "显示货币上限（如有）",
     "Widget.Currencies.Config.ShowCap.Description": "是否在数值旁边显示跟踪货币的上限。",
+    "Widget.Currencies.Config.ShowCapOnWidget.Name": "在工具栏小部件上显示货币上限",
+    "Widget.Currencies.Config.ShowCapOnWidget.Description": "是否在小部件上显示跟踪货币的上限。",
     "Widget.Currencies.Config.CurrencySeparator.Name": "货币分隔符",
     "Widget.Currencies.Config.CurrencySeparator.Description": "货币值中的千位分隔符字符。",
     "Widget.Currencies.Config.CustomWidgetLabel.Name": "自定义小组件标签",

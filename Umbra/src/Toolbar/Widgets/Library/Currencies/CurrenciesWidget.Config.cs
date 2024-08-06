@@ -71,9 +71,9 @@ internal partial class CurrenciesWidget
                 true
             ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             new BooleanWidgetConfigVariable(
-                "ShowCap",
-                I18N.Translate("Widget.Currencies.Config.ShowCap.Name"),
-                I18N.Translate("Widget.Currencies.Config.ShowCap.Description"),
+                "ShowCapOnWidget",
+                I18N.Translate("Widget.Currencies.Config.ShowCapOnWidget.Name"),
+                I18N.Translate("Widget.Currencies.Config.ShowCapOnWidget.Description"),
                 true
             ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             ..DefaultToolbarWidgetConfigVariables,
@@ -82,6 +82,12 @@ internal partial class CurrenciesWidget
                 "DesaturateIcons",
                 I18N.Translate("Widget.Currencies.Config.DesaturateIcons.Name"),
                 I18N.Translate("Widget.Currencies.Config.DesaturateIcons.Description"),
+                true
+            ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
+            new BooleanWidgetConfigVariable(
+                "ShowCap",
+                I18N.Translate("Widget.Currencies.Config.ShowCap.Name"),
+                I18N.Translate("Widget.Currencies.Config.ShowCap.Description"),
                 true
             ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
             ..GetEnabledCurrenciesVariables()

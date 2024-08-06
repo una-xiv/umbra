@@ -540,6 +540,8 @@
     "Widget.Currencies.Config.ShowName.Description": "Ob der Name der verfolgten Vermögen neben dem Wert angezeigt werden soll.",
     "Widget.Currencies.Config.ShowCap.Name": "Währungslimit anzeigen (falls verfügbar)",
     "Widget.Currencies.Config.ShowCap.Description": "Ob das Währungslimit der verfolgten Währung neben dem Wert angezeigt werden soll.",
+    "Widget.Currencies.Config.ShowCapOnWidget.Name": "Währungslimit im Toolbar-Widget anzeigen",
+    "Widget.Currencies.Config.ShowCapOnWidget.Description": "Ob das Währungslimit der verfolgten Währung im Widget selbst angezeigt werden soll.",
     "Widget.Currencies.Config.CurrencySeparator.Name": "Währungsseparator",
     "Widget.Currencies.Config.CurrencySeparator.Description": "Das Zeichen, das Tausenderstellen im Währungswert für eine bessere Lesbarkeit trennt.",
     "Widget.Currencies.Config.CustomWidgetLabel.Name": "Benutzerdefiniertes Widget-Label",
