@@ -84,7 +84,7 @@ internal class PluginLoadContext(DirectoryInfo directoryInfo) : AssemblyLoadCont
         if (!file.Exists) return base.Load(assemblyName);
 
         try {
-            return LoadFromFile(file.FullName);
+            return LoadFromFileInternal(file.FullName);
         } catch (Exception e) {
             Logger.Error($"Failed to load {assemblyName.Name} from {file.FullName}: {e.Message}");
         }
