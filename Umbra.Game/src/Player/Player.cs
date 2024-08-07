@@ -21,6 +21,7 @@ using System.Numerics;
 using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Client.Game;
+using FFXIVClientStructs.FFXIV.Client.Game.Group;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using FFXIVClientStructs.FFXIV.Client.UI.Info;
@@ -74,6 +75,11 @@ internal sealed class Player : IPlayer
     /// True if the player is currently in combat.
     /// </summary>
     public bool IsInCombat { get; private set; }
+
+    /// <summary>
+    /// True if the player is currently a member of a party.
+    /// </summary>
+    public bool IsInParty { get; private set; }
 
     /// <summary>
     /// True if the player is currently engaged in a PvP duty.
@@ -190,6 +196,7 @@ internal sealed class Player : IPlayer
     private readonly IClientState        _clientState;
     private readonly ICondition          _condition;
     private readonly IDataManager        _dataManager;
+    private readonly IPartyList          _partyList;
     private readonly JobInfoRepository   _jobInfoRepository;
     private readonly SocietiesRepository _societiesRepository;
 
@@ -200,6 +207,7 @@ internal sealed class Player : IPlayer
         ICondition           condition,
         IDataManager         dataManager,
         IEquipmentRepository equipmentRepository,
+        IPartyList           partyList,
         JobInfoRepository    jobInfoRepository,
         SocietiesRepository  societiesRepository,
         IPlayerInventory     playerInventory
@@ -208,6 +216,7 @@ internal sealed class Player : IPlayer
         _clientState         = clientState;
         _condition           = condition;
         _dataManager         = dataManager;
+        _partyList           = partyList;
         _jobInfoRepository   = jobInfoRepository;
         _societiesRepository = societiesRepository;
 
@@ -228,6 +237,7 @@ internal sealed class Player : IPlayer
         Rotation       = _clientState.LocalPlayer.Rotation;
         IsDead         = _clientState.LocalPlayer.IsDead;
         IsInPvP        = _clientState.IsPvPExcludingDen;
+        IsInParty      = _partyList.Length > 0;
         JobId          = (byte)_clientState.LocalPlayer.ClassJob.Id;
 
         IsCasting = _clientState.LocalPlayer.IsCasting
@@ -292,10 +302,11 @@ internal sealed class Player : IPlayer
     /// Returns true if the player has the specified item in their inventory.
     /// </summary>
     public unsafe bool HasItemInInventory(
-        uint itemId,
-        uint minItemCount = 1,
-        ItemUsage itemUsage = ItemUsage.HqBeforeNq
-    ) {
+        uint      itemId,
+        uint      minItemCount = 1,
+        ItemUsage itemUsage    = ItemUsage.HqBeforeNq
+    )
+    {
         InventoryManager* im = InventoryManager.Instance();
         if (im == null) return false;
 
@@ -404,6 +415,12 @@ internal sealed class Player : IPlayer
         InfoProxyDetail* ic = InfoProxyDetail.Instance();
         if (null == ic) return;
 
+        if (statusId == 23 && ic->UpdateData.LookingForPartyClassJobIdMask == 0) {
+            // Assign a job mask if the player is looking for a party but has no job mask.
+            ic->SetUpdateClassJobId(JobId);
+            ic->SetUpdateLookingForPartyClassJobIdMask((ulong)1 << (JobId - 1));
+        }
+
         ic->SendOnlineStatusUpdate(statusId);
     }
 
@@ -473,7 +490,7 @@ public enum ItemUsage
 
 public readonly struct ResolvedItem(uint id, string name, uint iconId)
 {
-    public uint Id { get; }     = id;
-    public string Name { get; } = name;
-    public uint IconId { get; } = iconId;
+    public uint   Id     { get; } = id;
+    public string Name   { get; } = name;
+    public uint   IconId { get; } = iconId;
 }

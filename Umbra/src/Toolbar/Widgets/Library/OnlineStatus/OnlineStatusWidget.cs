@@ -14,8 +14,8 @@
  *     GNU Affero General Public License for more details.
  */
 
-using System.Collections.Generic;
 using Dalamud.Utility;
+using System.Collections.Generic;
 using Umbra.Common;
 using Umbra.Game;
 using Una.Drawing;
@@ -56,14 +56,16 @@ internal partial class OnlineStatusWidget(
             UpdateStatus();
         }
 
-        SetPopupStatusOption(47, true);
-        SetPopupStatusOption(17, true);
-        SetPopupStatusOption(12, true);
-        SetPopupStatusOption(22, true);
-        SetPopupStatusOption(27, _player.IsMentor);
-        SetPopupStatusOption(28, _player.IsBattleMentor);
-        SetPopupStatusOption(30, _player.IsBattleMentor);
-        SetPopupStatusOption(29, _player.IsTradeMentor);
+        SetPopupStatusOption(47, true);                                // Online
+        SetPopupStatusOption(17, true);                                // Away from Keyboard
+        SetPopupStatusOption(12, true);                                // Busy
+        SetPopupStatusOption(22, true);                                // Role-Playing
+        SetPopupStatusOption(21, _player.IsGeneralActionUnlocked(13)); // Looking to Meld Materia
+        SetPopupStatusOption(23, !_player.IsInParty);                  // Looking for Party
+        SetPopupStatusOption(27, _player.IsMentor);                    // Mentor
+        SetPopupStatusOption(28, _player.IsBattleMentor);              // PvE Battle Mentor
+        SetPopupStatusOption(30, _player.IsBattleMentor);              // PvP Battle Mentor
+        SetPopupStatusOption(29, _player.IsTradeMentor);               // Trade Mentor
 
         SetIcon(_iconId);
         base.OnUpdate();

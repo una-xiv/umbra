@@ -154,6 +154,11 @@ public interface IPlayer
     public bool IsMentor { get; }
 
     /// <summary>
+    /// True if the player is currently a member of a party.
+    /// </summary>
+    public bool IsInParty { get; }
+
+    /// <summary>
     /// True if the player is a trade mentor.
     /// </summary>
     public bool IsTradeMentor { get; }
