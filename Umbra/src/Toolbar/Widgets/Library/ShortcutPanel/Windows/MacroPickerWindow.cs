@@ -22,8 +22,7 @@ internal abstract class MacroPickerWindow : PickerWindowBase
         uint index = 0;
 
         foreach (RaptureMacroModule.Macro macro in macros) {
-            if (macro.Lines.Length < 1) continue;
-            if (macro.Name.Length == 0) continue;
+            if (!macro.IsNotEmpty()) continue;
 
             uint i = index;
 

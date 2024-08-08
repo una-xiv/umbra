@@ -132,8 +132,7 @@ internal sealed partial class ShortcutPanelPopup
 
         RaptureMacroModule.Macro* macro = rmm->GetMacro(isShared, macroId);
 
-        if (macro == null || !macro->IsEmpty()) {
-            Logger.Info($"Macro not found or empty: {macroId} in {(isShared == 1 ? "Shared" : "Individual")} macros.");
+        if (macro == null || !macro->IsNotEmpty()) {
             return null;
         }
 

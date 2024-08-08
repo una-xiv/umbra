@@ -53,7 +53,7 @@ internal sealed partial class ShortcutPanelWidget
                 I18N.Translate("Widget.ShortcutPanel.Config.NumCols.Description"),
                 8,
                 1,
-                32
+                16
             ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
             new BooleanWidgetConfigVariable(
                 "ShowEmptySlots",
