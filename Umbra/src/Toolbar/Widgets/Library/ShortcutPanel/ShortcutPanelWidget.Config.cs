@@ -40,18 +40,18 @@ internal sealed partial class ShortcutPanelWidget
             ..SingleLabelTextOffsetVariables,
             ..categoryNameFields,
             new IntegerWidgetConfigVariable(
-                "NumRows",
-                I18N.Translate("Widget.ShortcutPanel.Config.NumRows.Name"),
-                I18N.Translate("Widget.ShortcutPanel.Config.NumRows.Description"),
-                4,
-                1,
-                16
-            ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
-            new IntegerWidgetConfigVariable(
                 "NumCols",
                 I18N.Translate("Widget.ShortcutPanel.Config.NumCols.Name"),
                 I18N.Translate("Widget.ShortcutPanel.Config.NumCols.Description"),
                 8,
+                1,
+                16
+            ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
+            new IntegerWidgetConfigVariable(
+                "NumRows",
+                I18N.Translate("Widget.ShortcutPanel.Config.NumRows.Name"),
+                I18N.Translate("Widget.ShortcutPanel.Config.NumRows.Description"),
+                4,
                 1,
                 16
             ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
