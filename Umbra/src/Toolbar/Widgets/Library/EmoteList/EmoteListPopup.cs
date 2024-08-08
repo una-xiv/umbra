@@ -15,8 +15,9 @@ namespace Umbra.Widgets.Library.EmoteList;
 
 internal sealed partial class EmoteListPopup : WidgetPopup
 {
-    public event Action<bool>?                                     OnKeepOpenChanged;
-    public event Action<byte>?                                     OnCategoryChanged;
+    public event Action<bool>? OnKeepOpenChanged;
+    public event Action<byte>? OnCategoryChanged;
+
     public event Action<Dictionary<byte, Dictionary<byte, uint>>>? OnEmotesChanged;
 
     public IEnumerable<bool>   EnabledCategories = [true, true, true, false];
@@ -49,7 +50,7 @@ internal sealed partial class EmoteListPopup : WidgetPopup
         ContextMenu = new(
             [
                 new("OpenPicker") {
-                    Label = "Pick an emote...",
+                    Label = I18N.Translate("Widget.EmoteList.ContextMenu.Pick"),
                     OnClick = () => {
                         Framework
                             .Service<WindowManager>()
@@ -57,14 +58,9 @@ internal sealed partial class EmoteListPopup : WidgetPopup
                                 "EmotePicker",
                                 new EmotePickerWindow(),
                                 wnd => {
-                                    Logger.Info("Picker Window closed!");
                                     if (wnd.SelectedEmote == null) return;
                                     Emotes[SelectedSlot.Item1] = Emotes.GetValueOrDefault(SelectedSlot.Item1) ?? [];
                                     Emotes[SelectedSlot.Item1][SelectedSlot.Item2] = wnd.SelectedEmote.RowId;
-
-                                    Logger.Info(
-                                        $"Selected emote: {wnd.SelectedEmote.Name} for slot {SelectedSlot.Item1}-{SelectedSlot.Item2}"
-                                    );
 
                                     HydrateEmoteButtons(SelectedSlot.Item1);
                                     OnEmotesChanged?.Invoke(Emotes);
@@ -73,7 +69,7 @@ internal sealed partial class EmoteListPopup : WidgetPopup
                     }
                 },
                 new("Clear") {
-                    Label = "Clear slot",
+                    Label = I18N.Translate("Widget.EmoteList.ContextMenu.Clear"),
                     IconId = 61502u,
                     OnClick = () => {
                         Emotes[SelectedSlot.Item1] = Emotes.GetValueOrDefault(SelectedSlot.Item1) ?? [];
@@ -191,14 +187,14 @@ internal sealed partial class EmoteListPopup : WidgetPopup
             Emote? emote  = emoteId > 0 ? emoteSheet.GetRow(emoteId) : null;
 
             if (emoteId == 0 || emote?.TextCommand.Value == null) {
-                button.QuerySelector(".emote-button--icon")!.Style.IconId = 0;
+                button.QuerySelector(".slot-button--icon")!.Style.IconId = 0;
                 button.TagsList.Remove("filled");
                 button.TagsList.Add("empty");
                 button.Tooltip = I18N.Translate("Widget.EmoteList.EmptySlotTooltip");
                 continue;
             }
 
-            button.QuerySelector(".emote-button--icon")!.Style.IconId = emote.Icon;
+            button.QuerySelector(".slot-button--icon")!.Style.IconId = emote.Icon;
             button.TagsList.Remove("empty");
             button.TagsList.Add("filled");
             button.Tooltip = emote.Name.ToDalamudString().TextValue;

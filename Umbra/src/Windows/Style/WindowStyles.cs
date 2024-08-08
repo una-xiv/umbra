@@ -18,7 +18,7 @@ using Una.Drawing;
 
 namespace Umbra.Windows;
 
-internal static class WindowStyles
+public static class WindowStyles
 {
     public static readonly Stylesheet WindowStylesheet = new(
         [
@@ -113,6 +113,122 @@ internal static class WindowStyles
                     ScrollbarThumbColor       = new("Window.ScrollbarThumb"),
                     ScrollbarThumbHoverColor  = new("Window.ScrollbarThumbHover"),
                     ScrollbarThumbActiveColor = new("Window.ScrollbarThumbActive"),
+                }
+            )
+        ]
+    );
+
+    public static Stylesheet ItemPickerStylesheet { get; } = new(
+        [
+            new("#ItemPickerWindow", new() { Flow = Flow.Vertical }),
+            new(
+                "#SearchPanel",
+                new() {
+                    Flow            = Flow.Horizontal,
+                    Size            = new(0, 45),
+                    FontSize        = 16,
+                    BackgroundColor = new("Window.BackgroundLight"),
+                    BorderColor     = new() { Bottom = new("Window.Border") },
+                    BorderWidth     = new() { Bottom = 1 },
+                    IsAntialiased   = false,
+                    Padding         = new(10, 15),
+                    Gap             = 5,
+                }
+            ),
+            new(
+                "#SearchInputWrapper",
+                new() {
+                    Flow = Flow.Horizontal,
+                    Size = new(0, 30),
+                }
+            ),
+            new(
+                "#SearchIcon",
+                new() {
+                    Size         = new(26, 26),
+                    Font         = 2,
+                    FontSize     = 18,
+                    Color        = new("Window.TextMuted"),
+                    OutlineColor = new("Window.TextOutline"),
+                    OutlineSize  = 1,
+                    TextAlign    = Anchor.MiddleLeft,
+                    TextOffset   = new(0, -1),
+                }
+            ),
+            new(
+                "#ItemList",
+                new() {
+                    Flow = Flow.Vertical,
+                }
+            ),
+            new(
+                "#ItemListWrapper",
+                new() {
+                    Flow    = Flow.Vertical,
+                    Gap     = 10,
+                    Padding = new(10),
+                }
+            ),
+            new(
+                ".item",
+                new() {
+                    Flow            = Flow.Horizontal,
+                    Size            = new(0, 42),
+                    Padding         = new(5),
+                    Gap             = 10,
+                    IsAntialiased   = false,
+                    BackgroundColor = new("Input.Background"),
+                }
+            ),
+            new(
+                ".item:hover",
+                new() {
+                    BackgroundColor = new("Input.BackgroundHover"),
+                    StrokeColor     = new("Input.Border"),
+                    StrokeWidth     = 1,
+                }
+            ),
+            new(
+                ".item-icon",
+                new() {
+                    Size = new(32, 32),
+                }
+            ),
+            new(
+                ".item-body",
+                new() {
+                    Flow = Flow.Vertical,
+                    Gap  = 2,
+                }
+            ),
+            new(
+                ".item-name",
+                new() {
+                    FontSize     = 13,
+                    Color        = new("Input.Text"),
+                    OutlineColor = new("Input.TextOutline"),
+                    OutlineSize  = 1,
+                    TextOverflow = false,
+                    WordWrap     = false,
+                }
+            ),
+            new(
+                ".item-name:hover",
+                new() {
+                    Color        = new("Input.TextHover"),
+                    OutlineColor = new("Input.TextOutlineHover"),
+                }
+            ),
+            new(
+                ".item-command",
+                new() {
+                    Font         = 0,
+                    FontSize     = 12,
+                    Color        = new("Window.TextMuted"),
+                    OutlineColor = new("Window.TextOutline"),
+                    OutlineSize  = 1,
+                    TextOverflow = false,
+                    WordWrap     = false,
                 }
             )
         ]

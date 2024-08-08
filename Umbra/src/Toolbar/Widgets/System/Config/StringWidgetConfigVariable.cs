@@ -32,6 +32,6 @@ public class StringWidgetConfigVariable(
     {
         if (value is not string str) return string.Empty;
 
-        return str.Length > MaxLength ? str[..MaxLength] : str;
+        return MaxLength > 0 && str.Length > MaxLength ? str[..MaxLength] : str;
     }
 }

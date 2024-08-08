@@ -1,4 +1,6 @@
-﻿using Umbra.Windows.Components;
+﻿using Umbra.Common;
+using Umbra.Style;
+using Umbra.Windows.Components;
 using Una.Drawing;
 
 namespace Umbra.Widgets.Library.EmoteList;
@@ -15,7 +17,7 @@ internal sealed partial class EmoteListPopup
 
     protected override Node Node { get; } = new() {
         Id         = "Popup",
-        Stylesheet = Stylesheet,
+        Stylesheet = PopupStyles.ButtonGridStylesheet,
         ChildNodes = [
             new() {
                 Id = "CategoryBar",
@@ -39,8 +41,8 @@ internal sealed partial class EmoteListPopup
             new() {
                 Id = "Footer",
                 ChildNodes = [
-                    new CheckboxNode("WriteToChat", false, "Show emotes in chat"),
-                    new CheckboxNode("KeepOpen",    false, "Keep popup open"),
+                    new CheckboxNode("WriteToChat", false, I18N.Translate("Widget.EmoteList.Option.WriteToChat")),
+                    new CheckboxNode("KeepOpen",    false, I18N.Translate("Widget.EmoteList.Option.KeepPopupOpen")),
                 ]
             }
         ]
@@ -50,7 +52,7 @@ internal sealed partial class EmoteListPopup
     {
         return new() {
             Id        = $"EmoteContainer_{listId}",
-            ClassList = ["emote-container"],
+            ClassList = ["slot-container"],
             ChildNodes = [
                 CreateEmoteRow(listId, 0),
                 CreateEmoteRow(listId, 1),
@@ -65,7 +67,7 @@ internal sealed partial class EmoteListPopup
     {
         return new() {
             Id        = $"WidgetRow_{listId}_{rowId}",
-            ClassList = ["emote-row"],
+            ClassList = ["slot-row"],
             ChildNodes = [
                 CreateEmoteButton(listId, rowId, 0),
                 CreateEmoteButton(listId, rowId, 1),
@@ -85,10 +87,10 @@ internal sealed partial class EmoteListPopup
 
         return new() {
             Id        = $"EmoteButton_{listId}_{id}",
-            ClassList = ["emote-button"],
+            ClassList = ["slot-button"],
             ChildNodes = [
                 new() {
-                    ClassList = ["emote-button--icon", "empty"],
+                    ClassList = ["slot-button--icon", "empty"],
                 }
             ]
         };

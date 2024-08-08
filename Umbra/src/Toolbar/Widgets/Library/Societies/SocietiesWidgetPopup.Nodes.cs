@@ -1,5 +1,6 @@
 ﻿using FFXIVClientStructs.FFXIV.Component.GUI;
 using Lumina.Excel.GeneratedSheets;
+using System;
 using System.Linq;
 using Umbra.Common;
 using Umbra.Game.Societies;
@@ -19,7 +20,7 @@ internal sealed partial class SocietiesWidgetPopup
                 SortIndex = -1,
                 BeforeDraw = node => {
                     var height = node.Height;
-                    var width  = node.ParentNode!.Width - 16;
+                    var width  = (node.ParentNode!.Width) - (int)Math.Ceiling(16 * Node.ScaleFactor);
                     node.Bounds.ContentSize = new(width, height);
                     node.Bounds.PaddingSize = new(width, height);
                     node.Bounds.MarginSize  = new(width, height);

@@ -27,22 +27,23 @@ internal unsafe class RetainerRepository(
 
         List<Retainer> retainers = [];
 
-        foreach (var r in rm->Retainers) {
-            if (r.RetainerId == 0 || string.IsNullOrEmpty(r.NameString)) continue;
+        for (uint i = 0; i < 10; i++) {
+            var r = rm->GetRetainerBySortedIndex(i);
+            if (r == null || r->RetainerId == 0 || !r->Available || string.IsNullOrEmpty(r->NameString)) continue;
 
             retainers.Add(
                 new() {
-                    Name            = r.NameString,
-                    Job             = r.ClassJob != 0 ? CreateJobInfoFor(&r) : null,
-                    Gil             = r.Gil,
-                    MarketItemCount = r.MarketItemCount,
-                    ItemCount       = r.ItemCount,
+                    Name            = r->NameString,
+                    Job             = r->ClassJob != 0 ? CreateJobInfoFor(r) : null,
+                    Gil             = r->Gil,
+                    MarketItemCount = r->MarketItemCount,
+                    ItemCount       = r->ItemCount,
 
-                    VentureCompleteTime = r.VentureComplete > 0
-                        ? DateTimeOffset.FromUnixTimeSeconds(r.VentureComplete).DateTime
+                    VentureCompleteTime = r->VentureComplete > 0
+                        ? DateTimeOffset.FromUnixTimeSeconds(r->VentureComplete).DateTime
                         : null,
-                    MarketExpiresAt = r.MarketExpire > 0
-                        ? DateTimeOffset.FromUnixTimeSeconds(r.MarketExpire).DateTime
+                    MarketExpiresAt = r->MarketExpire > 0
+                        ? DateTimeOffset.FromUnixTimeSeconds(r->MarketExpire).DateTime
                         : null,
                 }
             );

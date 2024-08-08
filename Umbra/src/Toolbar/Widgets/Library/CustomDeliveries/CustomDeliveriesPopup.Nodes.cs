@@ -15,7 +15,7 @@ internal sealed partial class CustomDeliveriesPopup
             new() {
                 Id        = "AllowanceStatus",
                 NodeValue = I18N.Translate("Widget.CustomDeliveries.AllowanceStatus", "12"),
-                SortIndex = -1,
+                SortIndex = int.MinValue,
             }
         ],
     };
@@ -36,7 +36,7 @@ internal sealed partial class CustomDeliveriesPopup
         node = new() {
             Id        = $"Npc_{npc.Id}",
             ClassList = ["npc"],
-            SortIndex = npc.Id,
+            SortIndex = -npc.Id,
             ChildNodes = [
                 new() {
                     ClassList   = ["npc-icon"],
