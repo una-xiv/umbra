@@ -20,7 +20,7 @@ internal sealed partial class SocietiesWidgetPopup
                 SortIndex = -1,
                 BeforeDraw = node => {
                     var height = node.Height;
-                    var width  = (node.ParentNode!.Width) - (int)Math.Ceiling(16 * Node.ScaleFactor);
+                    var width  = (node.ParentNode!.Width) - (int)(Math.Floor(16 * Node.ScaleFactor) + (Node.ScaleFactor < 1f ? 2 : 0));
                     node.Bounds.ContentSize = new(width, height);
                     node.Bounds.PaddingSize = new(width, height);
                     node.Bounds.MarginSize  = new(width, height);
