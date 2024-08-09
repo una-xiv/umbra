@@ -21,7 +21,7 @@ using Umbra.Common;
 namespace Umbra.Windows;
 
 [Service]
-internal class WindowManager : IDisposable
+internal class WindowManager(UmbraDelvClipRects delvClipRects) : IDisposable
 {
     public event Action<Window>? OnWindowOpened;
     public event Action<Window>? OnWindowClosed;
@@ -62,6 +62,7 @@ internal class WindowManager : IDisposable
                     _instances.Remove(id);
                     _callbacks.Remove(id);
                     OnWindowClosed?.Invoke(window);
+                    delvClipRects.RemoveClipRect($"Umbra.Window.{id}");
                 };
 
                 _instances[id] = window;
@@ -95,6 +96,8 @@ internal class WindowManager : IDisposable
         lock (_instances) {
             foreach ((string id, Window window) in _instances) {
                 window.Render(id);
+
+                delvClipRects.SetClipRect($"Umbra.Window.{id}", window.Position, window.Size);
             }
         }
     }

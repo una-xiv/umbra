@@ -32,6 +32,9 @@ public abstract class WidgetPopup : IDisposable
     public event Action? OnPopupOpen;
     public event Action? OnPopupClose;
 
+    internal Vector2 Position { get; set; }
+    internal Vector2 Size     { get; set; }
+
     private readonly Node _popupNode = new() {
         Stylesheet = PopupStyles.WidgetPopupStylesheet,
         ClassList  = ["widget-popup"],
@@ -136,10 +139,11 @@ public abstract class WidgetPopup : IDisposable
         // Reflow to pre-calculate bounds.
         _popupNode.Reflow();
 
-        Vector2 size = new(_popupNode.OuterWidth, _popupNode.OuterHeight);
-        Vector2 pos  = PopupAlignmentMethod == "Aligned"
-            ? GetPopupPositionAligned(activator, size)
-            : GetPopupPositionCentered(activator, size);
+        Size = new(_popupNode.OuterWidth, _popupNode.OuterHeight);
+
+        Position = PopupAlignmentMethod == "Aligned"
+            ? GetPopupPositionAligned(activator, Size)
+            : GetPopupPositionCentered(activator, Size);
 
         // Animate the popup.
         float deltaTime = ImGui.GetIO().DeltaTime * 10;
@@ -177,13 +181,13 @@ public abstract class WidgetPopup : IDisposable
             ImGui.SetNextWindowViewport(ImGui.GetMainViewport().ID);
         }
 
-        ImGui.SetNextWindowPos(new(pos.X, pos.Y));
-        ImGui.SetNextWindowSize(new(size.X, size.Y));
+        ImGui.SetNextWindowPos(new(Position.X, Position.Y));
+        ImGui.SetNextWindowSize(new(Size.X, Size.Y));
         ImGui.Begin($"###Popup_{activator.Id.GetHashCode():X}", PopupWindowFlags);
 
         bool hasFocus = ImGui.IsWindowFocused(ImGuiFocusedFlags.RootAndChildWindows);
 
-        _popupNode.Render(ImGui.GetWindowDrawList(), new((int)pos.X, (int)(pos.Y + _yOffset)));
+        _popupNode.Render(ImGui.GetWindowDrawList(), new((int)Position.X, (int)(Position.Y + _yOffset)));
 
         if (ContextMenu is { ShouldRender: true }) {
             _contextMenuManager.Draw();

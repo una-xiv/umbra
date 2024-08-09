@@ -61,6 +61,7 @@ internal partial class WidgetManager
     private void ClosePopup()
     {
         if (_currentPopup != null) {
+            ClipRects.RemoveClipRect($"Umbra.Popup.{_currentActivator?.Id}");
             _currentPopup.OnPopupOpen -= InvokeOnPopupOpened;
             OnPopupClosed?.Invoke(_currentPopup);
         }
@@ -80,7 +81,10 @@ internal partial class WidgetManager
 
         if (!_currentPopup.Render(_currentActivator)) {
             ClosePopup();
+            return;
         }
+
+        ClipRects.SetClipRect($"Umbra.Popup.{_currentActivator.Id}", _currentPopup.Position, _currentPopup.Size);
     }
 
     private void InvokeOnPopupOpened()

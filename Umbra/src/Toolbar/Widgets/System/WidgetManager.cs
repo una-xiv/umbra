@@ -38,17 +38,19 @@ internal sealed partial class WidgetManager : IDisposable
     private readonly Dictionary<string, WidgetInfo>    _widgetInfos = [];
     private readonly Dictionary<string, ToolbarWidget> _instances   = [];
 
-    private Toolbar Toolbar { get; }
-    private IPlayer Player  { get; }
+    private Toolbar            Toolbar   { get; }
+    private IPlayer            Player    { get; }
+    private UmbraDelvClipRects ClipRects { get; }
 
     private byte          _lastJobId;
     private bool          _quickAccessEnabled;
     private HashSet<Node> _subscribedQuickAccessNodes = [];
 
-    public WidgetManager(Toolbar toolbar, IPlayer player)
+    public WidgetManager(Toolbar toolbar, IPlayer player, UmbraDelvClipRects clipRects)
     {
-        Toolbar = toolbar;
-        Player  = player;
+        Toolbar   = toolbar;
+        Player    = player;
+        ClipRects = clipRects;
 
         foreach ((Type type, WidgetInfo info) in WidgetRegistry.RegisteredWidgets) {
             if (type.IsSubclassOf(typeof(ToolbarWidget))) {

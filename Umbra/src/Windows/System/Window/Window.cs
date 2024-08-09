@@ -18,6 +18,7 @@ using Dalamud.Interface;
 using ImGuiNET;
 using System;
 using System.Numerics;
+using Umbra.Common;
 using Una.Drawing;
 
 namespace Umbra.Windows;
@@ -25,6 +26,9 @@ namespace Umbra.Windows;
 internal abstract partial class Window : IDisposable
 {
     internal event Action? RequestClose;
+
+    internal Vector2 Position { get; set; }
+    internal Vector2 Size     { get; set; }
 
     protected abstract Node Node { get; }
 

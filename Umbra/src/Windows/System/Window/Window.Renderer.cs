@@ -65,6 +65,8 @@ internal abstract partial class Window
         ImGui.PushStyleVar(ImGuiStyleVar.FrameBorderSize,  0);
         ImGui.Begin($"{id}", ImGuiWindowFlags | (IsMinimized ? ImGuiWindowFlags.NoSavedSettings : ImGuiWindowFlags.None));
 
+        Size      = ImGui.GetWindowSize();
+        Position  = ImGui.GetWindowPos();
         IsFocused = ImGui.IsWindowFocused(ImGuiFocusedFlags.RootAndChildWindows);
         IsHovered = ImGui.IsWindowHovered(ImGuiHoveredFlags.RootAndChildWindows);
 
