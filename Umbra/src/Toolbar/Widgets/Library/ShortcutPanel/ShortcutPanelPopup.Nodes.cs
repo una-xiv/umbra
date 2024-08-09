@@ -83,6 +83,9 @@ internal sealed partial class ShortcutPanelPopup
             case "I": // Inventory Item
                 SetInventoryItemSlot(node, categoryId, slotId, itemId);
                 break;
+            case "EI": // Key items
+                SetInventoryKeyItemSlot(node, categoryId, slotId, itemId);
+                break;
             case "EM": // Emote
                 SetEmoteSlot(node, categoryId, slotId, itemId);
                 break;

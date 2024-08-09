@@ -895,6 +895,7 @@
     "Widget.ShortcutPanel.Name": "ショートカットパネル",
     "Widget.ShortcutPanel.Description": "アイテム、マウント、ミニオンなどを割り当てられるスロットのグリッドを備えたカスタマイズ可能なパネルを表示します。グリッドは設定でサイズ変更可能で、最大4つのカテゴリを設定できます。",
     "Widget.ShortcutPanel.ContextMenu.PickItem": "インベントリからアイテムを選択...",
+    "Widget.ShortcutPanel.ContextMenu.PickKeyItem": "インベントリからキーアイテムを選択してください...",
     "Widget.ShortcutPanel.ContextMenu.PickEmote": "エモートを選択...",
     "Widget.ShortcutPanel.ContextMenu.PickMount": "マウントを選択...",
     "Widget.ShortcutPanel.ContextMenu.PickMinion": "ミニオンを選択...",

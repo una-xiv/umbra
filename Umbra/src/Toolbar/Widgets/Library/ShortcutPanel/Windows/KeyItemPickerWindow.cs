@@ -8,25 +8,21 @@ using System.Collections.Generic;
 using System.Linq;
 using Umbra.Common;
 using Umbra.Game;
+using Umbra.Game.Localization;
 
 namespace Umbra.Widgets.Library.ShortcutPanel.Windows;
 
-internal sealed class ItemPickerWindow : PickerWindowBase
+internal sealed class KeyItemPickerWindow : PickerWindowBase
 {
     protected override string Title  => I18N.Translate("Widget.ShortcutPanel.PickerWindow.Item.Title");
-    protected override string TypeId => "I";
+    protected override string TypeId => "EI";
 
     private IDataManager DataManager { get; } = Framework.Service<IDataManager>();
-    private IPlayer      Player      { get; } = Framework.Service<IPlayer>();
+    private TextDecoder  TextDecoder { get; } = Framework.Service<TextDecoder>();
 
-    public ItemPickerWindow()
+    public KeyItemPickerWindow()
     {
-        List<Item> items = [
-            ..GetInventoryItems(InventoryType.Inventory1),
-            ..GetInventoryItems(InventoryType.Inventory2),
-            ..GetInventoryItems(InventoryType.Inventory3),
-            ..GetInventoryItems(InventoryType.Inventory4),
-        ];
+        List<EventItem> items = GetInventoryItems(InventoryType.KeyItems);
 
         items.Sort(
             (a, b) => string.Compare(a.Name.ToString(), b.Name.ToString(), StringComparison.OrdinalIgnoreCase)
@@ -34,8 +30,8 @@ internal sealed class ItemPickerWindow : PickerWindowBase
 
         foreach (var item in items) {
             AddItem(
-                item.Name.ToDalamudString().TextValue,
-                $"{Player.GetItemCount(item.RowId, ItemUsage.NqOnly)} NQ / {Player.GetItemCount(item.RowId, ItemUsage.HqOnly)} HQ - Item ID: {item.RowId}",
+                TextDecoder.ProcessNoun("EventItem", item.RowId),
+                $"Item ID: {item.RowId}",
                 item.Icon,
                 () => {
                     SetPickedItemId(item.RowId);
@@ -45,22 +41,25 @@ internal sealed class ItemPickerWindow : PickerWindowBase
         }
     }
 
-    private unsafe List<Item> GetInventoryItems(InventoryType type)
+    private unsafe List<EventItem> GetInventoryItems(InventoryType type)
     {
         InventoryContainer* container = InventoryManager.Instance()->GetInventoryContainer(type);
         if (container == null) return [];
 
-        var items = new List<Item>();
-        var sheet = DataManager.GetExcelSheet<Item>()!;
+        var items = new List<EventItem>();
+        var sheet = DataManager.GetExcelSheet<EventItem>()!;
 
         for (var i = 0; i < container->Size; i++) {
             var slot = container->GetInventorySlot(i);
             if (slot == null || slot->ItemId == 0) continue;
+            var item = sheet.GetRow(slot->ItemId);
 
-            var item = sheet.GetRow(slot->ItemId > 1000000 ? slot->ItemId - 1000000 : slot->ItemId);
-            if (item == null) continue;
+            if (item == null) {
+                Logger.Warning($"Failed to find item for ID: {slot->ItemId}");
+                continue;
+            }
 
-            if (!items.Contains(item)) items.Add(item);
+            items.Add(item);
         }
 
         return items;

@@ -895,6 +895,7 @@
     "Widget.ShortcutPanel.Name": "Shortcut Panel",
     "Widget.ShortcutPanel.Description": "Shows a customizable panel with a grid of slots that can be assigned to items, mounts, minions and more. The grid is resizable in the settings and can hold up to 4 configurable categories.",
     "Widget.ShortcutPanel.ContextMenu.PickItem": "Pick an item from your inventory...",
+    "Widget.ShortcutPanel.ContextMenu.PickKeyItem": "Pick a key item from your inventory...",
     "Widget.ShortcutPanel.ContextMenu.PickEmote": "Pick an emote...",
     "Widget.ShortcutPanel.ContextMenu.PickMount": "Pick a mount...",
     "Widget.ShortcutPanel.ContextMenu.PickMinion": "Pick a minion...",

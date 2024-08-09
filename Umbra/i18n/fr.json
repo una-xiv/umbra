@@ -895,6 +895,7 @@
     "Widget.ShortcutPanel.Name": "Panneau de raccourcis",
     "Widget.ShortcutPanel.Description": "Affiche un panneau personnalisable avec une grille d'emplacements pouvant être assignés à des objets, montures, familiers et plus encore. La grille est redimensionnable dans les paramètres et peut contenir jusqu'à 4 catégories configurables.",
     "Widget.ShortcutPanel.ContextMenu.PickItem": "Choisir un objet dans votre inventaire...",
+    "Widget.ShortcutPanel.ContextMenu.PickKeyItem": "Choisissez un objet clé dans votre inventaire...",
     "Widget.ShortcutPanel.ContextMenu.PickEmote": "Choisir une émote...",
     "Widget.ShortcutPanel.ContextMenu.PickMount": "Choisir une monture...",
     "Widget.ShortcutPanel.ContextMenu.PickMinion": "Choisir un familier...",

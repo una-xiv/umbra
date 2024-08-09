@@ -895,6 +895,7 @@
     "Widget.ShortcutPanel.Name": "快捷面板",
     "Widget.ShortcutPanel.Description": "显示一个可自定义的面板，包含一个可分配物品、坐骑、宠物等的网格。网格可在设置中调整大小，并且可以容纳多达4个可配置的类别。",
     "Widget.ShortcutPanel.ContextMenu.PickItem": "从您的库存中选择一个物品...",
+    "Widget.ShortcutPanel.ContextMenu.PickKeyItem": "从您的库存中选择一个关键物品...",
     "Widget.ShortcutPanel.ContextMenu.PickEmote": "选择一个表情...",
     "Widget.ShortcutPanel.ContextMenu.PickMount": "选择一个坐骑...",
     "Widget.ShortcutPanel.ContextMenu.PickMinion": "选择一个宠物...",

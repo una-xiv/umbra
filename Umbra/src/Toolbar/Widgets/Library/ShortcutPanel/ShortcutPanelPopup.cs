@@ -1,6 +1,5 @@
 ﻿using Dalamud.Plugin.Services;
 using System;
-using System.Collections.Generic;
 using Umbra.Common;
 using Umbra.Game;
 using Umbra.Game.Localization;
@@ -17,7 +16,6 @@ internal sealed partial class ShortcutPanelPopup : ButtonGridPopup
     public byte     NumCols        { get; set; } = 8;
     public bool     ShowEmptySlots { get; set; } = true;
 
-    private IClientState       ClientState       { get; } = Framework.Service<IClientState>();
     private IDataManager       DataManager       { get; } = Framework.Service<IDataManager>();
     private IPlayer            Player            { get; } = Framework.Service<IPlayer>();
     private TextDecoder        TextDecoder       { get; } = Framework.Service<TextDecoder>();

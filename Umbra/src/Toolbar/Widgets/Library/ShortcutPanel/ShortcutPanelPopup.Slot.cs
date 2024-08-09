@@ -1,4 +1,5 @@
 ﻿using Dalamud.Utility;
+using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using FFXIVClientStructs.FFXIV.Client.UI;
 using Lumina.Excel.GeneratedSheets;
@@ -40,6 +41,34 @@ internal sealed partial class ShortcutPanelPopup
 
         SetSlotState(slotNode, item.Icon, item.Name.ToDalamudString().TextValue, null, count);
         AssignAction(categoryId, slotId, itemId, InvokeInventoryItem);
+    }
+
+    private unsafe void SetInventoryKeyItemSlot(Node slotNode, byte categoryId, int slotId, uint itemId)
+    {
+        if (itemId == 0u) return;
+
+        var item = DataManager.GetExcelSheet<EventItem>()!.GetRow(itemId);
+        if (item == null) return;
+
+        InventoryContainer* container = InventoryManager.Instance()->GetInventoryContainer(InventoryType.KeyItems);
+        if (container == null) return;
+        bool found = false;
+
+        for (var i = 0; i < container->Size; i++) {
+            if (container->GetInventorySlot(i)->ItemId == itemId) {
+                found = true;
+                break;
+            }
+        }
+
+        if (!found) {
+            slotNode.TagsList.Add("blocked");
+        } else {
+            slotNode.TagsList.Remove("blocked");
+        }
+
+        SetSlotState(slotNode, item.Icon, TextDecoder.ProcessNoun("EventItem", item.RowId));
+        AssignAction(categoryId, slotId, itemId, found ? InvokeInventoryKeyItem : null);
     }
 
     private unsafe void SetEmoteSlot(Node slotNode, byte categoryId, int slotId, uint emoteId)

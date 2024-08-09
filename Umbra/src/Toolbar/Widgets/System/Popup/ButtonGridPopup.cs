@@ -31,7 +31,7 @@ public abstract class ButtonGridPopup : WidgetPopup
         Node.AppendChild(categoryBarNode);
 
         int width  = (numCols * (SlotSize + GapSize)) + 8;
-        int height = (numRows * (SlotSize + GapSize)) + 24 + 8;
+        int height = (numRows * (SlotSize + GapSize)) + 24 + 16;
 
         Node.Style.Size = new(width, height);
         categoryBarNode.Style.Size = new(Node.Style.Size.Width - 16, 24);

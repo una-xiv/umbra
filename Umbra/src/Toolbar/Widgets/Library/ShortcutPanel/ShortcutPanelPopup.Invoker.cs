@@ -9,10 +9,8 @@ using FFXIVClientStructs.FFXIV.Client.UI.Shell;
 using Lumina.Excel.GeneratedSheets;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Umbra.Common;
 using Umbra.Game;
-using Una.Drawing;
 
 namespace Umbra.Widgets.Library.ShortcutPanel;
 
@@ -23,7 +21,7 @@ internal sealed partial class ShortcutPanelPopup
     private void AssignAction(byte categoryId, int slotId, uint? itemId, Action<uint>? action)
     {
         if (!_buttonActions.TryGetValue(categoryId, out Dictionary<int, (uint, Action<uint>)?>? slots)) {
-            slots = new();
+            slots                      = new();
             _buttonActions[categoryId] = slots;
         }
 
@@ -40,14 +38,24 @@ internal sealed partial class ShortcutPanelPopup
         Close();
     }
 
-    private unsafe void InvokeInventoryItem(uint itemId)
+    private void InvokeInventoryItem(uint itemId)
     {
-        if (Player.GetItemCount(itemId) == 0) return;
-
-        ActionManager* am = ActionManager.Instance();
-        if (am == null || am->GetActionStatus(ActionType.Item, itemId) != 0) return;
+        if (Player.GetItemCount(itemId) == 0) {
+            Logger.Info($"Item {itemId} is not in inventory.");
+            return;
+        }
 
         Framework.Service<IPlayer>().UseInventoryItem(itemId);
+    }
+
+    private unsafe void InvokeInventoryKeyItem(uint itemId)
+    {
+        EventItem? item = DataManager.GetExcelSheet<EventItem>()!.GetRow(itemId);
+        if (item == null) return;
+
+        ActionManager* am = ActionManager.Instance();
+
+        if (am->GetActionStatus(ActionType.KeyItem, itemId) == 0) am->UseAction(ActionType.KeyItem, itemId);
     }
 
     private void InvokeEmote(uint emoteId)

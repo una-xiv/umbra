@@ -895,6 +895,7 @@
     "Widget.ShortcutPanel.Name": "Verknüpfungsfeld",
     "Widget.ShortcutPanel.Description": "Zeigt ein anpassbares Feld mit einem Raster von Slots, die Gegenständen, Reittieren, Begleitern und mehr zugewiesen werden können. Das Raster ist in den Einstellungen skalierbar und kann bis zu 4 konfigurierbare Kategorien aufnehmen.",
     "Widget.ShortcutPanel.ContextMenu.PickItem": "Wählen Sie einen Gegenstand aus Ihrem Inventar...",
+    "Widget.ShortcutPanel.ContextMenu.PickKeyItem": "Wählen Sie einen Schlüsselgegenstand aus Ihrem Inventar...",
     "Widget.ShortcutPanel.ContextMenu.PickEmote": "Wählen Sie ein Emote...",
     "Widget.ShortcutPanel.ContextMenu.PickMount": "Wählen Sie ein Reittier...",
     "Widget.ShortcutPanel.ContextMenu.PickMinion": "Wählen Sie einen Begleiter...",
