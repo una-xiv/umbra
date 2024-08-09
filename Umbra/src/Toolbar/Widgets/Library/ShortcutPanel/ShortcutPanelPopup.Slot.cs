@@ -86,7 +86,7 @@ internal sealed partial class ShortcutPanelPopup
         var macro = GetMacro(0, macroId);
         if (macro == null) return;
 
-        SetSlotState(slotNode, macro->IconId, macro->Name.ToString());
+        SetSlotState(slotNode, MacroIconProvider.GetIconIdForMacro(0, macroId), macro->Name.ToString());
         AssignAction(categoryId, slotId, macroId, InvokeIndividualMacro);
     }
 
@@ -95,7 +95,7 @@ internal sealed partial class ShortcutPanelPopup
         var macro = GetMacro(1, macroId);
         if (macro == null) return;
 
-        SetSlotState(slotNode, macro->IconId, macro->Name.ToString());
+        SetSlotState(slotNode, MacroIconProvider.GetIconIdForMacro(1, macroId), macro->Name.ToString());
         AssignAction(categoryId, slotId, macroId, InvokeSharedMacro);
     }
 

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Umbra.Common;
 using Umbra.Game;
 using Umbra.Game.Localization;
+using Umbra.Game.Macro;
 
 namespace Umbra.Widgets.Library.ShortcutPanel;
 
@@ -16,10 +17,11 @@ internal sealed partial class ShortcutPanelPopup : ButtonGridPopup
     public byte     NumCols        { get; set; } = 8;
     public bool     ShowEmptySlots { get; set; } = true;
 
-    private IClientState ClientState { get; } = Framework.Service<IClientState>();
-    private IDataManager DataManager { get; } = Framework.Service<IDataManager>();
-    private IPlayer      Player      { get; } = Framework.Service<IPlayer>();
-    private TextDecoder  TextDecoder { get; } = Framework.Service<TextDecoder>();
+    private IClientState       ClientState       { get; } = Framework.Service<IClientState>();
+    private IDataManager       DataManager       { get; } = Framework.Service<IDataManager>();
+    private IPlayer            Player            { get; } = Framework.Service<IPlayer>();
+    private TextDecoder        TextDecoder       { get; } = Framework.Service<TextDecoder>();
+    private IMacroIconProvider MacroIconProvider { get; } = Framework.Service<IMacroIconProvider>();
 
     public ShortcutPanelPopup()
     {
