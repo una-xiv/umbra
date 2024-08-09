@@ -19,12 +19,13 @@ internal abstract class MacroPickerWindow : PickerWindowBase
             ? RaptureMacroModule.Instance()->Individual
             : RaptureMacroModule.Instance()->Shared;
 
-        uint index = 0;
+        int index = -1;
 
         foreach (RaptureMacroModule.Macro macro in macros) {
+            index++;
             if (!macro.IsNotEmpty()) continue;
 
-            uint i = index;
+            int i = index;
 
             AddItem(
                 macro.Name.ToString(),
@@ -32,12 +33,10 @@ internal abstract class MacroPickerWindow : PickerWindowBase
                 macro.IconId,
                 () => {
                     Logger.Info($"Clicked macro index: {i}");
-                    SetPickedItemId(i);
+                    SetPickedItemId((uint)i);
                     Close();
                 }
             );
-
-            index++;
         }
     }
 }
