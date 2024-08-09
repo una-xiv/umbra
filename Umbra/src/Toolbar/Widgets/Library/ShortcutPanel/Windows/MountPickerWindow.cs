@@ -35,11 +35,8 @@ internal sealed class MountPickerWindow : PickerWindowBase
         foreach (var mount in mounts) {
             if (!ps->IsMountUnlocked(mount.RowId)) continue;
 
-            string name = TextDecoder.ProcessNoun(ClientState.ClientLanguage, "Mount", 5, (int)mount.RowId);
-            name = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(name);
-
             AddItem(
-                name,
+                TextDecoder.ProcessNoun("Mount", mount.RowId),
                 $"ID: #{mount.RowId}",
                 mount.Icon,
                 () => {

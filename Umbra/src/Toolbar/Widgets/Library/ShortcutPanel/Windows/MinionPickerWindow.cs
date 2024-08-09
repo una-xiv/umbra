@@ -39,10 +39,8 @@ internal sealed class MinionPickerWindow : PickerWindowBase
         foreach (var minion in minions) {
             if (!ui->IsCompanionUnlocked(minion.RowId)) continue;
 
-            string name = TextDecoder.ProcessNoun(ClientState.ClientLanguage, "Companion", 5, (int)minion.RowId);
-
             AddItem(
-                name,
+                TextDecoder.ProcessNoun("Companion", minion.RowId),
                 $"ID: #{minion.RowId}",
                 minion.Icon,
                 () => {
