@@ -654,6 +654,8 @@
     "Widget.GearsetSwitcher.Config.ShowWarningIcon.Description": "在有缺失物品或外观差异的装备按钮上显示警告符号。",
     "Widget.GearsetSwitcher.Config.ShowExperienceBar.Name": "显示经验条",
     "Widget.GearsetSwitcher.Config.ShowExperienceBar.Description": "是否在弹出窗口中的装备按钮上显示经验条。",
+    "Widget.GearsetSwitcher.Config.ShowExperiencePct.Name": "在物品等级下方显示经验百分比。",
+    "Widget.GearsetSwitcher.Config.ShowExperiencePct.Description": "是否在弹出的装备集按钮上显示物品等级下方的经验百分比。仅适用于未达到等级上限的职业。",
     "Widget.GearsetSwitcher.Config.ShowButtonItemLevel.Name": "在装备按钮上显示物品等级",
     "Widget.GearsetSwitcher.Config.ShowButtonItemLevel.Description": "是否在弹出窗口中的装备按钮上显示装备的物品等级。",
     "Widget.GearsetSwitcher.Config.HeaderIconYOffset.Name": "弹出窗口标题图标垂直偏移",

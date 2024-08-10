@@ -104,7 +104,6 @@ internal sealed partial class GearsetSwitcherPopup
                     Anchor = Anchor.BottomLeft,
                     Flow   = Flow.Horizontal,
                     Gap    = 4,
-                    // Size   = new(0, 32),
                     Margin = new() { Bottom = -8 },
                 }
             ),

@@ -654,6 +654,8 @@
     "Widget.GearsetSwitcher.Config.ShowWarningIcon.Description": "Zeigt ein Warnsymbol auf Ausrüstungs-Tasten mit fehlenden Gegenständen oder Aussehensunterschieden an.",
     "Widget.GearsetSwitcher.Config.ShowExperienceBar.Name": "Erfahrungsleiste anzeigen",
     "Widget.GearsetSwitcher.Config.ShowExperienceBar.Description": "Ob die Erfahrungsleiste auf den Ausrüstungs-Tasten im Popup angezeigt werden soll.",
+    "Widget.GearsetSwitcher.Config.ShowExperiencePct.Name": "Erfahrung in Prozent unter dem Gegenstandsstufen anzeigen.",
+    "Widget.GearsetSwitcher.Config.ShowExperiencePct.Description": "Legt fest, ob der Erfahrungsprozentsatz unter der Gegenstandsstufe auf den Ausrüstungsset-Buttons im Popup angezeigt wird. Gilt nur für Berufe, die nicht das Maximallevel erreicht haben.",
     "Widget.GearsetSwitcher.Config.ShowButtonItemLevel.Name": "Gegenstandsstufe auf Ausrüstungs-Tasten anzeigen",
     "Widget.GearsetSwitcher.Config.ShowButtonItemLevel.Description": "Ob die Gegenstandsstufe der Ausrüstung auf den Ausrüstungs-Tasten im Popup angezeigt werden soll.",
     "Widget.GearsetSwitcher.Config.HeaderIconYOffset.Name": "Popup-Kopfzeilen-Symbolvertikaler Versatz",

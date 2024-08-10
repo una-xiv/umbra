@@ -654,6 +654,8 @@
     "Widget.GearsetSwitcher.Config.ShowWarningIcon.Description": "Shows a warning symbol on gearset buttons that have issues with missing items or appearance differences.",
     "Widget.GearsetSwitcher.Config.ShowExperienceBar.Name": "Show experience bar",
     "Widget.GearsetSwitcher.Config.ShowExperienceBar.Description": "Whether to show the experience bar on the gearset buttons in the popup.",
+    "Widget.GearsetSwitcher.Config.ShowExperiencePct.Name": "Show experience percentage under item level.",
+    "Widget.GearsetSwitcher.Config.ShowExperiencePct.Description": "Whether to show the experience percentage under the item level on the gearset buttons in the popup. Only applies to jobs that are not at the level cap.",
     "Widget.GearsetSwitcher.Config.ShowButtonItemLevel.Name": "Show item level on gearset buttons",
     "Widget.GearsetSwitcher.Config.ShowButtonItemLevel.Description": "Whether to show the item level of the gearset on the gearset buttons in the popup.",
     "Widget.GearsetSwitcher.Config.HeaderIconYOffset.Name": "Popup header icon vertical offset",

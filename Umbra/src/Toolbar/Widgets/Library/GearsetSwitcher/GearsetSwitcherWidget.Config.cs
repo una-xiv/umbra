@@ -138,6 +138,12 @@ internal partial class GearsetSwitcherWidget
                 true
             ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
             new BooleanWidgetConfigVariable(
+                "ShowExperiencePct",
+                I18N.Translate("Widget.GearsetSwitcher.Config.ShowExperiencePct.Name"),
+                I18N.Translate("Widget.GearsetSwitcher.Config.ShowExperiencePct.Description"),
+                true
+            ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
+            new BooleanWidgetConfigVariable(
                 "ShowButtonItemLevel",
                 I18N.Translate("Widget.GearsetSwitcher.Config.ShowButtonItemLevel.Name"),
                 I18N.Translate("Widget.GearsetSwitcher.Config.ShowButtonItemLevel.Description"),

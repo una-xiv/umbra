@@ -654,6 +654,8 @@
     "Widget.GearsetSwitcher.Config.ShowWarningIcon.Description": "Affiche un symbole d'avertissement sur les boutons d'équipement ayant des problèmes d'objets manquants ou de différences d'apparence.",
     "Widget.GearsetSwitcher.Config.ShowExperienceBar.Name": "Afficher la barre d'expérience",
     "Widget.GearsetSwitcher.Config.ShowExperienceBar.Description": "Afficher ou non la barre d'expérience sur les boutons d'équipement dans le popup.",
+    "Widget.GearsetSwitcher.Config.ShowExperiencePct.Name": "Afficher le pourcentage d'expérience sous le niveau d'objet.",
+    "Widget.GearsetSwitcher.Config.ShowExperiencePct.Description": "Détermine si le pourcentage d'expérience est affiché sous le niveau d'objet sur les boutons d'ensemble d'équipement dans la fenêtre contextuelle. Ne s'applique qu'aux métiers qui ne sont pas au niveau maximum.",
     "Widget.GearsetSwitcher.Config.ShowButtonItemLevel.Name": "Afficher le niveau de l'objet sur les boutons d'équipement",
     "Widget.GearsetSwitcher.Config.ShowButtonItemLevel.Description": "Afficher ou non le niveau de l'objet de l'équipement sur les boutons d'équipement dans le popup.",
     "Widget.GearsetSwitcher.Config.HeaderIconYOffset.Name": "Décalage vertical de l'icône dans l'en-tête contextuel",

@@ -153,6 +153,7 @@ internal sealed partial class GearsetSwitcherPopup : WidgetPopup, IDisposable
     public bool   ShowCurrentJobGradient      { get; set; }
     public bool   ShowWarningIcon             { get; set; } = true;
     public bool   ShowExperienceBar           { get; set; } = true;
+    public bool   ShowExperiencePct           { get; set; } = true;
     public bool   ShowItemLevel               { get; set; } = true;
     public string GearsetButtonBackgroundType { get; set; } = "GradientV";
 
@@ -273,6 +274,7 @@ internal sealed partial class GearsetSwitcherPopup : WidgetPopup, IDisposable
             node.ShowItemLevel     = ShowItemLevel;
             node.ShowWarningIcon   = ShowWarningIcon;
             node.ShowExperienceBar = ShowExperienceBar;
+            node.ShowExperiencePct = ShowExperiencePct;
             node.Update();
         }
     }
