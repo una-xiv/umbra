@@ -15,6 +15,7 @@
  */
 
 using ImGuiNET;
+using System;
 using Una.Drawing;
 
 namespace Umbra;
@@ -92,10 +93,11 @@ internal partial class Toolbar
 
         // Change the hover area height based on visibility. This requires the user to nearly touch the edge of the
         // screen to show the toolbar, but allows for a larger area to hide it.
+        int offset = (int)(Math.Min(Height - 8, (Height * .9f)));
         if (IsTopAligned) {
-            bounds.Y2 = _isVisible ? bounds.Y2 : bounds.Y2 - (bounds.Height - (int)(24 * Node.ScaleFactor));
+            bounds.Y2 = _isVisible ? bounds.Y2 : bounds.Y2 - offset;
         } else {
-            bounds.Y1 = _isVisible ? bounds.Y1 : bounds.Y1 + (bounds.Height - (int)(24 * Node.ScaleFactor));
+            bounds.Y1 = _isVisible ? bounds.Y1 : bounds.Y1 + offset;
         }
 
         return bounds.Contains(ImGui.GetMousePos());
