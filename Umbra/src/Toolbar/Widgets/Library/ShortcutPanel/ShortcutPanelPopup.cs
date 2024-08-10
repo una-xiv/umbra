@@ -15,6 +15,7 @@ internal sealed partial class ShortcutPanelPopup : ButtonGridPopup
     public byte     NumRows        { get; set; } = 4;
     public byte     NumCols        { get; set; } = 8;
     public bool     ShowEmptySlots { get; set; } = true;
+    public bool     AutoCloseOnUse { get; set; } = true;
 
     private IDataManager       DataManager       { get; } = Framework.Service<IDataManager>();
     private IPlayer            Player            { get; } = Framework.Service<IPlayer>();

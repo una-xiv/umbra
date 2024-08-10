@@ -22,6 +22,11 @@ internal sealed partial class ShortcutPanelPopup
                     IconId  = 3u,
                     OnClick = ContextActionPickKeyItem,
                 },
+                new("PickCollectionItem") {
+                    Label   = I18N.Translate("Widget.ShortcutPanel.ContextMenu.PickCollectionItem"),
+                    IconId  = 3u,
+                    OnClick = ContextActionPickCollectionItem,
+                },
                 new("PickEmote") {
                     Label   = I18N.Translate("Widget.ShortcutPanel.ContextMenu.PickEmote"),
                     IconId  = 9u,
@@ -95,6 +100,13 @@ internal sealed partial class ShortcutPanelPopup
         if (_selectedSlotNode == null) return;
 
         OpenPickerWindow<KeyItemPickerWindow>(AssignPickedIdToSelectedSlot);
+    }
+
+    private void ContextActionPickCollectionItem()
+    {
+        if (_selectedSlotNode == null) return;
+
+        OpenPickerWindow<CollectionPickerWindow>(AssignPickedIdToSelectedSlot);
     }
 
     private void ContextActionPickEmote()

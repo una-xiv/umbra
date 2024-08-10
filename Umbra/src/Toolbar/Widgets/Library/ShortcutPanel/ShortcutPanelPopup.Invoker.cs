@@ -6,6 +6,7 @@ using FFXIVClientStructs.FFXIV.Client.UI;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using FFXIVClientStructs.FFXIV.Client.UI.Misc;
 using FFXIVClientStructs.FFXIV.Client.UI.Shell;
+using FFXIVClientStructs.FFXIV.Component.GUI;
 using Lumina.Excel.GeneratedSheets;
 using System;
 using System.Collections.Generic;
@@ -35,7 +36,7 @@ internal sealed partial class ShortcutPanelPopup
         if (null == action?.Item1) return;
 
         action.Value.Item2(action.Value.Item1);
-        Close();
+        if (AutoCloseOnUse) Close();
     }
 
     private void InvokeInventoryItem(uint itemId)
@@ -46,6 +47,16 @@ internal sealed partial class ShortcutPanelPopup
         }
 
         Framework.Service<IPlayer>().UseInventoryItem(itemId);
+    }
+
+    private unsafe void InvokeCollectionItem(uint itemId)
+    {
+        var result = stackalloc AtkValue[1];
+        var values = stackalloc AtkValue[2];
+        values[0].SetInt(1);
+        values[1].SetUInt(itemId);
+
+        AgentModule.Instance()->GetAgentByInternalId(AgentId.McGuffin)->ReceiveEvent(result, values, 2, 0);
     }
 
     private unsafe void InvokeInventoryKeyItem(uint itemId)

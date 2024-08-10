@@ -71,6 +71,19 @@ internal sealed partial class ShortcutPanelPopup
         AssignAction(categoryId, slotId, itemId, found ? InvokeInventoryKeyItem : null);
     }
 
+    private unsafe void SetCollectionItemSlot(Node slotNode, byte categoryId, int slotId, uint itemId)
+    {
+        if (itemId == 0u) return;
+
+        var item = DataManager.GetExcelSheet<McGuffin>()!.GetRow(itemId);
+        if (item == null) return;
+
+        if (!PlayerState.Instance()->IsMcGuffinUnlocked((ushort)itemId)) return;
+
+        SetSlotState(slotNode, item.UIData.Value!.Icon, item.UIData.Value!.Name.ToDalamudString().TextValue);
+        AssignAction(categoryId, slotId, itemId, InvokeCollectionItem);
+    }
+
     private unsafe void SetEmoteSlot(Node slotNode, byte categoryId, int slotId, uint emoteId)
     {
         if (emoteId == 0u) return;
