@@ -135,7 +135,7 @@ internal partial class GearsetNode
                 new() {
                     Anchor          = Anchor.TopLeft,
                     Size            = new(0, 1),
-                    BackgroundColor = new("Window.AccentColor"),
+                    BackgroundColor = new("Misc.ExperienceBar"),
                     BorderRadius    = 3,
                     IsAntialiased   = false,
                 }

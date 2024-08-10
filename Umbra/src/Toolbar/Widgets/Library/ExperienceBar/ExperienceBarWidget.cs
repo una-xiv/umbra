@@ -50,7 +50,10 @@ internal partial class ExperienceBarWidget(
         }
 
         SanctuaryIconNode.Style.IsVisible = GetConfigValue<bool>("ShowSanctuaryIcon") && Player.IsInSanctuary;
-        SyncIconNode.Style.IsVisible      = GetConfigValue<bool>("ShowLevelSyncIcon") && Player.SyncedLevel > 0 && Player.SyncedLevel != Player.Level;
+
+        SyncIconNode.Style.IsVisible = GetConfigValue<bool>("ShowLevelSyncIcon")
+            && Player.SyncedLevel > 0
+            && Player.SyncedLevel != Player.Level;
 
         Node.Style.IsVisible     = true;
         Node.Tooltip             = GetTooltipText();
@@ -59,6 +62,15 @@ internal partial class ExperienceBarWidget(
 
         LeftLabelNode.Style.TextOffset  = new(0, GetConfigValue<int>("TextYOffset"));
         RightLabelNode.Style.TextOffset = new(0, GetConfigValue<int>("TextYOffset"));
+        RightLabelNode.Style.FontSize   = GetConfigValue<bool>("ShowPreciseExperience") ? 11 : 13;
+
+        int fullWidth = GetConfigValue<int>("WidgetWidth")
+            - 12
+            - ((SyncIconNode.Style.IsVisible ?? true) || (SanctuaryIconNode.Style.IsVisible ?? true) ? 20 : 0);
+
+        int leftWidth = LeftLabelNode.InnerWidth;
+
+        RightLabelNode.Style.Size = new(fullWidth - (int)(leftWidth / Una.Drawing.Node.ScaleFactor) - 4, SafeHeight);
 
         UpdateVisualBars();
     }
@@ -77,6 +89,10 @@ internal partial class ExperienceBarWidget(
     {
         if (!GetConfigValue<bool>("ShowExperience")) return "";
 
+        if (GetConfigValue<bool>("ShowPreciseExperience")) {
+            return GetPreciseExperienceString();
+        }
+
         var xpPercent = Player.CurrentExperience / (float)Player.TotalRequiredExperience * 100;
         return $"{xpPercent:0.0}%";
     }
@@ -90,10 +106,7 @@ internal partial class ExperienceBarWidget(
         int  maxWidth    = barWidth - 8;
         int  normalWidth = (int)(maxWidth * (Player.CurrentExperience / (float)(Player.TotalRequiredExperience)));
         uint restedXp    = Math.Min(Player.RestedExperience, Player.TotalRequiredExperience);
-
-        int restedWidth = Math.Abs(
-            (int)(maxWidth * (restedXp / (float)(Player.TotalRequiredExperience))) - normalWidth
-        );
+        int  restedWidth = Math.Min(maxWidth - normalWidth, (int)(maxWidth * (restedXp / (float)(Player.TotalRequiredExperience))));
 
         Node.Style.Size = new(barWidth, SafeHeight);
 
@@ -118,14 +131,16 @@ internal partial class ExperienceBarWidget(
 
     private string? GetTooltipText()
     {
-        if (Player.IsMaxLevel) return null;
+        return Player.IsMaxLevel ? null : $"{I18N.Translate("Experience")}: {GetPreciseExperienceString()}";
+    }
 
-        // Add decimals to the values.
+    private string GetPreciseExperienceString()
+    {
         string currentXpStr = Player.CurrentExperience.ToString("N0");
         string neededXpStr  = Player.TotalRequiredExperience.ToString("N0");
         string restedXpStr  = Player.RestedExperience.ToString("N0");
         string restedStr    = Player.RestedExperience > 0 ? $" - {I18N.Translate("Rested")}: {restedXpStr}" : "";
 
-        return $"{I18N.Translate("Experience")}: {currentXpStr} / {neededXpStr}{restedStr}";
+        return $"{currentXpStr} / {neededXpStr}{restedStr}";
     }
 }

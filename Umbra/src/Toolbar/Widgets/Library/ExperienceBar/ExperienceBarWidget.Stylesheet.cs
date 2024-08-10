@@ -80,7 +80,7 @@ internal partial class ExperienceBarWidget : ToolbarWidget
                     Color        = new("Widget.Text"),
                     OutlineColor = new("Widget.TextOutline"),
                     OutlineSize  = 1,
-                    Size         = new(150, SafeHeight),
+                    Size         = new(0, SafeHeight),
                     TextOverflow = false,
                     WordWrap     = false,
                     Padding      = new(0, 4),
@@ -112,15 +112,14 @@ internal partial class ExperienceBarWidget : ToolbarWidget
                 ".bar.normal",
                 new() {
                     Anchor          = Anchor.MiddleLeft,
-                    BackgroundColor = new("Window.AccentColor"),
+                    BackgroundColor = new("Misc.ExperienceBar"),
                 }
             ),
             new(
                 ".bar.rested",
                 new() {
                     Anchor          = Anchor.MiddleLeft,
-                    BackgroundColor = new("Window.AccentColor"),
-                    Opacity         = 0.33f,
+                    BackgroundColor = new("Misc.ExperienceBarRested"),
                 }
             ),
             new(

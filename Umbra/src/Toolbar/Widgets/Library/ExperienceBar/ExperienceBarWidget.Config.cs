@@ -60,12 +60,18 @@ internal partial class ExperienceBarWidget
                 I18N.Translate("Widget.ExperienceBar.Config.ShowLevelSyncIcon.Description"),
                 true
             ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            new BooleanWidgetConfigVariable(
+                "ShowPreciseExperience",
+                I18N.Translate("Widget.ExperienceBar.Config.ShowPreciseExperience.Name"),
+                I18N.Translate("Widget.ExperienceBar.Config.ShowPreciseExperience.Description"),
+                true
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             new IntegerWidgetConfigVariable(
                 "WidgetWidth",
                 I18N.Translate("Widget.ExperienceBar.Config.WidgetWidth.Name"),
                 I18N.Translate("Widget.ExperienceBar.Config.WidgetWidth.Description"),
                 100,
-                25,
+                30,
                 500
             ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             new IntegerWidgetConfigVariable(
