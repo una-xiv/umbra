@@ -34,8 +34,8 @@ internal sealed partial class BattleEffectsWidget
             ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             new IntegerWidgetConfigVariable(
                 "IconYOffset",
-                I18N.Translate("Widget.BattleEffects.Config.IconYOffset.Name"),
-                I18N.Translate("Widget.BattleEffects.Config.IconYOffset.Description"),
+                I18N.Translate("Widgets.DefaultToolbarWidget.Config.IconYOffset.Name"),
+                I18N.Translate("Widgets.DefaultToolbarWidget.Config.IconYOffset.Description"),
                 -1,
                 -5,
                 5
