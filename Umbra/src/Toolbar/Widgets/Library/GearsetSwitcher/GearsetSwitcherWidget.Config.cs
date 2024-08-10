@@ -89,6 +89,13 @@ internal partial class GearsetSwitcherWidget
                 I18N.Translate("Widget.GearsetSwitcher.Config.EnableRoleScrolling.Description"),
                 false
             ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
+            new StringWidgetConfigVariable(
+                "GearsetFilterPrefix",
+                I18N.Translate("Widget.GearsetSwitcher.Config.GearsetFilterPrefix.Name"),
+                I18N.Translate("Widget.GearsetSwitcher.Config.GearsetFilterPrefix.Description"),
+                "",
+                14
+            ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
             new SelectWidgetConfigVariable(
                 "PopupHeaderIconType",
                 I18N.Translate("Widget.GearsetSwitcher.Config.PopupHeaderIconType.Name"),

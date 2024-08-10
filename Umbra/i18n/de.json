@@ -626,6 +626,8 @@
     "Widget.GearsetSwitcher.Config.WidgetButtonIconType.Description": "Der Symboltyp, der auf der Werkzeugleistenschaltfläche angezeigt werden soll.",
     "Widget.GearsetSwitcher.Config.EnableRoleScrolling.Name": "Begrenzen Sie die Höhe der Rollencontainer und aktivieren Sie das Scrollen",
     "Widget.GearsetSwitcher.Config.EnableRoleScrolling.Description": "Begrenzt die Höhe der Rollencontainer im Popup und ermöglicht das Scrollen, wenn zu viele Ausrüstungssets angezeigt werden sollen. Sie können die maximale Anzahl sichtbarer Ausrüstungssets pro Rolle in den unten stehenden Optionen anpassen.",
+    "Widget.GearsetSwitcher.Config.GearsetFilterPrefix.Name": "Ausrüstungssets ausblenden, die mit...",
+    "Widget.GearsetSwitcher.Config.GearsetFilterPrefix.Description": "Ein Präfix, das verwendet werden kann, um Ausrüstungssets im Popup herauszufiltern. Jedes Ausrüstungsset, das mit dem angegebenen Wert beginnt, wird nicht angezeigt.",
     "Widget.GearsetSwitcher.Config.PopupHeaderIconType.Name": "Popup-Header-Symboltyp",
     "Widget.GearsetSwitcher.Config.PopupHeaderIconType.Description": "Der Symboltyp, der im Popup-Header angezeigt werden soll.",
     "Widget.GearsetSwitcher.Config.PopupButtonIconType.Name": "Popup-Schaltflächensymboltyp",

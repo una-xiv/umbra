@@ -626,6 +626,8 @@
     "Widget.GearsetSwitcher.Config.WidgetButtonIconType.Description": "工具栏小部件按钮上应显示的图标类型。",
     "Widget.GearsetSwitcher.Config.EnableRoleScrolling.Name": "限制角色容器高度并启用滚动",
     "Widget.GearsetSwitcher.Config.EnableRoleScrolling.Description": "限制弹出窗口中角色容器的高度，并在要显示的装备套装过多时启用滚动。您可以在下方的选项中自定义每个角色的最大可见装备套装数量。",
+    "Widget.GearsetSwitcher.Config.GearsetFilterPrefix.Name": "隐藏以…开头的装备集",
+    "Widget.GearsetSwitcher.Config.GearsetFilterPrefix.Description": "可用于在弹出窗口中过滤装备集的前缀。任何以给定值开头的装备集将不会显示。",
     "Widget.GearsetSwitcher.Config.PopupHeaderIconType.Name": "弹出窗口标题图标类型",
     "Widget.GearsetSwitcher.Config.PopupHeaderIconType.Description": "弹出窗口标题中应显示的图标类型。",
     "Widget.GearsetSwitcher.Config.PopupButtonIconType.Name": "弹出按钮图标类型",
