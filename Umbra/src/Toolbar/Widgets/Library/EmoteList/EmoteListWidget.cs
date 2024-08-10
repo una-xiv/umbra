@@ -28,7 +28,11 @@ internal sealed partial class EmoteListWidget(
 
         // Load previously stored emotes.
         try {
-            var emotes = JsonSerializer.Deserialize<Dictionary<byte, Dictionary<byte, uint>>>(GetConfigValue<string>("EmoteList"));
+            var emotes =
+                JsonSerializer.Deserialize<Dictionary<byte, Dictionary<byte, uint>>>(
+                    GetConfigValue<string>("EmoteList")
+                );
+
             if (null != emotes) {
                 Popup.Emotes = emotes;
             }
@@ -53,6 +57,7 @@ internal sealed partial class EmoteListWidget(
 
         Popup.KeepOpenAfterUse     = GetConfigValue<bool>("KeepOpenAfterUse");
         Popup.LastSelectedCategory = (byte)GetConfigValue<int>("LastSelectedCategory");
+        Popup.ShowEmptySlots       = GetConfigValue<bool>("ShowEmptySlots");
 
         Popup.EnabledCategories = [
             !string.IsNullOrEmpty(GetConfigValue<string>("Category_0_Name").Trim()),
