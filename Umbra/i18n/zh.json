@@ -409,6 +409,8 @@
     "Widget.ExperienceBar.Config.ShowSanctuaryIcon.Description": "当您在庇护所中时，是否在经验条上显示庇护所图标。",
     "Widget.ExperienceBar.Config.ShowLevelSyncIcon.Name": "显示等级同步图标",
     "Widget.ExperienceBar.Config.ShowLevelSyncIcon.Description": "当您等级同步时，是否在经验条上显示等级同步图标。",
+    "Widget.ExperienceBar.Config.ShowPreciseExperience.Name": "显示精确经验值",
+    "Widget.ExperienceBar.Config.ShowPreciseExperience.Description": "是否在经验条上显示精确的经验值。这需要一个宽的部件来显示所有信息。",
     "Widget.ExperienceBar.Config.WidgetWidth.Name": "小组件宽度",
     "Widget.ExperienceBar.Config.WidgetWidth.Description": "经验条的宽度（像素）。",
     "Widget.ExperienceBar.Config.DisplayAtMaxLevel.Name": "在最大级别显示小部件",

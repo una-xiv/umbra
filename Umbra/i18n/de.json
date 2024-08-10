@@ -409,6 +409,8 @@
     "Widget.ExperienceBar.Config.ShowSanctuaryIcon.Description": "Ob das Sanctuary-Symbol in der Erfahrungsleiste angezeigt werden soll, wenn Sie sich in einem Sanctuary befinden.",
     "Widget.ExperienceBar.Config.ShowLevelSyncIcon.Name": "Level-Synchronisationssymbol anzeigen",
     "Widget.ExperienceBar.Config.ShowLevelSyncIcon.Description": "Ob das Level-Synchronisationssymbol in der Erfahrungsleiste angezeigt werden soll, wenn Sie level-synchronisiert sind.",
+    "Widget.ExperienceBar.Config.ShowPreciseExperience.Name": "Genaue Erfahrungspunkte anzeigen",
+    "Widget.ExperienceBar.Config.ShowPreciseExperience.Description": "Ob die genaue Anzahl an Erfahrungspunkten auf der Erfahrungsleiste angezeigt werden soll. Dies erfordert ein breites Widget, um alle Informationen anzuzeigen.",
     "Widget.ExperienceBar.Config.WidgetWidth.Name": "Breite des Widgets",
     "Widget.ExperienceBar.Config.WidgetWidth.Description": "Die Breite der Erfahrungsleiste in Pixeln.",
     "Widget.ExperienceBar.Config.DisplayAtMaxLevel.Name": "Widget bei maximalem Level anzeigen",

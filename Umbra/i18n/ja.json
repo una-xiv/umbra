@@ -409,6 +409,8 @@
     "Widget.ExperienceBar.Config.ShowSanctuaryIcon.Description": "聖域にいるときに、経験値バーに聖域アイコンを表示するかどうか。",
     "Widget.ExperienceBar.Config.ShowLevelSyncIcon.Name": "レベル同期アイコンを表示",
     "Widget.ExperienceBar.Config.ShowLevelSyncIcon.Description": "レベル同期時に、経験値バーにレベル同期アイコンを表示するかどうか。",
+    "Widget.ExperienceBar.Config.ShowPreciseExperience.Name": "正確な経験値を表示する",
+    "Widget.ExperienceBar.Config.ShowPreciseExperience.Description": "経験値の正確な数を経験値バーに表示するかどうかを選択します。すべての情報を表示するには、幅の広いウィジェットが必要です。",
     "Widget.ExperienceBar.Config.WidgetWidth.Name": "ウィジェットの幅",
     "Widget.ExperienceBar.Config.WidgetWidth.Description": "ピクセル単位での経験値バーの幅。",
     "Widget.ExperienceBar.Config.DisplayAtMaxLevel.Name": "最大レベルでウィジェットを表示",
