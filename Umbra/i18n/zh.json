@@ -310,8 +310,6 @@
     "Widget.BattleEffects.Description": "快速更改战斗特效强度和召唤师宠物大小。",
     "Widget.BattleEffects.Config.Decorate.Name": "突出显示",
     "Widget.BattleEffects.Config.Decorate.Description": "给战斗特效小组件加上背景和边框。",
-    "Widget.BattleEffects.Config.IconYOffset.Name": "图标垂直偏移",
-    "Widget.BattleEffects.Config.IconYOffset.Description": "邮件图标距小组件中心的垂直偏移（像素）。正值将图标下移，负值将图标上移。",
     "Widget.BattleEffects.SummonerPetSize": "召唤师宠物大小",
     "Widget.BattleEffects.EffectIntensity": "战斗特效强度",
     "Widget.BattleEffects.BattleEffectSelf": "自身",

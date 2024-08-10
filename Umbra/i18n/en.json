@@ -310,8 +310,6 @@
     "Widget.BattleEffects.Description": "Provides you with options to quickly change the intensity of battle effects, as well as pet sizes of summoners.",
     "Widget.BattleEffects.Config.Decorate.Name": "Decorate the widget",
     "Widget.BattleEffects.Config.Decorate.Description": "Decorates the accessibility widget with a background and border.",
-    "Widget.BattleEffects.Config.IconYOffset.Name": "Icon vertical offset",
-    "Widget.BattleEffects.Config.IconYOffset.Description": "The vertical offset of the mail icon from the center of the widget in pixels. Positive values move the icon down, negative values move the icon up.",
     "Widget.BattleEffects.SummonerPetSize": "Summoner Pet Size",
     "Widget.BattleEffects.EffectIntensity": "Battle Effect Intensity",
     "Widget.BattleEffects.BattleEffectSelf": "Self",

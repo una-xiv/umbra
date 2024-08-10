@@ -310,8 +310,6 @@
     "Widget.BattleEffects.Description": "バトルエフェクトの強度や召喚者のペットのサイズを素早く変更するオプションを提供します。",
     "Widget.BattleEffects.Config.Decorate.Name": "ウィジェットの装飾",
     "Widget.BattleEffects.Config.Decorate.Description": "アクセシビリティウィジェットを背景と枠で装飾します。",
-    "Widget.BattleEffects.Config.IconYOffset.Name": "アイコンの垂直オフセット",
-    "Widget.BattleEffects.Config.IconYOffset.Description": "ピクセル単位でウィジェットの中心からメールアイコンの垂直方向のオフセットです。正の値はアイコンを下に、負の値はアイコンを上に移動します。",
     "Widget.BattleEffects.SummonerPetSize": "召喚者のペットサイズ",
     "Widget.BattleEffects.EffectIntensity": "バトルエフェクトの強度",
     "Widget.BattleEffects.BattleEffectSelf": "自分",

@@ -310,8 +310,6 @@
     "Widget.BattleEffects.Description": "Vous offre des options pour modifier rapidement l'intensité des effets de combat, ainsi que les tailles des animaux de compagnie des invocateurs.",
     "Widget.BattleEffects.Config.Decorate.Name": "Décorer le widget",
     "Widget.BattleEffects.Config.Decorate.Description": "Décore le widget d'accessibilité avec un fond et une bordure.",
-    "Widget.BattleEffects.Config.IconYOffset.Name": "Décalage vertical de l'icône",
-    "Widget.BattleEffects.Config.IconYOffset.Description": "Le décalage vertical de l'icône de courrier par rapport au centre du widget en pixels. Les valeurs positives déplacent l'icône vers le bas, les valeurs négatives déplacent l'icône vers le haut.",
     "Widget.BattleEffects.SummonerPetSize": "Taille de l'animal de compagnie de l'invocateur",
     "Widget.BattleEffects.EffectIntensity": "Intensité de l'effet de combat",
     "Widget.BattleEffects.BattleEffectSelf": "Soi-même",
