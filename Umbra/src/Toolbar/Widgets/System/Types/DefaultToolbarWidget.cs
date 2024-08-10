@@ -67,7 +67,7 @@ public abstract class DefaultToolbarWidget(
             },
         ],
         BeforeDraw = node => {
-            node.Style.Size = new(0, SafeHeight);
+            node.Style.Size    = new(0, SafeHeight);
 
             Node leftIconNode    = node.QuerySelector("#LeftIcon")!;
             Node rightIconNode   = node.QuerySelector("#RightIcon")!;
@@ -104,6 +104,7 @@ public abstract class DefaultToolbarWidget(
         var iconLocation   = GetConfigValue<string>("IconLocation");
         var desaturateIcon = GetConfigValue<bool>("DesaturateIcon");
         var iconOffset     = new Vector2(0, GetConfigValue<int>("IconYOffset"));
+        var hPadding       = GetConfigValue<int>("ButtonPadding");
 
         if (null != _singleIconId) {
             if (displayMode is "TextAndIcon" or "IconOnly") {
@@ -164,7 +165,7 @@ public abstract class DefaultToolbarWidget(
         LabelNode.Style.Padding            = new(0, riv ? 0 : 5, 0, liv ? 0 : 5);
         TopLabelNode.Style.Padding         = new(0, 1);
         BottomLabelNode.Style.Padding      = new(0, 1);
-        Node.Style.Padding                 = new(0, isGhost ? 0 : 3);
+        Node.Style.Padding                 = new(0, isGhost ? hPadding : hPadding + 3);
         Node.Tooltip                       = displayMode is "IconOnly" ? LabelNode.NodeValue?.ToString() : null;
     }
 
@@ -378,6 +379,14 @@ public abstract class DefaultToolbarWidget(
             "LabelMaxWidth",
             I18N.Translate("Widgets.DefaultToolbarWidget.Config.LabelMaxWidth.Name"),
             I18N.Translate("Widgets.DefaultToolbarWidget.Config.LabelMaxWidth.Description"),
+            0,
+            0,
+            500
+        ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+        new IntegerWidgetConfigVariable(
+            "ButtonPadding",
+            I18N.Translate("Widgets.DefaultToolbarWidget.Config.ButtonPadding.Name"),
+            I18N.Translate("Widgets.DefaultToolbarWidget.Config.ButtonPadding.Description"),
             0,
             0,
             500
