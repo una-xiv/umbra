@@ -27,12 +27,13 @@ internal sealed partial class UnifiedMainMenu(
 
     protected override void OnUpdate()
     {
-        Popup.AvatarIconId     = (uint)GetConfigValue<int>("AvatarIconId");
-        Popup.MenuHeight       = GetConfigValue<int>("FixedMenuHeight");
-        Popup.BannerLocation   = GetConfigValue<string>("BannerLocation");
-        Popup.BannerNameStyle  = GetConfigValue<string>("BannerNameStyle");
-        Popup.BannerColorStyle = GetConfigValue<string>("BannerColorStyle");
-        Popup.DesaturateIcons  = GetConfigValue<bool>("DesaturateIcons");
+        Popup.AvatarIconId        = (uint)GetConfigValue<int>("AvatarIconId");
+        Popup.MenuHeight          = GetConfigValue<int>("FixedMenuHeight");
+        Popup.BannerLocation      = GetConfigValue<string>("BannerLocation");
+        Popup.BannerNameStyle     = GetConfigValue<string>("BannerNameStyle");
+        Popup.BannerColorStyle    = GetConfigValue<string>("BannerColorStyle");
+        Popup.DesaturateIcons     = GetConfigValue<bool>("DesaturateIcons");
+        Popup.OpenSubMenusOnHover = GetConfigValue<bool>("OpenSubMenusOnHover");
 
         SetLabel(GetConfigValue<string>("Label"));
         SetIcon((uint)GetConfigValue<int>("IconId"));

@@ -32,6 +32,9 @@ public abstract class ToolbarWidget(
     Dictionary<string, object>? configValues = null
 ) : IDisposable
 {
+    [ConfigVariable("Toolbar.PopupActivationMethod", "General", "Toolbar", options: ["ClickAndHover", "Click", "Hover"])]
+    private static string PopupActivationMethod { get; set; } = "ClickAndHover";
+
     internal event Action<IWidgetConfigVariable>?      OnConfigValueChanged;
     internal event Action<ToolbarWidget, WidgetPopup>? OpenPopup;
     internal event Action<ToolbarWidget, WidgetPopup>? OpenPopupDelayed;
@@ -126,8 +129,13 @@ public abstract class ToolbarWidget(
         };
 
         Node.OnDelayedMouseEnter += _ => {
-            if (Node.IsDisabled) return;
+            if (Node.IsDisabled || PopupActivationMethod != "ClickAndHover") return;
             OpenPopupDelayed?.Invoke(this, Popup);
+        };
+
+        Node.OnMouseEnter += _ => {
+            if (Node.IsDisabled || PopupActivationMethod != "Hover") return;
+            OpenPopup?.Invoke(this, Popup);
         };
     }
 

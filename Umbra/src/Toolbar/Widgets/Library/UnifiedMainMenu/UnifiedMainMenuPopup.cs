@@ -12,13 +12,14 @@ internal sealed partial class UnifiedMainMenuPopup : WidgetPopup
 {
     public event Action<List<string>>? OnPinnedItemsChanged;
 
-    public int          MenuHeight       { get; set; }
-    public uint         AvatarIconId     { get; set; }         = 76985;
-    public string       BannerLocation   { get; set; }         = "Auto";
-    public string       BannerNameStyle  { get; set; }         = "FirstName";
-    public string       BannerColorStyle { get; set; }         = "AccentColor";
-    public bool         DesaturateIcons  { get; set; }         = false;
-    public List<string> PinnedItems      { get; private set; } = [];
+    public int          MenuHeight          { get; set; }
+    public uint         AvatarIconId        { get; set; }         = 76985;
+    public string       BannerLocation      { get; set; }         = "Auto";
+    public string       BannerNameStyle     { get; set; }         = "FirstName";
+    public string       BannerColorStyle    { get; set; }         = "AccentColor";
+    public bool         DesaturateIcons     { get; set; }         = false;
+    public bool         OpenSubMenusOnHover { get; set; }         = false;
+    public List<string> PinnedItems         { get; private set; } = [];
 
     private IMainMenuRepository MainMenuRepository { get; } = Framework.Service<IMainMenuRepository>();
     private IPlayer             Player             { get; } = Framework.Service<IPlayer>();
@@ -31,6 +32,10 @@ internal sealed partial class UnifiedMainMenuPopup : WidgetPopup
             Node node = CreateCategory($"Category_{category.Category}", category.GetIconId(), category.Name);
 
             node.OnMouseUp += _ => ActivateCategory(category);
+
+            node.OnMouseEnter += _ => {
+                if (OpenSubMenusOnHover) ActivateCategory(category);
+            };
 
             CategoryListNode.AppendChild(node);
             EntriesNode.AppendChild(CreateEntriesForCategory(category));
@@ -299,9 +304,10 @@ internal sealed partial class UnifiedMainMenuPopup : WidgetPopup
         }
 
         bool isTop = HeaderNode.TagsList.Contains("top");
+
         HeaderNode.Style.BackgroundGradient = GradientColor.Vertical(
-                isTop ? null : color,
-                isTop ? color : null
+            isTop ? null : color,
+            isTop ? color : null
         );
     }
 }

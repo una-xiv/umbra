@@ -24,6 +24,12 @@ internal sealed partial class UnifiedMainMenu
             ..DefaultToolbarWidgetConfigVariables,
             ..SingleLabelTextOffsetVariables,
             new BooleanWidgetConfigVariable(
+                "OpenSubMenusOnHover",
+                I18N.Translate("Widget.UnifiedMainMenu.Config.OpenSubMenusOnHover.Name"),
+                I18N.Translate("Widget.UnifiedMainMenu.Config.OpenSubMenusOnHover.Description"),
+                false
+            ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
+            new BooleanWidgetConfigVariable(
                 "DesaturateIcons",
                 I18N.Translate("Widget.UnifiedMainMenu.Config.DesaturateIcons.Name"),
                 I18N.Translate("Widget.UnifiedMainMenu.Config.DesaturateIcons.Description"),
