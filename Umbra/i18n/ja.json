@@ -991,6 +991,8 @@
     "ColorGroup.Widget.Description": "ツールバーウィジェットとそのポップアップに使用される色。",
     "ColorGroup.Role.Name": "職務",
     "ColorGroup.Role.Description": "装備セットの切り替えウィジェットなどで職務をスタイルするために使用される色。",
+    "ColorGroup.Misc.Name": "さまざまな色",
+    "ColorGroup.Misc.Description": "さまざまな場所で使用される色。",
     "Color.Window.Background.Name": "デフォルトの背景色",
     "Color.Window.Background.Description": "ウィンドウのデフォルトの背景色。",
     "Color.Window.BackgroundLight.Name": "パネルの背景色",

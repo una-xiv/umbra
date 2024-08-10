@@ -991,6 +991,8 @@
     "ColorGroup.Widget.Description": "用于工具栏小组件及其弹出窗口的颜色。",
     "ColorGroup.Role.Name": "工作角色",
     "ColorGroup.Role.Description": "用于在装备切换小部件等中设置工作角色的颜色。",
+    "ColorGroup.Misc.Name": "杂色",
+    "ColorGroup.Misc.Description": "用于各种地方的杂色。",
     "Color.Window.Background.Name": "默认背景色",
     "Color.Window.Background.Description": "窗口的默认背景颜色。",
     "Color.Window.BackgroundLight.Name": "面板背景色",

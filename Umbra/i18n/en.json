@@ -992,6 +992,8 @@
     "ColorGroup.Widget.Description": "Colors that are used to style the toolbar widgets and their popups.",
     "ColorGroup.Role.Name": "Job Roles",
     "ColorGroup.Role.Description": "Colors that are used to style the job roles in things like the gearset switcher widget.",
+    "ColorGroup.Misc.Name": "Miscellaneous Colors",
+    "ColorGroup.Misc.Description": "Miscellaneous colors that are used in various places.",
     "Color.Window.Background.Name": "Default background color",
     "Color.Window.Background.Description": "The default background color of a window.",
     "Color.Window.BackgroundLight.Name": "Panel background color",

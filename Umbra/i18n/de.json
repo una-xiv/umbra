@@ -991,6 +991,8 @@
     "ColorGroup.Widget.Description": "Farben, die zur Gestaltung der Symbolleisten-Widgets und ihrer Popups verwendet werden.",
     "ColorGroup.Role.Name": "Berufsrollen",
     "ColorGroup.Role.Description": "Farben, die verwendet werden, um die Berufsrollen in Dingen wie dem Ausrüstungswechsler-Widget zu gestalten.",
+    "ColorGroup.Misc.Name": "Verschiedene Farben",
+    "ColorGroup.Misc.Description": "Verschiedene Farben, die an verschiedenen Orten verwendet werden.",
     "Color.Window.Background.Name": "Standard-Hintergrundfarbe",
     "Color.Window.Background.Description": "Die Standard-Hintergrundfarbe eines Fensters.",
     "Color.Window.BackgroundLight.Name": "Panel-Hintergrundfarbe",

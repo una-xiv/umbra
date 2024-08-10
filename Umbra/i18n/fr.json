@@ -991,6 +991,8 @@
     "ColorGroup.Widget.Description": "Couleurs utilisées pour styliser les widgets de la barre d'outils et leurs fenêtres contextuelles.",
     "ColorGroup.Role.Name": "Rôles professionnels",
     "ColorGroup.Role.Description": "Couleurs utilisées pour styliser les rôles professionnels dans des éléments tels que le widget de changement d'équipement.",
+    "ColorGroup.Misc.Name": "Couleurs diverses",
+    "ColorGroup.Misc.Description": "Couleurs diverses utilisées dans divers endroits.",
     "Color.Window.Background.Name": "Couleur de fond par défaut",
     "Color.Window.Background.Description": "La couleur de fond par défaut d'une fenêtre.",
     "Color.Window.BackgroundLight.Name": "Couleur de fond du panneau",
