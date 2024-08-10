@@ -23,6 +23,7 @@ using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.Game.Group;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
+using FFXIVClientStructs.FFXIV.Client.UI;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using FFXIVClientStructs.FFXIV.Client.UI.Info;
 using FFXIVClientStructs.FFXIV.Component.GUI;
@@ -184,6 +185,42 @@ internal sealed class Player : IPlayer
     public bool IsBattleMentor { get; private set; }
 
     /// <summary>
+    /// Whether the player is currently in a sanctuary.
+    /// </summary>
+    public bool IsInSanctuary { get; private set; }
+
+    /// <summary>
+    /// The player's current job level.
+    /// </summary>
+    public short Level { get; private set; }
+
+    /// <summary>
+    /// The player's current synced level. This value is 0 if the player is
+    /// not synced to a lower level.
+    /// </summary>
+    public short SyncedLevel { get; private set; }
+
+    /// <summary>
+    /// True if the player has reached the maximum level on their current job.
+    /// </summary>
+    public bool IsMaxLevel { get; private set; }
+
+    /// <summary>
+    /// The player's current experience points.
+    /// </summary>
+    public uint CurrentExperience { get; private set; }
+
+    /// <summary>
+    /// The total amount of rested experience points the player has.
+    /// </summary>
+    public uint RestedExperience { get; private set; }
+
+    /// <summary>
+    /// The total amount of experience points required for the current level.
+    /// </summary>
+    public uint TotalRequiredExperience { get; private set; }
+
+    /// <summary>
     /// Represents a list of societies (tribes) the player can be allied with
     /// that contains tribe and reputation information.
     /// </summary>
@@ -199,6 +236,7 @@ internal sealed class Player : IPlayer
     private readonly IPartyList          _partyList;
     private readonly JobInfoRepository   _jobInfoRepository;
     private readonly SocietiesRepository _societiesRepository;
+    private readonly IGameGui            _gameGui;
 
     private readonly uint[] _acceptedOnlineStatusIds = [47, 32, 31, 27, 28, 29, 30, 12, 17, 21, 22, 23];
 
@@ -207,6 +245,7 @@ internal sealed class Player : IPlayer
         ICondition           condition,
         IDataManager         dataManager,
         IEquipmentRepository equipmentRepository,
+        IGameGui             gameGui,
         IPartyList           partyList,
         JobInfoRepository    jobInfoRepository,
         SocietiesRepository  societiesRepository,
@@ -216,6 +255,7 @@ internal sealed class Player : IPlayer
         _clientState         = clientState;
         _condition           = condition;
         _dataManager         = dataManager;
+        _gameGui             = gameGui;
         _partyList           = partyList;
         _jobInfoRepository   = jobInfoRepository;
         _societiesRepository = societiesRepository;
@@ -238,6 +278,7 @@ internal sealed class Player : IPlayer
         IsDead         = _clientState.LocalPlayer.IsDead;
         IsInPvP        = _clientState.IsPvPExcludingDen;
         IsInParty      = _partyList.Length > 0;
+        IsInSanctuary  = GameMain.IsInSanctuary();
         JobId          = (byte)_clientState.LocalPlayer.ClassJob.Id;
 
         IsCasting = _clientState.LocalPlayer.IsCasting
@@ -288,6 +329,25 @@ internal sealed class Player : IPlayer
         IsBattleMentor = ps->IsBattleMentor() && ps->MentorVersion == 3;
         IsTradeMentor  = ps->IsTradeMentor() && ps->MentorVersion == 3;
         IsMentor       = IsBattleMentor && IsTradeMentor;
+
+        // Experience and level information.
+        Level       = GetJobInfo(JobId).Level;
+        SyncedLevel = ps->SyncedLevel;
+
+        AgentHUD* hud = AgentHUD.Instance();
+
+        if (hud == null) {
+            IsMaxLevel              = true;
+            CurrentExperience       = 0;
+            RestedExperience        = 0;
+            TotalRequiredExperience = 0;
+            return;
+        }
+
+        IsMaxLevel              = hud->ExpIsMaxLevel;
+        CurrentExperience       = hud->ExpCurrentExperience;
+        RestedExperience        = hud->ExpRestedExperience;
+        TotalRequiredExperience = hud->ExpNeededExperience;
     }
 
     /// <summary>

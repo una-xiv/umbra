@@ -14,10 +14,10 @@
  *     GNU Affero General Public License for more details.
  */
 
+using Dalamud.Game.Text;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Dalamud.Game.Text;
 using Dalamud.Plugin.Services;
 using System.IO;
 using Umbra.Common;
@@ -35,15 +35,12 @@ internal sealed class MainMenuWidget(
     /// <inheritdoc/>
     public override MenuPopup Popup { get; } = new();
 
-    private readonly Dictionary<string, MainMenuItem> _items = [];
-
     private IMainMenuRepository? _repository;
     private MainMenuCategory?    _category;
     private string?              _selectedCategory;
     private string?              _displayMode;
     private string?              _iconLocation;
     private int?                 _customIconId;
-    private bool?                _showItemIcons;
 
     public override string GetInstanceName()
     {
@@ -79,14 +76,6 @@ internal sealed class MainMenuWidget(
         var customIconId  = GetConfigValue<int>("CustomIconId");
         var showItemIcons = GetConfigValue<bool>("ShowItemIcons");
 
-        if (_showItemIcons != showItemIcons) {
-            _showItemIcons = showItemIcons;
-
-            foreach (var item in _items.Values) {
-                Popup.SetButtonIcon(item.Id, showItemIcons || item.Icon is SeIconChar ? item.Icon : null);
-            }
-        }
-
         if (displayMode != _displayMode || iconLocation != _iconLocation || customIconId != _customIconId) {
             _displayMode  = displayMode;
             _iconLocation = iconLocation;
@@ -121,6 +110,7 @@ internal sealed class MainMenuWidget(
                 if (Popup.HasButton(item.Id)) {
                     Popup.SetButtonDisabled(item.Id, item.IsDisabled);
                     Popup.SetButtonAltLabel(item.Id, string.IsNullOrEmpty(item.ShortKey) ? " " : item.ShortKey);
+                    Popup.SetButtonIcon(item.Id, showItemIcons || item.Icon is SeIconChar ? item.Icon : null);
                 }
             }
         }
@@ -193,7 +183,6 @@ internal sealed class MainMenuWidget(
     private void OnItemAdded(MainMenuItem item)
     {
         if (item.Type == MainMenuItemType.Separator) return;
-        _items[item.Id] = item;
 
         if (item.ItemGroupId is not null
             && item.ItemGroupLabel is not null
@@ -217,7 +206,6 @@ internal sealed class MainMenuWidget(
     {
         if (item.Type == MainMenuItemType.Separator) return;
 
-        _items.Remove(item.Id);
         Popup.RemoveButton(item.Id);
 
         if (item.ItemGroupId is not null

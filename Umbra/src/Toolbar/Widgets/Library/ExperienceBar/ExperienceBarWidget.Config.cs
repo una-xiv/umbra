@@ -25,6 +25,18 @@ internal partial class ExperienceBarWidget
     {
         return [
             new BooleanWidgetConfigVariable(
+                "Decorate",
+                I18N.Translate("Widgets.DefaultToolbarWidget.Config.Decorate.Name"),
+                I18N.Translate("Widgets.DefaultToolbarWidget.Config.Decorate.Description"),
+                true
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            new BooleanWidgetConfigVariable(
+                "DisplayAtMaxLevel",
+                I18N.Translate("Widget.ExperienceBar.Config.DisplayAtMaxLevel.Name"),
+                I18N.Translate("Widget.ExperienceBar.Config.DisplayAtMaxLevel.Description"),
+                true
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            new BooleanWidgetConfigVariable(
                 "ShowExperience",
                 I18N.Translate("Widget.ExperienceBar.Config.ShowExperience.Name"),
                 I18N.Translate("Widget.ExperienceBar.Config.ShowExperience.Description"),
@@ -34,6 +46,18 @@ internal partial class ExperienceBarWidget
                 "ShowLevel",
                 I18N.Translate("Widget.ExperienceBar.Config.ShowLevel.Name"),
                 I18N.Translate("Widget.ExperienceBar.Config.ShowLevel.Description"),
+                true
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            new BooleanWidgetConfigVariable(
+                "ShowSanctuaryIcon",
+                I18N.Translate("Widget.ExperienceBar.Config.ShowSanctuaryIcon.Name"),
+                I18N.Translate("Widget.ExperienceBar.Config.ShowSanctuaryIcon.Description"),
+                true
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            new BooleanWidgetConfigVariable(
+                "ShowLevelSyncIcon",
+                I18N.Translate("Widget.ExperienceBar.Config.ShowLevelSyncIcon.Name"),
+                I18N.Translate("Widget.ExperienceBar.Config.ShowLevelSyncIcon.Description"),
                 true
             ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             new IntegerWidgetConfigVariable(
@@ -51,12 +75,6 @@ internal partial class ExperienceBarWidget
                 0,
                 -5,
                 5
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
-            new BooleanWidgetConfigVariable(
-                "DisplayAtMaxLevel",
-                I18N.Translate("Widget.ExperienceBar.Config.DisplayAtMaxLevel.Name"),
-                I18N.Translate("Widget.ExperienceBar.Config.DisplayAtMaxLevel.Description"),
-                true
             ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
         ];
     }

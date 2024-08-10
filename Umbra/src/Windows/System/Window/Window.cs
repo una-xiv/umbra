@@ -73,6 +73,8 @@ internal abstract partial class Window : IDisposable
 
     private bool _isOpened = false;
 
+    public bool IsClosed => !_isOpened;
+
     public void Render(string id)
     {
         if (!_isOpened) {
