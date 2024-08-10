@@ -32,8 +32,8 @@ internal partial class AccessibilityWidget
             ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             new IntegerWidgetConfigVariable(
                 "IconYOffset",
-                I18N.Translate("Widget.Accessibility.Config.IconYOffset.Name"),
-                I18N.Translate("Widget.Accessibility.Config.IconYOffset.Description"),
+                I18N.Translate("Widgets.DefaultToolbarWidget.Config.IconYOffset.Name"),
+                I18N.Translate("Widgets.DefaultToolbarWidget.Config.IconYOffset.Description"),
                 -1,
                 -5,
                 5

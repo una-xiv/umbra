@@ -28,7 +28,7 @@ internal partial class AccessibilityWidgetPopup : WidgetPopup
                             new() {
                                 ClassList = ["slider-label"],
                                 NodeValue = "VAS",
-                                Tooltip   = "Visual alert size"
+                                Tooltip   = I18N.Translate("Widget.Accessibility.Config.VisualAlertsSize")
                             }
                         ]
                     },
@@ -46,7 +46,7 @@ internal partial class AccessibilityWidgetPopup : WidgetPopup
                             new() {
                                 ClassList = ["slider-label"],
                                 NodeValue = "VAT",
-                                Tooltip   = "Visual alert transparency"
+                                Tooltip   = I18N.Translate("Widget.Accessibility.Config.VisualAlertsTransparency")
                             }
                         ]
                     },
@@ -64,7 +64,7 @@ internal partial class AccessibilityWidgetPopup : WidgetPopup
                             new() {
                                 ClassList = ["slider-label"],
                                 NodeValue = "CF",
-                                Tooltip   = "Color Filter Range"
+                                Tooltip   = I18N.Translate("Widget.Accessibility.Config.ColorFilterRange")
                             }
                         ]
                     }
@@ -73,8 +73,8 @@ internal partial class AccessibilityWidgetPopup : WidgetPopup
             new() {
                 ClassList = ["right-side"],
                 ChildNodes = [
-                    new CheckboxNode("EnableAudioVis",       false, "Enable visual alerts"),
-                    new CheckboxNode("EnableColorBlindMode", false, "Enable color filter"),
+                    new CheckboxNode("EnableAudioVis",       false, I18N.Translate("Widget.Accessibility.Config.VisualAlerts")),
+                    new CheckboxNode("EnableColorBlindMode", false, I18N.Translate("Widget.Accessibility.Config.ColorFilter")),
                     new() {
                         Style = new() {
                             Size = new(200, 0)
