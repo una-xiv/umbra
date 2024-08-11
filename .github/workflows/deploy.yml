@@ -1,5 +1,10 @@
 ﻿name: Build
 
+# This workflow deploys compiled binaries to a dedicated repository used for
+# building Umbra plugins using a github workflow. This ensures that plugin
+# developers don't have to manually build and upload their plugins to their
+# repositories and always builds against the latest tagged version of Umbra.
+
 on:
   workflow_dispatch:
   push:
@@ -9,9 +14,8 @@ on:
 env:
   PUBLIC_NAME: Umbra
   SOLUTION_NAME: Umbra
-  INTERNAL_NAME: Umbra
   RELEASE_DIR: out/Release
-  PERSONAL_PLUGIN_REPO: una-xiv/umbra-dist
+  DIST_REPOSITORY: una-xiv/umbra-dist
 
 jobs:
   build:
@@ -27,10 +31,12 @@ jobs:
         run: |
           Invoke-WebRequest -Uri https://goatcorp.github.io/dalamud-distrib/latest.zip -OutFile latest.zip
           Expand-Archive -Force latest.zip "$env:AppData\XIVLauncher\addon\Hooks\dev\"
-      - name: Build
-        run: |
-          dotnet restore -r win ${{ env.SOLUTION_NAME }}.sln
-          dotnet build --configuration Release
+      - name: Restore project
+        run: dotnet restore -r win ${{ env.SOLUTION_NAME }}.sln
+        env:
+          DOTNET_CLI_TELEMETRY_OPTOUT: true
+      - name: Build project
+        run: dotnet build --configuration Release
         env:
           DOTNET_CLI_TELEMETRY_OPTOUT: true
       - uses: actions/upload-artifact@v4
@@ -45,7 +51,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          repository: ${{ env.PERSONAL_PLUGIN_REPO }}
+          repository: ${{ env.DIST_REPOSITORY }}
           token: ${{ secrets.PAT }}
       - uses: actions/download-artifact@v4
         with:
@@ -57,4 +63,4 @@ jobs:
           add: --all
           author_name: GitHub Action
           author_email: github-actions[bot]@users.noreply.github.com
-          message: Update ${{ env.INTERNAL_NAME }} ${{ github.ref_name }}
+          message: Update ${{ env.SOLUTION_NAME }} ${{ github.ref_name }}
