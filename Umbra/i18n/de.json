@@ -267,6 +267,8 @@
     "Widget.ConfigCategory.GearsetRoleOptions": "{0}-Optionen",
     "Widget.ConfigCategory.TimeSource": "Zeitquelle",
     "Widget.ConfigCategory.FormatOptions": "Zeitformat-Optionen",
+    "Widget.Defaults.Enabled.Name": "Widget aktivieren",
+    "Widget.Defaults.Enabled.Description": "Ob dieses Widget aktiviert und in der Symbolleiste sichtbar sein soll.",
     "Widgets.DefaultToolbarWidget.Config.Decorate.Name": "Das Widget dekorieren",
     "Widgets.DefaultToolbarWidget.Config.Decorate.Description": "Dekoriert das Widget mit einem Hintergrund und Rahmen.",
     "Widgets.DefaultToolbarWidget.Config.DesaturateIcon.Name": "Widget-Symbol entsättigen",

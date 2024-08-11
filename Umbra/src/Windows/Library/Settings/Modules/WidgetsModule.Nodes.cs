@@ -256,6 +256,7 @@ internal partial class WidgetsModule
             controlsNode.Style.IsVisible = _selectedInstanceId == widget.Id;
 
             node.SortIndex                    = widget.SortIndex;
+            node.Style.Opacity                = widget.IsEnabled ? 1 : 0.5f;
             moveToLeftPanel.Style.IsVisible   = widget.Location != "Left";
             moveToCenterPanel.Style.IsVisible = widget.Location != "Center";
             moveToRightPanel.Style.IsVisible  = widget.Location != "Right";

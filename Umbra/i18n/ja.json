@@ -267,6 +267,8 @@
     "Widget.ConfigCategory.GearsetRoleOptions": "{0}オプション",
     "Widget.ConfigCategory.TimeSource": "時間源",
     "Widget.ConfigCategory.FormatOptions": "時間形式オプション",
+    "Widget.Defaults.Enabled.Name": "ウィジェットを有効にする",
+    "Widget.Defaults.Enabled.Description": "このウィジェットを有効にして、ツールバーに表示するかどうか。",
     "Widgets.DefaultToolbarWidget.Config.Decorate.Name": "ウィジェットを飾る",
     "Widgets.DefaultToolbarWidget.Config.Decorate.Description": "ウィジェットに背景と枠を飾ります。",
     "Widgets.DefaultToolbarWidget.Config.DesaturateIcon.Name": "ウィジェットアイコンの彩度を下げる",
