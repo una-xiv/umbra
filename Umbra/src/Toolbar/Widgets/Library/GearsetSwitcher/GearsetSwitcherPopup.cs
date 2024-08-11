@@ -21,6 +21,7 @@ using FFXIVClientStructs.FFXIV.Client.UI.Misc;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using Lumina.Excel.GeneratedSheets;
 using System;
+using System.Collections.Generic;
 using Umbra.Common;
 using Umbra.Game;
 using Una.Drawing;
@@ -153,8 +154,10 @@ internal sealed partial class GearsetSwitcherPopup : WidgetPopup, IDisposable
     public bool   ShowCurrentJobGradient      { get; set; }
     public bool   ShowWarningIcon             { get; set; } = true;
     public bool   ShowExperienceBar           { get; set; } = true;
+    public bool   ShowExperiencePct           { get; set; } = true;
     public bool   ShowItemLevel               { get; set; } = true;
     public string GearsetButtonBackgroundType { get; set; } = "GradientV";
+    public string GearsetFilterPrefix         { get; set; } = "";
 
     public string HeaderIconType      { get; set; } = "Default";
     public string ButtonIconType      { get; set; } = "Default";
@@ -266,14 +269,32 @@ internal sealed partial class GearsetSwitcherPopup : WidgetPopup, IDisposable
 
     private void UpdateNodes()
     {
-        foreach (GearsetNode node in NodeByGearset.Values) {
+        List<Gearset> toRemove = [];
+
+        foreach (Gearset gearset in _gearsetRepository.GetGearsets()) {
+            if (ShouldRenderGearset(gearset) && !NodeByGearset.ContainsKey(gearset)) {
+                OnGearsetCreated(gearset);
+            }
+        }
+
+        foreach ((Gearset gearset, GearsetNode node) in NodeByGearset) {
+            if (! ShouldRenderGearset(gearset)) {
+                toRemove.Add(gearset);
+                continue;
+            }
+
             node.ButtonIconType    = ButtonIconType;
             node.ButtonIconYOffset = ButtonIconYOffset;
             node.BackgroundType    = GearsetButtonBackgroundType;
             node.ShowItemLevel     = ShowItemLevel;
             node.ShowWarningIcon   = ShowWarningIcon;
             node.ShowExperienceBar = ShowExperienceBar;
+            node.ShowExperiencePct = ShowExperiencePct;
             node.Update();
+        }
+
+        foreach (Gearset gearset in toRemove) {
+            OnGearsetRemoved(gearset);
         }
     }
 

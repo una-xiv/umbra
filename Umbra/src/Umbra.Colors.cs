@@ -373,6 +373,8 @@ internal class UmbraColors
         Color.AssignByName("Role.MagicalRangedDps",               0xAF2E3069);
         Color.AssignByName("Role.Crafter",                        0xAFA72A5A);
         Color.AssignByName("Role.Gatherer",                       0xAF2C89A6);
+        Color.AssignByName("Misc.ExperienceBar",                  0xFF4c8eb9);
+        Color.AssignByName("Misc.ExperienceBarRested",            0xFFb98e4c);
     }
 
     private static void OnConfigProfileChanged(string _)

@@ -1,0 +1,66 @@
+﻿name: Build
+
+# This workflow deploys compiled binaries to a dedicated repository used for
+# building Umbra plugins using a github workflow. This ensures that plugin
+# developers don't have to manually build and upload their plugins to their
+# repositories and always builds against the latest tagged version of Umbra.
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - "*"
+
+env:
+  PUBLIC_NAME: Umbra
+  SOLUTION_NAME: Umbra
+  RELEASE_DIR: out/Release
+  DIST_REPOSITORY: una-xiv/umbra-dist
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v2
+      - name: Download Dalamud
+        run: |
+          Invoke-WebRequest -Uri https://goatcorp.github.io/dalamud-distrib/latest.zip -OutFile latest.zip
+          Expand-Archive -Force latest.zip "$env:AppData\XIVLauncher\addon\Hooks\dev\"
+      - name: Restore project
+        run: dotnet restore -r win ${{ env.SOLUTION_NAME }}.sln
+        env:
+          DOTNET_CLI_TELEMETRY_OPTOUT: true
+      - name: Build project
+        run: dotnet build --configuration Release
+        env:
+          DOTNET_CLI_TELEMETRY_OPTOUT: true
+      - uses: actions/upload-artifact@v4
+        with:
+          name: UmbraDistZip
+          path: ${{ env.RELEASE_DIR }}
+          if-no-files-found: error
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          repository: ${{ env.DIST_REPOSITORY }}
+          token: ${{ secrets.PAT }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: UmbraDistZip
+          path: dist
+      - uses: EndBug/add-and-commit@v7
+        with:
+          branch: main
+          add: --all
+          author_name: GitHub Action
+          author_email: github-actions[bot]@users.noreply.github.com
+          message: Update ${{ env.SOLUTION_NAME }} ${{ github.ref_name }}

@@ -61,6 +61,12 @@ internal sealed partial class ShortcutPanelWidget
                 I18N.Translate("Widget.ShortcutPanel.Config.ShowEmptySlots.Description"),
                 true
             ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
+            new BooleanWidgetConfigVariable(
+                "AutoCloseOnUse",
+                I18N.Translate("Widget.ShortcutPanel.Config.AutoCloseOnUse.Name"),
+                I18N.Translate("Widget.ShortcutPanel.Config.AutoCloseOnUse.Description"),
+                true
+            ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
             new StringWidgetConfigVariable("SlotConfig", "", null, "", 0) { IsHidden = true },
         ];
     }

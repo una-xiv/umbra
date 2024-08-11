@@ -17,14 +17,7 @@ internal sealed partial class SocietiesWidgetPopup
             new() {
                 Id        = "AllowanceStatus",
                 NodeValue = I18N.Translate("Widget.Societies.AllowanceStatus", "12"),
-                SortIndex = -1,
-                BeforeDraw = node => {
-                    var height = node.Height;
-                    var width  = (node.ParentNode!.Width) - (int)(Math.Floor(16 * Node.ScaleFactor) + (Node.ScaleFactor < 1f ? 2 : 0));
-                    node.Bounds.ContentSize = new(width, height);
-                    node.Bounds.PaddingSize = new(width, height);
-                    node.Bounds.MarginSize  = new(width, height);
-                }
+                SortIndex = -1
             },
             new() {
                 Id = "List"

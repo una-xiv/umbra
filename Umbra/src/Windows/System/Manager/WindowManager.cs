@@ -58,11 +58,11 @@ internal class WindowManager(UmbraDelvClipRects delvClipRects) : IDisposable
                 }
 
                 window.RequestClose += () => {
+                    delvClipRects.RemoveClipRect($"Umbra.Window.{id}");
                     _callbacks[id]?.Invoke(window);
                     _instances.Remove(id);
                     _callbacks.Remove(id);
                     OnWindowClosed?.Invoke(window);
-                    delvClipRects.RemoveClipRect($"Umbra.Window.{id}");
                 };
 
                 _instances[id] = window;
@@ -85,6 +85,8 @@ internal class WindowManager(UmbraDelvClipRects delvClipRects) : IDisposable
     public void Close(string id)
     {
         if (!_instances.Remove(id, out var window)) return;
+
+        delvClipRects.RemoveClipRect($"Umbra.Window.{id}");
         _callbacks.Remove(id);
 
         window.Close();
@@ -97,7 +99,7 @@ internal class WindowManager(UmbraDelvClipRects delvClipRects) : IDisposable
             foreach ((string id, Window window) in _instances) {
                 window.Render(id);
 
-                delvClipRects.SetClipRect($"Umbra.Window.{id}", window.Position, window.Size);
+                if (!window.IsClosed) delvClipRects.SetClipRect($"Umbra.Window.{id}", window.Position, window.Size);
             }
         }
     }

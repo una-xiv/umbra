@@ -89,6 +89,13 @@ internal partial class GearsetSwitcherWidget
                 I18N.Translate("Widget.GearsetSwitcher.Config.EnableRoleScrolling.Description"),
                 false
             ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
+            new StringWidgetConfigVariable(
+                "GearsetFilterPrefix",
+                I18N.Translate("Widget.GearsetSwitcher.Config.GearsetFilterPrefix.Name"),
+                I18N.Translate("Widget.GearsetSwitcher.Config.GearsetFilterPrefix.Description"),
+                "",
+                14
+            ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
             new SelectWidgetConfigVariable(
                 "PopupHeaderIconType",
                 I18N.Translate("Widget.GearsetSwitcher.Config.PopupHeaderIconType.Name"),
@@ -135,6 +142,12 @@ internal partial class GearsetSwitcherWidget
                 "ShowExperienceBar",
                 I18N.Translate("Widget.GearsetSwitcher.Config.ShowExperienceBar.Name"),
                 I18N.Translate("Widget.GearsetSwitcher.Config.ShowExperienceBar.Description"),
+                true
+            ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
+            new BooleanWidgetConfigVariable(
+                "ShowExperiencePct",
+                I18N.Translate("Widget.GearsetSwitcher.Config.ShowExperiencePct.Name"),
+                I18N.Translate("Widget.GearsetSwitcher.Config.ShowExperiencePct.Description"),
                 true
             ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
             new BooleanWidgetConfigVariable(

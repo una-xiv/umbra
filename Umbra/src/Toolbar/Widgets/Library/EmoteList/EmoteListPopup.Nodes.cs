@@ -24,7 +24,7 @@ internal sealed partial class EmoteListPopup
                 ChildNodes = [
                     new() {
                         Id       = "CategoryButton_0", ClassList = ["category-button"], NodeValue = "Category 1",
-                        TagsList = ["active"]
+                        TagsList = ["selected"]
                     },
                     new() {
                         Id        = "CategoryButton_1", ClassList = ["category-button"],
@@ -90,7 +90,7 @@ internal sealed partial class EmoteListPopup
             ClassList = ["slot-button"],
             ChildNodes = [
                 new() {
-                    ClassList = ["slot-button--icon", "empty"],
+                    ClassList = ["slot-button--icon"],
                 }
             ]
         };

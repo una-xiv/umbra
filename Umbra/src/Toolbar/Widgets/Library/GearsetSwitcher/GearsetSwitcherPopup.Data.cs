@@ -35,6 +35,8 @@ internal sealed partial class GearsetSwitcherPopup
     /// </summary>
     private void OnGearsetCreated(Gearset gearset)
     {
+        if (!ShouldRenderGearset(gearset)) return;
+
         AssignGearsetToDataLookupTables(gearset);
 
         GearsetNode node = new(_gearsetRepository, _player, gearset);
@@ -48,7 +50,7 @@ internal sealed partial class GearsetSwitcherPopup
     /// </summary>
     private void OnGearsetRemoved(Gearset gearset)
     {
-        Node gearsetNode = NodeByGearset[gearset];
+        if (!NodeByGearset.TryGetValue(gearset, out var gearsetNode)) return;
 
         gearsetNode.OnRightClick -= OnGearsetRightClick;
         gearsetNode.Remove();
@@ -62,6 +64,11 @@ internal sealed partial class GearsetSwitcherPopup
     /// </summary>
     private void OnGearsetChanged(Gearset gearset)
     {
+        if (!ShouldRenderGearset(gearset)) {
+            OnGearsetRemoved(gearset);
+            return;
+        }
+
         if (!NodeByGearset.TryGetValue(gearset, out GearsetNode? gearsetNode)) {
             OnGearsetCreated(gearset);
             return;
@@ -101,6 +108,8 @@ internal sealed partial class GearsetSwitcherPopup
             }
         }
 
+        if (!ShouldRenderGearset(gearset)) return;
+
         if (!GearsetsByCategory.ContainsKey(gearset.Category)) {
             GearsetsByCategory[gearset.Category] = [gearset];
             return;
@@ -124,5 +133,10 @@ internal sealed partial class GearsetSwitcherPopup
         }
 
         NodeByGearset.Remove(gearset);
+    }
+
+    private bool ShouldRenderGearset(Gearset gearset)
+    {
+        return string.IsNullOrEmpty(GearsetFilterPrefix) || !gearset.Name.StartsWith(GearsetFilterPrefix);
     }
 }

@@ -208,4 +208,45 @@ internal sealed partial class UnifiedMainMenuPopup
 
         return node;
     }
+
+    private void ResizeNodes()
+    {
+        int cw = CategoriesWidth;
+        int ew = EntriesWidth;
+        int h  = MenuHeight;
+
+        // Find the max height of the popup.
+        if (h == 0) {
+            h = (CategoryListNode.ChildNodes.Count * 38) + (CategoryListNode.ChildNodes.Count * 28) + 32;
+
+            h = EntriesNode
+                .ChildNodes.Select(
+                    entriesList => entriesList.ChildNodes
+                            .Sum(n => (n.Style.Size?.Height ?? 28) + 4)
+                        + 8
+                )
+                .Prepend(h)
+                .Max();
+        }
+
+        HeaderNode.Style.Size     = new((cw + ew) - 4, 48);
+        CategoriesNode.Style.Size = new(cw, h);
+        EntriesNode.Style.Size    = new(ew, h);
+        PinnedListNode.Style.Size = new(cw, 0);
+
+        foreach (var n in Node.QuerySelectorAll(".category"))
+            n.Style.Size = new(cw - (n.TagsList.Contains("selected") ? 0 : 4), 32);
+
+        foreach (var n in Node.QuerySelectorAll(".category--label")) n.Style.Size       = new(cw - 52, 24);
+        foreach (var n in Node.QuerySelectorAll(".separator")) n.Style.Size             = new(cw, 24);
+        foreach (var n in Node.QuerySelectorAll(".separator--line")) n.Style.Size       = new(cw - 32, 1);
+        foreach (var n in Node.QuerySelectorAll(".entries")) n.Style.Size               = new(ew, 0);
+        foreach (var n in Node.QuerySelectorAll(".entry")) n.Style.Size                 = new(ew - 16, 24);
+        foreach (var n in Node.QuerySelectorAll(".entry--name")) n.Style.Size           = new(ew - 136, 28);
+        foreach (var n in Node.QuerySelectorAll(".entry--info")) n.Style.Size           = new(130, 28);
+        foreach (var n in Node.QuerySelectorAll(".entry-separator")) n.Style.Size       = new(ew - 8, 4);
+        foreach (var n in Node.QuerySelectorAll(".entry-separator--line")) n.Style.Size = new(ew - 8, 1);
+        foreach (var n in Node.QuerySelectorAll(".pinned-entry")) n.Style.Size          = new(cw - 16, 24);
+        foreach (var n in Node.QuerySelectorAll(".pinned-entry--name")) n.Style.Size    = new(cw - 42, 24);
+    }
 }

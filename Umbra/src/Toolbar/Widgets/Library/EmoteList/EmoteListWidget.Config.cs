@@ -27,6 +27,12 @@ internal sealed partial class EmoteListWidget
             ..GetEmoteListConfigVariables(1),
             ..GetEmoteListConfigVariables(2),
             ..GetEmoteListConfigVariables(3),
+            new BooleanWidgetConfigVariable(
+                "ShowEmptySlots",
+                I18N.Translate("Widget.ShortcutPanel.Config.ShowEmptySlots.Name"),
+                I18N.Translate("Widget.ShortcutPanel.Config.ShowEmptySlots.Description"),
+                true
+            ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
             new BooleanWidgetConfigVariable("KeepOpenAfterUse", "", "", false) { IsHidden        = true },
             new IntegerWidgetConfigVariable("LastSelectedCategory", "", "", 0) { IsHidden        = true },
             new StringWidgetConfigVariable("EmoteList", "", null, "", short.MaxValue) { IsHidden = true },

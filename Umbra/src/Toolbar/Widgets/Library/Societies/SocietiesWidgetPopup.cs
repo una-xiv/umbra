@@ -27,13 +27,14 @@ internal sealed partial class SocietiesWidgetPopup : WidgetPopup
         ContextMenu = new(
             [
                 new("Track") {
-                    Label  = I18N.Translate("Widget.Societies.ContextMenu.Track"),
+                    Label = I18N.Translate("Widget.Societies.ContextMenu.Track"),
                     OnClick = () => {
-                        if (null != _selectedSocietyId) OnSocietySelected?.Invoke(Repository.Societies[_selectedSocietyId.Value]);
+                        if (null != _selectedSocietyId)
+                            OnSocietySelected?.Invoke(Repository.Societies[_selectedSocietyId.Value]);
                     },
                 },
                 new("Untrack") {
-                    Label  = I18N.Translate("Widget.Societies.ContextMenu.Untrack"),
+                    Label = I18N.Translate("Widget.Societies.ContextMenu.Untrack"),
                     OnClick = () => {
                         if (null != _selectedSocietyId) OnSocietySelected?.Invoke(null);
                     },
@@ -78,10 +79,24 @@ internal sealed partial class SocietiesWidgetPopup : WidgetPopup
             itemCount++;
         }
 
+        bool isVertical;
+
         if (itemCount < MinItemsBeforeHorizontalView) {
             Node.FindById("List")!.TagsList.Add("vertical");
+            isVertical = true;
         } else {
             Node.FindById("List")!.TagsList.Remove("vertical");
+            isVertical = false;
         }
+
+        Node allowanceStatus = Node.FindById("AllowanceStatus")!;
+
+        if (isVertical) {
+            allowanceStatus.Style.Size = new(ItemWidth, 24);
+            return;
+        }
+
+        var columnCount = Node.QuerySelectorAll(".expansion").Count();
+        allowanceStatus.Style.Size = new((columnCount * (ItemWidth + 8)) - 8, 0);
     }
 }

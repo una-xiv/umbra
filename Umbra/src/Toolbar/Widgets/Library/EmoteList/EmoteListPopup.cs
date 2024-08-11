@@ -27,6 +27,7 @@ internal sealed partial class EmoteListPopup : WidgetPopup
 
     public byte LastSelectedCategory;
     public bool KeepOpenAfterUse;
+    public bool ShowEmptySlots;
 
     private IDataManager DataManager  { get; } = Framework.Service<IDataManager>();
     private IGameConfig  GameConfig   { get; } = Framework.Service<IGameConfig>();
@@ -186,16 +187,20 @@ internal sealed partial class EmoteListPopup : WidgetPopup
             Node   button = GetEmoteButton(listId, i);
             Emote? emote  = emoteId > 0 ? emoteSheet.GetRow(emoteId) : null;
 
+            button.TagsList.Remove("filled");
+            button.TagsList.Remove(!ShowEmptySlots ? "empty-visible" : "empty-hidden");
+            button.TagsList.Add(ShowEmptySlots ? "empty-visible" : "empty-hidden");
+
             if (emoteId == 0 || emote?.TextCommand.Value == null) {
                 button.QuerySelector(".slot-button--icon")!.Style.IconId = 0;
-                button.TagsList.Remove("filled");
-                button.TagsList.Add("empty");
                 button.Tooltip = I18N.Translate("Widget.EmoteList.EmptySlotTooltip");
                 continue;
             }
 
             button.QuerySelector(".slot-button--icon")!.Style.IconId = emote.Icon;
-            button.TagsList.Remove("empty");
+
+            button.TagsList.Remove("empty-visible");
+            button.TagsList.Remove("empty-hidden");
             button.TagsList.Add("filled");
             button.Tooltip = emote.Name.ToDalamudString().TextValue;
         }

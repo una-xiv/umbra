@@ -24,6 +24,12 @@ internal sealed partial class UnifiedMainMenu
             ..DefaultToolbarWidgetConfigVariables,
             ..SingleLabelTextOffsetVariables,
             new BooleanWidgetConfigVariable(
+                "OpenSubMenusOnHover",
+                I18N.Translate("Widget.UnifiedMainMenu.Config.OpenSubMenusOnHover.Name"),
+                I18N.Translate("Widget.UnifiedMainMenu.Config.OpenSubMenusOnHover.Description"),
+                false
+            ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
+            new BooleanWidgetConfigVariable(
                 "DesaturateIcons",
                 I18N.Translate("Widget.UnifiedMainMenu.Config.DesaturateIcons.Name"),
                 I18N.Translate("Widget.UnifiedMainMenu.Config.DesaturateIcons.Description"),
@@ -42,6 +48,22 @@ internal sealed partial class UnifiedMainMenu
                 I18N.Translate("Widget.UnifiedMainMenu.Config.FixedMenuHeight.Description"),
                 0,
                 0,
+                1000
+            ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
+            new IntegerWidgetConfigVariable(
+                "CategoriesWidth",
+                I18N.Translate("Widget.UnifiedMainMenu.Config.MainMenuWidth.Name"),
+                I18N.Translate("Widget.UnifiedMainMenu.Config.MainMenuWidth.Description"),
+                200,
+                150,
+                1000
+            ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
+            new IntegerWidgetConfigVariable(
+                "EntriesWidth",
+                I18N.Translate("Widget.UnifiedMainMenu.Config.SubMenuWidth.Name"),
+                I18N.Translate("Widget.UnifiedMainMenu.Config.SubMenuWidth.Description"),
+                350,
+                200,
                 1000
             ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
             new SelectWidgetConfigVariable(

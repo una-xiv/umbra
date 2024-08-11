@@ -233,4 +233,40 @@ public interface IPlayer
     /// Returns the cooldown time of the specified action in the format "hh:mm:ss".
     /// </summary>
     public string GetActionCooldownString(ActionType actionType, uint actionId);
+
+    /// <summary>
+    /// Whether the player is currently in a sanctuary.
+    /// </summary>
+    public bool IsInSanctuary { get; }
+
+    /// <summary>
+    /// The player's current job (unsynced) level.
+    /// </summary>
+    public short Level { get; }
+
+    /// <summary>
+    /// The player's current synced level. This value is 0 if the player is
+    /// not synced to a lower level.
+    /// </summary>
+    public short SyncedLevel { get; }
+
+    /// <summary>
+    /// True if the player has reached the maximum level on their current job.
+    /// </summary>
+    public bool IsMaxLevel { get; }
+
+    /// <summary>
+    /// The player's current experience points.
+    /// </summary>
+    public uint CurrentExperience { get; }
+
+    /// <summary>
+    /// The total amount of rested experience points the player has.
+    /// </summary>
+    public uint RestedExperience { get; }
+
+    /// <summary>
+    /// The total amount of experience points required for the current level.
+    /// </summary>
+    public uint TotalRequiredExperience { get; }
 }

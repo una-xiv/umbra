@@ -34,6 +34,7 @@ internal sealed partial class ShortcutPanelWidget(
         Popup.NumRows        = (byte)GetConfigValue<int>("NumRows");
         Popup.NumCols        = (byte)GetConfigValue<int>("NumCols");
         Popup.ShowEmptySlots = GetConfigValue<bool>("ShowEmptySlots");
+        Popup.AutoCloseOnUse = GetConfigValue<bool>("AutoCloseOnUse");
 
         UpdateNodeCategoryNames();
 
