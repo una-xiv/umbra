@@ -53,6 +53,7 @@ jobs:
           path: plugins/${{ env.INTERNAL_NAME }}
       - uses: EndBug/add-and-commit@v7
         with:
+          branch: main
           add: --all
           author_name: GitHub Action
           author_email: github-actions[bot]@users.noreply.github.com
