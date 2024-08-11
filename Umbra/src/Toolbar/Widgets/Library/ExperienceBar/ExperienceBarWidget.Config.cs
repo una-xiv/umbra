@@ -82,6 +82,22 @@ internal partial class ExperienceBarWidget
                 -5,
                 5
             ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            new IntegerWidgetConfigVariable(
+                "MoonYOffset",
+                I18N.Translate("Widget.ExperienceBar.Config.MoonYOffset.Name"),
+                I18N.Translate("Widget.ExperienceBar.Config.MoonYOffset.Description"),
+                0,
+                -5,
+                5
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            new IntegerWidgetConfigVariable(
+                "SyncYOffset",
+                I18N.Translate("Widget.ExperienceBar.Config.SyncYOffset.Name"),
+                I18N.Translate("Widget.ExperienceBar.Config.SyncYOffset.Description"),
+                0,
+                -5,
+                5
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
         ];
     }
 }
