@@ -19,7 +19,7 @@ using Umbra.Common;
 
 namespace Umbra.Markers;
 
-internal class IntegerMarkerConfigVariable(
+public class IntegerMarkerConfigVariable(
     string  id,
     string  name,
     string? description,

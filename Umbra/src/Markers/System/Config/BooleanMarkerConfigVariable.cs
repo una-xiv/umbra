@@ -16,7 +16,7 @@
 
 namespace Umbra.Markers;
 
-internal class BooleanMarkerConfigVariable(string id, string name, string? description, bool defaultValue)
+public class BooleanMarkerConfigVariable(string id, string name, string? description, bool defaultValue)
     : MarkerConfigVariable<bool>(id, name, description, defaultValue)
 {
     /// <inheritdoc/>

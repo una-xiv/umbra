@@ -19,7 +19,7 @@ using Umbra.Common;
 
 namespace Umbra.Markers;
 
-internal abstract class MarkerConfigVariable<T>(string id, string name, string? description, T defaultValue)
+public abstract class MarkerConfigVariable<T>(string id, string name, string? description, T defaultValue)
     : IMarkerConfigVariable, IUntypedMarkerConfigVariable, IDisposable
 {
     public event Action<T>? ValueChanged;
