@@ -4,8 +4,8 @@ namespace Umbra.Widgets.Library.UnifiedMainMenu;
 
 internal sealed partial class UnifiedMainMenuPopup
 {
-    private const int CategoriesWidth = 200;
-    private const int EntriesWidth    = 350;
+    private const int DefaultCategoriesWidth = 200;
+    private const int DefaultEntriesWidth    = 350;
 
     private static Stylesheet Stylesheet { get; } = new(
         [
@@ -20,7 +20,7 @@ internal sealed partial class UnifiedMainMenuPopup
                 "#Header",
                 new() {
                     Flow            = Flow.Horizontal,
-                    Size            = new((CategoriesWidth + EntriesWidth) - 4, 64),
+                    Size            = new((DefaultCategoriesWidth + DefaultEntriesWidth) - 4, 64),
                     IsAntialiased   = false,
                     BackgroundColor = new("Window.Background"),
                     BorderRadius    = 6,
@@ -94,7 +94,7 @@ internal sealed partial class UnifiedMainMenuPopup
                 "#Categories",
                 new() {
                     Flow                      = Flow.Vertical,
-                    Size                      = new(CategoriesWidth, 475),
+                    Size                      = new(DefaultCategoriesWidth, 475),
                     BackgroundColor           = new("Window.Background"),
                     BorderColor               = new() { Right = new("Window.Border") },
                     BorderWidth               = new() { Right = 1 },
@@ -110,7 +110,7 @@ internal sealed partial class UnifiedMainMenuPopup
             new(
                 ".category",
                 new() {
-                    Size          = new(CategoriesWidth - 4, 32),
+                    Size          = new(DefaultCategoriesWidth - 4, 32),
                     TextAlign     = Anchor.MiddleLeft,
                     FontSize      = 13,
                     Color         = new("Window.Text"),
@@ -131,7 +131,7 @@ internal sealed partial class UnifiedMainMenuPopup
                 ".category:selected",
                 new() {
                     BackgroundColor = new("Input.Background"),
-                    Size            = new(CategoriesWidth, 32),
+                    Size            = new(DefaultCategoriesWidth, 32),
                     BorderColor     = new() { Top = new("Window.Border"), Bottom = new("Window.Border") },
                     BorderWidth     = new() { Top = 1, Bottom                    = 1 }
                 }
@@ -145,12 +145,14 @@ internal sealed partial class UnifiedMainMenuPopup
             new(
                 ".category--label",
                 new() {
-                    Size         = new(CategoriesWidth - 52, 24),
+                    Size         = new(DefaultCategoriesWidth - 52, 24),
                     TextAlign    = Anchor.MiddleLeft,
                     FontSize     = 13,
                     Color        = new("Window.Text"),
                     OutlineColor = new("Window.TextOutline"),
                     OutlineSize  = 1,
+                    TextOverflow = false,
+                    WordWrap     = false,
                 }
             ),
             new(
@@ -163,14 +165,14 @@ internal sealed partial class UnifiedMainMenuPopup
             new(
                 ".separator",
                 new() {
-                    Size = new(CategoriesWidth, 24),
+                    Size = new(DefaultCategoriesWidth, 24),
                 }
             ),
             new(
                 ".separator--line",
                 new() {
                     Anchor          = Anchor.MiddleCenter,
-                    Size            = new(CategoriesWidth - 32, 1),
+                    Size            = new(DefaultCategoriesWidth - 32, 1),
                     BackgroundColor = new("Window.AccentColor"),
                     IsAntialiased   = false,
                 }
@@ -179,7 +181,7 @@ internal sealed partial class UnifiedMainMenuPopup
                 "#PinnedList",
                 new() {
                     Flow    = Flow.Vertical,
-                    Size    = new(CategoriesWidth, 0),
+                    Size    = new(DefaultCategoriesWidth, 0),
                     Gap     = 8,
                     Padding = new(8),
                 }
@@ -188,7 +190,7 @@ internal sealed partial class UnifiedMainMenuPopup
                 "#Entries",
                 new() {
                     Flow                      = Flow.Vertical,
-                    Size                      = new(EntriesWidth, 475),
+                    Size                      = new(DefaultEntriesWidth, 475),
                     BackgroundColor           = new("Input.Background"),
                     ScrollbarTrackColor       = new("Window.ScrollbarTrack"),
                     ScrollbarThumbColor       = new("Window.ScrollbarThumb"),
@@ -200,7 +202,7 @@ internal sealed partial class UnifiedMainMenuPopup
                 ".entries",
                 new() {
                     Flow      = Flow.Vertical,
-                    Size      = new(EntriesWidth, 475),
+                    Size      = new(DefaultEntriesWidth, 475),
                     Gap       = 8,
                     IsVisible = false,
                     Padding   = new(8),
@@ -210,7 +212,7 @@ internal sealed partial class UnifiedMainMenuPopup
                 ".entry",
                 new() {
                     Flow    = Flow.Horizontal,
-                    Size    = new(EntriesWidth - 16, 24),
+                    Size    = new(DefaultEntriesWidth - 16, 24),
                     Padding = new(2, 0),
                     Gap     = 4,
                 }
@@ -229,36 +231,41 @@ internal sealed partial class UnifiedMainMenuPopup
                 new() {
                     Anchor       = Anchor.MiddleLeft,
                     TextAlign    = Anchor.MiddleLeft,
-                    Size         = new(EntriesWidth - 136, 28),
+                    Size         = new(DefaultEntriesWidth - 136, 28),
                     FontSize     = 13,
                     Color        = new("Widget.PopupMenuText"),
                     OutlineColor = new("Widget.PopupMenuTextOutline"),
                     OutlineSize  = 1,
+                    TextOverflow = false,
+                    WordWrap     = false,
                 }
             ),
             new(
                 ".entry--info",
                 new() {
-                    Anchor       = Anchor.MiddleLeft,
+                    Anchor       = Anchor.MiddleRight,
                     TextAlign    = Anchor.MiddleRight,
-                    Size         = new(EntriesWidth - 20 - 250, 28),
+                    Size         = new(DefaultEntriesWidth - 20 - 250, 28),
                     FontSize     = 12,
                     Color        = new("Widget.PopupMenuTextMuted"),
                     OutlineColor = new("Widget.PopupMenuTextOutlineDisabled"),
                     OutlineSize  = 1,
+                    TextOverflow = false,
+                    WordWrap     = false,
+                    Padding      = new() { Right = 4 },
                 }
             ),
             new(
                 ".entry-separator",
                 new() {
-                    Size = new(EntriesWidth - 8, 4),
+                    Size = new(DefaultEntriesWidth - 8, 4),
                 }
             ),
             new(
                 ".entry-separator--line",
                 new() {
                     Anchor          = Anchor.MiddleCenter,
-                    Size            = new(EntriesWidth - 8, 1),
+                    Size            = new(DefaultEntriesWidth - 8, 1),
                     BackgroundColor = new("Widget.PopupBorder"),
                     IsAntialiased   = false,
                 }
@@ -280,7 +287,7 @@ internal sealed partial class UnifiedMainMenuPopup
                 ".pinned-entry",
                 new() {
                     Flow    = Flow.Horizontal,
-                    Size    = new(CategoriesWidth - 16, 24),
+                    Size    = new(DefaultCategoriesWidth - 16, 24),
                     Padding = new(2, 0),
                     Gap     = 4,
                 }
@@ -299,11 +306,13 @@ internal sealed partial class UnifiedMainMenuPopup
                 new() {
                     Anchor       = Anchor.MiddleLeft,
                     TextAlign    = Anchor.MiddleLeft,
-                    Size         = new(CategoriesWidth - 42, 28),
+                    Size         = new(DefaultCategoriesWidth - 42, 28),
                     FontSize     = 13,
                     Color        = new("Widget.PopupMenuText"),
                     OutlineColor = new("Widget.PopupMenuTextOutline"),
                     OutlineSize  = 1,
+                    TextOverflow = false,
+                    WordWrap     = false,
                 }
             ),
             new(

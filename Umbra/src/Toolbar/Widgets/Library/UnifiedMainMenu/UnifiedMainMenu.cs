@@ -29,6 +29,8 @@ internal sealed partial class UnifiedMainMenu(
     {
         Popup.AvatarIconId        = (uint)GetConfigValue<int>("AvatarIconId");
         Popup.MenuHeight          = GetConfigValue<int>("FixedMenuHeight");
+        Popup.CategoriesWidth     = GetConfigValue<int>("CategoriesWidth");
+        Popup.EntriesWidth        = GetConfigValue<int>("EntriesWidth");
         Popup.BannerLocation      = GetConfigValue<string>("BannerLocation");
         Popup.BannerNameStyle     = GetConfigValue<string>("BannerNameStyle");
         Popup.BannerColorStyle    = GetConfigValue<string>("BannerColorStyle");

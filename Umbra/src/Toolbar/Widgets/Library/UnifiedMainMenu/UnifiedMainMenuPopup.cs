@@ -13,6 +13,8 @@ internal sealed partial class UnifiedMainMenuPopup : WidgetPopup
     public event Action<List<string>>? OnPinnedItemsChanged;
 
     public int          MenuHeight          { get; set; }
+    public int          CategoriesWidth     { get; set; }         = 200;
+    public int          EntriesWidth        { get; set; }         = 350;
     public uint         AvatarIconId        { get; set; }         = 76985;
     public string       BannerLocation      { get; set; }         = "Auto";
     public string       BannerNameStyle     { get; set; }         = "FirstName";
@@ -100,26 +102,7 @@ internal sealed partial class UnifiedMainMenuPopup : WidgetPopup
         Node.TagsList.Add(!isTop ? "top" : "bottom");
 
         UpdateBannerColor();
-
-        // Find the max height of the popup.
-        if (MenuHeight == 0) {
-            int maxHeight = (CategoryListNode.ChildNodes.Count * 38) + (CategoryListNode.ChildNodes.Count * 28) + 32;
-
-            maxHeight = EntriesNode
-                .ChildNodes.Select(
-                    entriesList => entriesList.ChildNodes
-                            .Sum(n => (n.Style.Size?.Height ?? 28) + 4)
-                        + 8
-                )
-                .Prepend(maxHeight)
-                .Max();
-
-            CategoriesNode.Style.Size = new(CategoriesWidth, maxHeight);
-            EntriesNode.Style.Size    = new(EntriesWidth, maxHeight);
-        } else {
-            CategoriesNode.Style.Size = new(CategoriesWidth, MenuHeight);
-            EntriesNode.Style.Size    = new(EntriesWidth, MenuHeight);
-        }
+        ResizeNodes();
 
         HeaderIconNode.Style.IconId = AvatarIconId;
     }
@@ -169,6 +152,7 @@ internal sealed partial class UnifiedMainMenuPopup : WidgetPopup
 
         CategoryListNode.ChildNodes.First(n => n.Id == $"Category_{category.Category}").TagsList.Add("selected");
         EntriesNode.QuerySelector($"Category_{category.Category}")!.Style.IsVisible = true;
+        ResizeNodes();
     }
 
     private void OnCategoryItemAdded(MainMenuItem entry)

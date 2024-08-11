@@ -50,6 +50,22 @@ internal sealed partial class UnifiedMainMenu
                 0,
                 1000
             ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
+            new IntegerWidgetConfigVariable(
+                "CategoriesWidth",
+                I18N.Translate("Widget.UnifiedMainMenu.Config.MainMenuWidth.Name"),
+                I18N.Translate("Widget.UnifiedMainMenu.Config.MainMenuWidth.Description"),
+                200,
+                150,
+                1000
+            ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
+            new IntegerWidgetConfigVariable(
+                "EntriesWidth",
+                I18N.Translate("Widget.UnifiedMainMenu.Config.SubMenuWidth.Name"),
+                I18N.Translate("Widget.UnifiedMainMenu.Config.SubMenuWidth.Description"),
+                350,
+                200,
+                1000
+            ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
             new SelectWidgetConfigVariable(
                 "BannerLocation",
                 I18N.Translate("Widget.UnifiedMainMenu.Config.BannerLocation.Name"),
