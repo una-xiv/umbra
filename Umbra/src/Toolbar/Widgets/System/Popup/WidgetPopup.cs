@@ -56,7 +56,7 @@ public abstract class WidgetPopup : IDisposable
         ContextMenu?.Dispose();
         _popupNode.Dispose();
 
-        foreach (var handler in OnPopupOpen?.GetInvocationList() ?? []) OnPopupOpen -= (Action)handler;
+        foreach (var handler in OnPopupOpen?.GetInvocationList() ?? []) OnPopupOpen   -= (Action)handler;
         foreach (var handler in OnPopupClose?.GetInvocationList() ?? []) OnPopupClose -= (Action)handler;
     }
 
@@ -114,7 +114,7 @@ public abstract class WidgetPopup : IDisposable
             OnOpen();
         }
 
-        switch (Toolbar.IsTopAligned) {
+        switch (IsPopupOpenDownward(activator)) {
             case true when !_popupNode.TagsList.Contains("top"):
                 _popupNode.TagsList.Remove("bottom");
                 _popupNode.TagsList.Add("top");
@@ -154,7 +154,7 @@ public abstract class WidgetPopup : IDisposable
         _opacity = _opacity += (_opacityDest - _opacity) * deltaTime;
         _yOffset = _yOffset += (_yOffsetDest - _yOffset) * deltaTime;
 
-        switch (Toolbar.IsTopAligned) {
+        switch (IsPopupOpenDownward(activator)) {
             case true when _yOffset > -1:
             case false when _yOffset < 1:
                 _yOffset = 0;
@@ -229,7 +229,38 @@ public abstract class WidgetPopup : IDisposable
         Rect   activatorBoundingBox = activator.Node.Bounds.MarginRect;
         Rect   toolbarBoundingBox   = activator.Node.ParentNode!.ParentNode!.Bounds.MarginRect;
 
-        float popupY = Toolbar.IsTopAligned ? toolbarBoundingBox.Y2 - 2 : (toolbarBoundingBox.Y1 + 2) - size.Y;
+        float popupX = GetXOffsetsOf(activator, size);
+
+        float popupY = IsPopupOpenDownward(activator)
+            ? toolbarBoundingBox.Y2 - 2
+            : (toolbarBoundingBox.Y1 + 2) - size.Y;
+
+        var viewportPos  = ImGui.GetMainViewport().WorkPos;
+        var viewportSize = ImGui.GetMainViewport().WorkSize;
+
+        if (popupX < viewportPos.X) {
+            popupX = viewportPos.X + 8;
+        } else if (popupX + size.X > viewportPos.X + viewportSize.X) {
+            popupX = viewportPos.X + (viewportSize.X - size.X - 8);
+        }
+
+        return new(popupX, popupY);
+    }
+
+    private static float GetXOffsetsOf(ToolbarWidget activator, Vector2 size)
+    {
+        string toolbarColumnId      = activator.Node.ParentNode!.Id!;
+        Rect   activatorBoundingBox = activator.Node.Bounds.MarginRect;
+
+        if (toolbarColumnId == "aux") {
+            if (activator.Node.ParentNode.ParentNode!.ClassList.Contains("left-aligned")) {
+                toolbarColumnId = "Left";
+            } else if (activator.Node.ParentNode.ParentNode!.ClassList.Contains("right-aligned")) {
+                toolbarColumnId = "Right";
+            } else {
+                toolbarColumnId = "Center";
+            }
+        }
 
         float originX = toolbarColumnId switch {
             "Left"   => activatorBoundingBox.X1,
@@ -245,16 +276,7 @@ public abstract class WidgetPopup : IDisposable
             _        => 0
         };
 
-        var viewportPos = ImGui.GetMainViewport().WorkPos;
-        var viewportSize = ImGui.GetMainViewport().WorkSize;
-
-        if (popupX < viewportPos.X) {
-            popupX = viewportPos.X + 8;
-        } else if (popupX + size.X > viewportPos.X + viewportSize.X) {
-            popupX = viewportPos.X + (viewportSize.X - size.X - 8);
-        }
-
-        return new(popupX, popupY);
+        return popupX;
     }
 
     private static Vector2 GetPopupPositionCentered(ToolbarWidget activator, Vector2 size)
@@ -263,11 +285,11 @@ public abstract class WidgetPopup : IDisposable
         Rect  tBounds = activator.Node.ParentNode!.ParentNode!.Bounds.MarginRect;
 
         float windowX     = actX - (size.X / 2);
-        float windowY     = Toolbar.IsTopAligned ? tBounds.Y2 - 2 : tBounds.Y1 + 2;
+        float windowY     = IsPopupOpenDownward(activator) ? tBounds.Y2 - 2 : tBounds.Y1 + 2;
         float screenWidth = ImGui.GetMainViewport().WorkSize.X;
         float screenPosX  = ImGui.GetMainViewport().WorkPos.X;
 
-        if (!Toolbar.IsTopAligned) {
+        if (!IsPopupOpenDownward(activator)) {
             windowY -= size.Y;
         }
 
@@ -278,6 +300,21 @@ public abstract class WidgetPopup : IDisposable
         }
 
         return new(windowX, windowY);
+    }
+
+    /// <summary>
+    /// Returns true if the popup associated with the given widget should be opened downward.
+    /// </summary>
+    private static bool IsPopupOpenDownward(ToolbarWidget activator)
+    {
+        if (activator.Node.ParentNode!.Id == "aux") {
+            var h = ImGui.GetMainViewport().WorkPos.Y + (ImGui.GetMainViewport().WorkSize.Y / 2);
+            var y = activator.Node.Bounds.MarginRect.Y1 + activator.Node.OuterHeight;
+
+            return y < h;
+        }
+
+        return Toolbar.IsTopAligned;
     }
 
     private static ImGuiWindowFlags PopupWindowFlags =>

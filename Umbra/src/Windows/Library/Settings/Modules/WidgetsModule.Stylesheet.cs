@@ -20,7 +20,7 @@ namespace Umbra.Windows.Settings.Modules;
 
 internal partial class WidgetsModule
 {
-    private static Stylesheet WidgetsModuleStylesheet { get; } = new(
+    internal static Stylesheet WidgetsModuleStylesheet { get; } = new(
         [
             new(
                 ".widgets-module",

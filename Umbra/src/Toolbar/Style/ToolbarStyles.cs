@@ -35,7 +35,7 @@ internal class ToolbarStyles
                 }
             ),
             new(
-                ".toolbar:top",
+                ".toolbar:top, .toolbar:aux",
                 new() {
                     Anchor             = Anchor.TopCenter,
                     BackgroundGradient = GradientColor.Vertical(new("Toolbar.Background2"), new("Toolbar.Background1")),
@@ -101,12 +101,31 @@ internal class ToolbarStyles
                 }
             ),
             new(
+                ".toolbar:aux:floating",
+                new() {
+                    BorderWidth    = new(1),
+                    BorderRadius   = 5,
+                    RoundedCorners = RoundedCorners.All,
+                    IsAntialiased  = true,
+                }
+            ),
+            new(
                 ".toolbar-panel",
                 new() {
                     Flow = Flow.Horizontal,
                     Gap  = 6,
                 }
-            )
+            ),
+            new(
+                "#AuxBar",
+                new() {
+                    Anchor         = Anchor.TopCenter,
+                    RoundedCorners = RoundedCorners.All,
+                }
+            ),
+            new("#AuxBar.left-aligned", new() { Anchor = Anchor.TopLeft }),
+            new("#AuxBar.right-aligned", new() { Anchor = Anchor.TopRight }),
+            new("#AuxBar.center-aligned", new() { Anchor = Anchor.TopCenter }),
         ]
     );
 }

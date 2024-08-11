@@ -257,7 +257,7 @@ public abstract class ToolbarWidget(
     /// Returns true if this widget is currently enabled.
     /// </summary>
     /// <returns></returns>
-    public bool IsEnabled => GetConfigValue<bool>("_Enabled");
+    public bool IsEnabled => !HasConfigVariable("_Enabled") || GetConfigValue<bool>("_Enabled");
 
     public void SetConfigValue<T>(string name, T value)
     {

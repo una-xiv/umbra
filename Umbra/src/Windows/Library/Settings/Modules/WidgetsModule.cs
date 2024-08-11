@@ -59,12 +59,14 @@ internal partial class WidgetsModule : SettingsModule
 
     private void OnWidgetInstanceCreated(ToolbarWidget widget)
     {
+        if (widget.Location == "aux") return;
         var column = GetColumn(widget.Location);
         column.AppendChild(CreateWidgetInstanceNode(widget));
     }
 
     private void OnWidgetInstanceRemoved(ToolbarWidget widget)
     {
+        if (widget.Location == "aux") return;
         var column = GetColumn(widget.Location);
         var node   = column.QuerySelector($"#widget-{widget.Id}");
 
@@ -73,6 +75,7 @@ internal partial class WidgetsModule : SettingsModule
 
     private void OnWidgetInstanceRelocated(ToolbarWidget widget, string previousLocation)
     {
+        if (widget.Location == "aux" || previousLocation == "aux") return;
         var oldColumn = GetColumn(previousLocation);
         var newColumn = GetColumn(widget.Location);
         var node      = oldColumn.QuerySelector($"#widget-{widget.Id}");
