@@ -12,6 +12,7 @@ internal sealed partial class UnifiedMainMenuPopup
     private Node EntriesNode         => Node.QuerySelector("#Entries")!;
     private Node PinnedListNode      => Node.QuerySelector("#PinnedList")!;
     private Node HeaderNode          => Node.QuerySelector("#Header")!;
+    private Node BodyNode            => Node.QuerySelector("#Body")!;
     private Node HeaderIconNode      => Node.QuerySelector("#HeaderIcon")!;
     private Node HeaderLabelNameNode => Node.QuerySelector("#HeaderLabelName")!;
     private Node HeaderLabelInfoNode => Node.QuerySelector("#HeaderLabelInfo")!;
@@ -211,6 +212,12 @@ internal sealed partial class UnifiedMainMenuPopup
 
     private void ResizeNodes()
     {
+        bool isTop = BannerLocation == "Top" || (BannerLocation == "Auto" && !Toolbar.IsTopAligned);
+
+        HeaderNode.SortIndex = !isTop ? 1000 : -1000;
+        Node.TagsList.Remove(!isTop ? "bottom" : "top");
+        Node.TagsList.Add(!isTop ? "top" : "bottom");
+
         int cw = CategoriesWidth;
         int ew = EntriesWidth;
         int h  = MenuHeight;
@@ -229,10 +236,21 @@ internal sealed partial class UnifiedMainMenuPopup
                 .Max();
         }
 
-        HeaderNode.Style.Size     = new((cw + ew) - 4, 64);
-        CategoriesNode.Style.Size = new(cw, h);
-        EntriesNode.Style.Size    = new(ew, h);
+        HeaderNode.Style.Size     = new((cw + ew), 64);
+        CategoriesNode.Style.Size = new(cw, h - 2);
+        EntriesNode.Style.Size    = new(ew, h - 2);
         PinnedListNode.Style.Size = new(cw, 0);
+
+        if (null != Node.ParentNode) {
+            bool isFloating = Node.ParentNode!.TagsList.Contains("floating");
+
+            CategoriesNode.Style.BorderRadius   = isFloating ? 8 : 0;
+            CategoriesNode.Style.IsAntialiased  = !isFloating;
+            CategoriesNode.Style.RoundedCorners = isTop ? RoundedCorners.TopLeft : RoundedCorners.BottomLeft;
+            EntriesNode.Style.BorderRadius      = isFloating ? 8 : 0;
+            EntriesNode.Style.IsAntialiased     = !isFloating;
+            EntriesNode.Style.RoundedCorners    = isTop ? RoundedCorners.TopRight : RoundedCorners.BottomRight;
+        }
 
         foreach (var n in Node.QuerySelectorAll(".category"))
             n.Style.Size = new(cw - (n.TagsList.Contains("selected") ? 0 : 4), 32);

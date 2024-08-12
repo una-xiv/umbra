@@ -12,8 +12,10 @@ internal sealed partial class UnifiedMainMenuPopup
             new(
                 "#Popup",
                 new() {
-                    Flow    = Flow.Vertical,
-                    Padding = new(0, 1),
+                    Flow            = Flow.Vertical,
+                    Padding         = new(0, 1),
+                    Margin          = new(2),
+                    BackgroundColor = new("Window.Background"),
                 }
             ),
             new(
@@ -24,7 +26,6 @@ internal sealed partial class UnifiedMainMenuPopup
                     IsAntialiased   = false,
                     BackgroundColor = new("Window.Background"),
                     BorderRadius    = 6,
-                    Margin          = new(2),
                     Padding         = new(8),
                     Gap             = 8,
                 }
@@ -33,14 +34,14 @@ internal sealed partial class UnifiedMainMenuPopup
                 "#Header:bottom",
                 new() {
                     RoundedCorners     = RoundedCorners.TopLeft | RoundedCorners.TopRight,
-                    BackgroundGradient = GradientColor.Vertical(new("Window.AccentColor"), new(0)),
+                    BackgroundGradient = GradientColor.Vertical(new("Window.AccentColor"), new("Window.Background")),
                 }
             ),
             new(
                 "#Header:top",
                 new() {
                     RoundedCorners     = RoundedCorners.BottomLeft | RoundedCorners.BottomRight,
-                    BackgroundGradient = GradientColor.Vertical(new(0), new("Window.AccentColor")),
+                    BackgroundGradient = GradientColor.Vertical(new("Window.Background"), new("Window.AccentColor")),
                 }
             ),
             new(
@@ -84,10 +85,23 @@ internal sealed partial class UnifiedMainMenuPopup
                 "#Body",
                 new() {
                     Flow          = Flow.Horizontal,
+                    IsAntialiased = false,
+                }
+            ),
+            new(
+                "#Body:bottom",
+                new() {
                     BorderColor   = new() { Top = new("Widget.PopupBorder") },
                     BorderWidth   = new() { Top = 1 },
-                    IsAntialiased = false,
                     Padding       = new() { Top = 1 },
+                }
+            ),
+            new(
+                "#Body:top",
+                new() {
+                    BorderColor = new() { Bottom = new("Widget.PopupBorder") },
+                    BorderWidth = new() { Bottom = 1 },
+                    Padding     = new() { Bottom = 1 },
                 }
             ),
             new(

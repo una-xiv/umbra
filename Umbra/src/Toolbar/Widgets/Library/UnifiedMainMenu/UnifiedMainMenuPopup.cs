@@ -94,12 +94,8 @@ internal sealed partial class UnifiedMainMenuPopup : WidgetPopup
 
         bool isTop = BannerLocation == "Top" || (BannerLocation == "Auto" && !Toolbar.IsTopAligned);
 
-        HeaderNode.SortIndex          = !isTop ? 1000 : -1000;
         HeaderLabelNameNode.NodeValue = GetPlayerName();
         HeaderLabelInfoNode.NodeValue = $"{I18N.Translate("Widget.GearsetSwitcher.JobLevel", job.Level)} {job.Name}";
-
-        Node.TagsList.Remove(!isTop ? "bottom" : "top");
-        Node.TagsList.Add(!isTop ? "top" : "bottom");
 
         UpdateBannerColor();
         ResizeNodes();
@@ -109,6 +105,10 @@ internal sealed partial class UnifiedMainMenuPopup : WidgetPopup
 
     protected override void OnUpdate()
     {
+        if (!IsOpen) return;
+
+        ResizeNodes();
+
         foreach (var category in MainMenuRepository.GetCategories()) {
             foreach (var entry in category.Items) {
                 if (entry.Type == MainMenuItemType.Separator) continue;
