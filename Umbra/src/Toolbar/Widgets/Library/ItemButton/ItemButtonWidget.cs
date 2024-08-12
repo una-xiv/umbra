@@ -85,8 +85,6 @@ internal sealed partial class ItemButtonWidget(
         SetIcon(IconId ?? 14);
 
         base.OnUpdate();
-
-        Node.Tooltip               = showLabel ? null : label;
     }
 
     private void UseItem(Node _)
