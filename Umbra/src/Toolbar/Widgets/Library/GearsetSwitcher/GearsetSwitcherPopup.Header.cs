@@ -28,10 +28,37 @@ internal sealed partial class GearsetSwitcherPopup
     {
         const string uld = "ui/uld/Character";
 
-        Node bestInSlotButton = CreateUldHeaderButtonNode("BestInSlot", uld, 13, 2, I18N.Translate("Widget.GearsetSwitcher.EquipRecommendedGear"));
-        Node openGlamButton   = CreateUldHeaderButtonNode("OpenGlam",   uld, 13, 3, I18N.Translate("Widget.GearsetSwitcher.ContextMenu.LinkGlamourPlate"));
-        Node updateButton     = CreateUldHeaderButtonNode("Update",     uld, 15, 4, I18N.Translate("Widget.GearsetSwitcher.UpdateGearset"));
-        Node duplicateButton  = CreateUldHeaderButtonNode("Duplicate",  uld, 15, 8, I18N.Translate("Widget.GearsetSwitcher.CreateGearset"));
+        Node bestInSlotButton = CreateUldHeaderButtonNode(
+            "BestInSlot",
+            uld,
+            13,
+            2,
+            I18N.Translate("Widget.GearsetSwitcher.EquipRecommendedGear")
+        );
+
+        Node openGlamButton = CreateUldHeaderButtonNode(
+            "OpenGlam",
+            uld,
+            13,
+            3,
+            I18N.Translate("Widget.GearsetSwitcher.ContextMenu.LinkGlamourPlate")
+        );
+
+        Node updateButton = CreateUldHeaderButtonNode(
+            "Update",
+            uld,
+            15,
+            4,
+            I18N.Translate("Widget.GearsetSwitcher.UpdateGearset")
+        );
+
+        Node duplicateButton = CreateUldHeaderButtonNode(
+            "Duplicate",
+            uld,
+            15,
+            8,
+            I18N.Translate("Widget.GearsetSwitcher.CreateGearset")
+        );
 
         Node node = new() {
             Stylesheet = GearsetSwitcherHeaderStylesheet,
@@ -71,6 +98,7 @@ internal sealed partial class GearsetSwitcherPopup
 
         updateButton.OnMouseUp    += _ => _gearsetRepository.UpdateEquippedGearset();
         duplicateButton.OnMouseUp += _ => _gearsetRepository.DuplicateEquippedGearset();
+
         openGlamButton.OnMouseUp += _ => {
             _player.UseGeneralAction(25); // Glamour Plate.
             Close();
@@ -80,6 +108,7 @@ internal sealed partial class GearsetSwitcherPopup
             unsafe {
                 AgentModule.Instance()->GetAgentByInternalId(AgentId.RecommendEquip)->Show();
             }
+
             Close();
         };
 
@@ -137,6 +166,7 @@ internal sealed partial class GearsetSwitcherPopup
                 UldResource   = uld,
                 UldPartsId    = partsId,
                 UldPartId     = partId,
+                UldStyle      = UldStyle.Light,
                 ImageRotation = rotation,
             }
         };
