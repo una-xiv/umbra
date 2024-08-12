@@ -48,31 +48,10 @@ internal unsafe partial class FlagWidget
             && 0 != agentMap->IsFlagMarkerSet;
     }
 
-    private string GetFlagMapName()
-    {
-        if (!IsFlagMarkerSet() || !ZoneManager.HasCurrentZone) return "";
-
-        return ZoneManager.GetZone(AgentMap.Instance()->FlagMapMarker.MapId).Name;
-    }
-
-    /// <summary>
-    /// Returns the display-coordinates of the marker.
-    /// </summary>
-    private string GetFlagCoordinates()
-    {
-        if (!IsFlagMarkerSet() || !ZoneManager.HasCurrentZone) return "";
-
-        AgentMap*      agentMap = AgentMap.Instance();
-        FlagMapMarker* marker   = &agentMap->FlagMapMarker;
-
-        Vector2 coords = MapUtil.WorldToMap(new(marker->XFloat, marker->YFloat), ZoneManager.CurrentZone.MapSheet);
-
-        return $"({coords.X:0.0}, {coords.Y:0.0})";
-    }
-
     private void UpdateWidgetInfoState()
     {
         if (!ZoneManager.HasCurrentZone) return;
+        if (Player.IsBetweenAreas) return;
 
         AgentMap* map = AgentMap.Instance();
         if (map == null) return;
@@ -113,10 +92,11 @@ internal unsafe partial class FlagWidget
             return;
         }
 
-        var placeName = _aetheryteEntry.AetheryteData.GameData!.PlaceName.Value!.Name.ToString();
+        var placeName = _aetheryteEntry.AetheryteData.GameData?.PlaceName.Value?.Name.ToString() ?? "???";
+        var gilCost   = _aetheryteEntry.GilCost.ToString("D");
 
         _aetheryteName = placeName == zone.Name
-            ? I18N.Translate("Widget.Flag.TeleportNearbyForGil",  _aetheryteEntry.GilCost.ToString("D"))
-            : I18N.Translate("Widget.Flag.TeleportToPlaceForGil", placeName, _aetheryteEntry.GilCost.ToString("D"));
+            ? I18N.Translate("Widget.Flag.TeleportNearbyForGil",  gilCost)
+            : I18N.Translate("Widget.Flag.TeleportToPlaceForGil", placeName, gilCost);
     }
 }

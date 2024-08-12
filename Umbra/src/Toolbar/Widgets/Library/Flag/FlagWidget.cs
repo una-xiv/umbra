@@ -47,6 +47,13 @@ internal sealed unsafe partial class FlagWidget(
         Node.OnClick       += _ => OnClick();
         Node.OnRightClick  += _ => OnRightClick();
         Node.OnMiddleClick += _ => Broadcast();
+
+        ZoneManager.ZoneChanged += OnZoneChanged;
+    }
+
+    protected override void OnDisposed()
+    {
+        ZoneManager.ZoneChanged -= OnZoneChanged;
     }
 
     /// <inheritdoc/>
@@ -119,5 +126,10 @@ internal sealed unsafe partial class FlagWidget(
         lastBroadcast = now;
 
         Framework.Service<IChatSender>().Send($"{chatMessagePrefix} <flag>");
+    }
+
+    private void OnZoneChanged(IZone _)
+    {
+        _aetheryteKey = null;
     }
 }
