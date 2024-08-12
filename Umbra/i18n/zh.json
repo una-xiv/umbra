@@ -242,6 +242,8 @@
     "CVAR.General.ShowMarkersInCombat.Name": "在战斗中显示世界标记",
     "CVAR.Window.EnableClipping.Name": "启用窗口遮挡",
     "CVAR.Window.EnableClipping.Description": "允许原生游戏窗口遮挡Umbra插件窗口。该选项会带来一定的性能折损，且不是所有原生游戏窗口都能遮挡插件窗口。另外，当Dalamud设置中启用多显示器支持时，此功能将不起作用。",
+    "CVAR.DelvUI.ClipRects.Enabled.Name": "启用 DelvUI 窗口裁剪",
+    "CVAR.DelvUI.ClipRects.Enabled.Description": "让Umbra与DelvUI的窗口裁剪系统同步窗口和小部件弹出窗口的位置，以防止DelvUI在Umbra的元素渲染在其上方时拦截鼠标事件。",
     "CVAR.Toolbar.Enabled.Name": "启用工具栏",
     "CVAR.Toolbar.Enabled.Description": "是否显示工具栏。禁用工具栏后，请使用 \"/umbra\" 命令打开设置窗口。",
     "CVAR.Toolbar.PopupAlignmentMethod.Name": "小部件弹出对齐方法",

@@ -242,6 +242,8 @@
     "CVAR.General.ShowMarkersInCombat.Name": "Zeige Weltmarkierungen während des Kampfes",
     "CVAR.Window.EnableClipping.Name": "Fenster-Clipping aktivieren",
     "CVAR.Window.EnableClipping.Description": "Ermöglicht es Fenstern, hinter nativen Spiel-Fenstern gerendert zu werden. Dies kann eine geringe Leistungseinbuße mit sich bringen und möglicherweise nicht für alle nativen Spiel-Fenster ordnungsgemäß funktionieren. Beachten Sie, dass diese Funktion nicht funktioniert, wenn die Unterstützung für mehrere Monitore in den Dalamud-Einstellungen aktiviert ist.",
+    "CVAR.DelvUI.ClipRects.Enabled.Name": "DelvUI-Fenster-Clipping aktivieren",
+    "CVAR.DelvUI.ClipRects.Enabled.Description": "Lassen Sie Umbra die Positionen von Fenstern und Widget-Popups mit DelvUI's Fenster-Clipping-System synchronisieren, um zu verhindern, dass DelvUI Mausereignisse abfängt, während Umbra-Elemente darüber gerendert werden.",
     "CVAR.Toolbar.Enabled.Name": "Symbolleiste aktivieren",
     "CVAR.Toolbar.Enabled.Description": "Ob die Symbolleiste angezeigt werden soll. Verwenden Sie den Befehl \"/umbra\", um das Einstellungsfenster zu öffnen, wenn Sie die Symbolleiste deaktivieren möchten.",
     "CVAR.Toolbar.PopupAlignmentMethod.Name": "Widget-Popup-Ausrichtungsmethode",

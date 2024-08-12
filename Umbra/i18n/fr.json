@@ -242,6 +242,8 @@
     "CVAR.General.ShowMarkersInCombat.Name": "Afficher les marqueurs de monde pendant le combat",
     "CVAR.Window.EnableClipping.Name": "Activer le découpage de la fenêtre",
     "CVAR.Window.EnableClipping.Description": "Permet aux fenêtres d'être rendues derrière les fenêtres natives du jeu. Cela peut entraîner une légère perte de performance et ne pas fonctionner correctement pour toutes les fenêtres natives du jeu. Notez que cette fonctionnalité ne fonctionne pas si la prise en charge multi-moniteur est activée dans les paramètres de Dalamud.",
+    "CVAR.DelvUI.ClipRects.Enabled.Name": "Activer le découpage des fenêtres DelvUI",
+    "CVAR.DelvUI.ClipRects.Enabled.Description": "Permettez à Umbra de synchroniser les positions des fenêtres et des popups de widgets avec le système de découpage des fenêtres de DelvUI pour empêcher DelvUI d'intercepter les événements de la souris lorsque les éléments d'Umbra sont rendus par-dessus eux.",
     "CVAR.Toolbar.Enabled.Name": "Activer la barre d'outils",
     "CVAR.Toolbar.Enabled.Description": "Détermine si la barre d'outils est affichée. Utilisez la commande \"/umbra\" pour ouvrir la fenêtre de configuration si vous souhaitez désactiver la barre d'outils.",
     "CVAR.Toolbar.PopupAlignmentMethod.Name": "Méthode d'alignement des popups de widget",

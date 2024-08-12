@@ -242,6 +242,8 @@
     "CVAR.General.ShowMarkersInCombat.Name": "戦闘中にワールドマーカーを表示する",
     "CVAR.Window.EnableClipping.Name": "ウィンドウのクリッピングを有効にする",
     "CVAR.Window.EnableClipping.Description": "ウィンドウがネイティブのゲームウィンドウの後ろにレンダリングされることを許可します。これにはわずかなパフォーマンスコストがかかる場合があり、すべてのネイティブのゲームウィンドウで正常に機能しない場合があります。この機能は、Dalamud設定でマルチモニターサポートが有効になっている場合に機能しません。",
+    "CVAR.DelvUI.ClipRects.Enabled.Name": "DelvUIウィンドウクリッピングを有効にする",
+    "CVAR.DelvUI.ClipRects.Enabled.Description": "UmbraがDelvUIのウィンドウクリッピングシステムと同期して、Umbraの要素がその上にレンダリングされている間にDelvUIがマウスイベントをインターセプトするのを防ぐようにします。",
     "CVAR.Toolbar.Enabled.Name": "ツールバーを有効にする",
     "CVAR.Toolbar.Enabled.Description": "ツールバーを表示するかどうかを決定します。ツールバーを無効にする場合は、「/umbra」コマンドを使用して設定ウィンドウを開きます。",
     "CVAR.Toolbar.PopupAlignmentMethod.Name": "ウィジェットポップアップ配置方法",

@@ -242,6 +242,8 @@
     "CVAR.General.ShowMarkersInCombat.Name": "Show world markers during combat",
     "CVAR.Window.EnableClipping.Name": "Enable window clipping",
     "CVAR.Window.EnableClipping.Description": "Allows windows to render behind native game windows. This may have a slight performance cost and may not work properly for all native game windows. Note that this feature does not work when Multi-monitor support is enabled in Dalamud settings.",
+    "CVAR.DelvUI.ClipRects.Enabled.Name": "Enable DelvUI window clipping",
+    "CVAR.DelvUI.ClipRects.Enabled.Description": "Let Umbra synchronize positions of windows and widget popups with DelvUI's window clipping system to prevent DelvUI from intercepting mouse events while Umbra's elements are rendered on top of them.",
     "CVAR.Toolbar.Enabled.Name": "Enable the toolbar",
     "CVAR.Toolbar.Enabled.Description": "Whether to display the toolbar. Use the \"/umbra\" command to open the settings window if you decide to disable the toolbar.",
     "CVAR.Toolbar.PopupAlignmentMethod.Name": "Widget popup alignment method",
