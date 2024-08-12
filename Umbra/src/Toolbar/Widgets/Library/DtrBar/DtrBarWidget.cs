@@ -59,7 +59,7 @@ internal sealed partial class DtrBarWidget(
         Node.Style.Gap  = GetConfigValue<int>("ItemSpacing");
         Node.Style.Size = new(0, SafeHeight);
 
-        foreach (Node node in Node.QuerySelectorAll(".dtr-bar-entry")) {
+        foreach ((string id, Node node) in _entries) {
             switch (decorateMode) {
                 case "Always":
                     node.TagsList.Remove("ghost");
@@ -75,13 +75,16 @@ internal sealed partial class DtrBarWidget(
                     break;
             }
 
-            node.QuerySelector("Label")!.Style.TextOffset = new(0, textOffset);
-            node.Style.Size                               = new(0, SafeHeight);
-
+            node.Style.Size = new(0, SafeHeight);
             var labelNode = node.FindById("Label");
+            var entry     = _repository!.Get(id);
+
+            if (entry != null) SetNodeLabel(node, entry);
 
             if (null != labelNode) {
-                labelNode.Style.FontSize = (SafeHeight / 2) - 2;
+                labelNode.Style.MaxWidth   = MaxTextWidth;
+                labelNode.Style.TextOffset = new(0, textOffset);
+                labelNode.Style.FontSize   = GetConfigValue<int>("TextSize");
             }
         }
 
@@ -141,6 +144,11 @@ internal sealed partial class DtrBarWidget(
                     Id          = "Label",
                     NodeValue   = entry.Text,
                     InheritTags = true,
+                    Style = new() {
+                        MaxWidth     = MaxTextWidth,
+                        WordWrap     = false,
+                        TextOverflow = false,
+                    }
                 }
             ]
         };
@@ -182,6 +190,13 @@ internal sealed partial class DtrBarWidget(
 
     private void SetNodeLabel(Node node, DtrBarEntry entry)
     {
-        node.FindById("Label")!.NodeValue = GetConfigValue<bool>("PlainText") ? entry.Text.TextValue : entry.Text;
+        node.FindById("Label")!.NodeValue = GetConfigValue<bool>("PlainText")
+            ? entry.Text.TextValue
+            : entry.Text;
     }
+
+    private int? MaxTextWidth => GetConfigValue<int>("MaxTextWidth") switch {
+        0 => null,
+        _ => GetConfigValue<int>("MaxTextWidth")
+    };
 }

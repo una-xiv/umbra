@@ -56,6 +56,22 @@ internal partial class DtrBarWidget
                 64
             ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             new IntegerWidgetConfigVariable(
+                "MaxTextWidth",
+                I18N.Translate("Widgets.DefaultToolbarWidget.Config.MaxTextWidth.Name"),
+                I18N.Translate("Widgets.DefaultToolbarWidget.Config.MaxTextWidth.Description"),
+                0,
+                0,
+                1000
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            new IntegerWidgetConfigVariable(
+                "TextSize",
+                I18N.Translate("Widgets.DefaultToolbarWidget.Config.TextSize.Name"),
+                I18N.Translate("Widgets.DefaultToolbarWidget.Config.TextSize.Description"),
+                13,
+                8,
+                24
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            new IntegerWidgetConfigVariable(
                 "TextYOffset",
                 I18N.Translate("Widget.DtrBar.Config.TextYOffset.Name"),
                 I18N.Translate("Widget.DtrBar.Config.TextYOffset.Description"),
@@ -63,6 +79,7 @@ internal partial class DtrBarWidget
                 -5,
                 5
             ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+
         ];
     }
 }

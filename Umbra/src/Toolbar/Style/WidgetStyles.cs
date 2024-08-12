@@ -85,7 +85,6 @@ internal class WidgetStyles
             new(
                 "LeftIcon",
                 new() {
-                    Size                = new(20, 20),
                     Anchor              = Anchor.MiddleLeft,
                     IconId              = 62101,
                     ImageRounding       = 3,
@@ -98,7 +97,6 @@ internal class WidgetStyles
             new(
                 "RightIcon",
                 new() {
-                    Size                = new(20, 20),
                     Anchor              = Anchor.MiddleLeft,
                     IconId              = 62101,
                     ImageRounding       = 3,

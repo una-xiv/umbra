@@ -87,6 +87,7 @@ internal partial class DurabilityWidget(
     protected override void OnUpdate()
     {
         SetGhost(!GetConfigValue<bool>("Decorate"));
+        SetIconSize(0);
 
         if (GetConfigValue<bool>("HideWhenOkay")
             && Player.Equipment.LowestDurability > GetConfigValue<int>("WarningThreshold")

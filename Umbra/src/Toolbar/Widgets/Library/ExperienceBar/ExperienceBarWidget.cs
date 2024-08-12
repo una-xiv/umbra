@@ -61,11 +61,11 @@ internal partial class ExperienceBarWidget(
         LeftLabelNode.NodeValue  = GetLevelString();
         RightLabelNode.NodeValue = GetExpString();
 
-        LeftLabelNode.Style.TextOffset     = new(0, GetConfigValue<int>("TextYOffset"));
-        RightLabelNode.Style.TextOffset    = new(0, GetConfigValue<int>("TextYOffset"));
-        SanctuaryIconNode.Style.TextOffset = new(0, GetConfigValue<int>("MoonYOffset"));
-        SyncIconNode.Style.TextOffset      = new(0, GetConfigValue<int>("SyncYOffset"));
-        RightLabelNode.Style.FontSize      = GetConfigValue<bool>("ShowPreciseExperience") ? 11 : 13;
+        LeftLabelNode.Style.TextOffset       = new(0, GetConfigValue<int>("TextYOffset"));
+        RightLabelNode.Style.TextOffset      = new(0, GetConfigValue<int>("TextYOffset"));
+        SanctuaryIconNode.Style.TextOffset   = new(0, GetConfigValue<int>("MoonYOffset"));
+        SyncIconNode.Style.TextOffset        = new(0, GetConfigValue<int>("SyncYOffset"));
+        RightLabelNode.Style.FontSize        = GetConfigValue<bool>("ShowPreciseExperience") ? 11 : 13;
 
         int fullWidth = GetConfigValue<int>("WidgetWidth")
             - 12
@@ -73,7 +73,10 @@ internal partial class ExperienceBarWidget(
 
         int leftWidth = LeftLabelNode.InnerWidth;
 
-        RightLabelNode.Style.Size = new(fullWidth - (int)(leftWidth / Node.ScaleFactor) - 4, SafeHeight);
+        SanctuaryIconNode.Style.Size = new(0, SafeHeight);
+        SyncIconNode.Style.Size      = new(0, SafeHeight);
+        LeftLabelNode.Style.Size     = new(0, SafeHeight);
+        RightLabelNode.Style.Size    = new(fullWidth - (int)(leftWidth / Node.ScaleFactor) - 4, SafeHeight);
 
         UpdateVisualBars();
     }
@@ -90,7 +93,7 @@ internal partial class ExperienceBarWidget(
 
     private string GetExpString()
     {
-        if (!GetConfigValue<bool>("ShowExperience")) return "";
+        if (!GetConfigValue<bool>("ShowExperience") || Player.IsMaxLevel) return "";
 
         if (GetConfigValue<bool>("ShowPreciseExperience")) {
             return GetPreciseExperienceString(false);

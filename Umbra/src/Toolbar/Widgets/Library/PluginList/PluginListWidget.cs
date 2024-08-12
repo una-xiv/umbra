@@ -30,7 +30,7 @@ internal sealed partial class PluginListWidget(
     WidgetInfo                  info,
     string?                     guid         = null,
     Dictionary<string, object>? configValues = null
-) : DefaultToolbarWidget(info, guid, configValues)
+) : IconToolbarWidget(info, guid, configValues)
 {
     public override MenuPopup Popup { get; } = new();
 
@@ -39,16 +39,12 @@ internal sealed partial class PluginListWidget(
     /// <inheritdoc/>
     protected override void Initialize()
     {
-        LabelNode.Style.Font       = 2; // Icons.
-        LabelNode.Style.TextOffset = new(0, -1);
-
         Popup.OnPopupOpen  += UpdatePluginList;
         Popup.OnPopupClose += ClearPluginList;
 
         Node.OnRightClick += _ => Framework.Service<IChatSender>().Send("/xlplugins");
 
-        SetLabelWidth(26);
-        SetLabel(FontAwesomeIcon.Plug.ToIconString());
+        SetIcon(FontAwesomeIcon.Plug);
     }
 
     /// <inheritdoc/>
@@ -63,9 +59,9 @@ internal sealed partial class PluginListWidget(
     {
         SetGhost(!GetConfigValue<bool>("Decorate"));
 
-        Node.Style.Padding                            = new(0, 2);
-        Node.QuerySelector("Label")!.Style.Font       = 2;
-        Node.QuerySelector("Label")!.Style.TextOffset = new(0, GetConfigValue<int>("IconYOffset"));
+        // Node.Style.Padding                            = new(0, 2);
+        // Node.QuerySelector("Label")!.Style.Font       = 2;
+        // Node.QuerySelector("Label")!.Style.TextOffset = new(0, GetConfigValue<int>("IconYOffset"));
         Node.Tooltip = GetConfigValue<bool>("ShowTooltip") ? I18N.Translate("Widget.PluginList.Tooltip") : null;
     }
 
