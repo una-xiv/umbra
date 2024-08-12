@@ -24,15 +24,16 @@ namespace Umbra.Windows.Settings;
 
 internal partial class SettingsWindow : Window
 {
-    protected override Vector2 MinSize     { get; } = new(1100, 600);
-    protected override Vector2 MaxSize     { get; } = new(1600, 1200);
-    protected override Vector2 DefaultSize { get; } = new(1100, 600);
+    protected override Vector2 MinSize     { get; } = new(1100, 680);
+    protected override Vector2 MaxSize     { get; } = new(1600, 1300);
+    protected override Vector2 DefaultSize { get; } = new(1100, 680);
     protected override string  Title       => I18N.Translate("Settings.Window.Title");
 
     /// <inheritdoc/>
     protected override void OnOpen()
     {
         AddModule(new WidgetsModule());
+        AddModule(new AuxWidgetsModule());
         AddModule(new MarkersModule());
 
         foreach (string category in ConfigManager.GetCategories()) {

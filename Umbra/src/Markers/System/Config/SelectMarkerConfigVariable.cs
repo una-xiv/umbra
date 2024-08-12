@@ -19,7 +19,7 @@ using Umbra.Common;
 
 namespace Umbra.Markers;
 
-internal class SelectMarkerConfigVariable(
+public class SelectMarkerConfigVariable(
     string                     id,
     string                     name,
     string?                    description,

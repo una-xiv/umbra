@@ -16,6 +16,8 @@
 
 using System;
 using ImGuiNET;
+using System.Linq;
+using System.Numerics;
 using Umbra.Style;
 using Una.Drawing;
 
@@ -51,12 +53,77 @@ internal partial class Toolbar
         ]
     };
 
+    private readonly Node _auxBarNode = new() {
+        Stylesheet = ToolbarStyles.ToolbarStylesheet,
+        Id         = "AuxBar",
+        TagsList   = ["aux", "floating"],
+        Style      = new() { Size = new(0, Height) },
+        ChildNodes = [
+            new() {
+                Id = "aux",
+                Style = new() {
+                    Anchor = Anchor.TopLeft,
+                    Size   = new(0, Height),
+                    Gap    = ItemSpacing,
+                }
+            }
+        ],
+    };
+
     public Node GetPanel(string id) =>
-        _toolbarNode.FindById(id) ?? throw new InvalidOperationException($"Panel '{id}' not found.");
+        id == "aux"
+            ? _auxBarNode.FindById("aux")!
+            : _toolbarNode.FindById(id)
+            ?? throw new InvalidOperationException($"Panel '{id}' not found.");
 
     public Node LeftPanel   => GetPanel("Left");
     public Node CenterPanel => GetPanel("Center");
     public Node RightPanel  => GetPanel("Right");
+
+    private void RenderAuxBarNode()
+    {
+        if (!AuxBarEnabled) return;
+        if (_auxBarNode.FindById("aux")!.ChildNodes.Count == 0) return;
+
+        switch (AuxBarXAlign) {
+            case "Center" when !_auxBarNode.ClassList.Contains("center-aligned"):
+                _auxBarNode.ClassList.Remove("left-aligned");
+                _auxBarNode.ClassList.Remove("right-aligned");
+                _auxBarNode.ClassList.Add("center-aligned");
+                break;
+            case "Left" when !_auxBarNode.ClassList.Contains("left-aligned"):
+                _auxBarNode.ClassList.Remove("center-aligned");
+                _auxBarNode.ClassList.Remove("right-aligned");
+                _auxBarNode.ClassList.Add("left-aligned");
+                break;
+            case "Right" when !_auxBarNode.ClassList.Contains("right-aligned"):
+                _auxBarNode.ClassList.Remove("center-aligned");
+                _auxBarNode.ClassList.Remove("left-aligned");
+                _auxBarNode.ClassList.Add("right-aligned");
+                break;
+        }
+
+        Vector2 workPos = ImGui.GetMainViewport().WorkPos;
+
+        if (!_auxBarNode.ClassList.Contains("toolbar") && AuxBarDecorate) {
+            _auxBarNode.ClassList.Add("toolbar");
+        } else if (_auxBarNode.ClassList.Contains("toolbar") && !AuxBarDecorate) {
+            _auxBarNode.ClassList.Remove("toolbar");
+        }
+
+        int xPos = AuxBarXAlign switch {
+            "Center" => ToolbarXPosition + AuxBarXPos,
+            "Left"   => AuxBarXPos,
+            "Right"  => (int)(ImGui.GetMainViewport().WorkPos.X + ImGui.GetMainViewport().WorkSize.X - AuxBarXPos),
+            _        => AuxBarXPos,
+        };
+
+        _auxBarNode.Style.ShadowSize = AuxEnableShadow ? new(64) : new(0);
+        _auxBarNode.Render(
+            ImGui.GetBackgroundDrawList(),
+            new(xPos, (int)workPos.Y + AuxBarYPos)
+        );
+    }
 
     /// <summary>
     /// Renders the toolbar.

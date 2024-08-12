@@ -60,9 +60,11 @@ internal partial class ExperienceBarWidget(
         LeftLabelNode.NodeValue  = GetLevelString();
         RightLabelNode.NodeValue = GetExpString();
 
-        LeftLabelNode.Style.TextOffset  = new(0, GetConfigValue<int>("TextYOffset"));
-        RightLabelNode.Style.TextOffset = new(0, GetConfigValue<int>("TextYOffset"));
-        RightLabelNode.Style.FontSize   = GetConfigValue<bool>("ShowPreciseExperience") ? 11 : 13;
+        LeftLabelNode.Style.TextOffset     = new(0, GetConfigValue<int>("TextYOffset"));
+        RightLabelNode.Style.TextOffset    = new(0, GetConfigValue<int>("TextYOffset"));
+        SanctuaryIconNode.Style.TextOffset = new(0, GetConfigValue<int>("MoonYOffset"));
+        SyncIconNode.Style.TextOffset      = new(0, GetConfigValue<int>("SyncYOffset"));
+        RightLabelNode.Style.FontSize      = GetConfigValue<bool>("ShowPreciseExperience") ? 11 : 13;
 
         int fullWidth = GetConfigValue<int>("WidgetWidth")
             - 12
@@ -106,7 +108,11 @@ internal partial class ExperienceBarWidget(
         int  maxWidth    = barWidth - 8;
         int  normalWidth = (int)(maxWidth * (Player.CurrentExperience / (float)(Player.TotalRequiredExperience)));
         uint restedXp    = Math.Min(Player.RestedExperience, Player.TotalRequiredExperience);
-        int  restedWidth = Math.Min(maxWidth - normalWidth, (int)(maxWidth * (restedXp / (float)(Player.TotalRequiredExperience))));
+
+        int restedWidth = Math.Min(
+            maxWidth - normalWidth,
+            (int)(maxWidth * (restedXp / (float)(Player.TotalRequiredExperience)))
+        );
 
         Node.Style.Size = new(barWidth, SafeHeight);
 

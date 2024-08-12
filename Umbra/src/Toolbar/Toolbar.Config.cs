@@ -61,4 +61,22 @@ internal partial class Toolbar
 
     [ConfigVariable("Toolbar.YOffset", "General", "Toolbar", min: -16384, max: 16384)]
     private static int YOffset { get; set; } = 0;
+
+    [ConfigVariable("Toolbar.AuxBar.Enabled")]
+    public static bool AuxBarEnabled { get; set; } = false;
+
+    [ConfigVariable("Toolbar.AuxBar.Decorate")]
+    public static bool AuxBarDecorate { get; set; } = true;
+
+    [ConfigVariable("Toolbar.AuxBar.XPos", min: -10000, max: 10000)]
+    public static int AuxBarXPos { get; set; } = 0;
+
+    [ConfigVariable("Toolbar.AuxBar.YPos", min: -10000, max: 10000)]
+    public static int AuxBarYPos { get; set; } = 0;
+
+    [ConfigVariable("Toolbar.AuxBar.XAlign", options: ["Left", "Center", "Right"])]
+    public static string AuxBarXAlign { get; set; } = "Center";
+
+    [ConfigVariable("Toolbar.AuxBar.EnableShadow")]
+    public static bool AuxEnableShadow { get; set; } = true;
 }

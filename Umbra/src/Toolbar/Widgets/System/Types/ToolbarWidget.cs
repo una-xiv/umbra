@@ -32,7 +32,12 @@ public abstract class ToolbarWidget(
     Dictionary<string, object>? configValues = null
 ) : IDisposable
 {
-    [ConfigVariable("Toolbar.PopupActivationMethod", "General", "Toolbar", options: ["ClickAndHover", "Click", "Hover"])]
+    [ConfigVariable(
+        "Toolbar.PopupActivationMethod",
+        "General",
+        "Toolbar",
+        options: ["ClickAndHover", "Click", "Hover"]
+    )]
     private static string PopupActivationMethod { get; set; } = "ClickAndHover";
 
     internal event Action<IWidgetConfigVariable>?      OnConfigValueChanged;
@@ -83,7 +88,7 @@ public abstract class ToolbarWidget(
 
     public void Setup()
     {
-        foreach (var cfg in GetConfigVariables()) {
+        foreach (var cfg in GetConfigVariablesInternal()) {
             _configVariables[cfg.Id] = cfg;
 
             if (cfg is IUntypedWidgetConfigVariable u) {
@@ -151,8 +156,10 @@ public abstract class ToolbarWidget(
 
     public void Update()
     {
-        Node.SortIndex = SortIndex;
-        OnUpdate();
+        Node.Style.IsVisible = IsEnabled;
+        Node.SortIndex       = SortIndex;
+
+        if (IsEnabled) OnUpdate();
     }
 
     /// <summary>
@@ -246,6 +253,12 @@ public abstract class ToolbarWidget(
         return _configVariables.ContainsKey(name);
     }
 
+    /// <summary>
+    /// Returns true if this widget is currently enabled.
+    /// </summary>
+    /// <returns></returns>
+    public bool IsEnabled => !HasConfigVariable("_Enabled") || GetConfigValue<bool>("_Enabled");
+
     public void SetConfigValue<T>(string name, T value)
     {
         if (!_configVariables.TryGetValue(name, out var cfg)) {
@@ -326,5 +339,18 @@ public abstract class ToolbarWidget(
     protected void OpenSettingsWindow()
     {
         Framework.Service<WidgetManager>().OpenWidgetSettingsWindow(this);
+    }
+
+    private IEnumerable<IWidgetConfigVariable> GetConfigVariablesInternal()
+    {
+        return [
+            new BooleanWidgetConfigVariable(
+                "_Enabled",
+                I18N.Translate("Widget.Defaults.Enabled.Name"),
+                I18N.Translate("Widget.Defaults.Enabled.Description"),
+                true
+            ),
+            ..GetConfigVariables(),
+        ];
     }
 }

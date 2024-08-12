@@ -14,10 +14,10 @@
  *     GNU Affero General Public License for more details.
  */
 
-using System;
-using System.Linq;
 using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.Plugin.Services;
+using System;
+using System.Linq;
 using Umbra.Common;
 using Umbra.Widgets.System;
 using Umbra.Windows;

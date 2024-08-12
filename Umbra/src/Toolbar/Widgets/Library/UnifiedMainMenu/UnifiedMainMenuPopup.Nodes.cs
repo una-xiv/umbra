@@ -229,7 +229,7 @@ internal sealed partial class UnifiedMainMenuPopup
                 .Max();
         }
 
-        HeaderNode.Style.Size     = new((cw + ew) - 4, 48);
+        HeaderNode.Style.Size     = new((cw + ew) - 4, 64);
         CategoriesNode.Style.Size = new(cw, h);
         EntriesNode.Style.Size    = new(ew, h);
         PinnedListNode.Style.Size = new(cw, 0);

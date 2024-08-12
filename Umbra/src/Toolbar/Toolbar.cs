@@ -30,7 +30,8 @@ internal partial class Toolbar(IPlayer player, UmbraVisibility visibility)
         UpdateToolbarWidth();
         UpdateToolbarNodeClassList();
         UpdateToolbarAutoHideOffset();
-
         RenderToolbarNode();
+
+        RenderAuxBarNode();
     }
 }
