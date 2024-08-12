@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Dalamud.Interface;
+using Umbra.Common;
 using Umbra.Style;
 using Umbra.Widgets.System;
 using Una.Drawing;
@@ -59,4 +60,29 @@ internal abstract class IconToolbarWidget(
     {
         Node.QuerySelector("#Icon")!.Style.TextOffset = new(0, offset);
     }
+
+    protected override void OnUpdate()
+    {
+        SetIconYOffset(GetConfigValue<int>("IconYOffset"));
+        SetGhost(!GetConfigValue<bool>("Decorate"));
+    }
+
+    protected Node IconNode => Node.FindById("Icon")!;
+
+    protected IEnumerable<IWidgetConfigVariable> DefaultIconToolbarWidgetConfigVariables => [
+        new BooleanWidgetConfigVariable(
+            "Decorate",
+            I18N.Translate("Widgets.IconButtonWidget.Config.Decorate.Name"),
+            I18N.Translate("Widgets.IconButtonWidget.Config.Decorate.Description"),
+            true
+        ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+        new IntegerWidgetConfigVariable(
+            "IconYOffset",
+            I18N.Translate("Widgets.IconButtonWidget.Config.IconYOffset.Name"),
+            I18N.Translate("Widgets.IconButtonWidget.Config.IconYOffset.Description"),
+            -1,
+            -5,
+            5
+        ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+    ];
 }

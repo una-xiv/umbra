@@ -42,12 +42,12 @@ internal partial class MailIndicatorWidget(
     {
         uint unreadMailCount = GetUnreadMailCount();
 
-        SetIconYOffset(GetConfigValue<int>("IconYOffset"));
-        SetGhost(!GetConfigValue<bool>("Decorate"));
         SetDisabled(unreadMailCount == 0);
 
         Node.Tooltip         = I18N.Translate($"Widget.MailIndicator.Tooltip.{(unreadMailCount == 1 ? "Singular" : "Plural")}", unreadMailCount.ToString());
         Node.Style.IsVisible = GetConfigValue<bool>("AlwaysShow") || (unreadMailCount > 0);
+
+        base.OnUpdate();
     }
 
     /// <inheritdoc/>
@@ -60,20 +60,7 @@ internal partial class MailIndicatorWidget(
                 I18N.Translate("Widget.MailIndicator.Config.AlwaysShow.Description"),
                 false
             ),
-            new BooleanWidgetConfigVariable(
-                "Decorate",
-                I18N.Translate("Widget.MailIndicator.Config.Decorate.Name"),
-                I18N.Translate("Widget.MailIndicator.Config.Decorate.Description"),
-                true
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
-            new IntegerWidgetConfigVariable(
-                "IconYOffset",
-                I18N.Translate("Widget.MailIndicator.Config.IconYOffset.Name"),
-                I18N.Translate("Widget.MailIndicator.Config.IconYOffset.Description"),
-                -1,
-                -5,
-                5
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            ..DefaultIconToolbarWidgetConfigVariables,
         ];
     }
 }
