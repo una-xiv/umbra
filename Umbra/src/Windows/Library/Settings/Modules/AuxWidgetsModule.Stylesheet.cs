@@ -9,9 +9,14 @@ internal partial class AuxWidgetsModule
             new(
                 "#AuxSettingsPanel",
                 new() {
-                    Flow    = Flow.Vertical,
                     Padding = new(8),
-                    Gap     = 16,
+                }
+            ),
+            new(
+                "#AuxSettingsList",
+                new() {
+                    Flow = Flow.Vertical,
+                    Gap  = 16,
                 }
             ),
             new(

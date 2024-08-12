@@ -29,49 +29,56 @@ internal partial class AuxWidgetsModule
                     new() {
                         Id         = "AuxSettingsPanel",
                         Stylesheet = Stylesheet,
+                        Overflow   = false,
                         ChildNodes = [
-                            new CheckboxNode(
-                                "AuxEnabled",
-                                Toolbar.AuxBarEnabled,
-                                I18N.Translate("Settings.AuxWidgetsModule.Config.Enabled.Name"),
-                                I18N.Translate("Settings.AuxWidgetsModule.Config.Enabled.Description")
-                            ),
-                            new() { ClassList = ["separator"] },
-                            new CheckboxNode(
-                                "AuxDecorate",
-                                Toolbar.AuxBarDecorate,
-                                I18N.Translate("Settings.AuxWidgetsModule.Config.Decorate.Name"),
-                                I18N.Translate("Settings.AuxWidgetsModule.Config.Decorate.Description")
-                            ),
-                            new CheckboxNode(
-                                "AuxShadow",
-                                Toolbar.AuxEnableShadow,
-                                I18N.Translate("Settings.AuxWidgetsModule.Config.EnableShadow.Name"),
-                                I18N.Translate("Settings.AuxWidgetsModule.Config.EnableShadow.Description")
-                            ),
-                            new SelectNode(
-                                "AuxXAlign",
-                                Toolbar.AuxBarXAlign,
-                                ["Left", "Center", "Right"],
-                                I18N.Translate("Settings.AuxWidgetsModule.Config.XAlign.Name"),
-                                I18N.Translate("Settings.AuxWidgetsModule.Config.XAlign.Description")
-                            ),
-                            new IntegerInputNode(
-                                "AuxXPosition",
-                                0,
-                                -10000,
-                                10000,
-                                I18N.Translate("Settings.AuxWidgetsModule.Config.XPosition.Name"),
-                                I18N.Translate("Settings.AuxWidgetsModule.Config.XPosition.Description")
-                            ),
-                            new IntegerInputNode(
-                                "AuxYPosition",
-                                0,
-                                -10000,
-                                10000,
-                                I18N.Translate("Settings.AuxWidgetsModule.Config.YPosition.Name"),
-                                I18N.Translate("Settings.AuxWidgetsModule.Config.YPosition.Description")
-                            )
+                            new() {
+                                Id         = "AuxSettingsList",
+                                ChildNodes = [
+                                    new CheckboxNode(
+                                        "AuxEnabled",
+                                        Toolbar.AuxBarEnabled,
+                                        I18N.Translate("Settings.AuxWidgetsModule.Config.Enabled.Name"),
+                                        I18N.Translate("Settings.AuxWidgetsModule.Config.Enabled.Description")
+                                    ),
+                                    new() { ClassList = ["separator"] },
+                                    new CheckboxNode(
+                                        "AuxDecorate",
+                                        Toolbar.AuxBarDecorate,
+                                        I18N.Translate("Settings.AuxWidgetsModule.Config.Decorate.Name"),
+                                        I18N.Translate("Settings.AuxWidgetsModule.Config.Decorate.Description")
+                                    ),
+                                    new CheckboxNode(
+                                        "AuxShadow",
+                                        Toolbar.AuxEnableShadow,
+                                        I18N.Translate("Settings.AuxWidgetsModule.Config.EnableShadow.Name"),
+                                        I18N.Translate("Settings.AuxWidgetsModule.Config.EnableShadow.Description")
+                                    ),
+                                    new SelectNode(
+                                        "AuxXAlign",
+                                        Toolbar.AuxBarXAlign,
+                                        ["Left", "Center", "Right"],
+                                        I18N.Translate("Settings.AuxWidgetsModule.Config.XAlign.Name"),
+                                        I18N.Translate("Settings.AuxWidgetsModule.Config.XAlign.Description")
+                                    ),
+                                    new IntegerInputNode(
+                                        "AuxXPosition",
+                                        0,
+                                        -10000,
+                                        10000,
+                                        I18N.Translate("Settings.AuxWidgetsModule.Config.XPosition.Name"),
+                                        I18N.Translate("Settings.AuxWidgetsModule.Config.XPosition.Description")
+                                    ),
+                                    new IntegerInputNode(
+                                        "AuxYPosition",
+                                        0,
+                                        -10000,
+                                        10000,
+                                        I18N.Translate("Settings.AuxWidgetsModule.Config.YPosition.Name"),
+                                        I18N.Translate("Settings.AuxWidgetsModule.Config.YPosition.Description")
+                                    ),
+                                    new() { ClassList = ["separator"] },
+                                ]
+                            },
                         ]
                     },
                     new() {
@@ -118,6 +125,7 @@ internal partial class AuxWidgetsModule
 
         Node.QuerySelector(".module-header")!.Style.Size    = new(size.Width - 30, 0);
         Node.QuerySelector("#AuxSettingsPanel")!.Style.Size = new(colSize * 2, size.Height - 88);
+        Node.QuerySelector("#AuxSettingsList")!.Style.Size   = new((colSize * 2) - 8, 0);
 
         foreach (var separator in Node.QuerySelectorAll(".separator")) {
             separator.Style.Size = new(colSize * 2, 1);
