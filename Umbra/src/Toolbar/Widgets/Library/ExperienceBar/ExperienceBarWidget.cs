@@ -18,6 +18,7 @@ using System;
 using System.Collections.Generic;
 using Umbra.Common;
 using Umbra.Game;
+using Una.Drawing;
 
 namespace Umbra.Widgets;
 
@@ -72,7 +73,7 @@ internal partial class ExperienceBarWidget(
 
         int leftWidth = LeftLabelNode.InnerWidth;
 
-        RightLabelNode.Style.Size = new(fullWidth - (int)(leftWidth / Una.Drawing.Node.ScaleFactor) - 4, SafeHeight);
+        RightLabelNode.Style.Size = new(fullWidth - (int)(leftWidth / Node.ScaleFactor) - 4, SafeHeight);
 
         UpdateVisualBars();
     }
@@ -92,7 +93,7 @@ internal partial class ExperienceBarWidget(
         if (!GetConfigValue<bool>("ShowExperience")) return "";
 
         if (GetConfigValue<bool>("ShowPreciseExperience")) {
-            return GetPreciseExperienceString();
+            return GetPreciseExperienceString(false);
         }
 
         var xpPercent = Player.CurrentExperience / (float)Player.TotalRequiredExperience * 100;
@@ -117,22 +118,23 @@ internal partial class ExperienceBarWidget(
         Node.Style.Size = new(barWidth, SafeHeight);
 
         if (hasNormal) {
-            NormalXpBarNode.Style.Size      = new(normalWidth, SafeHeight - 8);
-            NormalXpBarNode.Style.IsVisible = true;
-            RestedXpBarNode.TagsList.Add("has-normal-xp");
+            NormalXpBarNode.Style.IsVisible      = true;
+            NormalXpBarNode.Style.Size           = new(normalWidth, SafeHeight - 8);
+            RestedXpBarNode.Style.RoundedCorners = RoundedCorners.TopRight | RoundedCorners.BottomRight;
         } else {
-            NormalXpBarNode.Style.IsVisible = false;
-            RestedXpBarNode.TagsList.Remove("has-normal-xp");
+            NormalXpBarNode.Style.IsVisible      = false;
+            RestedXpBarNode.Style.RoundedCorners = null;
         }
 
         if (!hasRested) {
-            RestedXpBarNode.Style.IsVisible = false;
-            NormalXpBarNode.TagsList.Remove("has-rested-xp");
+            RestedXpBarNode.Style.IsVisible      = false;
+            NormalXpBarNode.Style.RoundedCorners = null;
             return;
         }
 
-        NormalXpBarNode.TagsList.Add("has-rested-xp");
-        RestedXpBarNode.Style.Size = new(restedWidth, SafeHeight - 8);
+        RestedXpBarNode.Style.IsVisible      = true;
+        RestedXpBarNode.Style.Size           = new(restedWidth, SafeHeight - 8);
+        NormalXpBarNode.Style.RoundedCorners = RoundedCorners.TopLeft | RoundedCorners.BottomLeft;
     }
 
     private string? GetTooltipText()
@@ -140,12 +142,15 @@ internal partial class ExperienceBarWidget(
         return Player.IsMaxLevel ? null : $"{I18N.Translate("Experience")}: {GetPreciseExperienceString()}";
     }
 
-    private string GetPreciseExperienceString()
+    private string GetPreciseExperienceString(bool includeRested = true)
     {
         string currentXpStr = Player.CurrentExperience.ToString("N0");
         string neededXpStr  = Player.TotalRequiredExperience.ToString("N0");
         string restedXpStr  = Player.RestedExperience.ToString("N0");
-        string restedStr    = Player.RestedExperience > 0 ? $" - {I18N.Translate("Rested")}: {restedXpStr}" : "";
+
+        string restedStr = includeRested && Player.RestedExperience > 0
+            ? $" - {I18N.Translate("Rested")}: {restedXpStr}"
+            : "";
 
         return $"{currentXpStr} / {neededXpStr}{restedStr}";
     }

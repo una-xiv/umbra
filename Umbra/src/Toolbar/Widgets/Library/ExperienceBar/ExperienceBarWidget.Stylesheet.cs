@@ -121,19 +121,7 @@ internal partial class ExperienceBarWidget : ToolbarWidget
                     Anchor          = Anchor.MiddleLeft,
                     BackgroundColor = new("Misc.ExperienceBarRested"),
                 }
-            ),
-            new(
-                ".bar.normal:has-rested-xp",
-                new() {
-                    RoundedCorners = RoundedCorners.TopLeft | RoundedCorners.BottomLeft,
-                }
-            ),
-            new(
-                ".bar.rested:has-normal-xp",
-                new() {
-                    RoundedCorners = RoundedCorners.TopRight | RoundedCorners.BottomRight,
-                }
-            ),
+            )
         ]
     );
 }
