@@ -30,36 +30,8 @@ internal partial class WorldNameWidget
                 I18N.Translate("Widget.WorldName.Config.HideOnHomeWorld.Description"),
                 false
             ),
-            new BooleanWidgetConfigVariable(
-                "Decorate",
-                I18N.Translate("Widget.WorldName.Config.Decorate.Name"),
-                I18N.Translate("Widget.WorldName.Config.Decorate.Description"),
-                true
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
-            new BooleanWidgetConfigVariable(
-                "ShowIcon",
-                I18N.Translate("Widget.WorldName.Config.ShowIcon.Name"),
-                I18N.Translate("Widget.WorldName.Config.ShowIcon.Description"),
-                true
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
-            new SelectWidgetConfigVariable(
-                "IconLocation",
-                I18N.Translate("Widget.WorldName.Config.IconLocation.Name"),
-                I18N.Translate("Widget.WorldName.Config.IconLocation.Description"),
-                "Left",
-                new() {
-                    { "Left", I18N.Translate("Widget.WorldName.Config.IconLocation.Option.Left") },
-                    { "Right", I18N.Translate("Widget.WorldName.Config.IconLocation.Option.Right") },
-                }
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
-            new IntegerWidgetConfigVariable(
-                "TextYOffset",
-                I18N.Translate("Widget.WorldName.Config.TextYOffset.Name"),
-                I18N.Translate("Widget.WorldName.Config.TextYOffset.Description"),
-                0,
-                -5,
-                5
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            ..DefaultToolbarWidgetConfigVariables,
+            ..SingleLabelTextOffsetVariables,
         ];
     }
 }

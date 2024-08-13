@@ -31,13 +31,7 @@ internal partial class WorldNameWidget(
     /// <inheritdoc/>
     public override WidgetPopup? Popup => null;
 
-    private IPlayer?  _player;
-    private string?   _currentWorldName;
-    private bool?     _hideOnHomeWorld;
-    private bool?     _decorate;
-    private int?      _textYOffset;
-    private bool?     _showIcon;
-    private string?   _iconLocation;
+    private IPlayer _player = Framework.Service<IPlayer>();
 
     /// <inheritdoc/>
     protected override void Initialize()
@@ -48,43 +42,32 @@ internal partial class WorldNameWidget(
     /// <inheritdoc/>
     protected override void OnUpdate()
     {
-        var hideOnHomeWorld = GetConfigValue<bool>("HideOnHomeWorld");
-        var decorate        = GetConfigValue<bool>("Decorate");
-        var textYOffset     = GetConfigValue<int>("TextYOffset");
-        var showIcon        = GetConfigValue<bool>("ShowIcon");
-        var iconLocation    = GetConfigValue<string>("IconLocation");
+        var  hideOnHomeWorld = GetConfigValue<bool>("HideOnHomeWorld");
+        var  decorate        = GetConfigValue<bool>("Decorate");
+        var  textYOffset     = GetConfigValue<int>("TextYOffset");
+        var  iconLocation    = GetConfigValue<string>("IconLocation");
+        bool showIcon        = GetConfigValue<string>("DisplayMode") != "TextOnly";
+        bool isVisible       = !hideOnHomeWorld || _player.CurrentWorldName != _player.HomeWorldName;
 
-        if (hideOnHomeWorld == _hideOnHomeWorld
-            && decorate == _decorate
-            && textYOffset == _textYOffset
-            && showIcon == _showIcon
-            && iconLocation == _iconLocation
-            && _currentWorldName == _player?.CurrentWorldName)
-            return;
+        Node.Style.IsVisible = isVisible;
 
-        _hideOnHomeWorld  = hideOnHomeWorld;
-        _decorate         = decorate;
-        _textYOffset      = textYOffset;
-        _showIcon         = showIcon;
-        _iconLocation     = iconLocation;
-        _currentWorldName = _player?.CurrentWorldName;
+        if (isVisible) {
+            SeStringBuilder str = new SeStringBuilder();
 
-        Node.Style.IsVisible = !hideOnHomeWorld || _currentWorldName != _player?.HomeWorldName;
+            if (iconLocation == "Left" && showIcon && _player.CurrentWorldName != _player.HomeWorldName) {
+                str.AddIcon(BitmapFontIcon.CrossWorld);
+            }
 
-        SeStringBuilder str = new SeStringBuilder();
+            str.AddText(_player.CurrentWorldName);
 
-        if (iconLocation == "Left" && showIcon && _currentWorldName != _player?.HomeWorldName) {
-            str.AddIcon(BitmapFontIcon.CrossWorld);
+            if (iconLocation == "Right" && showIcon && _player.CurrentWorldName != _player.HomeWorldName) {
+                str.AddIcon(BitmapFontIcon.CrossWorld);
+            }
+
+            SetLabel(str.Build());
+            SetGhost(!decorate);
         }
 
-        str.AddText(_currentWorldName ?? "Unknown World");
-
-        if (iconLocation == "Right" && showIcon && _currentWorldName != _player?.HomeWorldName) {
-            str.AddIcon(BitmapFontIcon.CrossWorld);
-        }
-
-        Node.QuerySelector("Label")!.Style.TextOffset = new(0, textYOffset + 1);
-        SetLabel(str.Build());
-        SetGhost(!decorate);
+        base.OnUpdate();
     }
 }
