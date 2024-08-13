@@ -190,7 +190,10 @@ internal sealed partial class DtrBarWidget(
 
     private void SetNodeLabel(Node node, DtrBarEntry entry)
     {
-        node.FindById("Label")!.NodeValue = GetConfigValue<bool>("PlainText")
+        var labelNode = node.FindById("Label");
+        if (labelNode == null) return;
+
+        labelNode.NodeValue = GetConfigValue<bool>("PlainText")
             ? entry.Text.TextValue
             : entry.Text;
     }
