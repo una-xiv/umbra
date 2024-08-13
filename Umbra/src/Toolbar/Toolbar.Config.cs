@@ -79,4 +79,25 @@ internal partial class Toolbar
 
     [ConfigVariable("Toolbar.AuxBar.EnableShadow")]
     public static bool AuxEnableShadow { get; set; } = true;
+
+    [ConfigVariable("Toolbar.AuxBar.IsConditionallyVisible")]
+    public static bool AuxBarIsConditionallyVisible { get; set; } = false;
+
+    [ConfigVariable("Toolbar.AuxBar.HoldKey")]
+    public static string AuxBarHoldKey { get; set; } = "None";
+
+    [ConfigVariable("Toolbar.AuxBar.ShowInCutscene")]
+    public static bool AuxBarShowInCutscene { get; set; } = true;
+
+    [ConfigVariable("Toolbar.AuxBar.ShowInGPose")]
+    public static bool AuxBarShowInGPose { get; set; } = true;
+
+    [ConfigVariable("Toolbar.AuxBar.ShowInInstance")]
+    public static bool AuxBarShowInInstance { get; set; } = true;
+
+    [ConfigVariable("Toolbar.AuxBar.ShowInCombat")]
+    public static bool AuxBarShowInCombat { get; set; } = true;
+
+    [ConfigVariable("Toolbar.AuxBar.ShowUnsheathed")]
+    public static bool AuxBarShowUnsheathed { get; set; } = true;
 }

@@ -14,13 +14,14 @@
  *     GNU Affero General Public License for more details.
  */
 
+using Dalamud.Plugin.Services;
 using Umbra.Common;
 using Umbra.Game;
 
 namespace Umbra;
 
 [Service]
-internal partial class Toolbar(IPlayer player, UmbraVisibility visibility)
+internal partial class Toolbar(IPlayer player, UmbraVisibility visibility, IKeyState keyState)
 {
     [OnDraw(executionOrder: int.MaxValue)]
     private void DrawToolbar()

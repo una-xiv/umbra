@@ -28,6 +28,11 @@ internal partial class WidgetManager
     private ToolbarWidget? _currentActivator;
 
     /// <summary>
+    /// True if a popup is currently open.
+    /// </summary>
+    public bool HasOpenPopup => _currentPopup != null;
+
+    /// <summary>
     /// Opens the given popup attached to the specified activator.
     /// </summary>
     private void OpenPopup(ToolbarWidget activator, WidgetPopup popup)

@@ -32,7 +32,10 @@ internal sealed class ZoneFactory(
 {
     private readonly Dictionary<uint, Zone> _zoneCache = [];
 
-    public void Dispose() { }
+    public void Dispose()
+    {
+        _zoneCache.Clear();
+    }
 
     public Zone GetZone(uint zoneId)
     {

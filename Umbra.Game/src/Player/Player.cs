@@ -19,6 +19,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using Dalamud.Game.ClientState.Conditions;
+using Dalamud.Game.ClientState.Objects.Enums;
 using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.Game.Group;
@@ -190,6 +191,11 @@ internal sealed class Player : IPlayer
     public bool IsInSanctuary { get; private set; }
 
     /// <summary>
+    /// True if the player has their weapon drawn.
+    /// </summary>
+    public bool IsWeaponDrawn { get; private set; }
+
+    /// <summary>
     /// The player's current job level.
     /// </summary>
     public short Level { get; private set; }
@@ -302,6 +308,8 @@ internal sealed class Player : IPlayer
 
         IsJumping = _condition[ConditionFlag.Jumping] || _condition[ConditionFlag.Jumping61];
         IsDiving  = _condition[ConditionFlag.Diving];
+
+        IsWeaponDrawn = _clientState.LocalPlayer.StatusFlags.HasFlag(StatusFlags.WeaponOut);
 
         IsBoundByDuty = _condition[ConditionFlag.BoundByDuty]
             || _condition[ConditionFlag.BoundByDuty56]

@@ -240,6 +240,11 @@ public interface IPlayer
     public bool IsInSanctuary { get; }
 
     /// <summary>
+    /// True if the player has their weapon drawn.
+    /// </summary>
+    public bool IsWeaponDrawn { get; }
+
+    /// <summary>
     /// The player's current job (unsynced) level.
     /// </summary>
     public short Level { get; }

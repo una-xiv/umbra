@@ -32,7 +32,7 @@ internal partial class AuxWidgetsModule
                         Overflow   = false,
                         ChildNodes = [
                             new() {
-                                Id         = "AuxSettingsList",
+                                Id = "AuxSettingsList",
                                 ChildNodes = [
                                     new CheckboxNode(
                                         "AuxEnabled",
@@ -77,6 +77,49 @@ internal partial class AuxWidgetsModule
                                         I18N.Translate("Settings.AuxWidgetsModule.Config.YPosition.Description")
                                     ),
                                     new() { ClassList = ["separator"] },
+                                    new CheckboxNode(
+                                        "AuxConditionalVisibility",
+                                        true,
+                                        I18N.Translate("Settings.AuxWidgetsModule.Config.ConditionalVisibility.Name"),
+                                        I18N.Translate("Settings.AuxWidgetsModule.Config.ConditionalVisibility.Description")
+                                    ),
+                                    new SelectNode(
+                                        "AuxHoldKey",
+                                        "None",
+                                        ["None", "Shift", "Ctrl", "Alt"],
+                                        I18N.Translate("Settings.AuxWidgetsModule.Config.HoldKey.Name"),
+                                        I18N.Translate("Settings.AuxWidgetsModule.Config.HoldKey.Description")
+                                    ),
+                                    new CheckboxNode(
+                                        "AuxShowInCutscene",
+                                        true,
+                                        I18N.Translate("Settings.AuxWidgetsModule.Config.ShowInCutscene.Name"),
+                                        I18N.Translate("Settings.AuxWidgetsModule.Config.ShowInCutscene.Description")
+                                    ),
+                                    new CheckboxNode(
+                                        "AuxShowInGPose",
+                                        true,
+                                        I18N.Translate("Settings.AuxWidgetsModule.Config.ShowInGPose.Name"),
+                                        I18N.Translate("Settings.AuxWidgetsModule.Config.ShowInGPose.Description")
+                                    ),
+                                    new CheckboxNode(
+                                        "AuxShowInInstance",
+                                        true,
+                                        I18N.Translate("Settings.AuxWidgetsModule.Config.ShowInInstance.Name"),
+                                        I18N.Translate("Settings.AuxWidgetsModule.Config.ShowInInstance.Description")
+                                    ),
+                                    new CheckboxNode(
+                                        "AuxShowInCombat",
+                                        true,
+                                        I18N.Translate("Settings.AuxWidgetsModule.Config.ShowInCombat.Name"),
+                                        I18N.Translate("Settings.AuxWidgetsModule.Config.ShowInCombat.Description")
+                                    ),
+                                    new CheckboxNode(
+                                        "AuxShowUnsheathed",
+                                        true,
+                                        I18N.Translate("Settings.AuxWidgetsModule.Config.AuxShowUnsheathed.Name"),
+                                        I18N.Translate("Settings.AuxWidgetsModule.Config.AuxShowUnsheathed.Description")
+                                    ),
                                 ]
                             },
                         ]
@@ -125,7 +168,7 @@ internal partial class AuxWidgetsModule
 
         Node.QuerySelector(".module-header")!.Style.Size    = new(size.Width - 30, 0);
         Node.QuerySelector("#AuxSettingsPanel")!.Style.Size = new(colSize * 2, size.Height - 88);
-        Node.QuerySelector("#AuxSettingsList")!.Style.Size   = new((colSize * 2) - 8, 0);
+        Node.QuerySelector("#AuxSettingsList")!.Style.Size  = new((colSize * 2) - 8, 0);
 
         foreach (var separator in Node.QuerySelectorAll(".separator")) {
             separator.Style.Size = new(colSize * 2, 1);
@@ -235,12 +278,19 @@ internal partial class AuxWidgetsModule
         return node;
     }
 
-    private Node             AuxWidgetAddNode   => Node.QuerySelector("#AuxWidgetAdd")!;
-    private CheckboxNode     AuxEnabledNode     => (CheckboxNode)Node.QuerySelector("AuxEnabled")!;
-    private CheckboxNode     AuxDecorateNode    => (CheckboxNode)Node.QuerySelector("AuxDecorate")!;
-    private IntegerInputNode AuxXPositionNode   => (IntegerInputNode)Node.QuerySelector("AuxXPosition")!;
-    private IntegerInputNode AuxYPositionNode   => (IntegerInputNode)Node.QuerySelector("AuxYPosition")!;
-    private SelectNode       AuxXAlignNode      => (SelectNode)Node.QuerySelector("AuxXAlign")!;
-    private CheckboxNode     AuxShadowNode      => (CheckboxNode)Node.QuerySelector("AuxShadow")!;
-    private Node             AuxWidgetsListNode => Node.QuerySelector(".widgets-column--list")!;
+    private Node AuxWidgetAddNode => Node.QuerySelector("#AuxWidgetAdd")!;
+    private CheckboxNode AuxEnabledNode => Node.QuerySelector<CheckboxNode>("AuxEnabled")!;
+    private CheckboxNode AuxDecorateNode => Node.QuerySelector<CheckboxNode>("AuxDecorate")!;
+    private IntegerInputNode AuxXPositionNode => Node.QuerySelector<IntegerInputNode>("AuxXPosition")!;
+    private IntegerInputNode AuxYPositionNode => Node.QuerySelector<IntegerInputNode>("AuxYPosition")!;
+    private SelectNode AuxXAlignNode => Node.QuerySelector<SelectNode>("AuxXAlign")!;
+    private CheckboxNode AuxShadowNode => Node.QuerySelector<CheckboxNode>("AuxShadow")!;
+    private CheckboxNode AuxConditionalVisibilityNode => Node.QuerySelector<CheckboxNode>("AuxConditionalVisibility")!;
+    private SelectNode AuxHoldKeyNode => Node.QuerySelector<SelectNode>("AuxHoldKey")!;
+    private CheckboxNode AuxShowInCutsceneNode => Node.QuerySelector<CheckboxNode>("AuxShowInCutscene")!;
+    private CheckboxNode AuxShowInGPoseNode => Node.QuerySelector<CheckboxNode>("AuxShowInGPose")!;
+    private CheckboxNode AuxShowInInstanceNode => Node.QuerySelector<CheckboxNode>("AuxShowInInstance")!;
+    private CheckboxNode AuxShowInCombatNode => Node.QuerySelector<CheckboxNode>("AuxShowInCombat")!;
+    private CheckboxNode AuxShowUnsheathedNode => Node.QuerySelector<CheckboxNode>("AuxShowUnsheathed")!;
+    private Node AuxWidgetsListNode => Node.QuerySelector(".widgets-column--list")!;
 }

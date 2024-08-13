@@ -14,11 +14,15 @@
  *     GNU Affero General Public License for more details.
  */
 
+using Dalamud.Game.ClientState.Keys;
+using FFXIVClientStructs.FFXIV.Client.Game;
 using System;
 using ImGuiNET;
 using System.Linq;
 using System.Numerics;
+using Umbra.Common;
 using Umbra.Style;
+using Umbra.Widgets.System;
 using Una.Drawing;
 
 namespace Umbra;
@@ -84,6 +88,7 @@ internal partial class Toolbar
     {
         if (!AuxBarEnabled) return;
         if (_auxBarNode.FindById("aux")!.ChildNodes.Count == 0) return;
+        if (!ShouldRenderAuxBar()) return;
 
         switch (AuxBarXAlign) {
             case "Center" when !_auxBarNode.ClassList.Contains("center-aligned"):
@@ -119,6 +124,7 @@ internal partial class Toolbar
         };
 
         _auxBarNode.Style.ShadowSize = AuxEnableShadow ? new(64) : new(0);
+
         _auxBarNode.Render(
             ImGui.GetBackgroundDrawList(),
             new(xPos, (int)workPos.Y + AuxBarYPos)
@@ -238,4 +244,27 @@ internal partial class Toolbar
         IsTopAligned
             ? (int)ImGui.GetMainViewport().WorkPos.Y + YOffset
             : (int)ImGui.GetMainViewport().WorkPos.Y + (int)ImGui.GetMainViewport().WorkSize.Y - YOffset;
+
+    private unsafe bool ShouldRenderAuxBar()
+    {
+        if (!AuxBarIsConditionallyVisible) return true;
+
+        VirtualKey forceKey = AuxBarHoldKey switch {
+            "Shift" => VirtualKey.SHIFT,
+            "Ctrl"  => VirtualKey.CONTROL,
+            "Alt"   => VirtualKey.MENU,
+            _       => VirtualKey.LBUTTON
+        };
+
+        if (forceKey != VirtualKey.LBUTTON && keyState[forceKey]) return true;
+
+        if (AuxBarShowInCombat && player.IsInCombat) return true;
+        if (AuxBarShowInInstance && player.IsBoundByInstancedDuty) return true;
+        if (AuxBarShowInCutscene && player.IsInCutscene) return true;
+        if (AuxBarShowUnsheathed && player.IsWeaponDrawn) return true;
+        if (AuxBarShowInGPose && GameMain.IsInGPose()) return true;
+
+        // Can't inject this due to circular reference.
+        return Framework.Service<WidgetManager>().HasOpenPopup;
+    }
 }
