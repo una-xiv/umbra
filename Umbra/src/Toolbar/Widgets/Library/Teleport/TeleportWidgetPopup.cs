@@ -17,14 +17,13 @@
 using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
-using System;
 using Umbra.Common;
 using Umbra.Game;
 using Una.Drawing;
 
 namespace Umbra.Widgets;
 
-internal partial class TeleportWidgetPopup : WidgetPopup, IDisposable
+internal partial class TeleportWidgetPopup : WidgetPopup
 {
     public int    MinimumColumns         { get; set; } = 1;
     public string ExpansionMenuPosition  { get; set; } = "Auto";
@@ -58,6 +57,7 @@ internal partial class TeleportWidgetPopup : WidgetPopup, IDisposable
         HydrateAetherytePoints();
         BuildNodes();
         LoadFavorites();
+        LoadOthers();
 
         ActivateExpansion(OpenFavoritesByDefault && Favorites.Count > 0
             ? "Favorites"
@@ -107,8 +107,6 @@ internal partial class TeleportWidgetPopup : WidgetPopup, IDisposable
     /// <inheritdoc/>
     protected override void OnClose()
     {
-        ExpansionLists.Clear();
-
         _expansions.Clear();
         _destinations.Clear();
         _selectedExpansion = string.Empty;

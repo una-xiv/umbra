@@ -17,6 +17,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Umbra.Common;
+using Umbra.Game;
 using Una.Drawing;
 
 namespace Umbra.Widgets;
@@ -106,6 +107,22 @@ internal sealed partial class TeleportWidgetPopup
         if (Favorites.Count == 0 && _selectedExpansion == "Favorites") {
             ActivateExpansion(_expansions.Keys.First(), true);
         }
+    }
+
+    private void LoadOthers()
+    {
+        Node menuItemNode = Node.QuerySelector("#ExpansionList > #Other")!;
+        Node menuListNode = Node.QuerySelector("#DestinationList > #Other > .region > .favorite-destinations")!;
+
+        int count = 0;
+
+        foreach (MainMenuItem item in Framework.Service<IMainMenuRepository>().GetCategory(MenuCategory.Travel).Items) {
+            if (item.Type is MainMenuItemType.MainCommand or MainMenuItemType.Separator) continue;
+            BuildMenuItemNode(menuListNode, item);
+            count++;
+        }
+
+        menuItemNode.Style.IsVisible = count > 0;
     }
 
     /// <summary>

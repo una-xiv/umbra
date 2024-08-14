@@ -14,8 +14,9 @@
  *     GNU Affero General Public License for more details.
  */
 
-using System.Collections.Generic;
+using Lumina.Misc;
 using Umbra.Common;
+using Umbra.Game;
 using Una.Drawing;
 
 namespace Umbra.Widgets;
@@ -27,8 +28,6 @@ internal partial class TeleportWidgetPopup
         Stylesheet = Stylesheet,
         ChildNodes = [],
     };
-
-    private static Dictionary<string, Node> ExpansionLists { get; set; } = [];
 
     private void BuildNodes()
     {
@@ -50,22 +49,23 @@ internal partial class TeleportWidgetPopup
             BuildExpansionNode(expansionList, destinationList, expansion, !Toolbar.IsTopAligned);
         }
 
-        BuildFavoritesNodes(expansionList, destinationList);
+        BuildCustomMenuNode(expansionList, destinationList, "Other", I18N.Translate("Widget.Teleport.Other"), false);
+        BuildCustomMenuNode(expansionList, destinationList, "Favorites", I18N.Translate("Widget.Teleport.Favorites"), true);
     }
 
-    private void BuildFavoritesNodes(Node expansionList, Node destinationList)
+    private void BuildCustomMenuNode(Node expansionList, Node destinationList, string id, string label, bool addMargin)
     {
         Node node = new() {
-            Id        = "Favorites",
-            NodeValue = I18N.Translate("Widget.Teleport.Favorites"),
+            Id        = id,
+            NodeValue = label,
             SortIndex = int.MinValue + 1,
             ClassList = ["expansion"],
             Style = new() {
                 Anchor = !Toolbar.IsTopAligned ? Anchor.BottomLeft : Anchor.TopLeft,
-                Margin = new() {
+                Margin = addMargin ? new() {
                     Top    = !Toolbar.IsTopAligned ? 16 : 0,
                     Bottom = Toolbar.IsTopAligned ? 16 : 0,
-                }
+                } : null
             }
         };
 
@@ -73,7 +73,7 @@ internal partial class TeleportWidgetPopup
         node.OnMouseUp += n => ActivateExpansion(n.Id!);
 
         Node destinationListFavorites = new() {
-            Id        = "Favorites",
+            Id        = id,
             ClassList = ["region-container"],
             Style     = new() { IsVisible = false },
             ChildNodes = [
@@ -82,7 +82,7 @@ internal partial class TeleportWidgetPopup
                     ChildNodes = [
                         new() {
                             ClassList = ["region-header"],
-                            NodeValue = I18N.Translate("Widget.Teleport.Favorites"),
+                            NodeValue = label,
                         },
                         new() {
                             ClassList = ["favorite-destinations"],
@@ -115,7 +115,6 @@ internal partial class TeleportWidgetPopup
             Style     = new() { IsVisible = false }
         };
 
-        ExpansionLists[expansion.NodeId] = destinationList;
         destinations.AppendChild(destinationList);
 
         foreach (var region in expansion.Regions.Values) {
@@ -242,5 +241,44 @@ internal partial class TeleportWidgetPopup
         };
 
         node.OnMouseUp += _ => Teleport(destination);
+    }
+
+    private void BuildMenuItemNode(Node targetNode, MainMenuItem item)
+    {
+        uint iconId = 0;
+
+        if (item.Icon is uint u) {
+            iconId = u;
+        }
+
+        Node node = new() {
+            Id        = $"CustomDest_{Crc32.Get(item.MetadataKey ?? item.Id).ToString()}",
+            ClassList = ["destination"],
+            SortIndex = item.SortIndex,
+            ChildNodes = [
+                new() {
+                    ClassList   = ["destination-icon"],
+                    Style       = new() { IconId = iconId },
+                    InheritTags = true,
+                },
+                new() {
+                    ClassList   = ["destination-name"],
+                    NodeValue   = item.Name,
+                    InheritTags = true,
+                },
+                new() {
+                    ClassList   = ["destination-cost"],
+                    NodeValue   = $"{item.ShortKey}",
+                    InheritTags = true,
+                }
+            ]
+        };
+
+        targetNode.AppendChild(node);
+
+        node.OnMouseUp += _ => {
+            item.Invoke();
+            Close();
+        };
     }
 }
