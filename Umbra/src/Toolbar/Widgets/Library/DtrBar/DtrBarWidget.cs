@@ -194,7 +194,7 @@ internal sealed partial class DtrBarWidget(
         if (labelNode == null) return;
 
         labelNode.NodeValue = GetConfigValue<bool>("PlainText")
-            ? entry.Text.TextValue
+            ? entry.Text?.TextValue ?? string.Empty // Even though this type cannot be null, plugins can still pass null values.
             : entry.Text;
     }
 

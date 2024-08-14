@@ -5,10 +5,13 @@ using Una.Drawing;
 
 namespace Umbra.Widgets.Library.DutyRecorderIndicator;
 
-[ToolbarWidget(
+// FIXME: This widget causes users to crash if they don't have
+//        "A Realm Recorded" installed.
+[InteropToolbarWidget(
     "DutyRecorderIndicator",
     "Widget.DutyRecorderIndicator.Name",
-    "Widget.DutyRecorderIndicator.Description"
+    "Widget.DutyRecorderIndicator.Description",
+    "ARealmRecorded"
 )]
 internal sealed partial class DutyRecorderIndicator(
     WidgetInfo                  info,
