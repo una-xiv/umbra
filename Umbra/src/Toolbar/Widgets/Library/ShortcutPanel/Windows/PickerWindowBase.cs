@@ -58,6 +58,11 @@ internal abstract partial class PickerWindowBase : Window
             node.QuerySelector(".item-name")!.Style.Size = new(ContentSize.Width - 82, 0);
             node.QuerySelector(".item-command")!.Style.Size = new(ContentSize.Width - 82, 0);
         }
+
+        Node? tooManyResultsMessage = Node.QuerySelector("#TooManyResultsMessage");
+        if (tooManyResultsMessage != null) {
+            tooManyResultsMessage.Style.Size = new(ContentSize.Width - 30, 0);
+        }
     }
 
     protected virtual void OnSearchValueChanged(string value)

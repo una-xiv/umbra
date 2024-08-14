@@ -1,9 +1,7 @@
-﻿using Dalamud.Plugin.Services;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using Umbra.Common;
-using Umbra.Game;
-using Umbra.Game.Localization;
-using Umbra.Game.Macro;
+using Umbra.Widgets.Library.ShortcutPanel.Providers;
 
 namespace Umbra.Widgets.Library.ShortcutPanel;
 
@@ -11,16 +9,16 @@ internal sealed partial class ShortcutPanelPopup : ButtonGridPopup
 {
     public event Action<string>? OnShortcutsChanged;
 
-    public string[] CategoryNames  { get; set; } = ["Category 1", "Category 2", "Category 3", "Category 4"];
-    public byte     NumRows        { get; set; } = 4;
-    public byte     NumCols        { get; set; } = 8;
-    public bool     ShowEmptySlots { get; set; } = true;
-    public bool     AutoCloseOnUse { get; set; } = true;
+    public string   WidgetInstanceId { get; set; } = string.Empty;
+    public string[] CategoryNames    { get; set; } = ["Category 1", "Category 2", "Category 3", "Category 4"];
+    public byte     NumRows          { get; set; } = 4;
+    public byte     NumCols          { get; set; } = 8;
+    public bool     ShowEmptySlots   { get; set; } = true;
+    public bool     AutoCloseOnUse   { get; set; } = true;
 
-    private IDataManager       DataManager       { get; } = Framework.Service<IDataManager>();
-    private IPlayer            Player            { get; } = Framework.Service<IPlayer>();
-    private TextDecoder        TextDecoder       { get; } = Framework.Service<TextDecoder>();
-    private IMacroIconProvider MacroIconProvider { get; } = Framework.Service<IMacroIconProvider>();
+    private ShortcutProviderRepository Providers { get; } = Framework.Service<ShortcutProviderRepository>();
+
+    private readonly Dictionary<byte, Dictionary<int, (string, uint)?>> _buttonActions = new();
 
     public ShortcutPanelPopup()
     {
@@ -52,5 +50,29 @@ internal sealed partial class ShortcutPanelPopup : ButtonGridPopup
                 SetButton(c, s, GetShortcutData(c, s));
             }
         }
+    }
+
+    private void AssignAction(byte categoryId, int slotId, string? type, uint? id)
+    {
+        if (!_buttonActions.TryGetValue(categoryId, out Dictionary<int, (string, uint)?>? slots)) {
+            slots                      = new();
+            _buttonActions[categoryId] = slots;
+        }
+
+        slots[slotId] = type == null || id == null ? null : (type, id.Value);
+    }
+
+    private void InvokeAction(byte categoryId, int slotId)
+    {
+        if (!_buttonActions.TryGetValue(categoryId, out Dictionary<int, (string, uint)?>? slots)) return;
+        if (!slots.TryGetValue(slotId, out (string, uint)? action)) return;
+        if (null == action?.Item1) return;
+
+        AbstractShortcutProvider? provider = Providers.GetProvider(action.Value.Item1);
+        if (provider == null) return;
+
+        provider.OnInvokeShortcut(categoryId, slotId, action.Value.Item2, WidgetInstanceId);
+
+        if (AutoCloseOnUse) Close();
     }
 }

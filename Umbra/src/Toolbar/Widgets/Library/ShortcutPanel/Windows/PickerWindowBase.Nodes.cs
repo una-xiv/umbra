@@ -1,5 +1,6 @@
 ﻿using Dalamud.Interface;
 using System;
+using Umbra.Common;
 using Umbra.Windows;
 using Umbra.Windows.Components;
 using Una.Drawing;
@@ -26,7 +27,7 @@ internal abstract partial class PickerWindowBase
                 ]
             },
             new() {
-                Id = "ItemList",
+                Id       = "ItemList",
                 Overflow = false,
                 ChildNodes = [
                     new() { Id = "ItemListWrapper" }
@@ -64,6 +65,26 @@ internal abstract partial class PickerWindowBase
 
         node.Tooltip   =  label;
         node.OnMouseUp += _ => onClick();
+    }
+
+    protected void AddTooManyResultsMessage()
+    {
+        ItemListNode.AppendChild(
+            new() {
+                Id        = "TooManyResultsMessage",
+                NodeValue = I18N.Translate("Widget.ShortcutPanel.PickerWindow.TooManyResults"),
+                Style = new() {
+                    Padding      = new(8),
+                    FontSize     = 12,
+                    TextAlign    = Anchor.TopCenter,
+                    Color        = new("Window.TextMuted"),
+                    OutlineColor = new("Window.TextOutline"),
+                    OutlineSize  = 1,
+                    TextOverflow = false,
+                    WordWrap     = true,
+                }
+            }
+        );
     }
 
     protected Node ItemListNode => Node.QuerySelector("#ItemListWrapper")!;

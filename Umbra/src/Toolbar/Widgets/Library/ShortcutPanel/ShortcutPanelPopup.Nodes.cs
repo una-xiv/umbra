@@ -1,7 +1,7 @@
 ﻿using ImGuiNET;
-using Lumina.Excel.GeneratedSheets;
 using System;
 using Umbra.Common;
+using Umbra.Widgets.Library.ShortcutPanel.Providers;
 using Una.Drawing;
 
 namespace Umbra.Widgets.Library.ShortcutPanel;
@@ -51,7 +51,7 @@ internal sealed partial class ShortcutPanelPopup
 
     private void SetButton(byte categoryId, int slotId, string? data)
     {
-        Node? node = GetSlotContainer(categoryId)?.QuerySelector($"#Slot_{categoryId}_{slotId}");
+        Node? node = GetSlotContainer(categoryId).QuerySelector($"#Slot_{categoryId}_{slotId}");
         if (node == null) return;
 
         if (data == null) {
@@ -76,46 +76,47 @@ internal sealed partial class ShortcutPanelPopup
             return;
         }
 
+        AbstractShortcutProvider? provider = Providers.GetProvider(typeId);
+        if (provider == null) {
+            Logger.Error($"No provider found for shortcut type: {typeId}");
+            return;
+        }
+
+        Shortcut? shortcut = provider.GetShortcut(itemId, WidgetInstanceId);
+
+        if (shortcut == null) {
+            Logger.Warning($"Shortcut could not be constructed: {typeId}:{itemId}");
+            ClearSlot(node, categoryId, slotId);
+            return;
+        }
+
         node.TagsList.Remove("empty-hidden");
         node.TagsList.Remove("empty-visible");
 
-        switch (typeId) {
-            case "I": // Inventory Item
-                SetInventoryItemSlot(node, categoryId, slotId, itemId);
-                break;
-            case "EI": // Key items
-                SetInventoryKeyItemSlot(node, categoryId, slotId, itemId);
-                break;
-            case "CO": // Collection item
-                SetCollectionItemSlot(node, categoryId, slotId, itemId);
-                break;
-            case "EM": // Emote
-                SetEmoteSlot(node, categoryId, slotId, itemId);
-                break;
-            case "IM": // Individual Macro
-                SetIndividualMacroSlot(node, categoryId, slotId, itemId);
-                break;
-            case "SM": // Shared Macro
-                SetSharedMacroSlot(node, categoryId, slotId, itemId);
-                break;
-            case "MC": // Main Command
-                SetMainCommandSlot(node, categoryId, slotId, itemId);
-                break;
-            case "GA": // General Action
-                SetGeneralActionSlot(node, categoryId, slotId, itemId);
-                break;
-            case "MO": // Mount
-                SetMountSlot(node, categoryId, slotId, itemId);
-                break;
-            case "MI": // Minion
-                SetMinionSlot(node, categoryId, slotId, itemId);
-                break;
-            case "CR": // Crafting Recipe
-                SetCraftingRecipeSlot(node, categoryId, slotId, itemId);
-                break;
-            default:
-                Logger.Error($"Unknown shortcut type: {typeId}");
-                break;
-        }
+        SetSlotState(node, shortcut.Value);
+        AssignAction(categoryId, slotId, typeId, itemId);
+    }
+
+    private void ClearSlot(Node slotNode, byte categoryId, int slotId)
+    {
+        slotNode.Tooltip                                               = null;
+        slotNode.QuerySelector(".slot-button--icon")!.Style.IconId     = null;
+        slotNode.QuerySelector(".slot-button--sub-icon")!.Style.IconId = null;
+        slotNode.QuerySelector(".slot-button--count")!.NodeValue       = null;
+
+        slotNode.TagsList.Add($"empty-{(ShowEmptySlots ? "visible" : "hidden")}");
+        slotNode.TagsList.Remove($"empty-{(ShowEmptySlots ? "hidden" : "visible")}");
+        slotNode.TagsList.Remove("blocked");
+
+        AssignAction(categoryId, slotId, null, null);
+        AssignShortcut(categoryId, slotId, null);
+    }
+
+    private static void SetSlotState(Node slotNode, Shortcut shortcut)
+    {
+        slotNode.QuerySelector(".slot-button--icon")!.Style.IconId     = shortcut.IconId;
+        slotNode.QuerySelector(".slot-button--sub-icon")!.Style.IconId = shortcut.SubIconId;
+        slotNode.QuerySelector(".slot-button--count")!.NodeValue       = shortcut.Count?.ToString();
+        slotNode.Tooltip                                               = shortcut.Name;
     }
 }
