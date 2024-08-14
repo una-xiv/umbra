@@ -1,17 +1,15 @@
 ﻿using Dalamud.Game.Text.SeStringHandling;
+using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using System.Collections.Generic;
 using Umbra.Common;
 using Una.Drawing;
 
 namespace Umbra.Widgets.Library.DutyRecorderIndicator;
 
-// FIXME: This widget causes users to crash if they don't have
-//        "A Realm Recorded" installed.
-[InteropToolbarWidget(
+[ToolbarWidget(
     "DutyRecorderIndicator",
     "Widget.DutyRecorderIndicator.Name",
-    "Widget.DutyRecorderIndicator.Description",
-    "ARealmRecorded"
+    "Widget.DutyRecorderIndicator.Description"
 )]
 internal sealed partial class DutyRecorderIndicator(
     WidgetInfo                  info,
@@ -23,16 +21,8 @@ internal sealed partial class DutyRecorderIndicator(
 
     protected override void Initialize()
     {
-        SetupHook();
-
         IconNode.NodeValue = new SeStringBuilder().AddIcon(BitmapFontIcon.Recording).Build();
         Node.Tooltip       = I18N.Translate("Widget.DutyRecorderIndicator.Tooltip");
-    }
-
-    protected override void OnDisposed()
-    {
-        DisposeHook();
-        base.OnDisposed();
     }
 
     protected override void OnUpdate()
@@ -45,4 +35,6 @@ internal sealed partial class DutyRecorderIndicator(
             IconNode.Style.Padding   = new() { Top = GetConfigValue<int>("IconYOffset") + 5, Left = -5 };
         }
     }
+
+    private static unsafe bool IsRecordingDuty => AgentHUD.Instance()->IsMainCommandEnabled(79);
 }
