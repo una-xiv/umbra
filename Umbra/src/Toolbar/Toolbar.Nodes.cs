@@ -245,8 +245,10 @@ internal partial class Toolbar
             ? (int)ImGui.GetMainViewport().WorkPos.Y + YOffset
             : (int)ImGui.GetMainViewport().WorkPos.Y + (int)ImGui.GetMainViewport().WorkSize.Y - YOffset;
 
-    private unsafe bool ShouldRenderAuxBar()
+    private bool ShouldRenderAuxBar()
     {
+        if (player.IsInCutscene && AuxBarHideInCutscenes) return false;
+
         if (!AuxBarIsConditionallyVisible) return true;
 
         VirtualKey forceKey = AuxBarHoldKey switch {

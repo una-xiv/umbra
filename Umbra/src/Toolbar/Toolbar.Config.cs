@@ -80,6 +80,9 @@ internal partial class Toolbar
     [ConfigVariable("Toolbar.AuxBar.EnableShadow")]
     public static bool AuxEnableShadow { get; set; } = true;
 
+    [ConfigVariable("Toolbar.AuxBar.HideInCutscenes")]
+    public static bool AuxBarHideInCutscenes { get; set; }
+
     [ConfigVariable("Toolbar.AuxBar.IsConditionallyVisible")]
     public static bool AuxBarIsConditionallyVisible { get; set; } = false;
 

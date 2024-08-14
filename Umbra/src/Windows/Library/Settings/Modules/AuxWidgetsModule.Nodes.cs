@@ -78,45 +78,52 @@ internal partial class AuxWidgetsModule
                                     ),
                                     new() { ClassList = ["separator"] },
                                     new CheckboxNode(
+                                        "AuxHideInCutscenes",
+                                        Toolbar.AuxBarHideInCutscenes,
+                                        I18N.Translate("Settings.AuxWidgetsModule.Config.AuxHideInCutscenes.Name"),
+                                        I18N.Translate("Settings.AuxWidgetsModule.Config.AuxHideInCutscenes.Description")
+                                    ),
+                                    new() { ClassList = ["separator"] },
+                                    new CheckboxNode(
                                         "AuxConditionalVisibility",
-                                        true,
+                                        Toolbar.AuxBarIsConditionallyVisible,
                                         I18N.Translate("Settings.AuxWidgetsModule.Config.ConditionalVisibility.Name"),
                                         I18N.Translate("Settings.AuxWidgetsModule.Config.ConditionalVisibility.Description")
                                     ),
                                     new SelectNode(
                                         "AuxHoldKey",
-                                        "None",
+                                        Toolbar.AuxBarHoldKey,
                                         ["None", "Shift", "Ctrl", "Alt"],
                                         I18N.Translate("Settings.AuxWidgetsModule.Config.HoldKey.Name"),
                                         I18N.Translate("Settings.AuxWidgetsModule.Config.HoldKey.Description")
                                     ),
                                     new CheckboxNode(
                                         "AuxShowInCutscene",
-                                        true,
+                                        Toolbar.AuxBarShowInCutscene,
                                         I18N.Translate("Settings.AuxWidgetsModule.Config.ShowInCutscene.Name"),
                                         I18N.Translate("Settings.AuxWidgetsModule.Config.ShowInCutscene.Description")
                                     ),
                                     new CheckboxNode(
                                         "AuxShowInGPose",
-                                        true,
+                                        Toolbar.AuxBarShowInGPose,
                                         I18N.Translate("Settings.AuxWidgetsModule.Config.ShowInGPose.Name"),
                                         I18N.Translate("Settings.AuxWidgetsModule.Config.ShowInGPose.Description")
                                     ),
                                     new CheckboxNode(
                                         "AuxShowInInstance",
-                                        true,
+                                        Toolbar.AuxBarShowInInstance,
                                         I18N.Translate("Settings.AuxWidgetsModule.Config.ShowInInstance.Name"),
                                         I18N.Translate("Settings.AuxWidgetsModule.Config.ShowInInstance.Description")
                                     ),
                                     new CheckboxNode(
                                         "AuxShowInCombat",
-                                        true,
+                                        Toolbar.AuxBarShowInCombat,
                                         I18N.Translate("Settings.AuxWidgetsModule.Config.ShowInCombat.Name"),
                                         I18N.Translate("Settings.AuxWidgetsModule.Config.ShowInCombat.Description")
                                     ),
                                     new CheckboxNode(
                                         "AuxShowUnsheathed",
-                                        true,
+                                        Toolbar.AuxBarShowUnsheathed,
                                         I18N.Translate("Settings.AuxWidgetsModule.Config.AuxShowUnsheathed.Name"),
                                         I18N.Translate("Settings.AuxWidgetsModule.Config.AuxShowUnsheathed.Description")
                                     ),
@@ -285,6 +292,7 @@ internal partial class AuxWidgetsModule
     private IntegerInputNode AuxYPositionNode => Node.QuerySelector<IntegerInputNode>("AuxYPosition")!;
     private SelectNode AuxXAlignNode => Node.QuerySelector<SelectNode>("AuxXAlign")!;
     private CheckboxNode AuxShadowNode => Node.QuerySelector<CheckboxNode>("AuxShadow")!;
+    private CheckboxNode AuxHideInCutscenesNode => Node.QuerySelector<CheckboxNode>("AuxHideInCutscenes")!;
     private CheckboxNode AuxConditionalVisibilityNode => Node.QuerySelector<CheckboxNode>("AuxConditionalVisibility")!;
     private SelectNode AuxHoldKeyNode => Node.QuerySelector<SelectNode>("AuxHoldKey")!;
     private CheckboxNode AuxShowInCutsceneNode => Node.QuerySelector<CheckboxNode>("AuxShowInCutscene")!;

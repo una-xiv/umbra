@@ -14,6 +14,7 @@
  *     GNU Affero General Public License for more details.
  */
 
+using Dalamud.Game.Text.SeStringHandling;
 using System.Collections.Generic;
 using Dalamud.Plugin.Services;
 using Umbra.Common;
@@ -76,12 +77,12 @@ internal sealed partial class DtrBarWidget(
             }
 
             node.Style.Size = new(0, SafeHeight);
-            var labelNode = node.FindById("Label");
+
             var entry     = _repository!.Get(id);
+            var labelNode = node.FindById("Label");
 
-            if (entry != null) SetNodeLabel(node, entry);
-
-            if (null != labelNode) {
+            if (null != labelNode && entry is { IsVisible: true }) {
+                SetNodeLabel(node, entry);
                 labelNode.Style.MaxWidth   = MaxTextWidth;
                 labelNode.Style.TextOffset = new(0, textOffset);
                 labelNode.Style.FontSize   = GetConfigValue<int>("TextSize");
@@ -194,7 +195,7 @@ internal sealed partial class DtrBarWidget(
         if (labelNode == null) return;
 
         labelNode.NodeValue = GetConfigValue<bool>("PlainText")
-            ? entry.Text?.TextValue ?? string.Empty // Even though this type cannot be null, plugins can still pass null values.
+            ? ActuallyNullable(entry.Text)?.TextValue ?? ""
             : entry.Text;
     }
 
@@ -202,4 +203,6 @@ internal sealed partial class DtrBarWidget(
         0 => null,
         _ => GetConfigValue<int>("MaxTextWidth")
     };
+
+    static SeString? ActuallyNullable(SeString str) => str;
 }

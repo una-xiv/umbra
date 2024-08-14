@@ -33,6 +33,7 @@ internal partial class AuxWidgetsModule : SettingsModule
         AuxXPositionNode.Value             = Toolbar.AuxBarXPos;
         AuxYPositionNode.Value             = Toolbar.AuxBarYPos;
         AuxHoldKeyNode.Value               = Toolbar.AuxBarHoldKey;
+        AuxHideInCutscenesNode.Value       = Toolbar.AuxBarHideInCutscenes;
         AuxConditionalVisibilityNode.Value = Toolbar.AuxBarIsConditionallyVisible;
         AuxShowInCutsceneNode.Value        = Toolbar.AuxBarShowInCutscene;
         AuxShowInGPoseNode.Value           = Toolbar.AuxBarShowInGPose;
@@ -47,6 +48,7 @@ internal partial class AuxWidgetsModule : SettingsModule
         AuxXPositionNode.OnValueChanged             += OnXPositionChanged;
         AuxYPositionNode.OnValueChanged             += OnYPositionChanged;
         AuxWidgetAddNode.OnMouseUp                  += ShowAddWidgetWindow;
+        AuxHideInCutscenesNode.OnValueChanged       += HideInCutscenesChanged;
         AuxConditionalVisibilityNode.OnValueChanged += OnConditionalVisibilityChanged;
         AuxHoldKeyNode.OnValueChanged               += AuxHoldKeyChanged;
         AuxShowInCutsceneNode.OnValueChanged        += ShowInCutsceneChanged;
@@ -72,6 +74,7 @@ internal partial class AuxWidgetsModule : SettingsModule
         AuxXPositionNode.OnValueChanged             -= OnXPositionChanged;
         AuxYPositionNode.OnValueChanged             -= OnYPositionChanged;
         AuxWidgetAddNode.OnMouseUp                  -= ShowAddWidgetWindow;
+        AuxHideInCutscenesNode.OnValueChanged       -= HideInCutscenesChanged;
         AuxConditionalVisibilityNode.OnValueChanged -= OnConditionalVisibilityChanged;
         AuxHoldKeyNode.OnValueChanged               -= AuxHoldKeyChanged;
         AuxShowInCutsceneNode.OnValueChanged        -= ShowInCutsceneChanged;
@@ -138,6 +141,11 @@ internal partial class AuxWidgetsModule : SettingsModule
 
         Node? node = AuxWidgetsListNode.QuerySelector($"#widget-{widget.Id}");
         if (node is not null) AuxWidgetsListNode.RemoveChild(node);
+    }
+
+    private static void HideInCutscenesChanged(bool value)
+    {
+        ConfigManager.Set("Toolbar.AuxBar.HideInCutscenes", value);
     }
 
     private static void OnConditionalVisibilityChanged(bool value)
