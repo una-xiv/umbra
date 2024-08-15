@@ -119,6 +119,8 @@ internal class AddWidgetWindow(string locationId) : Window
         pasteButton.Tooltip         = I18N.Translate("Settings.AddWidgetWindow.AddButtonTooltip");
         pasteButton.Style.IsVisible = WidgetManager.CanCreateInstanceFromClipboard();
 
+        addButton.QuerySelector("#Label")!.Style.MaxWidth = 150;
+
         pasteButton.OnMouseUp += _ => {
             WidgetManager.CreateInstanceFromClipboard(locationId);
 
