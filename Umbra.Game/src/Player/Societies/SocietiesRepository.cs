@@ -70,11 +70,11 @@ internal sealed class SocietiesRepository : ISocietiesRepository, IDisposable
 
         lock (Societies) {
             for (var i = 1; i < qm->BeastReputation.Length + 1; i++) {
-                (BeastTribe tribe, BeastReputationRank rank, ushort currentRep, ushort requiredRep, byte maxRank) =
+                (BeastTribe tribe, BeastReputationRank rank, ushort currentRep, ushort requiredRep, byte maxRank,
+                        string rankName) =
                     GetTribe((byte)(i));
 
-                string name     = tribe.Name.ToString();
-                string rankName = rank.Name.ToString();
+                string name = tribe.Name.ToString();
 
                 Societies[tribe.RowId] = new() {
                     Id             = tribe.RowId,
@@ -109,7 +109,8 @@ internal sealed class SocietiesRepository : ISocietiesRepository, IDisposable
         Telepo.Instance()->Teleport(aetheryteId, 0);
     }
 
-    private unsafe (BeastTribe tribe, BeastReputationRank rank, ushort currentRep, ushort neededRep, byte maxRank)
+    private unsafe (BeastTribe tribe, BeastReputationRank rank, ushort currentRep, ushort neededRep, byte maxRank,
+        string rankName)
         GetTribe(byte index)
     {
         QuestManager*       qm    = QuestManager.Instance();
@@ -120,19 +121,19 @@ internal sealed class SocietiesRepository : ISocietiesRepository, IDisposable
         var                 tribeRow   = DataManager.GetExcelSheet<BeastTribe>()!.GetRow(index)!;
         BeastReputationRank rankRow    = DataManager.GetExcelSheet<BeastReputationRank>()!.GetRow(rank)!;
         byte                maxRank    = tribeRow.MaxRank;
+        string              rankName   = rankRow.Name.ToString();
 
         if (rank >= tribeRow.MaxRank) {
             if (tribeRow.Expansion.Row != 0
                 && tribeRow.Unknown7 != 0
                 && QuestManager.IsQuestComplete(tribeRow.Unknown7)
                ) {
-                rankRow = DataManager.GetExcelSheet<BeastReputationRank>()!.GetRow(rank + 1u)!;
-                maxRank += 1;
+                rankName = rankRow.AlliedNames.ToString();
             }
 
-            return (tribeRow, rankRow, currentRep, 0, maxRank);
+            return (tribeRow, rankRow, currentRep, 0, maxRank, rankName);
         }
 
-        return (tribeRow, rankRow, currentRep, rankRow.RequiredReputation, maxRank);
+        return (tribeRow, rankRow, currentRep, rankRow.RequiredReputation, maxRank, rankName);
     }
 }
