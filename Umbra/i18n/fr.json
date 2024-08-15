@@ -1246,7 +1246,7 @@
     "OOBE.Finish.Description": "Vous êtes prêt à commencer.",
     "OOBE.Finish.Content.Header": "Tout est prêt !",
     "OOBE.Finish.Content.Body": "Vous êtes prêt à commencer. Profitez de l'utilisation d'Umbra !",
-    "OOBE.Finish.Content.Body2": "Vous pouvez toujours accéder aux paramètres du plugin en tapant \"/umbra\" dans le chat. Umbra dispose d'un canal de support dédié sur le serveur Discord de XIV Launcher & Dalamud où vous pouvez poser des questions et obtenir de l'aide.",
+    "OOBE.Finish.Content.Body2": "Vous pouvez toujours accéder aux paramètres du plugin en tapant \"/umbra\" dans le chat. Umbra dispose d'un serveur Discord dédié où vous pouvez poser des questions et obtenir de l'aide. Un bouton pour rejoindre le serveur est disponible dans la fenêtre des paramètres du plugin.",
     "OOBE.Finish.OpenSettings.Name": "Ouvrir les paramètres du plugin après la fermeture de cette fenêtre",
     "OOBE.Finish.OpenSettings.Description": "Cela ouvrira la fenêtre des paramètres du plugin après avoir cliqué sur le bouton \"Terminer\" afin que vous puissiez personnaliser davantage votre expérience Umbra."
 }

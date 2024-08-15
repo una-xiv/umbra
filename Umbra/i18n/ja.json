@@ -1246,7 +1246,7 @@
     "OOBE.Finish.Description": "設定が完了し、準備が整いました。",
     "OOBE.Finish.Content.Header": "すべての設定が完了しました！",
     "OOBE.Finish.Content.Body": "設定が完了し、準備が整いました。Umbra をお楽しみください！",
-    "OOBE.Finish.Content.Body2": "チャットで「/umbra」と入力することで、いつでもプラグイン設定にアクセスできます。XIV ランチャー & Dalamud Discord サーバーには、質問したりサポートを受けたりできる専用のサポートチャンネルがあります。",
+    "OOBE.Finish.Content.Body2": "チャットで「/umbra」と入力することで、いつでもプラグインの設定にアクセスできます。Umbraには専用のDiscordサーバーがあり、質問をしたり、サポートを受けることができます。サーバーに参加するためのボタンは、プラグイン設定ウィンドウにあります。",
     "OOBE.Finish.OpenSettings.Name": "このウィンドウを閉じた後にプラグイン設定を開く",
     "OOBE.Finish.OpenSettings.Description": "「完了」ボタンを押した後にプラグイン設定ウィンドウを開き、Umbra の体験をさらにカスタマイズできます。"
 }

@@ -1246,7 +1246,7 @@
     "OOBE.Finish.Description": "您已经设置完毕，准备开始使用。",
     "OOBE.Finish.Content.Header": "设置完成！",
     "OOBE.Finish.Content.Body": "您已经设置完毕，准备开始使用 Umbra！",
-    "OOBE.Finish.Content.Body2": "您可以随时使用\"/umbra\"命令打开插件设置。Umbra 在 XIV Launcher & Dalamud Discord 服务器上有一个专门的支持频道，您可以在那里提问并获得帮助。",
+    "OOBE.Finish.Content.Body2": "您可以通过在聊天中输入\"/umbra\"随时访问插件设置。Umbra有一个专门的Discord服务器，您可以在其中提问并获得帮助。插件设置窗口中提供了一个加入服务器的按钮。",
     "OOBE.Finish.OpenSettings.Name": "关闭此窗口后打开插件设置",
     "OOBE.Finish.OpenSettings.Description": "点击\"完成\"按钮后将打开插件设置窗口，以便您进一步自定义。"
 }
