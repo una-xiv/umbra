@@ -52,7 +52,6 @@
     "Markers.GatheringNodes.ShowContents.Description": "在标记上显示采集节点的内容。",
     "Markers.Hunt.Name": "狩猎标记",
     "Markers.Hunt.Description": "显示当前区域内普通/B/A/S/SS等级狩猎怪物标记",
-    "Markers.Hunt.ShowC": "显示普通狩猎怪物",
     "Markers.Hunt.ShowB": "显示B级恶名精英",
     "Markers.Hunt.ShowA": "显示A级恶名精英",
     "Markers.Hunt.ShowS": "显示S级恶名精英",
