@@ -73,13 +73,23 @@ internal sealed class SocietiesRepository : ISocietiesRepository, IDisposable
                 (BeastTribe tribe, BeastReputationRank rank, ushort currentRep, ushort requiredRep) =
                     GetTribe((byte)(i));
 
-                string name = tribe.Name.ToString();
+                string name     = tribe.Name.ToString();
+                string rankName = rank.Name.ToString();
+
+                if (tribe.Expansion.Row != 0
+                    && tribe.Unknown7 != 0
+                    && QuestManager.IsQuestComplete(tribe.Unknown7)
+                   ) {
+                    rankName = rank.AlliedNames.ToString();
+                }
 
                 Societies[tribe.RowId] = new() {
                     Id             = tribe.RowId,
                     Name           = name[0].ToString().ToUpper() + name[1..],
                     RankId         = rank.RowId,
-                    Rank           = rank.AlliedNames.ToString(),
+                    MaxRank        = tribe.MaxRank,
+                    Rank           = rankName,
+                    RankColor      = rank.Color.Row,
                     ExpansionId    = tribe.Expansion.Row,
                     ExpansionName  = tribe.Expansion.Value!.Name.ToString(),
                     IconId         = tribe.Icon,
@@ -97,16 +107,18 @@ internal sealed class SocietiesRepository : ISocietiesRepository, IDisposable
     /// <inheritdoc/>
     public unsafe void TeleportToAetheryte(uint societyId)
     {
-        if (!Framework.Service<IPlayer>().CanUseTeleportAction ||
-            !SocietyToAetheryteId.TryGetValue(societyId, out uint aetheryteId)
-        ) {
+        if (!Framework.Service<IPlayer>().CanUseTeleportAction
+            || !SocietyToAetheryteId.TryGetValue(societyId, out uint aetheryteId)
+           ) {
             return;
         }
 
         Telepo.Instance()->Teleport(aetheryteId, 0);
     }
 
-    private unsafe (BeastTribe tribe, BeastReputationRank rank, ushort currentRep, ushort neededRep) GetTribe(byte index)
+    private unsafe (BeastTribe tribe, BeastReputationRank rank, ushort currentRep, ushort neededRep) GetTribe(
+        byte index
+    )
     {
         QuestManager*       qm    = QuestManager.Instance();
         BeastReputationWork tribe = qm->BeastReputation[index - 1];

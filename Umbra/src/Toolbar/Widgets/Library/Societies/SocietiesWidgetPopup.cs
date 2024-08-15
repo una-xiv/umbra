@@ -1,4 +1,5 @@
-﻿using Dalamud.Plugin.Services;
+﻿using Dalamud.Game.Text.SeStringHandling;
+using Dalamud.Plugin.Services;
 using System;
 using System.Linq;
 using Umbra.Common;
@@ -69,9 +70,17 @@ internal sealed partial class SocietiesWidgetPopup : WidgetPopup
             int expWidth = society.RequiredRep > 0 ? (barWidth * society.CurrentRep / society.RequiredRep) : barWidth;
             int expPct = society.RequiredRep > 0 ? (100 * society.CurrentRep / society.RequiredRep) : 100;
 
+            SeStringBuilder rankStr = new();
+
+            if (society.RankColor > 0) {
+                rankStr.AddUiForeground((ushort)society.RankColor);
+            }
+
+            rankStr.AddText($"{society.Rank} ({society.RankId} / {society.MaxRank})");
+
             societyNode.QuerySelector(".society--exp-bar--bar")!.Style.Size = new(expWidth, 2);
             societyNode.QuerySelector(".society--rank--value")!.NodeValue   = $"{expPct}%";
-            societyNode.QuerySelector(".society--rank")!.NodeValue          = society.Rank;
+            societyNode.QuerySelector(".society--rank")!.NodeValue          = rankStr.Build();
 
             societyNode.QuerySelector(".society--currency--value")!.NodeValue =
                 $"{Player.GetItemCount(society.CurrencyItemId)}";
