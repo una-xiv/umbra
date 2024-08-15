@@ -70,24 +70,17 @@ internal sealed class SocietiesRepository : ISocietiesRepository, IDisposable
 
         lock (Societies) {
             for (var i = 1; i < qm->BeastReputation.Length + 1; i++) {
-                (BeastTribe tribe, BeastReputationRank rank, ushort currentRep, ushort requiredRep) =
+                (BeastTribe tribe, BeastReputationRank rank, ushort currentRep, ushort requiredRep, byte maxRank) =
                     GetTribe((byte)(i));
 
                 string name     = tribe.Name.ToString();
                 string rankName = rank.Name.ToString();
 
-                if (tribe.Expansion.Row != 0
-                    && tribe.Unknown7 != 0
-                    && QuestManager.IsQuestComplete(tribe.Unknown7)
-                   ) {
-                    rankName = rank.AlliedNames.ToString();
-                }
-
                 Societies[tribe.RowId] = new() {
                     Id             = tribe.RowId,
                     Name           = name[0].ToString().ToUpper() + name[1..],
                     RankId         = rank.RowId,
-                    MaxRank        = tribe.MaxRank,
+                    MaxRank        = maxRank,
                     Rank           = rankName,
                     RankColor      = rank.Color.Row,
                     ExpansionId    = tribe.Expansion.Row,
@@ -116,9 +109,8 @@ internal sealed class SocietiesRepository : ISocietiesRepository, IDisposable
         Telepo.Instance()->Teleport(aetheryteId, 0);
     }
 
-    private unsafe (BeastTribe tribe, BeastReputationRank rank, ushort currentRep, ushort neededRep) GetTribe(
-        byte index
-    )
+    private unsafe (BeastTribe tribe, BeastReputationRank rank, ushort currentRep, ushort neededRep, byte maxRank)
+        GetTribe(byte index)
     {
         QuestManager*       qm    = QuestManager.Instance();
         BeastReputationWork tribe = qm->BeastReputation[index - 1];
@@ -127,11 +119,20 @@ internal sealed class SocietiesRepository : ISocietiesRepository, IDisposable
         ushort              currentRep = tribe.Value;
         var                 tribeRow   = DataManager.GetExcelSheet<BeastTribe>()!.GetRow(index)!;
         BeastReputationRank rankRow    = DataManager.GetExcelSheet<BeastReputationRank>()!.GetRow(rank)!;
+        byte                maxRank    = tribeRow.MaxRank;
 
         if (rank >= tribeRow.MaxRank) {
-            return (tribeRow, rankRow, currentRep, 0);
+            if (tribeRow.Expansion.Row != 0
+                && tribeRow.Unknown7 != 0
+                && QuestManager.IsQuestComplete(tribeRow.Unknown7)
+               ) {
+                rankRow = DataManager.GetExcelSheet<BeastReputationRank>()!.GetRow(rank + 1u)!;
+                maxRank += 1;
+            }
+
+            return (tribeRow, rankRow, currentRep, 0, maxRank);
         }
 
-        return (tribeRow, rankRow, currentRep, rankRow.RequiredReputation);
+        return (tribeRow, rankRow, currentRep, rankRow.RequiredReputation, maxRank);
     }
 }
