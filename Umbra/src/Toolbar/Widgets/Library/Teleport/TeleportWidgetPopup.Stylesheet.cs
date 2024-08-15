@@ -21,9 +21,8 @@ namespace Umbra.Widgets;
 internal partial class TeleportWidgetPopup
 {
     private const int ExpansionWidth = 200;
-    private const int ColumnWidth    = 300;
 
-    private static Stylesheet Stylesheet { get; } = new(
+    private Stylesheet Stylesheet => new(
         [
             new(
                 "#Popup",
@@ -258,7 +257,8 @@ internal partial class TeleportWidgetPopup
             new(
                 ".destination-name",
                 new() {
-                    Size         = new(ColumnWidth - 142, 20),
+                    Size         = new(0, 20),
+                    MaxWidth     = ColumnWidth - 100,
                     FontSize     = 13,
                     Color        = new("Widget.PopupMenuText"),
                     OutlineColor = new("Widget.PopupMenuTextOutline"),
@@ -278,6 +278,7 @@ internal partial class TeleportWidgetPopup
             new(
                 ".destination-cost",
                 new() {
+                    Anchor       = Anchor.TopRight,
                     Flow         = Flow.Vertical,
                     Gap          = 4,
                     Size         = new(100, 20),

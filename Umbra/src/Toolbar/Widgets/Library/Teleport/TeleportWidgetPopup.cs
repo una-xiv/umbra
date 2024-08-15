@@ -30,6 +30,7 @@ internal partial class TeleportWidgetPopup : WidgetPopup
     public bool   ShowNotification       { get; set; }
     public bool   OpenFavoritesByDefault { get; set; }
     public bool   ShowMapNames           { get; set; }
+    public int    ColumnWidth            { get; set; } = 300;
 
     private string               _selectedExpansion = string.Empty;
     private TeleportDestination? _selectedDestination;
@@ -59,9 +60,11 @@ internal partial class TeleportWidgetPopup : WidgetPopup
         LoadFavorites();
         LoadOthers();
 
-        ActivateExpansion(OpenFavoritesByDefault && Favorites.Count > 0
-            ? "Favorites"
-            : _selectedExpansion, true
+        ActivateExpansion(
+            OpenFavoritesByDefault && Favorites.Count > 0
+                ? "Favorites"
+                : _selectedExpansion,
+            true
         );
 
         ContextMenu = new(

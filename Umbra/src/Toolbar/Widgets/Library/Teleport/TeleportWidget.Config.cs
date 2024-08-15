@@ -56,6 +56,14 @@ internal sealed partial class TeleportWidget
                 }
             ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
             new IntegerWidgetConfigVariable(
+                "ColumnWidth",
+                I18N.Translate("Widget.Teleport.Config.ColumnWidth.Name"),
+                I18N.Translate("Widget.Teleport.Config.ColumnWidth.Description"),
+                300,
+                100,
+                500
+            ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
+            new IntegerWidgetConfigVariable(
                 "MinimumColumns",
                 I18N.Translate("Widget.Teleport.Config.MinimumColumns.Name"),
                 I18N.Translate("Widget.Teleport.Config.MinimumColumns.Description"),

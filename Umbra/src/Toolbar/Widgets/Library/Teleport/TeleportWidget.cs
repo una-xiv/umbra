@@ -55,6 +55,7 @@ internal sealed partial class TeleportWidget(
         Popup.OpenFavoritesByDefault = GetConfigValue<bool>("OpenFavoritesByDefault");
         Popup.ShowMapNames           = GetConfigValue<bool>("ShowMapNames");
         Popup.ShowNotification       = GetConfigValue<bool>("ShowNotification");
+        Popup.ColumnWidth            = GetConfigValue<int>("ColumnWidth");
 
         SetDisabled(!Player.CanUseTeleportAction);
         SetLabel(TeleportName);

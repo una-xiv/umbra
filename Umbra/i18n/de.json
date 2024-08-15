@@ -760,6 +760,8 @@
     "Widget.Teleport.Favorites.MoveUp": "Nach oben verschieben",
     "Widget.Teleport.Favorites.MoveDown": "Nach unten verschieben",
     "Widget.Teleport.OpenMap": "Karte öffnen",
+    "Widget.Teleport.Config.ColumnWidth.Name": "Spaltenbreite",
+    "Widget.Teleport.Config.ColumnWidth.Description": "Die Breite einer Spalte im Teleport-Popup-Menü in Pixeln.",
     "Widget.Teleport.Config.MinimumColumns.Name": "Mindestanzahl der Anzeigespalten",
     "Widget.Teleport.Config.MinimumColumns.Description": "Fügt leere Spalten zu Teleport-Menüs hinzu, um die visuelle Konsistenz zwischen den Erweiterungen zu erhöhen.",
     "Widget.Teleport.Config.ExpansionListPosition.Name": "Position der Erweiterungsliste",

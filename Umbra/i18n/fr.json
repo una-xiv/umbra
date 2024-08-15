@@ -760,6 +760,8 @@
     "Widget.Teleport.Favorites.MoveUp": "Déplacer vers le haut",
     "Widget.Teleport.Favorites.MoveDown": "Déplacer vers le bas",
     "Widget.Teleport.OpenMap": "Ouvrir la carte",
+    "Widget.Teleport.Config.ColumnWidth.Name": "Largeur de colonne",
+    "Widget.Teleport.Config.ColumnWidth.Description": "La largeur d'une colonne dans le menu popup de téléportation en pixels.",
     "Widget.Teleport.Config.MinimumColumns.Name": "Colonnes d'affichage minimales",
     "Widget.Teleport.Config.MinimumColumns.Description": "Ajoute des colonnes vides aux menus de téléportation pour augmenter la cohérence visuelle entre les extensions.",
     "Widget.Teleport.Config.ExpansionListPosition.Name": "Position de la liste d'extension",

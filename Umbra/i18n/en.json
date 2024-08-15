@@ -759,6 +759,8 @@
     "Widget.Teleport.Favorites.MoveUp": "Move up",
     "Widget.Teleport.Favorites.MoveDown": "Move down",
     "Widget.Teleport.OpenMap": "Open map",
+    "Widget.Teleport.Config.ColumnWidth.Name": "Column width",
+    "Widget.Teleport.Config.ColumnWidth.Description": "The width of a column in the teleport popup menu in pixels.",
     "Widget.Teleport.Config.MinimumColumns.Name": "Minimum columns to display",
     "Widget.Teleport.Config.MinimumColumns.Description": "Adds blank columns to teleport menus to prevent the popup from changing its size when switching expansions. This option is useful when the teleport widget is in the center column of the toolbar and the widget popup alignment option is set to 'center'.",
     "Widget.Teleport.Config.ExpansionListPosition.Name": "Expansion list position",

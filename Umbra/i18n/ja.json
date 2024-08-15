@@ -760,6 +760,8 @@
     "Widget.Teleport.Favorites.MoveUp": "上に移動",
     "Widget.Teleport.Favorites.MoveDown": "下に移動",
     "Widget.Teleport.OpenMap": "地図を開く",
+    "Widget.Teleport.Config.ColumnWidth.Name": "列の幅",
+    "Widget.Teleport.Config.ColumnWidth.Description": "テレポートポップアップメニューの列の幅（ピクセル単位）",
     "Widget.Teleport.Config.MinimumColumns.Name": "最小表示列数",
     "Widget.Teleport.Config.MinimumColumns.Description": "拡張間の視覚的一貫性を高めるために、テレポートメニューに空白の列を追加します。",
     "Widget.Teleport.Config.ExpansionListPosition.Name": "拡張リストの位置",

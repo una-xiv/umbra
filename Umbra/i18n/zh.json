@@ -760,6 +760,8 @@
     "Widget.Teleport.Favorites.MoveUp": "上移",
     "Widget.Teleport.Favorites.MoveDown": "下移",
     "Widget.Teleport.OpenMap": "打开地图",
+    "Widget.Teleport.Config.ColumnWidth.Name": "列宽",
+    "Widget.Teleport.Config.ColumnWidth.Description": "传送弹出菜单中列的宽度，以像素为单位。",
     "Widget.Teleport.Config.MinimumColumns.Name": "最少显示列",
     "Widget.Teleport.Config.MinimumColumns.Description": "在传送菜单中添加空白列以增加扩展之间的视觉一致性。",
     "Widget.Teleport.Config.ExpansionListPosition.Name": "扩展列表位置",

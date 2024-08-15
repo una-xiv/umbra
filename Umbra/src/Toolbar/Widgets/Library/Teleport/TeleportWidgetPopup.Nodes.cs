@@ -25,12 +25,13 @@ internal partial class TeleportWidgetPopup
 {
     protected override Node Node { get; } = new() {
         Id         = "Popup",
-        Stylesheet = Stylesheet,
         ChildNodes = [],
     };
 
     private void BuildNodes()
     {
+        Node.Stylesheet = Stylesheet;
+
         Una.Drawing.Style alignmentStyle = new() {
             Anchor = Toolbar.IsTopAligned
                 ? (ExpansionMenuPosition == "Left" ? Anchor.TopLeft : Anchor.TopRight)
