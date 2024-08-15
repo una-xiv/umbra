@@ -121,14 +121,14 @@ internal sealed class SocietiesRepository : ISocietiesRepository, IDisposable
         var                 tribeRow   = DataManager.GetExcelSheet<BeastTribe>()!.GetRow(index)!;
         BeastReputationRank rankRow    = DataManager.GetExcelSheet<BeastReputationRank>()!.GetRow(rank)!;
         byte                maxRank    = tribeRow.MaxRank;
-        string              rankName   = rankRow.Name.ToString();
+        string              rankName   = rankRow.AlliedNames.ToString();
 
         if (rank >= tribeRow.MaxRank) {
             if (tribeRow.Expansion.Row != 0
                 && tribeRow.Unknown7 != 0
                 && QuestManager.IsQuestComplete(tribeRow.Unknown7)
                ) {
-                rankName = rankRow.AlliedNames.ToString();
+                rankName = rankRow.Name.ToString();
             }
 
             return (tribeRow, rankRow, currentRep, 0, maxRank, rankName);
