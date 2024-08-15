@@ -26,7 +26,7 @@ internal sealed partial class ShortcutPanelWidget
                 "ButtonLabel",
                 I18N.Translate("Widget.ShortcutPanel.Config.ButtonLabel.Name"),
                 I18N.Translate("Widget.ShortcutPanel.Config.ButtonLabel.Description"),
-                "My Shortcuts",
+                Info.Name,
                 32
             ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             new IntegerWidgetConfigVariable(

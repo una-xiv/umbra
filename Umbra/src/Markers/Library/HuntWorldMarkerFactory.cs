@@ -35,7 +35,6 @@ internal class HuntWorldMarkerFactory(IDataManager dataManager, IZoneManager zon
     private readonly Dictionary<uint, NotoriousMonster?> _notoriousMonstersCache = [];
 
     private readonly Dictionary<byte, string> _rankPrefixes = new() {
-        { 0, "[C]" },
         { 1, "[B]" },
         { 2, "[A]" },
         { 3, "[S]" },
@@ -46,7 +45,6 @@ internal class HuntWorldMarkerFactory(IDataManager dataManager, IZoneManager zon
     {
         return [
             ..DefaultStateConfigVariables,
-            new BooleanMarkerConfigVariable("ShowC",  I18N.Translate("Markers.Hunt.ShowC"),  null, false),
             new BooleanMarkerConfigVariable("ShowB",  I18N.Translate("Markers.Hunt.ShowB"),  null, false),
             new BooleanMarkerConfigVariable("ShowA",  I18N.Translate("Markers.Hunt.ShowA"),  null, true),
             new BooleanMarkerConfigVariable("ShowS",  I18N.Translate("Markers.Hunt.ShowS"),  null, true),
@@ -83,7 +81,7 @@ internal class HuntWorldMarkerFactory(IDataManager dataManager, IZoneManager zon
             string rank = _rankPrefixes[nm.Rank];
 
             switch (nm.Rank) {
-                case 0 when !GetConfigValue<bool>("ShowC"):
+                case 0:
                 case 1 when !GetConfigValue<bool>("ShowB"):
                 case 2 when !GetConfigValue<bool>("ShowA"):
                 case 3 when !GetConfigValue<bool>("ShowS"):

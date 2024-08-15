@@ -59,9 +59,9 @@ internal partial class WidgetsModule
             new() {
                 ClassList = ["widgets-column-wrapper"],
                 ChildNodes = [
-                    CreateColumn("Left",   "Left Side"),
-                    CreateColumn("Center", "Center"),
-                    CreateColumn("Right",  "Right Side")
+                    CreateColumn("Left",   I18N.Translate("Settings.WidgetsModule.LeftSide")),
+                    CreateColumn("Center", I18N.Translate("Settings.WidgetsModule.Center")),
+                    CreateColumn("Right",  I18N.Translate("Settings.WidgetsModule.RightSide")),
                 ]
             }
         ]
