@@ -72,6 +72,9 @@ internal partial class TeleportWidgetPopup
 
         expansionList.AppendChild(node);
         node.OnMouseUp += n => ActivateExpansion(n.Id!);
+        node.OnMouseEnter += n => {
+            if (OpenCategoryOnHover) ActivateExpansion(n.Id!);
+        };
 
         Node destinationListFavorites = new() {
             Id        = id,
@@ -108,6 +111,10 @@ internal partial class TeleportWidgetPopup
         };
 
         node.OnMouseUp += n => ActivateExpansion(n.Id!);
+        node.OnMouseEnter += n => {
+            if (OpenCategoryOnHover) ActivateExpansion(n.Id!);
+        };
+
         targetNode.AppendChild(node);
 
         Node destinationList = new() {

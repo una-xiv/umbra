@@ -760,6 +760,8 @@
     "Widget.Teleport.Favorites.MoveUp": "上移",
     "Widget.Teleport.Favorites.MoveDown": "下移",
     "Widget.Teleport.OpenMap": "打开地图",
+    "Widget.Teleport.Config.OpenCategoryOnHover.Name": "悬停时打开扩展",
+    "Widget.Teleport.Config.OpenCategoryOnHover.Description": "当你的鼠标悬停在扩展上时，会在弹出菜单中打开扩展，而不需要点击。",
     "Widget.Teleport.Config.ColumnWidth.Name": "列宽",
     "Widget.Teleport.Config.ColumnWidth.Description": "传送弹出菜单中列的宽度，以像素为单位。",
     "Widget.Teleport.Config.MinimumColumns.Name": "最少显示列",

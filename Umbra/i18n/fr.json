@@ -760,6 +760,8 @@
     "Widget.Teleport.Favorites.MoveUp": "Déplacer vers le haut",
     "Widget.Teleport.Favorites.MoveDown": "Déplacer vers le bas",
     "Widget.Teleport.OpenMap": "Ouvrir la carte",
+    "Widget.Teleport.Config.OpenCategoryOnHover.Name": "Ouvrir l'expansion au survol",
+    "Widget.Teleport.Config.OpenCategoryOnHover.Description": "Ouvre une expansion dans le menu contextuel lorsque ta souris la survole, plutôt que de devoir cliquer dessus.",
     "Widget.Teleport.Config.ColumnWidth.Name": "Largeur de colonne",
     "Widget.Teleport.Config.ColumnWidth.Description": "La largeur d'une colonne dans le menu popup de téléportation en pixels.",
     "Widget.Teleport.Config.MinimumColumns.Name": "Colonnes d'affichage minimales",

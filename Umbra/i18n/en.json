@@ -759,6 +759,8 @@
     "Widget.Teleport.Favorites.MoveUp": "Move up",
     "Widget.Teleport.Favorites.MoveDown": "Move down",
     "Widget.Teleport.OpenMap": "Open map",
+    "Widget.Teleport.Config.OpenCategoryOnHover.Name": "Open expansion on hover",
+    "Widget.Teleport.Config.OpenCategoryOnHover.Description": "Opens an expansion in the popup menu when your mouse hovers over it, rather than having to click it.",
     "Widget.Teleport.Config.ColumnWidth.Name": "Column width",
     "Widget.Teleport.Config.ColumnWidth.Description": "The width of a column in the teleport popup menu in pixels.",
     "Widget.Teleport.Config.MinimumColumns.Name": "Minimum columns to display",
