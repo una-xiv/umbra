@@ -195,7 +195,7 @@ internal sealed partial class DtrBarWidget(
         if (labelNode == null) return;
 
         labelNode.NodeValue = GetConfigValue<bool>("PlainText")
-            ? ActuallyNullable(entry.Text)?.TextValue ?? ""
+            ? entry.Text?.TextValue ?? ""
             : entry.Text;
     }
 
@@ -203,6 +203,4 @@ internal sealed partial class DtrBarWidget(
         0 => null,
         _ => GetConfigValue<int>("MaxTextWidth")
     };
-
-    static SeString? ActuallyNullable(SeString str) => str;
 }

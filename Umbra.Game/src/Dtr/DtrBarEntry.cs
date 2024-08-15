@@ -22,8 +22,8 @@ namespace Umbra.Game;
 
 public class DtrBarEntry(IReadOnlyDtrBarEntry entry, int sortIndex)
 {
-    public string    Name          { get; private set; } = entry.Title;
-    public SeString  Text          { get; private set; } = entry.Text;
+    public string    Name { get; private set; } = entry.Title;
+    public SeString? Text { get; private set; } = entry.Text;
 #pragma warning disable CS8766 // Nullability of reference types in return type doesn't match implicitly implemented member (possibly because of nullability attributes).
     public SeString? TooltipText   { get; private set; } = entry.Tooltip; // Tooltip can be NULL, even though Dalamud's IReadOnlyDtrBarEntry.Tooltip is non-nullable.
 #pragma warning restore CS8766 // Nullability of reference types in return type doesn't match implicitly implemented member (possibly because of nullability attributes).
