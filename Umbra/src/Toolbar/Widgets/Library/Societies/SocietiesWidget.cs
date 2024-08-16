@@ -54,9 +54,9 @@ internal sealed partial class SocietiesWidget(
 
             string rep = pct is < 100 and > 0 ? $" ({pct}%)" : "";
 
-            SetTwoLabels(society.Value.Name, $"{society.Value.Rank}{rep}");
+            SetTwoLabels(society.Value.Name, $"{society.Value.RankName}{rep}");
             SetIcon(society.Value.IconId);
-            tooltip = $"{society.Value.Name} - {society.Value.Rank}{rep}";
+            tooltip = $"{society.Value.Name} - {society.Value.RankName}{rep}";
         }
 
         base.OnUpdate();

@@ -61,7 +61,7 @@ internal sealed partial class SocietiesWidgetPopup : WidgetPopup
         );
 
         foreach (Society society in Player.Societies.OrderBy(s => s.ExpansionId)) {
-            if (society.RankId == 0) continue;
+            if (society.Rank == 0) continue;
 
             Node expansionNode = GetOrCreateExpansionNodeFor(society.ExpansionId, society.ExpansionName);
             Node societyNode   = GetOrCreateSocietyNode(society, expansionNode);
@@ -76,7 +76,7 @@ internal sealed partial class SocietiesWidgetPopup : WidgetPopup
                 rankStr.AddUiForeground((ushort)society.RankColor);
             }
 
-            rankStr.AddText($"{society.Rank} ({society.RankId} / {society.MaxRank})");
+            rankStr.AddText($"{society.RankName} ({society.Rank} / {society.MaxRank})");
 
             societyNode.QuerySelector(".society--exp-bar--bar")!.Style.Size = new(expWidth, 2);
             societyNode.QuerySelector(".society--rank--value")!.NodeValue   = $"{expPct}%";

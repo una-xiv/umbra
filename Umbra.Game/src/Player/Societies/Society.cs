@@ -22,9 +22,9 @@ public struct Society
     public uint   ExpansionId    { get; init; }
     public string ExpansionName  { get; init; }
     public string Name           { get; init; }
-    public uint   RankId         { get; init; }
+    public uint   Rank           { get; init; }
     public byte   MaxRank        { get; init; }
-    public string Rank           { get; init; }
+    public string RankName       { get; init; }
     public uint   RankColor      { get; init; }
     public uint   IconId         { get; init; }
     public uint   CurrencyItemId { get; init; }

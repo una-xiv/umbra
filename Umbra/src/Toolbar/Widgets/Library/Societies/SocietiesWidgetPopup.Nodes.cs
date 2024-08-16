@@ -78,7 +78,7 @@ internal sealed partial class SocietiesWidgetPopup
                         },
                         new() {
                             ClassList = ["society--rank"],
-                            NodeValue = $"{society.Rank}",
+                            NodeValue = $"{society.RankName}",
                             ChildNodes = [
                                 new() {
                                     ClassList = ["society--rank--value"],
