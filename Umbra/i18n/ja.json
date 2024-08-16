@@ -817,6 +817,8 @@
     "Widget.Companion.Summon": "召喚",
     "Widget.Companion.Feed": "餌やり",
     "Widget.Companion.InfoWindow": "コンパニオン情報",
+    "Widget.Companion.Config.ShowFoodButtons.Name": "食べ物ボタンを表示",
+    "Widget.Companion.Config.ShowFoodButtons.Description": "いろいろな種類の食べ物でチョコボコンパニオンに餌をあげるためのボタンを表示します。",
     "Widget.CustomButton.Name": "カスタムボタン",
     "Widget.CustomButton.Description": "コマンドを実行するために使用できるカスタマイズ可能なボタン。",
     "Widget.CustomButton.Config.HideLabel.Name": "ボタンラベルを隠す",

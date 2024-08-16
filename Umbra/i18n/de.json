@@ -817,6 +817,8 @@
     "Widget.Companion.Summon": "Herbeirufen",
     "Widget.Companion.Feed": "Füttern",
     "Widget.Companion.InfoWindow": "Begleiterinfo",
+    "Widget.Companion.Config.ShowFoodButtons.Name": "Essensknöpfe anzeigen",
+    "Widget.Companion.Config.ShowFoodButtons.Description": "Zeigt Tasten an, um deinen Chocobo-Begleiter mit verschiedenen Arten von Essen zu füttern.",
     "Widget.CustomButton.Name": "Benutzerdefinierte Schaltfläche",
     "Widget.CustomButton.Description": "Eine anpassbare Schaltfläche, die verwendet werden kann, um einen Befehl auszuführen.",
     "Widget.CustomButton.Config.HideLabel.Name": "Schaltflächenbeschriftung ausblenden",

@@ -817,6 +817,8 @@
     "Widget.Companion.Summon": "Invoquer",
     "Widget.Companion.Feed": "Nourrir",
     "Widget.Companion.InfoWindow": "Information",
+    "Widget.Companion.Config.ShowFoodButtons.Name": "Afficher les boutons de nourriture",
+    "Widget.Companion.Config.ShowFoodButtons.Description": "Affiche des boutons pour nourrir ton compagnon chocobo avec différents types de nourriture.",
     "Widget.CustomButton.Name": "Bouton Personnalisé",
     "Widget.CustomButton.Description": "Un bouton personnalisable qui peut être utilisé pour exécuter une commande.",
     "Widget.CustomButton.Config.HideLabel.Name": "Masquer l'étiquette du bouton",

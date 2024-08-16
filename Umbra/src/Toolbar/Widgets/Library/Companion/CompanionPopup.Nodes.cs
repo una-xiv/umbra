@@ -14,7 +14,12 @@
  *     GNU Affero General Public License for more details.
  */
 
+using Dalamud.Plugin.Services;
+using Dalamud.Utility;
+using Lumina.Excel.GeneratedSheets;
+using System.Linq;
 using Umbra.Common;
+using Umbra.Game;
 using Umbra.Windows.Components;
 using Una.Drawing;
 
@@ -49,6 +54,12 @@ internal partial class CompanionPopup
                 ],
             },
             new() {
+                Id         = "StanceButtons",
+                ClassList  = ["body"],
+                ChildNodes = []
+            },
+            new() {
+                Id         = "FoodButtons",
                 ClassList  = ["body"],
                 ChildNodes = []
             },
@@ -71,17 +82,52 @@ internal partial class CompanionPopup
             Id        = $"Stance_{actionId}",
             ClassList = ["stance-button"],
             Tooltip   = Companion.GetStanceName(actionId),
-            Style = new() {
-                IconId = Companion.GetStanceIcon(actionId),
-            }
+            ChildNodes = [
+                new() {
+                    ClassList = ["button--icon"],
+                    Style = new() {
+                        IconId = Companion.GetStanceIcon(actionId),
+                    }
+                }
+            ],
         };
 
-        node.OnClick    += _ => Companion.SetStance(actionId);
+        node.OnClick += _ => Companion.SetStance(actionId);
+
         node.BeforeDraw += n => {
-            node.Style.ImageGrayscale = !n.IsMouseOver && (!Companion.CanSetStance(actionId) || actionId != Companion.ActiveCommand);
-            node.Style.Opacity        = Companion.CanSetStance(actionId) ? 1 : 0.33f;
+            node.QuerySelector(".button--icon")!.Style.ImageGrayscale =
+                !n.IsMouseOver && (!Companion.CanSetStance(actionId) || actionId != Companion.ActiveCommand);
+
+            node.Style.Opacity = Companion.CanSetStance(actionId) ? 1 : 0.33f;
         };
 
-        Node.QuerySelector(".body")!.AppendChild(node);
+        Node.QuerySelector("#StanceButtons")!.AppendChild(node);
+    }
+
+    private void CreateFoodButton(CompanionFood foodType)
+    {
+        Item? item = DataManager.GetExcelSheet<Item>()!.GetRow((uint)foodType);
+        if (item == null) return;
+
+        Node node = new() {
+            Id        = $"Food_{foodType}",
+            ClassList = ["food-button"],
+            Tooltip   = $"{item.Name.ToDalamudString().TextValue}\n\n{item.Description.ToDalamudString().TextValue.Split("\n").LastOrDefault() ?? ""}",
+            ChildNodes = [
+                new() {
+                    ClassList = ["button--icon"],
+                    Style = new() { IconId = item.Icon }
+                },
+                new() {
+                    ClassList = ["button--count"],
+                }
+            ],
+        };
+
+        node.OnMouseUp += _ => {
+            if (Companion.HasCompanionFood(foodType)) Companion.UseCompanionFood(foodType);
+        };
+
+        Node.QuerySelector("#FoodButtons")!.AppendChild(node);
     }
 }

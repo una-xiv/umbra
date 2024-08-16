@@ -100,11 +100,13 @@ internal partial class CompanionPopup
                 }
             ),
             new(
-                ".stance-button",
+                ".stance-button, .food-button",
                 new() {
                     Size            = new(48, 48),
-                    ImageInset      = new(4),
+                    Padding         = new(4),
                     BackgroundColor = new("Widget.Background"),
+                    BorderRadius    = 6,
+                    IsAntialiased   = false,
                 }
             ),
             new(
@@ -114,6 +116,38 @@ internal partial class CompanionPopup
                     StrokeInset    = 2,
                     StrokeWidth    = 1,
                     ImageGrayscale = false,
+                }
+            ),
+            new(
+                ".food-button.has-food:hover",
+                new() {
+                    StrokeColor    = new("Window.Border"),
+                    StrokeInset    = 2,
+                    StrokeWidth    = 1,
+                    ImageGrayscale = false,
+                }
+            ),
+            new(
+                ".button--icon",
+                new() {
+                    Size            = new(40, 40),
+                    Padding         = new(4),
+                    BorderRadius    = 4,
+                    BackgroundColor = new("Input.Background"),
+                    IsAntialiased   = false,
+                }
+            ),
+            new(
+                ".button--count",
+                new() {
+                    Anchor       = Anchor.BottomRight,
+                    TextAlign    = Anchor.TopRight,
+                    Font         = 0,
+                    FontSize     = 13,
+                    Color        = new("Widget.PopupMenuText"),
+                    OutlineColor = new("Widget.PopupMenuTextOutline"),
+                    OutlineSize  = 1,
+                    Padding      = new(2),
                 }
             ),
             new(

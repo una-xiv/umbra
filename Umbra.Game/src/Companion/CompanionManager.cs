@@ -120,6 +120,16 @@ internal sealed class CompanionManager : ICompanionManager
         _player.UseInventoryItem(GysahlGreensItemId);
     }
 
+    public bool HasCompanionFood(CompanionFood foodType)
+    {
+        return _player.HasItemInInventory((uint)foodType);
+    }
+
+    public void UseCompanionFood(CompanionFood foodType)
+    {
+        _player.UseInventoryItem((uint)foodType);
+    }
+
     public string GetStanceName(uint id)
     {
         return _dataManager.GetExcelSheet<BuddyAction>()!.GetRow(id)!.Name.ToDalamudString().TextValue;

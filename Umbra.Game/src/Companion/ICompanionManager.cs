@@ -30,6 +30,17 @@ public interface ICompanionManager
     public bool HasGysahlGreens { get; }
 
     /// <summary>
+    /// True if the player has the given food type in their inventory.
+    /// </summary>
+    public bool HasCompanionFood(CompanionFood foodType);
+
+    /// <summary>
+    /// Feed the companion the given food type if it is in the player's
+    /// inventory.
+    /// </summary>
+    public void UseCompanionFood(CompanionFood foodType);
+
+    /// <summary>
     /// The amount of time left before the companion is automatically dismissed.
     /// </summary>
     public float TimeLeft { get; }

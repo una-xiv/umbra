@@ -14,6 +14,8 @@
  *     GNU Affero General Public License for more details.
  */
 
+using Dalamud.Plugin.Services;
+using System;
 using Umbra.Common;
 using Umbra.Game;
 using Una.Drawing;
@@ -22,8 +24,11 @@ namespace Umbra.Widgets;
 
 internal sealed partial class CompanionPopup : WidgetPopup
 {
-    private IPlayer           Player    { get; } = Framework.Service<IPlayer>();
-    private ICompanionManager Companion { get; } = Framework.Service<ICompanionManager>();
+    public bool ShowFoodButtons { get; set; }
+
+    private IPlayer           Player      { get; } = Framework.Service<IPlayer>();
+    private ICompanionManager Companion   { get; } = Framework.Service<ICompanionManager>();
+    private IDataManager      DataManager { get; } = Framework.Service<IDataManager>();
 
     public CompanionPopup()
     {
@@ -36,6 +41,12 @@ internal sealed partial class CompanionPopup : WidgetPopup
         CreateStanceButton(5);
         CreateStanceButton(6);
         CreateStanceButton(7);
+
+        CreateFoodButton(CompanionFood.CurielRoot);
+        CreateFoodButton(CompanionFood.SylkisBud);
+        CreateFoodButton(CompanionFood.MimettGourd);
+        CreateFoodButton(CompanionFood.Tantalplant);
+        CreateFoodButton(CompanionFood.PahsanaFruit);
     }
 
     /// <inheritdoc/>
@@ -55,6 +66,7 @@ internal sealed partial class CompanionPopup : WidgetPopup
 
         if (Companion.Level < 20) {
             infoNode.Style.IsVisible = true;
+
             infoNode.NodeValue = I18N.Translate(
                 "Widget.Companion.Info",
                 Companion.Level,
@@ -62,6 +74,28 @@ internal sealed partial class CompanionPopup : WidgetPopup
             );
         } else {
             infoNode.Style.IsVisible = false;
+        }
+
+        Node.QuerySelector("#FoodButtons")!.Style.IsVisible = ShowFoodButtons;
+        if (!ShowFoodButtons) return;
+
+        foreach (CompanionFood foodType in Enum.GetValues<CompanionFood>()) {
+            var node = Node.QuerySelector($"#Food_{foodType}");
+            if (null == node) continue;
+
+            int count = Player.GetItemCount((uint)foodType);
+
+            node.QuerySelector(".button--icon")!.Style.ImageGrayscale = count == 0;
+            node.QuerySelector(".button--count")!.NodeValue           = count > 0 ? $"{count}" : null;
+
+            switch (count > 0) {
+                case true when !node.ClassList.Contains("has-food"):
+                    node.ClassList.Add("has-food");
+                    break;
+                case false when node.ClassList.Contains("has-food"):
+                    node.ClassList.Remove("has-food");
+                    break;
+            }
         }
     }
 }

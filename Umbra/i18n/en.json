@@ -816,6 +816,8 @@
     "Widget.Companion.Summon": "Summon",
     "Widget.Companion.Feed": "Feed",
     "Widget.Companion.InfoWindow": "Companion Info",
+    "Widget.Companion.Config.ShowFoodButtons.Name": "Show food buttons",
+    "Widget.Companion.Config.ShowFoodButtons.Description": "Shows buttons to feed your chocobo companion with different types of food.",
     "Widget.CustomButton.Name": "Custom Button",
     "Widget.CustomButton.Description": "A customizable button that can be used to execute a command.",
     "Widget.CustomButton.Config.HideLabel.Name": "Hide button label",

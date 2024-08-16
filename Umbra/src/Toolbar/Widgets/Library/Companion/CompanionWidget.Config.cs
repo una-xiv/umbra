@@ -27,6 +27,12 @@ internal sealed partial class CompanionWidget
         return [
             ..DefaultToolbarWidgetConfigVariables,
             ..SingleLabelTextOffsetVariables,
+            new BooleanWidgetConfigVariable(
+                "ShowFoodButtons",
+                I18N.Translate("Widget.Companion.Config.ShowFoodButtons.Name"),
+                I18N.Translate("Widget.Companion.Config.ShowFoodButtons.Description"),
+                true
+            ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
         ];
     }
 }

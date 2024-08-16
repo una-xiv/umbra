@@ -817,6 +817,8 @@
     "Widget.Companion.Summon": "召唤",
     "Widget.Companion.Feed": "喂鸟",
     "Widget.Companion.InfoWindow": "搭档信息",
+    "Widget.Companion.Config.ShowFoodButtons.Name": "显示食物按钮",
+    "Widget.Companion.Config.ShowFoodButtons.Description": "显示按钮，用不同类型的食物喂养你的陆行鸟伙伴。",
     "Widget.CustomButton.Name": "自定义按钮",
     "Widget.CustomButton.Description": "可以用来执行命令的自定义按钮",
     "Widget.CustomButton.Config.HideLabel.Name": "隐藏按钮标签",
