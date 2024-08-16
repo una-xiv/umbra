@@ -70,8 +70,8 @@ internal sealed class SocietiesRepository : ISocietiesRepository, IDisposable
 
         lock (Societies) {
             for (var i = 1; i < qm->BeastReputation.Length + 1; i++) {
-                (BeastTribe tribe, BeastReputationRank rank, ushort currentRep, ushort requiredRep, byte maxRank,
-                        string rankName) =
+                (BeastTribe tribe, BeastReputationRank rankRow, ushort currentRep, ushort requiredRep, byte rank,
+                    byte maxRank, string rankName) =
                     GetTribe((byte)(i));
 
                 string name = tribe.Name.ToString();
@@ -79,10 +79,10 @@ internal sealed class SocietiesRepository : ISocietiesRepository, IDisposable
                 Societies[tribe.RowId] = new() {
                     Id             = tribe.RowId,
                     Name           = name[0].ToString().ToUpper() + name[1..],
-                    RankId         = rank.RowId,
+                    Rank           = rank,
                     MaxRank        = maxRank,
-                    Rank           = rankName,
-                    RankColor      = rank.Color.Row,
+                    RankName       = rankName,
+                    RankColor      = rankRow.Color.Row,
                     ExpansionId    = tribe.Expansion.Row,
                     ExpansionName  = tribe.Expansion.Value!.Name.ToString(),
                     IconId         = tribe.Icon,
@@ -109,8 +109,8 @@ internal sealed class SocietiesRepository : ISocietiesRepository, IDisposable
         Telepo.Instance()->Teleport(aetheryteId, 0);
     }
 
-    private unsafe (BeastTribe tribe, BeastReputationRank rank, ushort currentRep, ushort neededRep, byte maxRank,
-        string rankName)
+    private unsafe (BeastTribe tribe, BeastReputationRank rankRow, ushort currentRep, ushort neededRep, byte rank,
+        byte maxRank, string rankName)
         GetTribe(byte index)
     {
         QuestManager*       qm    = QuestManager.Instance();
@@ -123,17 +123,20 @@ internal sealed class SocietiesRepository : ISocietiesRepository, IDisposable
         byte                maxRank    = tribeRow.MaxRank;
         string              rankName   = rankRow.AlliedNames.ToString();
 
-        if (rank >= tribeRow.MaxRank) {
-            if (tribeRow.Expansion.Row != 0
-                && tribeRow.Unknown7 != 0
-                && QuestManager.IsQuestComplete(tribeRow.Unknown7)
-               ) {
-                rankName = rankRow.Name.ToString();
-            }
-
-            return (tribeRow, rankRow, currentRep, 0, maxRank, rankName);
+        if (tribeRow.Expansion.Row != 0
+            && tribeRow.Unknown7 != 0
+            && QuestManager.IsQuestComplete(tribeRow.Unknown7))
+        {
+            rank++;
+            rankName = rankRow.Name.ToString();
+        }
+        else if (tribeRow.Expansion.Row == 0) {
+            rankName = rankRow.Name.ToString();
         }
 
-        return (tribeRow, rankRow, currentRep, rankRow.RequiredReputation, maxRank, rankName);
+        if (rank > maxRank)
+            maxRank = rank;
+
+        return (tribeRow, rankRow, currentRep, rankRow.RequiredReputation, rank, maxRank, rankName);
     }
 }
