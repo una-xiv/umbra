@@ -318,6 +318,7 @@ internal sealed class Player : IPlayer
         IsBoundByInstancedDuty = _condition[ConditionFlag.BoundByDuty56];
 
         IsInCutscene = _condition[ConditionFlag.OccupiedInCutSceneEvent]
+            || _condition[ConditionFlag.Occupied38] // Pseudo Cutscene during combat
             || _condition[ConditionFlag.WatchingCutscene]
             || _condition[ConditionFlag.WatchingCutscene78];
 
