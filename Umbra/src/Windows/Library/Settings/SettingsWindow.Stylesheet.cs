@@ -88,13 +88,10 @@ internal partial class SettingsWindow
                 "Logo",
                 new() {
                     Anchor          = Anchor.TopLeft,
-                    Size            = new(110, 100),
+                    Size            = new(100, 100),
                     Margin          = new(15),
                     BackgroundColor = new("Window.Background"),
-                    IsAntialiased   = false,
                     ImageBytes      = LogoTexture,
-                    ImageInset      = new(15),
-                    ImageRounding   = 8,
                     BorderRadius    = 8,
                 }
             ),

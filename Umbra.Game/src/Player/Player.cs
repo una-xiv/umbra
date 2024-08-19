@@ -329,7 +329,7 @@ internal sealed class Player : IPlayer
             && _condition[ConditionFlag.OccupiedInCutSceneEvent];
 
         // Unknown57 is the transient state the player is in after casting and before being actually mounted.
-        CanUseTeleportAction = !IsDead && !IsCasting && !IsInCombat && !IsJumping && !IsOccupied && !IsBoundByDuty && !_condition[ConditionFlag.Unknown57];
+        CanUseTeleportAction = ActionManager.Instance()->GetActionStatus(ActionType.Action, 5) == 0;
         HomeWorldName        = _clientState.LocalPlayer.HomeWorld.GameData!.Name.ToString();
         CurrentWorldName     = _clientState.LocalPlayer.CurrentWorld.GameData!.Name.ToString();
 

@@ -37,7 +37,7 @@ internal partial class SettingsWindow
                         ChildNodes = [
                             new() { Id = "ModuleButtons" }
                         ]
-                    }
+                    },
                 ]
             },
             new() {
