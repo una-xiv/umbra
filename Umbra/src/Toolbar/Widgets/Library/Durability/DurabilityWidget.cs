@@ -153,6 +153,9 @@ internal partial class DurabilityWidget(
         LabelNode.Style.TextOffset         = new(0, GetConfigValue<int>("TextYOffset"));
         TopLabelNode.Style.TextOffset      = new(0, GetConfigValue<int>("TextYOffsetTop"));
         BottomLabelNode.Style.TextOffset   = new(0, GetConfigValue<int>("TextYOffsetBottom"));
+        LabelNode.Style.FontSize           = GetConfigValue<int>("TextSize");
+        TopLabelNode.Style.FontSize        = GetConfigValue<int>("TextSizeTop");
+        BottomLabelNode.Style.FontSize     = GetConfigValue<int>("TextSizeBottom");
 
         bool hasText = GetConfigValue<string>("DisplayMode") != "IconOnly";
         LeftIconNode.Style.Margin  = new(0, 0, 0, hasText ? -2 : 0);
