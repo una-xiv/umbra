@@ -1,10 +1,5 @@
-﻿using Dalamud.Plugin.Services;
-using FFXIVClientStructs.FFXIV.Client.Game.UI;
-using Lumina.Excel.GeneratedSheets;
-using System;
-using System.Linq;
+﻿using System;
 using System.Numerics;
-using Umbra.Common;
 using Umbra.Windows;
 using Umbra.Windows.Components;
 using Una.Drawing;

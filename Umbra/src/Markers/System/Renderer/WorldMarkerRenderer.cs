@@ -50,6 +50,16 @@ internal class WorldMarkerRenderer(
 
     private uint _lastZoneId;
 
+    private void DisposeNodes()
+    {
+        foreach (WorldMarkerNode node in _nodes.Values) {
+            node.Dispose();
+        }
+
+        _nodes.Clear();
+        _positions.Clear();
+    }
+
     [OnDraw]
     private void OnDraw()
     {
@@ -57,8 +67,7 @@ internal class WorldMarkerRenderer(
 
         if (_lastZoneId != zoneManager.CurrentZone.Id) {
             _lastZoneId = zoneManager.CurrentZone.Id;
-            _nodes.Clear();
-            _positions.Clear();
+            DisposeNodes();
         }
 
         List<string> usedIds = [];
@@ -95,6 +104,10 @@ internal class WorldMarkerRenderer(
 
         foreach (WorldMarkerNode node in _nodes.Values.ToList()) {
             if (!usedIds.Contains(node.Id!)) {
+                if (_nodes.TryGetValue(node.Id!, out var oldNode)) {
+                    oldNode.Dispose();
+                }
+
                 _nodes.Remove(node.Id!);
                 _positions.Remove(node);
                 continue;
