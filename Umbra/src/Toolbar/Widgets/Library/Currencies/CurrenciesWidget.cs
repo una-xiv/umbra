@@ -71,6 +71,7 @@ internal sealed partial class CurrenciesWidget(
     {
         Popup.IsDisabled        = !GetConfigValue<bool>("EnableMouseInteraction");
         Popup.UseGrayscaleIcons = GetConfigValue<bool>("DesaturateIcons");
+        Node.EnableHoverTag     = !Popup.IsDisabled;
 
         UpdateCustomIdList();
 
