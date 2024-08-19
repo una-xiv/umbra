@@ -34,6 +34,9 @@ internal partial class AuxWidgetsModule : SettingsModule
         AuxYPositionNode.Value             = Toolbar.AuxBarYPos;
         AuxHoldKeyNode.Value               = Toolbar.AuxBarHoldKey;
         AuxHideInCutscenesNode.Value       = Toolbar.AuxBarHideInCutscenes;
+        AuxHideInPvPNode.Value             = Toolbar.AuxBarHideInPvP;
+        AuxHideInDutyNode.Value            = Toolbar.AuxBarHideInDuty;
+        AuxHideInCombatNode.Value          = Toolbar.AuxBarHideInCombat;
         AuxConditionalVisibilityNode.Value = Toolbar.AuxBarIsConditionallyVisible;
         AuxShowInCutsceneNode.Value        = Toolbar.AuxBarShowInCutscene;
         AuxShowInGPoseNode.Value           = Toolbar.AuxBarShowInGPose;
@@ -49,6 +52,9 @@ internal partial class AuxWidgetsModule : SettingsModule
         AuxYPositionNode.OnValueChanged             += OnYPositionChanged;
         AuxWidgetAddNode.OnMouseUp                  += ShowAddWidgetWindow;
         AuxHideInCutscenesNode.OnValueChanged       += HideInCutscenesChanged;
+        AuxHideInPvPNode.OnValueChanged             += HideInPvPChanged;
+        AuxHideInDutyNode.OnValueChanged            += AuxHideInDutyChanged;
+        AuxHideInCombatNode.OnValueChanged          += AuxHideInCombatChanged;
         AuxConditionalVisibilityNode.OnValueChanged += OnConditionalVisibilityChanged;
         AuxHoldKeyNode.OnValueChanged               += AuxHoldKeyChanged;
         AuxShowInCutsceneNode.OnValueChanged        += ShowInCutsceneChanged;
@@ -75,6 +81,9 @@ internal partial class AuxWidgetsModule : SettingsModule
         AuxYPositionNode.OnValueChanged             -= OnYPositionChanged;
         AuxWidgetAddNode.OnMouseUp                  -= ShowAddWidgetWindow;
         AuxHideInCutscenesNode.OnValueChanged       -= HideInCutscenesChanged;
+        AuxHideInPvPNode.OnValueChanged             -= HideInPvPChanged;
+        AuxHideInDutyNode.OnValueChanged            -= AuxHideInDutyChanged;
+        AuxHideInCombatNode.OnValueChanged          -= AuxHideInCombatChanged;
         AuxConditionalVisibilityNode.OnValueChanged -= OnConditionalVisibilityChanged;
         AuxHoldKeyNode.OnValueChanged               -= AuxHoldKeyChanged;
         AuxShowInCutsceneNode.OnValueChanged        -= ShowInCutsceneChanged;
@@ -146,6 +155,21 @@ internal partial class AuxWidgetsModule : SettingsModule
     private static void HideInCutscenesChanged(bool value)
     {
         ConfigManager.Set("Toolbar.AuxBar.HideInCutscenes", value);
+    }
+
+    private static void HideInPvPChanged(bool value)
+    {
+        ConfigManager.Set("Toolbar.AuxBar.HideInPvP", value);
+    }
+
+    private static void AuxHideInDutyChanged(bool value)
+    {
+        ConfigManager.Set("Toolbar.AuxBar.HideInDuty", value);
+    }
+
+    private static void AuxHideInCombatChanged(bool value)
+    {
+        ConfigManager.Set("Toolbar.AuxBar.HideInCombat", value);
     }
 
     private static void OnConditionalVisibilityChanged(bool value)

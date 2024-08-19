@@ -248,6 +248,9 @@ internal partial class Toolbar
     private bool ShouldRenderAuxBar()
     {
         if (player.IsInCutscene && AuxBarHideInCutscenes) return false;
+        if (player.IsInPvP && AuxBarHideInPvP) return false;
+        if (player.IsBoundByInstancedDuty && AuxBarHideInDuty) return false;
+        if (player.IsInCombat && AuxBarHideInCombat) return false;
 
         if (!AuxBarIsConditionallyVisible) return true;
 

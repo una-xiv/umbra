@@ -81,7 +81,16 @@ internal partial class Toolbar
     public static bool AuxEnableShadow { get; set; } = true;
 
     [ConfigVariable("Toolbar.AuxBar.HideInCutscenes")]
-    public static bool AuxBarHideInCutscenes { get; set; }
+    public static bool AuxBarHideInCutscenes { get; set; } = false;
+
+    [ConfigVariable("Toolbar.AuxBar.HideInPvP")]
+    public static bool AuxBarHideInPvP { get; set; } = false;
+
+    [ConfigVariable("Toolbar.AuxBar.HideInDuty")]
+    public static bool AuxBarHideInDuty { get; set; } = false;
+
+    [ConfigVariable("Toolbar.AuxBar.HideInCombat")]
+    public static bool AuxBarHideInCombat { get; set; } = false;
 
     [ConfigVariable("Toolbar.AuxBar.IsConditionallyVisible")]
     public static bool AuxBarIsConditionallyVisible { get; set; } = false;

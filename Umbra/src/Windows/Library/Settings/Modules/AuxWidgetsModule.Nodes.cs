@@ -83,6 +83,24 @@ internal partial class AuxWidgetsModule
                                         I18N.Translate("Settings.AuxWidgetsModule.Config.AuxHideInCutscenes.Name"),
                                         I18N.Translate("Settings.AuxWidgetsModule.Config.AuxHideInCutscenes.Description")
                                     ),
+                                    new CheckboxNode(
+                                        "AuxHideInPvP",
+                                        Toolbar.AuxBarHideInPvP,
+                                        I18N.Translate("Settings.AuxWidgetsModule.Config.AuxHideInPvP.Name"),
+                                        I18N.Translate("Settings.AuxWidgetsModule.Config.AuxHideInPvP.Description")
+                                    ),
+                                    new CheckboxNode(
+                                        "AuxHideInDuty",
+                                        Toolbar.AuxBarHideInDuty,
+                                        I18N.Translate("Settings.AuxWidgetsModule.Config.AuxHideInDuty.Name"),
+                                        I18N.Translate("Settings.AuxWidgetsModule.Config.AuxHideInDuty.Description")
+                                    ),
+                                    new CheckboxNode(
+                                        "AuxHideInCombat",
+                                        Toolbar.AuxBarHideInCombat,
+                                        I18N.Translate("Settings.AuxWidgetsModule.Config.AuxHideInCombat.Name"),
+                                        I18N.Translate("Settings.AuxWidgetsModule.Config.AuxHideInCombat.Description")
+                                    ),
                                     new() { ClassList = ["separator"] },
                                     new CheckboxNode(
                                         "AuxConditionalVisibility",
@@ -155,8 +173,7 @@ internal partial class AuxWidgetsModule
                                 ChildNodes = [
                                     new() {
                                         ClassList = ["widgets-column--add-new--label"],
-                                        NodeValue =
-                                            $"{SeIconChar.BoxedPlus.ToIconString()} {I18N.Translate("Settings.WidgetsModule.AddWidget")}",
+                                        NodeValue = $"{SeIconChar.BoxedPlus.ToIconString()} {I18N.Translate("Settings.WidgetsModule.AddWidget")}",
                                         InheritTags = true,
                                     }
                                 ]
@@ -293,6 +310,9 @@ internal partial class AuxWidgetsModule
     private SelectNode AuxXAlignNode => Node.QuerySelector<SelectNode>("AuxXAlign")!;
     private CheckboxNode AuxShadowNode => Node.QuerySelector<CheckboxNode>("AuxShadow")!;
     private CheckboxNode AuxHideInCutscenesNode => Node.QuerySelector<CheckboxNode>("AuxHideInCutscenes")!;
+    private CheckboxNode AuxHideInPvPNode => Node.QuerySelector<CheckboxNode>("AuxHideInPvP")!;
+    private CheckboxNode AuxHideInDutyNode => Node.QuerySelector<CheckboxNode>("AuxHideInDuty")!;
+    private CheckboxNode AuxHideInCombatNode => Node.QuerySelector<CheckboxNode>("AuxHideInCombat")!;
     private CheckboxNode AuxConditionalVisibilityNode => Node.QuerySelector<CheckboxNode>("AuxConditionalVisibility")!;
     private SelectNode AuxHoldKeyNode => Node.QuerySelector<SelectNode>("AuxHoldKey")!;
     private CheckboxNode AuxShowInCutsceneNode => Node.QuerySelector<CheckboxNode>("AuxShowInCutscene")!;
