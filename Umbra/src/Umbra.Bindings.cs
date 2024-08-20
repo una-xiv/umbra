@@ -37,7 +37,7 @@ internal sealed class UmbraBindings : IDisposable
     public static bool IsFirstTimeStart { get; set; } = true;
 
     [ConfigVariable("General.UseThreadedStyleComputation", "General", "Experimental")]
-    public static bool UseThreadedStyleComputation { get; set; } = false;
+    public static bool UseThreadedStyleComputation { get; set; } = true;
 
     [ConfigVariable("General.EnableHitchWarnings", "General", "DeveloperTools")]
     public static bool EnableHitchWarnings { get; set; } = false;
