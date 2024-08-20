@@ -49,7 +49,7 @@ internal sealed class UmbraBindings : IDisposable
     public static float DrawHitchThresholdMs { get; set; } = 5.0f;
 
     [ConfigVariable("General.UseGameMouseCursor", "General")]
-    public static bool UseGameMouseCursor { get; set; } = true;
+    public static bool UseGameMouseCursor { get; set; } = false;
 
     private ICommandManager _commandManager;
 

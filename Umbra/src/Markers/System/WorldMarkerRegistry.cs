@@ -90,7 +90,15 @@ internal sealed class WorldMarkerRegistry : IDisposable
         if (marker.MapId == 0 || !WorldMarkers.TryGetValue(marker.MapId, out Dictionary<string, WorldMarker>? markers))
             throw new ArgumentException("The marker must have a valid map ID set.");
 
-        if (markers.TryGetValue(marker.Key, out WorldMarker? value) && ReferenceEquals(marker, value)) {
+        if (markers.TryGetValue(marker.Key, out WorldMarker? value) && marker.Key == value.Key) {
+            value.Position      = marker.Position;
+            value.IsVisible     = marker.IsVisible;
+            value.IconId        = marker.IconId;
+            value.MapId         = marker.MapId;
+            value.Label         = marker.Label;
+            value.SubLabel      = marker.SubLabel;
+            value.FadeDistance  = marker.FadeDistance;
+            value.ShowOnCompass = marker.ShowOnCompass;
             UpdateResolvedPositionOf(marker);
             return marker.Key;
         }
