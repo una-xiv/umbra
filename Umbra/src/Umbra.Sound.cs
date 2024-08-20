@@ -31,10 +31,10 @@ internal sealed class UmbraSound : IDisposable
     private static bool Enabled { get; set; } = true;
 
     [ConfigVariable("Sound.OpenPopupId", "General", "Sound", 0, 78)]
-    private static int OpenPopupId { get; set; } = 14;
+    private static int OpenPopupId { get; set; } = 1;
 
     [ConfigVariable("Sound.ClosePopupId", "General", "Sound", 0, 78)]
-    private static int ClosePopupId { get; set; } = 15;
+    private static int ClosePopupId { get; set; } = 0;
 
     [ConfigVariable("Sound.OpenWindowId", "General", "Sound", 0, 78)]
     private static int OpenWindowId { get; set; } = 23;
