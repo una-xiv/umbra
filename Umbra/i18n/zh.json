@@ -240,6 +240,8 @@
     "CVAR.Markers.Renderer.MaxWidth.Description": "标记的最大宽度，以像素为单位。如果标记文本被截断太频繁，可以增加此值以显示更多文本。",
     "CVAR.General.UiScale.Name": "UI缩放",
     "CVAR.General.UiScale.Description": "所有Umbra元素的界面缩放系数。此值为默认大小的百分比。按Enter键应用给定值。请注意，输入元素（例如文本框和下拉菜单）不受此设置影响。对于这些元素，请在Dalamud设置中使用全局字体缩放设置。",
+    "CVAR.General.UseGameMouseCursor.Name": "使用游戏的鼠标光标",
+    "CVAR.General.UseGameMouseCursor.Description": "是否使用游戏的鼠标光标代替操作系统的默认光标。请注意，这是一个全局设置，会影响其他Dalamud插件。如果另一个插件已经更改了此设置，在这里更改可能不会生效。",
     "CVAR.General.UseThreadedStyleComputation.Name": "使用多线程渲染",
     "CVAR.General.UseThreadedStyleComputation.Description": "[实验性设置] 是否使用多线程计算工具栏和小组件的样式。这将提高性能，但在某些情况下可能不稳定，导致某些元素渲染不准确。如果您遇到任何图形问题，请保持此设置禁用。",
     "CVAR.General.EnableHitchWarnings.Name": "启用控制台中的Umbra特定挂起警告",

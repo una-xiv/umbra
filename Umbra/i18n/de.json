@@ -240,6 +240,8 @@
     "CVAR.Markers.Renderer.MaxWidth.Description": "Die maximale Breite eines Markers in Pixeln. Erhöhe diesen Wert, um mehr Text auf Markern anzuzeigen, wenn dieser zu oft abgeschnitten wird.",
     "CVAR.General.UiScale.Name": "UI Skalierung",
     "CVAR.General.UiScale.Description": "Der Schnittstellenskalierungsfaktor für alle Umbra-Elemente. Dieser Wert ist ein Prozentsatz der Standardgröße. Drücke die Eingabetaste, um den angegebenen Wert anzuwenden. Beachte, dass Eingabeelemente von dieser Einstellung nicht betroffen sind. Verwende stattdessen die globale Schriftartskalierungseinstellung in den Dalamud-Einstellungen.",
+    "CVAR.General.UseGameMouseCursor.Name": "Verwende den Mauszeiger des Spiels",
+    "CVAR.General.UseGameMouseCursor.Description": "Ob der Mauszeiger des Spiels statt des Standardcursors des Betriebssystems verwendet wird. Beachte, dass dies eine globale Einstellung ist, die auch andere Dalamud-Plugins beeinflusst. Wenn ein anderes Plugin diese Einstellung bereits geändert hat, kann eine Änderung hier möglicherweise keine Wirkung haben.",
     "CVAR.General.UseThreadedStyleComputation.Name": "Threaded-Style-Berechnung verwenden",
     "CVAR.General.UseThreadedStyleComputation.Description": "[HOCH EXPERIMENTELL] Ob Multithreading zur Berechnung des Stils der Werkzeugleiste und Widgets verwendet werden soll. Dies wird die Leistung verbessern, kann aber in einigen Situationen instabil sein und dazu führen, dass einige Elemente ungenau dargestellt werden. Lasse diese Einstellung deaktiviert, wenn grafische Probleme auftreten.",
     "CVAR.General.EnableHitchWarnings.Name": "Aktiviere umbra-spezifische Hitch-Warnungen in der Konsole",

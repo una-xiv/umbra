@@ -240,6 +240,8 @@
     "CVAR.Markers.Renderer.MaxWidth.Description": "La largeur maximale d'un marqueur en pixels. Augmentez cette valeur pour afficher plus de texte sur les marqueurs s'il est souvent coupé.",
     "CVAR.General.UiScale.Name": "Échelle de l'interface utilisateur",
     "CVAR.General.UiScale.Description": "Le facteur d'échelle de l'interface pour tous les éléments Umbra. Cette valeur est un pourcentage de la taille par défaut. Appuyez sur Entrée pour appliquer la valeur spécifiée. Notez que les éléments d'entrée ne sont pas affectés par ce paramètre. Utilisez à la place le paramètre de mise à l'échelle globale des polices dans les paramètres de Dalamud.",
+    "CVAR.General.UseGameMouseCursor.Name": "Utiliser le curseur de la souris du jeu",
+    "CVAR.General.UseGameMouseCursor.Description": "Détermine si le curseur de la souris du jeu doit être utilisé à la place du curseur par défaut de l'OS. Note que c'est un paramètre global qui affecte aussi d'autres plugins Dalamud. Si un autre plugin a déjà modifié ce paramètre, le changement ici pourrait ne pas avoir d'effet.",
     "CVAR.General.UseThreadedStyleComputation.Name": "Utiliser le calcul de style multithread",
     "CVAR.General.UseThreadedStyleComputation.Description": "[TRÈS EXPÉRIMENTAL] Utiliser le multithreading pour calculer le style de la barre d'outils et des widgets. Cela améliorera les performances, mais peut être instable dans certaines situations, entraînant une rendu incorrect de certains éléments. Gardez ce paramètre désactivé si vous rencontrez des problèmes graphiques.",
     "CVAR.General.EnableHitchWarnings.Name": "Activer les avertissements spécifiques à Umbra dans la console",

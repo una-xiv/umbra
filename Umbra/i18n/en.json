@@ -240,6 +240,8 @@
     "CVAR.Markers.Renderer.MaxWidth.Description": "The maximum width of a marker in pixels. Increase this value to show more text on markers if it gets cut off too often.",
     "CVAR.General.UiScale.Name": "UI Scale",
     "CVAR.General.UiScale.Description": "The interface scale factor for all Umbra elements. This value is a percentage of the default size. Hit enter to apply the given value. Note that input elements are not affected by this setting. Use the global font scaling setting in Dalamud settings for those instead.",
+    "CVAR.General.UseGameMouseCursor.Name": "Use the game's mouse cursor",
+    "CVAR.General.UseGameMouseCursor.Description": "Whether to use the game's mouse cursor instead of the OS default cursor. Note that this is a global setting that affects other Dalamud plugins as well. If another plugin already changes this setting, changing it here may have no effect.",
     "CVAR.General.UseThreadedStyleComputation.Name": "Use threaded style computation",
     "CVAR.General.UseThreadedStyleComputation.Description": "[HIGHLY EXPERIMENTAL] Whether to use multithreading to compute the style of the toolbar and widgets. This will benefit performance, but may be unstable in some situations, causing some elements to render inaccurately. Keep this setting disabled if you experience any graphical issues.",
     "CVAR.General.EnableHitchWarnings.Name": "Enable Umbra-specific hitch warnings in the console",
