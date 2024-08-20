@@ -27,13 +27,24 @@ internal sealed class MountShortcutProvider(IDataManager dataManager, TextDecode
 
         var mounts = dataManager.GetExcelSheet<Mount>()!.ToList();
 
-        mounts.Sort((a, b) => string.Compare(a.Singular.ToDalamudString().TextValue, b.Singular.ToDalamudString().TextValue, StringComparison.OrdinalIgnoreCase));
+        mounts.Sort(
+            (a, b) => string.Compare(
+                a.Singular.ToDalamudString().TextValue,
+                b.Singular.ToDalamudString().TextValue,
+                StringComparison.OrdinalIgnoreCase
+            )
+        );
 
         PlayerState* ps = PlayerState.Instance();
 
         foreach (var mount in mounts) {
             if (!ps->IsMountUnlocked(mount.RowId)) continue;
-            if (searchFilter != null && !mount.Singular.ToDalamudString().TextValue.Contains(searchFilter, StringComparison.OrdinalIgnoreCase)) continue;
+
+            if (searchFilter != null
+                && !mount
+                    .Singular.ToDalamudString()
+                    .TextValue.Contains(searchFilter, StringComparison.OrdinalIgnoreCase))
+                continue;
 
             shortcuts.Add(
                 new() {
@@ -53,15 +64,14 @@ internal sealed class MountShortcutProvider(IDataManager dataManager, TextDecode
     {
         if (id == 0u) return null;
 
-        if (!PlayerState.Instance()->IsMountUnlocked((ushort)id)) return null;
-
         var mount = dataManager.GetExcelSheet<Mount>()!.GetRow(id);
         if (mount == null) return null;
 
         return new() {
-            Id     = id,
-            Name   = decoder.ProcessNoun("Mount", id),
-            IconId = mount.Icon,
+            Id         = id,
+            Name       = decoder.ProcessNoun("Mount", id),
+            IconId     = mount.Icon,
+            IsDisabled = !PlayerState.Instance()->IsMountUnlocked((ushort)id),
         };
     }
 

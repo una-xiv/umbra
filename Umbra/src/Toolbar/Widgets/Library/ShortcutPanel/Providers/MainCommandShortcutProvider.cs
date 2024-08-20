@@ -58,8 +58,6 @@ internal sealed class MainCommandShortcutProvider(IDataManager dataManager) : Ab
     /// <inheritdoc/>
     public override unsafe Shortcut? GetShortcut(uint id, string widgetInstanceId)
     {
-        if (!UIModule.Instance()->IsMainCommandUnlocked(id)) return null;
-
         var command = dataManager.GetExcelSheet<MainCommand>()!.GetRow(id);
         if (command == null) return null;
 
@@ -67,7 +65,8 @@ internal sealed class MainCommandShortcutProvider(IDataManager dataManager) : Ab
             Id         = id,
             Name       = command.Name.ToDalamudString().TextValue,
             IconId     = (uint)command.Icon,
-            IsDisabled = ActionManager.Instance()->GetActionStatus(ActionType.MainCommand, id) != 0
+            IsDisabled = !UIModule.Instance()->IsMainCommandUnlocked(id)
+                || ActionManager.Instance()->GetActionStatus(ActionType.MainCommand, id) != 0
         };
     }
 

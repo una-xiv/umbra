@@ -47,12 +47,11 @@ internal sealed class CollectionItemShortcutProvider(IDataManager dataManager) :
         var item = dataManager.GetExcelSheet<McGuffin>()!.GetRow(id);
         if (item == null) return null;
 
-        if (!PlayerState.Instance()->IsMcGuffinUnlocked((ushort)id)) return null;
-
         return new() {
-            Id     = id,
-            Name   = item.UIData.Value!.Name.ToDalamudString().TextValue,
-            IconId = item.UIData.Value!.Icon,
+            Id         = id,
+            Name       = item.UIData.Value!.Name.ToDalamudString().TextValue,
+            IconId     = item.UIData.Value!.Icon,
+            IsDisabled = !PlayerState.Instance()->IsMcGuffinUnlocked((ushort)id),
         };
     }
 

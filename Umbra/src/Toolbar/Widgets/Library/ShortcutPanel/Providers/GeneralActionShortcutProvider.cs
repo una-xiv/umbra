@@ -60,8 +60,6 @@ internal sealed class GeneralActionShortcutProvider(IDataManager dataManager, IP
     /// <inheritdoc/>
     public override unsafe Shortcut? GetShortcut(uint id, string widgetInstanceId)
     {
-        if (!player.IsGeneralActionUnlocked(id)) return null;
-
         var action = dataManager.GetExcelSheet<GeneralAction>()!.GetRow(id);
         if (action == null) return null;
 
@@ -69,7 +67,8 @@ internal sealed class GeneralActionShortcutProvider(IDataManager dataManager, IP
             Id         = id,
             Name       = action.Name.ToDalamudString().TextValue,
             IconId     = (uint)action.Icon,
-            IsDisabled = ActionManager.Instance()->GetActionStatus(ActionType.GeneralAction, id) != 0
+            IsDisabled = !player.IsGeneralActionUnlocked(id)
+                || ActionManager.Instance()->GetActionStatus(ActionType.GeneralAction, id) != 0
         };
     }
 

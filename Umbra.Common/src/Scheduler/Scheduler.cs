@@ -86,10 +86,16 @@ internal static class Scheduler
 
     private static void OnUmbraDraw()
     {
+        bool overrideGameCursor = Framework.DalamudPlugin.UiBuilder.OverrideGameCursor;
+
+        Framework.DalamudPlugin.UiBuilder.OverrideGameCursor = true;
+
         foreach (var handler in _onDrawHandlers) {
             handler.Invoke();
-            if (!_isRunning) return;
+            if (!_isRunning) break;
         }
+
+        Framework.DalamudPlugin.UiBuilder.OverrideGameCursor = overrideGameCursor;
     }
 
     private static List<TickHandler> GetOnTickHandlers()

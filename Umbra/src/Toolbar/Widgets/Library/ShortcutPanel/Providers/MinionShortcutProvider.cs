@@ -64,15 +64,14 @@ internal sealed class MinionShortcutProvider(IDataManager dataManager, TextDecod
     {
         if (id == 0u) return null;
 
-        if (!UIState.Instance()->IsCompanionUnlocked((ushort)id)) return null;
-
         var minion = dataManager.GetExcelSheet<Companion>()!.GetRow(id);
         if (minion == null) return null;
 
         return new() {
-            Id     = minion.RowId,
-            Name   = decoder.ProcessNoun("Companion", minion.RowId),
-            IconId = minion.Icon
+            Id         = minion.RowId,
+            Name       = decoder.ProcessNoun("Companion", minion.RowId),
+            IconId     = minion.Icon,
+            IsDisabled = !UIState.Instance()->IsCompanionUnlocked((ushort)id),
         };
     }
 

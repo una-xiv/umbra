@@ -55,15 +55,14 @@ internal sealed class EmoteShortcutProvider(IDataManager dataManager) : Abstract
     {
         if (id == 0u) return null;
 
-        if (!UIState.Instance()->IsEmoteUnlocked((ushort)id)) return null;
-
         var emote = dataManager.GetExcelSheet<Emote>()!.GetRow(id);
         if (emote == null) return null;
 
         return new() {
-            Id          = emote.RowId,
-            Name        = emote.Name.ToDalamudString().TextValue,
-            IconId      = emote.Icon,
+            Id         = emote.RowId,
+            Name       = emote.Name.ToDalamudString().TextValue,
+            IconId     = emote.Icon,
+            IsDisabled = !UIState.Instance()->IsEmoteUnlocked((ushort)id),
         };
     }
 

@@ -55,7 +55,6 @@ internal sealed class OrnamentShortcutProvider(IDataManager dataManager) : Abstr
     public override unsafe Shortcut? GetShortcut(uint id, string widgetInstanceId)
     {
         if (id == 0u) return null;
-        if (!PlayerState.Instance()->IsOrnamentUnlocked(id)) return null;
 
         var ornament = dataManager.GetExcelSheet<Ornament>()!.GetRow(id);
         if (ornament == null) return null;
@@ -63,9 +62,10 @@ internal sealed class OrnamentShortcutProvider(IDataManager dataManager) : Abstr
         var name = ornament.Singular.ToDalamudString().TextValue;
 
         return new() {
-            Id     = ornament.RowId,
-            Name   = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(name),
-            IconId = ornament.Icon,
+            Id         = ornament.RowId,
+            Name       = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(name),
+            IconId     = ornament.Icon,
+            IsDisabled = !PlayerState.Instance()->IsOrnamentUnlocked(id),
         };
     }
 

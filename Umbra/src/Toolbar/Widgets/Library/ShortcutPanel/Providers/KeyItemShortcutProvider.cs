@@ -45,13 +45,15 @@ internal sealed class KeyItemShortcutProvider(IDataManager dataManager) : Abstra
         if (item == null) return null;
 
         InventoryContainer* container = InventoryManager.Instance()->GetInventoryContainer(InventoryType.KeyItems);
-        if (container == null) return null;
+
         bool found = false;
 
-        for (var i = 0; i < container->Size; i++) {
-            if (container->GetInventorySlot(i)->ItemId == id) {
-                found = true;
-                break;
+        if (container != null) {
+            for (var i = 0; i < container->Size; i++) {
+                if (container->GetInventorySlot(i)->ItemId == id) {
+                    found = true;
+                    break;
+                }
             }
         }
 
