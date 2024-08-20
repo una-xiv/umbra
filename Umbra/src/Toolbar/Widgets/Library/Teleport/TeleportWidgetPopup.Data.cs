@@ -47,8 +47,6 @@ internal partial class TeleportWidgetPopup
         if (territoryType == null) return;
         var currentExNodeId = $"Ex_{territoryType.ExVersion.Value?.RowId}";
 
-        Logger.Info($"Current expansion: {territoryType.ExVersion.Value!.Name}");
-
         foreach (var aetheryte in AetheryteList) {
             // Don't index housing aetherytes...
             if (IsAetherytePlayerHousing(aetheryte)) continue;

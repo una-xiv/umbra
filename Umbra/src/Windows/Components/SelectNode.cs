@@ -174,6 +174,11 @@ internal class SelectNode : Node
     protected override void OnDisposed()
     {
         foreach (var handler in OnValueChanged?.GetInvocationList() ?? [])  OnValueChanged -= (Action<string>)handler;
+
+        OnValueChanged = null;
+        _choices.Clear();
+
+        base.OnDisposed();
     }
 
     private Node SelectBoxNode   => QuerySelector(".select--box")!;

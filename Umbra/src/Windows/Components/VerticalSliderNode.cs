@@ -81,5 +81,8 @@ internal class VerticalSliderNode : Node
     protected override void OnDisposed()
     {
         foreach (var handler in OnValueChanged?.GetInvocationList() ?? [])  OnValueChanged -= (Action<int>)handler;
+        OnValueChanged = null;
+
+        base.OnDisposed();
     }
 }

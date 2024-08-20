@@ -149,6 +149,10 @@ internal class StringInputNode : Node
     protected override void OnDisposed()
     {
         foreach (var handler in OnValueChanged?.GetInvocationList() ?? [])  OnValueChanged -= (Action<string>)handler;
+
+        OnValueChanged = null;
+
+        base.OnDisposed();
     }
 
     private Node SelectBoxNode   => QuerySelector(".input--box")!;

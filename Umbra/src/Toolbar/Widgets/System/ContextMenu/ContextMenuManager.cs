@@ -7,10 +7,25 @@ using Una.Drawing;
 namespace Umbra.Widgets;
 
 [Service]
-internal sealed class ContextMenuManager(UmbraDelvClipRects clipRects)
+internal sealed class ContextMenuManager(UmbraDelvClipRects clipRects) : IDisposable
 {
     private ContextMenu? _contextMenu;
     private Action?      _closeCallback;
+
+    public void Dispose()
+    {
+        if (null != _contextMenu) {
+            _contextMenu.OnEntryInvoked -= OnEntryInvoked;
+            _contextMenu.Dispose();
+        }
+
+        foreach (var i in _closeCallback?.GetInvocationList() ?? []) {
+            _closeCallback -= (Action)i;
+        }
+
+        _closeCallback = null;
+        _contextMenu   = null;
+    }
 
     /// <summary>
     /// Presents the given context menu.
@@ -19,6 +34,7 @@ internal sealed class ContextMenuManager(UmbraDelvClipRects clipRects)
     {
         if (null != _contextMenu) {
             _contextMenu.OnEntryInvoked -= OnEntryInvoked;
+            _contextMenu.Dispose();
             _closeCallback?.Invoke();
         }
 
@@ -66,14 +82,14 @@ internal sealed class ContextMenuManager(UmbraDelvClipRects clipRects)
 
             ImGui.EndPopup();
         } else if (_isOpen) {
-            _contextMenu = null;
             _isOpen      = false;
 
             ImGui.PopStyleColor(2);
             ImGui.PopStyleVar(5);
 
-            _closeCallback?.Invoke();
             clipRects.RemoveClipRect("Umbra.ContextMenu");
+            _closeCallback?.Invoke();
+            _contextMenu = null;
             return;
         }
 

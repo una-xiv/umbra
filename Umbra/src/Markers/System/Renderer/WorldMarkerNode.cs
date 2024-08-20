@@ -69,7 +69,8 @@ internal class WorldMarkerNode : Node
 
     public void SetDistance(float? distance)
     {
-        Node node = QuerySelector(".distance-label")!;
+        Node? node = QuerySelector(".distance-label");
+        if (null == node) return;
 
         node.NodeValue       = distance.HasValue ? $"{distance:F1} yalms" : null;
         node.Style.IsVisible = distance.HasValue;

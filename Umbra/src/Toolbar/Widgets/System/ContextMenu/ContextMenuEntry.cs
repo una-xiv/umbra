@@ -3,7 +3,7 @@ using Una.Drawing;
 
 namespace Umbra.Widgets;
 
-public class ContextMenuEntry(string? id)
+public sealed class ContextMenuEntry(string? id) : IDisposable
 {
     internal Action? OnInvoke;
 
@@ -15,6 +15,12 @@ public class ContextMenuEntry(string? id)
             new() { Id = "Label", InheritTags = true },
         ],
     };
+
+    public void Dispose()
+    {
+        OnInvoke = null;
+        Node.Dispose();
+    }
 
     public string Id { get; init; } = id ?? $"CME_{Guid.NewGuid().ToString()}";
 

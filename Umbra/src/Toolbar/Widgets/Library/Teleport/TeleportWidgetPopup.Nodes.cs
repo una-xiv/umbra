@@ -15,6 +15,7 @@
  */
 
 using Lumina.Misc;
+using System.Linq;
 using Umbra.Common;
 using Umbra.Game;
 using Una.Drawing;
@@ -30,6 +31,8 @@ internal partial class TeleportWidgetPopup
 
     private void BuildNodes()
     {
+        foreach (var child in Node.ChildNodes.ToArray()) child.Remove(true);
+
         Node.Stylesheet = Stylesheet;
 
         Una.Drawing.Style alignmentStyle = new() {

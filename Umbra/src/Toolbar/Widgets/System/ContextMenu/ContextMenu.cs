@@ -1,17 +1,16 @@
-﻿using Lumina.Data.Parsing.Layer;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using Umbra.Common;
 using Una.Drawing;
 
 namespace Umbra.Widgets;
 
-public class ContextMenu : IDisposable
+public sealed class ContextMenu : IDisposable
 {
     public Action<ContextMenuEntry>? OnEntryInvoked;
 
-    public string Id           { get; }              = Guid.NewGuid().ToString();
-    public bool   ShouldRender { get; private set; } = false;
+    public string Id           { get; } = Guid.NewGuid().ToString();
+    public bool   ShouldRender { get; private set; }
 
     private readonly Dictionary<string, ContextMenuEntry> _entries = [];
 
@@ -42,7 +41,10 @@ public class ContextMenu : IDisposable
             }
         }
 
+        OnEntryInvoked = null;
         Node.Dispose();
+
+        _entries.Clear();
     }
 
     public ContextMenuEntry? GetEntry(string id)
@@ -53,6 +55,7 @@ public class ContextMenu : IDisposable
     public void SetEntryVisible(string id, bool isVisible)
     {
         var entry = GetEntry(id);
+
         if (entry != null) {
             entry.IsVisible = isVisible;
         }
@@ -61,6 +64,7 @@ public class ContextMenu : IDisposable
     public void SetEntryDisabled(string id, bool isDisabled)
     {
         var entry = GetEntry(id);
+
         if (entry != null) {
             entry.IsDisabled = isDisabled;
         }
@@ -69,6 +73,7 @@ public class ContextMenu : IDisposable
     public void SetEntryLabel(string id, string label)
     {
         var entry = GetEntry(id);
+
         if (entry != null) {
             entry.Label = label;
         }
@@ -77,6 +82,7 @@ public class ContextMenu : IDisposable
     public void SetEntryIcon(string id, uint? iconId)
     {
         var entry = GetEntry(id);
+
         if (entry != null) {
             entry.IconId = iconId;
         }

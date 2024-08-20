@@ -118,6 +118,9 @@ internal class CheckboxNode : Node
     protected override void OnDisposed()
     {
         foreach (var handler in OnValueChanged?.GetInvocationList() ?? [])  OnValueChanged -= (Action<bool>)handler;
+        OnValueChanged = null;
+
+        base.OnDisposed();
     }
 
     private Node BoxNode         => QuerySelector(".checkbox--box")!;

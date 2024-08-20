@@ -145,6 +145,10 @@ internal class FloatInputNode : Node
     protected override void OnDisposed()
     {
         foreach (var handler in OnValueChanged?.GetInvocationList() ?? []) OnValueChanged -= (Action<float>)handler;
+
+        OnValueChanged = null;
+
+        base.OnDisposed();
     }
 
     private Node SelectBoxNode   => QuerySelector(".input--box")!;

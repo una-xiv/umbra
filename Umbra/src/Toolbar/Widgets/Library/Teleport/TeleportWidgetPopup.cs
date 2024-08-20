@@ -17,6 +17,7 @@
 using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
+using System.Linq;
 using Umbra.Common;
 using Umbra.Game;
 using Una.Drawing;
@@ -40,33 +41,6 @@ internal partial class TeleportWidgetPopup : WidgetPopup
     {
         ConfigManager.CvarChanged += OnCvarChanged;
         LoadFavorites();
-    }
-
-    protected override void OnDisposed()
-    {
-        ConfigManager.CvarChanged -= OnCvarChanged;
-    }
-
-    /// <inheritdoc/>
-    protected override bool CanOpen()
-    {
-        return Framework.Service<IPlayer>().CanUseTeleportAction;
-    }
-
-    /// <inheritdoc/>
-    protected override void OnOpen()
-    {
-        HydrateAetherytePoints();
-        BuildNodes();
-        LoadFavorites();
-        LoadOthers();
-
-        ActivateExpansion(
-            OpenFavoritesByDefault && Favorites.Count > 0
-                ? "Favorites"
-                : _selectedExpansion,
-            true
-        );
 
         ContextMenu = new(
             [
@@ -97,6 +71,33 @@ internal partial class TeleportWidgetPopup : WidgetPopup
                 }
             ]
         );
+    }
+
+    protected override void OnDisposed()
+    {
+        ConfigManager.CvarChanged -= OnCvarChanged;
+    }
+
+    /// <inheritdoc/>
+    protected override bool CanOpen()
+    {
+        return Framework.Service<IPlayer>().CanUseTeleportAction;
+    }
+
+    /// <inheritdoc/>
+    protected override void OnOpen()
+    {
+        HydrateAetherytePoints();
+        BuildNodes();
+        LoadFavorites();
+        LoadOthers();
+
+        ActivateExpansion(
+            OpenFavoritesByDefault && Favorites.Count > 0
+                ? "Favorites"
+                : _selectedExpansion,
+            true
+        );
 
         Node.QuerySelector("#DestinationList")!.TagsList.Add(ExpansionMenuPosition == "Left" ? "right" : "left");
         Node.QuerySelector("#ExpansionList")!.TagsList.Add(ExpansionMenuPosition == "Left" ? "left" : "right");
@@ -114,6 +115,8 @@ internal partial class TeleportWidgetPopup : WidgetPopup
         _expansions.Clear();
         _destinations.Clear();
         _selectedExpansion = string.Empty;
+
+        foreach (Node node in Node.ChildNodes.ToArray()) node.Dispose();
     }
 
     private void ActivateExpansion(string key, bool force = false)

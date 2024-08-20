@@ -77,8 +77,6 @@ internal sealed partial class WidgetManager : IDisposable
             node.OnRightClick -= InvokeInstanceQuickSettings;
         }
 
-        _subscribedQuickAccessNodes.Clear();
-
         foreach (var widget in _instances.Values) {
             widget.Dispose();
 
@@ -86,9 +84,6 @@ internal sealed partial class WidgetManager : IDisposable
                 disposable.Dispose();
             }
         }
-
-        _instances.Clear();
-        _widgetState.Clear();
 
         foreach (var handler in OnWidgetCreated?.GetInvocationList() ?? [])
             OnWidgetCreated -= (Action<ToolbarWidget>)handler;
@@ -106,6 +101,16 @@ internal sealed partial class WidgetManager : IDisposable
 
         foreach (var handler in ActiveProfileChanged?.GetInvocationList() ?? [])
             ActiveProfileChanged -= (Action<string>)handler;
+
+        _instances.Clear();
+        _widgetState.Clear();
+        _widgetProfiles.Clear();
+        _widgetTypes.Clear();
+        _widgetInfos.Clear();
+        _subscribedQuickAccessNodes.Clear();
+
+        _currentPopup     = null;
+        _currentActivator = null;
     }
 
     /// <summary>

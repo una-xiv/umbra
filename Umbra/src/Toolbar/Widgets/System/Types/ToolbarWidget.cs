@@ -198,6 +198,10 @@ public abstract class ToolbarWidget(
             OpenPopupDelayed -= (Action<ToolbarWidget, WidgetPopup>)handler;
         }
 
+        OnConfigValueChanged = null;
+        OpenPopup            = null;
+        OpenPopupDelayed     = null;
+
         foreach (var cfg in _configVariables.Values) {
             if (cfg is IUntypedWidgetConfigVariable u) {
                 u.Dispose();
@@ -205,8 +209,11 @@ public abstract class ToolbarWidget(
         }
 
         OnDisposed();
+
         Popup?.Dispose();
         Node.Dispose();
+
+        _configValues.Clear();
         _configVariables.Clear();
     }
 
