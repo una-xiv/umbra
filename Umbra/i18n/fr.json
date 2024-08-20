@@ -426,6 +426,7 @@
     "Widget.Durability.Config.DisplayMode.Description": "La manière dont les informations de condition et de symbiose sont affichées sur le widget lui-même.",
     "Widget.Durability.Config.DisplayMode.Option.Full": "Afficher à la fois les pourcentages de condition et de symbiose avec des étiquettes.",
     "Widget.Durability.Config.DisplayMode.Option.Short": "Afficher à la fois les pourcentages de condition et de symbiose sans étiquettes sur une seule ligne (condition% / symbiose%).",
+    "Widget.Durability.Config.DisplayMode.Option.ShortStacked": "Affiche les pourcentages de durabilité et de lien spirituel sur deux lignes, sans étiquettes (durabilité% / lien spirituel%)",
     "Widget.Durability.Config.DisplayMode.Option.DurabilityOnly": "Afficher uniquement le pourcentage de condition sans étiquette.",
     "Widget.Durability.Config.DisplayMode.Option.SpiritbondOnly": "Afficher uniquement le pourcentage de symbiose sans étiquette.",
     "Widget.Durability.Config.DisplayMode.Option.IconOnly": "Icône uniquement",

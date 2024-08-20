@@ -426,6 +426,7 @@
     "Widget.Durability.Config.DisplayMode.Description": "ウィジェット自体に耐久性とスピリットボンド情報を表示する方法。",
     "Widget.Durability.Config.DisplayMode.Option.Full": "ラベル付きで耐久性とスピリットボンドの両方のパーセンテージを表示。",
     "Widget.Durability.Config.DisplayMode.Option.Short": "ラベルなしで耐久性とスピリットボンドの両方のパーセンテージを1行で表示（耐久性% / スピリットボンド%）。",
+    "Widget.Durability.Config.DisplayMode.Option.ShortStacked": "耐久度％とスピリットボンド％を2行でラベルなしで表示します（耐久度％/スピリットボンド％）",
     "Widget.Durability.Config.DisplayMode.Option.DurabilityOnly": "ラベルなしで耐久性のパーセンテージのみを表示。",
     "Widget.Durability.Config.DisplayMode.Option.SpiritbondOnly": "ラベルなしでスピリットボンドのパーセンテージのみを表示。",
     "Widget.Durability.Config.DisplayMode.Option.IconOnly": "アイコンのみ",

@@ -67,6 +67,7 @@ internal partial class DurabilityWidget
                 new() {
                     { "Full", I18N.Translate("Widget.Durability.Config.DisplayMode.Option.Full") },
                     { "Short", I18N.Translate("Widget.Durability.Config.DisplayMode.Option.Short") },
+                    { "ShortStacked", I18N.Translate("Widget.Durability.Config.DisplayMode.Option.ShortStacked") },
                     { "DurabilityOnly", I18N.Translate("Widget.Durability.Config.DisplayMode.Option.DurabilityOnly") },
                     { "SpiritbondOnly", I18N.Translate("Widget.Durability.Config.DisplayMode.Option.SpiritbondOnly") },
                     { "IconOnly", I18N.Translate("Widget.Durability.Config.DisplayMode.Option.IconOnly") }

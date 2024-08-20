@@ -15,11 +15,9 @@
  */
 
 using System.Collections.Generic;
-using Dalamud.Interface;
 using Dalamud.Plugin.Services;
 using Dalamud.Utility;
 using Lumina.Excel.GeneratedSheets;
-using System.Linq;
 using Umbra.Common;
 using Umbra.Game;
 
@@ -136,6 +134,9 @@ internal partial class DurabilityWidget(
                 break;
             case "Short":
                 SetLabel($"{Player.Equipment.LowestDurability}% / {Player.Equipment.HighestSpiritbond}%");
+                break;
+            case "ShortStacked":
+                SetTwoLabels($"{Player.Equipment.LowestDurability}%", $"{Player.Equipment.HighestSpiritbond}%");
                 break;
             case "DurabilityOnly":
                 SetLabel($"{Player.Equipment.LowestDurability}%");

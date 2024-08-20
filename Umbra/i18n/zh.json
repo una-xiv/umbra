@@ -426,6 +426,7 @@
     "Widget.Durability.Config.DisplayMode.Description": "小组件显示耐久度和精炼度信息的方式。",
     "Widget.Durability.Config.DisplayMode.Option.Full": "显示带有标签的耐久度和精炼度百分比",
     "Widget.Durability.Config.DisplayMode.Option.Short": "在单行中显示不带标签的耐久度和精炼度百分比（耐久度% / 精炼度%）",
+    "Widget.Durability.Config.DisplayMode.Option.ShortStacked": "在两行上显示耐久度和精神连结百分比，不带标签（耐久度％/精神连结％）",
     "Widget.Durability.Config.DisplayMode.Option.DurabilityOnly": "仅显示不带标签的耐久度百分比",
     "Widget.Durability.Config.DisplayMode.Option.SpiritbondOnly": "仅显示不带标签的精炼度百分比",
     "Widget.Durability.Config.DisplayMode.Option.IconOnly": "仅显示图标",

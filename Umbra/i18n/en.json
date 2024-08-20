@@ -425,6 +425,7 @@
     "Widget.Durability.Config.DisplayMode.Description": "The way the durability and spiritbond information is displayed on the widget itself.",
     "Widget.Durability.Config.DisplayMode.Option.Full": "Show both durability and spiritbond percentages with labels.",
     "Widget.Durability.Config.DisplayMode.Option.Short": "Show both durability and spiritbond percentages without labels on a single line (durability% / spiritbond%)",
+    "Widget.Durability.Config.DisplayMode.Option.ShortStacked": "Show both durability and spiritbond percentages without labels on two lines (durability% / spiritbond%)",
     "Widget.Durability.Config.DisplayMode.Option.DurabilityOnly": "Show only the durability percentage without a label.",
     "Widget.Durability.Config.DisplayMode.Option.SpiritbondOnly": "Show only the spiritbond percentage without a label.",
     "Widget.Durability.Config.DisplayMode.Option.IconOnly": "Icon only",

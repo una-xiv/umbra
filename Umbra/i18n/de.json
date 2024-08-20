@@ -426,6 +426,7 @@
     "Widget.Durability.Config.DisplayMode.Description": "Die Art und Weise, wie die Haltbarkeits- und Bindungsinformationen im Widget selbst angezeigt werden.",
     "Widget.Durability.Config.DisplayMode.Option.Full": "Zeigt sowohl Haltbarkeits- als auch Bindungsprozentsätze mit Beschriftungen.",
     "Widget.Durability.Config.DisplayMode.Option.Short": "Zeigt sowohl Haltbarkeits- als auch Bindungsprozentsätze ohne Beschriftungen auf einer einzigen Linie (Haltbarkeit% / Bindung%).",
+    "Widget.Durability.Config.DisplayMode.Option.ShortStacked": "Zeigt sowohl Haltbarkeits- als auch Bindungsprozentsätze ohne Bezeichnungen in zwei Zeilen an (Haltbarkeit% / Bindung%)",
     "Widget.Durability.Config.DisplayMode.Option.DurabilityOnly": "Zeigt nur den Haltbarkeitsprozentsatz ohne Beschriftung.",
     "Widget.Durability.Config.DisplayMode.Option.SpiritbondOnly": "Zeigt nur den Bindungsprozentsatz ohne Beschriftung.",
     "Widget.Durability.Config.DisplayMode.Option.IconOnly": "Nur Symbol",
