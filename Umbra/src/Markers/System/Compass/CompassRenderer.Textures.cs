@@ -22,6 +22,10 @@ internal partial class CompassRenderer
 {
     private IDalamudTextureWrap? GetIcon(uint iconId)
     {
-        return textureProvider.GetFromGameIcon(new(iconId)).GetWrapOrDefault();
+        try {
+            return textureProvider.GetFromGameIcon(new(iconId)).GetWrapOrDefault();
+        } catch {
+            return null;
+        }
     }
 }

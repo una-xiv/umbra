@@ -72,7 +72,7 @@ internal partial class CompassRenderer(
         foreach (var marker in registry.GetMarkers()) {
             if (!marker.ShowOnCompass) continue;
 
-            Vector3 pos = registry.GetResolvedPosition(marker);
+            Vector3 pos = marker.WorldPosition;
 
             // Skip rendering if the marker itself is in view.
             if (gameCamera.WorldToScreen(pos, out Vector2 markerScreenPosition, SafeZoneOffsetWidth, SafeZoneOffsetHeight))

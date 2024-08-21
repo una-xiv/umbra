@@ -16,15 +16,12 @@
 
 using System;
 using System.Numerics;
+using Umbra.Common;
 
 namespace Umbra.Markers.System;
 
-public sealed record WorldMarker : IDisposable
+public record WorldMarker
 {
-    internal event Action<string, string>? OnKeyChanged;
-    internal event Action<uint, uint>?     OnMapIdChanged;
-    internal event Action?                 OnDisposed;
-
     /// <summary>
     /// A unique identifier for this marker. If not set, a random GUID will be
     /// generated and assigned to this property once the marker is added to the
@@ -36,7 +33,6 @@ public sealed record WorldMarker : IDisposable
             if (_key is not null) throw new ArgumentException("Cannot change the key of an existing marker.");
 
             _key = value;
-            OnKeyChanged?.Invoke(value, _key);
         }
     }
 
@@ -79,15 +75,7 @@ public sealed record WorldMarker : IDisposable
     /// <summary>
     /// The ID of the map where the marker is located.
     /// </summary>
-    public uint MapId {
-        get => _mapId;
-        set {
-            if (_mapId == value) return;
-
-            _mapId = value;
-            OnMapIdChanged?.Invoke(value, _mapId);
-        }
-    }
+    public uint MapId { get; set; }
 
     /// <summary>
     /// Whether the marker should be displayed in the compass when the world
@@ -101,18 +89,26 @@ public sealed record WorldMarker : IDisposable
     /// </summary>
     public bool IsVisible { get; set; } = true;
 
+    public Vector3 WorldPosition {
+        get {
+            if (Position == _lastPos) return _worldPos;
+
+            _lastPos = Position;
+
+            return Position.Y == 0
+                ? _worldPos = Raycaster.Raycast(this)
+                : _worldPos = Position;
+        }
+    }
+
     private string? _key;
-    private uint    _mapId;
+    private Vector3 _lastPos;
+    private Vector3 _worldPos;
+    private WorldMarkerRaycaster? _raycaster;
 
-    /// <summary>
-    /// Disposes of the marker.
-    /// </summary>
-    public void Dispose()
-    {
-        foreach (var handler in OnKeyChanged?.GetInvocationList() ?? []) OnKeyChanged -= (Action<string, string>)handler;
-        foreach (var handler in OnMapIdChanged?.GetInvocationList() ?? []) OnMapIdChanged -= (Action<uint, uint>)handler;
-
-        OnDisposed?.Invoke();
-        OnDisposed = null;
+    private WorldMarkerRaycaster Raycaster {
+        get {
+            return _raycaster ??= Framework.Service<WorldMarkerRaycaster>();
+        }
     }
 }

@@ -18,23 +18,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
-using ImGuiNET;
 using Umbra.Common;
 using Umbra.Game;
-using Umbra.Windows.Clipping;
-using Una.Drawing;
 
 namespace Umbra.Markers.System.Renderer;
 
 [Service]
-internal class WorldMarkerRenderer(
-    IGameCamera         gameCamera,
-    IPlayer             player,
-    ClipRectProvider    clipRectProvider,
-    WorldMarkerRegistry registry,
-    IZoneManager        zoneManager,
-    UmbraVisibility     visibility
-)
+internal class WorldMarkerRenderer : IDisposable
 {
     [ConfigVariable("Markers.Renderer.Enabled", "Markers", "MarkersRenderer")]
     private static bool Enabled { get; set; } = true;
@@ -45,113 +35,137 @@ internal class WorldMarkerRenderer(
     [ConfigVariable("Markers.Renderer.MaxWidth", "Markers", "MarkersRenderer", 64, 500)]
     private static int MaxWidth { get; set; } = 150;
 
-    private readonly Dictionary<string, WorldMarkerNode> _nodes     = [];
-    private readonly Dictionary<WorldMarkerNode, Point>  _positions = [];
+    private IGameCamera         GameCamera       { get; init; }
+    private WorldMarkerRegistry Registry         { get; init; }
+    private IZoneManager        ZoneManager      { get; init; }
+    private UmbraVisibility     Visibility       { get; init; }
 
-    private uint _lastZoneId;
+    private Dictionary<int, WorldMarkerNode> NodePool          { get; } = new();
+    private Dictionary<string, int>          MarkerAssignments { get; } = new();
 
-    private void DisposeNodes()
+    public WorldMarkerRenderer(
+        IGameCamera         gameCamera,
+        WorldMarkerRegistry registry,
+        IZoneManager        zoneManager,
+        UmbraVisibility     visibility
+    )
     {
-        foreach (WorldMarkerNode node in _nodes.Values) {
+        GameCamera       = gameCamera;
+        Registry         = registry;
+        ZoneManager      = zoneManager;
+        Visibility       = visibility;
+
+        for (var i = 0; i < 255; i++) {
+            NodePool.Add(i, new(i));
+        }
+    }
+
+    public void Dispose()
+    {
+        foreach (var node in NodePool.Values) {
             node.Dispose();
         }
 
-        _nodes.Clear();
-        _positions.Clear();
+        NodePool.Clear();
+        MarkerAssignments.Clear();
     }
 
     [OnDraw]
     private void OnDraw()
     {
-        if (!Enabled || !zoneManager.HasCurrentZone || !visibility.AreMarkersVisible()) return;
+        if (!Enabled || !Visibility.AreMarkersVisible()) return;
 
-        if (_lastZoneId != zoneManager.CurrentZone.Id) {
-            _lastZoneId = zoneManager.CurrentZone.Id;
-            DisposeNodes();
-        }
+        HashSet<string> usedMarkerIds = [];
 
-        List<string> usedIds = [];
+        foreach (var marker in GetMarkersToRender()) {
+            usedMarkerIds.Add(marker.Key);
 
-        uint mapId = zoneManager.CurrentZone.Id;
+            Vector3 position = marker.Position;
+            if (position == Vector3.Zero) continue;
 
-        foreach (var marker in registry.GetMarkers()) {
-            if (marker.MapId != mapId || !marker.IsVisible) continue;
+            if (MarkerAssignments.TryGetValue(marker.Key, out int nodeId)) {
+                WorldMarkerNode node = NodePool[nodeId];
 
-            string nodeId = GetNodeId(marker);
-
-            Vector3 pos = registry.GetResolvedPosition(marker);
-
-            if (!gameCamera.WorldToScreen(pos, out Vector2 screenPosition)) {
-                continue;
-            }
-
-            usedIds.Add(nodeId);
-
-            float distance = Vector3.Distance(player.Position, registry.GetResolvedPosition(marker));
-            if (marker.FadeDistance.X > distance) continue;
-
-            if (!_nodes.TryGetValue(nodeId, out WorldMarkerNode? node)) {
-                node = new(nodeId) { Style = new() };
-                node.SetMaxWidth(MaxWidth);
-                _nodes[nodeId] = node;
-            }
-
-            node.AddMarker(marker);
-            node.SetDistance(distance);
-
-            _positions[node] = new((int)screenPosition.X, (int)screenPosition.Y);
-        }
-
-        foreach (WorldMarkerNode node in _nodes.Values.ToList()) {
-            if (!usedIds.Contains(node.Id!)) {
-                if (_nodes.TryGetValue(node.Id!, out var oldNode)) {
-                    oldNode.Dispose();
+                if (node.IsMarkerStillValidForThisNode(marker)) {
+                    node.UpdateMarker(marker);
+                    continue;
                 }
 
-                _nodes.Remove(node.Id!);
-                _positions.Remove(node);
-                continue;
+                node.RemoveMarker(marker.Key);
+                MarkerAssignments.Remove(marker.Key);
             }
 
-            node.Flush();
-            node.SetMaxWidth(MaxWidth);
+            WorldMarkerNode? targetNode = FindNodeForNewMarker(marker);
+            if (targetNode == null) continue;
 
-            if (node.Style.Opacity == 0 || !(node.Style.IsVisible ?? false)) continue;
+            targetNode.AddMarker(marker);
+            MarkerAssignments.Add(marker.Key, targetNode.NodeId);
+        }
 
-            node.Reflow(_positions[node]);
+        RemoveMarkersExcept(usedMarkerIds);
 
-            if (clipRectProvider.FindClipRectsIntersectingWith(
-                        new(
-                            node.Bounds.MarginRect.X1,
-                            node.Bounds.MarginRect.Y1,
-                            node.Bounds.MarginRect.X2,
-                            node.Bounds.MarginRect.Y2
-                        )
-                    )
-                    .Count
-                > 0)
-                continue;
+        foreach (var node in NodePool.Values) {
+            node.MaxWidth          = MaxWidth;
+            node.AggregateDistance = AggregateDistance;
 
-            Point   pos     = _positions[node];
-            Vector2 workPos = ImGui.GetMainViewport().WorkPos;
-
-            node.Render(ImGui.GetBackgroundDrawList(), new((int)workPos.X + pos.X, (int)workPos.Y + pos.Y), true);
+            node.Update();
         }
     }
 
-    /// <summary>
-    /// Returns an ID for a <see cref="Node"/> based on its rounded position.
-    /// </summary>
-    private string GetNodeId(WorldMarker marker)
+    private WorldMarker[] GetMarkersToRender()
     {
-        Vector3 p     = registry.GetResolvedPosition(marker);
-        float   pDist = Vector3.Distance(player.Position, p);
-        var     aDist = (int)Math.Max(1, Math.Min(pDist, AggregateDistance));
+        return Registry
+            .GetMarkers()
+            .Where(
+                marker => ZoneManager.HasCurrentZone
+                    && marker.MapId == ZoneManager.CurrentZone.Id
+                    && GameCamera.WorldToScreen(marker.Position, out _)
+            )
+            .ToArray();
+    }
 
-        int x = (int)Math.Floor(p.X) / aDist * aDist;
-        int y = (int)Math.Ceiling(p.Y) / aDist * aDist;
-        int z = (int)Math.Floor(p.Z) / aDist * aDist;
+    /// <summary>
+    /// Returns a <see cref="WorldMarkerNode"/> that can accommodate the given
+    /// marker or NULL if there are no more nodes available.
+    /// </summary>
+    private WorldMarkerNode? FindNodeForNewMarker(WorldMarker marker)
+    {
+        WorldMarkerNode? emptyNode = null;
 
-        return $"WM_{x}_{y}_{z}";
+        // Find a node that can still accommodate this marker based on the aggregate distance.
+        foreach (var node in NodePool.Values) {
+            Vector3? worldPosition = node.WorldPosition;
+
+            if (worldPosition is null) {
+                emptyNode ??= node;
+                continue;
+            }
+
+            if (Vector3.Distance(worldPosition.Value, marker.Position) <= AggregateDistance) {
+                return node;
+            }
+        }
+
+        if (emptyNode == null) {
+            Logger.Warning($"All nodes are in use. Cannot render marker: {marker.Key}");
+        }
+
+        return emptyNode;
+    }
+
+    private void RemoveMarkersExcept(HashSet<string> usedMarkerIds)
+    {
+        List<string> idsToRemove = [];
+
+        foreach ((string id, int nodeId) in MarkerAssignments) {
+            if (!usedMarkerIds.Contains(id)) {
+                idsToRemove.Add(id);
+                NodePool[nodeId].RemoveMarker(id);
+            }
+        }
+
+        foreach (string id in idsToRemove) {
+            MarkerAssignments.Remove(id);
+        }
     }
 }

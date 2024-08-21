@@ -14,32 +14,50 @@
  *     GNU Affero General Public License for more details.
  */
 
+using ImGuiNET;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
+using System.Numerics;
 using Umbra.Common;
+using Umbra.Game;
+using Umbra.Windows.Clipping;
 using Una.Drawing;
 
 namespace Umbra.Markers.System.Renderer;
 
 internal class WorldMarkerNode : Node
 {
-    private readonly List<WorldMarker> _enqueuedMarkers  = [];
-    private readonly List<WorldMarker> _committedMarkers = [];
+    public float AggregateDistance { get; set; } = 1.0f;
+    public int   MaxWidth          { get; set; } = 150;
+    public int   NodeId            { get; }
 
-    public WorldMarkerNode(string id)
+    public WorldMarkerNode(int id)
     {
-        Id         = id;
+        NodeId     = id;
         Stylesheet = WorldMarkerStylesheet;
+        Id         = $"WorldMarker_{id}";
         ClassList  = ["world-marker"];
 
         ChildNodes = [
             new() {
                 ClassList = ["icon-list"],
+                ChildNodes = [
+                    new() { ClassList = ["icon"], Id = "Icon0" },
+                    new() { ClassList = ["icon"], Id = "Icon1" },
+                    new() { ClassList = ["icon"], Id = "Icon2" },
+                ]
             },
             new() {
                 ClassList = ["label-list"],
+                ChildNodes = [
+                    new() { ClassList = ["label"], Id     = "Label0" },
+                    new() { ClassList = ["sub-label"], Id = "SubLabel0" },
+                    new() { ClassList = ["label"], Id     = "Label1" },
+                    new() { ClassList = ["sub-label"], Id = "SubLabel1" },
+                    new() { ClassList = ["label"], Id     = "Label2" },
+                    new() { ClassList = ["sub-label"], Id = "SubLabel2" },
+                ]
             },
             new() {
                 ClassList = ["distance-label"],
@@ -48,132 +66,141 @@ internal class WorldMarkerNode : Node
         ];
     }
 
+    private readonly Dictionary<string, WorldMarker> _markers = new();
+
+    private readonly IGameCamera      _gameCamera = Framework.Service<IGameCamera>();
+    private readonly IPlayer          _player     = Framework.Service<IPlayer>();
+    private readonly ClipRectProvider _clipRects  = Framework.Service<ClipRectProvider>();
+
     public void AddMarker(WorldMarker marker)
     {
-        // Don't aggregate more than 3 markers at once.
-        if (_enqueuedMarkers.Count > 3) return;
+        if (_markers.Count >= 3) return;
 
-        _enqueuedMarkers.Add(marker);
+        _markers.TryAdd(marker.Key, marker);
     }
 
-    public void SetMaxWidth(int width)
+    public void RemoveMarker(string id)
     {
-        Style.Size                                   = new(width, 0);
-        QuerySelector(".icon-list")!.Style.Size      = new(width, 0);
-        QuerySelector(".label-list")!.Style.Size     = new(width, 0);
-        QuerySelector(".distance-label")!.Style.Size = new(width, 14);
+        var index = _markers.Keys.ToList().IndexOf(id);
+        if (index == -1) return;
 
-        foreach (Node childNode in QuerySelectorAll(".label")) childNode.Style.Size     = new(width, 16);
-        foreach (Node childNode in QuerySelectorAll(".sub-label")) childNode.Style.Size = new(width, 14);
+        _markers.Remove(id);
+
+        ClearState(index);
     }
 
-    public void SetDistance(float? distance)
+    public void UpdateMarker(WorldMarker marker)
     {
-        Node? node = QuerySelector(".distance-label");
-        if (null == node) return;
-
-        node.NodeValue       = distance.HasValue ? $"{distance:F1} yalms" : null;
-        node.Style.IsVisible = distance.HasValue;
-
-        WorldMarker? marker = _committedMarkers.FirstOrDefault();
-        if (null == marker) return;
-
-        float fadeStart = marker.FadeDistance.Y;
-        float fadeEnd   = marker.FadeDistance.X;
-
-        if (distance.HasValue) {
-            Style.Opacity = 1.0f - Math.Clamp((distance.Value - fadeStart) / (fadeEnd - fadeStart), 0f, 1f);
-        } else {
-            Style.Opacity = 1;
+        if (_markers.ContainsKey(marker.Key)) {
+            _markers[marker.Key] = marker;
         }
     }
 
-    [MethodImpl(MethodImplOptions.AggressiveOptimization)]
-    public void Flush()
+    public bool IsMarkerStillValidForThisNode(WorldMarker marker)
     {
-        Node iconList  = QuerySelector(".icon-list")!;
-        Node labelList = QuerySelector(".label-list")!;
+        if (!_markers.ContainsKey(marker.Key)) return false;
 
-        foreach (WorldMarker marker in _committedMarkers) {
-            string id = GetWorldMarkerId(marker);
+        return _markers.Count != 0
+            && _markers.Values.All(t => !(Vector3.Distance(t.WorldPosition, marker.WorldPosition) > AggregateDistance));
+    }
 
-            if (_enqueuedMarkers.Contains(marker)) {
-                // Update the marker info.
-                Node iconNode     = QuerySelector($".icon-{id}")!;
-                Node labelNode    = QuerySelector($".label-{id}")!;
-                Node subLabelNode = QuerySelector($".sub-label-{id}")!;
+    public Vector3? WorldPosition => _markers.Count > 0 ? _markers.Values.First().WorldPosition : null;
 
-                iconNode.Style.IconId        = marker.IconId;
-                iconNode.Style.IsVisible     = marker.IconId > 0;
-                labelNode.NodeValue          = marker.Label;
-                labelNode.Style.IsVisible    = !string.IsNullOrEmpty(marker.Label);
-                subLabelNode.NodeValue       = marker.SubLabel;
-                subLabelNode.Style.IsVisible = !string.IsNullOrEmpty(marker.SubLabel);
-                continue;
+    public void Update()
+    {
+        if (_markers.Count == 0 || WorldPosition == null) {
+            Style.IsVisible = false;
+            return;
+        }
+
+        Style.IsVisible = true;
+
+        var markers = _markers.Values.ToArray();
+
+        float minDist = 0.1f;
+        float maxDist = 0.25f;
+
+        for (var i = 0; i < 3; i++) {
+            if (i < markers.Length) {
+                if (markers[i].IsVisible == false) {
+                    ClearState(i);
+                } else {
+                    UpdateState(i, markers[i].Label, markers[i].SubLabel, markers[i].IconId);
+
+                    minDist = Math.Max(minDist, markers[i].FadeDistance.X);
+                    maxDist = Math.Max(maxDist, markers[i].FadeDistance.Y);
+                }
+            } else {
+                ClearState(i);
             }
-
-            // Remove marker from the node.
-            QuerySelector($".icon-{id}")?.Remove();
-            QuerySelector($".label-{id}")?.Remove();
-            QuerySelector($".sub-label-{id}")?.Remove();
         }
 
-        foreach (WorldMarker marker in _enqueuedMarkers) {
-            if (_committedMarkers.Contains(marker)) continue;
+        float distance = Vector3.Distance(_player.Position, WorldPosition.Value);
+        float opacity  = Math.Clamp((distance - minDist) / (maxDist - minDist), 0, 1);
 
-            string id = GetWorldMarkerId(marker);
+        QuerySelector(".distance-label")!.NodeValue = $"{distance:F1} yalms";
 
-            iconList.AppendChild(
-                new() {
-                    ClassList = ["icon", $"icon-{id}"],
-                    SortIndex = (int)marker.IconId,
-                    Style = new() {
-                        IconId    = marker.IconId,
-                        IsVisible = marker.IconId > 0,
-                    }
-                }
-            );
+        UpdateNodeSizes();
+        Style.Opacity = opacity;
 
-            labelList.AppendChild(
-                new() {
-                    ClassList = ["label", $"label-{id}"],
-                    NodeValue = marker.Label,
-                    Style = new() {
-                        IsVisible = !string.IsNullOrEmpty(marker.Label),
-                    }
-                }
-            );
+        if (opacity < 0.05f) return;
 
-            labelList.AppendChild(
-                new() {
-                    ClassList = ["sub-label", $"sub-label-{id}"],
-                    NodeValue = marker.SubLabel,
-                    Style = new() {
-                        IsVisible = !string.IsNullOrEmpty(marker.SubLabel)
-                    }
-                }
-            );
+        if (_gameCamera.WorldToScreen(WorldPosition.Value, out var screenPos)) {
+            Vector2 workPos = ImGui.GetMainViewport().WorkPos;
+
+            int x = (int)(screenPos.X + workPos.X);
+            int y = (int)(screenPos.Y + workPos.Y);
+
+            int                   halfSize = MaxWidth / 2;
+            Windows.Clipping.Rect rect     = new(x - halfSize, y - halfSize, x + halfSize, y + halfSize);
+
+            if (_clipRects.FindClipRectsIntersectingWith(rect).Count > 0) return;
+
+            Render(ImGui.GetBackgroundDrawList(), new(x, y));
         }
-
-        _committedMarkers.Clear();
-        _committedMarkers.AddRange(_enqueuedMarkers);
-        _enqueuedMarkers.Clear();
-
-        Style.IsVisible = _committedMarkers.Count > 0;
     }
 
-    [MethodImpl(MethodImplOptions.AggressiveOptimization)]
-    private static string GetWorldMarkerId(WorldMarker marker)
+    private void UpdateState(int index, string? label, string? subLabel, uint iconId)
     {
-        char[]     charsToReplace  = ['.', '#', '>', '<'];
-        const char replacementChar = '_';
-        string     input           = marker.Key;
+        Node iconNode     = QuerySelector($"#Icon{index}")!;
+        Node labelNode    = QuerySelector($"#Label{index}")!;
+        Node subLabelNode = QuerySelector($"#SubLabel{index}")!;
 
-        foreach (char c in charsToReplace) {
-            input = input.Replace(c, replacementChar);
+        bool hasLabel    = !string.IsNullOrEmpty(label);
+        bool hasSubLabel = !string.IsNullOrEmpty(subLabel);
+
+        iconNode.Style.IsVisible = iconId > 0;
+        iconNode.Style.IconId    = iconId;
+
+        labelNode.Style.IsVisible    = hasLabel;
+        labelNode.NodeValue          = label;
+        subLabelNode.Style.IsVisible = hasSubLabel;
+        subLabelNode.NodeValue       = subLabel;
+    }
+
+    private void ClearState(int index)
+    {
+        Node iconNode     = QuerySelector($"#Icon{index}")!;
+        Node labelNode    = QuerySelector($"#Label{index}")!;
+        Node subLabelNode = QuerySelector($"#SubLabel{index}")!;
+
+        iconNode.Style.IsVisible     = false;
+        labelNode.Style.IsVisible    = false;
+        subLabelNode.Style.IsVisible = false;
+    }
+
+    private void UpdateNodeSizes()
+    {
+        Style.Size = new(MaxWidth, 0);
+
+        for (var i = 0; i < 3; i++) {
+            QuerySelector($"#Label{i}")!.Style.Size    = new(MaxWidth, 18);
+            QuerySelector($"#SubLabel{i}")!.Style.Size = new(MaxWidth, 20);
         }
 
-        return $"wm--{input}";
+        QuerySelector(".icon-list")!.Style.Size      = new(MaxWidth, 32);
+        QuerySelector(".label-list")!.Style.Size     = new(MaxWidth, 0);
+        QuerySelector(".distance-label")!.Style.Size = new(MaxWidth, 20);
     }
 
     private static Stylesheet WorldMarkerStylesheet { get; } = new(
@@ -183,14 +210,14 @@ internal class WorldMarkerNode : Node
                 new() {
                     Anchor = Anchor.BottomCenter,
                     Flow   = Flow.Vertical,
-                    Gap    = 2,
                     Size   = new(150, 0),
+                    Gap    = 2,
                 }
             ),
             new(
                 ".icon-list",
                 new() {
-                    Anchor = Anchor.TopCenter,
+                    Anchor = Anchor.TopLeft,
                     Flow   = Flow.Horizontal,
                     Gap    = 8,
                     Size   = new(150, 0),
@@ -206,7 +233,7 @@ internal class WorldMarkerNode : Node
             new(
                 ".label-list",
                 new() {
-                    Anchor = Anchor.TopCenter,
+                    Anchor = Anchor.TopLeft,
                     Flow   = Flow.Vertical,
                     Size   = new(150, 0),
                 }
@@ -214,7 +241,7 @@ internal class WorldMarkerNode : Node
             new(
                 ".label",
                 new() {
-                    Anchor          = Anchor.TopCenter,
+                    Anchor          = Anchor.TopLeft,
                     Font            = (uint)FontId.WorldMarkers,
                     FontSize        = 13,
                     Color           = new(0xFFFFFFFF),
@@ -231,7 +258,7 @@ internal class WorldMarkerNode : Node
             new(
                 ".sub-label",
                 new() {
-                    Anchor          = Anchor.TopCenter,
+                    Anchor          = Anchor.TopLeft,
                     Font            = (uint)FontId.WorldMarkers,
                     FontSize        = 12,
                     Color           = new(0xD0FFFFFF),
@@ -250,7 +277,7 @@ internal class WorldMarkerNode : Node
                 ".distance-label",
                 new() {
                     Font         = (uint)FontId.WorldMarkers,
-                    Anchor       = Anchor.TopCenter,
+                    Anchor       = Anchor.TopLeft,
                     FontSize     = 12,
                     Color        = new(0xD0FFFFFF),
                     OutlineColor = new(0x90000000),

@@ -106,7 +106,7 @@ public abstract class WorldMarkerFactory : IDisposable
         ZoneManager.ZoneChanged -= OnZoneChanged;
 
         foreach (WorldMarker marker in Markers.Values) {
-            marker.Dispose();
+            MarkerRegistry.RemoveMarker(marker);
         }
 
         Markers.Clear();
@@ -239,7 +239,7 @@ public abstract class WorldMarkerFactory : IDisposable
     protected void RemoveMarker(string key)
     {
         if (Markers.Remove(key, out WorldMarker? marker)) {
-            marker.Dispose();
+            MarkerRegistry.RemoveMarker(marker);
         }
     }
 
@@ -261,7 +261,7 @@ public abstract class WorldMarkerFactory : IDisposable
         if (Markers.Count == 0) return;
 
         foreach (WorldMarker marker in Markers.Values) {
-            marker.Dispose();
+            MarkerRegistry.RemoveMarker(marker);
         }
 
         Markers.Clear();
