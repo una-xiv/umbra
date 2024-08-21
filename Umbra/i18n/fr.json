@@ -962,6 +962,8 @@
     "Widget.Flag.Error.NoAetheryte": "Aucun aethérite proche trouvé pour se téléporter.",
     "Widget.Flag.TeleportNearbyForGil": "Téléporter à proximité ({0} gil)",
     "Widget.Flag.TeleportToPlaceForGil": "{0} ({1} gil)",
+    "Widget.Fps.Name": "Compteur FPS",
+    "Widget.Fps.Description": "Affiche les images par seconde (FPS) actuelles du jeu.",
     "Widget.ShortcutPanel.Name": "Panneau de raccourcis",
     "Widget.ShortcutPanel.Description": "Affiche un panneau personnalisable avec une grille d'emplacements pouvant être assignés à des objets, montures, familiers et plus encore. La grille est redimensionnable dans les paramètres et peut contenir jusqu'à 4 catégories configurables.",
     "Widget.ShortcutPanel.Config.ButtonLabel.Name": "Étiquette du bouton",

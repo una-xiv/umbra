@@ -962,6 +962,8 @@
     "Widget.Flag.Error.NoAetheryte": "テレポート先の近くにエーテライトが見つかりません。",
     "Widget.Flag.TeleportNearbyForGil": "近くの場所にテレポート（{0} ギル）",
     "Widget.Flag.TeleportToPlaceForGil": "{0} へのテレポート（{1} ギル）",
+    "Widget.Fps.Name": "FPSカウンター",
+    "Widget.Fps.Description": "ゲームの現在のフレームレート（FPS）を表示します。",
     "Widget.ShortcutPanel.Name": "ショートカットパネル",
     "Widget.ShortcutPanel.Description": "アイテム、マウント、ミニオンなどを割り当てられるスロットのグリッドを備えたカスタマイズ可能なパネルを表示します。グリッドは設定でサイズ変更可能で、最大4つのカテゴリを設定できます。",
     "Widget.ShortcutPanel.Config.ButtonLabel.Name": "ボタンラベル",

@@ -962,6 +962,8 @@
     "Widget.Flag.Error.NoAetheryte": "附近未能找到可传送的以太之光",
     "Widget.Flag.TeleportNearbyForGil": "传送到附近({0} 金币)",
     "Widget.Flag.TeleportToPlaceForGil": "{0} ({1} 金币)",
+    "Widget.Fps.Name": "FPS计数器",
+    "Widget.Fps.Description": "显示游戏的当前每秒帧数（FPS）。",
     "Widget.ShortcutPanel.Name": "快捷面板",
     "Widget.ShortcutPanel.Description": "显示一个可自定义的面板，包含一个可分配物品、坐骑、宠物等的网格。网格可在设置中调整大小，并且可以容纳多达4个可配置的类别。",
     "Widget.ShortcutPanel.Config.ButtonLabel.Name": "按钮标签",
