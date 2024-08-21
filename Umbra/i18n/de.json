@@ -964,6 +964,8 @@
     "Widget.Flag.TeleportToPlaceForGil": "{0} teleportieren ({1} Gil)",
     "Widget.Fps.Name": "FPS-Zähler",
     "Widget.Fps.Description": "Zeigt die aktuellen Bilder pro Sekunde (FPS) des Spiels an.",
+    "Widget.SanctuaryIndicator.Name": "Schutzgebietsanzeige",
+    "Widget.SanctuaryIndicator.Description": "Zeigt eine Anzeige, wenn du in einem Schutzgebiet bist.",
     "Widget.ShortcutPanel.Name": "Verknüpfungsfeld",
     "Widget.ShortcutPanel.Description": "Zeigt ein anpassbares Feld mit einem Raster von Slots, die Gegenständen, Reittieren, Begleitern und mehr zugewiesen werden können. Das Raster ist in den Einstellungen skalierbar und kann bis zu 4 konfigurierbare Kategorien aufnehmen.",
     "Widget.ShortcutPanel.Config.ButtonLabel.Name": "Beschriftung der Schaltfläche",

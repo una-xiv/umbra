@@ -963,6 +963,8 @@
     "Widget.Flag.TeleportToPlaceForGil": "{0} ({1} gil)",
     "Widget.Fps.Name": "FPS Counter",
     "Widget.Fps.Description": "Shows the current frames per second (FPS) of the game.",
+    "Widget.SanctuaryIndicator.Name": "Sanctuary Indicator",
+    "Widget.SanctuaryIndicator.Description": "Shows an indicator when you are in a sanctuary.",
     "Widget.ShortcutPanel.Name": "Shortcut Panel",
     "Widget.ShortcutPanel.Description": "Shows a customizable panel with a grid of slots that can be assigned to items, mounts, minions and more. The grid is resizable in the settings and can hold up to 4 configurable categories.",
     "Widget.ShortcutPanel.Config.ButtonLabel.Name": "Button label",
