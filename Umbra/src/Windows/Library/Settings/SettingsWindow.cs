@@ -92,7 +92,9 @@ internal partial class SettingsWindow : Window
         _currentModule?.OnClose();
 
         foreach (var module in _modules.Values) {
-            module.Node.Dispose();
+            module.Dispose();
         }
+
+        _modules.Clear();
     }
 }

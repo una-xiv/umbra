@@ -1,8 +1,9 @@
-﻿using Una.Drawing;
+﻿using System;
+using Una.Drawing;
 
 namespace Umbra.Windows.Settings;
 
-internal abstract class SettingsModule
+internal abstract class SettingsModule : IDisposable
 {
     /// <summary>
     /// A unique identifier for this module.
@@ -33,4 +34,15 @@ internal abstract class SettingsModule
     /// Invoked on every frame.
     /// </summary>
     public virtual void OnUpdate() { }
+
+    /// <summary>
+    /// Invoked when the module is disposed.
+    /// </summary>
+    protected virtual void OnDisposed() { }
+
+    public void Dispose()
+    {
+        OnDisposed();
+        Node.Dispose();
+    }
 }

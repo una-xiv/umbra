@@ -23,6 +23,14 @@ internal partial class AuxWidgetsModule : SettingsModule
         }
     }
 
+    protected override void OnDisposed()
+    {
+        WidgetManager wm = Framework.Service<WidgetManager>();
+
+        wm.OnWidgetCreated -= OnWidgetInstanceCreated;
+        wm.OnWidgetRemoved -= OnWidgetInstanceRemoved;
+    }
+
     /// <inheritdoc/>
     public override void OnOpen()
     {

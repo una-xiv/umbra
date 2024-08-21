@@ -14,6 +14,7 @@
  *     GNU Affero General Public License for more details.
  */
 
+using System;
 using Umbra.Common;
 using Umbra.Widgets;
 using Umbra.Widgets.System;
@@ -22,7 +23,7 @@ using Una.Drawing;
 
 namespace Umbra.Windows.Settings.Modules;
 
-internal partial class WidgetsModule : SettingsModule
+internal partial class WidgetsModule : SettingsModule, IDisposable
 {
     public override string Id   => "WidgetsModule";
     public override string Name { get; } = I18N.Translate("Settings.WidgetsModule.Name");
@@ -43,6 +44,14 @@ internal partial class WidgetsModule : SettingsModule
         };
 
         foreach (var widget in wm.GetWidgetInstances()) OnWidgetInstanceCreated(widget);
+    }
+
+    protected override void OnDisposed()
+    {
+        var wm = Framework.Service<WidgetManager>();
+        wm.OnWidgetCreated   -= OnWidgetInstanceCreated;
+        wm.OnWidgetRemoved   -= OnWidgetInstanceRemoved;
+        wm.OnWidgetRelocated -= OnWidgetInstanceRelocated;
     }
 
     public override void OnOpen()
