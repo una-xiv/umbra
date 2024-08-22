@@ -119,7 +119,7 @@ internal class WorldMarkerRenderer : IDisposable
             .Where(
                 marker => ZoneManager.HasCurrentZone
                     && marker.MapId == ZoneManager.CurrentZone.Id
-                    && GameCamera.WorldToScreen(marker.Position, out _)
+                    && GameCamera.WorldToScreen(marker.WorldPosition, out _)
             )
             .ToArray();
     }
