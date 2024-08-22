@@ -54,6 +54,23 @@ internal partial class CustomButtonWidget
                 I18N.Translate("Widget.CustomButton.Config.Command.Description"),
                 "/echo Hello, world!"
             ),
+            new SelectWidgetConfigVariable(
+                "AltMode",
+                I18N.Translate("Widget.CustomButton.Config.AltMode.Name"),
+                I18N.Translate("Widget.CustomButton.Config.AltMode.Description"),
+                "None",
+                new() {
+                    { "None", I18N.Translate("Widget.CustomButton.Config.Mode.Option.None") },
+                    { "Command", I18N.Translate("Widget.CustomButton.Config.Mode.Option.Command") },
+                    { "URL", I18N.Translate("Widget.CustomButton.Config.Mode.Option.URL") }
+                }
+            ),
+            new StringWidgetConfigVariable(
+                "AltCommand",
+                I18N.Translate("Widget.CustomButton.Config.AltCommand.Name"),
+                I18N.Translate("Widget.CustomButton.Config.AltCommand.Description"),
+                ""
+            ),
             new BooleanWidgetConfigVariable(
                 "HideLabel",
                 I18N.Translate("Widget.CustomButton.Config.HideLabel.Name"),

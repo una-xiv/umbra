@@ -38,7 +38,6 @@ internal sealed partial class CustomButtonWidget(
     private ICommandManager  CommandManager  { get; } = Framework.Service<ICommandManager>();
     private ITextureProvider TextureProvider { get; } = Framework.Service<ITextureProvider>();
 
-    private string Command     { get; set; } = "";
     private uint?  LeftIconId  { get; set; }
     private uint?  RightIconId { get; set; }
 
@@ -51,7 +50,9 @@ internal sealed partial class CustomButtonWidget(
     protected override void Initialize()
     {
         SetLeftIcon(14);
+
         Node.OnClick += InvokeCommand;
+        Node.OnRightClick += InvokeAltCommand;
     }
 
     /// <inheritdoc/>
@@ -69,28 +70,12 @@ internal sealed partial class CustomButtonWidget(
 
     private void InvokeCommand(Node _)
     {
-        Command = GetConfigValue<string>("Command").Trim();
+        InvokeCommand(GetConfigValue<string>("Mode"), GetConfigValue<string>("Command").Trim());
+    }
 
-        switch (GetConfigValue<string>("Mode")) {
-            case "Command":
-                if (string.IsNullOrEmpty(Command) || !Command.StartsWith('/')) {
-                    return;
-                }
-
-                if (CommandManager.Commands.ContainsKey(Command.Split(" ", 2)[0])) {
-                    CommandManager.ProcessCommand(Command);
-                    return;
-                }
-
-                ChatSender.Send(Command);
-                return;
-            case "URL":
-                if (!Command.StartsWith("http://") && !Command.StartsWith("https://")) {
-                    Command = $"https://{Command}";
-                }
-                Util.OpenLink(Command);
-                return;
-        }
+    private void InvokeAltCommand(Node _)
+    {
+        InvokeCommand(GetConfigValue<string>("AltMode"), GetConfigValue<string>("AltCommand").Trim());
     }
 
     private void UpdateIcons()
@@ -133,6 +118,30 @@ internal sealed partial class CustomButtonWidget(
             return true;
         } catch {
             return false;
+        }
+    }
+
+    private void InvokeCommand(string mode, string command)
+    {
+        switch (mode) {
+            case "Command":
+                if (string.IsNullOrEmpty(command) || !command.StartsWith('/')) {
+                    return;
+                }
+
+                if (CommandManager.Commands.ContainsKey(command.Split(" ", 2)[0])) {
+                    CommandManager.ProcessCommand(command);
+                    return;
+                }
+
+                ChatSender.Send(command);
+                return;
+            case "URL":
+                if (!command.StartsWith("http://") && !command.StartsWith("https://")) {
+                    command = $"https://{command}";
+                }
+                Util.OpenLink(command);
+                return;
         }
     }
 }
