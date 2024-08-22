@@ -14,7 +14,7 @@
  *     GNU Affero General Public License for more details.
  */
 
-using System.Collections.Generic;
+using Dalamud.Interface;
 using Umbra.Common;
 using Umbra.Windows.Components;
 using Una.Drawing;
@@ -36,7 +36,7 @@ internal partial class CvarModule
             node.ClassList.Add("cvar");
             node.OnValueChanged += value => ConfigManager.Set(cvar.Id, value);
 
-            return node;
+            return CreateNode(cvar, node);
         }
 
         if (cvar.Options is not null && cvar.Options.Count > 0 && cvar.Default is string) {
@@ -51,7 +51,7 @@ internal partial class CvarModule
             node.ClassList.Add("cvar");
             node.OnValueChanged += value => ConfigManager.Set(cvar.Id, value);
 
-            return node;
+            return CreateNode(cvar, node);
         }
 
         if (cvar is { Default: int, Min: not null, Max: not null }) {
@@ -67,7 +67,7 @@ internal partial class CvarModule
             node.ClassList.Add("cvar");
             node.OnValueChanged += value => ConfigManager.Set(cvar.Id, value);
 
-            return node;
+            return CreateNode(cvar, node);
         }
 
         if (cvar is { Default: float, Min: not null, Max: not null }) {
@@ -83,9 +83,52 @@ internal partial class CvarModule
             node.ClassList.Add("cvar");
             node.OnValueChanged += value => ConfigManager.Set(cvar.Id, value);
 
-            return node;
+            return CreateNode(cvar, node);
         }
 
         return null;
+    }
+
+    private Node CreateNode(Cvar cvar, Node controlNode)
+    {
+        ButtonNode resetNode = new(
+            "Reset",
+            null,
+            FontAwesomeIcon.History,
+            true
+        ) {
+            Style = new() {
+                Anchor = Anchor.TopRight,
+                Margin = new() { Top = -4 },
+            },
+            Tooltip = I18N.Translate("Revert")
+        };
+
+        Node node = new() {
+            ClassList  = ["cvar-control-node"],
+            ChildNodes = [controlNode, resetNode],
+            Style = new() {
+                Flow = Flow.Horizontal,
+                Size = new(500, 0),
+                Gap  = 8,
+            }
+        };
+
+        var c = cvar;
+
+        resetNode.OnClick += _ => {
+            ConfigManager.Set(c.Id, c.Default);
+
+            if (controlNode is CheckboxNode n) n.Value = (bool)c.Default!;
+            if (controlNode is SelectNode s) s.Value = (string)c.Default!;
+            if (controlNode is IntegerInputNode i) i.Value = (int)c.Default!;
+            if (controlNode is FloatInputNode f) f.Value = (float)c.Default!;
+        };
+
+        resetNode.BeforeDraw += _ => {
+            resetNode.Style.IsVisible = c.Value is not null && !c.Value.Equals(c.Default);
+        };
+
+        return node;
     }
 }

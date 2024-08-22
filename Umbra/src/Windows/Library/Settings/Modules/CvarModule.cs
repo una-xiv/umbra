@@ -94,12 +94,16 @@ internal partial class CvarModule : SettingsModule
 
         Node.QuerySelector(".cvar-header")!.Style.Size = new(size.Width - 30, 0);
 
-        foreach (var cvarNode in Node.QuerySelectorAll(".cvar-list > .cvar, .cvar-subcategory")) {
+        foreach (var cvarNode in Node.QuerySelectorAll(" .cvar-subcategory")) {
             cvarNode.Style.Size = new(size.Width - 30, 0);
         }
 
-        foreach (var cvarNode in Node.QuerySelectorAll(".cvar-subcategory > .cvar-list > .cvar")) {
+        foreach (var cvarNode in Node.QuerySelectorAll(".cvar-control-node")) {
             cvarNode.Style.Size = new(size.Width - 45, 0);
+        }
+
+        foreach (var cvarNode in Node.QuerySelectorAll(".cvar")) {
+            cvarNode.Style.Size = new(size.Width - 80, 0);
         }
     }
 
