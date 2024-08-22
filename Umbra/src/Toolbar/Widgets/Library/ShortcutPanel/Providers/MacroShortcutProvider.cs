@@ -1,5 +1,6 @@
 ﻿using FFXIVClientStructs.FFXIV.Client.UI.Misc;
 using FFXIVClientStructs.FFXIV.Client.UI.Shell;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Umbra.Common;
@@ -34,12 +35,16 @@ internal abstract unsafe class MacroShortcutProvider : AbstractShortcutProvider
             index++;
 
             if (!macro.IsNotEmpty()) continue;
-            int i = index;
+
+            int    i    = index;
+            string name = macro.Name.ToString();
+
+            if (!string.IsNullOrEmpty(searchFilter) && !name.Contains(searchFilter, StringComparison.InvariantCultureIgnoreCase)) continue;
 
             shortcuts.Add(
                 new() {
                     Id   = (uint)i,
-                    Name = macro.Name.ToString(),
+                    Name = name,
                     Description = string.Join(
                         ';',
                         macro.Lines.ToArray().Where(l => !string.IsNullOrEmpty(l.ToString()))
