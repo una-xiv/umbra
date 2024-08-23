@@ -153,8 +153,9 @@ public abstract class DefaultToolbarWidget(
             || !string.IsNullOrEmpty(TopLabelNode.NodeValue?.ToString())
             || !string.IsNullOrEmpty(BottomLabelNode.NodeValue?.ToString());
 
-        bool liv = LeftIconNode.Style.IsVisible ?? false;
-        bool riv = RightIconNode.Style.IsVisible ?? false;
+        bool liv = LeftIconNode.Style.IconId is > 0;
+        bool riv = RightIconNode.Style.IconId is > 0;
+        bool ltv = !string.IsNullOrEmpty(TopLabelNode.NodeValue?.ToString());
 
         LabelNode.Style.IsVisible          = displayMode is not "IconOnly" && hasLabel;
         LabelNode.Style.FontSize           = textSize;
@@ -165,11 +166,11 @@ public abstract class DefaultToolbarWidget(
         RightIconNode.Style.ImageGrayscale = Node.IsDisabled || desaturateIcon;
         LeftIconNode.Style.Margin          = new(0);
         RightIconNode.Style.Margin         = new(0);
-        LabelNode.Style.Padding            = new(0, riv ? 0 : 5, 0, liv ? 0 : 5);
+        LabelNode.Style.Padding            = ltv ? new(0) : new(0, riv ? 0 : isGhost ? 0 : 5, 0, liv ? 0 : isGhost ? 0 : 5);
         TopLabelNode.Style.MaxWidth        = maxTextWidth;
-        TopLabelNode.Style.Padding         = new(0, 1);
+        TopLabelNode.Style.Padding         = new(0, riv ? 0 : isGhost ? 0 : 5, 0, liv ? 0 : isGhost ? 0 : 5);
         BottomLabelNode.Style.MaxWidth     = maxTextWidth;
-        BottomLabelNode.Style.Padding      = new(0, 1);
+        BottomLabelNode.Style.Padding      = new(0, riv ? 0 : isGhost ? 0 : 5, 0, liv ? 0 : isGhost ? 0 : 5);
         TopLabelNode.Style.FontSize        = textSizeTop;
         BottomLabelNode.Style.FontSize     = textSizeBottom;
         Node.Style.Padding                 = new(0, isGhost ? hPadding : hPadding + 3);
@@ -204,13 +205,13 @@ public abstract class DefaultToolbarWidget(
 
     protected void SetLeftIcon(uint? iconId)
     {
-        LeftIconNode.Style.IsVisible = iconId != null;
+        LeftIconNode.Style.IsVisible = iconId is > 0;
         LeftIconNode.Style.IconId    = iconId;
     }
 
     protected void SetRightIcon(uint? iconId)
     {
-        RightIconNode.Style.IsVisible = iconId != null;
+        RightIconNode.Style.IsVisible = iconId is > 0;
         RightIconNode.Style.IconId    = iconId;
     }
 

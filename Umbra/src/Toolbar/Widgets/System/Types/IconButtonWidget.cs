@@ -22,14 +22,7 @@ internal abstract class IconToolbarWidget(
                 Id        = "Icon",
                 NodeValue = FontAwesomeIcon.Ankh.ToIconString(),
             },
-        ],
-        BeforeDraw = (node) => {
-            node.Style.Size = new(SafeHeight, SafeHeight);
-
-            var iconNode = node.FindById("Icon");
-            iconNode!.Style.Size     = new(SafeHeight - 2, SafeHeight - 2);
-            iconNode!.Style.FontSize = (SafeHeight - 2) / 2;
-        }
+        ]
     };
 
     protected void SetIcon(FontAwesomeIcon icon)
@@ -40,8 +33,7 @@ internal abstract class IconToolbarWidget(
 
     protected void SetGhost(bool ghost)
     {
-        switch (ghost)
-        {
+        switch (ghost) {
             case true when !Node.TagsList.Contains("ghost"):
                 Node.TagsList.Add("ghost");
                 break;
@@ -63,8 +55,14 @@ internal abstract class IconToolbarWidget(
 
     protected override void OnUpdate()
     {
+        bool isGhost = !GetConfigValue<bool>("Decorate");
+
         SetIconYOffset(GetConfigValue<int>("IconYOffset"));
-        SetGhost(!GetConfigValue<bool>("Decorate"));
+        SetGhost(isGhost);
+
+        Node.Style.Size         = new(isGhost ? 0 : SafeHeight, SafeHeight);
+        IconNode.Style.Size     = new(isGhost ? 0 : SafeHeight - 2, SafeHeight - 2);
+        IconNode.Style.FontSize = (SafeHeight) / 2;
     }
 
     protected Node IconNode => Node.FindById("Icon")!;
