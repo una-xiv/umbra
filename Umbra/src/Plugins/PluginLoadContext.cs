@@ -20,6 +20,7 @@ using System.IO;
 using System.Reflection;
 using System.Runtime.Loader;
 using Dalamud.Plugin;
+using ImGuiNET;
 using Umbra.Common;
 using Umbra.Game;
 using Una.Drawing;
@@ -36,6 +37,7 @@ internal class PluginLoadContext(DirectoryInfo directoryInfo) : AssemblyLoadCont
         ["Dalamud"]            = typeof(IDalamudPluginInterface).Assembly,
         ["Lumina"]             = typeof(Lumina.GameData).Assembly,
         ["Lumina.Excel"]       = typeof(Lumina.Excel.GeneratedSheets.Action).Assembly,
+        ["ImGuiNET"]           = typeof(ImGui).Assembly,
         ["FFXIVClientStructs"] = typeof(FFXIVClientStructs.FFXIV.Client.System.Framework.Framework).Assembly,
     };
 
