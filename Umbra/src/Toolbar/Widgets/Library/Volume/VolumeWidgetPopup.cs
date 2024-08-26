@@ -120,7 +120,14 @@ internal sealed partial class VolumeWidgetPopup : WidgetPopup
             }
         };
 
-        node.QuerySelector(".channel--mute-button")!.OnClick += _ => {
+        Node muteButton = node.QuerySelector(".channel--mute-button")!;
+
+        muteButton.OnClick += _ => {
+            bool isMuted = _gameConfig.System.GetBool(muteConfigName);
+            _gameConfig.System.Set(muteConfigName, !isMuted);
+        };
+
+        muteButton.OnRightClick += _ => {
             bool isMuted = _gameConfig.System.GetBool(muteConfigName);
             _gameConfig.System.Set(muteConfigName, !isMuted);
         };
