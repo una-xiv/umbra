@@ -423,6 +423,8 @@
     "Widget.CollectionItemButton.Description": "コレクションリストから選択したアイテムにすばやくアクセスできます。",
     "Widget.CollectionItemButton.Config.Item.Name": "アイテム",
     "Widget.CollectionItemButton.Config.Item.Description": "ウィジェットに表示され、クリック時に使用されるコレクションリストのアイテム。",
+    "Widget.Coordinates.Name": "座標",
+    "Widget.Coordinates.Description": "ゲーム内の現在の座標を表示するよ。",
     "Widget.Durability.Name": "耐久性とスピリットボンド",
     "Widget.Durability.Description": "装備しているギアの現在の耐久状態とスピリットボンドの進行状況を表示し、修理とマテリア抽出アクションに迅速にアクセスできます。",
     "Widget.Durability.Config.Decorate.Name": "ウィジェットを装飾する",

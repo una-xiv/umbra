@@ -423,6 +423,8 @@
     "Widget.CollectionItemButton.Description": "Vous donne un accès rapide à un élément de votre choix dans votre liste de collections.",
     "Widget.CollectionItemButton.Config.Item.Name": "Élément",
     "Widget.CollectionItemButton.Config.Item.Description": "L'élément de la liste des collections qui est affiché sur le widget et utilisé lorsque vous cliquez dessus.",
+    "Widget.Coordinates.Name": "Coordonnées",
+    "Widget.Coordinates.Description": "Affiche tes coordonnées actuelles dans le monde du jeu.",
     "Widget.Durability.Name": "Condition & Symbiose",
     "Widget.Durability.Description": "Affiche l'état actuel de la condition et la progression de la symbiose de votre équipement avec un accès rapide aux actions Réparation & Matérialisation.",
     "Widget.Durability.Config.Decorate.Name": "Décorer le widget",

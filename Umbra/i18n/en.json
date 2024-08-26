@@ -422,6 +422,8 @@
     "Widget.CollectionItemButton.Description": "Provides you with quick access an item of your choosing from your collections list.",
     "Widget.CollectionItemButton.Config.Item.Name": "Item",
     "Widget.CollectionItemButton.Config.Item.Description": "The item from the collections list that is displayed on the widget and used when clicked.",
+    "Widget.Coordinates.Name": "Coordinates",
+    "Widget.Coordinates.Description": "Shows your current coordinates in the game world.",
     "Widget.Durability.Name": "Durability & Spiritbond",
     "Widget.Durability.Description": "Shows the current durability state and spiritbond progress of your equipped gear with quick access to the Repair & Extract Materia actions.",
     "Widget.Durability.Config.Decorate.Name": "Decorate the widget",

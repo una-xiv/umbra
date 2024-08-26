@@ -423,6 +423,8 @@
     "Widget.CollectionItemButton.Description": "Bietet schnellen Zugriff auf ein von dir ausgewähltes Element deiner Kuriositätensammlung.",
     "Widget.CollectionItemButton.Config.Item.Name": "Element",
     "Widget.CollectionItemButton.Config.Item.Description": "Das Element aus der Kuriositätensammlung, das auf dem Widget angezeigt und beim Klicken verwendet wird.",
+    "Widget.Coordinates.Name": "Koordinaten",
+    "Widget.Coordinates.Description": "Zeigt deine aktuellen Koordinaten in der Spielwelt an.",
     "Widget.Durability.Name": "Haltbarkeit & Bindung",
     "Widget.Durability.Description": "Zeigt den aktuellen Haltbarkeitszustand und den Bindungsfortschritt deiner ausgerüsteten Ausrüstung an, mit schnellem Zugriff auf die Aktionen Reparieren & Materia extrahieren.",
     "Widget.Durability.Config.Decorate.Name": "Das Widget dekorieren",

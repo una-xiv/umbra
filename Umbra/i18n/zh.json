@@ -423,6 +423,8 @@
     "Widget.CollectionItemButton.Description": "为您提供快速访问您从收藏列表中选择的项目。",
     "Widget.CollectionItemButton.Config.Item.Name": "项目",
     "Widget.CollectionItemButton.Config.Item.Description": "在小部件上显示并在点击时使用的收藏列表中的项目。",
+    "Widget.Coordinates.Name": "坐标",
+    "Widget.Coordinates.Description": "显示你在游戏世界中的当前位置。",
     "Widget.Durability.Name": "耐久度和精炼度",
     "Widget.Durability.Description": "显示已装备装备的当前耐久度状态和精炼度进度，并可快速修理和精制魔晶石。",
     "Widget.Durability.Config.Decorate.Name": "突出显示",
