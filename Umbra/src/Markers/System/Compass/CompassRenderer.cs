@@ -55,6 +55,12 @@ internal partial class CompassRenderer(
     [ConfigVariable("Markers.Compass.SafeZoneOffsetHeight", "Markers", "MarkersCompass", 0, 1000)]
     private static int SafeZoneOffsetHeight { get; set; } = 0;
 
+    [ConfigVariable("Markers.Compass.YOffset", "Markers", "MarkersCompass", -4096, 4096)]
+    private static int CenterPointYOffset { get; set; } = 0;
+
+    [ConfigVariable("Markers.Compass.XOffset", "Markers", "MarkersCompass", -4096, 4096)]
+    private static int CenterPointXOffset { get; set; } = 0;
+
     [OnDraw(executionOrder: int.MaxValue)]
     private void OnUpdate()
     {
@@ -68,6 +74,9 @@ internal partial class CompassRenderer(
         Vector2 workPos   = ImGui.GetMainViewport().WorkPos;
 
         if (!gameCamera.WorldToScreen(player.Position, out Vector2 playerScreenPosition)) return;
+
+        playerScreenPosition.X += CenterPointXOffset;
+        playerScreenPosition.Y += CenterPointYOffset;
 
         foreach (var marker in registry.GetMarkers()) {
             if (!marker.ShowOnCompass) continue;
