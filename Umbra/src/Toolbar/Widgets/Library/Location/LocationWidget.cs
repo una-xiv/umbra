@@ -73,10 +73,13 @@ internal partial class LocationWidget(
             districtLabel = $"X: {coords.X:F1}, Y: {coords.Y:F1}";
         }
 
+        districtLabel = districtLabel.Trim();
+        showDistrict  = showDistrict && !string.IsNullOrEmpty(districtLabel);
+
         if (useTwoLabels && showDistrict) {
             SetTwoLabels(name, districtLabel);
         } else {
-            SetLabel(showDistrict ? $"{name} - {districtLabel}" : name);
+            SetLabel(showDistrict && !string.IsNullOrEmpty(districtLabel) ? $"{name} - {districtLabel}" : name);
         }
 
         base.OnUpdate();
