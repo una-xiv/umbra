@@ -101,6 +101,12 @@ internal partial class AuxWidgetsModule
                                         I18N.Translate("Settings.AuxWidgetsModule.Config.AuxHideInCombat.Name"),
                                         I18N.Translate("Settings.AuxWidgetsModule.Config.AuxHideInCombat.Description")
                                     ),
+                                    new CheckboxNode(
+                                        "AuxHideIfUnsheathed",
+                                        Toolbar.AuxBarHideInCombat,
+                                        I18N.Translate("Settings.AuxWidgetsModule.Config.AuxHideIfUnsheathed.Name"),
+                                        I18N.Translate("Settings.AuxWidgetsModule.Config.AuxHideIfUnsheathed.Description")
+                                    ),
                                     new() { ClassList = ["separator"] },
                                     new CheckboxNode(
                                         "AuxConditionalVisibility",
@@ -313,6 +319,7 @@ internal partial class AuxWidgetsModule
     private CheckboxNode AuxHideInPvPNode => Node.QuerySelector<CheckboxNode>("AuxHideInPvP")!;
     private CheckboxNode AuxHideInDutyNode => Node.QuerySelector<CheckboxNode>("AuxHideInDuty")!;
     private CheckboxNode AuxHideInCombatNode => Node.QuerySelector<CheckboxNode>("AuxHideInCombat")!;
+    private CheckboxNode AuxHideIfUnsheathedNode => Node.QuerySelector<CheckboxNode>("AuxHideIfUnsheathed")!;
     private CheckboxNode AuxConditionalVisibilityNode => Node.QuerySelector<CheckboxNode>("AuxConditionalVisibility")!;
     private SelectNode AuxHoldKeyNode => Node.QuerySelector<SelectNode>("AuxHoldKey")!;
     private CheckboxNode AuxShowInCutsceneNode => Node.QuerySelector<CheckboxNode>("AuxShowInCutscene")!;

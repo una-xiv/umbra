@@ -141,6 +141,8 @@
     "Settings.AuxWidgetsModule.Config.AuxHideInDuty.Description": "インスタンス化された任務中に補助バーを隠します。このオプションは、以下の条件付き表示設定より優先されます。",
     "Settings.AuxWidgetsModule.Config.AuxHideInCombat.Name": "戦闘中に隠す",
     "Settings.AuxWidgetsModule.Config.AuxHideInCombat.Description": "戦闘中に補助バーを隠します。このオプションは、以下の条件付き表示設定より優先されます。",
+    "Settings.AuxWidgetsModule.Config.AuxHideIfUnsheathed.Name": "武器を抜いたら隠す",
+    "Settings.AuxWidgetsModule.Config.AuxHideIfUnsheathed.Description": "武器を抜いたら補助バーを隠します。このオプションは、以下の条件付き表示設定より優先されます。",
     "Settings.AuxWidgetsModule.Config.ConditionalVisibility.Name": "条件付き表示を有効にする",
     "Settings.AuxWidgetsModule.Config.ConditionalVisibility.Description": "補助バーを表示する条件を指定できます。",
     "Settings.AuxWidgetsModule.Config.HoldKey.Name": "キーを押し続けて表示を強制",

@@ -141,6 +141,8 @@
     "Settings.AuxWidgetsModule.Config.AuxHideInDuty.Description": "在副本任务期间隐藏辅助栏。此选项优先于以下的条件可见性设置。",
     "Settings.AuxWidgetsModule.Config.AuxHideInCombat.Name": "在战斗中隐藏",
     "Settings.AuxWidgetsModule.Config.AuxHideInCombat.Description": "在战斗中隐藏辅助栏。此选项优先于以下的条件可见性设置。",
+    "Settings.AuxWidgetsModule.Config.AuxHideIfUnsheathed.Name": "拔出武器时隐藏",
+    "Settings.AuxWidgetsModule.Config.AuxHideIfUnsheathed.Description": "当你拔出武器时隐藏辅助栏。此选项优先于以下的条件可见性设置。",
     "Settings.AuxWidgetsModule.Config.ConditionalVisibility.Name": "启用条件可见性",
     "Settings.AuxWidgetsModule.Config.ConditionalVisibility.Description": "允许您指定显示辅助栏的条件。",
     "Settings.AuxWidgetsModule.Config.HoldKey.Name": "按住键以强制显示",

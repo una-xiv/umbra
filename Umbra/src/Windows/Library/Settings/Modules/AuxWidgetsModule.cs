@@ -45,6 +45,7 @@ internal partial class AuxWidgetsModule : SettingsModule
         AuxHideInPvPNode.Value             = Toolbar.AuxBarHideInPvP;
         AuxHideInDutyNode.Value            = Toolbar.AuxBarHideInDuty;
         AuxHideInCombatNode.Value          = Toolbar.AuxBarHideInCombat;
+        AuxHideIfUnsheathedNode.Value      = Toolbar.AuxBarHideIfUnsheathed;
         AuxConditionalVisibilityNode.Value = Toolbar.AuxBarIsConditionallyVisible;
         AuxShowInCutsceneNode.Value        = Toolbar.AuxBarShowInCutscene;
         AuxShowInGPoseNode.Value           = Toolbar.AuxBarShowInGPose;
@@ -63,6 +64,7 @@ internal partial class AuxWidgetsModule : SettingsModule
         AuxHideInPvPNode.OnValueChanged             += HideInPvPChanged;
         AuxHideInDutyNode.OnValueChanged            += AuxHideInDutyChanged;
         AuxHideInCombatNode.OnValueChanged          += AuxHideInCombatChanged;
+        AuxHideIfUnsheathedNode.OnValueChanged      += HideIfUnsheathedChanged;
         AuxConditionalVisibilityNode.OnValueChanged += OnConditionalVisibilityChanged;
         AuxHoldKeyNode.OnValueChanged               += AuxHoldKeyChanged;
         AuxShowInCutsceneNode.OnValueChanged        += ShowInCutsceneChanged;
@@ -92,6 +94,7 @@ internal partial class AuxWidgetsModule : SettingsModule
         AuxHideInPvPNode.OnValueChanged             -= HideInPvPChanged;
         AuxHideInDutyNode.OnValueChanged            -= AuxHideInDutyChanged;
         AuxHideInCombatNode.OnValueChanged          -= AuxHideInCombatChanged;
+        AuxHideIfUnsheathedNode.OnValueChanged      -= HideIfUnsheathedChanged;
         AuxConditionalVisibilityNode.OnValueChanged -= OnConditionalVisibilityChanged;
         AuxHoldKeyNode.OnValueChanged               -= AuxHoldKeyChanged;
         AuxShowInCutsceneNode.OnValueChanged        -= ShowInCutsceneChanged;
@@ -178,6 +181,11 @@ internal partial class AuxWidgetsModule : SettingsModule
     private static void AuxHideInCombatChanged(bool value)
     {
         ConfigManager.Set("Toolbar.AuxBar.HideInCombat", value);
+    }
+
+    private static void HideIfUnsheathedChanged(bool value)
+    {
+        ConfigManager.Set("Toolbar.AuxBar.HideIfUnsheathed", value);
     }
 
     private static void OnConditionalVisibilityChanged(bool value)

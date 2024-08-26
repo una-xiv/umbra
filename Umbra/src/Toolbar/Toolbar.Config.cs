@@ -92,6 +92,9 @@ internal partial class Toolbar
     [ConfigVariable("Toolbar.AuxBar.HideInCombat")]
     public static bool AuxBarHideInCombat { get; set; } = false;
 
+    [ConfigVariable("Toolbar.AuxBar.HideIfUnsheathed")]
+    public static bool AuxBarHideIfUnsheathed { get; set; } = false;
+
     [ConfigVariable("Toolbar.AuxBar.IsConditionallyVisible")]
     public static bool AuxBarIsConditionallyVisible { get; set; } = false;
 

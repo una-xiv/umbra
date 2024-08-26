@@ -141,6 +141,8 @@
     "Settings.AuxWidgetsModule.Config.AuxHideInDuty.Description": "Blendet die Hilfsleiste während instanzierten Aufgaben aus. Diese Option hat Vorrang vor den bedingten Sichtbarkeitseinstellungen unten.",
     "Settings.AuxWidgetsModule.Config.AuxHideInCombat.Name": "Im Kampf ausblenden",
     "Settings.AuxWidgetsModule.Config.AuxHideInCombat.Description": "Blendet die Hilfsleiste während des Kampfes aus. Diese Option hat Vorrang vor den bedingten Sichtbarkeitseinstellungen unten.",
+    "Settings.AuxWidgetsModule.Config.AuxHideIfUnsheathed.Name": "Ausblenden, wenn deine Waffe gezogen ist",
+    "Settings.AuxWidgetsModule.Config.AuxHideIfUnsheathed.Description": "Blendet die Hilfsleiste aus, wenn deine Waffe gezogen ist. Diese Option hat Vorrang vor den untenstehenden Sichtbarkeitseinstellungen.",
     "Settings.AuxWidgetsModule.Config.ConditionalVisibility.Name": "Bedingte Sichtbarkeit aktivieren",
     "Settings.AuxWidgetsModule.Config.ConditionalVisibility.Description": "Ermöglicht es dir Bedingungen festzulegen, unter denen die Hilfsleiste angezeigt werden soll.",
     "Settings.AuxWidgetsModule.Config.HoldKey.Name": "Taste gedrückt halten, um Anzeige zu erzwingen",

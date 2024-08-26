@@ -251,6 +251,7 @@ internal partial class Toolbar
         if (player.IsInPvP && AuxBarHideInPvP) return false;
         if (player.IsBoundByInstancedDuty && AuxBarHideInDuty) return false;
         if (player.IsInCombat && AuxBarHideInCombat) return false;
+        if (player.IsWeaponDrawn && AuxBarHideIfUnsheathed) return false;
 
         if (!AuxBarIsConditionallyVisible) return true;
 

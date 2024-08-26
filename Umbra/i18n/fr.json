@@ -141,6 +141,8 @@
     "Settings.AuxWidgetsModule.Config.AuxHideInDuty.Description": "Masque la barre auxiliaire pendant les tâches en instance. Cette option prend le pas sur les paramètres de visibilité conditionnelle ci-dessous.",
     "Settings.AuxWidgetsModule.Config.AuxHideInCombat.Name": "Cacher en combat",
     "Settings.AuxWidgetsModule.Config.AuxHideInCombat.Description": "Masque la barre auxiliaire pendant le combat. Cette option prend le pas sur les paramètres de visibilité conditionnelle ci-dessous.",
+    "Settings.AuxWidgetsModule.Config.AuxHideIfUnsheathed.Name": "Masquer quand ton arme est dégainée",
+    "Settings.AuxWidgetsModule.Config.AuxHideIfUnsheathed.Description": "Masque la barre auxiliaire lorsque ton arme est dégainée. Cette option a priorité sur les paramètres de visibilité conditionnelle ci-dessous.",
     "Settings.AuxWidgetsModule.Config.ConditionalVisibility.Name": "Activer la visibilité conditionnelle",
     "Settings.AuxWidgetsModule.Config.ConditionalVisibility.Description": "Vous permet de spécifier les conditions sous lesquelles la barre auxiliaire doit être affichée.",
     "Settings.AuxWidgetsModule.Config.HoldKey.Name": "Maintenir la touche pour forcer l'affichage",

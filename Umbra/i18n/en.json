@@ -141,6 +141,8 @@
     "Settings.AuxWidgetsModule.Config.AuxHideInDuty.Description": "Hides the auxiliary bar during instanced duties. This option takes precedence over the conditional visibility settings below.",
     "Settings.AuxWidgetsModule.Config.AuxHideInCombat.Name": "Hide in combat",
     "Settings.AuxWidgetsModule.Config.AuxHideInCombat.Description": "Hides the auxiliary bar during combat. This option takes precedence over the conditional visibility settings below.",
+    "Settings.AuxWidgetsModule.Config.AuxHideIfUnsheathed.Name": "Hide when your weapon is unsheathed",
+    "Settings.AuxWidgetsModule.Config.AuxHideIfUnsheathed.Description": "Hides the auxiliary bar when your weapon is unsheathed. This option takes precedence over the conditional visibility settings below.",
     "Settings.AuxWidgetsModule.Config.ConditionalVisibility.Name": "Enable conditional visibility",
     "Settings.AuxWidgetsModule.Config.ConditionalVisibility.Description": "Allows you to specify conditions under which the auxiliary bar should be shown.",
     "Settings.AuxWidgetsModule.Config.HoldKey.Name": "Hold key to force show",
