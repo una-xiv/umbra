@@ -28,6 +28,8 @@ internal sealed partial class StackedClockWidget(
         Popup.AddButton("LT", "Local Time",  0, null, "00:00");
         Popup.AddButton("ST", "Server Time", 0, null, "00:00");
         Popup.AddButton("ET", "Eorzea Time", 0, null, "00:00");
+
+        BottomLabelNode.Style.Color = new("Widget.Text");
     }
 
     protected override void OnUpdate()
