@@ -15,16 +15,26 @@ internal sealed class CoordinatesWidget(
 {
     public override WidgetPopup? Popup => null;
 
-    protected override void Initialize() { }
-
     private IZoneManager ZoneManager { get; } = Framework.Service<IZoneManager>();
 
     protected override IEnumerable<IWidgetConfigVariable> GetConfigVariables()
     {
         return [
+            new BooleanWidgetConfigVariable(
+                "UseTwoLabels",
+                I18N.Translate("Widget.Coordinates.Config.UseTwoLabels.Name"),
+                I18N.Translate("Widget.Coordinates.Config.UseTwoLabels.Description"),
+                false
+            ),
             ..DefaultToolbarWidgetConfigVariables,
             ..SingleLabelTextOffsetVariables,
+            ..TwoLabelTextOffsetVariables,
         ];
+    }
+
+    protected override void Initialize()
+    {
+        BottomLabelNode.Style.Color = new("Widget.Text");
     }
 
     protected override void OnUpdate()
@@ -34,10 +44,17 @@ internal sealed class CoordinatesWidget(
             return;
         }
 
-        Node.Style.IsVisible = true;
+        Node.Style.IsVisible        = true;
 
         Vector2 coords = ZoneManager.CurrentZone.PlayerCoordinates;
-        SetLabel($"{coords.X.ToString("0.0", CultureInfo.InvariantCulture)}, {coords.Y.ToString("0.0", CultureInfo.InvariantCulture)}");
+        string  x      = coords.X.ToString("0.0", CultureInfo.InvariantCulture);
+        string  y      = coords.Y.ToString("0.0", CultureInfo.InvariantCulture);
+
+        if (GetConfigValue<bool>("UseTwoLabels")) {
+            SetTwoLabels(x, y);
+        } else {
+            SetLabel($"{x}, {y}");
+        }
 
         base.OnUpdate();
     }
