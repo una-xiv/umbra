@@ -18,7 +18,7 @@ internal sealed partial class VolumeWidgetPopup : WidgetPopup
         ]
     };
 
-    public bool ShowOptions { get; set; } = false;
+    public bool ShowOptions { get; set; }
     public bool ShowBgm     { get; set; } = true;
     public bool ShowSfx     { get; set; } = true;
     public bool ShowVoc     { get; set; } = true;
@@ -34,14 +34,14 @@ internal sealed partial class VolumeWidgetPopup : WidgetPopup
     {
         _gameConfig = Framework.Service<IGameConfig>();
 
-        CreateChannelWidget("Master", "SoundMaster", "IsSndMaster");
+        CreateChannelWidget("Master", "SoundMaster", "IsSndMaster", "IsSoundAlways");
         CreateSeparator();
-        CreateChannelWidget("BGM",  "SoundBgm",     "IsSndBgm");
-        CreateChannelWidget("SFX",  "SoundSe",      "IsSndSe");
-        CreateChannelWidget("VOC",  "SoundVoice",   "IsSndVoice");
-        CreateChannelWidget("AMB",  "SoundEnv",     "IsSndEnv");
-        CreateChannelWidget("SYS",  "SoundSystem",  "IsSndSystem");
-        CreateChannelWidget("PERF", "SoundPerform", "IsSndPerform");
+        CreateChannelWidget("BGM",  "SoundBgm",     "IsSndBgm", "IsSoundBgmAlways");
+        CreateChannelWidget("SFX",  "SoundSe",      "IsSndSe", "IsSoundSeAlways");
+        CreateChannelWidget("VOC",  "SoundVoice",   "IsSndVoice", "IsSoundVoiceAlways");
+        CreateChannelWidget("AMB",  "SoundEnv",     "IsSndEnv", "IsSoundEnvAlways");
+        CreateChannelWidget("SYS",  "SoundSystem",  "IsSndSystem", "IsSoundSystemAlways");
+        CreateChannelWidget("PERF", "SoundPerform", "IsSndPerform", "IsSoundPerformAlways");
 
         Node optionsList = Node.QuerySelector(".options-list")!;
         optionsList.AppendChild(CreateToggleOption("SoundChocobo"));
@@ -69,6 +69,15 @@ internal sealed partial class VolumeWidgetPopup : WidgetPopup
 
             channel.Node.QuerySelector(".channel--mute-button")!.NodeValue =
                 GetVolumeIcon(channel.VolumeConfigName, channel.MuteConfigName).ToIconString();
+
+            Node bgBtn = channel.Node.QuerySelector(".channel--bg-button")!;
+            bool isBg  = _gameConfig.System.GetBool(channel.BgConfigName);
+
+            bgBtn.NodeValue = isBg ? FontAwesomeIcon.PlusCircle.ToIconString() : FontAwesomeIcon.Minus.ToIconString();
+
+            bgBtn.Tooltip = isBg
+                ? I18N.Translate("Widget.Volume.Tooltip.Bg.On")
+                : I18N.Translate("Widget.Volume.Tooltip.Bg.Off");
         }
 
         Node.QuerySelector(".separator")!.Style.IsVisible    = HasVisibleChannels;
@@ -88,7 +97,7 @@ internal sealed partial class VolumeWidgetPopup : WidgetPopup
 
     private bool HasVisibleChannels => ShowBgm || ShowSfx || ShowVoc || ShowAmb || ShowSys || ShowPerf;
 
-    private void CreateChannelWidget(string id, string volumeConfigName, string muteConfigName)
+    private void CreateChannelWidget(string id, string volumeConfigName, string muteConfigName, string bgConfigName)
     {
         Node node = new() {
             ClassList = ["channel"],
@@ -109,27 +118,36 @@ internal sealed partial class VolumeWidgetPopup : WidgetPopup
                     Step      = ValueStep,
                 },
                 new() {
-                    ClassList = ["channel--mute"],
+                    ClassList = ["channel--buttons"],
                     ChildNodes = [
                         new() {
-                            ClassList = ["channel--mute-button"],
+                            ClassList = ["channel--mute-button", "channel--ctrl-button"],
                             NodeValue = FontAwesomeIcon.VolumeMute.ToIconString()
-                        }
+                        },
+                        new() {
+                            ClassList = ["channel--bg-button", "channel--ctrl-button"],
+                            NodeValue = FontAwesomeIcon.PlusCircle.ToIconString(),
+                            Tooltip   = I18N.Translate("Widget.Volume.Tooltip.Bg.On"),
+                        },
                     ]
                 }
             }
         };
 
         Node muteButton = node.QuerySelector(".channel--mute-button")!;
+        Node bgButton   = node.QuerySelector(".channel--bg-button")!;
 
         muteButton.OnClick += _ => {
-            bool isMuted = _gameConfig.System.GetBool(muteConfigName);
-            _gameConfig.System.Set(muteConfigName, !isMuted);
+            _gameConfig.System.Set(muteConfigName, !_gameConfig.System.GetBool(muteConfigName));
         };
-
         muteButton.OnRightClick += _ => {
-            bool isMuted = _gameConfig.System.GetBool(muteConfigName);
-            _gameConfig.System.Set(muteConfigName, !isMuted);
+            _gameConfig.System.Set(muteConfigName, !_gameConfig.System.GetBool(muteConfigName));
+        };
+        bgButton.OnClick += _ => {
+            _gameConfig.System.Set(bgConfigName, !_gameConfig.System.GetBool(bgConfigName));
+        };
+        bgButton.OnRightClick += _ => {
+            _gameConfig.System.Set(bgConfigName, !_gameConfig.System.GetBool(bgConfigName));
         };
 
         node.QuerySelector<VerticalSliderNode>(".channel--slider")!.OnValueChanged += value => {
@@ -147,6 +165,7 @@ internal sealed partial class VolumeWidgetPopup : WidgetPopup
                 Name             = id,
                 VolumeConfigName = volumeConfigName,
                 MuteConfigName   = muteConfigName,
+                BgConfigName     = bgConfigName,
                 Node             = node
             }
         );
@@ -203,6 +222,7 @@ internal sealed partial class VolumeWidgetPopup : WidgetPopup
         public string Name             { get; init; }
         public string VolumeConfigName { get; init; }
         public string MuteConfigName   { get; init; }
+        public string BgConfigName     { get; init; }
         public Node   Node             { get; init; }
     }
 }

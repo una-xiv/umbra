@@ -78,14 +78,16 @@ internal partial class VolumeWidgetPopup
                 }
             ),
             new(
-                ".channel--mute",
+                ".channel--buttons",
                 new() {
                     Anchor = Anchor.TopCenter,
-                    Size   = new(40, 28),
+                    Flow   = Flow.Vertical,
+                    Size   = new(40, 0),
+                    Gap    = 4,
                 }
             ),
             new(
-                ".channel--mute-button",
+                ".channel--ctrl-button",
                 new() {
                     Anchor       = Anchor.TopCenter,
                     Size         = new(24, 24),
@@ -99,7 +101,7 @@ internal partial class VolumeWidgetPopup
                 }
             ),
             new(
-                ".channel--mute-button:hover",
+                ".channel--ctrl-button:hover",
                 new() {
                     BackgroundColor = new("Widget.Background"),
                     StrokeColor     = new("Widget.Border"),
