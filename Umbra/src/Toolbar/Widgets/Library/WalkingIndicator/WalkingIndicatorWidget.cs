@@ -47,13 +47,12 @@ internal class WalkingIndicatorWidget(
     /// <inheritdoc/>
     protected override unsafe void OnUpdate()
     {
-        SetGhost(!GetConfigValue<bool>("Decorate"));
-        SetIconYOffset(GetConfigValue<int>("IconYOffset"));
-
         Control* ctrl = Control.Instance();
         SetIcon(ctrl->IsWalking ? FontAwesomeIcon.Walking : FontAwesomeIcon.Running);
 
         Node.Style.IsVisible = !GetConfigValue<bool>("OnlyShowWhenWalking") || ctrl->IsWalking;
+
+        base.OnUpdate();
     }
 
     protected override IEnumerable<IWidgetConfigVariable> GetConfigVariables()
@@ -65,20 +64,7 @@ internal class WalkingIndicatorWidget(
                 I18N.Translate("Widget.WalkingIndicator.Config.OnlyShowWhenWalking.Description"),
                 true
             ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
-            new BooleanWidgetConfigVariable(
-                "Decorate",
-                I18N.Translate("Widget.WalkingIndicator.Config.Decorate.Name"),
-                I18N.Translate("Widget.WalkingIndicator.Config.Decorate.Description"),
-                true
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
-            new IntegerWidgetConfigVariable(
-                "IconYOffset",
-                I18N.Translate("Widget.WalkingIndicator.Config.IconYOffset.Name"),
-                I18N.Translate("Widget.WalkingIndicator.Config.IconYOffset.Description"),
-                -1,
-                -5,
-                5
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            ..DefaultIconToolbarWidgetConfigVariables,
         ];
     }
 }

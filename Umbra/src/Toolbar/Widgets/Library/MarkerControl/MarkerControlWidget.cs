@@ -50,34 +50,20 @@ internal class MarkerControlWidget(
 
     protected override void OnUpdate()
     {
-        SetGhost(!GetConfigValue<bool>("Decorate"));
-        SetIconYOffset(GetConfigValue<int>("IconYOffset"));
-
         foreach (string id in Registry.GetFactoryIds()) {
             var factory = Registry.GetFactory(id);
             var enabled = factory.GetConfigValue<bool>("Enabled");
 
             Popup.SetButtonIcon(id, enabled ? FontAwesomeIcon.Check : null);
         }
+
+        base.OnUpdate();
     }
 
     protected override IEnumerable<IWidgetConfigVariable> GetConfigVariables()
     {
         return [
-            new BooleanWidgetConfigVariable(
-                "Decorate",
-                I18N.Translate("Widget.MarkerControl.Config.Decorate.Name"),
-                I18N.Translate("Widget.MarkerControl.Config.Decorate.Description"),
-                true
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
-            new IntegerWidgetConfigVariable(
-                "IconYOffset",
-                I18N.Translate("Widget.MarkerControl.Config.IconYOffset.Name"),
-                I18N.Translate("Widget.MarkerControl.Config.IconYOffset.Description"),
-                0,
-                -5,
-                5
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            ..DefaultIconToolbarWidgetConfigVariables,
         ];
     }
 }

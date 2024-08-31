@@ -26,20 +26,7 @@ internal sealed partial class BattleEffectsWidget
     protected override IEnumerable<IWidgetConfigVariable> GetConfigVariables()
     {
         return [
-            new BooleanWidgetConfigVariable(
-                "Decorate",
-                I18N.Translate("Widget.BattleEffects.Config.Decorate.Name"),
-                I18N.Translate("Widget.BattleEffects.Config.Decorate.Description"),
-                true
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
-            new IntegerWidgetConfigVariable(
-                "IconYOffset",
-                I18N.Translate("Widgets.DefaultToolbarWidget.Config.IconYOffset.Name"),
-                I18N.Translate("Widgets.DefaultToolbarWidget.Config.IconYOffset.Description"),
-                -1,
-                -5,
-                5
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            ..DefaultIconToolbarWidgetConfigVariables,
         ];
     }
 }

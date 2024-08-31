@@ -47,8 +47,6 @@ internal sealed partial class VolumeWidget(
     protected override void OnUpdate()
     {
         SetIcon(GetVolumeIcon("SoundMaster", "IsSndMaster"));
-        SetGhost(!GetConfigValue<bool>("Decorate"));
-        SetIconYOffset(GetConfigValue<int>("IconYOffset"));
 
         Popup.ShowOptions = GetConfigValue<bool>("ShowOptions");
         Popup.ShowBgm     = GetConfigValue<bool>("ShowBgm");
@@ -58,6 +56,8 @@ internal sealed partial class VolumeWidget(
         Popup.ShowSys     = GetConfigValue<bool>("ShowSys");
         Popup.ShowPerf    = GetConfigValue<bool>("ShowPerf");
         Popup.ValueStep   = GetConfigValue<int>("ValueStep");
+
+        base.OnUpdate();
     }
 
     private void ToggleMute()

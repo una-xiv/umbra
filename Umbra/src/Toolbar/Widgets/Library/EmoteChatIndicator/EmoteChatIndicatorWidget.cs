@@ -27,20 +27,7 @@ internal class EmoteChatIndicatorWidget(
                 I18N.Translate("Widget.EmoteChatIndicator.Config.OnlyShowWhenEnabled.Description"),
                 true
             ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
-            new BooleanWidgetConfigVariable(
-                "Decorate",
-                I18N.Translate("Widget.EmoteChatIndicator.Config.Decorate.Name"),
-                I18N.Translate("Widget.EmoteChatIndicator.Config.Decorate.Description"),
-                true
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
-            new IntegerWidgetConfigVariable(
-                "IconYOffset",
-                I18N.Translate("Widget.EmoteChatIndicator.Config.IconYOffset.Name"),
-                I18N.Translate("Widget.EmoteChatIndicator.Config.IconYOffset.Description"),
-                -1,
-                -5,
-                5
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            ..DefaultIconToolbarWidgetConfigVariables,
         ];
     }
 
@@ -52,9 +39,6 @@ internal class EmoteChatIndicatorWidget(
 
     protected override void OnUpdate()
     {
-        SetGhost(!GetConfigValue<bool>("Decorate"));
-        SetIconYOffset(GetConfigValue<int>("IconYOffset"));
-
         if (IsEmoteChatEnabled) {
             Node.Style.IsVisible = true;
             Node.Tooltip         = I18N.Translate("Widget.EmoteChatIndicator.Tooltip.Enabled");
@@ -66,6 +50,8 @@ internal class EmoteChatIndicatorWidget(
 
             SetIcon(FontAwesomeIcon.CommentSlash);
         }
+
+        base.OnUpdate();
     }
 
     private bool IsEmoteChatEnabled {

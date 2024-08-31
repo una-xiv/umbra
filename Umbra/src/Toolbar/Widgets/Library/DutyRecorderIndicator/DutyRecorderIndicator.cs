@@ -1,4 +1,5 @@
 ﻿using Dalamud.Game.Text.SeStringHandling;
+using Dalamud.Interface;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using System.Collections.Generic;
 using Umbra.Common;
@@ -21,19 +22,14 @@ internal sealed partial class DutyRecorderIndicator(
 
     protected override void Initialize()
     {
-        IconNode.NodeValue = new SeStringBuilder().AddIcon(BitmapFontIcon.Recording).Build();
-        Node.Tooltip       = I18N.Translate("Widget.DutyRecorderIndicator.Tooltip");
+        Node.Tooltip = I18N.Translate("Widget.DutyRecorderIndicator.Tooltip");
+        SetIcon(FontAwesomeIcon.Video);
     }
 
     protected override void OnUpdate()
     {
         Node.Style.IsVisible = IsRecordingDuty;
-
-        if (IsRecordingDuty) {
-            SetGhost(!GetConfigValue<bool>("Decorate"));
-            IconNode.Style.TextAlign = Anchor.TopLeft;
-            IconNode.Style.Padding   = new() { Top = GetConfigValue<int>("IconYOffset") + 5, Left = -5 };
-        }
+        base.OnUpdate();
     }
 
     private static unsafe bool IsRecordingDuty => AgentHUD.Instance()->IsMainCommandEnabled(79);

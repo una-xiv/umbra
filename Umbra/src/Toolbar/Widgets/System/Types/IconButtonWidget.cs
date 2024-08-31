@@ -82,7 +82,7 @@ internal abstract class IconToolbarWidget(
             0,
             0,
             64
-        ),
+        ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
         new IntegerWidgetConfigVariable(
             "IconYOffset",
             I18N.Translate("Widgets.IconButtonWidget.Config.IconYOffset.Name"),

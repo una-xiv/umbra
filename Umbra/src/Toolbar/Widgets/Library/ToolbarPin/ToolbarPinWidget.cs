@@ -22,7 +22,7 @@ namespace Umbra.Widgets;
 
 [ToolbarWidget("ToolbarPin", "Widget.ToolbarPin.Name", "Widget.ToolbarPin.Description")]
 internal class ToolbarPinWidget(WidgetInfo info, string? guid = null, Dictionary<string, object>? configValues = null)
-    : DefaultToolbarWidget(info, guid, configValues)
+    : IconToolbarWidget(info, guid, configValues)
 {
     /// <inheritdoc/>
     public override WidgetPopup? Popup => null;
@@ -35,37 +35,16 @@ internal class ToolbarPinWidget(WidgetInfo info, string? guid = null, Dictionary
 
     protected override void OnUpdate()
     {
-        SetGhost(!GetConfigValue<bool>("Decorate"));
+        SetIcon(Toolbar.IsAutoHideEnabled ? FontAwesomeIcon.LockOpen : FontAwesomeIcon.Lock);
 
-        Node.Style.Padding                            = new(0, 2);
-        Node.QuerySelector("Label")!.Style.Font       = 2;
-        Node.QuerySelector("Label")!.Style.TextOffset = new(0, GetConfigValue<int>("IconYOffset"));
-
-        SetLabel(
-            Toolbar.IsAutoHideEnabled
-                ? FontAwesomeIcon.LockOpen.ToIconString()
-                : FontAwesomeIcon.Lock.ToIconString()
-        );
+        base.OnUpdate();
     }
 
     /// <inheritdoc/>
     protected override IEnumerable<IWidgetConfigVariable> GetConfigVariables()
     {
         return [
-            new BooleanWidgetConfigVariable(
-                "Decorate",
-                I18N.Translate("Widget.ToolbarPin.Config.Decorate.Name"),
-                I18N.Translate("Widget.ToolbarPin.Config.Decorate.Description"),
-                true
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
-            new IntegerWidgetConfigVariable(
-                "IconYOffset",
-                I18N.Translate("Widget.ToolbarPin.Config.IconYOffset.Name"),
-                I18N.Translate("Widget.ToolbarPin.Config.IconYOffset.Description"),
-                -1,
-                -5,
-                5
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            ..DefaultIconToolbarWidgetConfigVariables,
         ];
     }
 }

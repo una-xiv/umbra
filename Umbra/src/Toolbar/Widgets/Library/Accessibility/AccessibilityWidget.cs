@@ -31,19 +31,9 @@ internal sealed partial class AccessibilityWidget(
     /// <inheritdoc/>
     public override AccessibilityWidgetPopup Popup { get; } = new();
 
-    private IGameConfig _gameConfig = null!;
-
     /// <inheritdoc/>
     protected override void Initialize()
     {
-        _gameConfig = Framework.Service<IGameConfig>();
-
         SetIcon(FontAwesomeIcon.Wheelchair);
-    }
-
-    protected override void OnUpdate()
-    {
-        SetGhost(!GetConfigValue<bool>("Decorate"));
-        SetIconYOffset(GetConfigValue<int>("IconYOffset"));
     }
 }
