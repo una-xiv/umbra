@@ -259,6 +259,8 @@
     "CVAR.General.LanguageOverride.Description": "覆盖Dalamud的语言设置。仅用于Umbra。该选项仅影响Umbra插件的翻译，从游戏本身获取的文本仍将以游戏的语言显示。修改此值将重载插件，并关闭设置窗口。",
     "CVAR.General.DecimalSeparator.Name": "小数点分隔符",
     "CVAR.General.DecimalSeparator.Description": "用于将数字的整数部分与小数部分分隔的字符。此设置会影响Umbra中数字的显示方式。",
+    "CVAR.General.ThousandsSeparator.Name": "千位分隔符",
+    "CVAR.General.ThousandsSeparator.Description": "用于将数字中的三位数分组的字符。此设置会影响Umbra中数字的显示方式。",
     "CVAR.General.ShowToolbarInCutscenes.Name": "在播放过场动画时显示工具栏",
     "CVAR.General.ShowToolbarInGPose.Name": "在GPose激活时显示工具栏",
     "CVAR.General.ShowToolbarOnUserHide.Name": "在手动隐藏UI时显示工具栏",

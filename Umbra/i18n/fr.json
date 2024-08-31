@@ -259,6 +259,8 @@
     "CVAR.General.LanguageOverride.Description": "Remplace le paramètre de langue de Dalamud pour Umbra. Notez que cela affecte uniquement les traductions spécifiques à Umbra. Les textes provenant du jeu lui-même apparaîtront toujours dans la langue du jeu. Changer cette valeur rechargera le plugin, ce qui fermera la fenêtre de configuration.",
     "CVAR.General.DecimalSeparator.Name": "Séparateur décimal",
     "CVAR.General.DecimalSeparator.Description": "Le caractère utilisé pour séparer la partie entière de la partie fractionnaire d'un nombre. Ce réglage affecte la manière dont les nombres sont affichés dans Umbra.",
+    "CVAR.General.ThousandsSeparator.Name": "Séparateur de milliers",
+    "CVAR.General.ThousandsSeparator.Description": "Le caractère utilisé pour séparer les groupes de trois chiffres dans un nombre. Ce paramètre affecte la façon dont les nombres sont affichés dans Umbra.",
     "CVAR.General.ShowToolbarInCutscenes.Name": "Afficher la barre d'outils pendant les cinématiques",
     "CVAR.General.ShowToolbarInGPose.Name": "Afficher la barre d'outils lorsque GPose est active",
     "CVAR.General.ShowToolbarOnUserHide.Name": "Afficher la barre d'outils lorsque l'interface utilisateur est masquée manuellement",

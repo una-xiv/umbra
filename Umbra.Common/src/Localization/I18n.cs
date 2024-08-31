@@ -33,7 +33,10 @@ public static class I18N
     internal static string LanguageOverride { get; set; } = "None";
 
     [ConfigVariable("General.DecimalSeparator", "General", options: [".", ",", " ", "|", "-"])]
-    internal static string DecimalSeparator { get; set; } = ".";
+    internal static string DecimalSeparator { get; set; } = ",";
+
+    [ConfigVariable("General.ThousandsSeparator", "General", options: [".", ",", " ", "|", "-"])]
+    internal static string ThousandsSeparator { get; set; } = ".";
 
     private static readonly Dictionary<string, Dictionary<string, string>> Translations = [];
 
@@ -45,8 +48,10 @@ public static class I18N
         return number.ToString(
             "N0",
             new NumberFormatInfo() {
-                NumberGroupSeparator = DecimalSeparator,
-                NumberGroupSizes     = [3]
+                NegativeSign           = "-",
+                NumberDecimalSeparator = DecimalSeparator,
+                NumberGroupSeparator   = ThousandsSeparator,
+                NumberGroupSizes       = [3]
             }
         );
     }
@@ -59,8 +64,10 @@ public static class I18N
         return number.ToString(
             "N0",
             new NumberFormatInfo() {
-                NumberGroupSeparator = DecimalSeparator,
-                NumberGroupSizes     = [3]
+                NegativeSign           = "-",
+                NumberDecimalSeparator = DecimalSeparator,
+                NumberGroupSeparator   = ThousandsSeparator,
+                NumberGroupSizes       = [3]
             }
         );
     }
@@ -71,10 +78,12 @@ public static class I18N
     public static string FormatNumber(float number)
     {
         return number.ToString(
-            "N0",
+            "0.0",
             new NumberFormatInfo() {
-                NumberGroupSeparator = DecimalSeparator,
-                NumberGroupSizes     = [3]
+                NegativeSign           = "-",
+                NumberDecimalSeparator = DecimalSeparator,
+                NumberGroupSeparator   = ThousandsSeparator,
+                NumberGroupSizes       = [3]
             }
         );
     }

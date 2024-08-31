@@ -47,8 +47,8 @@ internal sealed class CoordinatesWidget(
         Node.Style.IsVisible        = true;
 
         Vector2 coords = ZoneManager.CurrentZone.PlayerCoordinates;
-        string  x      = coords.X.ToString("0.0", CultureInfo.InvariantCulture);
-        string  y      = coords.Y.ToString("0.0", CultureInfo.InvariantCulture);
+        string  x      = I18N.FormatNumber(coords.X);
+        string  y      = I18N.FormatNumber(coords.Y);
 
         if (GetConfigValue<bool>("UseTwoLabels")) {
             SetTwoLabels(x, y);
