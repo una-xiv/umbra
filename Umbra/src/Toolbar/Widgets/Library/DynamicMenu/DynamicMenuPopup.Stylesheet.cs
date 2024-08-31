@@ -18,6 +18,7 @@ internal sealed partial class DynamicMenuPopup
                 "#ItemList",
                 new() {
                     Flow = Flow.Vertical,
+                    Gap  = 4,
                 }
             ),
             new(
@@ -44,15 +45,29 @@ internal sealed partial class DynamicMenuPopup
             new(
                 ".item",
                 new() {
-                    Gap     = 8,
-                    Size    = new(0, 36),
-                    Stretch = true,
+                    Gap  = 8,
+                    Size = new(0, 36),
                 }
             ),
             new(
                 ".item:hover",
                 new() {
                     BackgroundColor = new("Widget.PopupMenuBackgroundHover"),
+                }
+            ),
+            new(
+                ".item.separator",
+                new() {
+                    BorderWidth   = new() { Top = 1 },
+                    BorderColor   = new() { Top = new("Widget.PopupBorder") },
+                    Size          = new(0, 1),
+                    IsAntialiased = false,
+                }
+            ),
+            new(
+                ".item.separator:hover",
+                new() {
+                    BackgroundColor = new(0),
                 }
             ),
             new(

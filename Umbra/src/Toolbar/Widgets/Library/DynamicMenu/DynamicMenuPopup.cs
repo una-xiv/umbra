@@ -14,6 +14,10 @@ internal sealed partial class DynamicMenuPopup : WidgetPopup
 {
     public bool                   EditModeEnabled  { get; set; } = false;
     public string                 WidgetInstanceId { get; set; } = "-";
+    public int                    EntryHeight      { get; set; } = 36;
+    public int                    EntryFontSize    { get; set; } = 13;
+    public bool                   ShowSubIcons     { get; set; } = true;
+    public bool                   ShowItemCount    { get; set; } = true;
     public List<DynamicMenuEntry> Entries          { get; set; } = [];
 
     public event Action?       OnEntriesChanged;
@@ -27,7 +31,6 @@ internal sealed partial class DynamicMenuPopup : WidgetPopup
     {
         CreateContextMenu();
 
-        EmptyButtonPlaceholder.OnClick      += _ => OpenContextMenu();
         EmptyButtonPlaceholder.OnRightClick += _ => OpenContextMenu();
 
         Framework.DalamudFramework.Run(RebuildMenu);

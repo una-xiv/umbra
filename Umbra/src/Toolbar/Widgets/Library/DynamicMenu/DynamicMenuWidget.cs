@@ -44,8 +44,12 @@ internal sealed partial class DynamicMenuWidget(
 
     protected override void OnUpdate()
     {
-        Popup.EditModeEnabled  = GetConfigValue<bool>("EditModeEnabled");
         Popup.WidgetInstanceId = Id;
+        Popup.EditModeEnabled  = GetConfigValue<bool>("EditModeEnabled");
+        Popup.EntryHeight      = GetConfigValue<int>("MenuEntryHeight");
+        Popup.EntryFontSize    = GetConfigValue<int>("MenuFontSize");
+        Popup.ShowSubIcons     = GetConfigValue<bool>("ShowSubIcons");
+        Popup.ShowItemCount    = GetConfigValue<bool>("ShowItemCount");
 
         SetLabel(GetConfigValue<string>("ButtonLabel"));
         SetIcon((uint)GetConfigValue<int>("ButtonIcon"));

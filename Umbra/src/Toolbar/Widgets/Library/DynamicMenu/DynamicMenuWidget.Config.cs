@@ -36,6 +36,34 @@ internal sealed partial class DynamicMenuWidget
             ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             ..DefaultToolbarWidgetConfigVariables,
             ..SingleLabelTextOffsetVariables,
+            new IntegerWidgetConfigVariable(
+                "MenuEntryHeight",
+                I18N.Translate("Widget.DynamicMenu.Config.MenuEntryHeight.Name"),
+                I18N.Translate("Widget.DynamicMenu.Config.MenuEntryHeight.Description"),
+                36,
+                20,
+                64
+            ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
+            new IntegerWidgetConfigVariable(
+                "MenuFontSize",
+                I18N.Translate("Widget.DynamicMenu.Config.MenuFontSize.Name"),
+                I18N.Translate("Widget.DynamicMenu.Config.MenuFontSize.Description"),
+                13,
+                10,
+                20
+            ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
+            new BooleanWidgetConfigVariable(
+                "ShowSubIcons",
+                I18N.Translate("Widget.DynamicMenu.Config.ShowSubIcons.Name"),
+                I18N.Translate("Widget.DynamicMenu.Config.ShowSubIcons.Description"),
+                true
+            ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
+            new BooleanWidgetConfigVariable(
+                "ShowItemCount",
+                I18N.Translate("Widget.DynamicMenu.Config.ShowItemCount.Name"),
+                I18N.Translate("Widget.DynamicMenu.Config.ShowItemCount.Description"),
+                true
+            ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
             new StringWidgetConfigVariable("Entries", "", null, "", short.MaxValue) { IsHidden = true },
         ];
     }

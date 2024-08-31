@@ -37,18 +37,37 @@ internal sealed partial class DynamicMenuPopup
         int itemIndex = Entries.IndexOf(entry);
         if (itemIndex == -1) return null;
 
+        if (entry.Ct == null && entry.Cl == "-") {
+            Node separator = new() {
+                ClassList = ["item", "separator"],
+                SortIndex = itemIndex,
+            };
+
+            separator.OnRightClick += _ => OpenContextMenu(itemIndex);
+            return separator;
+        }
+
         Node textNode  = new() { ClassList = ["item--text"], InheritTags      = true };
         Node iconNode  = new() { ClassList = ["item--icon-main"], InheritTags = true };
         Node icon2Node = new() { ClassList = ["item--icon-sub"], InheritTags  = true };
         Node countNode = new() { ClassList = ["item--count"], InheritTags     = true };
 
+        iconNode.Style.Size       = new(EntryHeight - 5, EntryHeight - 5);
+        icon2Node.Style.IsVisible = ShowSubIcons;
+        countNode.Style.IsVisible = ShowItemCount;
+        textNode.Style.FontSize   = EntryFontSize;
+
         Node node = new() {
             ClassList = ["item"],
             SortIndex = Entries.IndexOf(entry),
+            Style     = new() { Size = new(0, EntryHeight) },
             ChildNodes = [
                 new() {
                     ClassList  = ["item--icon-wrapper"],
                     ChildNodes = [iconNode, icon2Node, countNode],
+                    Style = new() {
+                        Size = new(EntryHeight, EntryHeight),
+                    }
                 },
                 textNode,
             ]

@@ -24,6 +24,7 @@ internal sealed partial class DynamicMenuPopup
                             Cc = "/dance",
                             Ct = "Chat",
                         };
+
                         AddEntry(entry, _selectedItemIndex);
                         _selectedItemIndex = Entries.IndexOf(entry);
                         OpenCustomItemEditor();
@@ -38,9 +39,16 @@ internal sealed partial class DynamicMenuPopup
                             OnClick = () => OpenPickerWindow(provider),
                         }
                     ),
+                new("AddSeparator") {
+                    Label = I18N.Translate("Widget.DynamicMenu.ContextMenu.AddSeparator"),
+                    OnClick = () => {
+                        DynamicMenuEntry entry = new() { Cl = "-" };
+                        AddEntry(entry, _selectedItemIndex);
+                    },
+                },
                 new("-"),
                 new("EnableEditMode") {
-                    Label  = I18N.Translate("Widget.DynamicMenu.ContextMenu.EnableEditMode"),
+                    Label = I18N.Translate("Widget.DynamicMenu.ContextMenu.EnableEditMode"),
                     OnClick = () => {
                         EmptyButtonPlaceholder.Style.IsVisible = true;
                         EditModeEnabled                        = true;
@@ -48,7 +56,7 @@ internal sealed partial class DynamicMenuPopup
                     },
                 },
                 new("DisableEditMode") {
-                    Label  = I18N.Translate("Widget.DynamicMenu.ContextMenu.DisableEditMode"),
+                    Label = I18N.Translate("Widget.DynamicMenu.ContextMenu.DisableEditMode"),
                     OnClick = () => {
                         EmptyButtonPlaceholder.Style.IsVisible = false;
                         EditModeEnabled                        = false;
@@ -57,7 +65,7 @@ internal sealed partial class DynamicMenuPopup
                     },
                 },
                 new("Configure") {
-                    Label = I18N.Translate("Widget.DynamicMenu.ContextMenu.Configure"),
+                    Label   = I18N.Translate("Widget.DynamicMenu.ContextMenu.Configure"),
                     OnClick = OpenCustomItemEditor,
                 },
                 new("MoveUp") {
@@ -81,11 +89,12 @@ internal sealed partial class DynamicMenuPopup
     {
         _selectedItemIndex = itemIndex;
 
-        ContextMenu!.SetEntryVisible("AddCustomItem", EditModeEnabled);
         foreach (var provider in Providers.GetAllProviders()) {
             ContextMenu!.SetEntryVisible(provider.ShortcutType, EditModeEnabled);
         }
 
+        ContextMenu!.SetEntryVisible("AddCustomItem",   EditModeEnabled);
+        ContextMenu!.SetEntryVisible("AddSeparator",    EditModeEnabled);
         ContextMenu!.SetEntryVisible("-",               EditModeEnabled);
         ContextMenu!.SetEntryVisible("DisableEditMode", EditModeEnabled);
         ContextMenu!.SetEntryVisible("EnableEditMode",  !EditModeEnabled);
@@ -118,7 +127,7 @@ internal sealed partial class DynamicMenuPopup
 
                     DynamicMenuEntry entry = new() {
                         Pt = providerType,
-                        Pi   = providerId,
+                        Pi = providerId,
                     };
 
                     AddEntry(entry, _selectedItemIndex);
