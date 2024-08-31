@@ -61,7 +61,7 @@ internal sealed class KeyItemShortcutProvider(IDataManager dataManager) : Abstra
             Id         = id,
             Name       = item.Name.ToDalamudString().TextValue,
             IconId     = item.Icon,
-            IsDisabled = found,
+            IsDisabled = !found,
         };
     }
 

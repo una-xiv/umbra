@@ -41,7 +41,7 @@ internal sealed class EmoteShortcutProvider(IDataManager dataManager) : Abstract
                 new() {
                     Id          = emote.RowId,
                     Name        = name,
-                    Description = emote.TextCommand.Value.ToString(),
+                    Description = emote.TextCommand.Value.Command.ToString(),
                     IconId      = emote.Icon,
                 }
             );

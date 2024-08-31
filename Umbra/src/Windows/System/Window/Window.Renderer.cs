@@ -24,7 +24,7 @@ using Rect = Umbra.Windows.Clipping.Rect;
 
 namespace Umbra.Windows;
 
-internal abstract partial class Window
+public abstract partial class Window
 {
     [ConfigVariable("Window.EnableClipping", "General", "WindowSettings")]
     private static bool EnableClipping { get; set; } = true;

@@ -19,7 +19,7 @@ using Una.Drawing;
 
 namespace Umbra.Windows.Components;
 
-internal class ButtonNode : Node
+public class ButtonNode : Node
 {
     public string? Label {
         set => QuerySelector("Label")!.NodeValue = value;

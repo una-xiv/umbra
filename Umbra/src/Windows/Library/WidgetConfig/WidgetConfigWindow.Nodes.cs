@@ -24,7 +24,7 @@ namespace Umbra.Windows.Library.WidgetConfig;
 internal partial class WidgetConfigWindow
 {
     protected sealed override Node Node { get; } = new() {
-        Stylesheet = WidgetConfigWindowStylesheet,
+        Stylesheet = WindowStyles.WidgetConfigWindowStylesheet,
         ClassList  = ["widget-config-window"],
         ChildNodes = [
             new() {

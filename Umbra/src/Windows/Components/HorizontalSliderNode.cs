@@ -21,7 +21,7 @@ using Una.Drawing;
 
 namespace Umbra.Windows.Components;
 
-internal class HorizontalSlideNode : Node
+public class HorizontalSlideNode : Node
 {
     public event Action<int>? OnValueChanged;
 

@@ -10,7 +10,7 @@ namespace Umbra;
 /// does not capture input events inside the managed regions.
 /// </summary>
 [Service]
-internal sealed class UmbraDelvClipRects : IDisposable
+public sealed class UmbraDelvClipRects : IDisposable
 {
     [ConfigVariable("DelvUI.ClipRects.Enabled", "General", "WindowSettings")]
     private static bool Enabled { get; set; } = true;

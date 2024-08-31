@@ -21,7 +21,7 @@ using Umbra.Common;
 namespace Umbra.Windows;
 
 [Service]
-internal class WindowManager(UmbraDelvClipRects delvClipRects) : IDisposable
+public class WindowManager(UmbraDelvClipRects delvClipRects) : IDisposable
 {
     public event Action<Window>? OnWindowOpened;
     public event Action<Window>? OnWindowClosed;

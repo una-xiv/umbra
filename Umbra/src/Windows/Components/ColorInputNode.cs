@@ -22,7 +22,7 @@ using Una.Drawing;
 
 namespace Umbra.Windows.Components;
 
-internal class ColorInputNode : Node
+public class ColorInputNode : Node
 {
     public event Action<uint>? OnValueChanged;
 

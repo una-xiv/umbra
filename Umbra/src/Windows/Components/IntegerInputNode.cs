@@ -23,7 +23,7 @@ using Una.Drawing;
 
 namespace Umbra.Windows.Components;
 
-internal class IntegerInputNode : Node
+public class IntegerInputNode : Node
 {
     public event Action<int>? OnValueChanged;
 

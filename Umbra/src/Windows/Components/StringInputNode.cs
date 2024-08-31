@@ -21,7 +21,7 @@ using Una.Drawing;
 
 namespace Umbra.Windows.Components;
 
-internal class StringInputNode : Node
+public class StringInputNode : Node
 {
     public event Action<string>? OnValueChanged;
 

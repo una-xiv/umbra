@@ -23,7 +23,7 @@ using Una.Drawing;
 
 namespace Umbra.Windows;
 
-internal abstract partial class Window : IDisposable
+public abstract partial class Window : IDisposable
 {
     internal event Action? RequestClose;
 
