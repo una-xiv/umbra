@@ -92,15 +92,14 @@ internal sealed partial class UnifiedMainMenuPopup : WidgetPopup
     {
         JobInfo job = Player.GetJobInfo(Player.JobId);
 
-        bool isTop = BannerLocation == "Top" || (BannerLocation == "Auto" && !Toolbar.IsTopAligned);
-
         HeaderLabelNameNode.NodeValue = GetPlayerName();
         HeaderLabelInfoNode.NodeValue = $"{I18N.Translate("Widget.GearsetSwitcher.JobLevel", job.Level)} {job.Name}";
 
         UpdateBannerColor();
         ResizeNodes();
 
-        HeaderIconNode.Style.IconId = AvatarIconId;
+        HeaderIconNode.Style.IconId    = AvatarIconId;
+        HeaderIconNode.Style.IsVisible = AvatarIconId != 0;
     }
 
     protected override void OnUpdate()
