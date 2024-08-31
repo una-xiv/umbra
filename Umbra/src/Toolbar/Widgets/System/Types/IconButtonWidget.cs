@@ -55,14 +55,15 @@ internal abstract class IconToolbarWidget(
 
     protected override void OnUpdate()
     {
-        bool isGhost = !GetConfigValue<bool>("Decorate");
+        bool isGhost  = !GetConfigValue<bool>("Decorate");
+        int  iconSize = GetConfigValue<int>("IconSize");
 
         SetIconYOffset(GetConfigValue<int>("IconYOffset"));
         SetGhost(isGhost);
 
         Node.Style.Size         = new(isGhost ? 0 : SafeHeight, SafeHeight);
         IconNode.Style.Size     = new(isGhost ? 0 : SafeHeight - 2, SafeHeight - 2);
-        IconNode.Style.FontSize = (SafeHeight) / 2;
+        IconNode.Style.FontSize = iconSize < 6 ? (SafeHeight) / 2 : iconSize;
     }
 
     protected Node IconNode => Node.FindById("Icon")!;
@@ -74,6 +75,14 @@ internal abstract class IconToolbarWidget(
             I18N.Translate("Widgets.IconButtonWidget.Config.Decorate.Description"),
             true
         ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+        new IntegerWidgetConfigVariable(
+            "IconSize",
+            I18N.Translate("Widgets.IconButtonWidget.Config.IconSize.Name"),
+            I18N.Translate("Widgets.IconButtonWidget.Config.IconSize.Description"),
+            0,
+            0,
+            64
+        ),
         new IntegerWidgetConfigVariable(
             "IconYOffset",
             I18N.Translate("Widgets.IconButtonWidget.Config.IconYOffset.Name"),

@@ -364,6 +364,8 @@
     "Widgets.IconButtonWidget.Config.Decorate.Description": "Decorates the widget with a background and border.",
     "Widgets.IconButtonWidget.Config.IconYOffset.Name": "Icon vertical offset",
     "Widgets.IconButtonWidget.Config.IconYOffset.Description": "The vertical offset of the icon from the center of the widget in pixels. Positive values move the icon down, negative values move the icon up.",
+    "Widgets.IconButtonWidget.Config.IconSize.Name": "Icon size",
+    "Widgets.IconButtonWidget.Config.IconSize.Description": "The size of the icon in pixels. A value less than 6 will use the default size.",
     "Widget.Accessibility.Description": "Provides you with quick access to accessibility features.",
     "Widget.Accessibility.Config.Decorate.Name": "Decorate the widget",
     "Widget.Accessibility.Config.Decorate.Description": "Decorates the accessibility widget with a background and border.",

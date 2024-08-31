@@ -364,6 +364,8 @@
     "Widgets.IconButtonWidget.Config.Decorate.Description": "ウィジェットを背景と枠線で装飾します。",
     "Widgets.IconButtonWidget.Config.IconYOffset.Name": "アイコンの垂直オフセット",
     "Widgets.IconButtonWidget.Config.IconYOffset.Description": "ウィジェットの中央からアイコンの垂直方向のオフセット（ピクセル単位）。正の値はアイコンを下に移動し、負の値はアイコンを上に移動します。",
+    "Widgets.IconButtonWidget.Config.IconSize.Name": "アイコンサイズ",
+    "Widgets.IconButtonWidget.Config.IconSize.Description": "アイコンのサイズ（ピクセル単位）。6未満の値はデフォルトサイズが使用されます。",
     "Widget.Accessibility.Name": "アクセシビリティ",
     "Widget.Accessibility.Description": "アクセシビリティ機能への迅速なアクセスを提供します。",
     "Widget.Accessibility.Config.Decorate.Name": "ウィジェットの装飾",

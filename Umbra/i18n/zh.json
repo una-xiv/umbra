@@ -364,6 +364,8 @@
     "Widgets.IconButtonWidget.Config.Decorate.Description": "使用背景和边框装饰小部件。",
     "Widgets.IconButtonWidget.Config.IconYOffset.Name": "图标垂直偏移",
     "Widgets.IconButtonWidget.Config.IconYOffset.Description": "图标相对于小部件中心的垂直偏移，以像素为单位。正值将图标下移，负值将图标上移。",
+    "Widgets.IconButtonWidget.Config.IconSize.Name": "图标大小",
+    "Widgets.IconButtonWidget.Config.IconSize.Description": "图标的像素大小。小于 6 的值将使用默认大小。",
     "Widget.Accessibility.Name": "无障碍",
     "Widget.Accessibility.Description": "快速访问无障碍功能。",
     "Widget.Accessibility.Config.Decorate.Name": "突出显示",

@@ -364,6 +364,8 @@
     "Widgets.IconButtonWidget.Config.Decorate.Description": "Dekoriert das Widget mit einem Hintergrund und einem Rand.",
     "Widgets.IconButtonWidget.Config.IconYOffset.Name": "Vertikaler Icon-Versatz",
     "Widgets.IconButtonWidget.Config.IconYOffset.Description": "Der vertikale Versatz des Icons vom Zentrum des Widgets in Pixeln. Positive Werte bewegen das Icon nach unten, negative Werte bewegen das Icon nach oben.",
+    "Widgets.IconButtonWidget.Config.IconSize.Name": "Symbolgröße",
+    "Widgets.IconButtonWidget.Config.IconSize.Description": "Die Größe des Symbols in Pixeln. Ein Wert kleiner als 6 verwendet die Standardgröße.",
     "Widget.Accessibility.Name": "Barrierefreiheit",
     "Widget.Accessibility.Description": "Bietet dir schnellen Zugriff auf Barrierefreiheitsfunktionen.",
     "Widget.Accessibility.Config.Decorate.Name": "Widget dekorieren",
