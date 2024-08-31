@@ -55,6 +55,11 @@ internal partial class AppearanceModule : SettingsModule
         UpdateProfileInputs();
     }
 
+    protected override void OnDisposed()
+    {
+        OnClose();
+    }
+
     private void OnColorProfileChanged()
     {
         _selectedProfile = UmbraColors.GetCurrentProfileName();
