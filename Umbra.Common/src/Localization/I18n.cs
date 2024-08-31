@@ -15,19 +15,69 @@
  */
 
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
-using Lumina.Data;
 using Newtonsoft.Json;
+using System;
+using System.Globalization;
 
 namespace Umbra.Common;
 
 public static class I18N
 {
-    [ConfigVariable("General.LanguageOverride", "General", options: ["None", "en", "de", "fr", "ja", "zh"], requiresRestart: true)]
+    [ConfigVariable(
+        "General.LanguageOverride",
+        "General",
+        options: ["None", "en", "de", "fr", "ja", "zh"],
+        requiresRestart: true
+    )]
     internal static string LanguageOverride { get; set; } = "None";
 
+    [ConfigVariable("General.DecimalSeparator", "General", options: [".", ",", " ", "|", "-"])]
+    internal static string DecimalSeparator { get; set; } = ".";
+
     private static readonly Dictionary<string, Dictionary<string, string>> Translations = [];
+
+    /// <summary>
+    /// Formats a number with the configured decimal separator.
+    /// </summary>
+    public static string FormatNumber(int number)
+    {
+        return number.ToString(
+            "N0",
+            new NumberFormatInfo() {
+                NumberGroupSeparator = DecimalSeparator,
+                NumberGroupSizes     = [3]
+            }
+        );
+    }
+
+    /// <summary>
+    /// Formats a number with the configured decimal separator.
+    /// </summary>
+    public static string FormatNumber(uint number)
+    {
+        return number.ToString(
+            "N0",
+            new NumberFormatInfo() {
+                NumberGroupSeparator = DecimalSeparator,
+                NumberGroupSizes     = [3]
+            }
+        );
+    }
+
+    /// <summary>
+    /// Formats a number with the configured decimal separator.
+    /// </summary>
+    public static string FormatNumber(float number)
+    {
+        return number.ToString(
+            "N0",
+            new NumberFormatInfo() {
+                NumberGroupSeparator = DecimalSeparator,
+                NumberGroupSizes     = [3]
+            }
+        );
+    }
 
     /// <summary>
     /// Returns a translated string in the currently configured language.
@@ -53,8 +103,7 @@ public static class I18N
 
     public static string GetCurrentLanguage()
     {
-        if (LanguageOverride != "None" && Translations.ContainsKey(LanguageOverride))
-            return LanguageOverride;
+        if (LanguageOverride != "None" && Translations.ContainsKey(LanguageOverride)) return LanguageOverride;
 
         return Translations.ContainsKey(Framework.DalamudPlugin.UiLanguage)
             ? Framework.DalamudPlugin.UiLanguage
@@ -62,7 +111,8 @@ public static class I18N
     }
 
     private static Dictionary<string, string> Dict {
-        get {
+        get
+        {
             string lang = string.IsNullOrEmpty(LanguageOverride) || LanguageOverride == "None"
                 ? Framework.DalamudPlugin.UiLanguage
                 : LanguageOverride;
@@ -86,7 +136,7 @@ public static class I18N
             string json = File.ReadAllText(file.FullName);
 
             Dictionary<string, string> dict = JsonConvert.DeserializeObject<Dictionary<string, string>>(json)
-             ?? throw new($"Failed to parse translation file {file.FullName}");
+                ?? throw new($"Failed to parse translation file {file.FullName}");
 
             Translations[lang] = [];
 

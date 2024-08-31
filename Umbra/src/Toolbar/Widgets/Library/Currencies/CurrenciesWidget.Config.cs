@@ -39,13 +39,6 @@ internal partial class CurrenciesWidget
                 true
             ),
             new StringWidgetConfigVariable(
-                "CurrencySeparator",
-                I18N.Translate("Widget.Currencies.Config.CurrencySeparator.Name"),
-                I18N.Translate("Widget.Currencies.Config.CurrencySeparator.Description"),
-                ".",
-                1
-            ),
-            new StringWidgetConfigVariable(
                 "CustomCurrencyIds",
                 I18N.Translate("Widget.Currencies.Config.CustomCurrencyIds.Name"),
                 I18N.Translate("Widget.Currencies.Config.CustomCurrencyIds.Description"),

@@ -147,9 +147,9 @@ internal partial class ExperienceBarWidget(
 
     private string GetPreciseExperienceString(bool includeRested = true)
     {
-        string currentXpStr = Player.CurrentExperience.ToString("N0");
-        string neededXpStr  = Player.TotalRequiredExperience.ToString("N0");
-        string restedXpStr  = Player.RestedExperience.ToString("N0");
+        string currentXpStr = I18N.FormatNumber(Player.CurrentExperience);
+        string neededXpStr  = I18N.FormatNumber(Player.TotalRequiredExperience);
+        string restedXpStr  = I18N.FormatNumber(Player.RestedExperience);
 
         string restedStr = includeRested && Player.RestedExperience > 0
             ? $" - {I18N.Translate("Rested")}: {restedXpStr}"

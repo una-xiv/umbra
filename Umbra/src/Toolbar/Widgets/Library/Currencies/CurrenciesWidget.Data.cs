@@ -16,7 +16,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using Dalamud.Plugin.Services;
 using Dalamud.Utility;
@@ -106,8 +105,8 @@ internal partial class CurrenciesWidget
         if (false == CustomCurrencies.ContainsKey(id)) return "";
 
         return CustomCurrencies[id].Cap > 1 && showCap
-            ? $"{FormatNumber(Player.GetItemCount(id))} / {FormatNumber((int)CustomCurrencies[id].Cap)}"
-            : $"{FormatNumber(Player.GetItemCount(id))}";
+            ? $"{I18N.FormatNumber(Player.GetItemCount(id))} / {I18N.FormatNumber((int)CustomCurrencies[id].Cap)}"
+            : $"{I18N.FormatNumber(Player.GetItemCount(id))}";
     }
 
     private unsafe string GetAmount(CurrencyType type, bool showCap)
@@ -116,20 +115,20 @@ internal partial class CurrenciesWidget
             case CurrencyType.Gil:
             case CurrencyType.Mgp:
             case CurrencyType.Ventures:
-                return $"{FormatNumber(Player.GetItemCount(Currencies[type].Id))}";
+                return $"{I18N.FormatNumber(Player.GetItemCount(Currencies[type].Id))}";
             case CurrencyType.Maelstrom:
             case CurrencyType.TwinAdder:
             case CurrencyType.ImmortalFlames: {
                 if (Player.GrandCompanyId == 0) return "";
 
-                string cap = FormatNumber(GcSealsCap[PlayerState.Instance()->GetGrandCompanyRank()]);
-                string amt = FormatNumber(Player.GetItemCount(Currencies[type].Id));
+                string cap = I18N.FormatNumber(GcSealsCap[PlayerState.Instance()->GetGrandCompanyRank()]);
+                string amt = I18N.FormatNumber(Player.GetItemCount(Currencies[type].Id));
 
                 return showCap ? $"{amt} / {cap}" : $"{amt}";
             }
             case CurrencyType.LimitedTomestone: {
-                string cap = FormatNumber((int)Currencies[type].Cap);
-                string amt = FormatNumber(Player.GetItemCount(Currencies[type].Id));
+                string cap = I18N.FormatNumber((int)Currencies[type].Cap);
+                string amt = I18N.FormatNumber(Player.GetItemCount(Currencies[type].Id));
 
                 int weeklyLimit = InventoryManager.GetLimitedTomestoneWeeklyLimit();
                 int weeklyCount = InventoryManager.Instance()->GetWeeklyAcquiredTomestoneCount();
@@ -140,7 +139,7 @@ internal partial class CurrenciesWidget
                 uint cap = Currencies[type].Cap;
                 int  amt = Player.GetItemCount(Currencies[type].Id);
 
-                return showCap && cap > 0 ? $"{FormatNumber(amt)} / {FormatNumber((int)cap)}" : FormatNumber(amt);
+                return showCap && cap > 0 ? $"{I18N.FormatNumber(amt)} / {I18N.FormatNumber((int)cap)}" : I18N.FormatNumber(amt);
             }
         }
     }
@@ -188,17 +187,6 @@ internal partial class CurrenciesWidget
         SkyBuildersScrips    = 28063,
         BiColorGemstones     = 26807,
         Custom               = -3,
-    }
-
-    public string FormatNumber(int value)
-    {
-        // Create a custom NumberFormatInfo instance
-        NumberFormatInfo nfi = new() {
-            NumberGroupSeparator = GetConfigValue<string>("CurrencySeparator"),
-            NumberGroupSizes     = [3]
-        };
-
-        return value.ToString("N0", nfi);
     }
 
     private void UpdateCustomIdList()

@@ -47,13 +47,6 @@ internal partial class RetainerListWidget
                     { "Glowing", I18N.Translate("Widget.RetainerList.Config.IconType.Option.Glowing") },
                 }
             ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
-            new StringWidgetConfigVariable(
-                "CurrencySeparator",
-                I18N.Translate("Widget.RetainerList.Config.CurrencySeparator.Name"),
-                I18N.Translate("Widget.RetainerList.Config.CurrencySeparator.Description"),
-                ".",
-                1
-            ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
         ];
     }
 }

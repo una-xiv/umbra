@@ -31,7 +31,6 @@ internal partial class RetainerListWidget(
         SetDisabled(Player.CurrentWorldName != Player.HomeWorldName || Player.IsBoundByInstancedDuty);
 
         Popup.JobIconType       = GetConfigValue<string>("IconType");
-        Popup.CurrencySeparator = GetConfigValue<string>("CurrencySeparator");
         Popup.ShowGil           = GetConfigValue<bool>("ShowGil");
         Popup.ShowInventory     = GetConfigValue<bool>("ShowInventory");
         Popup.ShowItemsOnSale   = GetConfigValue<bool>("ShowItemsOnSale");

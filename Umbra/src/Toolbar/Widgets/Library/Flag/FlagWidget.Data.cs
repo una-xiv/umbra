@@ -66,7 +66,7 @@ internal unsafe partial class FlagWidget
 
         _aetheryteKey = cacheKey;
         _zoneName     = $"{zone.Name}";
-        _flagCoords   = $"{pos.X:F1}, {pos.Y:F1}";
+        _flagCoords   = $"{I18N.FormatNumber(pos.X)}, {I18N.FormatNumber(pos.Y)}";
 
         var flagPos2D = new Vector2(map->FlagMapMarker.XFloat, map->FlagMapMarker.YFloat);
 

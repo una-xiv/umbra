@@ -70,7 +70,7 @@ internal partial class LocationWidget(
 
         if (showDistrict && GetConfigValue<bool>("ShowCoordinates")) {
             Vector2 coords = zone.PlayerCoordinates;
-            districtLabel = $"X: {coords.X:F1}, Y: {coords.Y:F1}";
+            districtLabel = $"X: {I18N.FormatNumber(coords.X)}, Y: {I18N.FormatNumber(coords.Y)}";
         }
 
         districtLabel = districtLabel.Trim();

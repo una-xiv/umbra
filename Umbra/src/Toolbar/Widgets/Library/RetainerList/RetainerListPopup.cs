@@ -16,7 +16,6 @@ internal partial class RetainerListPopup : WidgetPopup
     public bool   ShowInventory     { get; set; } = true;
     public bool   ShowItemsOnSale   { get; set; } = true;
     public bool   ShowVenture       { get; set; } = true;
-    public string CurrencySeparator { get; set; } = ".";
     public string JobIconType       { get; set; } = "Default";
 
     protected override Node Node { get; } = new() {
@@ -141,7 +140,7 @@ internal partial class RetainerListPopup : WidgetPopup
         node.QuerySelector(".cell.job-icon")!.Style.IconId = retainer.Job?.GetIcon(JobIconType);
         node.QuerySelector(".cell.job-level")!.NodeValue = retainer.Job?.Level.ToString();
         node.QuerySelector(".cell.name")!.NodeValue = retainer.Name;
-        node.QuerySelector(".cell.gil")!.NodeValue = $"{SeIconChar.Gil.ToIconString()} {FormatNumber(retainer.Gil)}";
+        node.QuerySelector(".cell.gil")!.NodeValue = $"{SeIconChar.Gil.ToIconString()} {I18N.FormatNumber(retainer.Gil)}";
         node.QuerySelector(".cell.items.inv")!.NodeValue = retainer.ItemCount.ToString();
         node.QuerySelector(".cell.items.market")!.NodeValue = retainer.MarketItemCount.ToString();
         node.QuerySelector(".cell.venture-time")!.NodeValue = GetRemainingTime(retainer.VentureCompleteTime);
@@ -168,16 +167,5 @@ internal partial class RetainerListPopup : WidgetPopup
     private static string GetNodeIdOf(Retainer retainer)
     {
         return $"Retainer_{Crc32.Get(retainer.Name)}";
-    }
-
-    public string FormatNumber(uint value)
-    {
-        return value.ToString(
-            "N0",
-            new NumberFormatInfo {
-                NumberGroupSeparator = CurrencySeparator,
-                NumberGroupSizes     = [3]
-            }
-        );
     }
 }
