@@ -18,6 +18,7 @@ using System;
 using System.Collections.Generic;
 using System.Numerics;
 using ImGuiNET;
+using System.Linq;
 using Umbra.Common;
 using Una.Drawing;
 
@@ -72,7 +73,7 @@ internal class SelectNode : Node
     )
     {
         _value   = value;
-        _choices = choices;
+        _choices = [..choices];
 
         Id         = id;
         ClassList  = ["select"];
