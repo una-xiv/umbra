@@ -57,11 +57,7 @@ internal sealed partial class PluginListWidget(
     /// <inheritdoc/>
     protected override void OnUpdate()
     {
-        SetGhost(!GetConfigValue<bool>("Decorate"));
-
-        // Node.Style.Padding                            = new(0, 2);
-        // Node.QuerySelector("Label")!.Style.Font       = 2;
-        // Node.QuerySelector("Label")!.Style.TextOffset = new(0, GetConfigValue<int>("IconYOffset"));
+        base.OnUpdate();
         Node.Tooltip = GetConfigValue<bool>("ShowTooltip") ? I18N.Translate("Widget.PluginList.Tooltip") : null;
     }
 

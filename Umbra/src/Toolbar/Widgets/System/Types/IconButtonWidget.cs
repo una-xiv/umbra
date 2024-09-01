@@ -57,12 +57,14 @@ internal abstract class IconToolbarWidget(
     {
         bool isGhost  = !GetConfigValue<bool>("Decorate");
         int  iconSize = GetConfigValue<int>("IconSize");
+        int  hPadding = GetConfigValue<int>("HorizontalPadding");
 
         SetIconYOffset(GetConfigValue<int>("IconYOffset"));
         SetGhost(isGhost);
 
-        Node.Style.Size         = new(isGhost ? 0 : SafeHeight, SafeHeight);
-        IconNode.Style.Size     = new(isGhost ? 0 : SafeHeight - 2, SafeHeight - 2);
+        Node.Style.Size         = new(isGhost ? 0 : SafeHeight + hPadding, SafeHeight);
+        IconNode.Style.Padding  = new(0, hPadding);
+        IconNode.Style.Size     = new(isGhost ? 0 : (SafeHeight - 2) + hPadding, SafeHeight - 2);
         IconNode.Style.FontSize = iconSize < 6 ? (SafeHeight) / 2 : iconSize;
     }
 
@@ -90,6 +92,14 @@ internal abstract class IconToolbarWidget(
             -1,
             -5,
             5
+        ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+        new IntegerWidgetConfigVariable(
+            "HorizontalPadding",
+            I18N.Translate("Widgets.IconButtonWidget.Config.HorizontalPadding.Name"),
+            I18N.Translate("Widgets.IconButtonWidget.Config.HorizontalPadding.Description"),
+            0,
+            0,
+            100
         ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
     ];
 }

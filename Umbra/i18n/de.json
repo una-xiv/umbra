@@ -368,6 +368,8 @@
     "Widgets.IconButtonWidget.Config.IconYOffset.Description": "Der vertikale Versatz des Icons vom Zentrum des Widgets in Pixeln. Positive Werte bewegen das Icon nach unten, negative Werte bewegen das Icon nach oben.",
     "Widgets.IconButtonWidget.Config.IconSize.Name": "Symbolgröße",
     "Widgets.IconButtonWidget.Config.IconSize.Description": "Die Größe des Symbols in Pixeln. Ein Wert kleiner als 6 verwendet die Standardgröße.",
+    "Widgets.IconButtonWidget.Config.HorizontalPadding.Name": "Horizontaler Abstand",
+    "Widgets.IconButtonWidget.Config.HorizontalPadding.Description": "Der Abstand zwischen den äußeren Rändern des Widgets und dem Symbol in Pixeln.",
     "Widget.Accessibility.Name": "Barrierefreiheit",
     "Widget.Accessibility.Description": "Bietet dir schnellen Zugriff auf Barrierefreiheitsfunktionen.",
     "Widget.Accessibility.Config.VisualAlerts": "Töne visualisieren",

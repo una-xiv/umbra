@@ -368,6 +368,8 @@
     "Widgets.IconButtonWidget.Config.IconYOffset.Description": "Le décalage vertical de l'icône par rapport au centre du widget en pixels. Les valeurs positives déplacent l'icône vers le bas, les valeurs négatives déplacent l'icône vers le haut.",
     "Widgets.IconButtonWidget.Config.IconSize.Name": "Taille de l'icône",
     "Widgets.IconButtonWidget.Config.IconSize.Description": "La taille de l'icône en pixels. Une valeur inférieure à 6 utilisera la taille par défaut.",
+    "Widgets.IconButtonWidget.Config.HorizontalPadding.Name": "Marge horizontale",
+    "Widgets.IconButtonWidget.Config.HorizontalPadding.Description": "La marge entre les bords extérieurs du widget et l'icône en pixels.",
     "Widget.Accessibility.Name": "Accessibilité",
     "Widget.Accessibility.Description": "Vous offre un accès rapide aux fonctionnalités d'accessibilité.",
     "Widget.Accessibility.Config.VisualAlerts": "Activer les alertes visuelles",

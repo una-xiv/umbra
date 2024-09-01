@@ -368,6 +368,8 @@
     "Widgets.IconButtonWidget.Config.IconYOffset.Description": "The vertical offset of the icon from the center of the widget in pixels. Positive values move the icon down, negative values move the icon up.",
     "Widgets.IconButtonWidget.Config.IconSize.Name": "Icon size",
     "Widgets.IconButtonWidget.Config.IconSize.Description": "The size of the icon in pixels. A value less than 6 will use the default size.",
+    "Widgets.IconButtonWidget.Config.HorizontalPadding.Name": "Horizontal padding",
+    "Widgets.IconButtonWidget.Config.HorizontalPadding.Description": "The padding between the outer edges of the widget and the icon in pixels.",
     "Widget.Accessibility.Name": "Accessibility",
     "Widget.Accessibility.Description": "Provides you with quick access to accessibility features.",
     "Widget.Accessibility.Config.VisualAlerts": "Enable visual alerts",

@@ -368,6 +368,8 @@
     "Widgets.IconButtonWidget.Config.IconYOffset.Description": "ウィジェットの中央からアイコンの垂直方向のオフセット（ピクセル単位）。正の値はアイコンを下に移動し、負の値はアイコンを上に移動します。",
     "Widgets.IconButtonWidget.Config.IconSize.Name": "アイコンサイズ",
     "Widgets.IconButtonWidget.Config.IconSize.Description": "アイコンのサイズ（ピクセル単位）。6未満の値はデフォルトサイズが使用されます。",
+    "Widgets.IconButtonWidget.Config.HorizontalPadding.Name": "水平パディング",
+    "Widgets.IconButtonWidget.Config.HorizontalPadding.Description": "ウィジェットの外側の端とアイコンの間のピクセル単位のパディング。",
     "Widget.Accessibility.Name": "アクセシビリティ",
     "Widget.Accessibility.Description": "アクセシビリティ機能への迅速なアクセスを提供します。",
     "Widget.Accessibility.Config.VisualAlerts": "視覚アラートを有効にする",

@@ -34,20 +34,7 @@ internal sealed partial class PluginListWidget
                 I18N.Translate("Widget.PluginList.Config.ShowTooltip.Description"),
                 true
             ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
-            new BooleanWidgetConfigVariable(
-                "Decorate",
-                I18N.Translate("Widget.PluginList.Config.Decorate.Name"),
-                I18N.Translate("Widget.PluginList.Config.Decorate.Description"),
-                true
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
-            new IntegerWidgetConfigVariable(
-                "IconYOffset",
-                I18N.Translate("Widget.PluginList.Config.IconYOffset.Name"),
-                I18N.Translate("Widget.PluginList.Config.IconYOffset.Description"),
-                -1,
-                -5,
-                5
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            ..DefaultIconToolbarWidgetConfigVariables,
             ..GetPluginListItems()
         ];
     }
