@@ -53,7 +53,7 @@ internal sealed partial class EmoteListWidget(
     protected override void OnUpdate()
     {
         SetLabel(GetConfigValue<string>("Label"));
-        SetIcon((uint)GetConfigValue<int>("IconId"));
+        SetIcon(GetConfigValue<uint>("IconId"));
 
         Popup.KeepOpenAfterUse     = GetConfigValue<bool>("KeepOpenAfterUse");
         Popup.LastSelectedCategory = (byte)GetConfigValue<int>("LastSelectedCategory");

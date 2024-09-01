@@ -80,8 +80,8 @@ internal sealed partial class CustomButtonWidget(
 
     private void UpdateIcons()
     {
-        var leftIconId  = (uint)GetConfigValue<int>("LeftIconId");
-        var rightIconId = (uint)GetConfigValue<int>("RightIconId");
+        var leftIconId  = GetConfigValue<uint>("LeftIconId");
+        var rightIconId = GetConfigValue<uint>("RightIconId");
 
         if (leftIconId != LeftIconId) {
             LeftIconId = leftIconId;

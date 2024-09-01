@@ -29,11 +29,10 @@ internal sealed partial class ShortcutPanelWidget
                 Info.Name,
                 32
             ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
-            new IntegerWidgetConfigVariable(
+            new IconIdWidgetConfigVariable(
                 "ButtonIconId",
                 I18N.Translate("Widget.ShortcutPanel.Config.ButtonIconId.Name"),
                 I18N.Translate("Widget.ShortcutPanel.Config.ButtonIconId.Description"),
-                0,
                 0
             ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             ..DefaultToolbarWidgetConfigVariables,

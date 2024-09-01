@@ -2,11 +2,9 @@
 
 namespace Umbra.Windows.Library.VariablesWindow;
 
-public sealed class IntegerVariable(string id) : Variable(id), IDisposable
+public sealed class IconIdVariable(string id) : Variable(id), IDisposable
 {
-    public int Min   { get; set; } = int.MinValue;
-    public int Max   { get; set; } = int.MaxValue;
-    public int Value {
+    public uint Value {
         get => _value;
         set
         {
@@ -17,14 +15,14 @@ public sealed class IntegerVariable(string id) : Variable(id), IDisposable
         }
     }
 
-    private int _value;
+    private uint _value;
 
-    public event Action<int>? ValueChanged;
+    public event Action<uint>? ValueChanged;
 
     public override void Dispose()
     {
         foreach (Delegate handler in ValueChanged?.GetInvocationList() ?? []) {
-            ValueChanged -= (Action<int>)handler;
+            ValueChanged -= (Action<uint>)handler;
         }
 
         ValueChanged = null;

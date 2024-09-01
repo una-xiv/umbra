@@ -14,16 +14,15 @@
  *     GNU Affero General Public License for more details.
  */
 
-using System;
 using Dalamud.Game.Text;
 using Dalamud.Interface;
 using ImGuiNET;
+using System;
 using Umbra.Common;
 using Umbra.Widgets;
 using Umbra.Widgets.System;
 using Umbra.Windows.Components;
 using Umbra.Windows.Library.AddWidget;
-using Umbra.Windows.Library.WidgetConfig;
 using Una.Drawing;
 
 namespace Umbra.Windows.Settings.Modules;
@@ -237,16 +236,7 @@ internal partial class WidgetsModule
             }
         };
 
-        settingsButton.OnMouseUp += _ => Framework
-            .Service<WindowManager>()
-            .Present(
-                "WidgetInstanceConfig",
-                new WidgetConfigWindow(widget.Id),
-                _ => {
-                    wm.SaveWidgetState(widget.Id);
-                    wm.SaveState();
-                }
-            );
+        settingsButton.OnMouseUp += _ => Framework.Service<WidgetInstanceEditor>().OpenEditor(widget);
 
         nameNode.OnMouseUp += _ => {
             _selectedInstanceId = _selectedInstanceId == widget.Id ? "" : widget.Id;

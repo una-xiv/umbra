@@ -27,7 +27,7 @@ internal sealed partial class UnifiedMainMenu(
 
     protected override void OnUpdate()
     {
-        Popup.AvatarIconId        = (uint)GetConfigValue<int>("AvatarIconId");
+        Popup.AvatarIconId        = GetConfigValue<uint>("AvatarIconId");
         Popup.MenuHeight          = GetConfigValue<int>("FixedMenuHeight");
         Popup.CategoriesWidth     = GetConfigValue<int>("CategoriesWidth");
         Popup.EntriesWidth        = GetConfigValue<int>("EntriesWidth");
@@ -38,7 +38,7 @@ internal sealed partial class UnifiedMainMenu(
         Popup.OpenSubMenusOnHover = GetConfigValue<bool>("OpenSubMenusOnHover");
 
         SetLabel(GetConfigValue<string>("Label"));
-        SetIcon((uint)GetConfigValue<int>("IconId"));
+        SetIcon(GetConfigValue<uint>("IconId"));
 
         base.OnUpdate();
     }

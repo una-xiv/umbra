@@ -77,18 +77,16 @@ internal partial class CustomButtonWidget
                 I18N.Translate("Widget.CustomButton.Config.HideLabel.Description"),
                 false
             ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
-            new IntegerWidgetConfigVariable(
+            new IconIdWidgetConfigVariable(
                 "LeftIconId",
                 I18N.Translate("Widget.CustomButton.Config.LeftIconId.Name"),
                 I18N.Translate("Widget.CustomButton.Config.LeftIconId.Description"),
-                0,
                 0
             ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
-            new IntegerWidgetConfigVariable(
+            new IconIdWidgetConfigVariable(
                 "RightIconId",
                 I18N.Translate("Widget.CustomButton.Config.RightIconId.Name"),
                 I18N.Translate("Widget.CustomButton.Config.RightIconId.Description"),
-                0,
                 0
             ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             ..DefaultToolbarWidgetConfigVariables,

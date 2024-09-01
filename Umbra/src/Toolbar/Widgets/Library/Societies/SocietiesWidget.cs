@@ -45,7 +45,7 @@ internal sealed partial class SocietiesWidget(
 
         if (0 == trackedTribeId || !society.HasValue) {
             SetLabel(GetConfigValue<string>("ButtonLabel"));
-            SetIcon((uint)GetConfigValue<int>("ButtonIconId"));
+            SetIcon(GetConfigValue<uint>("ButtonIconId"));
             tooltip = null;
         } else {
             int pct = society.Value.RequiredRep > 0

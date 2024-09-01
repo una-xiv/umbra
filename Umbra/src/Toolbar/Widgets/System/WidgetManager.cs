@@ -326,27 +326,6 @@ internal sealed partial class WidgetManager : IDisposable
     }
 
     /// <summary>
-    /// Opens the settings window for the given widget instance.
-    /// </summary>
-    public void OpenWidgetSettingsWindow(ToolbarWidget widget)
-    {
-        if (_currentActivator is not null) {
-            ClosePopup();
-        }
-
-        Framework
-            .Service<WindowManager>()
-            .Present(
-                "WidgetInstanceConfig",
-                new WidgetConfigWindow(widget.Id),
-                _ => {
-                    SaveWidgetState(widget.Id);
-                    SaveState();
-                }
-            );
-    }
-
-    /// <summary>
     /// Updates the sort indices of all widgets to ensure there are no gaps.
     /// </summary>
     /// <param name="location"></param>
@@ -432,7 +411,7 @@ internal sealed partial class WidgetManager : IDisposable
         foreach (ToolbarWidget widget in _instances.Values) {
             if (widget.Node == node) {
                 node.CancelEvent = true;
-                OpenWidgetSettingsWindow(widget);
+                Framework.Service<WidgetInstanceEditor>().OpenEditor(widget);
                 break;
             }
         }

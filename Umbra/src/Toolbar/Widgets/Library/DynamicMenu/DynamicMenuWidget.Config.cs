@@ -27,12 +27,11 @@ internal sealed partial class DynamicMenuWidget
                 I18N.Translate("Widget.DynamicMenu.Config.ButtonTooltip.Description"),
                 ""
             ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
-            new IntegerWidgetConfigVariable(
+            new IconIdWidgetConfigVariable(
                 "ButtonIcon",
                 I18N.Translate("Widget.DynamicMenu.Config.ButtonIcon.Name"),
                 I18N.Translate("Widget.DynamicMenu.Config.ButtonIcon.Description"),
-                14,
-                0
+                14
             ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             ..DefaultToolbarWidgetConfigVariables,
             ..SingleLabelTextOffsetVariables,

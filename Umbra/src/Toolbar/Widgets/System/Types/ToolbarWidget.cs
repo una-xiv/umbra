@@ -345,7 +345,7 @@ public abstract class ToolbarWidget(
     /// </summary>
     protected void OpenSettingsWindow()
     {
-        Framework.Service<WidgetManager>().OpenWidgetSettingsWindow(this);
+        Framework.Service<WidgetInstanceEditor>().OpenEditor(this);
     }
 
     private IEnumerable<IWidgetConfigVariable> GetConfigVariablesInternal()

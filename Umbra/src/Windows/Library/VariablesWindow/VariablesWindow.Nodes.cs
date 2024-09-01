@@ -127,7 +127,8 @@ public partial class VariablesWindow
             BooleanVariable boolVar           => CreateBooleanControl(boolVar),
             ColorVariable colorVar            => CreateColorControl(colorVar),
             IntegerVariable intVar            => CreateIntegerControl(intVar),
-            FloatVariable floatVar            => RenderFloatControl(floatVar),
+            FloatVariable floatVar            => CreateFloatControl(floatVar),
+            IconIdVariable iconVar            => CreateIconIdControl(iconVar),
             _                                 => null
         };
     }
@@ -223,13 +224,28 @@ public partial class VariablesWindow
         return node;
     }
 
-    private FloatInputNode RenderFloatControl(FloatVariable variable)
+    private FloatInputNode CreateFloatControl(FloatVariable variable)
     {
         var node = new FloatInputNode(
             GetNextControlId(variable),
             variable.Value,
             variable.Min,
             variable.Max,
+            variable.Name,
+            variable.Description
+        );
+
+        node.ClassList.Add("widget-config-control");
+        node.OnValueChanged += v => variable.Value = v;
+
+        return node;
+    }
+
+    private IconIdInputNode CreateIconIdControl(IconIdVariable variable)
+    {
+        var node = new IconIdInputNode(
+            GetNextControlId(variable),
+            variable.Value,
             variable.Name,
             variable.Description
         );

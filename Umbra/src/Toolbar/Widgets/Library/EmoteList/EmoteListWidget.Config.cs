@@ -14,12 +14,11 @@ internal sealed partial class EmoteListWidget
                 I18N.Translate("Widget.EmoteList.Config.Label.Description"),
                 I18N.Translate("Widget.EmoteList.Config.Label.Default")
             ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
-            new IntegerWidgetConfigVariable(
+            new IconIdWidgetConfigVariable(
                 "IconId",
                 I18N.Translate("Widget.EmoteList.Config.IconId.Name"),
                 I18N.Translate("Widget.EmoteList.Config.IconId.Description"),
-                14,
-                0
+                14
             ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             ..DefaultToolbarWidgetConfigVariables,
             ..SingleLabelTextOffsetVariables,

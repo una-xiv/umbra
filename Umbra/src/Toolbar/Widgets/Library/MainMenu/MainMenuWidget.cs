@@ -40,7 +40,7 @@ internal sealed class MainMenuWidget(
     private string?              _selectedCategory;
     private string?              _displayMode;
     private string?              _iconLocation;
-    private int?                 _customIconId;
+    private uint?                _customIconId;
 
     public override string GetInstanceName()
     {
@@ -73,7 +73,7 @@ internal sealed class MainMenuWidget(
 
         var displayMode   = GetConfigValue<string>("DisplayMode");
         var iconLocation  = GetConfigValue<string>("IconLocation");
-        var customIconId  = GetConfigValue<int>("CustomIconId");
+        var customIconId  = GetConfigValue<uint>("CustomIconId");
         var showItemIcons = GetConfigValue<bool>("ShowItemIcons");
 
         if (displayMode != _displayMode || iconLocation != _iconLocation || customIconId != _customIconId) {
@@ -81,12 +81,12 @@ internal sealed class MainMenuWidget(
             _iconLocation = iconLocation;
             _customIconId = customIconId;
 
-            int existingCustomIconId = customIconId;
+            uint existingCustomIconId = customIconId;
 
             if (existingCustomIconId > 0) {
                 // Make sure the icon exists.
                 try {
-                    Framework.Service<ITextureProvider>().GetIconPath((uint)customIconId);
+                    Framework.Service<ITextureProvider>().GetIconPath(customIconId);
                 } catch (FileNotFoundException) {
                     existingCustomIconId = 0;
                 }
@@ -95,7 +95,7 @@ internal sealed class MainMenuWidget(
             bool hasIcon = displayMode is "IconOnly" or "TextAndIcon";
 
             if (hasIcon) {
-                SetIcon((existingCustomIconId == 0 ? _category.GetIconId() : (uint)existingCustomIconId));
+                SetIcon((existingCustomIconId == 0 ? _category.GetIconId() : existingCustomIconId));
             } else {
                 SetIcon(null);
             }
@@ -131,11 +131,10 @@ internal sealed class MainMenuWidget(
                 MenuCategory.Character.ToString(),
                 repository.GetCategories().ToDictionary(c => c.Category.ToString(), c => c.Name)
             ),
-            new IntegerWidgetConfigVariable(
+            new IconIdWidgetConfigVariable(
                 "CustomIconId",
                 I18N.Translate("Widget.MainMenu.Config.CustomIconId.Name"),
                 I18N.Translate("Widget.MainMenu.Config.CustomIconId.Description"),
-                0,
                 0
             ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             ..DefaultToolbarWidgetConfigVariables,

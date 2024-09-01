@@ -14,12 +14,11 @@ internal sealed partial class SocietiesWidget
                 I18N.Translate("Widget.Societies.Config.ButtonLabel.Description"),
                 Info.Name
             ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
-            new IntegerWidgetConfigVariable(
+            new IconIdWidgetConfigVariable(
                 "ButtonIconId",
                 I18N.Translate("Widget.Societies.Config.ButtonIconId.Name"),
                 I18N.Translate("Widget.Societies.Config.ButtonIconId.Description"),
-                65042,
-                0
+                65042
             ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             ..DefaultToolbarWidgetConfigVariables,
             ..SingleLabelTextOffsetVariables,

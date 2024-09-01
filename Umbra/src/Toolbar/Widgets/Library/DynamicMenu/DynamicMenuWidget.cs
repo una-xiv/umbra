@@ -52,7 +52,7 @@ internal sealed partial class DynamicMenuWidget(
         Popup.ShowItemCount    = GetConfigValue<bool>("ShowItemCount");
 
         SetLabel(GetConfigValue<string>("ButtonLabel"));
-        SetIcon((uint)GetConfigValue<int>("ButtonIcon"));
+        SetIcon(GetConfigValue<uint>("ButtonIcon"));
 
         base.OnUpdate();
 

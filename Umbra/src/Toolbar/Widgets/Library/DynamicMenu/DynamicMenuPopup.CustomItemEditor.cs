@@ -23,11 +23,10 @@ internal sealed partial class DynamicMenuPopup : WidgetPopup
             MaxLength   = 100,
         };
 
-        IntegerVariable iconVar = new("Icon") {
+        IconIdVariable iconVar = new("Icon") {
             Name        = I18N.Translate("Widget.DynamicMenu.CustomItemEditor.Icon.Name"),
             Description = I18N.Translate("Widget.DynamicMenu.CustomItemEditor.Icon.Description"),
-            Value       = (int)(entry.Ci ?? 0),
-            Min         = 0,
+            Value       = (entry.Ci ?? 0),
         };
 
         StringSelectVariable typeVar = new("Type") {
@@ -57,9 +56,8 @@ internal sealed partial class DynamicMenuPopup : WidgetPopup
                 "CustomItemEditor",
                 window,
                 _ => {
-                    Logger.Info("Window closed.");
                     entry.Cl = labelVar.Value;
-                    entry.Ci = (uint)iconVar.Value;
+                    entry.Ci = iconVar.Value;
                     entry.Ct = typeVar.Value;
                     entry.Cc = commandVar.Value;
 

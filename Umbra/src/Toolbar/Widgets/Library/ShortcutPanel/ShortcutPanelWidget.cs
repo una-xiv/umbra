@@ -47,7 +47,7 @@ internal sealed partial class ShortcutPanelWidget(
         }
 
         SetLabel(GetConfigValue<string>("ButtonLabel"));
-        SetIcon((uint)GetConfigValue<int>("ButtonIconId"));
+        SetIcon(GetConfigValue<uint>("ButtonIconId"));
 
         base.OnUpdate();
     }

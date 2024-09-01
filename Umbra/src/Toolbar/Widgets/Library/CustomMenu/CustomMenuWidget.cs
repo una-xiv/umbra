@@ -79,8 +79,8 @@ internal sealed partial class CustomMenuWidget(
             return;
         }
 
-        var leftIconId  = (uint)GetConfigValue<int>("LeftIconId");
-        var rightIconId = (uint)GetConfigValue<int>("RightIconId");
+        var leftIconId  = GetConfigValue<uint>("LeftIconId");
+        var rightIconId = GetConfigValue<uint>("RightIconId");
 
         if (leftIconId != LeftIconId) {
             LeftIconId = leftIconId;
@@ -112,7 +112,7 @@ internal sealed partial class CustomMenuWidget(
             string    altLabel  = GetConfigValue<string>($"ButtonAltLabel_{i}").Trim();
             string    command   = GetConfigValue<string>($"ButtonCommand_{i}").Trim();
             string    mode      = GetConfigValue<string>($"ButtonMode_{i}").Trim();
-            uint      iconId    = (uint)GetConfigValue<int>($"ButtonIconId_{i}");
+            uint      iconId    = GetConfigValue<uint>($"ButtonIconId_{i}");
             uint      iconColor = GetConfigValue<uint>($"ButtonIconColor_{i}");
             ItemUsage usage     = ParseItemUsageString(GetConfigValue<string>($"ButtonItemUsage_{i}"));
 

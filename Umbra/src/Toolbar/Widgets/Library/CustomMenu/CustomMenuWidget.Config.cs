@@ -60,18 +60,16 @@ internal sealed partial class CustomMenuWidget
             I18N.Translate("Widget.CustomMenu.Config.HideLabel.Description"),
             false
         ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
-        new IntegerWidgetConfigVariable(
+        new IconIdWidgetConfigVariable(
             "LeftIconId",
             I18N.Translate("Widget.CustomMenu.Config.LeftIconId.Name"),
             I18N.Translate("Widget.CustomMenu.Config.LeftIconId.Description"),
-            0,
             0
         ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
-        new IntegerWidgetConfigVariable(
+        new IconIdWidgetConfigVariable(
             "RightIconId",
             I18N.Translate("Widget.CustomMenu.Config.RightIconId.Name"),
             I18N.Translate("Widget.CustomMenu.Config.RightIconId.Description"),
-            0,
             0
         ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
         new BooleanWidgetConfigVariable(
@@ -123,7 +121,7 @@ internal sealed partial class CustomMenuWidget
                 "",
                 32
             ) { Category = I18N.Translate("Widget.CustomMenu.Config.ButtonId", buttonIndex + 1) },
-            new IntegerWidgetConfigVariable(
+            new IconIdWidgetConfigVariable(
                 $"ButtonIconId_{buttonIndex}",
                 I18N.Translate("Widget.CustomMenu.Config.ButtonIconId.Name"),
                 I18N.Translate("Widget.CustomMenu.Config.ButtonIconId.Description"),

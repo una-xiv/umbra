@@ -22,10 +22,11 @@ public partial class VariablesWindow(string windowTitle, List<Variable> variable
 
         Node rootCategory = new() {
             ClassList = ["widget-config-list"],
+            SortIndex = int.MinValue,
         };
 
         foreach (var variable in variables) {
-            if (variable.Category == null) {
+            if (string.IsNullOrEmpty(variable.Category)) {
                 Node? rootCtrl = CreateControlNode(variable);
                 if (rootCtrl != null) rootCategory.AppendChild(rootCtrl);
                 continue;

@@ -14,12 +14,11 @@ internal sealed partial class UnifiedMainMenu
                 I18N.Translate("Widget.UnifiedMainMenu.Config.Label.Description"),
                 "Start"
             ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
-            new IntegerWidgetConfigVariable(
+            new IconIdWidgetConfigVariable(
                 "IconId",
                 I18N.Translate("Widget.UnifiedMainMenu.Config.IconId.Name"),
                 I18N.Translate("Widget.UnifiedMainMenu.Config.IconId.Description"),
-                14,
-                0
+                14
             ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             ..DefaultToolbarWidgetConfigVariables,
             ..SingleLabelTextOffsetVariables,
@@ -35,12 +34,11 @@ internal sealed partial class UnifiedMainMenu
                 I18N.Translate("Widget.UnifiedMainMenu.Config.DesaturateIcons.Description"),
                 false
             ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
-            new IntegerWidgetConfigVariable(
+            new IconIdWidgetConfigVariable(
                 "AvatarIconId",
                 I18N.Translate("Widget.UnifiedMainMenu.Config.AvatarIconId.Name"),
                 I18N.Translate("Widget.UnifiedMainMenu.Config.AvatarIconId.Description"),
-                76985,
-                0
+                76985
             ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
             new IntegerWidgetConfigVariable(
                 "FixedMenuHeight",
