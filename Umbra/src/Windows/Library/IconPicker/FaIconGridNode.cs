@@ -1,8 +1,5 @@
 ﻿using Dalamud.Interface;
-using Dalamud.Interface.Colors;
-using Dalamud.Interface.Textures.TextureWraps;
 using Dalamud.Interface.Utility;
-using Dalamud.Plugin.Services;
 using ImGuiNET;
 using System;
 using System.Collections.Generic;
@@ -19,20 +16,22 @@ public class FaIconGridNode : Node
     public FontAwesomeIcon Selected     { get; set; }
     public string          SearchFilter { get; set; } = string.Empty;
 
-    private ITextureProvider TextureProvider { get; } = Framework.Service<ITextureProvider>();
+    private static List<FontAwesomeIcon> AllIcons { get; } =
+        Enum.GetValues<FontAwesomeIcon>().Where(i => i != FontAwesomeIcon.None).ToList();
 
     private Vector2 IconSize { get; set; } = new(48, 48);
 
-    private List<FontAwesomeIcon> AllIcons { get; }      = Enum.GetValues<FontAwesomeIcon>().ToList();
-    private List<FontAwesomeIcon> Icons    { get; set; } = Enum.GetValues<FontAwesomeIcon>().ToList();
+    private List<FontAwesomeIcon> Icons { get; set; } = [];
 
-    private string _lastSearch = string.Empty;
-    private bool _isFiltering  = false;
+    private string _lastSearch  = string.Empty;
+    private bool   _isFiltering;
 
     public FaIconGridNode(FontAwesomeIcon selected)
     {
         Selected  = selected;
         NodeValue = " ";
+
+        FilterIconListInternal();
     }
 
     protected override void OnDraw(ImDrawListPtr drawList)
