@@ -57,12 +57,12 @@ public sealed partial class FaIconPickerWindow
 
     private void UpdateNodeSizes()
     {
-        Node.Style.Size                = ContentSize;
-        FooterNode.Style.Size          = new(ContentSize.Width, 50);
-        BodyNode.Style.Size            = new(ContentSize.Width, ContentSize.Height - 95);
-        UndoButtonNode.Style.IsVisible = Icon != LastIcon;
-        SearchPanelNode.Style.Size     = new(ContentSize.Width, 0);
-        SearchWrapperNode.Style.Size   = new(ContentSize.Width - 55, 0);
+        Node.Style.Size              = ContentSize;
+        FooterNode.Style.Size        = new(ContentSize.Width, 50);
+        BodyNode.Style.Size          = new(ContentSize.Width, ContentSize.Height - 95);
+        SearchPanelNode.Style.Size   = new(ContentSize.Width, 0);
+        SearchWrapperNode.Style.Size = new(ContentSize.Width - 55, 0);
+        UndoButtonNode.IsDisabled    = Icon == LastIcon;
 
         FaIconGridNode? gridNode = BodyNode.QuerySelector<FaIconGridNode>("IconGrid");
 

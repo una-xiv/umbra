@@ -94,7 +94,7 @@ public sealed partial class IconPickerWindow
         IconIdInputNode.Style.Gap        = 0;
         CategorySelectNode.Style.Padding = new(0);
         CategorySelectNode.Style.Gap     = 0;
-        UndoButtonNode.Style.IsVisible   = IconId != LastIconId;
+        UndoButtonNode.IsDisabled        = IconId == LastIconId;
 
         IconGridNode? gridNode = BodyNode.QuerySelector<IconGridNode>("IconGrid");
 
