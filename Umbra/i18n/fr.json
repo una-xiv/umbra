@@ -321,6 +321,8 @@
     "Widget.ConfigCategory.FormatOptions": "Options de Format de Temps",
     "Widget.Defaults.Enabled.Name": "Activer le widget",
     "Widget.Defaults.Enabled.Description": "Si ce widget doit être activé et visible sur la barre d'outils.",
+    "Widgets.DefaultToolbarWidget.Config.IconId.Name": "Icône",
+    "Widgets.DefaultToolbarWidget.Config.IconId.Description": "L'icône à afficher sur le widget.",
     "Widgets.DefaultToolbarWidget.Config.Decorate.Name": "Décorer le widget",
     "Widgets.DefaultToolbarWidget.Config.Decorate.Description": "Décore le widget avec un arrière-plan et une bordure.",
     "Widgets.DefaultToolbarWidget.Config.DesaturateIcon.Name": "Désaturer l'icône du widget",

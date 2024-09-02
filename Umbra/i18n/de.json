@@ -321,6 +321,8 @@
     "Widget.ConfigCategory.FormatOptions": "Zeitformat-Optionen",
     "Widget.Defaults.Enabled.Name": "Widget aktivieren",
     "Widget.Defaults.Enabled.Description": "Ob dieses Widget aktiviert und in der Symbolleiste sichtbar sein soll.",
+    "Widgets.DefaultToolbarWidget.Config.IconId.Name": "Symbol",
+    "Widgets.DefaultToolbarWidget.Config.IconId.Description": "Das Symbol, das im Widget angezeigt wird.",
     "Widgets.DefaultToolbarWidget.Config.Decorate.Name": "Das Widget dekorieren",
     "Widgets.DefaultToolbarWidget.Config.Decorate.Description": "Dekoriert das Widget mit einem Hintergrund und Rahmen.",
     "Widgets.DefaultToolbarWidget.Config.DesaturateIcon.Name": "Widget-Symbol entsättigen",

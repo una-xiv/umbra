@@ -321,6 +321,8 @@
     "Widget.ConfigCategory.FormatOptions": "时间格式选项",
     "Widget.Defaults.Enabled.Name": "启用小部件",
     "Widget.Defaults.Enabled.Description": "是否应启用此小部件并在工具栏上显示。",
+    "Widgets.DefaultToolbarWidget.Config.IconId.Name": "图标",
+    "Widgets.DefaultToolbarWidget.Config.IconId.Description": "要显示在小部件上的图标。",
     "Widgets.DefaultToolbarWidget.Config.Decorate.Name": "装饰小部件",
     "Widgets.DefaultToolbarWidget.Config.Decorate.Description": "使用背景和边框装饰小部件。",
     "Widgets.DefaultToolbarWidget.Config.DesaturateIcon.Name": "去色小部件图标",

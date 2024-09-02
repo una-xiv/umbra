@@ -24,6 +24,7 @@ internal sealed partial class TeleportWidget
     protected override IEnumerable<IWidgetConfigVariable> GetConfigVariables()
     {
         return [
+            DefaultIconConfigVariable(111),
             ..DefaultToolbarWidgetConfigVariables,
             ..SingleLabelTextOffsetVariables,
             new BooleanWidgetConfigVariable(

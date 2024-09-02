@@ -321,6 +321,8 @@
     "Widget.ConfigCategory.FormatOptions": "Time Format Options",
     "Widget.Defaults.Enabled.Name": "Enable the widget",
     "Widget.Defaults.Enabled.Description": "Whether this widget should be enabled and visible on the toolbar.",
+    "Widgets.DefaultToolbarWidget.Config.IconId.Name": "Icon",
+    "Widgets.DefaultToolbarWidget.Config.IconId.Description": "The icon to display on the widget.",
     "Widgets.DefaultToolbarWidget.Config.Decorate.Name": "Decorate the widget",
     "Widgets.DefaultToolbarWidget.Config.Decorate.Description": "Decorates the widget with a background and border.",
     "Widgets.DefaultToolbarWidget.Config.DesaturateIcon.Name": "Desaturate widget icon",

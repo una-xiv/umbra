@@ -44,9 +44,7 @@ internal sealed partial class TeleportWidget(
         Player = Framework.Service<IPlayer>();
 
         var teleportAction = Framework.Service<IDataManager>().GetExcelSheet<GeneralAction>()!.GetRow(7)!;
-
         TeleportName = teleportAction.Name.ToString();
-        TeleportIcon = (uint)teleportAction.Icon;
 
         Node.OnRightClick += OpenTeleportWindow;
     }
@@ -68,7 +66,7 @@ internal sealed partial class TeleportWidget(
 
         SetDisabled(!Player.CanUseTeleportAction);
         SetLabel(TeleportName);
-        SetIcon(TeleportIcon);
+        SetIcon(GetConfigValue<uint>("IconId"));
 
         base.OnUpdate();
     }

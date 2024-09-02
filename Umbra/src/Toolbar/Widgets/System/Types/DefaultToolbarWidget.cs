@@ -316,6 +316,16 @@ public abstract class DefaultToolbarWidget(
     protected Node LeftIconNode    => Node.QuerySelector("#LeftIcon")!;
     protected Node RightIconNode   => Node.QuerySelector("#RightIcon")!;
 
+    protected IWidgetConfigVariable DefaultIconConfigVariable(uint defaultValue, string id = "IconId")
+    {
+        return new IconIdWidgetConfigVariable(
+            id,
+            I18N.Translate("Widgets.DefaultToolbarWidget.Config.IconId.Name"),
+            I18N.Translate("Widgets.DefaultToolbarWidget.Config.IconId.Description"),
+            defaultValue
+        ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") };
+    }
+
     protected IList<IWidgetConfigVariable> DefaultToolbarWidgetConfigVariables { get; } = [
         new BooleanWidgetConfigVariable(
             "Decorate",
