@@ -2,6 +2,7 @@
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using Lumina.Excel.GeneratedSheets;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using Umbra.Common;
@@ -19,8 +20,12 @@ internal sealed partial class EmotePickerWindow : Windows.Window
     protected override Vector2 DefaultSize { get; } = new(450, 720);
     protected override string  Title       { get; } = I18N.Translate("Widget.EmoteList.PickerWindow.Title");
 
-    public unsafe EmotePickerWindow()
+    private List<uint> UsedEmoteIds { get; }
+
+    public unsafe EmotePickerWindow(List<uint> usedEmoteIds)
     {
+        UsedEmoteIds = usedEmoteIds;
+
         var emoteList = Framework.Service<IDataManager>().GetExcelSheet<Emote>()!.ToList();
         emoteList.Sort((a, b) => string.Compare(a.Name.ToString(), b.Name.ToString(), StringComparison.OrdinalIgnoreCase));
 

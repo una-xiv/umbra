@@ -38,7 +38,7 @@ internal sealed unsafe partial class FlagWidget(
     private IPlayer        Player        { get; } = Framework.Service<IPlayer>();
     private IToastGui      ToastGui      { get; } = Framework.Service<IToastGui>();
 
-    private long lastBroadcast;
+    private long _lastBroadcast;
 
     /// <inheritdoc/>
     protected override void Initialize()
@@ -118,12 +118,12 @@ internal sealed unsafe partial class FlagWidget(
         long now = DateTimeOffset.Now.ToUnixTimeSeconds();
 
         // Prohibit spamming the chat.
-        if (now - lastBroadcast < 3) {
+        if (now - _lastBroadcast < 3) {
             Framework.Service<IChatGui>().PrintError(I18N.Translate("Widget.Flag.Error.SpamProtect"));
             return;
         }
 
-        lastBroadcast = now;
+        _lastBroadcast = now;
 
         Framework.Service<IChatSender>().Send($"{chatMessagePrefix} <flag>");
     }

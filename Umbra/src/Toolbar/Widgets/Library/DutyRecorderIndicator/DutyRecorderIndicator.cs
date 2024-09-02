@@ -23,12 +23,13 @@ internal sealed partial class DutyRecorderIndicator(
     protected override void Initialize()
     {
         Node.Tooltip = I18N.Translate("Widget.DutyRecorderIndicator.Tooltip");
-        SetIcon(FontAwesomeIcon.Video);
     }
 
     protected override void OnUpdate()
     {
+        SetIcon(GetConfigValue<FontAwesomeIcon>("Icon"));
         Node.Style.IsVisible = IsRecordingDuty;
+
         base.OnUpdate();
     }
 

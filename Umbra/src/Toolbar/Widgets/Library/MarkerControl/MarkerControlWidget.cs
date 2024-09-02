@@ -35,8 +35,6 @@ internal class MarkerControlWidget(
 
     protected override void Initialize()
     {
-        SetIcon(FontAwesomeIcon.MapSigns);
-
         foreach (string id in Registry.GetFactoryIds()) {
             var factory = Registry.GetFactory(id);
 
@@ -50,6 +48,8 @@ internal class MarkerControlWidget(
 
     protected override void OnUpdate()
     {
+        SetIcon(GetConfigValue<FontAwesomeIcon>("Icon"));
+
         foreach (string id in Registry.GetFactoryIds()) {
             var factory = Registry.GetFactory(id);
             var enabled = factory.GetConfigValue<bool>("Enabled");
@@ -63,6 +63,7 @@ internal class MarkerControlWidget(
     protected override IEnumerable<IWidgetConfigVariable> GetConfigVariables()
     {
         return [
+            CustomIconConfigVariable(FontAwesomeIcon.MapSigns),
             ..DefaultIconToolbarWidgetConfigVariables,
         ];
     }

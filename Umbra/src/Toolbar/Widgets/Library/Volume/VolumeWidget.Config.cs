@@ -14,6 +14,7 @@
  *     GNU Affero General Public License for more details.
  */
 
+using Dalamud.Interface;
 using System.Collections.Generic;
 using Umbra.Common;
 
@@ -25,6 +26,30 @@ internal sealed partial class VolumeWidget
     protected override IEnumerable<IWidgetConfigVariable> GetConfigVariables()
     {
         return [
+            new FaIconWidgetConfigVariable(
+                "UpIcon",
+                I18N.Translate("Widget.Volume.Config.UpIcon.Name"),
+                I18N.Translate("Widget.Volume.Config.UpIcon.Description"),
+                FontAwesomeIcon.VolumeUp
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            new FaIconWidgetConfigVariable(
+                "DownIcon",
+                I18N.Translate("Widget.Volume.Config.DownIcon.Name"),
+                I18N.Translate("Widget.Volume.Config.DownIcon.Description"),
+                FontAwesomeIcon.VolumeDown
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            new FaIconWidgetConfigVariable(
+                "OffIcon",
+                I18N.Translate("Widget.Volume.Config.OffIcon.Name"),
+                I18N.Translate("Widget.Volume.Config.OffIcon.Description"),
+                FontAwesomeIcon.VolumeOff
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            new FaIconWidgetConfigVariable(
+                "MuteIcon",
+                I18N.Translate("Widget.Volume.Config.MuteIcon.Name"),
+                I18N.Translate("Widget.Volume.Config.MuteIcon.Description"),
+                FontAwesomeIcon.VolumeMute
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             ..DefaultIconToolbarWidgetConfigVariables,
             new BooleanWidgetConfigVariable(
                 "ShowOptions",

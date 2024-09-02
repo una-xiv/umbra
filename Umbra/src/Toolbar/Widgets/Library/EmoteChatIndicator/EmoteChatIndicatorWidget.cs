@@ -27,6 +27,18 @@ internal class EmoteChatIndicatorWidget(
                 I18N.Translate("Widget.EmoteChatIndicator.Config.OnlyShowWhenEnabled.Description"),
                 true
             ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            new FaIconWidgetConfigVariable(
+                "OffIcon",
+                I18N.Translate("Widget.EmoteChatIndicator.Config.OffIcon.Name"),
+                I18N.Translate("Widget.EmoteChatIndicator.Config.OffIcon.Description"),
+                FontAwesomeIcon.CommentSlash
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            new FaIconWidgetConfigVariable(
+                "OnIcon",
+                I18N.Translate("Widget.EmoteChatIndicator.Config.OnIcon.Name"),
+                I18N.Translate("Widget.EmoteChatIndicator.Config.OnIcon.Description"),
+                FontAwesomeIcon.CommentDots
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             ..DefaultIconToolbarWidgetConfigVariables,
         ];
     }
@@ -43,12 +55,12 @@ internal class EmoteChatIndicatorWidget(
             Node.Style.IsVisible = true;
             Node.Tooltip         = I18N.Translate("Widget.EmoteChatIndicator.Tooltip.Enabled");
 
-            SetIcon(FontAwesomeIcon.CommentDots);
+            SetIcon(GetConfigValue<FontAwesomeIcon>("OnIcon"));
         } else {
             Node.Style.IsVisible = !GetConfigValue<bool>("OnlyShowWhenEnabled");
             Node.Tooltip         = I18N.Translate("Widget.EmoteChatIndicator.Tooltip.Disabled");
 
-            SetIcon(FontAwesomeIcon.CommentSlash);
+            SetIcon(GetConfigValue<FontAwesomeIcon>("OffIcon"));
         }
 
         base.OnUpdate();

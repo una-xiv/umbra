@@ -26,7 +26,7 @@ internal sealed partial class EmotePickerWindow : Windows.Window
                 ]
             },
             new() {
-                Id = "EmoteList",
+                Id       = "EmoteList",
                 Overflow = false,
                 ChildNodes = [
                     new() { Id = "EmoteListWrapper" }
@@ -56,14 +56,24 @@ internal sealed partial class EmotePickerWindow : Windows.Window
                             NodeValue = $"{emote.TextCommand.Value!.Command.ToDalamudString().TextValue}",
                         }
                     ]
-                },
+                }
             ]
         };
+
+        if (UsedEmoteIds.Contains(emote.RowId)) {
+            node.AppendChild(
+                new() {
+                    ClassList = ["emote-added-indicator"],
+                    NodeValue = FontAwesomeIcon.Check.ToIconString(),
+                }
+            );
+        }
 
         Node.QuerySelector("#EmoteListWrapper")!.AppendChild(node);
 
         Emote e = emote;
         node.Tooltip = emote.Name.ToDalamudString().TextValue;
+
         node.OnMouseUp += _ => {
             SelectedEmote = e;
             Close();

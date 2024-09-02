@@ -14,6 +14,7 @@
  *     GNU Affero General Public License for more details.
  */
 
+using Dalamud.Interface;
 using Dalamud.Plugin;
 using Lumina.Misc;
 using System.Collections.Generic;
@@ -34,6 +35,7 @@ internal sealed partial class PluginListWidget
                 I18N.Translate("Widget.PluginList.Config.ShowTooltip.Description"),
                 true
             ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            CustomIconConfigVariable(FontAwesomeIcon.Plug),
             ..DefaultIconToolbarWidgetConfigVariables,
             ..GetPluginListItems()
         ];

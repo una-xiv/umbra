@@ -133,6 +133,7 @@ public partial class VariablesWindow
             IntegerVariable intVar            => CreateIntegerControl(intVar),
             FloatVariable floatVar            => CreateFloatControl(floatVar),
             IconIdVariable iconVar            => CreateIconIdControl(iconVar),
+            FaIconVariable faIconVar          => CreateFaIconControl(faIconVar),
             _                                 => null
         };
     }
@@ -268,6 +269,25 @@ public partial class VariablesWindow
         node.ClassList.Add("widget-config-control");
         node.OnValueChanged += v => variable.Value = v;
         variable.ValueChanged += v => node.Value = v;
+
+        return node;
+    }
+
+    private FaIconInputNode CreateFaIconControl(FaIconVariable variable)
+    {
+        var node = new FaIconInputNode(
+            GetNextControlId(variable),
+            variable.Value,
+            variable.Name,
+            variable.Description
+        );
+
+        node.ClassList.Add("widget-config-control");
+        node.OnValueChanged += v => variable.Value = v;
+        variable.ValueChanged += v => {
+            Logger.Info($"FA Var Changed: {v.ToIconString()} ({v.ToString()})");
+            node.Value = v;
+        };
 
         return node;
     }

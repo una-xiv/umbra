@@ -34,6 +34,13 @@ internal sealed partial class AccessibilityWidget(
     /// <inheritdoc/>
     protected override void Initialize()
     {
-        SetIcon(FontAwesomeIcon.Wheelchair);
+    }
+
+    /// <inheritdoc/>
+    protected override void OnUpdate()
+    {
+        SetIcon(GetConfigValue<FontAwesomeIcon>("Icon"));
+
+        base.OnUpdate();
     }
 }

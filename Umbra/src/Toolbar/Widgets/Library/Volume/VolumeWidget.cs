@@ -56,6 +56,10 @@ internal sealed partial class VolumeWidget(
         Popup.ShowSys     = GetConfigValue<bool>("ShowSys");
         Popup.ShowPerf    = GetConfigValue<bool>("ShowPerf");
         Popup.ValueStep   = GetConfigValue<int>("ValueStep");
+        Popup.UpIcon      = GetConfigValue<FontAwesomeIcon>("UpIcon");
+        Popup.DownIcon    = GetConfigValue<FontAwesomeIcon>("DownIcon");
+        Popup.OffIcon     = GetConfigValue<FontAwesomeIcon>("OffIcon");
+        Popup.MuteIcon    = GetConfigValue<FontAwesomeIcon>("MuteIcon");
 
         base.OnUpdate();
     }
@@ -68,13 +72,13 @@ internal sealed partial class VolumeWidget(
     private FontAwesomeIcon GetVolumeIcon(string volumeConfigName, string muteConfigName)
     {
         if (_gameConfig.System.GetBool(muteConfigName)) {
-            return FontAwesomeIcon.VolumeMute;
+            return GetConfigValue<FontAwesomeIcon>("MuteIcon");
         }
 
         return _gameConfig.System.GetUInt(volumeConfigName) switch {
-            0    => FontAwesomeIcon.VolumeOff,
-            < 50 => FontAwesomeIcon.VolumeDown,
-            _    => FontAwesomeIcon.VolumeUp
+            0    => GetConfigValue<FontAwesomeIcon>("OffIcon"),
+            < 50 => GetConfigValue<FontAwesomeIcon>("DownIcon"),
+            _    => GetConfigValue<FontAwesomeIcon>("UpIcon")
         };
     }
 }

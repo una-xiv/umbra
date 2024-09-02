@@ -6,7 +6,7 @@ namespace Umbra.Windows.Library.IconPicker;
 
 public sealed partial class IconPickerWindow : Window
 {
-    private static Stylesheet Stylesheet { get; } = new(
+    internal static Stylesheet Stylesheet { get; } = new(
         [
             new(
                 "#IconPickerWindow",
@@ -74,6 +74,40 @@ public sealed partial class IconPickerWindow : Window
                 new() {
                     Anchor = Anchor.MiddleRight,
                     Gap    = 15,
+                }
+            ),
+            new(
+                "#SearchPanel",
+                new() {
+                    Flow            = Flow.Horizontal,
+                    Size            = new(0, 45),
+                    FontSize        = 16,
+                    BackgroundColor = new("Window.BackgroundLight"),
+                    BorderColor     = new() { Bottom = new("Window.Border") },
+                    BorderWidth     = new() { Bottom = 1 },
+                    IsAntialiased   = false,
+                    Padding         = new(10, 15),
+                    Gap             = 5,
+                }
+            ),
+            new(
+                "#SearchInputWrapper",
+                new() {
+                    Flow = Flow.Horizontal,
+                    Size = new(0, 30),
+                }
+            ),
+            new(
+                "#SearchIcon",
+                new() {
+                    Size         = new(26, 26),
+                    Font         = 2,
+                    FontSize     = 18,
+                    Color        = new("Window.TextMuted"),
+                    OutlineColor = new("Window.TextOutline"),
+                    OutlineSize  = 1,
+                    TextAlign    = Anchor.MiddleLeft,
+                    TextOffset   = new(0, -1),
                 }
             ),
         ]

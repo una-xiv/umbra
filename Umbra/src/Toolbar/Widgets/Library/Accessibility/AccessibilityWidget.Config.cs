@@ -14,6 +14,7 @@
  *     GNU Affero General Public License for more details.
  */
 
+using Dalamud.Interface;
 using System.Collections.Generic;
 using Umbra.Common;
 
@@ -24,6 +25,7 @@ internal partial class AccessibilityWidget
     protected override IEnumerable<IWidgetConfigVariable> GetConfigVariables()
     {
         return [
+            CustomIconConfigVariable(FontAwesomeIcon.Wheelchair),
             ..DefaultIconToolbarWidgetConfigVariables,
         ];
     }

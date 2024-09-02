@@ -34,7 +34,6 @@ internal partial class MailIndicatorWidget(
     /// <inheritdoc/>
     protected override void Initialize()
     {
-        SetIcon(FontAwesomeIcon.Envelope);
     }
 
     /// <inheritdoc/>
@@ -42,6 +41,7 @@ internal partial class MailIndicatorWidget(
     {
         uint unreadMailCount = GetUnreadMailCount();
 
+        SetIcon(GetConfigValue<FontAwesomeIcon>("Icon"));
         SetDisabled(unreadMailCount == 0);
 
         Node.Tooltip         = I18N.Translate($"Widget.MailIndicator.Tooltip.{(unreadMailCount == 1 ? "Singular" : "Plural")}", unreadMailCount.ToString());
@@ -60,6 +60,7 @@ internal partial class MailIndicatorWidget(
                 I18N.Translate("Widget.MailIndicator.Config.AlwaysShow.Description"),
                 false
             ),
+            CustomIconConfigVariable(FontAwesomeIcon.Envelope),
             ..DefaultIconToolbarWidgetConfigVariables,
         ];
     }

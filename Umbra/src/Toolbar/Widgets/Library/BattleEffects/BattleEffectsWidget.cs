@@ -33,6 +33,13 @@ internal partial class BattleEffectsWidget(
     /// <inheritdoc/>
     protected override void Initialize()
     {
-        SetIcon(FontAwesomeIcon.WandMagicSparkles);
+    }
+
+    /// <inheritdoc/>
+    protected override void OnUpdate()
+    {
+        SetIcon(GetConfigValue<FontAwesomeIcon>("Icon"));
+
+        base.OnUpdate();
     }
 }

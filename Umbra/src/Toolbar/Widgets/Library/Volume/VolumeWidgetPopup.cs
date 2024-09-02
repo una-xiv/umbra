@@ -27,6 +27,11 @@ internal sealed partial class VolumeWidgetPopup : WidgetPopup
     public bool ShowPerf    { get; set; } = true;
     public int  ValueStep   { get; set; } = 1;
 
+    public FontAwesomeIcon UpIcon   { get; set; } = FontAwesomeIcon.VolumeUp;
+    public FontAwesomeIcon DownIcon { get; set; } = FontAwesomeIcon.VolumeDown;
+    public FontAwesomeIcon OffIcon  { get; set; } = FontAwesomeIcon.VolumeOff;
+    public FontAwesomeIcon MuteIcon { get; set; } = FontAwesomeIcon.VolumeMute;
+
     private readonly List<AudioChannel> _channels = [];
     private readonly IGameConfig        _gameConfig;
 
@@ -207,13 +212,13 @@ internal sealed partial class VolumeWidgetPopup : WidgetPopup
     private FontAwesomeIcon GetVolumeIcon(string volumeConfigName, string muteConfigName)
     {
         if (_gameConfig.System.GetBool(muteConfigName)) {
-            return FontAwesomeIcon.VolumeMute;
+            return MuteIcon;
         }
 
         return _gameConfig.System.GetUInt(volumeConfigName) switch {
-            0    => FontAwesomeIcon.VolumeOff,
-            < 50 => FontAwesomeIcon.VolumeDown,
-            _    => FontAwesomeIcon.VolumeUp
+            0    => OffIcon,
+            < 50 => DownIcon,
+            _    => UpIcon
         };
     }
 

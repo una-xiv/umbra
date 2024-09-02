@@ -35,7 +35,10 @@ internal class ToolbarPinWidget(WidgetInfo info, string? guid = null, Dictionary
 
     protected override void OnUpdate()
     {
-        SetIcon(Toolbar.IsAutoHideEnabled ? FontAwesomeIcon.LockOpen : FontAwesomeIcon.Lock);
+        SetIcon(Toolbar.IsAutoHideEnabled
+            ? GetConfigValue<FontAwesomeIcon>("UnlockIcon")
+            : GetConfigValue<FontAwesomeIcon>("LockIcon")
+        );
 
         base.OnUpdate();
     }
@@ -44,6 +47,18 @@ internal class ToolbarPinWidget(WidgetInfo info, string? guid = null, Dictionary
     protected override IEnumerable<IWidgetConfigVariable> GetConfigVariables()
     {
         return [
+            new FaIconWidgetConfigVariable(
+                "LockIcon",
+                I18N.Translate("Widget.ToolbarPin.Config.LockIcon.Name"),
+                I18N.Translate("Widget.ToolbarPin.Config.LockIcon.Description"),
+                FontAwesomeIcon.Lock
+            ),
+            new FaIconWidgetConfigVariable(
+                "UnlockIcon",
+                I18N.Translate("Widget.ToolbarPin.Config.UnlockIcon.Name"),
+                I18N.Translate("Widget.ToolbarPin.Config.UnlockIcon.Description"),
+                FontAwesomeIcon.LockOpen
+            ),
             ..DefaultIconToolbarWidgetConfigVariables,
         ];
     }

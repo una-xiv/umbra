@@ -117,6 +117,16 @@ internal sealed partial class EmotePickerWindow
                     TextOverflow = false,
                     WordWrap     = false,
                 }
+            ),
+            new(
+                ".emote-added-indicator",
+                new() {
+                    Anchor     = Anchor.MiddleRight,
+                    Font       = 2,
+                    FontSize   = 18,
+                    TextOffset = new(0, -1),
+                    Color      = new("Window.TextMuted"),
+                }
             )
         ]
     );

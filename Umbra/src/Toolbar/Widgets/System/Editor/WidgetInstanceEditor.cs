@@ -11,12 +11,20 @@ using Una.Drawing;
 namespace Umbra.Widgets;
 
 [Service]
-internal sealed class WidgetInstanceEditor(WidgetManager widgetManager, WindowManager windowManager) : IDisposable
+internal sealed class WidgetInstanceEditor : IDisposable
 {
-    private WidgetManager WidgetManager { get; } = widgetManager;
-    private WindowManager WindowManager { get; } = windowManager;
+    private WidgetManager WidgetManager { get; }
+    private WindowManager WindowManager { get; }
 
     private InstanceEditor? _editor;
+
+    public WidgetInstanceEditor(WidgetManager widgetManager, WindowManager windowManager)
+    {
+        WidgetManager = widgetManager;
+        WindowManager = windowManager;
+
+        WidgetManager.OnWidgetRemoved += OnWidgetRemoved;
+    }
 
     public void OpenEditor(ToolbarWidget widget)
     {
@@ -29,13 +37,22 @@ internal sealed class WidgetInstanceEditor(WidgetManager widgetManager, WindowMa
 
     public void Dispose()
     {
+        WidgetManager.OnWidgetRemoved -= OnWidgetRemoved;
+
         _editor?.Dispose();
+        _editor = null;
     }
 
     [OnTick]
     private void OnTick()
     {
         _editor?.Update();
+    }
+
+    private void OnWidgetRemoved(ToolbarWidget widget)
+    {
+        _editor?.Dispose();
+        _editor = null;
     }
 
     private sealed class InstanceEditor : IDisposable
@@ -132,6 +149,9 @@ internal sealed class WidgetInstanceEditor(WidgetManager widgetManager, WindowMa
                     case StringSelectVariable ss when wVar is SelectWidgetConfigVariable wss:
                         ss.Value = wss.Value;
                         break;
+                    case FaIconVariable fa when wVar is FaIconWidgetConfigVariable wfa:
+                        fa.Value = wfa.Value;
+                        break;
                 }
             }
         }
@@ -227,6 +247,18 @@ internal sealed class WidgetInstanceEditor(WidgetManager widgetManager, WindowMa
                     colorVar.ValueChanged += v => widget.SetConfigValue(c.Id, v);
 
                     return colorVar;
+                }
+                case FaIconWidgetConfigVariable fa: {
+                    FaIconVariable faVar = new(fa.Id) {
+                        Category    = fa.Category,
+                        Name        = fa.Name,
+                        Description = fa.Description,
+                        Value       = fa.Value,
+                    };
+
+                    faVar.ValueChanged += v => widget.SetConfigValue(fa.Id, v);
+
+                    return faVar;
                 }
                 default:
                     Logger.Warning($"No conversion for {var.GetType().Name}.");

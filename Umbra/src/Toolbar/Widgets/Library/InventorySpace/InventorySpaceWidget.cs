@@ -93,13 +93,13 @@ internal partial class InventorySpaceWidget(
         return GetSourceIconId(type);
     }
 
-    private static uint GetSourceIconId(PlayerInventoryType source)
+    private uint GetSourceIconId(PlayerInventoryType source)
     {
         return source switch {
-            PlayerInventoryType.Inventory        => 2,
-            PlayerInventoryType.Saddlebag        => 74,
-            PlayerInventoryType.SaddlebagPremium => 74,
-            _                                    => 2
+            PlayerInventoryType.Inventory        => GetConfigValue<uint>("InventoryIcon"),
+            PlayerInventoryType.Saddlebag        => GetConfigValue<uint>("SaddlebagIcon"),
+            PlayerInventoryType.SaddlebagPremium => GetConfigValue<uint>("SaddlebagIcon"),
+            _                                    => GetConfigValue<uint>("InventoryIcon"),
         };
     }
 

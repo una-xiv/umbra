@@ -70,6 +70,16 @@ internal abstract class IconToolbarWidget(
 
     protected Node IconNode => Node.FindById("Icon")!;
 
+    protected IWidgetConfigVariable CustomIconConfigVariable(FontAwesomeIcon defaultIcon)
+    {
+        return new FaIconWidgetConfigVariable(
+            "Icon",
+            I18N.Translate("Widgets.IconButtonWidget.Config.Icon.Name"),
+            I18N.Translate("Widgets.IconButtonWidget.Config.Icon.Description"),
+            defaultIcon
+        ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") };
+    }
+
     protected IEnumerable<IWidgetConfigVariable> DefaultIconToolbarWidgetConfigVariables => [
         new BooleanWidgetConfigVariable(
             "Decorate",

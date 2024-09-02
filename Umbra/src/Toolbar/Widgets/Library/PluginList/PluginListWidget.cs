@@ -43,8 +43,6 @@ internal sealed partial class PluginListWidget(
         Popup.OnPopupClose += ClearPluginList;
 
         Node.OnRightClick += _ => Framework.Service<IChatSender>().Send("/xlplugins");
-
-        SetIcon(FontAwesomeIcon.Plug);
     }
 
     /// <inheritdoc/>
@@ -57,6 +55,8 @@ internal sealed partial class PluginListWidget(
     /// <inheritdoc/>
     protected override void OnUpdate()
     {
+        SetIcon(GetConfigValue<FontAwesomeIcon>("Icon"));
+
         base.OnUpdate();
         Node.Tooltip = GetConfigValue<bool>("ShowTooltip") ? I18N.Translate("Widget.PluginList.Tooltip") : null;
     }

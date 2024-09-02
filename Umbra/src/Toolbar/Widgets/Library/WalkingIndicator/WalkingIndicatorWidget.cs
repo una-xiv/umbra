@@ -48,7 +48,10 @@ internal class WalkingIndicatorWidget(
     protected override unsafe void OnUpdate()
     {
         Control* ctrl = Control.Instance();
-        SetIcon(ctrl->IsWalking ? FontAwesomeIcon.Walking : FontAwesomeIcon.Running);
+        SetIcon(ctrl->IsWalking
+            ? GetConfigValue<FontAwesomeIcon>("WalkingIcon")
+            : GetConfigValue<FontAwesomeIcon>("RunningIcon")
+        );
 
         Node.Style.IsVisible = !GetConfigValue<bool>("OnlyShowWhenWalking") || ctrl->IsWalking;
 
@@ -58,6 +61,18 @@ internal class WalkingIndicatorWidget(
     protected override IEnumerable<IWidgetConfigVariable> GetConfigVariables()
     {
         return [
+            new FaIconWidgetConfigVariable(
+                "WalkingIcon",
+                I18N.Translate("Widget.WalkingIndicator.Config.WalkingIcon.Name"),
+                I18N.Translate("Widget.WalkingIndicator.Config.WalkingIcon.Description"),
+                FontAwesomeIcon.Walking
+            ),
+            new FaIconWidgetConfigVariable(
+                "RunningIcon",
+                I18N.Translate("Widget.WalkingIndicator.Config.RunningIcon.Name"),
+                I18N.Translate("Widget.WalkingIndicator.Config.RunningIcon.Description"),
+                FontAwesomeIcon.Running
+            ),
             new BooleanWidgetConfigVariable(
                 "OnlyShowWhenWalking",
                 I18N.Translate("Widget.WalkingIndicator.Config.OnlyShowWhenWalking.Name"),

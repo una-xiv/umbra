@@ -18,6 +18,7 @@ internal sealed class SanctuaryIndicator(
     protected override IEnumerable<IWidgetConfigVariable> GetConfigVariables()
     {
         return [
+            CustomIconConfigVariable(FontAwesomeIcon.Moon),
             ..DefaultIconToolbarWidgetConfigVariables,
         ];
     }
@@ -25,12 +26,12 @@ internal sealed class SanctuaryIndicator(
     /// <inheritdoc/>
     protected override void Initialize()
     {
-        SetIcon(FontAwesomeIcon.Moon);
     }
 
     /// <inheritdoc/>
     protected override void OnUpdate()
     {
+        SetIcon(GetConfigValue<FontAwesomeIcon>("Icon"));
         Node.Style.IsVisible = GameMain.IsInSanctuary();
 
         base.OnUpdate();

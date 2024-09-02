@@ -63,6 +63,18 @@ internal partial class InventorySpaceWidget
                 I18N.Translate("Widget.InventorySpace.Config.ShowRemaining.Description"),
                 false
             ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            new IconIdWidgetConfigVariable(
+                "InventoryIcon",
+                I18N.Translate("Widget.InventorySpace.Config.InventoryIcon.Name"),
+                I18N.Translate("Widget.InventorySpace.Config.InventoryIcon.Description"),
+                2
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            new IconIdWidgetConfigVariable(
+                "SaddlebagIcon",
+                I18N.Translate("Widget.InventorySpace.Config.SaddlebagIcon.Name"),
+                I18N.Translate("Widget.InventorySpace.Config.SaddlebagIcon.Description"),
+                74
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             ..DefaultToolbarWidgetConfigVariables,
             ..SingleLabelTextOffsetVariables,
         ];

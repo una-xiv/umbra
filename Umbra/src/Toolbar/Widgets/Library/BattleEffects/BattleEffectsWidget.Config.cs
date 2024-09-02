@@ -14,10 +14,8 @@
  *     GNU Affero General Public License for more details.
  */
 
+using Dalamud.Interface;
 using System.Collections.Generic;
-using Umbra.Common;
-using Umbra.Widgets.System;
-using NotImplementedException = System.NotImplementedException;
 
 namespace Umbra.Widgets;
 
@@ -26,6 +24,7 @@ internal sealed partial class BattleEffectsWidget
     protected override IEnumerable<IWidgetConfigVariable> GetConfigVariables()
     {
         return [
+            CustomIconConfigVariable(FontAwesomeIcon.WandMagicSparkles),
             ..DefaultIconToolbarWidgetConfigVariables,
         ];
     }

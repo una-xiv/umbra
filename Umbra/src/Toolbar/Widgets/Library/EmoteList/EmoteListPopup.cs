@@ -57,7 +57,7 @@ internal sealed partial class EmoteListPopup : WidgetPopup
                             .Service<WindowManager>()
                             .Present(
                                 "EmotePicker",
-                                new EmotePickerWindow(),
+                                new EmotePickerWindow(GetUsedEmoteIds()),
                                 wnd => {
                                     if (wnd.SelectedEmote == null) return;
                                     Emotes[SelectedSlot.Item1] = Emotes.GetValueOrDefault(SelectedSlot.Item1) ?? [];
@@ -223,5 +223,10 @@ internal sealed partial class EmoteListPopup : WidgetPopup
 
         Framework.Service<IChatSender>().Send($"{emote.TextCommand.Value.Command.ToDalamudString().TextValue}");
         if (!KeepOpenAfterUse) Close();
+    }
+
+    private List<uint> GetUsedEmoteIds()
+    {
+        return Emotes.Values.SelectMany(x => x.Values).Where(x => x > 0).ToList();
     }
 }
