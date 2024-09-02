@@ -2,14 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using Umbra.Common;
+using Umbra.Widgets.System;
 using Umbra.Windows;
+using Umbra.Windows.Components;
 using Umbra.Windows.Library.VariablesWindow;
+using Una.Drawing;
 
 namespace Umbra.Widgets;
 
 [Service]
-internal sealed class WidgetInstanceEditor(WindowManager windowManager) : IDisposable
+internal sealed class WidgetInstanceEditor(WidgetManager widgetManager, WindowManager windowManager) : IDisposable
 {
+    private WidgetManager WidgetManager { get; } = widgetManager;
     private WindowManager WindowManager { get; } = windowManager;
 
     private InstanceEditor? _editor;
@@ -17,7 +21,7 @@ internal sealed class WidgetInstanceEditor(WindowManager windowManager) : IDispo
     public void OpenEditor(ToolbarWidget widget)
     {
         _editor?.Dispose();
-        _editor = new(widget, WindowManager);
+        _editor = new(widget, WidgetManager, WindowManager);
         Logger.Info($"Open settings for widget {widget.Id} (Type={widget.Info.Id})");
 
         _editor.OnDisposed += () => _editor = null;
@@ -28,14 +32,31 @@ internal sealed class WidgetInstanceEditor(WindowManager windowManager) : IDispo
         _editor?.Dispose();
     }
 
+    [OnTick]
+    private void OnTick()
+    {
+        _editor?.Update();
+    }
+
     private sealed class InstanceEditor : IDisposable
     {
         public event Action? OnDisposed;
 
         private readonly Dictionary<Variable, IWidgetConfigVariable> _variables = new();
 
-        public InstanceEditor(ToolbarWidget widget, WindowManager windowManager)
+        private bool _isDisposed;
+
+        private readonly ButtonNode _copyButton  = new("Copy", I18N.Translate("Copy"));
+        private readonly ButtonNode _pasteButton = new("Paste", I18N.Translate("Paste"));
+
+        private ToolbarWidget Widget        { get; }
+        private WidgetManager WidgetManager { get; }
+
+        public InstanceEditor(ToolbarWidget widget, WidgetManager widgetManager, WindowManager windowManager)
         {
+            Widget        = widget;
+            WidgetManager = widgetManager;
+
             foreach (IWidgetConfigVariable wVar in widget.GetConfigVariableList()) {
                 if (wVar.IsHidden) continue;
 
@@ -45,9 +66,16 @@ internal sealed class WidgetInstanceEditor(WindowManager windowManager) : IDispo
                 _variables.Add(variable, wVar);
             }
 
+            _copyButton.OnMouseUp  += _ => Widget.CopyInstanceSettingsToClipboard();
+            _pasteButton.OnMouseUp += _ => PasteSettings();
+
             windowManager.Present(
                 "WidgetInstanceEditor",
-                new VariablesWindow(widget.GetInstanceName(), _variables.Keys.ToList()),
+                new VariablesWindow(
+                    widget.GetInstanceName(),
+                    _variables.Keys.ToList(),
+                    [_copyButton, _pasteButton]
+                ),
                 _ => {
                     Dispose();
                 }
@@ -56,6 +84,8 @@ internal sealed class WidgetInstanceEditor(WindowManager windowManager) : IDispo
 
         public void Dispose()
         {
+            _isDisposed = true;
+
             foreach (Variable variable in _variables.Keys) variable.Dispose();
             _variables.Clear();
 
@@ -66,6 +96,44 @@ internal sealed class WidgetInstanceEditor(WindowManager windowManager) : IDispo
             }
 
             OnDisposed = null;
+        }
+
+        public void Update()
+        {
+            if (_isDisposed) return;
+
+            _pasteButton.IsDisabled = !WidgetManager.HasInstanceClipboardData(Widget);
+        }
+
+        private void PasteSettings()
+        {
+            Widget.PasteInstanceSettingsFromClipboard();
+
+            foreach ((Variable variable, IWidgetConfigVariable wVar) in _variables) {
+                switch (variable) {
+                    case BooleanVariable b when wVar is BooleanWidgetConfigVariable wb:
+                        b.Value = wb.Value;
+                        break;
+                    case ColorVariable c when wVar is ColorWidgetConfigVariable wc:
+                        c.Value = wc.Value;
+                        break;
+                    case FloatVariable f when wVar is FloatWidgetConfigVariable wf:
+                        f.Value = wf.Value;
+                        break;
+                    case IconIdVariable ic when wVar is IconIdWidgetConfigVariable wic:
+                        ic.Value = wic.Value;
+                        break;
+                    case IntegerVariable i when wVar is IntegerWidgetConfigVariable wi:
+                        i.Value = wi.Value;
+                        break;
+                    case StringVariable s when wVar is StringWidgetConfigVariable ws:
+                        s.Value = ws.Value;
+                        break;
+                    case StringSelectVariable ss when wVar is SelectWidgetConfigVariable wss:
+                        ss.Value = wss.Value;
+                        break;
+                }
+            }
         }
 
         private static Variable? ConvertWidgetVariable(ToolbarWidget widget, IWidgetConfigVariable var)

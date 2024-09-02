@@ -40,6 +40,10 @@ public partial class VariablesWindow
                 ClassList = ["widget-config-footer"],
                 ChildNodes = [
                     new() {
+                        ClassList = ["widget-config-footer--buttons", "left-side"],
+                        ChildNodes = [..extraButtons ?? []]
+                    },
+                    new() {
                         ClassList = ["widget-config-footer--buttons"],
                         ChildNodes = [
                             new ButtonNode("CloseButton", I18N.Translate("Close")),
@@ -158,6 +162,12 @@ public partial class VariablesWindow
             }
         };
 
+        variable.ValueChanged += v => {
+            if (variable.Choices.TryGetValue(v, out string? value)) {
+                node.Value = value;
+            }
+        };
+
         return node;
     }
 
@@ -173,6 +183,7 @@ public partial class VariablesWindow
 
         node.ClassList.Add("widget-config-control");
         node.OnValueChanged += v => variable.Value = v;
+        variable.ValueChanged += v => node.Value = v;
 
         return node;
     }
@@ -188,6 +199,7 @@ public partial class VariablesWindow
 
         node.ClassList.Add("widget-config-control");
         node.OnValueChanged += v => variable.Value = v;
+        variable.ValueChanged += v => node.Value = v;
 
         return node;
     }
@@ -203,6 +215,7 @@ public partial class VariablesWindow
 
         node.ClassList.Add("widget-config-control");
         node.OnValueChanged += v => variable.Value = v;
+        variable.ValueChanged += v => node.Value = v;
 
         return node;
     }
@@ -220,6 +233,7 @@ public partial class VariablesWindow
 
         node.ClassList.Add("widget-config-control");
         node.OnValueChanged += v => variable.Value = v;
+        variable.ValueChanged += v => node.Value = v;
 
         return node;
     }
@@ -237,6 +251,7 @@ public partial class VariablesWindow
 
         node.ClassList.Add("widget-config-control");
         node.OnValueChanged += v => variable.Value = v;
+        variable.ValueChanged += v => node.Value = v;
 
         return node;
     }
@@ -252,6 +267,7 @@ public partial class VariablesWindow
 
         node.ClassList.Add("widget-config-control");
         node.OnValueChanged += v => variable.Value = v;
+        variable.ValueChanged += v => node.Value = v;
 
         return node;
     }

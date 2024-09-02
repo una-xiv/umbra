@@ -6,7 +6,7 @@ using Una.Drawing;
 
 namespace Umbra.Windows.Library.VariablesWindow;
 
-public partial class VariablesWindow(string windowTitle, List<Variable> variables) : Window
+public partial class VariablesWindow(string windowTitle, List<Variable> variables, List<ButtonNode>? extraButtons = null) : Window
 {
     protected override Vector2 MinSize     { get; } = new(512, 500);
     protected override Vector2 MaxSize     { get; } = new(1200, 1024);
