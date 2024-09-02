@@ -20,12 +20,13 @@ internal partial class RetainerListWidget(
     protected override void Initialize()
     {
         SetLabel(Info.Name);
-        SetIcon(60560u);
     }
 
     /// <inheritdoc/>
     protected override void OnUpdate()
     {
+        SetIcon(GetConfigValue<uint>("IconId"));
+
         // Not allowed to use the retainer widget while on a different world or in an instance.
         // The game performs the same checks when opening the timer window. (Thanks Hasel!)
         SetDisabled(Player.CurrentWorldName != Player.HomeWorldName || Player.IsBoundByInstancedDuty);

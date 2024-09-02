@@ -9,6 +9,7 @@ internal partial class RetainerListWidget
     protected override IEnumerable<IWidgetConfigVariable> GetConfigVariables()
     {
         return [
+            DefaultIconConfigVariable(60560),
             ..DefaultToolbarWidgetConfigVariables,
             ..SingleLabelTextOffsetVariables,
             new BooleanWidgetConfigVariable(

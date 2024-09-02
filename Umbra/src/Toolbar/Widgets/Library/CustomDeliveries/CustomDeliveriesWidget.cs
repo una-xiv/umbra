@@ -26,13 +26,7 @@ internal sealed class CustomDeliveriesWidget(
                 I18N.Translate("Widget.CustomDeliveries.Config.ButtonLabel.Description"),
                 Info.Name
             ),
-            new IntegerWidgetConfigVariable(
-                "ButtonIcon",
-                I18N.Translate("Widget.CustomDeliveries.Config.ButtonIcon.Name"),
-                I18N.Translate("Widget.CustomDeliveries.Config.ButtonIcon.Description"),
-                60927,
-                0
-            ),
+            DefaultIconConfigVariable(60927, "ButtonIcon"),
             ..DefaultToolbarWidgetConfigVariables,
             ..SingleLabelTextOffsetVariables,
             ..TwoLabelTextOffsetVariables,
@@ -76,7 +70,7 @@ internal sealed class CustomDeliveriesWidget(
         Popup.TrackedNpcId  = npcId;
         Popup.PrimaryAction = GetConfigValue<string>("PrimaryAction");
 
-        SetIcon((uint)GetConfigValue<int>("ButtonIcon"));
+        SetIcon(GetConfigValue<uint>("ButtonIcon"));
 
         if (npcId == 0 || npc == null) {
             SetLabel(GetConfigValue<string>("ButtonLabel"));
