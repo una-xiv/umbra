@@ -30,9 +30,9 @@ internal partial class TeleportWidgetPopup : WidgetPopup
     public string ExpansionMenuPosition  { get; set; } = "Auto";
     public bool   OpenCategoryOnHover    { get; set; }
     public bool   ShowNotification       { get; set; }
-    public bool   OpenFavoritesByDefault { get; set; }
     public bool   ShowMapNames           { get; set; }
     public int    ColumnWidth            { get; set; } = 300;
+    public string DefaultOpenedGroupName { get; set; } = "Auto";
 
     private string               _selectedExpansion = string.Empty;
     private TeleportDestination? _selectedDestination;
@@ -91,13 +91,18 @@ internal partial class TeleportWidgetPopup : WidgetPopup
         BuildNodes();
         LoadFavorites();
         LoadOthers();
-
-        ActivateExpansion(
-            OpenFavoritesByDefault && Favorites.Count > 0
-                ? "Favorites"
-                : _selectedExpansion,
-            true
-        );
+        
+        switch (DefaultOpenedGroupName) {
+            case "Favorites":
+                ActivateExpansion(Favorites.Count > 0 ? "Favorites" : _selectedExpansion, true);
+                break;
+            case "Auto":
+                ActivateExpansion(_selectedExpansion, true);
+                break;
+            case "Other":
+                ActivateExpansion("Other", true);
+                break;
+        }
 
         Node.QuerySelector("#DestinationList")!.TagsList.Add(ExpansionMenuPosition == "Left" ? "right" : "left");
         Node.QuerySelector("#ExpansionList")!.TagsList.Add(ExpansionMenuPosition == "Left" ? "left" : "right");
@@ -147,8 +152,8 @@ internal partial class TeleportWidgetPopup : WidgetPopup
         am->ShowMap(true, false);
 
         OpenMapInfo info = new() {
-            Type        = MapType.Teleport,
-            MapId       = _selectedDestination.Value.MapId,
+            Type = MapType.Teleport,
+            MapId = _selectedDestination.Value.MapId,
             TerritoryId = _selectedDestination.Value.TerritoryId,
         };
 
@@ -171,7 +176,7 @@ internal partial class TeleportWidgetPopup : WidgetPopup
     {
         if (null == _selectedDestination) return;
 
-        var id    = $"{_selectedDestination.Value.AetheryteId}:{_selectedDestination.Value.SubIndex}";
+        var id = $"{_selectedDestination.Value.AetheryteId}:{_selectedDestination.Value.SubIndex}";
         var index = Favorites.IndexOf(id);
         if (index == -1) return;
 
