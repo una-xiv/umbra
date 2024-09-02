@@ -285,7 +285,6 @@ public partial class VariablesWindow
         node.ClassList.Add("widget-config-control");
         node.OnValueChanged += v => variable.Value = v;
         variable.ValueChanged += v => {
-            Logger.Info($"FA Var Changed: {v.ToIconString()} ({v.ToString()})");
             node.Value = v;
         };
 
