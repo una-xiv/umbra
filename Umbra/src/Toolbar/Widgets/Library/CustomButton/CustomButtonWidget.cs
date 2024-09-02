@@ -24,6 +24,7 @@ using Una.Drawing;
 namespace Umbra.Widgets;
 
 [ToolbarWidget("CustomButton", "Widget.CustomButton.Name", "Widget.CustomButton.Description")]
+[ToolbarWidgetTags(["button", "command", "macro", "action", "url", "website"])]
 internal sealed partial class CustomButtonWidget(
     WidgetInfo                  info,
     string?                     guid         = null,

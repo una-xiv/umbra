@@ -5,6 +5,7 @@ using Umbra.Common;
 namespace Umbra.Widgets.Library.UnifiedMainMenu;
 
 [ToolbarWidget("UnifiedMainMenu", "Widget.UnifiedMainMenu.Name", "Widget.UnifiedMainMenu.Description")]
+[ToolbarWidgetTags(["start", "menu", "main", "system", "character", "travel", "social", "duty", "logs", "housing"])]
 internal sealed partial class UnifiedMainMenu(
     WidgetInfo                  info,
     string?                     guid         = null,

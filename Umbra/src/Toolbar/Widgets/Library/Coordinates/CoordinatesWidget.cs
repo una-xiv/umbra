@@ -7,6 +7,7 @@ using Umbra.Game;
 namespace Umbra.Widgets.Library.Coordinates;
 
 [ToolbarWidget("Coordinates", "Widget.Coordinates.Name", "Widget.Coordinates.Description")]
+[ToolbarWidgetTags(["coordinates", "position", "location", "map"])]
 internal sealed class CoordinatesWidget(
     WidgetInfo                  info,
     string?                     guid         = null,

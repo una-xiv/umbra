@@ -26,6 +26,7 @@ using Umbra.Game;
 namespace Umbra.Widgets;
 
 [ToolbarWidget("MainMenu", "Widget.MainMenu.Name", "Widget.MainMenu.Description")]
+[ToolbarWidgetTags(["menu", "main", "navigation", "category"])]
 internal sealed class MainMenuWidget(
     WidgetInfo                  info,
     string?                     guid         = null,

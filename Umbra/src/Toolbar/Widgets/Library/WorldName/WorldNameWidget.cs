@@ -22,6 +22,7 @@ using Umbra.Game;
 namespace Umbra.Widgets;
 
 [ToolbarWidget("WorldName", "Widget.WorldName.Name", "Widget.WorldName.Description")]
+[ToolbarWidgetTags(["world", "home", "travel"])]
 internal partial class WorldNameWidget(
     WidgetInfo                  info,
     string?                     guid         = null,

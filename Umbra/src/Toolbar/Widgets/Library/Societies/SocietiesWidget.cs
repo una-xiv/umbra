@@ -8,6 +8,7 @@ using Una.Drawing;
 namespace Umbra.Widgets.Library.Societies;
 
 [ToolbarWidget("SocietiesWidget", "Widget.Societies.Name", "Widget.Societies.Description")]
+[ToolbarWidgetTags(["societies", "tribes", "reputation", "beast", "tribal", "factions"])]
 internal sealed partial class SocietiesWidget(
     WidgetInfo                  info,
     string?                     guid         = null,

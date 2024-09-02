@@ -7,6 +7,7 @@ using Umbra.Common.Utility;
 namespace Umbra.Widgets.Library.DynamicMenu;
 
 [ToolbarWidget("DynamicMenu", "Widget.DynamicMenu.Name", "Widget.DynamicMenu.Description")]
+[ToolbarWidgetTags(["button", "command", "macro", "action", "url", "website", "menu", "list"])]
 internal sealed partial class DynamicMenuWidget(
     WidgetInfo                  info,
     string?                     guid         = null,

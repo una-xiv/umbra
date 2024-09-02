@@ -23,6 +23,7 @@ using Una.Drawing;
 namespace Umbra.Widgets;
 
 [ToolbarWidget("ExperienceBar", "Widget.ExperienceBar.Name", "Widget.ExperienceBar.Description")]
+[ToolbarWidgetTags(["exp", "experience", "bar", "level"])]
 internal partial class ExperienceBarWidget(
     WidgetInfo                  info,
     string?                     guid         = null,

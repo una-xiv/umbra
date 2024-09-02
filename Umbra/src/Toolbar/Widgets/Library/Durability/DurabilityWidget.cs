@@ -24,6 +24,7 @@ using Umbra.Game;
 namespace Umbra.Widgets;
 
 [ToolbarWidget("Durability", "Widget.Durability.Name", "Widget.Durability.Description")]
+[ToolbarWidgetTags(["durability", "equipment", "gear", "repair", "spiritbond"])]
 internal partial class DurabilityWidget(
     WidgetInfo                  info,
     string?                     guid         = null,

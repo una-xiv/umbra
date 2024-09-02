@@ -5,6 +5,7 @@ using System.Numerics;
 namespace Umbra.Widgets.Library.CollectionItemButton;
 
 [ToolbarWidget("CollectionItemButton", "Widget.CollectionItemButton.Name", "Widget.CollectionItemButton.Description")]
+[ToolbarWidgetTags(["button", "item", "collectible", "collection"])]
 internal sealed partial class CollectionItemButtonWidget(
     WidgetInfo                  info,
     string?                     guid         = null,

@@ -22,6 +22,7 @@ using Umbra.Common;
 namespace Umbra.Widgets;
 
 [ToolbarWidget("Accessibility", "Widget.Accessibility.Name", "Widget.Accessibility.Description")]
+[ToolbarWidgetTags(["config", "settings", "accessibility"])]
 internal sealed partial class AccessibilityWidget(
     WidgetInfo                  info,
     string?                     guid         = null,

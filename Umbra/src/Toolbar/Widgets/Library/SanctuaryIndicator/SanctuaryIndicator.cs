@@ -5,6 +5,7 @@ using System.Collections.Generic;
 namespace Umbra.Widgets.Library.SanctuaryIndicator;
 
 [ToolbarWidget("SanctuaryIndicator", "Widget.SanctuaryIndicator.Name", "Widget.SanctuaryIndicator.Description")]
+[ToolbarWidgetTags(["sanctuary", "city", "town", "housing", "rest", "afk", "indicator"])]
 internal sealed class SanctuaryIndicator(
     WidgetInfo                  info,
     string?                     guid         = null,

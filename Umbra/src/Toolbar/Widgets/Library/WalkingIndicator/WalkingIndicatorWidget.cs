@@ -22,6 +22,7 @@ using Umbra.Common;
 namespace Umbra.Widgets;
 
 [ToolbarWidget("WalkingIndicator", "Widget.WalkingIndicator.Name", "Widget.WalkingIndicator.Description")]
+[ToolbarWidgetTags(["walking", "running", "movement", "speed", "indicator"])]
 internal class WalkingIndicatorWidget(
     WidgetInfo                  info,
     string?                     guid         = null,

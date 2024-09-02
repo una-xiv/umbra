@@ -23,6 +23,7 @@ using Umbra.Game;
 namespace Umbra.Widgets;
 
 [ToolbarWidget("GearsetSwitcher", "Widget.GearsetSwitcher.Name", "Widget.GearsetSwitcher.Description")]
+[ToolbarWidgetTags(["gearset", "job", "equipment", "gear", "switcher"])]
 internal sealed partial class GearsetSwitcherWidget(
     WidgetInfo                  info,
     string?                     guid         = null,

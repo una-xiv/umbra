@@ -6,6 +6,7 @@ using Umbra.Game.CustomDeliveries;
 namespace Umbra.Widgets.Library.CustomDeliveries;
 
 [ToolbarWidget("CustomDeliveries", "Widget.CustomDeliveries.Name", "Widget.CustomDeliveries.Description")]
+[ToolbarWidgetTags(["delivery", "deliveries", "npc"])]
 internal sealed class CustomDeliveriesWidget(
     WidgetInfo                  info,
     string?                     guid         = null,

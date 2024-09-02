@@ -19,6 +19,7 @@ using System.Numerics;
 using Dalamud.Interface;
 using ImGuiNET;
 using System;
+using System.Collections.Generic;
 using Umbra.Common;
 using Umbra.Widgets;
 using Umbra.Widgets.System;
@@ -39,7 +40,9 @@ internal class AddWidgetWindow(string locationId) : Window
     protected override string  Title       { get; } = I18N.Translate("Settings.AddWidgetWindow.Title");
 
     private WidgetInfo?   _selectedWidgetInfo;
-    private WidgetManager WidgetManager => Framework.Service<WidgetManager>();
+    private WidgetManager WidgetManager { get; } = Framework.Service<WidgetManager>();
+
+    private readonly Dictionary<Node, WidgetInfo> _widgetNodes = [];
 
     protected override Node Node { get; } = new() {
         Stylesheet = AddWidgetStylesheet,
@@ -94,7 +97,9 @@ internal class AddWidgetWindow(string locationId) : Window
 
     protected override void OnDisposed()
     {
-        foreach (var handler in OnWidgetAdded?.GetInvocationList() ?? [])  OnWidgetAdded -= (Action<string>)handler;
+        foreach (var handler in OnWidgetAdded?.GetInvocationList() ?? []) OnWidgetAdded -= (Action<string>)handler;
+
+        _widgetNodes.Clear();
     }
 
     protected override void OnOpen()
@@ -185,6 +190,19 @@ internal class AddWidgetWindow(string locationId) : Window
                     NodeValue = info.Name,
                 },
                 new() {
+                    ClassList = ["widget--tags"],
+                    ChildNodes = [
+                        ..info
+                            .Tags.Take(3)
+                            .Select(
+                                tag => new Node() {
+                                    ClassList = ["tag"],
+                                    NodeValue = tag
+                                }
+                            )
+                    ]
+                },
+                new() {
                     ClassList = ["widget--description"],
                     NodeValue = info.Description,
                     Style     = new() { IsVisible = false },
@@ -197,6 +215,18 @@ internal class AddWidgetWindow(string locationId) : Window
             ]
         };
 
+        if (info.Tags.Count > 3) {
+            int remainingTags = info.Tags.Count - 3;
+
+            node.QuerySelector(".widget--tags")!.AppendChild(
+                new() {
+                    ClassList = ["tag"],
+                    NodeValue = $"+{remainingTags}",
+                    Tooltip   = string.Join(", ", info.Tags.Skip(3)),
+                }
+            );
+        }
+
         node.OnMouseUp += _ => {
             _selectedWidgetInfo = info;
 
@@ -208,17 +238,27 @@ internal class AddWidgetWindow(string locationId) : Window
         };
 
         node.BeforeDraw += _ => {
-            node.QuerySelector(".widget--description")!.Style.IsVisible = node.ClassList.Contains("selected");
+            bool isSelected = node.ClassList.Contains("selected");
+            node.QuerySelector(".widget--description")!.Style.IsVisible = isSelected;
+            node.QuerySelector(".widget--tags")!.Style.IsVisible        = isSelected;
         };
+
+        _widgetNodes[node] = info;
 
         return node;
     }
 
     private void OnSearchValueChanged(string value)
     {
-        foreach (Node node in Node.QuerySelectorAll(".widget")) {
-            string label = node.QuerySelector(".widget--name")!.NodeValue?.ToString() ?? "";
-            node.Style.IsVisible = string.IsNullOrEmpty(value) || label.Contains(value, StringComparison.OrdinalIgnoreCase);
+        foreach (string word in value.Split(' ')) {
+            if (string.IsNullOrEmpty(word)) continue;
+
+            foreach (Node node in Node.QuerySelectorAll(".widget")) {
+                if (!_widgetNodes.TryGetValue(node, out WidgetInfo? info)) continue;
+
+                node.Style.IsVisible = info.Name.Contains(word, StringComparison.OrdinalIgnoreCase)
+                    || info.Tags.Any(t => t.Contains(word, StringComparison.OrdinalIgnoreCase));
+            }
         }
     }
 
@@ -244,10 +284,13 @@ internal class AddWidgetWindow(string locationId) : Window
                     Gap             = 5,
                 }
             ),
-            new("#SearchInputWrapper", new() {
-                Flow = Flow.Horizontal,
-                Size = new(0, 30),
-            }),
+            new(
+                "#SearchInputWrapper",
+                new() {
+                    Flow = Flow.Horizontal,
+                    Size = new(0, 30),
+                }
+            ),
             new(
                 "#SearchIcon",
                 new() {
@@ -328,6 +371,25 @@ internal class AddWidgetWindow(string locationId) : Window
                     Color        = new("Window.Text"),
                     TextOverflow = false,
                     WordWrap     = false,
+                }
+            ),
+            new(
+                ".widget--tags",
+                new() {
+                    Flow = Flow.Horizontal,
+                    Gap  = 8,
+                }
+            ),
+            new(
+                ".tag",
+                new() {
+                    TextAlign       = Anchor.MiddleCenter,
+                    BorderRadius    = 6,
+                    Size            = new(0, 16),
+                    Padding         = new(0, 6),
+                    FontSize        = 10,
+                    BackgroundColor = new("Window.Background"),
+                    Color           = new("Window.TextMuted"),
                 }
             ),
             new(

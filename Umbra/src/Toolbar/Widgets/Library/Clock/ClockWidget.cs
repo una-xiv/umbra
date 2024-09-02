@@ -24,6 +24,7 @@ using Una.Drawing;
 namespace Umbra.Widgets;
 
 [ToolbarWidget("Clock", "Widget.Clock.Name", "Widget.Clock.Description")]
+[ToolbarWidgetTags(["clock", "time"])]
 internal partial class ClockWidget(
     WidgetInfo                  info,
     string?                     guid         = null,

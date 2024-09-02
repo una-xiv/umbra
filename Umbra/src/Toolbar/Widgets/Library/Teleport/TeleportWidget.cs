@@ -24,6 +24,7 @@ using Una.Drawing;
 namespace Umbra.Widgets;
 
 [ToolbarWidget("Teleport", "Widget.Teleport.Name", "Widget.Teleport.Description")]
+[ToolbarWidgetTags(["teleport", "travel", "favorites", "locations", "housing", "estate"])]
 internal sealed partial class TeleportWidget(
     WidgetInfo                  info,
     string?                     guid         = null,

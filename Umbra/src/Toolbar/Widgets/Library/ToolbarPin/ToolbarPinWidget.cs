@@ -21,6 +21,7 @@ using Umbra.Common;
 namespace Umbra.Widgets;
 
 [ToolbarWidget("ToolbarPin", "Widget.ToolbarPin.Name", "Widget.ToolbarPin.Description")]
+[ToolbarWidgetTags(["pin", "lock", "unlock", "autohide"])]
 internal class ToolbarPinWidget(WidgetInfo info, string? guid = null, Dictionary<string, object>? configValues = null)
     : IconToolbarWidget(info, guid, configValues)
 {

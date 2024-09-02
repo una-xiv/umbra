@@ -23,6 +23,7 @@ using Umbra.Common;
 namespace Umbra.Widgets;
 
 [ToolbarWidget("Currencies", "Widget.Currencies.Name", "Widget.Currencies.Description")]
+[ToolbarWidgetTags(["currency", "gil", "tomestone", "seals", "company", "rewards"])]
 internal sealed partial class CurrenciesWidget(
     WidgetInfo                  info,
     string?                     guid         = null,

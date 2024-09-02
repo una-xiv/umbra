@@ -22,6 +22,7 @@ using Umbra.Markers.System;
 namespace Umbra.Widgets;
 
 [ToolbarWidget("MarkerControl", "Widget.MarkerControl.Name", "Widget.MarkerControl.Description")]
+[ToolbarWidgetTags(["marker", "world", "map", "sign", "icon"])]
 internal class MarkerControlWidget(
     WidgetInfo                  info,
     string?                     guid         = null,

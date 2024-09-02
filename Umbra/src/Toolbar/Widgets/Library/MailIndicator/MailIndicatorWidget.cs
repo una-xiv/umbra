@@ -21,6 +21,7 @@ using Umbra.Common;
 namespace Umbra.Widgets;
 
 [ToolbarWidget("MailIndicator", "Widget.MailIndicator.Name", "Widget.MailIndicator.Description")]
+[ToolbarWidgetTags(["mail", "letter", "envelope", "post", "moogle"])]
 internal partial class MailIndicatorWidget(
     WidgetInfo                  info,
     string?                     guid         = null,

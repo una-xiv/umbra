@@ -23,6 +23,7 @@ using Una.Drawing;
 namespace Umbra.Widgets;
 
 [ToolbarWidget("OnlineStatus", "Widget.OnlineStatus.Name", "Widget.OnlineStatus.Description")]
+[ToolbarWidgetTags(["status", "online", "busy", "away", "mentor", "party", "roleplay"])]
 internal partial class OnlineStatusWidget(
     WidgetInfo                  info,
     string?                     guid         = null,

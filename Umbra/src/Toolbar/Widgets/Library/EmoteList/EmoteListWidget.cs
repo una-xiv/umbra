@@ -7,6 +7,7 @@ using NotImplementedException = System.NotImplementedException;
 namespace Umbra.Widgets.Library.EmoteList;
 
 [ToolbarWidget("EmoteList", "Widget.EmoteList.Name", "Widget.EmoteList.Description")]
+[ToolbarWidgetTags(["emote", "list", "panel", "shortcuts"])]
 internal sealed partial class EmoteListWidget(
     WidgetInfo                  info,
     string?                     guid         = null,

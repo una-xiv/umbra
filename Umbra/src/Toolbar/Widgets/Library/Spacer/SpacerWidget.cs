@@ -21,6 +21,7 @@ using Una.Drawing;
 namespace Umbra.Widgets;
 
 [ToolbarWidget("Spacer", "Widget.Spacer.Name", "Widget.Spacer.Description")]
+[ToolbarWidgetTags(["separator", "divider", "spacer"])]
 internal class SpacerWidget(WidgetInfo info, string? guid = null, Dictionary<string, object>? configValues = null)
     : ToolbarWidget(info, guid, configValues)
 {

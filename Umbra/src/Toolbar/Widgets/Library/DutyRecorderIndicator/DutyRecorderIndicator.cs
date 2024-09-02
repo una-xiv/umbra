@@ -12,6 +12,7 @@ namespace Umbra.Widgets.Library.DutyRecorderIndicator;
     "Widget.DutyRecorderIndicator.Name",
     "Widget.DutyRecorderIndicator.Description"
 )]
+[ToolbarWidgetTags(["duty", "recorder", "indicator"])]
 internal sealed partial class DutyRecorderIndicator(
     WidgetInfo                  info,
     string?                     guid         = null,

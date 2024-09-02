@@ -27,6 +27,7 @@ using NotImplementedException = System.NotImplementedException;
 namespace Umbra.Widgets;
 
 [ToolbarWidget("CustomMenu", "Widget.CustomMenu.Name", "Widget.CustomMenu.Description")]
+[ToolbarWidgetTags(["button", "command", "macro", "action", "url", "website", "menu", "list"])]
 internal sealed partial class CustomMenuWidget(
     WidgetInfo                  info,
     string?                     guid         = null,

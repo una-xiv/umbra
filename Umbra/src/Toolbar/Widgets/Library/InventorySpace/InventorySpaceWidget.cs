@@ -22,6 +22,7 @@ using Umbra.Game.Inventory;
 namespace Umbra.Widgets.Library.InventorySpace;
 
 [ToolbarWidget("InventorySpace", "Widget.InventorySpace.Name", "Widget.InventorySpace.Description")]
+[ToolbarWidgetTags(["inventory", "space", "items", "slots", "bag", "saddlebag"])]
 internal partial class InventorySpaceWidget(
     WidgetInfo                  info,
     string?                     guid         = null,

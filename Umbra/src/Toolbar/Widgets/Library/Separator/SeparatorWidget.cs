@@ -21,6 +21,7 @@ using Una.Drawing;
 namespace Umbra.Widgets;
 
 [ToolbarWidget("Separator", "Widget.Separator.Name", "Widget.Separator.Description")]
+[ToolbarWidgetTags(["separator", "line", "divider", "spacer"])]
 internal class SeparatorWidget(
     WidgetInfo                  info,
     string?                     guid         = null,

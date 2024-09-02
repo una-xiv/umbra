@@ -20,6 +20,7 @@ using Dalamud.Interface;
 namespace Umbra.Widgets;
 
 [ToolbarWidget("BattleEffects", "Widget.BattleEffects.Name", "Widget.BattleEffects.Description")]
+[ToolbarWidgetTags(["config", "settings", "effects", "vfx"])]
 internal partial class BattleEffectsWidget(
     WidgetInfo                  info,
     string?                     guid         = null,

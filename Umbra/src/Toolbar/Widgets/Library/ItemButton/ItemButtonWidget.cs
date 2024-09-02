@@ -25,6 +25,7 @@ using Una.Drawing;
 namespace Umbra.Widgets;
 
 [ToolbarWidget("ItemButton", "Widget.ItemButton.Name", "Widget.ItemButton.Description")]
+[ToolbarWidgetTags(["button", "item", "use", "inventory"])]
 internal sealed partial class ItemButtonWidget(
     WidgetInfo                  info,
     string?                     guid         = null,

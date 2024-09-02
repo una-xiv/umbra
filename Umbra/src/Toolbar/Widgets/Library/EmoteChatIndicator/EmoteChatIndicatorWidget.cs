@@ -6,6 +6,7 @@ using Umbra.Common;
 namespace Umbra.Widgets.Library.EmoteChatIndicator;
 
 [ToolbarWidget("EmoteChatIndicator", "Widget.EmoteChatIndicator.Name", "Widget.EmoteChatIndicator.Description")]
+[ToolbarWidgetTags(["emote", "chat", "indicator"])]
 internal class EmoteChatIndicatorWidget(
     WidgetInfo                  info,
     string?                     guid         = null,

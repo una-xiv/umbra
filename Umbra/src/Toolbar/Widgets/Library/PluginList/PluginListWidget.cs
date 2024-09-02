@@ -26,6 +26,7 @@ using Umbra.Game;
 namespace Umbra.Widgets;
 
 [ToolbarWidget("PluginList", "Widget.PluginList.Name", "Widget.PluginList.Description")]
+[ToolbarWidgetTags(["plugin", "addon", "dalamud", "list", "menu"])]
 internal sealed partial class PluginListWidget(
     WidgetInfo                  info,
     string?                     guid         = null,

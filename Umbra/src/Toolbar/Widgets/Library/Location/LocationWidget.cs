@@ -24,6 +24,7 @@ using Umbra.Game;
 namespace Umbra.Widgets;
 
 [ToolbarWidget("Location", "Widget.Location.Name", "Widget.Location.Description")]
+[ToolbarWidgetTags(["location", "zone", "district", "coordinates"])]
 internal partial class LocationWidget(
     WidgetInfo                  info,
     string?                     guid         = null,

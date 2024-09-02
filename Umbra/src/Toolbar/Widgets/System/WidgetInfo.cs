@@ -15,13 +15,21 @@
  */
 
 using Dalamud.Plugin;
+using System.Collections.Generic;
 
 namespace Umbra.Widgets;
 
-public class WidgetInfo(string id, string name, string description, IExposedPlugin? plugin = null)
+public class WidgetInfo(
+    string          id,
+    string          name,
+    string          description,
+    IExposedPlugin? plugin = null,
+    List<string>?   tags   = null
+)
 {
     public string          Id             { get; } = id;
     public string          Name           { get; } = name;
     public string          Description    { get; } = description;
     public IExposedPlugin? RequiredPlugin { get; } = plugin;
+    public List<string>    Tags           { get; } = tags ?? [];
 }

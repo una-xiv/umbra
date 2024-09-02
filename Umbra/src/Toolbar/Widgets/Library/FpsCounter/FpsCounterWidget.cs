@@ -4,6 +4,7 @@ using System.Collections.Generic;
 namespace Umbra.Widgets.Library.FPS;
 
 [ToolbarWidget("FpsCounter", "Widget.Fps.Name", "Widget.Fps.Description")]
+[ToolbarWidgetTags(["fps", "counter", "performance"])]
 internal sealed class FpsCounterWidget(
     WidgetInfo                  info,
     string?                     guid         = null,

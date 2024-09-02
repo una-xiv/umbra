@@ -25,6 +25,7 @@ using Umbra.Game;
 namespace Umbra.Widgets;
 
 [ToolbarWidget("Flag", "Widget.Flag.Name", "Widget.Flag.Description")]
+[ToolbarWidgetTags(["flag", "marker", "teleport", "chat"])]
 internal sealed unsafe partial class FlagWidget(
     WidgetInfo                  info,
     string?                     guid         = null,

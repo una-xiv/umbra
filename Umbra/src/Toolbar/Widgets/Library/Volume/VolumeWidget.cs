@@ -22,6 +22,7 @@ using Umbra.Common;
 namespace Umbra.Widgets;
 
 [ToolbarWidget("Volume", "Widget.Volume.Name", "Widget.Volume.Description")]
+[ToolbarWidgetTags(["volume", "audio", "channels", "sound", "sfx", "bgm"])]
 internal sealed partial class VolumeWidget(
     WidgetInfo                  info,
     string?                     guid         = null,

@@ -40,7 +40,9 @@ internal static class WidgetRegistry
                     string name = I18N.Has(info.Name) ? I18N.Translate(info.Name) : info.Name;
                     string desc = I18N.Has(info.Description) ? I18N.Translate(info.Description) : info.Description;
 
-                    RegisteredWidgets.Add((type, new(info.Id, name, desc)));
+                    List<string> tags = type.GetCustomAttribute<ToolbarWidgetTagsAttribute>()?.Tags ?? [];
+
+                    RegisteredWidgets.Add((type, new(info.Id, name, desc, null, tags)));
                     return;
                 }
 
@@ -58,7 +60,9 @@ internal static class WidgetRegistry
                     string name = I18N.Has(info2.Name) ? I18N.Translate(info2.Name) : info2.Name;
                     string desc = I18N.Has(info2.Description) ? I18N.Translate(info2.Description) : info2.Description;
 
-                    RegisteredWidgets.Add((type, new(info2.Id, name, desc)));
+                    List<string> tags = type.GetCustomAttribute<ToolbarWidgetTagsAttribute>()?.Tags ?? [];
+
+                    RegisteredWidgets.Add((type, new(info2.Id, name, desc, plugin, tags)));
                 }
             });
     }

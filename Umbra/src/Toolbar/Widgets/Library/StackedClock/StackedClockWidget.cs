@@ -7,6 +7,7 @@ using Umbra.Common;
 namespace Umbra.Widgets.Library.StackedClock;
 
 [ToolbarWidget("StackedClock", "Widget.StackedClock.Name", "Widget.StackedClock.Description")]
+[ToolbarWidgetTags(["clock", "time"])]
 internal sealed partial class StackedClockWidget(
     WidgetInfo                  info,
     string?                     guid         = null,

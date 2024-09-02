@@ -23,6 +23,7 @@ using Umbra.Game;
 namespace Umbra.Widgets;
 
 [ToolbarWidget("Companion", "Widget.Companion.Name", "Widget.Companion.Description")]
+[ToolbarWidgetTags(["companion", "chocobo", "pet", "summon", "buddy"])]
 internal sealed partial class CompanionWidget(
     WidgetInfo                  info,
     string?                     guid         = null,

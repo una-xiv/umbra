@@ -4,6 +4,7 @@ using Umbra.Common;
 namespace Umbra.Widgets.Library.ShortcutPanel;
 
 [ToolbarWidget("ShortcutPanel", "Widget.ShortcutPanel.Name", "Widget.ShortcutPanel.Description")]
+[ToolbarWidgetTags(["shortcut", "panel", "hotbar", "action", "ability", "macro", "emote", "item", "macro", "command", "url", "website", "menu"])]
 internal sealed partial class ShortcutPanelWidget(
     WidgetInfo                  info,
     string?                     guid         = null,

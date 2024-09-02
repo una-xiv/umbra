@@ -24,6 +24,7 @@ using Una.Drawing;
 namespace Umbra.Widgets;
 
 [ToolbarWidget("DtrBar", "Widget.DtrBar.Name", "Widget.DtrBar.Description")]
+[ToolbarWidgetTags(["dtr", "server", "info", "bar"])]
 internal sealed partial class DtrBarWidget(
     WidgetInfo                  info,
     string?                     guid         = null,

@@ -21,6 +21,7 @@ using Umbra.Game;
 namespace Umbra.Widgets;
 
 [ToolbarWidget("Weather", "Widget.Weather.Name", "Widget.Weather.Description")]
+[ToolbarWidgetTags(["weather", "forecast", "location"])]
 internal partial class WeatherWidget(
     WidgetInfo                  info,
     string?                     guid         = null,

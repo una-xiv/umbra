@@ -5,6 +5,7 @@ using Umbra.Game;
 namespace Umbra.Widgets.Library.RetainerList;
 
 [ToolbarWidget("RetainerList", "Widget.RetainerList.Name", "Widget.RetainerList.Description")]
+[ToolbarWidgetTags(["retainer", "sales", "marketboard", "ventures"])]
 internal partial class RetainerListWidget(
     WidgetInfo                  info,
     string?                     guid         = null,
