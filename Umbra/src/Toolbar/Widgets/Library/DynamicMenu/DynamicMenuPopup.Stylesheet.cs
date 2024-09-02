@@ -60,7 +60,8 @@ internal sealed partial class DynamicMenuPopup
                 new() {
                     BorderWidth   = new() { Top = 1 },
                     BorderColor   = new() { Top = new("Widget.PopupBorder") },
-                    Size          = new(0, 1),
+                    BorderInset   = new() { Top = 3 },
+                    Size          = new(0, 6),
                     IsAntialiased = false,
                 }
             ),

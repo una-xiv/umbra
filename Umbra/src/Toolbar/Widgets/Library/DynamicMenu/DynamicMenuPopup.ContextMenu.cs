@@ -105,7 +105,7 @@ internal sealed partial class DynamicMenuPopup
 
         if (itemIndex != null) {
             var entry = Entries[itemIndex.Value];
-            ContextMenu!.SetEntryDisabled("Configure", entry.Pt != null);
+            ContextMenu!.SetEntryDisabled("Configure", entry.Pt != null || entry.Cl == "-");
             ContextMenu!.SetEntryDisabled("MoveUp",    !CanMoveItemUp(Entries[itemIndex.Value]));
             ContextMenu!.SetEntryDisabled("MoveDown",  !CanMoveItemDown(Entries[itemIndex.Value]));
         }
