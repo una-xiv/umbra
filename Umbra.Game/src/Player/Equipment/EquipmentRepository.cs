@@ -104,12 +104,15 @@ internal unsafe class EquipmentRepository : IEquipmentRepository
             }
 
             filledSlots++;
-            if (equipment->Spiritbond > 0) spiritbondFilled++;
 
             lowestDurability  = Math.Min(lowestDurability, equipment->Condition);
             highestDurability = Math.Max(highestDurability, equipment->Condition);
+
+            if (equipment->Spiritbond > 0) {
+                spiritbondFilled++;
+                lowestSpiritbond = Math.Min(lowestSpiritbond, equipment->Spiritbond);
+            };
             
-            lowestSpiritbond = Math.Min(lowestSpiritbond, equipment->Spiritbond);
             highestSpiritbond = Math.Max(highestSpiritbond, equipment->Spiritbond);
             
             totalDurability += equipment->Condition;
