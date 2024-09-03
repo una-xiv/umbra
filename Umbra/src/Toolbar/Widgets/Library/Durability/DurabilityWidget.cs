@@ -18,6 +18,7 @@ using System.Collections.Generic;
 using Dalamud.Plugin.Services;
 using Dalamud.Utility;
 using Lumina.Excel.GeneratedSheets;
+using System.Diagnostics;
 using Umbra.Common;
 using Umbra.Game;
 
@@ -125,25 +126,37 @@ internal partial class DurabilityWidget(
                 break;
         }
 
+        byte displayableDurability = GetConfigValue<string>("DurabilityCalculation") switch {
+            "Max" => Player.Equipment.HighestDurability,
+            "Min" => Player.Equipment.LowestDurability,
+            "Avg" => Player.Equipment.AverageDurability
+        };
+        
+         byte displayableSpiritbond = GetConfigValue<string>("SpiritbondCalculation") switch {
+            "Max" => Player.Equipment.HighestSpiritbond,
+            "Min" => Player.Equipment.LowestSpiritbond,
+            "Avg" => Player.Equipment.AverageSpiritbond
+        };
+
         switch (GetConfigValue<string>("DisplayMode")) {
             case "Full":
                 SetTwoLabels(
-                    $"{I18N.Translate("Widget.Durability.Durability")}: {Player.Equipment.LowestDurability}%",
-                    $"{I18N.Translate("Widget.Durability.Spiritbond")}: {Player.Equipment.HighestSpiritbond}%"
+                    $"{I18N.Translate("Widget.Durability.Durability")}: {displayableDurability}%",
+                    $"{I18N.Translate("Widget.Durability.Spiritbond")}: {displayableSpiritbond}%"
                 );
 
                 break;
             case "Short":
-                SetLabel($"{Player.Equipment.LowestDurability}% / {Player.Equipment.HighestSpiritbond}%");
+                SetLabel($"{displayableDurability}% / {displayableSpiritbond}%");
                 break;
             case "ShortStacked":
-                SetTwoLabels($"{Player.Equipment.LowestDurability}%", $"{Player.Equipment.HighestSpiritbond}%");
+                SetTwoLabels($"{displayableDurability}%", $"{displayableSpiritbond}%");
                 break;
             case "DurabilityOnly":
-                SetLabel($"{Player.Equipment.LowestDurability}%");
+                SetLabel($"{displayableDurability}%");
                 break;
             case "SpiritbondOnly":
-                SetLabel($"{Player.Equipment.HighestSpiritbond}%");
+                SetLabel($"{displayableSpiritbond}%");
                 break;
             case "IconOnly":
                 SetLabel(null);

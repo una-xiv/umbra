@@ -74,6 +74,28 @@ internal partial class DurabilityWidget
                 }
             ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             new SelectWidgetConfigVariable(
+                "DurabilityCalculation",
+                I18N.Translate("Widget.Durability.Config.Calculation.Durability.Name"),
+                I18N.Translate("Widget.Durability.Config.Calculation.Durability.Description"),
+                "Min",
+                new() {
+                    { "Min", I18N.Translate("Widget.Durability.Config.Calculation.Option.Min") },
+                    { "Avg", I18N.Translate("Widget.Durability.Config.Calculation.Option.Avg") },
+                    { "Max", I18N.Translate("Widget.Durability.Config.Calculation.Option.Max") },
+                }
+            ){ Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            new SelectWidgetConfigVariable(
+                "SpiritbondCalculation",
+                I18N.Translate("Widget.Durability.Config.Calculation.Spiritbond.Name"),
+                I18N.Translate("Widget.Durability.Config.Calculation.Spiritbond.Description"),
+                "Max",
+                new() {
+                    { "Min", I18N.Translate("Widget.Durability.Config.Calculation.Option.Min") },
+                    { "Avg", I18N.Translate("Widget.Durability.Config.Calculation.Option.Avg") },
+                    { "Max", I18N.Translate("Widget.Durability.Config.Calculation.Option.Max") },
+                }
+            ){ Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            new SelectWidgetConfigVariable(
                 "TextAlign",
                 I18N.Translate("Widget.Durability.Config.TextAlign.Name"),
                 I18N.Translate("Widget.Durability.Config.TextAlign.Description"),
@@ -94,7 +116,7 @@ internal partial class DurabilityWidget
                     { "Right", I18N.Translate("Widget.Durability.Config.IconLocation.Option.Right") },
                     { "Hidden", I18N.Translate("Widget.Durability.Config.IconLocation.Option.Hidden") },
                 }
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            ),
             new IntegerWidgetConfigVariable(
                 "TextSize",
                 I18N.Translate("Widgets.DefaultToolbarWidget.Config.TextSize.Name"),
