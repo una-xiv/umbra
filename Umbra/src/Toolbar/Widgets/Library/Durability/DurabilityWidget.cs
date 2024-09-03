@@ -129,13 +129,15 @@ internal partial class DurabilityWidget(
         byte displayableDurability = GetConfigValue<string>("DurabilityCalculation") switch {
             "Max" => Player.Equipment.HighestDurability,
             "Min" => Player.Equipment.LowestDurability,
-            "Avg" => Player.Equipment.AverageDurability
+            "Avg" => Player.Equipment.AverageDurability,
+            _     => Player.Equipment.LowestDurability,
         };
-        
-         byte displayableSpiritbond = GetConfigValue<string>("SpiritbondCalculation") switch {
+
+        byte displayableSpiritbond = GetConfigValue<string>("SpiritbondCalculation") switch {
             "Max" => Player.Equipment.HighestSpiritbond,
             "Min" => Player.Equipment.LowestSpiritbond,
-            "Avg" => Player.Equipment.AverageSpiritbond
+            "Avg" => Player.Equipment.AverageSpiritbond,
+            _     => Player.Equipment.HighestSpiritbond,
         };
 
         switch (GetConfigValue<string>("DisplayMode")) {
