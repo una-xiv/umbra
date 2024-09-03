@@ -43,7 +43,7 @@ internal sealed partial class TeleportWidget
                 "DefaultOpenedGroupName",
                 I18N.Translate("Widget.Teleport.Config.DefaultOpenedGroupName.Name"),
                 I18N.Translate("Widget.Teleport.Config.DefaultOpenedGroupName.Description"),
-                "Default",
+                "Auto",
                 new() {
                     { "Auto", I18N.Translate("Widget.Teleport.Config.DefaultOpenedGroupName.Option.Auto") },
                     { "Favorites", I18N.Translate("Widget.Teleport.Config.DefaultOpenedGroupName.Option.Favorites") },
