@@ -39,11 +39,16 @@ internal sealed partial class TeleportWidget
                 I18N.Translate("Widget.Teleport.Config.ShowMapNames.Description"),
                 true
             ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
-            new BooleanWidgetConfigVariable(
-                "OpenFavoritesByDefault",
-                I18N.Translate("Widget.Teleport.Config.OpenFavoritesByDefault.Name"),
-                I18N.Translate("Widget.Teleport.Config.OpenFavoritesByDefault.Description"),
-                false
+            new SelectWidgetConfigVariable(
+                "DefaultOpenedGroupName",
+                I18N.Translate("Widget.Teleport.Config.DefaultOpenedGroupName.Name"),
+                I18N.Translate("Widget.Teleport.Config.DefaultOpenedGroupName.Description"),
+                "Auto",
+                new() {
+                    { "Auto", I18N.Translate("Widget.Teleport.Config.DefaultOpenedGroupName.Option.Auto") },
+                    { "Favorites", I18N.Translate("Widget.Teleport.Config.DefaultOpenedGroupName.Option.Favorites") },
+                    { "Other", I18N.Translate("Widget.Teleport.Config.DefaultOpenedGroupName.Option.Other") }
+                }
             ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
             new BooleanWidgetConfigVariable(
                 "OpenCategoryOnHover",
