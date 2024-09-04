@@ -104,7 +104,7 @@ internal sealed partial class CustomDeliveriesPopup
             new(
                 ".npc-body--hearts--heart:empty",
                 new() {
-                    Color        = new("Widget.PopupMenuTextDisabled"),
+                    Color        = new("Misc.CustomDeliveriesEmptyHeart"),
                     OutlineColor = new("Widget.PopupMenuTextOutlineDisabled"),
                     Opacity      = 0.65f,
                 }
@@ -112,7 +112,7 @@ internal sealed partial class CustomDeliveriesPopup
             new(
                 ".npc-body--hearts--heart:filled",
                 new() {
-                    Color        = new("Widget.PopupMenuText"),
+                    Color        = new("Misc.CustomDeliveriesFilledHeart"),
                     OutlineColor = new("Widget.PopupMenuTextOutline"),
                     Opacity      = 1,
                 }
