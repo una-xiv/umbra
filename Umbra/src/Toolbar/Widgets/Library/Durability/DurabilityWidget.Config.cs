@@ -70,8 +70,24 @@ internal partial class DurabilityWidget
                     { "ShortStacked", I18N.Translate("Widget.Durability.Config.DisplayMode.Option.ShortStacked") },
                     { "DurabilityOnly", I18N.Translate("Widget.Durability.Config.DisplayMode.Option.DurabilityOnly") },
                     { "SpiritbondOnly", I18N.Translate("Widget.Durability.Config.DisplayMode.Option.SpiritbondOnly") },
-                    { "IconOnly", I18N.Translate("Widget.Durability.Config.DisplayMode.Option.IconOnly") }
+                    { "IconOnly", I18N.Translate("Widget.Durability.Config.DisplayMode.Option.IconOnly") },
+                    { "StackedBars", I18N.Translate("Widget.Durability.Config.DisplayMode.Option.StackedBars") },
+                    { "SplittedBars", I18N.Translate("Widget.Durability.Config.DisplayMode.Option.SplittedBars") }
                 }
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            new BooleanWidgetConfigVariable(
+                "UseBarBorder",
+                I18N.Translate("Widget.Durability.Config.UseBarBorder.Name"),
+                I18N.Translate("Widget.Durability.Config.UseBarBorder.Description"),
+                false
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            new IntegerWidgetConfigVariable(
+                "BarWidth",
+                I18N.Translate("Widget.Durability.Config.BarWidth.Name"),
+                I18N.Translate("Widget.Durability.Config.BarWidth.Description"),
+                150,
+                50,
+                150
             ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             new SelectWidgetConfigVariable(
                 "DurabilityCalculation",
