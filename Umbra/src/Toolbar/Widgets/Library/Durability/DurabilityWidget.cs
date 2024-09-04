@@ -299,11 +299,7 @@ internal partial class DurabilityWidget(
         LabelNode.Style.Size      = new Size(width, SafeHeight);
         
         // Ensure wrapper offset depending on left icon visibility
-        if (LeftIconNode.IsVisible) {
-            BarWrapperNode.Style.Margin = new EdgeSize(0, 0, 0, LeftIconNode.Width);
-        } else {
-            BarWrapperNode.Style.Margin = new EdgeSize(0, 0, 0, 0);
-        }
+        BarWrapperNode.Style.Margin = new EdgeSize(0, 0, 0, LeftIconNode.IsVisible ? LeftIconNode.Width : 0);
         
         DurabilityBarContainerNode.Style.Size = new(width, height);
         SpiritbondBarContainerNode.Style.Size = new(width, height);
