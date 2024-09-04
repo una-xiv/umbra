@@ -1357,6 +1357,8 @@
     "Color.Misc.DurabilityBar.Description": "Color used for the durability bar.",
     "Color.Misc.SpiritbondBar.Name": "Spiritbond Bar",
     "Color.Misc.SpiritbondBar.Description": "Color used for the spiritbond bar.",
+    "Color.Misc.CompleteSpiritbondBar.Name": "Spiritbond Bar (Complete)",
+    "Color.Misc.CompleteSpiritbondBar.Description": "Color used for the spiritbond bar when reaching 100%.",
     "ToolbarProfilesWindow.Title": "Toolbar Profiles",
     "ToolbarProfilesWindow.ActiveProfile.Name": "Active Profile",
     "ToolbarProfilesWindow.ActiveProfile.Description": "The active profile that is currently being used for widget arrangement and settings.",

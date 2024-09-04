@@ -324,6 +324,12 @@ internal partial class DurabilityWidget(
         
         DurabilityBarNode.Style.Size = new(durabilityBarWidth, innerHeight);
         SpiritbondBarNode.Style.Size = new(spiritbondBarWidth, innerHeight);
+
+        if (realSpiritbondValue == 100) {
+            SpiritbondBarNode.TagsList.Add("full");
+        } else {
+            SpiritbondBarNode.TagsList.Remove("full");
+        }
     }
 
     private void UseStackedBars()

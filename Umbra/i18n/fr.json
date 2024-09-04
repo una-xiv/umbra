@@ -1357,6 +1357,8 @@
     "Color.Misc.DurabilityBar.Description": "Couleur utilisée pour la barre de durabilité.",
     "Color.Misc.SpiritbondBar.Name": "Barre de taux de symbiose",
     "Color.Misc.SpiritbondBar.Description": "Couleur utilisée pour la barre de taux de symbiose.",
+    "Color.Misc.CompleteSpiritbondBar.Name": "Barre de taux de symbiose (Complète)",
+    "Color.Misc.CompleteSpiritbondBar.Description": "Couleur utilisée pour la barre de taux de symbiose lorsqu'elle atteint 100%.",
     "ToolbarProfilesWindow.Title": "Profils de barre d'outils",
     "ToolbarProfilesWindow.ActiveProfile.Name": "Profil actif",
     "ToolbarProfilesWindow.ActiveProfile.Description": "Le profil actif actuellement utilisé pour l'arrangement et les paramètres des widgets.",

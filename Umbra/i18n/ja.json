@@ -1357,6 +1357,8 @@
     "Color.Misc.DurabilityBar.Description": "耐久バーに使用される色。",
     "Color.Misc.SpiritbondBar.Name": "スピリットボンドバー",
     "Color.Misc.SpiritbondBar.Description": "スピリットボンドバーに使用される色。",
+    "Color.Misc.CompleteSpiritbondBar.Name": "スピリットボンドバー（完了）",
+    "Color.Misc.CompleteSpiritbondBar.Description": "スピリットボンドバーが100％に達したときに使用される色。",
     "ToolbarProfilesWindow.Title": "ツールバープロファイル",
     "ToolbarProfilesWindow.ActiveProfile.Name": "アクティブプロファイル",
     "ToolbarProfilesWindow.ActiveProfile.Description": "ウィジェットの配置と設定に現在使用されているアクティブなプロファイル。",
