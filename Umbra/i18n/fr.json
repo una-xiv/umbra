@@ -1326,7 +1326,7 @@
     "Color.Role.Gatherer.Name": "Rôle de Récolteur",
     "Color.Role.Gatherer.Description": "La couleur utilisée pour représenter les métiers de récolteur.",
     "Color.Misc.ExperienceBar.Name": "Barre d'expérience",
-    "Color.Misc.ExperienceBar.Description": "Couleurs utilisées pour la barre d'expérience.",
+    "Color.Misc.ExperienceBar.Description": "Couleur utilisée pour la barre d'expérience.",
     "Color.Misc.ExperienceBarRested.Name": "Barre d'expérience (Reposé)",
     "Color.Misc.ExperienceBarRested.Description": "Couleurs utilisées pour la portion reposée de la barre d'expérience.",
     "Color.Misc.CustomDeliveriesFilledHeart.Name": "Livraisons personnalisées (cœurs remplis)",
