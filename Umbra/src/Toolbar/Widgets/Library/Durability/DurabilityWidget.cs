@@ -330,8 +330,14 @@ internal partial class DurabilityWidget(
     {
         DurabilityBarContainerNode.Style.Margin = new EdgeSize(0, 0, 0, 0);
         SpiritbondBarContainerNode.Style.Margin = new EdgeSize(0, 0, 0, 0);
-        
-        SpiritbondBarNode.Style.Anchor = Anchor.BottomLeft;
+
+        if (GetConfigValue<string>("BarDirection") == "R2L") {
+            DurabilityBarNode.Style.Anchor = Anchor.BottomRight;
+            SpiritbondBarNode.Style.Anchor = Anchor.BottomRight;
+        } else {
+            DurabilityBarNode.Style.Anchor = Anchor.BottomLeft;
+            SpiritbondBarNode.Style.Anchor = Anchor.BottomLeft;
+        }
     }
 
     private void UseSplittedBars()
@@ -350,6 +356,7 @@ internal partial class DurabilityWidget(
         DurabilityBarContainerNode.Style.Margin = new EdgeSize(0, 0, 0, -margin);
         SpiritbondBarContainerNode.Style.Margin = new EdgeSize(0, 0, 0, LeftIconNode.Width/3);
         
+        DurabilityBarNode.Style.Anchor = Anchor.BottomLeft;
         SpiritbondBarNode.Style.Anchor = Anchor.BottomRight;
     }
 }

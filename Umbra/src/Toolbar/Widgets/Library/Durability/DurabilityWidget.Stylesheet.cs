@@ -52,6 +52,13 @@ internal partial class DurabilityWidget
             new() {
                 BackgroundColor = new("Misc.SpiritbondBar"),
             }
-        )
+        ),
+        new(
+            "#SpiritbondBar:full",
+            new() {
+                BackgroundColor = new("Misc.CompleteSpiritbondBar"),
+            }
+        ),
+        
     ]);
 }

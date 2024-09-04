@@ -81,6 +81,16 @@ internal partial class DurabilityWidget
                 I18N.Translate("Widget.Durability.Config.UseBarBorder.Description"),
                 false
             ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            new SelectWidgetConfigVariable(
+                "BarDirection",
+                I18N.Translate("Widget.Durability.Config.BarDirection.Name"),
+                I18N.Translate("Widget.Durability.Config.BarDirection.Description"),
+                "L2R",
+                new() {
+                    { "L2R", I18N.Translate("Widget.Durability.Config.BarDirection.Option.L2R") },
+                    { "R2L", I18N.Translate("Widget.Durability.Config.BarDirection.Option.R2L") },
+                }
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             new IntegerWidgetConfigVariable(
                 "BarWidth",
                 I18N.Translate("Widget.Durability.Config.BarWidth.Name"),
