@@ -210,11 +210,11 @@ internal partial class DurabilityWidget(
 
     private uint GetIconId()
     {
-        if (Player.Equipment.LowestDurability <= GetConfigValue<int>("CriticalThreshold")) {
+        if (GetDurabilityValue() <= GetConfigValue<int>("CriticalThreshold")) {
             return 60074; // Critical
         }
 
-        if (Player.Equipment.LowestDurability <= GetConfigValue<int>("WarningThreshold")) {
+        if (GetDurabilityValue() <= GetConfigValue<int>("WarningThreshold")) {
             return 60073; // Warning
         }
 
