@@ -186,6 +186,18 @@ internal partial class GearsetSwitcherWidget
                     },
                 }
             ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
+            new SelectWidgetConfigVariable(
+                "UldStyleSource",
+                I18N.Translate("Widget.GearsetSwitcher.Config.UldStyleSource.Name"),
+                I18N.Translate("Widget.GearsetSwitcher.Config.UldStyleSource.Description"),
+                "Light",
+                new() {
+                    { "Default", I18N.Translate("Widget.GearsetSwitcher.Config.UldStyleSource.Option.Default") }, 
+                    { "Light", I18N.Translate("Widget.GearsetSwitcher.Config.UldStyleSource.Option.Light") }, 
+                    { "Classic", I18N.Translate("Widget.GearsetSwitcher.Config.UldStyleSource.Option.Classic") }, 
+                    { "TransparentBlue", I18N.Translate("Widget.GearsetSwitcher.Config.UldStyleSource.Option.TransparentBlue") }
+                }
+            ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
 
             // Role Configuration
             ..AddRoleOptionsFor("Tank",           "LeftColumn",   0, 3),
