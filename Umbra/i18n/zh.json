@@ -163,6 +163,7 @@
     "Settings.WidgetsModule.Center": "中间",
     "Settings.WidgetsModule.RightSide": "右边",
     "Settings.WidgetsModule.AddWidget": "添加小组件",
+    "Settings.WidgetsModule.ClearColumn": "按住 Shift 键并单击以清除该列的所有小部件。\n此操作无法撤销。",
     "Settings.WidgetsModule.DeleteWidget": "按住Shift并点击来删除小组件及其设置，该操作无法撤销。",
     "Settings.WidgetsModule.EditWidget": "编辑该小组件的设置",
     "Settings.WidgetsModule.MoveUp": "向上移动一格，按住Ctrl置顶。",

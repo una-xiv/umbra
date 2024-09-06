@@ -163,6 +163,7 @@
     "Settings.WidgetsModule.Center": "Center",
     "Settings.WidgetsModule.RightSide": "Right Side",
     "Settings.WidgetsModule.AddWidget": "Add Widget",
+    "Settings.WidgetsModule.ClearColumn": "Hold the Shift key and click to clear all widgets for this column.\nThis operation cannot be undone.",
     "Settings.WidgetsModule.DeleteWidget": "Hold the shift-key and click to remove this widget and its instance settings. This operation cannot be undone.",
     "Settings.WidgetsModule.EditWidget": "Edit instance settings of this widget",
     "Settings.WidgetsModule.MoveUp": "Move this widget up. Hold control to move to the top.",

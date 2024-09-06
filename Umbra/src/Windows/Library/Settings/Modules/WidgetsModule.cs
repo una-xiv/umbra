@@ -35,9 +35,9 @@ internal partial class WidgetsModule : SettingsModule, IDisposable
         wm.OnWidgetRemoved   += OnWidgetInstanceRemoved;
         wm.OnWidgetRelocated += OnWidgetInstanceRelocated;
 
-        Node.QuerySelector("#Left")!.AppendChild(CreateAddNewButton("Left"));
-        Node.QuerySelector("#Center")!.AppendChild(CreateAddNewButton("Center"));
-        Node.QuerySelector("#Right")!.AppendChild(CreateAddNewButton("Right"));
+        Node.QuerySelector("#Left")!.AppendChild(CreateWidgetFooterColumnButton("Left"));
+        Node.QuerySelector("#Center")!.AppendChild(CreateWidgetFooterColumnButton("Center"));
+        Node.QuerySelector("#Right")!.AppendChild(CreateWidgetFooterColumnButton("Right"));
 
         Node.QuerySelector("#ManageProfiles")!.OnMouseUp += _ => {
             Framework.Service<WindowManager>().Present("ToolbarProfilesWindow", new ToolbarProfilesWindow());

@@ -163,6 +163,7 @@
     "Settings.WidgetsModule.Center": "Mitte",
     "Settings.WidgetsModule.RightSide": "Rechte Seite",
     "Settings.WidgetsModule.AddWidget": "Widget hinzufügen",
+    "Settings.WidgetsModule.ClearColumn": "Halten Sie die Umschalttaste gedrückt und klicken Sie, um alle Widgets in dieser Spalte zu löschen.\nDieser Vorgang kann nicht rückgängig gemacht werden.",
     "Settings.WidgetsModule.DeleteWidget": "Halte die Umschalttaste gedrückt und klicke, um dieses Widget und seine Instanzeinstellungen zu entfernen. Dieser Vorgang kann nicht rückgängig gemacht werden.",
     "Settings.WidgetsModule.EditWidget": "Instanzeinstellungen dieses Widgets bearbeiten",
     "Settings.WidgetsModule.MoveUp": "Verschiebe dieses Widget nach oben. Halte die Steuerungstaste gedrückt, um es nach oben zu verschieben.",

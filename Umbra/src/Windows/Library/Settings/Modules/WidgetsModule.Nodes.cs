@@ -18,6 +18,7 @@ using Dalamud.Game.Text;
 using Dalamud.Interface;
 using ImGuiNET;
 using System;
+using System.Linq;
 using Umbra.Common;
 using Umbra.Widgets;
 using Umbra.Widgets.System;
@@ -132,16 +133,16 @@ internal partial class WidgetsModule
             "Right"  => RightColumn,
             _        => throw new ArgumentOutOfRangeException(nameof(location))
         };
-
-    private Node CreateAddNewButton(string id)
+    
+    private Node CreateWidgetFooterColumnButton(string id)
     {
-        Node node = new() {
-            Id        = id,
-            ClassList = ["widgets-column-stretched-item", "widgets-column--add-new"],
+        Node addButton = new() {
+            Id        = $"{id}-add",
+            ClassList = ["widgets-column-button","widgets-column--add-new"],
             SortIndex = int.MaxValue,
             ChildNodes = [
                 new() {
-                    ClassList = ["widgets-column--add-new--label"],
+                    ClassList = ["widgets-column--label", "widgets-column--add-new--label"],
                     NodeValue =
                         $"{SeIconChar.BoxedPlus.ToIconString()} {I18N.Translate("Settings.WidgetsModule.AddWidget")}",
                     InheritTags = true,
@@ -149,7 +150,33 @@ internal partial class WidgetsModule
             ]
         };
 
-        node.OnMouseUp += _ => ShowAddWidgetWindow(id);
+        Node clearButton = new() {
+            Id = $"{id}-clear",
+            ClassList = ["widgets-column-button","widgets-column--clear-all"],
+            SortIndex = int.MaxValue,
+            ChildNodes = [
+                new() {
+                    ClassList = ["widgets-column--label", "widgets-column--clear-all--label"],
+                    NodeValue = SeIconChar.Prohibited.ToIconString(),
+                    InheritTags = true
+                }
+            ],
+            Tooltip = I18N.Translate("Settings.WidgetsModule.ClearColumn")
+        };
+
+        Node node = new () {
+            Id = id,
+            ClassList = ["widgets-column-stretched-item"],
+            SortIndex = int.MaxValue,
+            ChildNodes = [addButton, clearButton]
+        };
+
+        addButton.OnMouseUp += _ => ShowAddWidgetWindow(id);
+        clearButton.OnMouseUp += e => {
+            if (ImGui.GetIO().KeyShift) {
+                ClearWidgetColumn(id);
+            }
+        };
         return node;
     }
 
@@ -166,6 +193,17 @@ internal partial class WidgetsModule
                     };
                 }
             );
+    }
+
+    private void ClearWidgetColumn(string id)
+    {
+        var manager = Framework.Service<WidgetManager>();
+        foreach (var widget in manager.GetWidgetInstances().Where(widget => widget.Location == id))
+        {
+            manager.RemoveWidget(widget.Id, false);
+        }
+        
+        manager.SaveState();
     }
 
     private Node CreateWidgetInstanceNode(ToolbarWidget widget)

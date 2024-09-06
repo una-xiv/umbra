@@ -163,6 +163,7 @@
     "Settings.WidgetsModule.Center": "Centre",
     "Settings.WidgetsModule.RightSide": "Côté droit",
     "Settings.WidgetsModule.AddWidget": "Ajouter un widget",
+    "Settings.WidgetsModule.ClearColumn": "Maintenez la touche Maj enfoncée et cliquez pour effacer tous les widgets de cette colonne.\nCette opération ne peut pas être annulée.",
     "Settings.WidgetsModule.DeleteWidget": "Maintenez la touche Maj enfoncée et cliquez pour supprimer ce widget et ses paramètres d'instance. Cette opération ne peut pas être annulée.",
     "Settings.WidgetsModule.EditWidget": "Modifier les paramètres d'instance de ce widget",
     "Settings.WidgetsModule.MoveUp": "Déplacer ce widget vers le haut. Maintenez la touche Ctrl enfoncée pour le déplacer en haut.",
