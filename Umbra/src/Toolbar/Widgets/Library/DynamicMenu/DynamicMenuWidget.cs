@@ -15,7 +15,12 @@ internal sealed partial class DynamicMenuWidget(
 ) : DefaultToolbarWidget(info, guid, configValues)
 {
     public override DynamicMenuPopup Popup { get; } = new();
-
+    
+    public override string GetInstanceName()
+    {
+        return $"{I18N.Translate("Widget.DynamicMenu.Name")} - {GetConfigValue<string>("ButtonLabel")}";
+    }
+    
     protected override void Initialize()
     {
         Popup.OnEditModeChanged += OnEditModeChanged;
