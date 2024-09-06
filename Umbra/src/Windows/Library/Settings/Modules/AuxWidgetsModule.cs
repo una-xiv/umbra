@@ -1,4 +1,6 @@
-﻿using Umbra.Common;
+﻿using ImGuiNET;
+using System.Linq;
+using Umbra.Common;
 using Umbra.Widgets;
 using Umbra.Widgets.System;
 using Umbra.Windows.Library.AddWidget;
@@ -60,6 +62,7 @@ internal partial class AuxWidgetsModule : SettingsModule
         AuxXPositionNode.OnValueChanged             += OnXPositionChanged;
         AuxYPositionNode.OnValueChanged             += OnYPositionChanged;
         AuxWidgetAddNode.OnMouseUp                  += ShowAddWidgetWindow;
+        AuxWidgetClearNode.OnMouseUp                += ClearWidgets;
         AuxHideInCutscenesNode.OnValueChanged       += HideInCutscenesChanged;
         AuxHideInPvPNode.OnValueChanged             += HideInPvPChanged;
         AuxHideInDutyNode.OnValueChanged            += AuxHideInDutyChanged;
@@ -147,6 +150,18 @@ internal partial class AuxWidgetsModule : SettingsModule
                     };
                 }
             );
+    }
+
+    private static void ClearWidgets(Node _)
+    {
+        if (ImGui.GetIO().KeyShift) {
+            var manager = Framework.Service<WidgetManager>();
+            foreach (var widget in manager.GetWidgetInstances().Where(widget => widget.Location == "aux"))
+            {
+                manager.RemoveWidget(widget.Id, false);
+            }
+            manager.SaveState();
+        }
     }
 
     private void OnWidgetInstanceCreated(ToolbarWidget widget)

@@ -101,19 +101,30 @@ internal partial class WidgetsModule
                     Gap  = 15,
                 }
             ),
+            new (
+                ".widgets-column-stretched-item",
+                new () {
+                    BorderColor   = new() { Top = new("Window.Border") },
+                    BorderWidth   = new() { Top = 2 }
+                }
+            ),
             new(
-                ".widgets-column--add-new",
+                ".widgets-column-button",
                 new() {
                     Flow          = Flow.Vertical,
                     Gap           = 15,
                     Size          = new(0, 30),
-                    BorderColor   = new() { Top = new("Window.Border") },
-                    BorderWidth   = new() { Top = 1 },
                     IsAntialiased = false,
                 }
             ),
             new(
-                ".widgets-column--add-new--label",
+                ".widgets-column--clear-all",
+                new() {
+                    Anchor = Anchor.AnchorPoint.TopRight
+                }
+            ),
+            new(
+                ".widgets-column--label",
                 new() {
                     Anchor       = Anchor.MiddleCenter,
                     TextAlign    = Anchor.TopCenter,
@@ -126,7 +137,7 @@ internal partial class WidgetsModule
                 }
             ),
             new(
-                ".widgets-column--add-new--label:hover",
+                ".widgets-column--label:hover",
                 new() {
                     Color = new("Window.TextLight"),
                 }

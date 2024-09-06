@@ -171,16 +171,35 @@ internal partial class AuxWidgetsModule
                                     },
                                 ]
                             },
-                            new() {
-                                Id        = "AuxWidgetAdd",
-                                ClassList = ["widgets-column-stretched-item", "widgets-column--add-new"],
+                            new () {
+                                ClassList = ["widgets-column-stretched-item"],
                                 SortIndex = int.MaxValue,
                                 ChildNodes = [
-                                    new() {
-                                        ClassList = ["widgets-column--add-new--label"],
-                                        NodeValue = $"{SeIconChar.BoxedPlus.ToIconString()} {I18N.Translate("Settings.WidgetsModule.AddWidget")}",
-                                        InheritTags = true,
-                                    }
+                                    new () {
+                                        Id        = "AuxWidgetAdd",
+                                        ClassList = ["widgets-column-button","widgets-column--add-new"],
+                                        SortIndex = int.MaxValue,
+                                        ChildNodes = [
+                                            new() {
+                                                ClassList = ["widgets-column--label", "widgets-column--add-new--label"],
+                                                NodeValue =
+                                                    $"{SeIconChar.BoxedPlus.ToIconString()} {I18N.Translate("Settings.WidgetsModule.AddWidget")}",
+                                                InheritTags = true,
+                                            }
+                                        ]
+                                    },
+                                    new () {
+                                        Id = "AuxWidgetClear",
+                                        ClassList = ["widgets-column-button","widgets-column--clear-all"],
+                                        SortIndex = int.MaxValue,
+                                        ChildNodes = [
+                                            new() {
+                                                ClassList = ["widgets-column--label", "widgets-column--clear-all--label"],
+                                                NodeValue = SeIconChar.Prohibited.ToIconString(),
+                                                InheritTags = true
+                                            }
+                                        ],
+                                        Tooltip = I18N.Translate("Settings.WidgetsModule.ClearColumn")}
                                 ]
                             }
                         ]
@@ -299,6 +318,7 @@ internal partial class AuxWidgetsModule
     }
 
     private Node AuxWidgetAddNode => Node.QuerySelector("#AuxWidgetAdd")!;
+    private Node AuxWidgetClearNode => Node.QuerySelector("#AuxWidgetClear")!;
     private CheckboxNode AuxEnabledNode => Node.QuerySelector<CheckboxNode>("AuxEnabled")!;
     private CheckboxNode AuxDecorateNode => Node.QuerySelector<CheckboxNode>("AuxDecorate")!;
     private IntegerInputNode AuxXPositionNode => Node.QuerySelector<IntegerInputNode>("AuxXPosition")!;

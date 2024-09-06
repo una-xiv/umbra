@@ -163,6 +163,7 @@
     "Settings.WidgetsModule.Center": "中央",
     "Settings.WidgetsModule.RightSide": "右側",
     "Settings.WidgetsModule.AddWidget": "ウィジェットを追加",
+    "Settings.WidgetsModule.ClearColumn": "Shiftキーを押しながらクリックすると、この列のすべてのウィジェットをクリアします。\nこの操作は元に戻せません。",
     "Settings.WidgetsModule.DeleteWidget": "Shiftキーを押しながらクリックして、このウィジェットとそのインスタンス設定を削除します。この操作は元に戻せません。",
     "Settings.WidgetsModule.EditWidget": "このウィジェットのインスタンス設定を編集",
     "Settings.WidgetsModule.MoveUp": "このウィジェットを上に移動します。Ctrlを押しながら最上部に移動します。",
