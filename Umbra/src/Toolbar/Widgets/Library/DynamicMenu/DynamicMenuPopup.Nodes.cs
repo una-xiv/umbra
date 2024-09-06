@@ -26,6 +26,24 @@ internal sealed partial class DynamicMenuPopup
                 entry.Bounds.MarginSize  = new(width, entry.Bounds.MarginSize.Height);
                 entry.Bounds.PaddingSize = new(width, entry.Bounds.PaddingSize.Height);
                 entry.Bounds.ContentSize = new(width, entry.Bounds.ContentSize.Height);
+
+                if (entry.ClassList.Contains("separator")) {
+                    Node? lineLeft  = entry.QuerySelector(".separator--line.left");
+                    Node? lineRight = entry.QuerySelector(".separator--line.right");
+                    Node? lineText  = entry.QuerySelector(".separator--text");
+
+                    if (lineLeft != null && lineRight != null && lineText != null) {
+                        var textWidth = lineText.Bounds.MarginSize.Width;
+                        var lineWidth = (int)Math.Max(0, ((width - textWidth) / 2 - (4 * Node.ScaleFactor)));
+
+                        lineLeft.Bounds.MarginSize   = new(lineWidth, lineLeft.Bounds.MarginSize.Height);
+                        lineLeft.Bounds.PaddingSize  = new(lineWidth, lineLeft.Bounds.PaddingSize.Height);
+                        lineLeft.Bounds.ContentSize  = new(lineWidth, lineLeft.Bounds.ContentSize.Height);
+                        lineRight.Bounds.MarginSize  = new(lineWidth, lineRight.Bounds.MarginSize.Height);
+                        lineRight.Bounds.PaddingSize = new(lineWidth, lineRight.Bounds.PaddingSize.Height);
+                        lineRight.Bounds.ContentSize = new(lineWidth, lineRight.Bounds.ContentSize.Height);
+                    }
+                }
             }
 
             return true;
@@ -42,6 +60,20 @@ internal sealed partial class DynamicMenuPopup
                 ClassList = ["item", "separator"],
                 SortIndex = itemIndex,
             };
+
+            if (!string.IsNullOrEmpty(entry.Sl)) {
+                separator.AppendChild(new() { ClassList = ["separator--line", "left"] });
+
+                separator.AppendChild(
+                    new() {
+                        ClassList = ["separator--text"],
+                        NodeValue = entry.Sl,
+                    }
+                );
+
+                separator.AppendChild(new() { ClassList = ["separator--line", "right"] });
+                separator.ClassList.Add("has-text");
+            }
 
             separator.OnRightClick += _ => OpenContextMenu(itemIndex);
             return separator;

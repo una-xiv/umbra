@@ -66,7 +66,16 @@ internal sealed partial class DynamicMenuPopup
                 },
                 new("Configure") {
                     Label   = I18N.Translate("Widget.DynamicMenu.ContextMenu.Configure"),
-                    OnClick = OpenCustomItemEditor,
+                    OnClick = () => {
+                        if (_selectedItemIndex == null) return;
+                        var item = Entries[_selectedItemIndex.Value];
+
+                        if (item.Cl == "-") {
+                            OpenSeparatorEditor();
+                        } else if (item.Pt == null) {
+                            OpenCustomItemEditor();
+                        }
+                    },
                 },
                 new("MoveUp") {
                     Label   = I18N.Translate("Widget.DynamicMenu.ContextMenu.MoveUp"),
@@ -105,7 +114,7 @@ internal sealed partial class DynamicMenuPopup
 
         if (itemIndex != null) {
             var entry = Entries[itemIndex.Value];
-            ContextMenu!.SetEntryDisabled("Configure", entry.Pt != null || entry.Cl == "-");
+            ContextMenu!.SetEntryDisabled("Configure", entry.Pt != null);
             ContextMenu!.SetEntryDisabled("MoveUp",    !CanMoveItemUp(Entries[itemIndex.Value]));
             ContextMenu!.SetEntryDisabled("MoveDown",  !CanMoveItemDown(Entries[itemIndex.Value]));
         }

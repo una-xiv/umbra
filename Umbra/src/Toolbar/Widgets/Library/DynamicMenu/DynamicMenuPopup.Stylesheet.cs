@@ -66,9 +66,41 @@ internal sealed partial class DynamicMenuPopup
                 }
             ),
             new(
+                ".item.separator.has-text",
+                new() {
+                    BorderColor = new(),
+                    BorderWidth = new(),
+                    BorderInset = new(),
+                    Size        = new(0, 24),
+                }
+            ),
+            new(
                 ".item.separator:hover",
                 new() {
                     BackgroundColor = new(0),
+                }
+            ),
+            new(
+                ".separator--line",
+                new() {
+                    BorderWidth   = new() { Top = 1 },
+                    BorderColor   = new() { Top = new("Widget.PopupBorder") },
+                    BorderInset   = new() { Top = 3 },
+                    Size          = new(0, 6),
+                    IsAntialiased = false,
+                }
+            ),
+            new(".separator--line.left", new() { Anchor  = Anchor.MiddleLeft }),
+            new(".separator--line.right", new() { Anchor = Anchor.MiddleRight }),
+            new(
+                ".separator--text",
+                new() {
+                    Anchor       = Anchor.MiddleCenter,
+                    Font         = (int)FontId.Default,
+                    FontSize     = 11,
+                    Color        = new("Widget.PopupMenuTextMuted"),
+                    OutlineColor = new("Widget.PopupMenuTextOutline"),
+                    OutlineSize  = 1,
                 }
             ),
             new(

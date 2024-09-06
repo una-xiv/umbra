@@ -102,5 +102,11 @@ internal sealed partial class DynamicMenuPopup
         /// Applicable to ShortcutProvider items only.
         /// </summary>
         public uint? Pi { get; set; }
+
+        /**
+         * Separator label. Applicable to separator items only
+         * when "Cl" is set to "-".
+         */
+        public string? Sl { get; set; }
     }
 }
