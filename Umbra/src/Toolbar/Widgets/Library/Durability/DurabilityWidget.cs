@@ -18,9 +18,10 @@ using System.Collections.Generic;
 using Dalamud.Plugin.Services;
 using Dalamud.Utility;
 using Lumina.Excel.GeneratedSheets;
-using System.Diagnostics;
+using System;
 using Umbra.Common;
 using Umbra.Game;
+using Una.Drawing;
 
 namespace Umbra.Widgets;
 
@@ -43,6 +44,8 @@ internal partial class DurabilityWidget(
     /// <inheritdoc/>
     protected override void Initialize()
     {
+        Node.AppendChild(BarWrapperNode);
+        
         Popup.AddGroup("Equipment", I18N.Translate("Widget.Durability.Popup.Equipment", 0));
         Popup.AddGroup("Actions",   I18N.Translate("Widget.Durability.Popup.Actions",   1));
 
@@ -126,19 +129,8 @@ internal partial class DurabilityWidget(
                 break;
         }
 
-        byte displayableDurability = GetConfigValue<string>("DurabilityCalculation") switch {
-            "Max" => Player.Equipment.HighestDurability,
-            "Min" => Player.Equipment.LowestDurability,
-            "Avg" => Player.Equipment.AverageDurability,
-            _     => Player.Equipment.LowestDurability,
-        };
-
-        byte displayableSpiritbond = GetConfigValue<string>("SpiritbondCalculation") switch {
-            "Max" => Player.Equipment.HighestSpiritbond,
-            "Min" => Player.Equipment.LowestSpiritbond,
-            "Avg" => Player.Equipment.AverageSpiritbond,
-            _     => Player.Equipment.HighestSpiritbond,
-        };
+        byte displayableDurability = GetDurabilityValue();
+        byte displayableSpiritbond = GetSpiritbondValue();
 
         switch (GetConfigValue<string>("DisplayMode")) {
             case "Full":
@@ -146,22 +138,39 @@ internal partial class DurabilityWidget(
                     $"{I18N.Translate("Widget.Durability.Durability")}: {displayableDurability}%",
                     $"{I18N.Translate("Widget.Durability.Spiritbond")}: {displayableSpiritbond}%"
                 );
-
+                SetBarsVisibility(false);
                 break;
             case "Short":
                 SetLabel($"{displayableDurability}% / {displayableSpiritbond}%");
+                SetBarsVisibility(false);
                 break;
             case "ShortStacked":
                 SetTwoLabels($"{displayableDurability}%", $"{displayableSpiritbond}%");
+                SetBarsVisibility(false);
                 break;
             case "DurabilityOnly":
                 SetLabel($"{displayableDurability}%");
+                SetBarsVisibility(false);
                 break;
             case "SpiritbondOnly":
                 SetLabel($"{displayableSpiritbond}%");
+                SetBarsVisibility(false);
                 break;
             case "IconOnly":
                 SetLabel(null);
+                SetBarsVisibility(false);
+                break;
+            case "StackedBars":
+                SetLabel(null);
+                SetBarsVisibility(true);
+                UpdateBars(displayableDurability, displayableSpiritbond);
+                UseStackedBars();
+                break;
+            case "SplittedBars":
+                SetLabel(null);
+                SetBarsVisibility(true);
+                UpdateBars(displayableDurability, displayableSpiritbond);
+                UseSplittedBars();
                 break;
         }
 
@@ -201,11 +210,11 @@ internal partial class DurabilityWidget(
 
     private uint GetIconId()
     {
-        if (Player.Equipment.LowestDurability <= GetConfigValue<int>("CriticalThreshold")) {
+        if (GetDurabilityValue() <= GetConfigValue<int>("CriticalThreshold")) {
             return 60074; // Critical
         }
 
-        if (Player.Equipment.LowestDurability <= GetConfigValue<int>("WarningThreshold")) {
+        if (GetDurabilityValue() <= GetConfigValue<int>("WarningThreshold")) {
             return 60073; // Warning
         }
 
@@ -240,5 +249,116 @@ internal partial class DurabilityWidget(
         Popup.SetButtonAltLabel("Repair", $"{item.Name.ToDalamudString().TextValue} x {highestDarkMatterCount}");
 
         return true;
+    }
+    
+    /// <summary>
+    /// Retrieve a value representing the player equipment durability based on the widget durability calculation setting.
+    /// </summary>
+    /// <returns>The durability value</returns>
+    private byte GetDurabilityValue() => GetConfigValue<string>("DurabilityCalculation") switch {
+        "Max" => Player.Equipment.HighestDurability,
+        "Min" => Player.Equipment.LowestDurability,
+        "Avg" => Player.Equipment.AverageDurability,
+        _     => Player.Equipment.LowestDurability,
+    };
+    
+    /// <summary>
+    /// Retrieve a value representing the player equipment spiritbond based on the widget spiritbond calculation setting.
+    /// </summary>
+    /// <returns>The spiritbond value</returns>
+    private byte GetSpiritbondValue() => GetConfigValue<string>("SpiritbondCalculation") switch {
+        "Max" => Player.Equipment.HighestSpiritbond,
+        "Min" => Player.Equipment.LowestSpiritbond,
+        "Avg" => Player.Equipment.AverageSpiritbond,
+        _     => Player.Equipment.HighestSpiritbond,
+    };
+
+    private void SetBarsVisibility(bool visible)
+    {
+        BarWrapperNode.Style.IsVisible = visible;
+
+        if (!visible) {
+            // Reset to avoid text cut off
+            LabelNode.Style.Size = null;
+        }
+    }
+
+    private void UpdateBars(byte durability, byte spiritbond)
+    {
+        bool useBorders    = GetConfigValue<bool>("UseBarBorder");
+        var width          = GetConfigValue<int>("BarWidth");
+        var height      = (int) Math.Ceiling(SafeHeight / 2f) - 3;
+        var innerWidth  = width - (useBorders ? 4 : 2);
+        var innerHeight = height - (useBorders ? 4 : 2);
+        
+        // Fix the width for the wrapper.
+        BarWrapperNode.Style.Size = new Size(width, SafeHeight);
+        
+        // Force the space for icon rendering, I don't like this :(
+        LabelNode.Style.IsVisible = true;
+        LabelNode.Style.Size      = new Size(width, SafeHeight);
+        
+        // Ensure wrapper offset depending on left icon visibility
+        BarWrapperNode.Style.Margin = new EdgeSize(0, 0, 0, LeftIconNode.IsVisible ? LeftIconNode.Width : 0);
+        
+        DurabilityBarContainerNode.Style.Size = new(width, height);
+        SpiritbondBarContainerNode.Style.Size = new(width, height);
+
+        if (useBorders) {
+            DurabilityBarContainerNode.TagsList.Add("bordered");
+            SpiritbondBarContainerNode.TagsList.Add("bordered");
+        } else {
+            DurabilityBarContainerNode.TagsList.Remove("bordered");
+            SpiritbondBarContainerNode.TagsList.Remove("bordered");
+        }
+        
+        byte realDurabilityValue = Math.Min(durability, (byte)100);
+        byte realSpiritbondValue = Math.Min(spiritbond, (byte)100);
+        
+        int durabilityBarWidth = (int)((realDurabilityValue / 100f) * innerWidth);
+        int spiritbondBarWidth = (int)((realSpiritbondValue / 100f) * innerWidth);
+        
+        DurabilityBarNode.Style.Size = new(durabilityBarWidth, innerHeight);
+        SpiritbondBarNode.Style.Size = new(spiritbondBarWidth, innerHeight);
+
+        if (realSpiritbondValue == 100) {
+            SpiritbondBarNode.TagsList.Add("full");
+        } else {
+            SpiritbondBarNode.TagsList.Remove("full");
+        }
+    }
+
+    private void UseStackedBars()
+    {
+        DurabilityBarContainerNode.Style.Margin = new EdgeSize(0, 0, 0, 0);
+        SpiritbondBarContainerNode.Style.Margin = new EdgeSize(0, 0, 0, 0);
+
+        if (GetConfigValue<string>("BarDirection") == "R2L") {
+            DurabilityBarNode.Style.Anchor = Anchor.BottomRight;
+            SpiritbondBarNode.Style.Anchor = Anchor.BottomRight;
+        } else {
+            DurabilityBarNode.Style.Anchor = Anchor.BottomLeft;
+            SpiritbondBarNode.Style.Anchor = Anchor.BottomLeft;
+        }
+    }
+
+    private void UseSplittedBars()
+    {
+        // Dual icon - ignore widget settings
+        SetLeftIcon(GetIconId());
+        SetRightIcon(61564);
+        
+        var margin = (int)(LeftIconNode.Width / 1.5f);
+        var width = GetConfigValue<int>("BarWidth");
+        
+        // Ensure the gap between icons and opposite bars aren't too much
+        LabelNode.Style.Size = new Size(width - margin, SafeHeight);
+        BarWrapperNode.Style.Size = new Size(width - margin, SafeHeight);
+        
+        DurabilityBarContainerNode.Style.Margin = new EdgeSize(0, 0, 0, -margin);
+        SpiritbondBarContainerNode.Style.Margin = new EdgeSize(0, 0, 0, LeftIconNode.Width/3);
+        
+        DurabilityBarNode.Style.Anchor = Anchor.BottomLeft;
+        SpiritbondBarNode.Style.Anchor = Anchor.BottomRight;
     }
 }

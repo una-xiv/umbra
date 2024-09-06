@@ -388,6 +388,9 @@ internal class UmbraColors
         Color.AssignByName("Misc.ExperienceBarRested",            0xFFb98e4c);
         Color.AssignByName("Misc.CustomDeliveriesFilledHeart",    0xFFD0D0D0);
         Color.AssignByName("Misc.CustomDeliveriesEmptyHeart",     0xFF808080);
+        Color.AssignByName("Misc.DurabilityBar",                  0xFF4c8eb9);
+        Color.AssignByName("Misc.SpiritbondBar",                  0xFFb98e4c);
+        Color.AssignByName("Misc.CompleteSpiritbondBar",          0xFFD0D0D0);
     }
 
     private static void OnConfigProfileChanged(string _)
