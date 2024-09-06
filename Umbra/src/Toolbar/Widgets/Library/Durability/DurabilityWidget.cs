@@ -45,7 +45,7 @@ internal partial class DurabilityWidget(
     protected override void Initialize()
     {
         Node.AppendChild(BarWrapperNode);
-        
+
         Popup.AddGroup("Equipment", I18N.Translate("Widget.Durability.Popup.Equipment", 0));
         Popup.AddGroup("Actions",   I18N.Translate("Widget.Durability.Popup.Actions",   1));
 
@@ -132,45 +132,57 @@ internal partial class DurabilityWidget(
         byte displayableDurability = GetDurabilityValue();
         byte displayableSpiritbond = GetSpiritbondValue();
 
+        string tooltipString =
+            $"{I18N.Translate("Widget.Durability.Durability")}: {displayableDurability}%\n{I18N.Translate("Widget.Durability.Spiritbond")}: {displayableSpiritbond}%";
+
         switch (GetConfigValue<string>("DisplayMode")) {
             case "Full":
                 SetTwoLabels(
                     $"{I18N.Translate("Widget.Durability.Durability")}: {displayableDurability}%",
                     $"{I18N.Translate("Widget.Durability.Spiritbond")}: {displayableSpiritbond}%"
                 );
+
                 SetBarsVisibility(false);
+                Node.Tooltip = null;
                 break;
             case "Short":
                 SetLabel($"{displayableDurability}% / {displayableSpiritbond}%");
                 SetBarsVisibility(false);
+                Node.Tooltip = null;
                 break;
             case "ShortStacked":
                 SetTwoLabels($"{displayableDurability}%", $"{displayableSpiritbond}%");
                 SetBarsVisibility(false);
+                Node.Tooltip = null;
                 break;
             case "DurabilityOnly":
                 SetLabel($"{displayableDurability}%");
                 SetBarsVisibility(false);
+                Node.Tooltip = null;
                 break;
             case "SpiritbondOnly":
                 SetLabel($"{displayableSpiritbond}%");
                 SetBarsVisibility(false);
+                Node.Tooltip = null;
                 break;
             case "IconOnly":
                 SetLabel(null);
                 SetBarsVisibility(false);
+                Node.Tooltip = tooltipString;
                 break;
             case "StackedBars":
                 SetLabel(null);
                 SetBarsVisibility(true);
                 UpdateBars(displayableDurability, displayableSpiritbond);
                 UseStackedBars();
+                Node.Tooltip = tooltipString;
                 break;
             case "SplittedBars":
                 SetLabel(null);
                 SetBarsVisibility(true);
                 UpdateBars(displayableDurability, displayableSpiritbond);
                 UseSplittedBars();
+                Node.Tooltip = tooltipString;
                 break;
         }
 
@@ -250,28 +262,30 @@ internal partial class DurabilityWidget(
 
         return true;
     }
-    
+
     /// <summary>
     /// Retrieve a value representing the player equipment durability based on the widget durability calculation setting.
     /// </summary>
     /// <returns>The durability value</returns>
-    private byte GetDurabilityValue() => GetConfigValue<string>("DurabilityCalculation") switch {
-        "Max" => Player.Equipment.HighestDurability,
-        "Min" => Player.Equipment.LowestDurability,
-        "Avg" => Player.Equipment.AverageDurability,
-        _     => Player.Equipment.LowestDurability,
-    };
-    
+    private byte GetDurabilityValue() =>
+        GetConfigValue<string>("DurabilityCalculation") switch {
+            "Max" => Player.Equipment.HighestDurability,
+            "Min" => Player.Equipment.LowestDurability,
+            "Avg" => Player.Equipment.AverageDurability,
+            _     => Player.Equipment.LowestDurability,
+        };
+
     /// <summary>
     /// Retrieve a value representing the player equipment spiritbond based on the widget spiritbond calculation setting.
     /// </summary>
     /// <returns>The spiritbond value</returns>
-    private byte GetSpiritbondValue() => GetConfigValue<string>("SpiritbondCalculation") switch {
-        "Max" => Player.Equipment.HighestSpiritbond,
-        "Min" => Player.Equipment.LowestSpiritbond,
-        "Avg" => Player.Equipment.AverageSpiritbond,
-        _     => Player.Equipment.HighestSpiritbond,
-    };
+    private byte GetSpiritbondValue() =>
+        GetConfigValue<string>("SpiritbondCalculation") switch {
+            "Max" => Player.Equipment.HighestSpiritbond,
+            "Min" => Player.Equipment.LowestSpiritbond,
+            "Avg" => Player.Equipment.AverageSpiritbond,
+            _     => Player.Equipment.HighestSpiritbond,
+        };
 
     private void SetBarsVisibility(bool visible)
     {
@@ -285,22 +299,22 @@ internal partial class DurabilityWidget(
 
     private void UpdateBars(byte durability, byte spiritbond)
     {
-        bool useBorders    = GetConfigValue<bool>("UseBarBorder");
-        var width          = GetConfigValue<int>("BarWidth");
-        var height      = (int) Math.Ceiling(SafeHeight / 2f) - 3;
-        var innerWidth  = width - (useBorders ? 4 : 2);
-        var innerHeight = height - (useBorders ? 4 : 2);
-        
+        bool useBorders  = GetConfigValue<bool>("UseBarBorder");
+        var  width       = GetConfigValue<int>("BarWidth");
+        var  height      = (int)Math.Ceiling(SafeHeight / 2f) - 3;
+        var  innerWidth  = width - (useBorders ? 4 : 2);
+        var  innerHeight = height - (useBorders ? 4 : 2);
+
         // Fix the width for the wrapper.
         BarWrapperNode.Style.Size = new Size(width, SafeHeight);
-        
+
         // Force the space for icon rendering, I don't like this :(
         LabelNode.Style.IsVisible = true;
         LabelNode.Style.Size      = new Size(width, SafeHeight);
-        
+
         // Ensure wrapper offset depending on left icon visibility
         BarWrapperNode.Style.Margin = new EdgeSize(0, 0, 0, LeftIconNode.IsVisible ? LeftIconNode.Width : 0);
-        
+
         DurabilityBarContainerNode.Style.Size = new(width, height);
         SpiritbondBarContainerNode.Style.Size = new(width, height);
 
@@ -311,13 +325,13 @@ internal partial class DurabilityWidget(
             DurabilityBarContainerNode.TagsList.Remove("bordered");
             SpiritbondBarContainerNode.TagsList.Remove("bordered");
         }
-        
+
         byte realDurabilityValue = Math.Min(durability, (byte)100);
         byte realSpiritbondValue = Math.Min(spiritbond, (byte)100);
-        
+
         int durabilityBarWidth = (int)((realDurabilityValue / 100f) * innerWidth);
         int spiritbondBarWidth = (int)((realSpiritbondValue / 100f) * innerWidth);
-        
+
         DurabilityBarNode.Style.Size = new(durabilityBarWidth, innerHeight);
         SpiritbondBarNode.Style.Size = new(spiritbondBarWidth, innerHeight);
 
@@ -347,17 +361,17 @@ internal partial class DurabilityWidget(
         // Dual icon - ignore widget settings
         SetLeftIcon(GetIconId());
         SetRightIcon(61564);
-        
+
         var margin = (int)(LeftIconNode.Width / 1.5f);
-        var width = GetConfigValue<int>("BarWidth");
-        
+        var width  = GetConfigValue<int>("BarWidth");
+
         // Ensure the gap between icons and opposite bars aren't too much
-        LabelNode.Style.Size = new Size(width - margin, SafeHeight);
+        LabelNode.Style.Size      = new Size(width - margin, SafeHeight);
         BarWrapperNode.Style.Size = new Size(width - margin, SafeHeight);
-        
+
         DurabilityBarContainerNode.Style.Margin = new EdgeSize(0, 0, 0, -margin);
-        SpiritbondBarContainerNode.Style.Margin = new EdgeSize(0, 0, 0, LeftIconNode.Width/3);
-        
+        SpiritbondBarContainerNode.Style.Margin = new EdgeSize(0, 0, 0, LeftIconNode.Width / 3);
+
         DurabilityBarNode.Style.Anchor = Anchor.BottomLeft;
         SpiritbondBarNode.Style.Anchor = Anchor.BottomRight;
     }
