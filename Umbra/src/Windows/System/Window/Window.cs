@@ -54,9 +54,16 @@ public abstract partial class Window : IDisposable
 
     protected virtual void OnDisposed() { }
 
+    private bool _isDisposed;
+
     public void Dispose()
     {
+        if (_isDisposed) return;
+        _isDisposed = true;
+
+        OnClose();
         OnDisposed();
+
         _windowNode.Dispose();
         Node.Dispose();
     }
@@ -77,6 +84,8 @@ public abstract partial class Window : IDisposable
 
     public void Render(string id)
     {
+        if (_isDisposed) return;
+
         if (!_isOpened) {
             _isOpened = true;
 

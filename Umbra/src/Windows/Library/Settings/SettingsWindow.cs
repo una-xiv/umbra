@@ -27,7 +27,9 @@ internal partial class SettingsWindow : Window
     protected override Vector2 MinSize     { get; } = new(1100, 680);
     protected override Vector2 MaxSize     { get; } = new(1600, 1300);
     protected override Vector2 DefaultSize { get; } = new(1100, 680);
-    protected override string  Title       => I18N.Translate("Settings.Window.Title");
+    protected override string  Title       { get; } = I18N.Translate("Settings.Window.Title");
+
+    private bool _isDisposed;
 
     /// <inheritdoc/>
     protected override void OnOpen()
@@ -59,6 +61,8 @@ internal partial class SettingsWindow : Window
     /// <inheritdoc/>
     protected override void OnUpdate(int instanceId)
     {
+        if (_isDisposed) return;
+
         Node.Style.Size                = ContentSize;
         NavigationPanelNode.Style.Size = new(220, ContentSize.Height - 40);
         ContentPanelNode.Style.Size    = new(ContentSize.Width - 220, ContentSize.Height - 41);
@@ -96,5 +100,14 @@ internal partial class SettingsWindow : Window
         }
 
         _modules.Clear();
+    }
+
+    /// <inheritdoc/>
+    protected override void OnDisposed()
+    {
+        if (_isDisposed) return;
+        _isDisposed = true;
+
+        base.OnDisposed();
     }
 }
