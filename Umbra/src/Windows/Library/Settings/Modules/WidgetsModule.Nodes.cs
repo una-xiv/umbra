@@ -133,7 +133,7 @@ internal partial class WidgetsModule
             "Right"  => RightColumn,
             _        => throw new ArgumentOutOfRangeException(nameof(location))
         };
-    
+
     private Node CreateWidgetFooterColumnButton(string id)
     {
         Node addButton = new() {
@@ -166,7 +166,7 @@ internal partial class WidgetsModule
 
         Node node = new () {
             Id = id,
-            ClassList = ["widgets-column-stretched-item"],
+            ClassList = ["widgets-column-stretched-item", "with-border"],
             SortIndex = int.MaxValue,
             ChildNodes = [addButton, clearButton]
         };
@@ -202,7 +202,7 @@ internal partial class WidgetsModule
         {
             manager.RemoveWidget(widget.Id, false);
         }
-        
+
         manager.SaveState();
     }
 

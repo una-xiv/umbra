@@ -102,10 +102,11 @@ internal partial class WidgetsModule
                 }
             ),
             new (
-                ".widgets-column-stretched-item",
+                ".widgets-column-stretched-item.with-border",
                 new () {
                     BorderColor   = new() { Top = new("Window.Border") },
-                    BorderWidth   = new() { Top = 2 }
+                    BorderWidth   = new() { Top = 1 },
+                    IsAntialiased = false,
                 }
             ),
             new(
