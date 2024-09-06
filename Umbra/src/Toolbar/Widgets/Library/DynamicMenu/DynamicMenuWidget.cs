@@ -16,6 +16,12 @@ internal sealed partial class DynamicMenuWidget(
 {
     public override DynamicMenuPopup Popup { get; } = new();
 
+    /// <inheritdoc/>
+    public override string GetInstanceName()
+    {
+        return $"{I18N.Translate("Widget.DynamicMenu.Name")} - {GetConfigValue<string>("ButtonLabel")}";
+    }
+
     protected override void Initialize()
     {
         Popup.OnEditModeChanged += OnEditModeChanged;
