@@ -80,6 +80,7 @@ internal sealed partial class GearsetSwitcherWidget(
 
         Popup.HeaderIconType    = GetConfigValue<string>("PopupHeaderIconType");
         Popup.ButtonIconType    = GetConfigValue<string>("PopupButtonIconType");
+        Popup.UldThemeTarget    = GetConfigValue<string>("UldStyleSource");
         Popup.HeaderIconYOffset = GetConfigValue<int>("HeaderIconYOffset");
         Popup.ButtonIconYOffset = GetConfigValue<int>("ButtonIconYOffset");
 

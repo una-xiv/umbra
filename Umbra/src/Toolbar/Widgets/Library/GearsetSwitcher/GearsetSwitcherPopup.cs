@@ -161,6 +161,7 @@ internal sealed partial class GearsetSwitcherPopup : WidgetPopup, IDisposable
 
     public string HeaderIconType      { get; set; } = "Default";
     public string ButtonIconType      { get; set; } = "Default";
+    public string UldThemeTarget      { get; set; } = "Light"; 
     public bool   EnableRoleScrolling { get; set; }
 
     public int HeaderIconYOffset { get; set; }
@@ -265,6 +266,16 @@ internal sealed partial class GearsetSwitcherPopup : WidgetPopup, IDisposable
         }
 
         UpdateNodes();
+        
+        // Find back the enum value or fallback to initial old value
+        if (!Enum.TryParse(UldThemeTarget, out UldStyle uldStyle)) {
+            uldStyle = UldStyle.Light;
+        }
+        
+        Node.QuerySelector("BestInSlot")!.Style.UldStyle = uldStyle;
+        Node.QuerySelector("OpenGlam")!.Style.UldStyle   = uldStyle;
+        Node.QuerySelector("Update")!.Style.UldStyle     = uldStyle;
+        Node.QuerySelector("Duplicate")!.Style.UldStyle  = uldStyle;
     }
 
     private void UpdateNodes()
