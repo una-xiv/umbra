@@ -804,7 +804,7 @@
     "Widget.GearsetSwitcher.Config.GearsetButtonBackgroundType.Option.GradientVI": "Vertical Gradient (Color on bottom)",
     "Widget.GearsetSwitcher.Config.GearsetButtonBackgroundType.Option.GradientH": "Horizontal Gradient (Color on left)",
     "Widget.GearsetSwitcher.Config.GearsetButtonBackgroundType.Option.GradientHI": "Horizontal Gradient (Color on right)",
-    "Widget.GearsetSwitcher.Config.UldStyleSource.Name": "Visual Theme",
+    "Widget.GearsetSwitcher.Config.UldStyleSource.Name": "Header buttons theme",
     "Widget.GearsetSwitcher.Config.UldStyleSource.Description": "Game theme from which the icons will be retrieved. You may change this if you do not see the icons from your UI mod.",
     "Widget.GearsetSwitcher.Config.UldStyleSource.Option.Default": "Dark",
     "Widget.GearsetSwitcher.Config.UldStyleSource.Option.Light": "Light",

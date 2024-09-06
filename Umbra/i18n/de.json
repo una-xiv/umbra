@@ -804,7 +804,7 @@
     "Widget.GearsetSwitcher.Config.GearsetButtonBackgroundType.Option.GradientVI": "Vertikaler Verlauf (Farbe unten)",
     "Widget.GearsetSwitcher.Config.GearsetButtonBackgroundType.Option.GradientH": "Horizontaler Verlauf (Farbe links)",
     "Widget.GearsetSwitcher.Config.GearsetButtonBackgroundType.Option.GradientHI": "Horizontaler Verlauf (Farbe rechts)",
-    "Widget.GearsetSwitcher.Config.UldStyleSource.Name": "Visuelles Thema",
+    "Widget.GearsetSwitcher.Config.UldStyleSource.Name": "Kopfzeilen-Schaltflächen-Thema",
     "Widget.GearsetSwitcher.Config.UldStyleSource.Description": "Spielthema, aus dem die Symbole abgerufen werden. Sie können dies ändern, wenn Sie die Symbole aus Ihrem UI-Mod nicht sehen.",
     "Widget.GearsetSwitcher.Config.UldStyleSource.Option.Default": "Dunkel",
     "Widget.GearsetSwitcher.Config.UldStyleSource.Option.Light": "Hell",

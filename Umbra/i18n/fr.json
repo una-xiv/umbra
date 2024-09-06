@@ -804,7 +804,7 @@
     "Widget.GearsetSwitcher.Config.GearsetButtonBackgroundType.Option.GradientVI": "Dégradé Vertical (Couleur en bas)",
     "Widget.GearsetSwitcher.Config.GearsetButtonBackgroundType.Option.GradientH": "Dégradé Horizontal (Couleur à gauche)",
     "Widget.GearsetSwitcher.Config.GearsetButtonBackgroundType.Option.GradientHI": "Dégradé Horizontal (Couleur à droite)",
-    "Widget.GearsetSwitcher.Config.UldStyleSource.Name": "Thème visuel",
+    "Widget.GearsetSwitcher.Config.UldStyleSource.Name": "Thème des boutons d'en-tête",
     "Widget.GearsetSwitcher.Config.UldStyleSource.Description": "Thème de jeu à partir duquel les icônes seront récupérées. Vous pouvez changer cela si vous ne voyez pas les icônes de votre mod d'interface utilisateur.",
     "Widget.GearsetSwitcher.Config.UldStyleSource.Option.Default": "Sombre",
     "Widget.GearsetSwitcher.Config.UldStyleSource.Option.Light": "Clair",

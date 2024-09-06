@@ -805,7 +805,7 @@
     "Widget.GearsetSwitcher.Config.GearsetButtonBackgroundType.Option.GradientH": "水平渐变（左侧有色）",
     "Widget.GearsetSwitcher.Config.GearsetButtonBackgroundType.Option.GradientHI": "水平渐变（右侧有色）",
     "Widget.GearsetSwitcher.Config.ShowWarningIcon.Name": "显示警告符号",
-    "Widget.GearsetSwitcher.Config.UldStyleSource.Name": "视觉主题",
+    "Widget.GearsetSwitcher.Config.UldStyleSource.Name": "页眉按钮主题",
     "Widget.GearsetSwitcher.Config.UldStyleSource.Description": "图标将从中获取的游戏主题。如果未看到UI模组中的图标，您可以更改此设置。",
     "Widget.GearsetSwitcher.Config.UldStyleSource.Option.Default": "深色",
     "Widget.GearsetSwitcher.Config.UldStyleSource.Option.Light": "浅色",

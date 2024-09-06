@@ -804,7 +804,7 @@
     "Widget.GearsetSwitcher.Config.GearsetButtonBackgroundType.Option.GradientVI": "垂直グラデーション（下が色付き）",
     "Widget.GearsetSwitcher.Config.GearsetButtonBackgroundType.Option.GradientH": "水平グラデーション（左が色付き）",
     "Widget.GearsetSwitcher.Config.GearsetButtonBackgroundType.Option.GradientHI": "水平グラデーション（右が色付き）",
-    "Widget.GearsetSwitcher.Config.UldStyleSource.Name": "ビジュアルテーマ",
+    "Widget.GearsetSwitcher.Config.UldStyleSource.Name": "ヘッダーボタンのテーマ",
     "Widget.GearsetSwitcher.Config.UldStyleSource.Description": "アイコンが取得されるゲームテーマ。UIモッドのアイコンが表示されない場合は、これを変更できます。",
     "Widget.GearsetSwitcher.Config.UldStyleSource.Option.Default": "ダーク",
     "Widget.GearsetSwitcher.Config.UldStyleSource.Option.Light": "ライト",
