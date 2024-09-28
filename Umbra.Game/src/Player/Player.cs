@@ -284,7 +284,7 @@ internal sealed class Player : IPlayer
         IsDead         = _clientState.LocalPlayer.IsDead;
         IsInPvP        = _clientState.IsPvPExcludingDen;
         IsInParty      = _partyList.Length > 0;
-        IsInSanctuary  = GameMain.IsInSanctuary();
+        IsInSanctuary  = TerritoryInfo.Instance()->InSanctuary;
         JobId          = (byte)_clientState.LocalPlayer.ClassJob.Id;
 
         IsCasting = _clientState.LocalPlayer.IsCasting
