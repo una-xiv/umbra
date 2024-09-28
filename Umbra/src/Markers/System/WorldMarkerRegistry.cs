@@ -54,6 +54,8 @@ internal sealed class WorldMarkerRegistry : IDisposable
 
     public List<WorldMarker> GetMarkers()
     {
+        if (! _zoneManager.HasCurrentZone) return [];
+
         return _visibility.AreMarkersVisible()
             ? WorldMarkers[_zoneManager.CurrentZone.Id].Values.ToList()
             : [];
