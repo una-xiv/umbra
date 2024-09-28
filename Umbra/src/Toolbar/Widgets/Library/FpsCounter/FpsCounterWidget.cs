@@ -1,5 +1,6 @@
-﻿using FFXIVClientStructs.FFXIV.Client.System.Framework;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Umbra.Common;
+using Framework = FFXIVClientStructs.FFXIV.Client.System.Framework.Framework;
 
 namespace Umbra.Widgets.Library.FPS;
 
@@ -19,6 +20,21 @@ internal sealed class FpsCounterWidget(
     protected override IEnumerable<IWidgetConfigVariable> GetConfigVariables()
     {
         return [
+            new IntegerWidgetConfigVariable(
+                "HideThreshold",
+                I18N.Translate("Widget.Fps.Config.HideThreshold.Name"),
+                I18N.Translate("Widget.Fps.Config.HideThreshold.Description"),
+                1000,
+                0,
+                1000
+            ),
+            new StringWidgetConfigVariable(
+                "Label",
+                I18N.Translate("Widget.Fps.Config.Label.Name"),
+                I18N.Translate("Widget.Fps.Config.Label.Description"),
+                "FPS",
+                32
+            ),
             ..DefaultToolbarWidgetConfigVariables,
             ..SingleLabelTextOffsetVariables,
         ];
@@ -33,9 +49,13 @@ internal sealed class FpsCounterWidget(
     {
         int fps = (int)Framework.Instance()->FrameRate;
 
-        SetLabel($"{fps} FPS");
+        Node.Style.IsVisible = fps < GetConfigValue<int>("HideThreshold");
+
+        string label = $"{fps} {GetConfigValue<string>("Label")}";
+
+        SetLabel(label);
         base.OnUpdate();
 
-        Node.Tooltip = $"{fps} FPS";
+        Node.Tooltip = label;
     }
 }
