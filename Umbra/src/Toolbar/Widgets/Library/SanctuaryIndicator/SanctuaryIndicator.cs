@@ -1,6 +1,9 @@
 ﻿using Dalamud.Interface;
 using FFXIVClientStructs.FFXIV.Client.Game;
+using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using System.Collections.Generic;
+using Umbra.Common;
+using Umbra.Game;
 
 namespace Umbra.Widgets.Library.SanctuaryIndicator;
 
@@ -33,7 +36,7 @@ internal sealed class SanctuaryIndicator(
     protected override void OnUpdate()
     {
         SetIcon(GetConfigValue<FontAwesomeIcon>("Icon"));
-        Node.Style.IsVisible = GameMain.IsInSanctuary();
+        Node.Style.IsVisible = Framework.Service<IPlayer>().IsInSanctuary;
 
         base.OnUpdate();
     }
