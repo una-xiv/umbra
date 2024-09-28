@@ -277,6 +277,8 @@ internal sealed class Player : IPlayer
     {
         if (null == _clientState.LocalPlayer || !_clientState.LocalPlayer.IsValid()) return;
 
+        AgentDeepDungeonStatus* dds = AgentDeepDungeonStatus.Instance();
+
         OnlineStatusId = _clientState.LocalPlayer.OnlineStatus.Id;
         IsMoving       = Vector3.Distance(Position, _clientState.LocalPlayer.Position) > 0.01f;
         Position       = _clientState.LocalPlayer.Position;
@@ -286,6 +288,10 @@ internal sealed class Player : IPlayer
         IsInParty      = _partyList.Length > 0;
         IsInSanctuary  = TerritoryInfo.Instance()->InSanctuary;
         JobId          = (byte)_clientState.LocalPlayer.ClassJob.Id;
+
+        if (dds != null && dds->IsAgentActive()) {
+            JobId = (byte)dds->Data->ClassJobId;
+        }
 
         IsCasting = _clientState.LocalPlayer.IsCasting
             || _condition[ConditionFlag.Casting]
@@ -343,6 +349,10 @@ internal sealed class Player : IPlayer
         // Experience and level information.
         Level       = GetJobInfo(JobId).Level;
         SyncedLevel = ps->SyncedLevel;
+
+        if (dds != null && dds->IsAgentActive()) {
+            SyncedLevel = (short)dds->Data->Level;
+        }
 
         AgentHUD* hud = AgentHUD.Instance();
 
