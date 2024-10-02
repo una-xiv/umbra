@@ -49,10 +49,12 @@ internal sealed partial class GearsetSwitcherWidget(
 
         Node.AppendChild(_expBar);
 
-        _expBar.SortIndex             = -1;
-        _expBar.Style.Anchor          = Anchor.TopLeft;
-        _expBar.Style.Size            = new(200, SafeHeight);
-        _expBar.Style.BackgroundColor = new("Widget.Background");
+        _expBar.SortIndex                  = -1;
+        _expBar.Style.Anchor               = Anchor.TopLeft;
+        _expBar.Style.Size                 = new(200, SafeHeight - 6);
+        _expBar.Style.Margin               = new(3, 0);
+        _expBar.BarNode.Style.BorderRadius = 2;
+        _expBar.Style.BackgroundColor      = new("Widget.Background");
 
         Node.QuerySelector("#Label")!.Style.TextOffset = new(0, -1);
     }
@@ -128,6 +130,8 @@ internal sealed partial class GearsetSwitcherWidget(
         Popup.CasterMaxItems   = GetConfigValue<int>("MagicalRangedMaxItems");
         Popup.CrafterMaxItems  = GetConfigValue<int>("CrafterMaxItems");
         Popup.GathererMaxItems = GetConfigValue<int>("GathererMaxItems");
+
+        RefreshUnderlayBar();
     }
 
     private uint GetWidgetJobIconId(Gearset gearset)
@@ -150,6 +154,29 @@ internal sealed partial class GearsetSwitcherWidget(
         return true;
     }
 
+    private void RefreshUnderlayBar()
+    {
+        _expBar!.Style.IsVisible = Popup.ShowUnderlayBar;
+
+        if (!Popup.ShowUnderlayBar) {
+            return;
+        }
+
+        bool  maxLevel = _currentGearset!.IsMaxLevel;
+        short jobXp    = _currentGearset!.JobXp;
+
+        _expBar.Value                         = maxLevel ? 100 : jobXp;
+        _expBar.BarNode.Style.BackgroundColor = GetColorFor(_currentGearset!.Category);
+
+        if (!Node.TagsList.Contains("ghost")) {
+            _expBar.Style.Size   = new(Popup.UnderlayBarWidth, SafeHeight - 6);
+            _expBar.Style.Margin = new(3, 0);
+        } else {
+            _expBar.Style.Size   = new(Popup.UnderlayBarWidth, SafeHeight - 3);
+            _expBar.Style.Margin = new(1, 0);
+        }
+    }
+
     private unsafe string GetCurrentGearsetStatusText()
     {
         string infoType = GetConfigValue<string>(_currentGearset!.IsMaxLevel ? "InfoTypeMaxLevel" : "InfoType");
@@ -163,11 +190,6 @@ internal sealed partial class GearsetSwitcherWidget(
         string itemLevelStr = I18N.Translate("Widget.GearsetSwitcher.ItemLevel", itemLevel);
         string expStr       = maxLevel ? "" : $" - {I18N.Translate("Widget.GearsetSwitcher.JobXp", jobXp)}";
         string jobLevelStr  = $"{I18N.Translate("Widget.GearsetSwitcher.JobLevel", jobLevel)}{expStr}";
-
-        _expBar!.Value                        = maxLevel ? 100 : jobXp;
-        _expBar.BarNode.Style.BackgroundColor = GetColorFor(_currentGearset!.Category);
-        _expBar.Style.IsVisible               = Popup.ShowUnderlayBar;
-        _expBar.Style.Size!.Width             = Popup.UnderlayBarWidth;
 
         bool isSynced = false;
 
