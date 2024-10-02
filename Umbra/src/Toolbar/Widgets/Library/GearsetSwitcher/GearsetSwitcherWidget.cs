@@ -19,6 +19,8 @@ using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using System.Collections.Generic;
 using Umbra.Common;
 using Umbra.Game;
+using Umbra.Windows.Components;
+using Una.Drawing;
 
 namespace Umbra.Widgets;
 
@@ -36,12 +38,21 @@ internal sealed partial class GearsetSwitcherWidget(
     private IGearsetRepository _gearsetRepository = null!;
     private IPlayer            _player            = null!;
     private Gearset?           _currentGearset;
+    private ProgressBarNode?   _expBar;
 
     /// <inheritdoc/>
     protected override void Initialize()
     {
         _gearsetRepository = Framework.Service<IGearsetRepository>();
         _player            = Framework.Service<IPlayer>();
+        _expBar            = new("ExpBar");
+
+        Node.AppendChild(_expBar);
+
+        _expBar.SortIndex             = -1;
+        _expBar.Style.Anchor          = Anchor.TopLeft;
+        _expBar.Style.Size            = new(200, SafeHeight);
+        _expBar.Style.BackgroundColor = new("Widget.Background");
 
         Node.QuerySelector("#Label")!.Style.TextOffset = new(0, -1);
     }
@@ -73,6 +84,8 @@ internal sealed partial class GearsetSwitcherWidget(
         Popup.ShowCurrentJobGradient      = GetConfigValue<bool>("ShowCurrentJobGradient");
         Popup.GearsetButtonBackgroundType = GetConfigValue<string>("GearsetButtonBackgroundType");
         Popup.ShowExperienceBar           = GetConfigValue<bool>("ShowExperienceBar");
+        Popup.ShowUnderlayBar             = GetConfigValue<bool>("ShowUnderlayBar");
+        Popup.UnderlayBarWidth            = GetConfigValue<int>("UnderlayBarWidth");
         Popup.ShowExperiencePct           = GetConfigValue<bool>("ShowExperiencePct");
         Popup.ShowItemLevel               = GetConfigValue<bool>("ShowButtonItemLevel");
         Popup.ShowWarningIcon             = GetConfigValue<bool>("ShowWarningIcon");
@@ -151,6 +164,11 @@ internal sealed partial class GearsetSwitcherWidget(
         string expStr       = maxLevel ? "" : $" - {I18N.Translate("Widget.GearsetSwitcher.JobXp", jobXp)}";
         string jobLevelStr  = $"{I18N.Translate("Widget.GearsetSwitcher.JobLevel", jobLevel)}{expStr}";
 
+        _expBar!.Value                        = maxLevel ? 100 : jobXp;
+        _expBar.BarNode.Style.BackgroundColor = GetColorFor(_currentGearset!.Category);
+        _expBar.Style.IsVisible               = Popup.ShowUnderlayBar;
+        _expBar.Style.Size!.Width             = Popup.UnderlayBarWidth;
+
         bool isSynced = false;
 
         if (GetConfigValue<bool>("ShowSyncedLevelInInfo")) {
@@ -170,4 +188,19 @@ internal sealed partial class GearsetSwitcherWidget(
             _           => string.Empty
         };
     }
+
+    private static Color GetColorFor(GearsetCategory category)
+    {
+        return category switch {
+            GearsetCategory.Tank     => new("Role.Tank"),
+            GearsetCategory.Healer   => new("Role.Healer"),
+            GearsetCategory.Melee    => new("Role.MeleeDps"),
+            GearsetCategory.Ranged   => new("Role.PhysicalRangedDps"),
+            GearsetCategory.Caster   => new("Role.MagicalRangedDps"),
+            GearsetCategory.Crafter  => new("Role.Crafter"),
+            GearsetCategory.Gatherer => new("Role.Gatherer"),
+            _                        => new(0),
+        };
+    }
+
 }
