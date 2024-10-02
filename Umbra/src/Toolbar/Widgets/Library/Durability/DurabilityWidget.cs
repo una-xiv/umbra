@@ -21,6 +21,7 @@ using Lumina.Excel.GeneratedSheets;
 using System;
 using Umbra.Common;
 using Umbra.Game;
+using Umbra.Windows.Components;
 using Una.Drawing;
 
 namespace Umbra.Widgets;
@@ -84,6 +85,9 @@ internal partial class DurabilityWidget(
             groupId: "Actions",
             onClick: () => Player.UseGeneralAction(13)
         );
+
+        // Use overflow to represent over repaired gear
+        DurabilityBarNode.UseOverflow = true;
     }
 
     /// <inheritdoc/>
@@ -297,56 +301,45 @@ internal partial class DurabilityWidget(
         }
     }
 
+
     private void UpdateBars(byte durability, byte spiritbond)
     {
-        bool useBorders  = GetConfigValue<bool>("UseBarBorder");
-        var  width       = GetConfigValue<int>("BarWidth");
-        var  height      = (int)Math.Ceiling(SafeHeight / 2f) - 3;
-        var  innerWidth  = width - (useBorders ? 4 : 2);
-        var  innerHeight = height - (useBorders ? 4 : 2);
+        var width  = GetConfigValue<int>("BarWidth");
+        var height = (int)Math.Ceiling(SafeHeight / 2f) - 3;
 
-        // Fix the width for the wrapper.
-        BarWrapperNode.Style.Size = new Size(width, SafeHeight);
+        // General look and feel of the bars
+        BarWrapperNode.Style.Size    = new(width, SafeHeight);
+        DurabilityBarNode.Style.Size = new(width, height);
+        SpiritbondBarNode.Style.Size = new(width, height);
+
+        DurabilityBarNode.BarNode.Style.BackgroundColor      = new("Misc.DurabilityBar");
+        DurabilityBarNode.OverflowNode.Style.BackgroundColor = new("Window.Text");
+        SpiritbondBarNode.BarNode.Style.BackgroundColor      = spiritbond == 100 ? new("Misc.CompleteSpiritbondBar") : new("Misc.SpiritbondBar");
 
         // Force the space for icon rendering, I don't like this :(
         LabelNode.Style.IsVisible = true;
-        LabelNode.Style.Size      = new Size(width, SafeHeight);
+        LabelNode.Style.Size      = new(width, SafeHeight);
 
         // Ensure wrapper offset depending on left icon visibility
         BarWrapperNode.Style.Margin = new EdgeSize(0, 0, 0, LeftIconNode.IsVisible ? LeftIconNode.Width : 0);
 
-        DurabilityBarContainerNode.Style.Size = new(width, height);
-        SpiritbondBarContainerNode.Style.Size = new(width, height);
+        DurabilityBarNode.UseBorder = GetConfigValue<bool>("UseBarBorder");
+        SpiritbondBarNode.UseBorder = GetConfigValue<bool>("UseBarBorder");
 
-        if (useBorders) {
-            DurabilityBarContainerNode.TagsList.Add("bordered");
-            SpiritbondBarContainerNode.TagsList.Add("bordered");
+        if (GetConfigValue<string>("BarDirection") == "R2L") {
+            DurabilityBarNode.Direction = ProgressBarNode.FillDirection.RightToLeft;
+            SpiritbondBarNode.Direction = ProgressBarNode.FillDirection.RightToLeft;
         } else {
-            DurabilityBarContainerNode.TagsList.Remove("bordered");
-            SpiritbondBarContainerNode.TagsList.Remove("bordered");
+            DurabilityBarNode.Direction = ProgressBarNode.FillDirection.LeftToRight;
+            SpiritbondBarNode.Direction = ProgressBarNode.FillDirection.LeftToRight;
         }
 
-        byte realDurabilityValue = Math.Min(durability, (byte)100);
-        byte realSpiritbondValue = Math.Min(spiritbond, (byte)100);
-
-        int durabilityBarWidth = (int)((realDurabilityValue / 100f) * innerWidth);
-        int spiritbondBarWidth = (int)((realSpiritbondValue / 100f) * innerWidth);
-
-        DurabilityBarNode.Style.Size = new(durabilityBarWidth, innerHeight);
-        SpiritbondBarNode.Style.Size = new(spiritbondBarWidth, innerHeight);
-
-        if (realSpiritbondValue == 100) {
-            SpiritbondBarNode.TagsList.Add("full");
-        } else {
-            SpiritbondBarNode.TagsList.Remove("full");
-        }
+        DurabilityBarNode.Value = durability;
+        SpiritbondBarNode.Value = spiritbond;
     }
 
     private void UseStackedBars()
     {
-        DurabilityBarContainerNode.Style.Margin = new EdgeSize(0, 0, 0, 0);
-        SpiritbondBarContainerNode.Style.Margin = new EdgeSize(0, 0, 0, 0);
-
         if (GetConfigValue<string>("BarDirection") == "R2L") {
             DurabilityBarNode.Style.Anchor = Anchor.BottomRight;
             SpiritbondBarNode.Style.Anchor = Anchor.BottomRight;
@@ -366,11 +359,11 @@ internal partial class DurabilityWidget(
         var width  = GetConfigValue<int>("BarWidth");
 
         // Ensure the gap between icons and opposite bars aren't too much
-        LabelNode.Style.Size      = new Size(width - margin, SafeHeight);
-        BarWrapperNode.Style.Size = new Size(width - margin, SafeHeight);
+        LabelNode.Style.Size      = new(width - margin, SafeHeight);
+        BarWrapperNode.Style.Size = new(width - margin, SafeHeight);
 
-        DurabilityBarContainerNode.Style.Margin = new EdgeSize(0, 0, 0, -margin);
-        SpiritbondBarContainerNode.Style.Margin = new EdgeSize(0, 0, 0, LeftIconNode.Width / 3);
+        DurabilityBarNode.Style.Margin = new EdgeSize(0, 0, 0, -margin);
+        SpiritbondBarNode.Style.Margin = new EdgeSize(0, 0, 0, LeftIconNode.Width / 3);
 
         DurabilityBarNode.Style.Anchor = Anchor.BottomLeft;
         SpiritbondBarNode.Style.Anchor = Anchor.BottomRight;
