@@ -74,8 +74,9 @@ public class ProgressBarNode : Node
 
         if (Minimum >= Maximum) {
             // Warn that values used are wrong
-            Logger.Warning($"Bar {Id} with incorrect value: Tried to use {Minimum} which is greater than {Maximum}.");
+            Logger.Warning($"Bar {Id} with incorrect value: Minimum {Minimum} >= Maximum {Maximum}.");
             Style.IsVisible = false;
+            return;
         }
 
         float progress = (Value - Minimum) / (float)(Maximum - Minimum);
