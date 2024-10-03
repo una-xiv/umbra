@@ -19,6 +19,8 @@ using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using System.Collections.Generic;
 using Umbra.Common;
 using Umbra.Game;
+using Umbra.Windows.Components;
+using Una.Drawing;
 
 namespace Umbra.Widgets;
 
@@ -36,12 +38,23 @@ internal sealed partial class GearsetSwitcherWidget(
     private IGearsetRepository _gearsetRepository = null!;
     private IPlayer            _player            = null!;
     private Gearset?           _currentGearset;
+    private ProgressBarNode?   _expBar;
 
     /// <inheritdoc/>
     protected override void Initialize()
     {
         _gearsetRepository = Framework.Service<IGearsetRepository>();
         _player            = Framework.Service<IPlayer>();
+        _expBar            = new("ExpBar");
+
+        Node.AppendChild(_expBar);
+
+        _expBar.SortIndex                  = -1;
+        _expBar.Style.Anchor               = Anchor.TopLeft;
+        _expBar.Style.Size                 = new(200, SafeHeight - 6);
+        _expBar.Style.Margin               = new(3, 0);
+        _expBar.BarNode.Style.BorderRadius = 2;
+        _expBar.Style.BackgroundColor      = new("Widget.Background");
 
         Node.QuerySelector("#Label")!.Style.TextOffset = new(0, -1);
     }
@@ -115,6 +128,8 @@ internal sealed partial class GearsetSwitcherWidget(
         Popup.CasterMaxItems   = GetConfigValue<int>("MagicalRangedMaxItems");
         Popup.CrafterMaxItems  = GetConfigValue<int>("CrafterMaxItems");
         Popup.GathererMaxItems = GetConfigValue<int>("GathererMaxItems");
+
+        RefreshUnderlayBar();
     }
 
     private uint GetWidgetJobIconId(Gearset gearset)
@@ -135,6 +150,32 @@ internal sealed partial class GearsetSwitcherWidget(
         SetDisabled(false);
         _currentGearset = _gearsetRepository.CurrentGearset;
         return true;
+    }
+
+    private void RefreshUnderlayBar()
+    {
+        var shouldBeVisible = GetConfigValue<bool>("ShowUnderlayBar");
+        var barWidth        = GetConfigValue<int>("UnderlayBarWidth");
+
+        _expBar!.Style.IsVisible = shouldBeVisible;
+
+        if (!shouldBeVisible) {
+            return;
+        }
+
+        bool  maxLevel = _currentGearset!.IsMaxLevel;
+        short jobXp    = _currentGearset!.JobXp;
+
+        _expBar.Value                         = maxLevel ? 100 : jobXp;
+        _expBar.BarNode.Style.BackgroundColor = GetColorFor(_currentGearset!.Category);
+
+        if (!Node.TagsList.Contains("ghost")) {
+            _expBar.Style.Size   = new(barWidth, SafeHeight - 6);
+            _expBar.Style.Margin = new(3, 0);
+        } else {
+            _expBar.Style.Size   = new(barWidth, SafeHeight - 3);
+            _expBar.Style.Margin = new(1, 0);
+        }
     }
 
     private unsafe string GetCurrentGearsetStatusText()
@@ -170,4 +211,19 @@ internal sealed partial class GearsetSwitcherWidget(
             _           => string.Empty
         };
     }
+
+    private static Color GetColorFor(GearsetCategory category)
+    {
+        return category switch {
+            GearsetCategory.Tank     => new("Role.Tank"),
+            GearsetCategory.Healer   => new("Role.Healer"),
+            GearsetCategory.Melee    => new("Role.MeleeDps"),
+            GearsetCategory.Ranged   => new("Role.PhysicalRangedDps"),
+            GearsetCategory.Caster   => new("Role.MagicalRangedDps"),
+            GearsetCategory.Crafter  => new("Role.Crafter"),
+            GearsetCategory.Gatherer => new("Role.Gatherer"),
+            _                        => new(0),
+        };
+    }
+
 }

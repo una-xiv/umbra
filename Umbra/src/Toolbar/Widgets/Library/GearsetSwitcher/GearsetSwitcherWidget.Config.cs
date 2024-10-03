@@ -78,6 +78,20 @@ internal partial class GearsetSwitcherWidget
             ..SingleLabelTextOffsetVariables,
             ..TwoLabelTextOffsetVariables,
             new BooleanWidgetConfigVariable(
+                "ShowUnderlayBar",
+                I18N.Translate("Widget.GearsetSwitcher.Config.ShowUnderlayBar.Name"),
+                I18N.Translate("Widget.GearsetSwitcher.Config.ShowUnderlayBar.Description"),
+                true
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            new IntegerWidgetConfigVariable(
+                "UnderlayBarWidth",
+                I18N.Translate("Widget.GearsetSwitcher.Config.UnderlayBarWidth.Name"),
+                I18N.Translate("Widget.GearsetSwitcher.Config.UnderlayBarWidth.Description"),
+                100,
+                100,
+                500
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            new BooleanWidgetConfigVariable(
                 "AutoCloseOnChange",
                 I18N.Translate("Widget.GearsetSwitcher.Config.AutoCloseOnChange.Name"),
                 I18N.Translate("Widget.GearsetSwitcher.Config.AutoCloseOnChange.Description"),
@@ -192,9 +206,9 @@ internal partial class GearsetSwitcherWidget
                 I18N.Translate("Widget.GearsetSwitcher.Config.UldStyleSource.Description"),
                 "Light",
                 new() {
-                    { "Default", I18N.Translate("Widget.GearsetSwitcher.Config.UldStyleSource.Option.Default") }, 
-                    { "Light", I18N.Translate("Widget.GearsetSwitcher.Config.UldStyleSource.Option.Light") }, 
-                    { "Classic", I18N.Translate("Widget.GearsetSwitcher.Config.UldStyleSource.Option.Classic") }, 
+                    { "Default", I18N.Translate("Widget.GearsetSwitcher.Config.UldStyleSource.Option.Default") },
+                    { "Light", I18N.Translate("Widget.GearsetSwitcher.Config.UldStyleSource.Option.Light") },
+                    { "Classic", I18N.Translate("Widget.GearsetSwitcher.Config.UldStyleSource.Option.Classic") },
                     { "TransparentBlue", I18N.Translate("Widget.GearsetSwitcher.Config.UldStyleSource.Option.TransparentBlue") }
                 }
             ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },

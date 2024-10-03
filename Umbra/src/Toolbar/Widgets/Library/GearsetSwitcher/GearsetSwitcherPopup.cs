@@ -161,7 +161,7 @@ internal sealed partial class GearsetSwitcherPopup : WidgetPopup, IDisposable
 
     public string HeaderIconType      { get; set; } = "Default";
     public string ButtonIconType      { get; set; } = "Default";
-    public string UldThemeTarget      { get; set; } = "Light"; 
+    public string UldThemeTarget      { get; set; } = "Light";
     public bool   EnableRoleScrolling { get; set; }
 
     public int HeaderIconYOffset { get; set; }
@@ -266,12 +266,12 @@ internal sealed partial class GearsetSwitcherPopup : WidgetPopup, IDisposable
         }
 
         UpdateNodes();
-        
+
         // Find back the enum value or fallback to initial old value
         if (!Enum.TryParse(UldThemeTarget, out UldStyle uldStyle)) {
             uldStyle = UldStyle.Light;
         }
-        
+
         Node.QuerySelector("BestInSlot")!.Style.UldStyle = uldStyle;
         Node.QuerySelector("OpenGlam")!.Style.UldStyle   = uldStyle;
         Node.QuerySelector("Update")!.Style.UldStyle     = uldStyle;
@@ -289,7 +289,7 @@ internal sealed partial class GearsetSwitcherPopup : WidgetPopup, IDisposable
         }
 
         foreach ((Gearset gearset, GearsetNode node) in NodeByGearset) {
-            if (! ShouldRenderGearset(gearset)) {
+            if (!ShouldRenderGearset(gearset)) {
                 toRemove.Add(gearset);
                 continue;
             }
@@ -352,11 +352,11 @@ internal sealed partial class GearsetSwitcherPopup : WidgetPopup, IDisposable
                 bg.Style.BackgroundGradient = GradientColor.Vertical(new("Role.MeleeDps"), new(0));
                 break;
             case GearsetCategory.Ranged:
-                hg.Style.BackgroundGradient = GradientColor.Vertical(new(0), new("Role.PhysicalRangedDps"));
+                hg.Style.BackgroundGradient = GradientColor.Vertical(new(0),                        new("Role.PhysicalRangedDps"));
                 bg.Style.BackgroundGradient = GradientColor.Vertical(new("Role.PhysicalRangedDps"), new(0));
                 break;
             case GearsetCategory.Caster:
-                hg.Style.BackgroundGradient = GradientColor.Vertical(new(0), new("Role.MagicalRangedDps"));
+                hg.Style.BackgroundGradient = GradientColor.Vertical(new(0),                       new("Role.MagicalRangedDps"));
                 bg.Style.BackgroundGradient = GradientColor.Vertical(new("Role.MagicalRangedDps"), new(0));
                 break;
             case GearsetCategory.Crafter:
