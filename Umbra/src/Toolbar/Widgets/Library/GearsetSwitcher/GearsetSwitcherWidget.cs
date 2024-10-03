@@ -86,8 +86,6 @@ internal sealed partial class GearsetSwitcherWidget(
         Popup.ShowCurrentJobGradient      = GetConfigValue<bool>("ShowCurrentJobGradient");
         Popup.GearsetButtonBackgroundType = GetConfigValue<string>("GearsetButtonBackgroundType");
         Popup.ShowExperienceBar           = GetConfigValue<bool>("ShowExperienceBar");
-        Popup.ShowUnderlayBar             = GetConfigValue<bool>("ShowUnderlayBar");
-        Popup.UnderlayBarWidth            = GetConfigValue<int>("UnderlayBarWidth");
         Popup.ShowExperiencePct           = GetConfigValue<bool>("ShowExperiencePct");
         Popup.ShowItemLevel               = GetConfigValue<bool>("ShowButtonItemLevel");
         Popup.ShowWarningIcon             = GetConfigValue<bool>("ShowWarningIcon");
@@ -156,9 +154,12 @@ internal sealed partial class GearsetSwitcherWidget(
 
     private void RefreshUnderlayBar()
     {
-        _expBar!.Style.IsVisible = Popup.ShowUnderlayBar;
+        var shouldBeVisible = GetConfigValue<bool>("ShowUnderlayBar");
+        var barWidth        = GetConfigValue<int>("UnderlayBarWidth");
 
-        if (!Popup.ShowUnderlayBar) {
+        _expBar!.Style.IsVisible = shouldBeVisible;
+
+        if (!shouldBeVisible) {
             return;
         }
 
@@ -169,10 +170,10 @@ internal sealed partial class GearsetSwitcherWidget(
         _expBar.BarNode.Style.BackgroundColor = GetColorFor(_currentGearset!.Category);
 
         if (!Node.TagsList.Contains("ghost")) {
-            _expBar.Style.Size   = new(Popup.UnderlayBarWidth, SafeHeight - 6);
+            _expBar.Style.Size   = new(barWidth, SafeHeight - 6);
             _expBar.Style.Margin = new(3, 0);
         } else {
-            _expBar.Style.Size   = new(Popup.UnderlayBarWidth, SafeHeight - 3);
+            _expBar.Style.Size   = new(barWidth, SafeHeight - 3);
             _expBar.Style.Margin = new(1, 0);
         }
     }

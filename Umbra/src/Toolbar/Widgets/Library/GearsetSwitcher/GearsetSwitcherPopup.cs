@@ -154,8 +154,6 @@ internal sealed partial class GearsetSwitcherPopup : WidgetPopup, IDisposable
     public bool   ShowCurrentJobGradient      { get; set; }
     public bool   ShowWarningIcon             { get; set; } = true;
     public bool   ShowExperienceBar           { get; set; } = true;
-    public bool   ShowUnderlayBar             { get; set; } = true;
-    public int    UnderlayBarWidth            { get; set; } = 150;
     public bool   ShowExperiencePct           { get; set; } = true;
     public bool   ShowItemLevel               { get; set; } = true;
     public string GearsetButtonBackgroundType { get; set; } = "GradientV";
