@@ -235,7 +235,7 @@ internal sealed partial class GearsetSwitcherPopup : WidgetPopup, IDisposable
             _player.GetJobInfo(_currentGearset.JobId).GetIcon(HeaderIconType);
 
         Node.QuerySelector("#HeaderIcon")!.Style.ImageOffset = new(0, HeaderIconYOffset);
-        Node.QuerySelector("#OpenGlam")!.IsDisabled          = !GameMain.IsInSanctuary();
+        Node.QuerySelector("#OpenGlam")!.IsDisabled          = !_player.IsInSanctuary;
 
         // Assign role containers to the configured columns.
         foreach ((GearsetCategory category, Node node) in RoleContainers) {

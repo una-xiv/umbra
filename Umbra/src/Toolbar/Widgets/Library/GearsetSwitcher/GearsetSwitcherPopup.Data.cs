@@ -14,7 +14,6 @@
  *     GNU Affero General Public License for more details.
  */
 
-using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using System.Collections.Generic;
@@ -87,7 +86,7 @@ internal sealed partial class GearsetSwitcherPopup
 
         _ctxSelectedGearset = gsNode.Gearset;
         ContextMenu!.SetEntryLabel("UnlinkGlam", I18N.Translate("Widget.GearsetSwitcher.ContextMenu.UnlinkGlamourPlate", _ctxSelectedGearset.GlamourSetLink == 0 ? "" : _ctxSelectedGearset.GlamourSetLink.ToString()));
-        ContextMenu!.SetEntryDisabled("LinkGlam", !UIState.Instance()->IsUnlockLinkUnlocked(15) || !GameMain.IsInSanctuary());
+        ContextMenu!.SetEntryDisabled("LinkGlam", !UIState.Instance()->IsUnlockLinkUnlocked(15) || !_player.IsInSanctuary);
         ContextMenu!.SetEntryDisabled("UnlinkGlam", _ctxSelectedGearset.GlamourSetLink == 0);
         ContextMenu!.SetEntryDisabled("EditBanner", !AgentBannerEditor.Instance()->IsActivatable());
         ContextMenu!.SetEntryDisabled("MoveUp",   _gearsetRepository.FindPrevIdInCategory(_ctxSelectedGearset) == null);

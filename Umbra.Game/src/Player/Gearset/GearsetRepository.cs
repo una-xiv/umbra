@@ -16,13 +16,12 @@
 
 using Dalamud.Hooking;
 using Dalamud.Plugin.Services;
-using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
+using FFXIVClientStructs.FFXIV.Client.UI.Misc;
+using FFXIVClientStructs.FFXIV.Component.GUI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using FFXIVClientStructs.FFXIV.Client.UI.Misc;
-using FFXIVClientStructs.FFXIV.Component.GUI;
 using Umbra.Common;
 
 namespace Umbra.Game;
@@ -42,12 +41,16 @@ internal sealed class GearsetRepository : IGearsetRepository, IDisposable
 
     private readonly Hook<RaptureGearsetModule.Delegates.LinkGlamourPlate> _linkGlamourPlateHook;
 
+    private readonly IPlayer _player;
+
     public unsafe GearsetRepository(
         IGameInteropProvider interopProvider,
         IGearsetCategoryRepository categoryRepository,
         IPlayer player
     )
     {
+        _player = player;
+
         _linkGlamourPlateHook = interopProvider.HookFromAddress<RaptureGearsetModule.Delegates.LinkGlamourPlate>(
             RaptureGearsetModule.MemberFunctionPointers.LinkGlamourPlate,
             OnLinkGlamourPlateToGearset
@@ -97,7 +100,7 @@ internal sealed class GearsetRepository : IGearsetRepository, IDisposable
 
     private unsafe void OnLinkGlamourPlateToGearset(RaptureGearsetModule* gsm, int gearsetId, byte glamourPlateId)
     {
-        _linkGlamourPlateHook!.Original(gsm, gearsetId, glamourPlateId);
+        _linkGlamourPlateHook.Original(gsm, gearsetId, glamourPlateId);
 
         if (CurrentGearset?.Id == gearsetId) {
             // The game does not apply the linked glamour plates until the gearset itself is reequipped.
@@ -152,9 +155,10 @@ internal sealed class GearsetRepository : IGearsetRepository, IDisposable
     public unsafe void OpenGlamourSetLinkWindow(Gearset gearset)
     {
         AgentMiragePrismMiragePlate* amp = AgentMiragePrismMiragePlate.Instance();
+
         if (amp == null) return;
 
-        if (!GameMain.IsInSanctuary())
+        if (!_player.IsInSanctuary)
         {
             Framework.Service<IToastGui>().ShowError(I18N.Translate("UnableToApplyGlamourPlatesHere"));
             return;
