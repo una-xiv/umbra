@@ -320,19 +320,8 @@ internal partial class DurabilityWidget(
         LabelNode.Style.IsVisible = true;
         LabelNode.Style.Size      = new(width, SafeHeight);
 
-        // Ensure wrapper offset depending on left icon visibility
-        BarWrapperNode.Style.Margin = new EdgeSize(0, 0, 0, LeftIconNode.IsVisible ? LeftIconNode.Width : 0);
-
         DurabilityBarNode.UseBorder = GetConfigValue<bool>("UseBarBorder");
         SpiritbondBarNode.UseBorder = GetConfigValue<bool>("UseBarBorder");
-
-        if (GetConfigValue<string>("BarDirection") == "R2L") {
-            DurabilityBarNode.Direction = ProgressBarNode.FillDirection.RightToLeft;
-            SpiritbondBarNode.Direction = ProgressBarNode.FillDirection.RightToLeft;
-        } else {
-            DurabilityBarNode.Direction = ProgressBarNode.FillDirection.LeftToRight;
-            SpiritbondBarNode.Direction = ProgressBarNode.FillDirection.LeftToRight;
-        }
 
         DurabilityBarNode.Value = durability;
         SpiritbondBarNode.Value = spiritbond;
@@ -341,12 +330,21 @@ internal partial class DurabilityWidget(
     private void UseStackedBars()
     {
         if (GetConfigValue<string>("BarDirection") == "R2L") {
-            DurabilityBarNode.Style.Anchor = Anchor.BottomRight;
-            SpiritbondBarNode.Style.Anchor = Anchor.BottomRight;
+            DurabilityBarNode.Direction = ProgressBarNode.FillDirection.RightToLeft;
+            SpiritbondBarNode.Direction = ProgressBarNode.FillDirection.RightToLeft;
         } else {
-            DurabilityBarNode.Style.Anchor = Anchor.BottomLeft;
-            SpiritbondBarNode.Style.Anchor = Anchor.BottomLeft;
+            DurabilityBarNode.Direction = ProgressBarNode.FillDirection.LeftToRight;
+            SpiritbondBarNode.Direction = ProgressBarNode.FillDirection.LeftToRight;
         }
+
+        DurabilityBarNode.Style.Anchor = Anchor.TopLeft;
+        SpiritbondBarNode.Style.Anchor = Anchor.TopLeft;
+
+        DurabilityBarNode.Style.Margin = new EdgeSize(0, 0, 0, 0);
+        SpiritbondBarNode.Style.Margin = new EdgeSize(0, 0, 0, 0);
+
+        BarWrapperNode.Style.Margin = new(0, 0, 0, LeftIconNode.IsVisible ? 23 : 0);
+
     }
 
     private void UseSplittedBars()
@@ -355,17 +353,22 @@ internal partial class DurabilityWidget(
         SetLeftIcon(GetIconId());
         SetRightIcon(61564);
 
-        var margin = (int)(LeftIconNode.Width / 1.5f);
-        var width  = GetConfigValue<int>("BarWidth");
+        var width = GetConfigValue<int>("BarWidth");
 
         // Ensure the gap between icons and opposite bars aren't too much
-        LabelNode.Style.Size      = new(width - margin, SafeHeight);
-        BarWrapperNode.Style.Size = new(width - margin, SafeHeight);
+        LabelNode.Style.Size      = new(width, SafeHeight);
+        BarWrapperNode.Style.Size = new(width, SafeHeight);
 
+        BarWrapperNode.Style.Margin = new(0, 0, 0, 23);
+
+        int margin = SafeHeight / 2;
         DurabilityBarNode.Style.Margin = new EdgeSize(0, 0, 0, -margin);
-        SpiritbondBarNode.Style.Margin = new EdgeSize(0, 0, 0, LeftIconNode.Width / 3);
+        SpiritbondBarNode.Style.Margin = new EdgeSize(0, 0, 0, margin);
 
-        DurabilityBarNode.Style.Anchor = Anchor.BottomLeft;
-        SpiritbondBarNode.Style.Anchor = Anchor.BottomRight;
+        DurabilityBarNode.Direction = ProgressBarNode.FillDirection.LeftToRight;
+        SpiritbondBarNode.Direction = ProgressBarNode.FillDirection.RightToLeft;
+
+        DurabilityBarNode.Style.Anchor = Anchor.TopLeft;
+        SpiritbondBarNode.Style.Anchor = Anchor.BottomLeft;
     }
 }

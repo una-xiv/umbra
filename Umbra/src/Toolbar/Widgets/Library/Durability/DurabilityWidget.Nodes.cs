@@ -8,11 +8,11 @@ internal partial class DurabilityWidget
 
     private Node BarWrapperNode = new() {
         Stylesheet = Stylesheet,
-        SortIndex  = 0,
+        SortIndex  = -1,
         Id         = "BarWrapper",
         ChildNodes = [
-            new ProgressBarNode("SpiritbondBar"),
             new ProgressBarNode("DurabilityBar"),
+            new ProgressBarNode("SpiritbondBar"),
         ],
     };
 
