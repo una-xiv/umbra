@@ -87,14 +87,17 @@ public class ProgressBarNode : Node
             progress = 1;
         }
 
+        float scaledHeight = Height / ScaleFactor;
+        float scaledWidth = Width / ScaleFactor;
+        
         progress = Math.Clamp(progress, 0, 1);
         overflow = Math.Clamp(overflow, 0, 1);
 
         int padding     = UseBorder ? PaddingSize * 2 : 0;
-        int innerHeight = Height - padding;
+        int innerHeight = (int) (scaledHeight - padding);
 
-        var progressWidth = (int)(progress * (Width - padding));
-        var overflowWidth = (int)(overflow * (Width - padding));
+        var progressWidth = (int)(progress * (scaledWidth - padding));
+        var overflowWidth = (int)(overflow * (scaledWidth - padding));
 
         BarNode.Style.Size      = new(progressWidth, innerHeight);
         OverflowNode.Style.Size = new(overflowWidth, innerHeight);
