@@ -155,15 +155,14 @@ internal sealed partial class GearsetSwitcherWidget(
 
     private void RefreshUnderlayBar()
     {
-        var shouldBeVisible = GetConfigValue<bool>("ShowUnderlayBar");
+        var displayMode     = GetConfigValue<string>("UnderlayBarDisplayMode");
         var configuredWidth = GetConfigValue<int>("UnderlayBarWidth");
 
-        _expBar!.Style.IsVisible = shouldBeVisible;
-
-        if (!shouldBeVisible) {
+        if (displayMode == "Never") {
+            _expBar!.Style.IsVisible = false;
             return;
         }
-        
+
         // Unscaled widget width without the bar
         int computedWidth      = LeftIconNode.Bounds.MarginSize.Width + Math.Max(TopLabelNode.Bounds.MarginSize.Width, BottomLabelNode.Bounds.MarginSize.Width);
         int parentPadding      = Node.Style.Padding!.Value.Left + Node.Style.Padding.Value.Right;
@@ -174,8 +173,12 @@ internal sealed partial class GearsetSwitcherWidget(
         bool  maxLevel = _currentGearset!.IsMaxLevel;
         short jobXp    = _currentGearset!.JobXp;
 
-        _expBar.Value                         = maxLevel ? 100 : jobXp;
-        _expBar.BarNode.Style.BackgroundColor = GetColorFor(_currentGearset!.Category);
+        _expBar!.Value          = maxLevel ? 100 : jobXp;
+        _expBar.Style.IsVisible = (displayMode == "HideWhenFull" && !maxLevel) || displayMode == "Always";
+
+        _expBar.BarNode.Style.BackgroundColor = GetConfigValue<bool>("UnderlayBarColorOverride") ?
+            new(GetConfigValue<uint>("UnderlayBarColor")) :
+            GetColorFor(_currentGearset!.Category);
 
         if (!Node.TagsList.Contains("ghost")) {
             _expBar.Style.Size   = new(barWidth, SafeHeight - 6);

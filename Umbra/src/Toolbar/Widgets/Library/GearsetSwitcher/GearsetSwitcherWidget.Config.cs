@@ -16,6 +16,7 @@
 
 using System.Collections.Generic;
 using Umbra.Common;
+using Una.Drawing;
 
 namespace Umbra.Widgets;
 
@@ -44,6 +45,12 @@ internal partial class GearsetSwitcherWidget
             { "Auto", I18N.Translate("Widget.GearsetSwitcher.Config.InfoType.Option.Auto") },
             { "ItemLevel", I18N.Translate("Widget.GearsetSwitcher.Config.InfoType.Option.ItemLevel") },
             { "JobLevel", I18N.Translate("Widget.GearsetSwitcher.Config.InfoType.Option.JobLevel") },
+        };
+
+        Dictionary<string, string> underlayBarDisplayChoices = new() {
+            { "Never", I18N.Translate("Widget.GearsetSwitcher.Config.UnderlayBarDisplayMode.Option.Never") },
+            { "HideWhenFull", I18N.Translate("Widget.GearsetSwitcher.Config.UnderlayBarDisplayMode.Option.HideWhenFull") },
+            { "Always", I18N.Translate("Widget.GearsetSwitcher.Config.UnderlayBarDisplayMode.Option.Always") },
         };
 
         return [
@@ -77,11 +84,12 @@ internal partial class GearsetSwitcherWidget
             ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             ..SingleLabelTextOffsetVariables,
             ..TwoLabelTextOffsetVariables,
-            new BooleanWidgetConfigVariable(
-                "ShowUnderlayBar",
-                I18N.Translate("Widget.GearsetSwitcher.Config.ShowUnderlayBar.Name"),
-                I18N.Translate("Widget.GearsetSwitcher.Config.ShowUnderlayBar.Description"),
-                true
+            new SelectWidgetConfigVariable(
+                "UnderlayBarDisplayMode",
+                I18N.Translate("Widget.GearsetSwitcher.Config.UnderlayBarDisplayMode.Name"),
+                I18N.Translate("Widget.GearsetSwitcher.Config.UnderlayBarDisplayMode.Description"),
+                "Never",
+                underlayBarDisplayChoices
             ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             new IntegerWidgetConfigVariable(
                 "UnderlayBarWidth",
@@ -90,6 +98,18 @@ internal partial class GearsetSwitcherWidget
                 100,
                 100,
                 500
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            new BooleanWidgetConfigVariable(
+                "UnderlayBarColorOverride",
+                I18N.Translate("Widget.GearsetSwitcher.Config.UnderlayBarColorOverride.Name"),
+                I18N.Translate("Widget.GearsetSwitcher.Config.UnderlayBarColorOverride.Description"),
+                false
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            new ColorWidgetConfigVariable(
+                "UnderlayBarColor",
+                I18N.Translate("Widget.GearsetSwitcher.Config.UnderlayBarColor.Name"),
+                I18N.Translate("Widget.GearsetSwitcher.Config.UnderlayBarColor.Description"),
+                0xFF212021
             ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             new BooleanWidgetConfigVariable(
                 "AutoCloseOnChange",
