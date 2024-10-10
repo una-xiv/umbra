@@ -16,6 +16,7 @@
 
 using Dalamud.Game.Text;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
+using System;
 using System.Collections.Generic;
 using Umbra.Common;
 using Umbra.Game;
@@ -51,7 +52,7 @@ internal sealed partial class GearsetSwitcherWidget(
 
         _expBar.SortIndex                  = -1;
         _expBar.Style.Anchor               = Anchor.TopLeft;
-        _expBar.Style.Size                 = new(200, SafeHeight - 6);
+        _expBar.Style.Size                 = new(1, 1);
         _expBar.Style.Margin               = new(3, 0);
         _expBar.BarNode.Style.BorderRadius = 2;
         _expBar.Style.BackgroundColor      = new("Widget.Background");
@@ -154,20 +155,30 @@ internal sealed partial class GearsetSwitcherWidget(
 
     private void RefreshUnderlayBar()
     {
-        var shouldBeVisible = GetConfigValue<bool>("ShowUnderlayBar");
-        var barWidth        = GetConfigValue<int>("UnderlayBarWidth");
+        var displayMode     = GetConfigValue<string>("UnderlayBarDisplayMode");
+        var configuredWidth = GetConfigValue<int>("UnderlayBarWidth");
 
-        _expBar!.Style.IsVisible = shouldBeVisible;
-
-        if (!shouldBeVisible) {
+        if (displayMode == "Never") {
+            _expBar!.Style.IsVisible = false;
             return;
         }
+
+        // Unscaled widget width without the bar
+        int computedWidth      = LeftIconNode.Bounds.MarginSize.Width + Math.Max(TopLabelNode.Bounds.MarginSize.Width, BottomLabelNode.Bounds.MarginSize.Width);
+        int parentPadding      = Node.Style.Padding!.Value.Left + Node.Style.Padding.Value.Right;
+        int unscaledTotalWidth = (int)(computedWidth / Node.ScaleFactor) + parentPadding;
+
+        int barWidth = Math.Max(configuredWidth, unscaledTotalWidth);
 
         bool  maxLevel = _currentGearset!.IsMaxLevel;
         short jobXp    = _currentGearset!.JobXp;
 
-        _expBar.Value                         = maxLevel ? 100 : jobXp;
-        _expBar.BarNode.Style.BackgroundColor = GetColorFor(_currentGearset!.Category);
+        _expBar!.Value          = maxLevel ? 100 : jobXp;
+        _expBar.Style.IsVisible = (displayMode == "HideWhenFull" && !maxLevel) || displayMode == "Always";
+
+        _expBar.BarNode.Style.BackgroundColor = GetConfigValue<bool>("UnderlayBarColorOverride") ?
+            new(GetConfigValue<uint>("UnderlayBarColor")) :
+            GetColorFor(_currentGearset!.Category);
 
         if (!Node.TagsList.Contains("ghost")) {
             _expBar.Style.Size   = new(barWidth, SafeHeight - 6);
