@@ -829,7 +829,7 @@
     "Widget.GearsetSwitcher.Config.ShowExperienceBar.Name": "Show experience bar",
     "Widget.GearsetSwitcher.Config.ShowExperienceBar.Description": "Whether to show the experience bar on the gearset buttons in the popup.",
     "Widget.GearsetSwitcher.Config.UnderlayBarDisplayMode.Name": "Background Experience Bar display mode",
-    "Widget.GearsetSwitcher.Config.UnderlayBarDisplayMode.Description": "Choose the how the widget's background experience bar should be displayed.",
+    "Widget.GearsetSwitcher.Config.UnderlayBarDisplayMode.Description": "Choose how the widget's background experience bar should be displayed.",
     "Widget.GearsetSwitcher.Config.UnderlayBarDisplayMode.Option.Never": "Never show",
     "Widget.GearsetSwitcher.Config.UnderlayBarDisplayMode.Option.HideWhenFull": "Hide when full",
     "Widget.GearsetSwitcher.Config.UnderlayBarDisplayMode.Option.Always": "Always show",
@@ -837,7 +837,6 @@
     "Widget.GearsetSwitcher.Config.UnderlayBarColorOverride.Description": "Use the custom color defined below for the widget's background experience bar.",
     "Widget.GearsetSwitcher.Config.UnderlayBarColor.Name": "Experience Bar custom color",
     "Widget.GearsetSwitcher.Config.UnderlayBarColor.Description": "Define the custom color for the widget's background experience bar.",
-
     "Widget.GearsetSwitcher.Config.UnderlayBarWidth.Name": "Experience Bar Minimal Width",
     "Widget.GearsetSwitcher.Config.UnderlayBarWidth.Description": "Minimal width of the experience bar in the widget's background.",
     "Widget.GearsetSwitcher.Config.ShowExperiencePct.Name": "Show experience percentage under item level.",
