@@ -608,6 +608,8 @@
     "Widget.Spacer.Config.Width.Description": "小组件之间的额外宽度（像素）。无论此设置如何，工具栏自定义设置中的小组件间距始终适用。",
     "Widget.StackedClock.Name": "堆叠时钟",
     "Widget.StackedClock.Description": "显示本地时间、服务器时间或艾欧泽亚时间，并提供大量自定义选项，以堆叠布局显示。",
+    "Widget.StackedClock.Config.EnablePopup.Name": "启用弹出窗口",
+    "Widget.StackedClock.Config.EnablePopup.Description": "点击小部件时，是否显示包含额外时间信息的弹出窗口。",
     "Widget.StackedClock.Config.TimeSourceTop.Name": "时间来源（上）",
     "Widget.StackedClock.Config.TimeSourceTop.Description": "显示在上方时钟上的时间来源。",
     "Widget.StackedClock.Config.TimeSourceBottom.Name": "时间来源（下）",

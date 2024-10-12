@@ -35,6 +35,8 @@ internal sealed partial class StackedClockWidget(
 
     protected override void OnUpdate()
     {
+        Popup.IsDisabled = !GetConfigValue<bool>("EnablePopup");
+
         var src1 = GetConfigValue<string>("TimeSourceTop");
         var src2 = GetConfigValue<string>("TimeSourceBottom");
         var fmt1 = GetConfigValue<string>("TimeFormatTop");

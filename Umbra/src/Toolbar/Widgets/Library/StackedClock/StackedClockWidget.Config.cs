@@ -61,6 +61,12 @@ internal partial class StackedClockWidget
                     ["None"] = I18N.Translate("Widget.StackedClock.Config.PrefixPosition.Option.None"),
                 }
             ) { Category = I18N.Translate("Widget.ConfigCategory.TimeSource") },
+            new BooleanWidgetConfigVariable(
+                "EnablePopup",
+                I18N.Translate("Widget.StackedClock.Config.EnablePopup.Name"),
+                I18N.Translate("Widget.StackedClock.Config.EnablePopup.Description"),
+                true
+            ),
             ..DefaultToolbarWidgetConfigVariables,
             ..SingleLabelTextOffsetVariables,
             ..TwoLabelTextOffsetVariables,

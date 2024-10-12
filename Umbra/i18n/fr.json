@@ -608,6 +608,8 @@
     "Widget.Spacer.Config.Width.Description": "La largeur supplémentaire de la distance entre les widgets en pixels. L'espacement des widgets dans les paramètres de personnalisation de la barre d'outils est toujours pris en compte, quel que soit ce réglage.",
     "Widget.StackedClock.Name": "Horloge empilée",
     "Widget.StackedClock.Description": "Affiche l'heure locale, du serveur ou d'Eorzea avec de nombreuses options de personnalisation dans une disposition empilée.",
+    "Widget.StackedClock.Config.EnablePopup.Name": "Activer le popup",
+    "Widget.StackedClock.Config.EnablePopup.Description": "Afficher un popup avec des informations supplémentaires sur l'heure quand tu cliques sur le widget.",
     "Widget.StackedClock.Config.TimeSourceTop.Name": "Source de l'heure (Haut)",
     "Widget.StackedClock.Config.TimeSourceTop.Description": "La source de l'heure affichée sur l'horloge du haut.",
     "Widget.StackedClock.Config.TimeSourceBottom.Name": "Source de l'heure (Bas)",

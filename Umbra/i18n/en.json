@@ -608,6 +608,8 @@
     "Widget.Spacer.Config.Width.Description": "The extra width of the distance between widgets in pixels. Widget spacing in Toolbar customization settings is always taken into account, regardless of this setting.",
     "Widget.StackedClock.Name": "Stacked Clock",
     "Widget.StackedClock.Description": "Shows the current local, server or Eorzea time with lots of customization options in a stacked layout.",
+    "Widget.StackedClock.Config.EnablePopup.Name": "Enable popup",
+    "Widget.StackedClock.Config.EnablePopup.Description": "Whether to show a popup with additional time information when the widget is clicked.",
     "Widget.StackedClock.Config.TimeSourceTop.Name": "Time source (Top)",
     "Widget.StackedClock.Config.TimeSourceTop.Description": "The source of the time that is displayed on the top clock.",
     "Widget.StackedClock.Config.TimeSourceBottom.Name": "Time source (Bottom)",

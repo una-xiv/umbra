@@ -608,6 +608,8 @@
     "Widget.Spacer.Config.Width.Description": "ウィジェット間の距離の追加幅（ピクセル単位）。この設定に関係なく、ツールバーのカスタマイズ設定でウィジェットの間隔が常に考慮されます。",
     "Widget.StackedClock.Name": "積み重ね時計",
     "Widget.StackedClock.Description": "ローカル、サーバー、またはエオルゼア時間を表示し、カスタマイズオプションが豊富な積み重ねレイアウトです。",
+    "Widget.StackedClock.Config.EnablePopup.Name": "ポップアップを有効にする",
+    "Widget.StackedClock.Config.EnablePopup.Description": "ウィジェットをクリックした時に追加の時間情報を表示するかどうか。",
     "Widget.StackedClock.Config.TimeSourceTop.Name": "時間ソース（上）",
     "Widget.StackedClock.Config.TimeSourceTop.Description": "上部の時計に表示される時間のソース。",
     "Widget.StackedClock.Config.TimeSourceBottom.Name": "時間ソース（下）",

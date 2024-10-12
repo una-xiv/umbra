@@ -608,6 +608,8 @@
     "Widget.Spacer.Config.Width.Description": "Die zusätzliche Breite des Abstands zwischen Widgets in Pixeln. Der Widgetabstand in den Einstellungen zur Symbolleistenanpassung wird unabhängig von dieser Einstellung berücksichtigt.",
     "Widget.StackedClock.Name": "Gestapelte Uhr",
     "Widget.StackedClock.Description": "Zeigt die aktuelle lokale, Server- oder Eorzea-Zeit mit vielen Anpassungsmöglichkeiten in einem gestapelten Layout an.",
+    "Widget.StackedClock.Config.EnablePopup.Name": "Popup aktivieren",
+    "Widget.StackedClock.Config.EnablePopup.Description": "Ob ein Popup mit zusätzlichen Zeitinformationen angezeigt wird, wenn das Widget angeklickt wird.",
     "Widget.StackedClock.Config.TimeSourceTop.Name": "Zeitquelle (Oben)",
     "Widget.StackedClock.Config.TimeSourceTop.Description": "Die Quelle der Zeit, die auf der oberen Uhr angezeigt wird.",
     "Widget.StackedClock.Config.TimeSourceBottom.Name": "Zeitquelle (Unten)",
