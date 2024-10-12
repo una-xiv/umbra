@@ -158,6 +158,7 @@ internal sealed partial class GearsetSwitcherPopup : WidgetPopup, IDisposable
     public bool   ShowItemLevel               { get; set; } = true;
     public string GearsetButtonBackgroundType { get; set; } = "GradientV";
     public string GearsetFilterPrefix         { get; set; } = "";
+    public int    GearsetNodeWidth            { get; set; } = 150;
 
     public string HeaderIconType      { get; set; } = "Default";
     public string ButtonIconType      { get; set; } = "Default";
@@ -237,10 +238,18 @@ internal sealed partial class GearsetSwitcherPopup : WidgetPopup, IDisposable
         Node.QuerySelector("#HeaderIcon")!.Style.ImageOffset = new(0, HeaderIconYOffset);
         Node.QuerySelector("#OpenGlam")!.IsDisabled          = !_player.IsInSanctuary;
 
+        Node.QuerySelector("#HeaderGearsetName")!.Style.Size = new(GearsetNodeWidth, 0);
+        Node.QuerySelector("#HeaderGearsetInfo")!.Style.Size = new(GearsetNodeWidth, 0);
+
+
         // Assign role containers to the configured columns.
         foreach ((GearsetCategory category, Node node) in RoleContainers) {
             node.SortIndex = GetSortIndexForRole(category);
             var target = GetColumnForRole(category);
+
+            node.Style.Size = new(GearsetNodeWidth, 0);
+            node.QuerySelector("#RoleHeader")!.Style.Size = new(GearsetNodeWidth, GearsetNode.NodeHeight);
+            node.QuerySelector("#RoleBody")!.Style.Size   = new(GearsetNodeWidth + 8, 0);
 
             if (node.ParentNode != target) {
                 target.AppendChild(node);
@@ -256,9 +265,9 @@ internal sealed partial class GearsetSwitcherPopup : WidgetPopup, IDisposable
                 int gapHeight = listNode.ComputedStyle.Gap;
                 int setItems  = setCount < maxItems ? setCount : maxItems;
                 int height    = (setItems * GearsetNode.NodeHeight) + ((setItems - 1) * gapHeight);
-                listNode.Style.Size = new(GearsetNode.NodeWidth, height);
+                listNode.Style.Size = new(GearsetNodeWidth, height);
             } else {
-                listNode.Style.Size = new(GearsetNode.NodeWidth, 0);
+                listNode.Style.Size = new(GearsetNodeWidth, 0);
             }
 
             node.Style.IsVisible                               = setCount > 0 && GetVisibilityForRole(category);
@@ -294,6 +303,7 @@ internal sealed partial class GearsetSwitcherPopup : WidgetPopup, IDisposable
                 continue;
             }
 
+            node.NodeWidth         = GearsetNodeWidth;
             node.ButtonIconType    = ButtonIconType;
             node.ButtonIconYOffset = ButtonIconYOffset;
             node.BackgroundType    = GearsetButtonBackgroundType;
@@ -301,6 +311,7 @@ internal sealed partial class GearsetSwitcherPopup : WidgetPopup, IDisposable
             node.ShowWarningIcon   = ShowWarningIcon;
             node.ShowExperienceBar = ShowExperienceBar;
             node.ShowExperiencePct = ShowExperiencePct;
+
             node.Update();
         }
 
@@ -352,11 +363,11 @@ internal sealed partial class GearsetSwitcherPopup : WidgetPopup, IDisposable
                 bg.Style.BackgroundGradient = GradientColor.Vertical(new("Role.MeleeDps"), new(0));
                 break;
             case GearsetCategory.Ranged:
-                hg.Style.BackgroundGradient = GradientColor.Vertical(new(0),                        new("Role.PhysicalRangedDps"));
+                hg.Style.BackgroundGradient = GradientColor.Vertical(new(0), new("Role.PhysicalRangedDps"));
                 bg.Style.BackgroundGradient = GradientColor.Vertical(new("Role.PhysicalRangedDps"), new(0));
                 break;
             case GearsetCategory.Caster:
-                hg.Style.BackgroundGradient = GradientColor.Vertical(new(0),                       new("Role.MagicalRangedDps"));
+                hg.Style.BackgroundGradient = GradientColor.Vertical(new(0), new("Role.MagicalRangedDps"));
                 bg.Style.BackgroundGradient = GradientColor.Vertical(new("Role.MagicalRangedDps"), new(0));
                 break;
             case GearsetCategory.Crafter:

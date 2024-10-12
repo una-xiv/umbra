@@ -804,6 +804,8 @@
     "Widget.GearsetSwitcher.Config.IconType.Option.Purple": "Violet (Petit!)",
     "Widget.GearsetSwitcher.Config.IconType.Option.Blue": "Bleu (Petit!)",
     "Widget.GearsetSwitcher.Config.IconType.Option.Green": "Vert (Petit!)",
+    "Widget.GearsetSwitcher.Config.GearsetNodeWidth.Name": "Largeur du bouton d'équipement",
+    "Widget.GearsetSwitcher.Config.GearsetNodeWidth.Description": "La largeur des boutons d'équipement dans le popup en pixels.",
     "Widget.GearsetSwitcher.Config.AutoCloseOnChange.Name": "Fermeture automatique de la popup lors du changement d'ensemble d'équipement",
     "Widget.GearsetSwitcher.Config.AutoCloseOnChange.Description": "Ferme automatiquement la popup lorsqu'un ensemble d'équipement est sélectionné.",
     "Widget.GearsetSwitcher.Config.ShowRoleNames.Name": "Afficher les noms de rôle",

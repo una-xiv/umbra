@@ -804,6 +804,8 @@
     "Widget.GearsetSwitcher.Config.IconType.Option.Purple": "紫色 (小!)",
     "Widget.GearsetSwitcher.Config.IconType.Option.Blue": "蓝色 (小!)",
     "Widget.GearsetSwitcher.Config.IconType.Option.Green": "绿色 (小!)",
+    "Widget.GearsetSwitcher.Config.GearsetNodeWidth.Name": "装备按钮宽度",
+    "Widget.GearsetSwitcher.Config.GearsetNodeWidth.Description": "弹出窗口中装备按钮的宽度，以像素为单位。",
     "Widget.GearsetSwitcher.Config.AutoCloseOnChange.Name": "选择套装时自动关闭弹出窗口",
     "Widget.GearsetSwitcher.Config.AutoCloseOnChange.Description": "当选择套装时自动关闭弹出窗口。",
     "Widget.GearsetSwitcher.Config.ShowRoleNames.Name": "显示职能名称",

@@ -804,6 +804,8 @@
     "Widget.GearsetSwitcher.Config.IconType.Option.Purple": "紫 (小!)",
     "Widget.GearsetSwitcher.Config.IconType.Option.Blue": "青 (小!)",
     "Widget.GearsetSwitcher.Config.IconType.Option.Green": "緑 (小!)",
+    "Widget.GearsetSwitcher.Config.GearsetNodeWidth.Name": "ギアセットボタンの幅",
+    "Widget.GearsetSwitcher.Config.GearsetNodeWidth.Description": "ポップアップ内のギアセットボタンの幅（ピクセル単位）。",
     "Widget.GearsetSwitcher.Config.AutoCloseOnChange.Name": "装備セット変更時にポップアップを自動的に閉じる",
     "Widget.GearsetSwitcher.Config.AutoCloseOnChange.Description": "装備セットが選択されたときにポップアップを自動的に閉じます。",
     "Widget.GearsetSwitcher.Config.ShowRoleNames.Name": "役割名を表示",

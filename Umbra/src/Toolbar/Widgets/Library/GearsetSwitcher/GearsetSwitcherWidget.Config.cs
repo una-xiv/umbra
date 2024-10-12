@@ -123,6 +123,14 @@ internal partial class GearsetSwitcherWidget
                 I18N.Translate("Widget.GearsetSwitcher.Config.EnableRoleScrolling.Description"),
                 false
             ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
+            new IntegerWidgetConfigVariable(
+                "GearsetNodeWidth",
+                I18N.Translate("Widget.GearsetSwitcher.Config.GearsetNodeWidth.Name"),
+                I18N.Translate("Widget.GearsetSwitcher.Config.GearsetNodeWidth.Description"),
+                240,
+                120,
+                400
+            ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
             new StringWidgetConfigVariable(
                 "GearsetFilterPrefix",
                 I18N.Translate("Widget.GearsetSwitcher.Config.GearsetFilterPrefix.Name"),

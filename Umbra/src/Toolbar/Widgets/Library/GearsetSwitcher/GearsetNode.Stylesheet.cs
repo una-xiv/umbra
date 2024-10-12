@@ -25,7 +25,7 @@ internal partial class GearsetNode
             new(
                 ".gearset",
                 new() {
-                    Size                    = new(NodeWidth, NodeHeight),
+                    Size                    = new(240, NodeHeight),
                     IsAntialiased           = false,
                     BackgroundColor         = new("Input.Background"),
                     BorderRadius            = 7,
@@ -75,7 +75,7 @@ internal partial class GearsetNode
                 ".gearset--body",
                 new() {
                     Flow    = Flow.Vertical,
-                    Size    = new(NodeWidth - 30 - 60),
+                    Size    = new(240 - 30 - 60),
                     Padding = new() { Left = 6 },
                     Gap     = 0,
                 }
@@ -87,7 +87,7 @@ internal partial class GearsetNode
                     FontSize     = 13,
                     TextOffset   = new(0, 1),
                     Color        = new("Input.Text"),
-                    Size         = new(NodeWidth - 30 - 60, 0),
+                    Size         = new(240 - 30 - 60, 0),
                     TextOverflow = false,
                     WordWrap     = false,
                 }
@@ -98,7 +98,7 @@ internal partial class GearsetNode
                     Font         = 0,
                     FontSize     = 11,
                     Color        = new("Input.Text"),
-                    Size         = new(NodeWidth - 30 - 60, 0),
+                    Size         = new(240 - 30 - 60, 0),
                     TextOverflow = false,
                     WordWrap     = false,
                 }
@@ -122,7 +122,7 @@ internal partial class GearsetNode
                 ".gearset-exp-bar",
                 new() {
                     Anchor          = Anchor.BottomLeft,
-                    Size            = new(NodeWidth - 10, 3),
+                    Size            = new(240 - 10, 3),
                     BackgroundColor = new("Window.Background"),
                     BorderRadius    = 1,
                     IsAntialiased   = false,

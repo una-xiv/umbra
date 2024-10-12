@@ -24,7 +24,6 @@ namespace Umbra.Widgets;
 
 internal partial class GearsetNode : Node
 {
-    public const int NodeWidth  = 240;
     public const int NodeHeight = 40;
 
     public int    ButtonIconYOffset { get; set; }
@@ -34,6 +33,7 @@ internal partial class GearsetNode : Node
     public bool   ShowExperiencePct { get; set; } = true;
     public bool   ShowItemLevel     { get; set; } = true;
     public bool   ShowWarningIcon   { get; set; } = true;
+    public int    NodeWidth         { get; set; } = 150;
 
     public readonly Gearset Gearset;
 
@@ -107,14 +107,20 @@ internal partial class GearsetNode : Node
 
     public void Update()
     {
+        this.Style.Size                                  = new(NodeWidth, NodeHeight);
+        this.QuerySelector(".gearset--body")!.Style.Size = new(NodeWidth - 30 - 60, 0);
+
         IconNode.Style.IconId      = _player.GetJobInfo(Gearset.JobId).GetIcon(ButtonIconType);
         IconNode.Style.ImageOffset = new(0, ButtonIconYOffset);
 
+        NameNode.Style.Size      = new(NodeWidth - 30 - 60, 0);
         NameNode.NodeValue       = Gearset.Name;
+        InfoNode.Style.Size      = new(NodeWidth - 30 - 60, 0);
         InfoNode.NodeValue       = GetCurrentGearsetStatusText();
         IlvlNode.NodeValue       = Gearset.ItemLevel.ToString();
         IlvlNode.Style.IsVisible = ShowItemLevel;
 
+        ExpBarNode.Style.Size          = new(NodeWidth - 10, 3);
         ExpBarNode.Style.IsVisible     = !Gearset.IsMaxLevel && ShowExperienceBar;
         ExpBarTextNode.Style.IsVisible = !Gearset.IsMaxLevel && ShowExperiencePct;
         ExpBarTextNode.NodeValue       = $"{Gearset.JobXp}%";

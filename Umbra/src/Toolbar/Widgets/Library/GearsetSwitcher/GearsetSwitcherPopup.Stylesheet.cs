@@ -75,7 +75,7 @@ internal sealed partial class GearsetSwitcherPopup
             new(
                 "#HeaderGearsetName",
                 new() {
-                    Size         = new(GearsetNode.NodeWidth, 0),
+                    Size         = new(240, 0),
                     Font         = 0,
                     FontSize     = 18,
                     Color        = new("Widget.PopupMenuText"),
@@ -88,7 +88,7 @@ internal sealed partial class GearsetSwitcherPopup
             new(
                 "#HeaderGearsetInfo",
                 new() {
-                    Size         = new(GearsetNode.NodeWidth, 0),
+                    Size         = new(240, 0),
                     Font         = 0,
                     FontSize     = 11,
                     Color        = new("Widget.PopupMenuText"),
@@ -157,13 +157,13 @@ internal sealed partial class GearsetSwitcherPopup
                 ".role-container",
                 new() {
                     Flow = Flow.Vertical,
-                    Size = new(GearsetNode.NodeWidth, 0),
+                    Size = new(240, 0),
                 }
             ),
             new(
                 "#RoleHeader",
                 new() {
-                    Size         = new(GearsetNode.NodeWidth, GearsetNode.NodeHeight),
+                    Size         = new(240, GearsetNode.NodeHeight),
                     Font         = 0,
                     FontSize     = 16,
                     Color        = new("Widget.PopupMenuText"),
@@ -178,7 +178,7 @@ internal sealed partial class GearsetSwitcherPopup
                 "#RoleBody",
                 new() {
                     Flow                = Flow.Vertical,
-                    Size                = new(GearsetNode.NodeWidth + 8, 0),
+                    Size                = new(240 + 8, 0),
                     ScrollbarTrackColor = new(0),
                     ScrollbarThumbColor = new("Input.Background"),
                 }
@@ -187,7 +187,7 @@ internal sealed partial class GearsetSwitcherPopup
                 "#GearsetList",
                 new() {
                     Flow = Flow.Vertical,
-                    Size = new(GearsetNode.NodeWidth, 0),
+                    Size = new(240, 0),
                     Gap  = 4,
                 }
             )
