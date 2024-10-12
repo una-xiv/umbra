@@ -14,6 +14,8 @@
  *     GNU Affero General Public License for more details.
  */
 
+using Dalamud.Plugin.Services;
+using Lumina.Excel.GeneratedSheets;
 using System.Collections.Generic;
 using System.Linq;
 using Umbra.Common;
@@ -117,7 +119,7 @@ internal sealed partial class TeleportWidgetPopup
         int count = 0;
 
         foreach (MainMenuItem item in Framework.Service<IMainMenuRepository>().GetCategory(MenuCategory.Travel).Items) {
-            if (item.Type is MainMenuItemType.MainCommand or MainMenuItemType.Separator) continue;
+            if ((item.Type == MainMenuItemType.MainCommand && item.CommandId != 36)) continue;
             BuildMenuItemNode(menuListNode, item);
             count++;
         }

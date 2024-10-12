@@ -256,6 +256,15 @@ internal partial class TeleportWidgetPopup
 
     private void BuildMenuItemNode(Node targetNode, MainMenuItem item)
     {
+        if (item.Type == MainMenuItemType.Separator) {
+            targetNode.AppendChild(new() {
+                SortIndex = item.SortIndex,
+                Style     = new() { Size = new(0, 8) }
+            });
+
+            return;
+        }
+
         uint iconId = 0;
 
         if (item.Icon is uint u) {
