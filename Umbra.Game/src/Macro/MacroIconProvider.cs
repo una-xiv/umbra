@@ -86,7 +86,9 @@ internal sealed unsafe class MacroIconProvider : IMacroIconProvider
             RaptureHotbarModule.HotbarSlotType.BuddyAction        => GetIconIdForBuddyAction(rowId, originalId),
             RaptureHotbarModule.HotbarSlotType.Companion          => GetIconIdForCompanion(rowId, originalId),
             RaptureHotbarModule.HotbarSlotType.GearSet            => GetIconIdForGearset((int)rowId + 1),
+            RaptureHotbarModule.HotbarSlotType.GeneralAction      => GetIconIdForGeneralAction(rowId, originalId),
             RaptureHotbarModule.HotbarSlotType.PetAction          => GetIconIdForPetAction(rowId, originalId),
+            RaptureHotbarModule.HotbarSlotType.PvPQuickChat       => GetIconIdForPvPQuickChat(rowId, originalId),
             RaptureHotbarModule.HotbarSlotType.Mount              => GetIconIdForMount(rowId, originalId),
             RaptureHotbarModule.HotbarSlotType.FieldMarker        => GetIconIdForFieldMarker(rowId, originalId),
             _                                                     => originalId,
@@ -131,9 +133,19 @@ internal sealed unsafe class MacroIconProvider : IMacroIconProvider
         return ((uint?)DataManager.GetExcelSheet<Companion>()!.GetRow(rowId)?.Icon) ?? fallbackId;
     }
 
+    private uint GetIconIdForGeneralAction(uint rowId, uint fallbackId)
+    {
+        return (uint?)DataManager.GetExcelSheet<GeneralAction>()!.GetRow(rowId)?.Icon ?? fallbackId;
+    }
+
     private uint GetIconIdForPetAction(uint rowId, uint fallbackId)
     {
         return ((uint?)DataManager.GetExcelSheet<PetAction>()!.GetRow(rowId)?.Icon) ?? fallbackId;
+    }
+
+    private uint GetIconIdForPvPQuickChat(uint rowId, uint fallbackId)
+    {
+        return (uint?)DataManager.GetExcelSheet<QuickChat>()!.GetRow(rowId)?.Icon ?? fallbackId;
     }
 
     private uint GetIconIdForMount(uint rowId, uint fallbackId)
