@@ -120,17 +120,17 @@ internal sealed unsafe class MacroIconProvider : IMacroIconProvider
 
     private uint GetIconIdForMarker(uint rowId, uint fallbackId)
     {
-        return ((uint?)DataManager.GetExcelSheet<Marker>()!.GetRow(rowId)?.Icon) ?? fallbackId;
+        return (uint?)DataManager.GetExcelSheet<Marker>()!.GetRow(rowId)?.Icon ?? fallbackId;
     }
 
     private uint GetIconIdForBuddyAction(uint rowId, uint fallbackId)
     {
-        return ((uint?)DataManager.GetExcelSheet<BuddyAction>()!.GetRow(rowId)?.Icon) ?? fallbackId;
+        return (uint?)DataManager.GetExcelSheet<BuddyAction>()!.GetRow(rowId)?.Icon ?? fallbackId;
     }
 
     private uint GetIconIdForCompanion(uint rowId, uint fallbackId)
     {
-        return ((uint?)DataManager.GetExcelSheet<Companion>()!.GetRow(rowId)?.Icon) ?? fallbackId;
+        return DataManager.GetExcelSheet<Companion>()!.GetRow(rowId)?.Icon ?? fallbackId;
     }
 
     private uint GetIconIdForGeneralAction(uint rowId, uint fallbackId)
@@ -140,7 +140,7 @@ internal sealed unsafe class MacroIconProvider : IMacroIconProvider
 
     private uint GetIconIdForPetAction(uint rowId, uint fallbackId)
     {
-        return ((uint?)DataManager.GetExcelSheet<PetAction>()!.GetRow(rowId)?.Icon) ?? fallbackId;
+        return (uint?)DataManager.GetExcelSheet<PetAction>()!.GetRow(rowId)?.Icon ?? fallbackId;
     }
 
     private uint GetIconIdForPvPQuickChat(uint rowId, uint fallbackId)
@@ -150,11 +150,11 @@ internal sealed unsafe class MacroIconProvider : IMacroIconProvider
 
     private uint GetIconIdForMount(uint rowId, uint fallbackId)
     {
-        return ((uint?)DataManager.GetExcelSheet<Mount>()!.GetRow(rowId)?.Icon) ?? fallbackId;
+        return DataManager.GetExcelSheet<Mount>()!.GetRow(rowId)?.Icon ?? fallbackId;
     }
 
     private uint GetIconIdForFieldMarker(uint rowId, uint fallbackId)
     {
-        return ((uint?)DataManager.GetExcelSheet<FieldMarker>()!.GetRow(rowId)?.MapIcon) ?? fallbackId;
+        return DataManager.GetExcelSheet<FieldMarker>()!.GetRow(rowId)?.MapIcon ?? fallbackId;
     }
 }
