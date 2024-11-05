@@ -38,12 +38,15 @@ internal partial class WorldNameWidget(
     protected override void Initialize()
     {
         _player = Framework.Service<IPlayer>();
+
+        SetTwoLabels("World", "Data Center");
     }
 
     /// <inheritdoc/>
     protected override void OnUpdate()
     {
         var  hideOnHomeWorld = GetConfigValue<bool>("HideOnHomeWorld");
+        var  hideDataCenter  = GetConfigValue<bool>("HideDataCenter");
         var  decorate        = GetConfigValue<bool>("Decorate");
         var  textYOffset     = GetConfigValue<int>("TextYOffset");
         var  iconLocation    = GetConfigValue<string>("IconLocation");
@@ -65,7 +68,16 @@ internal partial class WorldNameWidget(
                 str.AddIcon(BitmapFontIcon.CrossWorld);
             }
 
-            SetLabel(str.Build());
+            string worldNameLabel = str.Build().ToString();
+
+            if (hideDataCenter) {
+                SetLabel(worldNameLabel);
+            } else {
+                SetTwoLabels(
+                    worldNameLabel,
+                    _player.CurrentDataCenterName
+                );
+            }
             SetGhost(!decorate);
         }
 

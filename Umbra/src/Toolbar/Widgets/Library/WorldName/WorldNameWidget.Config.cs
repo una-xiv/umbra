@@ -30,8 +30,15 @@ internal partial class WorldNameWidget
                 I18N.Translate("Widget.WorldName.Config.HideOnHomeWorld.Description"),
                 false
             ),
+            new BooleanWidgetConfigVariable(
+                "HideDataCenter",
+                I18N.Translate("Widget.WorldName.Config.HideDataCenter.Name"),
+                I18N.Translate("Widget.WorldName.Config.HideDataCenter.Description"),
+                true
+            ),
             ..DefaultToolbarWidgetConfigVariables,
             ..SingleLabelTextOffsetVariables,
+            ..TwoLabelTextOffsetVariables,
         ];
     }
 }
