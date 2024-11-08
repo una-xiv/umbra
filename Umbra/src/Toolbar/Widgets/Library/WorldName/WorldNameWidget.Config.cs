@@ -31,10 +31,10 @@ internal partial class WorldNameWidget
                 false
             ),
             new BooleanWidgetConfigVariable(
-                "HideDataCenter",
-                I18N.Translate("Widget.WorldName.Config.HideDataCenter.Name"),
-                I18N.Translate("Widget.WorldName.Config.HideDataCenter.Description"),
-                true
+                "ShowDataCenter",
+                I18N.Translate("Widget.WorldName.Config.ShowDataCenter.Name"),
+                I18N.Translate("Widget.WorldName.Config.ShowDataCenter.Description"),
+                false
             ),
             ..DefaultToolbarWidgetConfigVariables,
             ..SingleLabelTextOffsetVariables,

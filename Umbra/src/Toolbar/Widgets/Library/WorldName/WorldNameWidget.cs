@@ -46,7 +46,7 @@ internal partial class WorldNameWidget(
     protected override void OnUpdate()
     {
         var  hideOnHomeWorld = GetConfigValue<bool>("HideOnHomeWorld");
-        var  hideDataCenter  = GetConfigValue<bool>("HideDataCenter");
+        var  showDataCenter  = GetConfigValue<bool>("ShowDataCenter");
         var  decorate        = GetConfigValue<bool>("Decorate");
         var  textYOffset     = GetConfigValue<int>("TextYOffset");
         var  iconLocation    = GetConfigValue<string>("IconLocation");
@@ -70,14 +70,12 @@ internal partial class WorldNameWidget(
 
             string worldNameLabel = str.Build().ToString();
 
-            if (hideDataCenter) {
-                SetLabel(worldNameLabel);
+            if (showDataCenter) {
+                SetTwoLabels(worldNameLabel, _player.CurrentDataCenterName);
             } else {
-                SetTwoLabels(
-                    worldNameLabel,
-                    _player.CurrentDataCenterName
-                );
+                SetLabel(worldNameLabel);
             }
+
             SetGhost(!decorate);
         }
 
