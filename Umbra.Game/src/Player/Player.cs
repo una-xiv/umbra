@@ -166,6 +166,17 @@ internal sealed class Player : IPlayer
     public string CurrentWorldName { get; private set; } = "";
 
     /// <summary>
+    /// The name of the data center the player originates from.
+    /// </summary>
+    public string HomeDataCenterName { get; private set; } = "";
+
+    /// <summary>
+    /// The name of the data center the player is currently in.
+    /// </summary>
+    public string CurrentDataCenterName { get; private set; } = "";
+
+
+    /// <summary>
     /// The ID of the grand company the player is a member of.
     /// </summary>
     public byte GrandCompanyId { get; private set; }
@@ -335,9 +346,11 @@ internal sealed class Player : IPlayer
             && _condition[ConditionFlag.OccupiedInCutSceneEvent];
 
         // Unknown57 is the transient state the player is in after casting and before being actually mounted.
-        CanUseTeleportAction = ActionManager.Instance()->GetActionStatus(ActionType.Action, 5) == 0;
-        HomeWorldName        = _clientState.LocalPlayer.HomeWorld.GameData!.Name.ToString();
-        CurrentWorldName     = _clientState.LocalPlayer.CurrentWorld.GameData!.Name.ToString();
+        CanUseTeleportAction  = ActionManager.Instance()->GetActionStatus(ActionType.Action, 5) == 0;
+        HomeWorldName         = _clientState.LocalPlayer.HomeWorld.GameData!.Name.ToString();
+        CurrentWorldName      = _clientState.LocalPlayer.CurrentWorld.GameData!.Name.ToString();
+        HomeDataCenterName    = _clientState.LocalPlayer.HomeWorld.GameData!.DataCenter.Value!.Name.ToString();
+        CurrentDataCenterName = _clientState.LocalPlayer.CurrentWorld.GameData!.DataCenter.Value!.Name.ToString();
 
         var ps = PlayerState.Instance();
 

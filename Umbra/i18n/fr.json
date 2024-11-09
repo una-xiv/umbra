@@ -649,6 +649,8 @@
     "Widget.WorldName.Description": "Affiche le nom du monde actuel. Possède une option pour se cacher lorsque vous êtes sur votre monde d'origine.",
     "Widget.WorldName.Config.HideOnHomeWorld.Name": "Cacher sur le monde d'origine",
     "Widget.WorldName.Config.HideOnHomeWorld.Description": "Masque le widget lorsque vous êtes sur votre monde d'origine. Cela peut être utile pour préserver de l'espace dans la barre d'outils.",
+    "Widget.WorldName.Config.ShowDataCenter.Name": "Afficher le centre de données",
+    "Widget.WorldName.Config.ShowDataCenter.Description": "Affiche le nom du centre de données.",
     "Widget.MainMenu.Name": "Bouton du menu principal",
     "Widget.MainMenu.Description": "Affiche un bouton qui ouvre le menu principal configuré.",
     "Widget.MainMenu.Config.Category.Name": "Catégorie de menu",

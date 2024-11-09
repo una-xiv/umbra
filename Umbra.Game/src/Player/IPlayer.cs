@@ -146,6 +146,19 @@ public interface IPlayer
     /// </summary>
     public string CurrentWorldName { get; }
 
+    /// <summary>
+    /// The name of the data center the player originates from.
+    /// </summary>
+    public string HomeDataCenterName { get; }
+
+    /// <summary>
+    /// The name of the data center the player is currently in.
+    /// </summary>
+    public string CurrentDataCenterName { get; }
+
+    /// <summary>
+    /// The ID of the grand company the player is a member of.
+    /// </summary>
     public byte GrandCompanyId { get; }
 
     /// <summary>

@@ -649,6 +649,8 @@
     "Widget.WorldName.Description": "現在のワールドの名前を表示します。ホームワールドにいるときに非表示にするオプションがあります。",
     "Widget.WorldName.Config.HideOnHomeWorld.Name": "ホームワールドで非表示にする",
     "Widget.WorldName.Config.HideOnHomeWorld.Description": "ホームワールドにいるときにウィジェットを非表示にします。これは、ツールバーのスペースを確保するのに役立ちます。",
+    "Widget.WorldName.Config.ShowDataCenter.Name": "データセンターを表示",
+    "Widget.WorldName.Config.ShowDataCenter.Description": "データセンターの名前を表示します。",
     "Widget.MainMenu.Name": "メインメニューボタン",
     "Widget.MainMenu.Description": "構成されたメインメニューを開くボタンを表示します。",
     "Widget.MainMenu.Config.Category.Name": "メニューカテゴリ",
