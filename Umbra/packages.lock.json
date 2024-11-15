@@ -15,22 +15,22 @@
       },
       "SkiaSharp": {
         "type": "Transitive",
-        "resolved": "3.0.0-preview.3.1",
-        "contentHash": "msnZ1Z6XFlPzCFBvr7aM8i28NLucgvYqjpsHDWerptLeeU390Y+GTNcupQ9wSvu/t8p0t77x0FJbiiaXbVmTwA==",
+        "resolved": "3.118.0-preview.1.2",
+        "contentHash": "0ee/n3BGXKjwPGPr4/uOtoAsUWHUrqMnyyJrdxB5NCZ1VjuJA5u++CtY5W0zziBhzpmb8llws+Vgop1KNv9zsQ==",
         "dependencies": {
-          "SkiaSharp.NativeAssets.Win32": "3.0.0-preview.3.1",
-          "SkiaSharp.NativeAssets.macOS": "3.0.0-preview.3.1"
+          "SkiaSharp.NativeAssets.Win32": "3.118.0-preview.1.2",
+          "SkiaSharp.NativeAssets.macOS": "3.118.0-preview.1.2"
         }
       },
       "SkiaSharp.NativeAssets.macOS": {
         "type": "Transitive",
-        "resolved": "3.0.0-preview.3.1",
-        "contentHash": "bsvo75mbE5f4XefR3jGazRtKUb727knkpt0jVK3pAQayOJTcavKhOW+2wtMn24dGda2Yiu4dlbjYRQeVjCyD5Q=="
+        "resolved": "3.118.0-preview.1.2",
+        "contentHash": "08uDbkHlSe0NhMmVn9V+KenxiGWU79KONBE3nd+gPh6IwXMSQbWS/j5Di3Gg5vVKDxI8n+m3igBDqQy4ngW9IA=="
       },
       "SkiaSharp.NativeAssets.Win32": {
         "type": "Transitive",
-        "resolved": "3.0.0-preview.3.1",
-        "contentHash": "GxeVii9xXqjoRp43uKyXrBqEfxpyEvrMAIEerYsK2aLIN3JltD1ZkyMu9o0b6EP9tIVRudpuAGoPntAJEoYiDg=="
+        "resolved": "3.118.0-preview.1.2",
+        "contentHash": "pjcuvrYCJ74gPdz+W327JcwJKyy5QVXOfVXxAKnih+n1d8b6A0m41LNqlOMhUzfbpl4TDnqB19KraMWZqiaVjg=="
       },
       "umbra.common": {
         "type": "Project"
@@ -45,7 +45,7 @@
       "una.drawing": {
         "type": "Project",
         "dependencies": {
-          "SkiaSharp": "[3.0.0-preview.3.1, )"
+          "SkiaSharp": "[3.118.0-preview.1.2, )"
         }
       }
     }
