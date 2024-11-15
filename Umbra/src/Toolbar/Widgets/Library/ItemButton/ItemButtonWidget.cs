@@ -17,7 +17,7 @@
 using System.Collections.Generic;
 using Dalamud.Plugin.Services;
 using Dalamud.Utility;
-using Lumina.Excel.GeneratedSheets;
+using Lumina.Excel.Sheets;
 using Umbra.Common;
 using Umbra.Game;
 using Una.Drawing;

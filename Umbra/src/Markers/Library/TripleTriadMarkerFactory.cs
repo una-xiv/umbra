@@ -21,7 +21,7 @@ using Dalamud.Game.Text;
 using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
-using Lumina.Excel.GeneratedSheets;
+using Lumina.Excel.Sheets;
 using Umbra.Common;
 using Umbra.Game;
 
@@ -55,25 +55,25 @@ internal class TripleTriadMarkerFactory(IDataManager dataManager, IZoneManager z
         UIState* ui = UIState.Instance();
         if (ui == null) return;
 
-        dataManager.GetExcelSheet<TripleTriadCardResident>()!
+        dataManager.GetExcelSheet<TripleTriadCardResident>()
             .ToList()
             .ForEach(
                 (resident) => {
-                    var card = dataManager.GetExcelSheet<TripleTriadCard>()!.GetRow(resident.RowId);
+                    var card = dataManager.GetExcelSheet<TripleTriadCard>().FindRow(resident.RowId);
 
-                    if (card == null || card.Name.ToString() == string.Empty) return;
-                    if (ui->IsTripleTriadCardUnlocked((ushort)card.RowId)) return;
+                    if (card == null || card.Value.Name.ToString() == string.Empty) return;
+                    if (ui->IsTripleTriadCardUnlocked((ushort)card.Value.RowId)) return;
 
                     // Only show cards that we can infer a valid location from.
-                    if (resident.Location < 1
-                        || dataManager.GetExcelSheet<Level>()!.GetRow(resident.Location) is not { } level)
+                    if (resident.Location.RowId < 1
+                        || dataManager.GetExcelSheet<Level>().FindRow(resident.Location.RowId) is not { } level)
                         return;
 
                     var position = new Vector3(level.X, level.Y + 1.25f, level.Z);
-                    var mapId    = level.Map.Row;
-                    var name     = card.Name.ToString();
+                    var mapId    = level.Map.RowId;
+                    var name     = card.Value.Name.ToString();
 
-                    var starCount           = resident.TripleTriadCardRarity.Value?.Stars ?? 0;
+                    var starCount           = resident.TripleTriadCardRarity.ValueNullable?.Stars ?? 0;
                     if (starCount > 0) name = $"{(char)(SeIconChar.BoxedNumber0.ToIconChar() + starCount)} {name}";
 
                     if (!_cardLocations.ContainsKey(mapId)) _cardLocations[mapId] = [];
@@ -81,10 +81,10 @@ internal class TripleTriadMarkerFactory(IDataManager dataManager, IZoneManager z
                     _cardLocations[mapId]
                         .Add(
                             new() {
-                                Id            = card.RowId,
+                                Id            = card.Value.RowId,
                                 Name          = name,
                                 Position      = position,
-                                UnlockQuestId = resident.Quest.Row,
+                                UnlockQuestId = resident.Quest.RowId,
                             }
                         );
                 }
@@ -127,7 +127,7 @@ internal class TripleTriadMarkerFactory(IDataManager dataManager, IZoneManager z
 
             if (isLocked) {
                 subLabel = "Quest Required: "
-                    + (dataManager.GetExcelSheet<Quest>()!.GetRow(card.UnlockQuestId)?.Name.ToString()
+                    + (dataManager.GetExcelSheet<Quest>().FindRow(card.UnlockQuestId)?.Name.ToString()
                         ?? "Unknown Quest");
             }
 

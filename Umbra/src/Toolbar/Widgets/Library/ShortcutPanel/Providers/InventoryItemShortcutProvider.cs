@@ -1,7 +1,7 @@
 ﻿using Dalamud.Plugin.Services;
 using Dalamud.Utility;
 using FFXIVClientStructs.FFXIV.Client.Game;
-using Lumina.Excel.GeneratedSheets;
+using Lumina.Excel.Sheets;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -58,15 +58,15 @@ internal sealed class InventoryItemShortcutProvider(IDataManager dataManager, IP
     {
         if (id == 0u) return null;
 
-        var item = dataManager.GetExcelSheet<Item>()!.GetRow(id);
+        var item = dataManager.GetExcelSheet<Item>().FindRow(id);
         if (item == null) return null;
 
         var count = player.GetItemCount(id);
 
         return new() {
             Id             = id,
-            Name           = item.Name.ToDalamudString().TextValue,
-            IconId         = item.Icon,
+            Name           = item.Value.Name.ToDalamudString().TextValue,
+            IconId         = item.Value.Icon,
             Count          = (uint)count,
             IsConfigurable = false,
             IsDisabled     = count == 0,
@@ -88,16 +88,17 @@ internal sealed class InventoryItemShortcutProvider(IDataManager dataManager, IP
         if (container == null) return [];
 
         var items = new List<Item>();
-        var sheet = dataManager.GetExcelSheet<Item>()!;
+        var sheet = dataManager.GetExcelSheet<Item>();
 
         for (var i = 0; i < container->Size; i++) {
             var slot = container->GetInventorySlot(i);
             if (slot == null || slot->ItemId == 0) continue;
 
-            var item = sheet.GetRow(slot->ItemId > 1000000 ? slot->ItemId - 1000000 : slot->ItemId);
+            var item = sheet.FindRow(slot->ItemId > 1000000 ? slot->ItemId - 1000000 : slot->ItemId);
             if (item == null) continue;
 
-            if (!items.Contains(item)) items.Add(item);
+            // FIXME: This is inefficient.
+            if (!items.Contains(item.Value)) items.Add(item.Value);
         }
 
         return items;

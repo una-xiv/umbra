@@ -2,7 +2,7 @@
 using Dalamud.Utility;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
-using Lumina.Excel.GeneratedSheets2;
+using Lumina.Excel.Sheets;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,7 +25,7 @@ internal sealed class MountShortcutProvider(IDataManager dataManager, TextDecode
     {
         List<Shortcut> shortcuts = [];
 
-        var mounts = dataManager.GetExcelSheet<Mount>()!.ToList();
+        var mounts = dataManager.GetExcelSheet<Mount>().ToList();
 
         mounts.Sort(
             (a, b) => string.Compare(
@@ -64,13 +64,13 @@ internal sealed class MountShortcutProvider(IDataManager dataManager, TextDecode
     {
         if (id == 0u) return null;
 
-        var mount = dataManager.GetExcelSheet<Mount>()!.GetRow(id);
+        var mount = dataManager.GetExcelSheet<Mount>().FindRow(id);
         if (mount == null) return null;
 
         return new() {
             Id         = id,
             Name       = decoder.ProcessNoun("Mount", id),
-            IconId     = mount.Icon,
+            IconId     = mount.Value.Icon,
             IsDisabled = !PlayerState.Instance()->IsMountUnlocked((ushort)id),
         };
     }

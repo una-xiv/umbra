@@ -16,7 +16,7 @@
 
 using System.Collections.Generic;
 using Dalamud.Plugin.Services;
-using Lumina.Excel.GeneratedSheets;
+using Lumina.Excel.Sheets;
 using Umbra.Common;
 using Umbra.Game;
 using Una.Drawing;
@@ -37,14 +37,13 @@ internal sealed partial class TeleportWidget(
     private IPlayer Player { get; set; } = null!;
 
     private string TeleportName { get; set; } = null!;
-    private uint   TeleportIcon { get; set; }
 
     /// <inheritdoc/>
     protected override void Initialize()
     {
         Player = Framework.Service<IPlayer>();
 
-        var teleportAction = Framework.Service<IDataManager>().GetExcelSheet<GeneralAction>()!.GetRow(7)!;
+        var teleportAction = Framework.Service<IDataManager>().GetExcelSheet<GeneralAction>().GetRow(7);
         TeleportName = teleportAction.Name.ToString();
 
         Node.OnRightClick += OpenTeleportWindow;

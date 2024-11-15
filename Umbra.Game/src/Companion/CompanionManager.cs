@@ -15,13 +15,13 @@
  */
 
 using System;
-using System.Text;
 using Dalamud.Plugin.Services;
 using Dalamud.Utility;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using FFXIVClientStructs.FFXIV.Client.UI;
-using Lumina.Excel.GeneratedSheets;
+using Lumina.Excel;
+using Lumina.Excel.Sheets;
 using Umbra.Common;
 
 namespace Umbra.Game;
@@ -68,8 +68,10 @@ internal sealed class CompanionManager : ICompanionManager
         var buddy = ui->Buddy.CompanionInfo;
         if (buddy.Rank == 0) return;
 
-        var rank = _dataManager.GetExcelSheet<BuddyRank>()!.GetRow(buddy.Rank);
-        if (rank == null) return;
+        ExcelSheet<BuddyRank> rankSheet = _dataManager.GetExcelSheet<BuddyRank>();
+        if (!rankSheet.HasRow(buddy.Rank)) return;
+
+        var rank = rankSheet.GetRow(buddy.Rank);
 
         uint objectId = ui->Buddy.CompanionInfo.Companion->EntityId;
 
@@ -132,12 +134,12 @@ internal sealed class CompanionManager : ICompanionManager
 
     public string GetStanceName(uint id)
     {
-        return _dataManager.GetExcelSheet<BuddyAction>()!.GetRow(id)!.Name.ToDalamudString().TextValue;
+        return _dataManager.GetExcelSheet<BuddyAction>().FindRow(id)!.Value.Name.ToDalamudString().TextValue;
     }
 
     public uint GetStanceIcon(uint id)
     {
-        return (uint)_dataManager.GetExcelSheet<BuddyAction>()!.GetRow(id)!.Icon;
+        return (uint)_dataManager.GetExcelSheet<BuddyAction>().FindRow(id)!.Value.Icon;
     }
 
     public unsafe void Dismiss()
@@ -189,24 +191,6 @@ internal sealed class CompanionManager : ICompanionManager
             7 => buddy.HealerLevel > 0,
             // Out of range.
             _ => false
-        };
-    }
-
-    private static unsafe uint FindNextValidActiveCommand(uint currentCommand)
-    {
-        UIState* ui = UIState.Instance();
-        if (ui == null) return 4; // Free
-
-        var buddy = ui->Buddy.CompanionInfo;
-        if (buddy.Rank == 0) return 4; // Free
-
-        return currentCommand switch {
-            3 => 4,                                                           // Follow -> Free Stance
-            4 => buddy.DefenderLevel > 0 ? 5 : FindNextValidActiveCommand(5), // Free Stance -> Defender Stance
-            5 => buddy.AttackerLevel > 0 ? 6 : FindNextValidActiveCommand(6), // Defender Stance -> Attacker Stance
-            6 => buddy.HealerLevel > 0 ? 7 : FindNextValidActiveCommand(7),   // Attacker Stance -> Healer Stance
-            7 => 3,                                                           // Healer Stance -> Follow
-            _ => 3,                                                           // Unknown -> Follow
         };
     }
 

@@ -15,11 +15,9 @@
  */
 
 using Dalamud.Plugin.Services;
-using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
-using FFXIVClientStructs.FFXIV.Client.UI.Misc;
 using FFXIVClientStructs.FFXIV.Component.GUI;
-using Lumina.Excel.GeneratedSheets;
+using Lumina.Excel.Sheets;
 using System;
 using System.Collections.Generic;
 using Umbra.Common;
@@ -28,7 +26,7 @@ using Una.Drawing;
 
 namespace Umbra.Widgets;
 
-internal sealed partial class GearsetSwitcherPopup : WidgetPopup, IDisposable
+internal sealed partial class GearsetSwitcherPopup : WidgetPopup
 {
     protected override Node Node { get; } = new() {
         ChildNodes = [
@@ -214,7 +212,7 @@ internal sealed partial class GearsetSwitcherPopup : WidgetPopup, IDisposable
 
         Node openGlamButton = Node.QuerySelector("#OpenGlam")!;
 
-        openGlamButton.Tooltip    = _dataManager.GetExcelSheet<GeneralAction>()!.GetRow(25)!.Name;
+        openGlamButton.Tooltip    = _dataManager.GetExcelSheet<GeneralAction>().GetRow(25).Name.ToString();
         openGlamButton.IsDisabled = !_player.IsGeneralActionUnlocked(25);
     }
 

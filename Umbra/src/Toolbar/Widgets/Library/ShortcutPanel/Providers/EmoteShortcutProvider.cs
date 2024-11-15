@@ -1,7 +1,7 @@
 ﻿using Dalamud.Plugin.Services;
 using Dalamud.Utility;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
-using Lumina.Excel.GeneratedSheets;
+using Lumina.Excel.Sheets;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,7 +22,7 @@ internal sealed class EmoteShortcutProvider(IDataManager dataManager) : Abstract
     /// <inheritdoc/>
     public override unsafe IList<Shortcut> GetShortcuts(string? searchFilter)
     {
-        var emoteList = dataManager.GetExcelSheet<Emote>()!.ToList();
+        var emoteList = dataManager.GetExcelSheet<Emote>().ToList();
 
         emoteList.Sort(
             (a, b) => string.Compare(a.Name.ToString(), b.Name.ToString(), StringComparison.OrdinalIgnoreCase)
@@ -31,7 +31,7 @@ internal sealed class EmoteShortcutProvider(IDataManager dataManager) : Abstract
         List<Shortcut> shortcuts = [];
 
         foreach (var emote in emoteList) {
-            if (emote.TextCommand.Value == null) continue;
+            if (emote.TextCommand.ValueNullable == null) continue;
             if (!UIState.Instance()->IsEmoteUnlocked((ushort)emote.RowId)) continue;
 
             var name = emote.Name.ToDalamudString().TextValue;
@@ -55,13 +55,13 @@ internal sealed class EmoteShortcutProvider(IDataManager dataManager) : Abstract
     {
         if (id == 0u) return null;
 
-        var emote = dataManager.GetExcelSheet<Emote>()!.GetRow(id);
+        var emote = dataManager.GetExcelSheet<Emote>().FindRow(id);
         if (emote == null) return null;
 
         return new() {
-            Id         = emote.RowId,
-            Name       = emote.Name.ToDalamudString().TextValue,
-            IconId     = emote.Icon,
+            Id         = emote.Value.RowId,
+            Name       = emote.Value.Name.ToDalamudString().TextValue,
+            IconId     = emote.Value.Icon,
             IsDisabled = !UIState.Instance()->IsEmoteUnlocked((ushort)id),
         };
     }
@@ -69,9 +69,9 @@ internal sealed class EmoteShortcutProvider(IDataManager dataManager) : Abstract
     /// <inheritdoc/>
     public override void OnInvokeShortcut(byte categoryId, int slotId, uint id, string widgetInstanceId)
     {
-        Emote? emote = dataManager.GetExcelSheet<Emote>()!.GetRow(id);
+        Emote? emote = dataManager.GetExcelSheet<Emote>().FindRow(id);
         if (emote?.TextCommand.Value == null) return;
 
-        Framework.Service<IChatSender>().Send(emote.TextCommand.Value.Command.ToDalamudString().TextValue);
+        Framework.Service<IChatSender>().Send(emote.Value.TextCommand.Value.Command.ToDalamudString().TextValue);
     }
 }

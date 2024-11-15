@@ -17,7 +17,7 @@
 using System;
 using System.Collections.Generic;
 using Dalamud.Plugin.Services;
-using Lumina.Excel.GeneratedSheets;
+using Lumina.Excel.Sheets;
 using Umbra.Common;
 
 namespace Umbra.Game;
@@ -41,7 +41,7 @@ internal sealed class ZoneFactory(
     {
         if (_zoneCache.TryGetValue(zoneId, out var cachedZone)) return cachedZone;
 
-        if (null == dataManager.GetExcelSheet<Map>()!.GetRow(zoneId)) {
+        if (null == dataManager.GetExcelSheet<Map>().FindRow(zoneId)) {
             throw new InvalidOperationException($"Zone {zoneId} does not exist");
         }
 

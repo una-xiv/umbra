@@ -2,7 +2,7 @@
 using Dalamud.Utility;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
-using Lumina.Excel.GeneratedSheets;
+using Lumina.Excel.Sheets;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -23,7 +23,7 @@ internal sealed class OrnamentShortcutProvider(IDataManager dataManager) : Abstr
     /// <inheritdoc/>
     public override unsafe IList<Shortcut> GetShortcuts(string? searchFilter)
     {
-        List<Ornament> ornaments = dataManager.GetExcelSheet<Ornament>()!.ToList();
+        List<Ornament> ornaments = dataManager.GetExcelSheet<Ornament>().ToList();
         List<Shortcut> shortcuts = [];
 
         foreach (var ornament in ornaments) {
@@ -56,15 +56,15 @@ internal sealed class OrnamentShortcutProvider(IDataManager dataManager) : Abstr
     {
         if (id == 0u) return null;
 
-        var ornament = dataManager.GetExcelSheet<Ornament>()!.GetRow(id);
+        var ornament = dataManager.GetExcelSheet<Ornament>().FindRow(id);
         if (ornament == null) return null;
 
-        var name = ornament.Singular.ToDalamudString().TextValue;
+        var name = ornament.Value.Singular.ToDalamudString().TextValue;
 
         return new() {
-            Id         = ornament.RowId,
+            Id         = ornament.Value.RowId,
             Name       = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(name),
-            IconId     = ornament.Icon,
+            IconId     = ornament.Value.Icon,
             IsDisabled = !PlayerState.Instance()->IsOrnamentUnlocked(id),
         };
     }

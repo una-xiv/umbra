@@ -15,7 +15,7 @@
  */
 
 using Dalamud.Plugin.Services;
-using Lumina.Excel.GeneratedSheets;
+using Lumina.Excel.Sheets;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -183,7 +183,7 @@ internal partial class WidgetManager
     {
         if (JobToProfileName.Count > 0) return;
 
-        List<ClassJob> jobs = Framework.Service<IDataManager>().GetExcelSheet<ClassJob>()!.ToList();
+        List<ClassJob> jobs = Framework.Service<IDataManager>().GetExcelSheet<ClassJob>().ToList();
 
         foreach (var job in jobs) {
             JobToProfileName[(byte)job.RowId] = "Default";

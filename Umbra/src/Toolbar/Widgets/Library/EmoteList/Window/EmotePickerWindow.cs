@@ -1,6 +1,6 @@
 ﻿using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
-using Lumina.Excel.GeneratedSheets;
+using Lumina.Excel.Sheets;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,11 +26,11 @@ internal sealed partial class EmotePickerWindow : Windows.Window
     {
         UsedEmoteIds = usedEmoteIds;
 
-        var emoteList = Framework.Service<IDataManager>().GetExcelSheet<Emote>()!.ToList();
+        var emoteList = Framework.Service<IDataManager>().GetExcelSheet<Emote>().ToList();
         emoteList.Sort((a, b) => string.Compare(a.Name.ToString(), b.Name.ToString(), StringComparison.OrdinalIgnoreCase));
 
         foreach (var emote in emoteList) {
-            if (emote.TextCommand.Value == null) continue;
+            if (emote.TextCommand.ValueNullable == null) continue;
             if (!UIState.Instance()->IsEmoteUnlocked((ushort)emote.RowId)) continue;
 
             AddEmoteNode(emote);

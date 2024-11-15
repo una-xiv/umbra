@@ -18,7 +18,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using Dalamud.Game.ClientState.Aetherytes;
-using Dalamud.Interface.Animation.EasingFunctions;
 using Dalamud.Utility;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using Umbra.Common;
@@ -92,7 +91,7 @@ internal unsafe partial class FlagWidget
             return;
         }
 
-        var placeName = _aetheryteEntry.AetheryteData.GameData?.PlaceName.Value?.Name.ToString() ?? "???";
+        var placeName = _aetheryteEntry.AetheryteData.Value.PlaceName.ValueNullable?.Name.ToString() ?? "???";
         var gilCost   = _aetheryteEntry.GilCost.ToString("D");
 
         _aetheryteName = placeName == zone.Name

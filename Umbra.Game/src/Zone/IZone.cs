@@ -16,7 +16,7 @@
 
 using System.Collections.Generic;
 using System.Numerics;
-using Lumina.Excel.GeneratedSheets;
+using Lumina.Excel.Sheets;
 
 namespace Umbra.Game;
 

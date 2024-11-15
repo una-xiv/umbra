@@ -17,10 +17,11 @@
 using System;
 using System.Collections.Generic;
 using Dalamud.Plugin.Services;
+using Dalamud.Utility;
 using FFXIVClientStructs.FFXIV.Application.Network.WorkDefinitions;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
-using Lumina.Excel.GeneratedSheets;
+using Lumina.Excel.Sheets;
 using Umbra.Common;
 
 namespace Umbra.Game.Societies;
@@ -63,35 +64,35 @@ internal sealed class SocietiesRepository : ISocietiesRepository, IDisposable
     [OnTick(interval: 2000)]
     private unsafe void OnTick()
     {
-        QuestManager* qm = QuestManager.Instance();
-        if (null == qm) return;
-
-        WeeklyAllowance = qm->GetBeastTribeAllowance();
-
-        lock (Societies) {
-            for (var i = 1; i < qm->BeastReputation.Length + 1; i++) {
-                (BeastTribe tribe, BeastReputationRank rankRow, ushort currentRep, ushort requiredRep, byte rank,
-                    byte maxRank, string rankName) =
-                    GetTribe((byte)(i));
-
-                string name = tribe.Name.ToString();
-
-                Societies[tribe.RowId] = new() {
-                    Id             = tribe.RowId,
-                    Name           = name[0].ToString().ToUpper() + name[1..],
-                    Rank           = rank,
-                    MaxRank        = maxRank,
-                    RankName       = rankName,
-                    RankColor      = rankRow.Color.Row,
-                    ExpansionId    = tribe.Expansion.Row,
-                    ExpansionName  = tribe.Expansion.Value!.Name.ToString(),
-                    IconId         = tribe.Icon,
-                    CurrencyItemId = tribe.CurrencyItem.Row,
-                    CurrentRep     = currentRep,
-                    RequiredRep    = requiredRep,
-                };
-            }
-        }
+        // QuestManager* qm = QuestManager.Instance();
+        // if (null == qm) return;
+        //
+        // WeeklyAllowance = qm->GetBeastTribeAllowance();
+        //
+        // lock (Societies) {
+        //     for (var i = 1; i < qm->BeastReputation.Length + 1; i++) {
+        //         (BeastTribe tribe, BeastReputationRank rankRow, ushort currentRep, ushort requiredRep, byte rank,
+        //             byte maxRank, string rankName) =
+        //             GetTribe((byte)(i));
+        //
+        //         string name = tribe.Name.ToDalamudString().TextValue;
+        //
+        //         Societies[tribe.RowId] = new() {
+        //             Id             = tribe.RowId,
+        //             Name           = name[0].ToString().ToUpper() + name[1..],
+        //             Rank           = rank,
+        //             MaxRank        = maxRank,
+        //             RankName       = rankName,
+        //             RankColor      = rankRow.Color.RowId,
+        //             ExpansionId    = tribe.Expansion.RowId,
+        //             ExpansionName  = tribe.Expansion.Value!.Name.ToDalamudString().TextValue,
+        //             IconId         = tribe.Icon,
+        //             CurrencyItemId = tribe.CurrencyItem.RowId,
+        //             CurrentRep     = currentRep,
+        //             RequiredRep    = requiredRep,
+        //         };
+        //     }
+        // }
     }
 
     /// <inheritdoc/>
@@ -109,36 +110,36 @@ internal sealed class SocietiesRepository : ISocietiesRepository, IDisposable
         Telepo.Instance()->Teleport(aetheryteId, 0);
     }
 
-    private unsafe (BeastTribe tribe, BeastReputationRank rankRow, ushort currentRep, ushort neededRep, byte rank,
-        byte maxRank, string rankName)
-        GetTribe(byte index)
-    {
-        QuestManager*       qm    = QuestManager.Instance();
-        BeastReputationWork tribe = qm->BeastReputation[index - 1];
-
-        var                 rank       = (byte)(tribe.Rank & 0x7F);
-        ushort              currentRep = tribe.Value;
-        var                 tribeRow   = DataManager.GetExcelSheet<BeastTribe>()!.GetRow(index)!;
-        BeastReputationRank rankRow    = DataManager.GetExcelSheet<BeastReputationRank>()!.GetRow(rank)!;
-        byte                maxRank    = tribeRow.MaxRank;
-        string              rankName   = rankRow.AlliedNames.ToString();
-        ushort              neededRep  = rankRow.RequiredReputation;
-
-        if (tribeRow.Expansion.Row != 0
-            && tribeRow.Unknown7 != 0
-            && QuestManager.IsQuestComplete(tribeRow.Unknown7))
-        {
-            rank++;
-            rankName  = rankRow.Name.ToString();
-            neededRep = 0;
-        }
-        else if (tribeRow.Expansion.Row == 0) {
-            rankName = rankRow.Name.ToString();
-        }
-
-        if (rank > maxRank)
-            maxRank = rank;
-
-        return (tribeRow, rankRow, currentRep, neededRep, rank, maxRank, rankName);
-    }
+    // private unsafe (BeastTribe tribe, BeastReputationRank rankRow, ushort currentRep, ushort neededRep, byte rank,
+    //     byte maxRank, string rankName)
+    //     GetTribe(byte index)
+    // {
+    //     QuestManager*       qm    = QuestManager.Instance();
+    //     BeastReputationWork tribe = qm->BeastReputation[index - 1];
+    //
+    //     var                 rank       = (byte)(tribe.Rank & 0x7F);
+    //     ushort              currentRep = tribe.Value;
+    //     var                 tribeRow   = DataManager.GetExcelSheet<BeastTribe>().GetRow(index);
+    //     BeastReputationRank rankRow    = DataManager.GetExcelSheet<BeastReputationRank>().GetRow(rank);
+    //     byte                maxRank    = tribeRow.MaxRank;
+    //     string              rankName   = rankRow.AlliedNames.ToDalamudString().TextValue;
+    //     ushort              neededRep  = rankRow.RequiredReputation;
+    //
+    //     if (tribeRow.Expansion.RowId != 0
+    //         && tribeRow.Unknown1 != 0
+    //         && QuestManager.IsQuestComplete(tribeRow.Unknown1))
+    //     {
+    //         rank++;
+    //         rankName  = rankRow.Name.ToDalamudString().TextValue;
+    //         neededRep = 0;
+    //     }
+    //     else if (tribeRow.Expansion.RowId == 0) {
+    //         rankName = rankRow.Name.ToDalamudString().TextValue;
+    //     }
+    //
+    //     if (rank > maxRank)
+    //         maxRank = rank;
+    //
+    //     return (tribeRow, rankRow, currentRep, neededRep, rank, maxRank, rankName);
+    // }
 }

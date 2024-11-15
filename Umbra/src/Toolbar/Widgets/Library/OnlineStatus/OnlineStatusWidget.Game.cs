@@ -27,9 +27,9 @@ internal partial class OnlineStatusWidget
     /// <summary>
     /// Returns an OnlineStatus row by its ID.
     /// </summary>
-    private static Lumina.Excel.GeneratedSheets.OnlineStatus GetStatusById(uint id)
+    private static Lumina.Excel.Sheets.OnlineStatus GetStatusById(uint id)
     {
-        return Framework.Service<IDataManager>().GetExcelSheet<Lumina.Excel.GeneratedSheets.OnlineStatus>()!.GetRow(id)!;
+        return Framework.Service<IDataManager>().GetExcelSheet<Lumina.Excel.Sheets.OnlineStatus>()!.GetRow(id)!;
     }
 
     /// <summary>

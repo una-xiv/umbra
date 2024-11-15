@@ -4,7 +4,7 @@ using Dalamud.Utility;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
-using Lumina.Excel.GeneratedSheets;
+using Lumina.Excel.Sheets;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,15 +33,14 @@ internal sealed class RecipeShortcutProvider(IDataManager dataManager, IConditio
         PlayerState* ps = PlayerState.Instance();
         if (ps == null) return [];
 
-        List<Recipe> recipes = dataManager.GetExcelSheet<Recipe>()!
+        List<Recipe> recipes = dataManager.GetExcelSheet<Recipe>()
             .Where(
-                r => r.RowId > 0
-                    && r.ItemResult.Value != null
+                r => r is { RowId: > 0, ItemResult.ValueNullable: not null }
                     && !string.IsNullOrEmpty(r.ItemResult.Value.Name.ToDalamudString().TextValue)
-                    && (r.SecretRecipeBook.Row == 0 || ps->IsSecretRecipeBookUnlocked(r.SecretRecipeBook.Row))
-                    && (r.Quest.Row == 0 || QuestManager.IsQuestComplete(r.Quest.Row))
+                    && (r.SecretRecipeBook.RowId == 0 || ps->IsSecretRecipeBookUnlocked(r.SecretRecipeBook.RowId))
+                    && (r.Quest.RowId == 0 || QuestManager.IsQuestComplete(r.Quest.RowId))
                     && (r
-                            .ItemResult.Value?.Name.ToString()
+                            .ItemResult.ValueNullable?.Name.ToString()
                             .Contains(searchFilter ?? "", StringComparison.OrdinalIgnoreCase)
                         ?? false)
             )
@@ -49,8 +48,8 @@ internal sealed class RecipeShortcutProvider(IDataManager dataManager, IConditio
 
         recipes.Sort(
             (a, b) => string.Compare(
-                a.ItemResult.Value!.Name.ToDalamudString().TextValue.ToString(),
-                b.ItemResult.Value!.Name.ToDalamudString().TextValue.ToString(),
+                a.ItemResult.Value.Name.ToDalamudString().TextValue.ToString(),
+                b.ItemResult.Value.Name.ToDalamudString().TextValue.ToString(),
                 StringComparison.OrdinalIgnoreCase
             )
         );
@@ -60,10 +59,10 @@ internal sealed class RecipeShortcutProvider(IDataManager dataManager, IConditio
             .Select(
                 recipe => new Shortcut() {
                     Id   = recipe.RowId,
-                    Name = recipe.ItemResult.Value!.Name.ToString(),
+                    Name = recipe.ItemResult.Value.Name.ToString(),
                     Description =
-                        $"{recipe.CraftType.Value!.Name.ToDalamudString().TextValue} [{recipe.RecipeLevelTable.Value?.ClassJobLevel}]",
-                    IconId = recipe.ItemResult.Value!.Icon
+                        $"{recipe.CraftType.Value.Name.ToDalamudString().TextValue} [{recipe.RecipeLevelTable.ValueNullable?.ClassJobLevel}]",
+                    IconId = recipe.ItemResult.Value.Icon
                 }
             )
             .ToList();
@@ -74,18 +73,18 @@ internal sealed class RecipeShortcutProvider(IDataManager dataManager, IConditio
     {
         if (id == 0u) return null;
 
-        var recipe = dataManager.GetExcelSheet<Recipe>()!.GetRow(id);
-        var item   = recipe?.ItemResult.Value;
+        var recipe = dataManager.GetExcelSheet<Recipe>().GetRow(id);
+        var item   = recipe.ItemResult.ValueNullable;
         if (item == null) return null;
 
-        string itemName  = item.Name.ToDalamudString().TextValue;
-        string craftType = recipe!.CraftType.Value!.Name.ToDalamudString().TextValue;
-        uint   count     = (uint)player.GetItemCount(item.RowId);
+        string itemName  = item.Value.Name.ToDalamudString().TextValue;
+        string craftType = recipe.CraftType.Value.Name.ToDalamudString().TextValue;
+        uint   count     = (uint)player.GetItemCount(item.Value.RowId);
 
         return new() {
             Id         = id,
             Name       = $"{craftType}: {itemName}",
-            IconId     = item.Icon,
+            IconId     = item.Value.Icon,
             SubIconId  = 66414u,
             Count      = count > 0 ? count : null,
             IsDisabled = condition[ConditionFlag.Crafting],

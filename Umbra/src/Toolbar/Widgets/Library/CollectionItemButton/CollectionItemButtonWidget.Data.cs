@@ -1,6 +1,6 @@
 ﻿using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
-using Lumina.Excel.GeneratedSheets;
+using Lumina.Excel.Sheets;
 using System.Collections.Generic;
 using System.Linq;
 using Umbra.Common;
@@ -15,11 +15,11 @@ internal partial class CollectionItemButtonWidget
 
     private void LoadCollectionItems()
     {
-        foreach (var entry in DataManager.GetExcelSheet<McGuffin>()!.ToList()) {
-            var uiData = entry.UIData.Value;
-            if (uiData == null || uiData.Icon == 0) continue;
+        foreach (var entry in DataManager.GetExcelSheet<McGuffin>().ToList()) {
+            var uiData = entry.UIData.ValueNullable;
+            if (uiData == null || uiData.Value.Icon == 0) continue;
 
-            Items.TryAdd(entry.RowId.ToString(), new(entry.RowId, uiData.Icon, uiData.Name.ToString()));
+            Items.TryAdd(entry.RowId.ToString(), new(entry.RowId, uiData.Value.Icon, uiData.Value.Name.ToString()));
         }
     }
 

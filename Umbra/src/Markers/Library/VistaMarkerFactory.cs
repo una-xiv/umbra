@@ -1,7 +1,6 @@
 ﻿using Dalamud.Plugin.Services;
-using Dalamud.Utility;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
-using Lumina.Excel.GeneratedSheets;
+using Lumina.Excel.Sheets;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,8 +34,8 @@ public class VistaMarkerFactory : WorldMarkerFactory, IDisposable
         DataManager = dataManager;
         ZoneManager = zoneManager;
 
-        foreach (var vista in dataManager.GetExcelSheet<Adventure>()!) {
-            uint mapId = vista.Level.Value!.Map.Row;
+        foreach (var vista in dataManager.GetExcelSheet<Adventure>()) {
+            uint mapId = vista.Level.Value.Map.RowId;
 
             if (!VistaByMap.TryGetValue(mapId, out var list)) {
                 VistaByMap[mapId] = list = ( []);
@@ -89,7 +88,7 @@ public class VistaMarkerFactory : WorldMarkerFactory, IDisposable
                     ", ",
                     weatherIds
                         .OrderBy(i => i)
-                        .Select(i => DataManager.GetExcelSheet<Weather>()!.GetRow(i))
+                        .Select(i => DataManager.GetExcelSheet<Weather>().FindRow(i))
                         .Where(weather => weather != null)
                         .Cast<Weather>()
                         .Select(weather => weather.Name)
@@ -98,11 +97,11 @@ public class VistaMarkerFactory : WorldMarkerFactory, IDisposable
                 subLabel += $" ({weatherString})";
             }
 
-            if (vista.Emote.Row > 0) {
+            if (vista.Emote.RowId > 0) {
                 var emote = vista.Emote.Value;
 
-                if (emote?.TextCommand.Value != null) {
-                    subLabel += $" {emote.TextCommand.Value!.Command.RawString}";
+                if (emote.TextCommand.ValueNullable != null) {
+                    subLabel += $" {emote.TextCommand.Value.Command.ToString()}";
                 }
             }
 
@@ -111,9 +110,9 @@ public class VistaMarkerFactory : WorldMarkerFactory, IDisposable
             SetMarker(
                 new() {
                     Key           = id,
-                    Position      = new(level.X, level.Y, level.Z),
+                    Position      = new(level.Value.X, level.Value.Y, level.Value.Z),
                     IconId        = 66413,
-                    Label         = $"{vista.Name.RawString}",
+                    Label         = $"{vista.Name.ToString()}",
                     SubLabel      = string.IsNullOrEmpty(subLabel) ? null : subLabel,
                     MapId         = mapId,
                     FadeDistance  = new(fadeDistance, fadeDistance + fadeAttenuation),

@@ -14,7 +14,8 @@
  *     GNU Affero General Public License for more details.
  */
 
-using Lumina.Excel.GeneratedSheets;
+using Dalamud.Utility;
+using Lumina.Excel.Sheets;
 using System.Collections.Generic;
 
 namespace Umbra.Game;
@@ -22,13 +23,13 @@ namespace Umbra.Game;
 public class JobInfo(ClassJob cj)
 {
     public byte   Id           { get; } = (byte)cj.RowId;
-    public string Name         { get; } = Capitalize(cj.Name.ToString());
-    public string Abbreviation { get; } = cj.Abbreviation.ToString().ToUpper();
+    public string Name         { get; } = Capitalize(cj.Name.ToDalamudString().TextValue);
+    public string Abbreviation { get; } = cj.Abbreviation.ToDalamudString().TextValue.ToUpper();
     public short  Level        { get; set; }
     public byte   XpPercent    { get; set; }
     public bool   IsMaxLevel   { get; set; }
 
-    public JobCategory Category { get; } = cj.ClassJobCategory.Row switch
+    public JobCategory Category { get; } = cj.ClassJobCategory.RowId switch
     {
         30 when cj.Role == 1 => JobCategory.Tank,
         30 when cj.Role == 2 => JobCategory.MeleeDps,

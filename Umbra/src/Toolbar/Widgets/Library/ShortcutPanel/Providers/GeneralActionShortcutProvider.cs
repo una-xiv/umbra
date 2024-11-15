@@ -1,7 +1,7 @@
 ﻿using Dalamud.Plugin.Services;
 using Dalamud.Utility;
 using FFXIVClientStructs.FFXIV.Client.Game;
-using Lumina.Excel.GeneratedSheets2;
+using Lumina.Excel.Sheets;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,7 +24,7 @@ internal sealed class GeneralActionShortcutProvider(IDataManager dataManager, IP
     {
         List<Shortcut> shortcuts = [];
 
-        var actions = dataManager.GetExcelSheet<GeneralAction>()!.ToList();
+        var actions = dataManager.GetExcelSheet<GeneralAction>().ToList();
 
         actions.Sort(
             (a, b) => string.Compare(
@@ -60,13 +60,13 @@ internal sealed class GeneralActionShortcutProvider(IDataManager dataManager, IP
     /// <inheritdoc/>
     public override unsafe Shortcut? GetShortcut(uint id, string widgetInstanceId)
     {
-        var action = dataManager.GetExcelSheet<GeneralAction>()!.GetRow(id);
+        var action = dataManager.GetExcelSheet<GeneralAction>().FindRow(id);
         if (action == null) return null;
 
         return new() {
             Id         = id,
-            Name       = action.Name.ToDalamudString().TextValue,
-            IconId     = (uint)action.Icon,
+            Name       = action.Value.Name.ToDalamudString().TextValue,
+            IconId     = (uint)action.Value.Icon,
             IsDisabled = !player.IsGeneralActionUnlocked(id)
                 || ActionManager.Instance()->GetActionStatus(ActionType.GeneralAction, id) != 0
         };

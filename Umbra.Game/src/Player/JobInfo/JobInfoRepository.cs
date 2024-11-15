@@ -17,11 +17,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.Json;
 using Dalamud.Plugin.Services;
-using Dalamud.Utility;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
-using Lumina.Excel.GeneratedSheets;
+using Lumina.Excel.Sheets;
 using Umbra.Common;
 
 namespace Umbra.Game;
@@ -38,7 +36,7 @@ internal sealed class JobInfoRepository : IDisposable
     {
         _dataManager = dataManager;
 
-        dataManager.GetExcelSheet<ClassJob>()!
+        dataManager.GetExcelSheet<ClassJob>()
             .ToList()
             .ForEach(
                 cj =>
@@ -80,10 +78,10 @@ internal sealed class JobInfoRepository : IDisposable
                 continue;
             }
 
-            var grow = _dataManager.GetExcelSheet<ParamGrow>()!.GetRow((uint)jobInfo.Level);
+            var grow = _dataManager.GetExcelSheet<ParamGrow>().FindRow((uint)jobInfo.Level);
 
             // Hardcoded max level.
-            if (jobInfo.Level == 100 || grow == null || grow.ExpToNext == 0)
+            if (jobInfo.Level == 100 || grow == null || grow.Value.ExpToNext == 0)
             {
                 jobInfo.XpPercent  = 0;
                 jobInfo.IsMaxLevel = true;
@@ -91,7 +89,7 @@ internal sealed class JobInfoRepository : IDisposable
             }
 
             int currentXp = ps->ClassJobExperience[_expArrayId[jobInfo.Id]];
-            jobInfo.XpPercent  = (byte)(currentXp / (float)grow.ExpToNext * 100);
+            jobInfo.XpPercent  = (byte)(currentXp / (float)grow.Value.ExpToNext * 100);
             jobInfo.IsMaxLevel = false;
         }
     }

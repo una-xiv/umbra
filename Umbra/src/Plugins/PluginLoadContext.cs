@@ -36,7 +36,7 @@ internal class PluginLoadContext(DirectoryInfo directoryInfo) : AssemblyLoadCont
         ["Una.Drawing"]        = typeof(Node).Assembly,
         ["Dalamud"]            = typeof(IDalamudPluginInterface).Assembly,
         ["Lumina"]             = typeof(Lumina.GameData).Assembly,
-        ["Lumina.Excel"]       = typeof(Lumina.Excel.GeneratedSheets.Action).Assembly,
+        ["Lumina.Excel"]       = typeof(Lumina.Excel.Sheets.Action).Assembly,
         ["ImGuiNET"]           = typeof(ImGui).Assembly,
         ["FFXIVClientStructs"] = typeof(FFXIVClientStructs.FFXIV.Client.System.Framework.Framework).Assembly,
     };

@@ -108,7 +108,7 @@ internal class PartyMemberWorldMarkerFactory(IPlayer player, IPartyList partyLis
         uint         mapId         = zoneManager.CurrentZone.Id;
 
         foreach (var member in partyList) {
-            if (member.MaxHP == 0 || member.ClassJob.Id == 0) continue; // Probably not in this area.
+            if (member.MaxHP == 0 || member.ClassJob.RowId == 0) continue; // Probably not in this area.
 
             // Remove markers for party members that are close to the player.
             if (Vector3.Distance(member.Position, playerPos) < 50) continue;
@@ -116,9 +116,9 @@ internal class PartyMemberWorldMarkerFactory(IPlayer player, IPartyList partyLis
             string key = $"PM_{mapId}_{member.ContentId}";
             usedKeys.Add(key);
 
-            if (!JobInfoCache.TryGetValue(member.ClassJob.Id, out var jobInfo)) {
-                jobInfo = new(member.ClassJob.GameData!);
-                JobInfoCache[member.ClassJob.Id] = jobInfo;
+            if (!JobInfoCache.TryGetValue(member.ClassJob.Value.RowId, out var jobInfo)) {
+                jobInfo = new(member.ClassJob.Value);
+                JobInfoCache[member.ClassJob.RowId] = jobInfo;
             }
 
             SetMarker(

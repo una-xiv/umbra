@@ -185,7 +185,7 @@ public interface IPlayer
     /// Sets the player's online status to the specified status ID.
     /// </summary>
     /// <param name="statusId">
-    /// A RowId from the <see cref="Lumina.Excel.GeneratedSheets.OnlineStatus"/> excel sheet.
+    /// A RowId from the <see cref="Lumina.Excel.Sheets.OnlineStatus"/> excel sheet.
     /// </param>
     public void SetOnlineStatus(uint statusId);
 

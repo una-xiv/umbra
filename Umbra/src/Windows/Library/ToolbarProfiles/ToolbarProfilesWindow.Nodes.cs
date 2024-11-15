@@ -16,7 +16,8 @@
 
 using Dalamud.Interface;
 using Dalamud.Plugin.Services;
-using Lumina.Excel.GeneratedSheets;
+using Dalamud.Utility;
+using Lumina.Excel.Sheets;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -203,13 +204,13 @@ internal partial class ToolbarProfilesWindow
 
         WidgetManager wm = Framework.Service<WidgetManager>();
 
-        List<ClassJob> jobs     = Framework.Service<IDataManager>().GetExcelSheet<ClassJob>()!.ToList();
+        List<ClassJob> jobs     = Framework.Service<IDataManager>().GetExcelSheet<ClassJob>().ToList();
         List<string>   profiles = wm.GetProfileNames();
 
-        jobs.Sort((a, b) => String.Compare(a.Name.RawString, b.Name.RawString, StringComparison.Ordinal));
+        jobs.Sort((a, b) => String.Compare(a.Name.ToString(), b.Name.ToString(), StringComparison.Ordinal));
 
         foreach (var job in jobs) {
-            if (job.RowId == 0 || job.Abbreviation.RawString == "ADV") continue;
+            if (job.RowId == 0 || job.Abbreviation.ToString() == "ADV") continue;
 
             SelectNode selector = new($"JobProfile_{job.RowId}", wm.GetProfileNameForJobId((byte)job.RowId), profiles);
             selector.ClassList.Add("job-profile-select--selector");
@@ -230,7 +231,7 @@ internal partial class ToolbarProfilesWindow
                 ChildNodes = [
                     new() {
                         ClassList = ["job-profile-select--label"],
-                        NodeValue = UpperCaseWords(job.Name.RawString),
+                        NodeValue = UpperCaseWords(job.Name.ToDalamudString().TextValue),
                     },
                     selector
                 ]

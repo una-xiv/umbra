@@ -18,7 +18,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Dalamud.Plugin.Services;
-using Lumina.Excel.GeneratedSheets;
+using Lumina.Excel.Sheets;
 using Umbra.Common;
 using Umbra.Game;
 
@@ -42,7 +42,7 @@ internal sealed class WorldMarkerRegistry : IDisposable
         _visibility  = visibility;
 
         // Pre-cache a list of markers based on map ids.
-        foreach (Map map in dataManager.GetExcelSheet<Map>()!) {
+        foreach (Map map in dataManager.GetExcelSheet<Map>()) {
             WorldMarkers[map.RowId] = [];
         }
     }

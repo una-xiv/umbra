@@ -1,6 +1,6 @@
 ﻿using Dalamud.Plugin.Services;
 using Dalamud.Utility;
-using Lumina.Excel.GeneratedSheets;
+using Lumina.Excel.Sheets;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -21,7 +21,7 @@ internal sealed class ExtraCommandShortcutProvider(IDataManager dataManager) : A
     /// <inheritdoc/>
     public override unsafe IList<Shortcut> GetShortcuts(string? searchFilter)
     {
-        List<ExtraCommand> commands  = dataManager.GetExcelSheet<ExtraCommand>()!.ToList();
+        List<ExtraCommand> commands  = dataManager.GetExcelSheet<ExtraCommand>().ToList();
         List<Shortcut>     shortcuts = [];
 
         foreach (var command in commands) {
@@ -45,13 +45,13 @@ internal sealed class ExtraCommandShortcutProvider(IDataManager dataManager) : A
     {
         if (id == 0u) return null;
 
-        var command = dataManager.GetExcelSheet<ExtraCommand>()!.GetRow(id);
+        var command = dataManager.GetExcelSheet<ExtraCommand>().FindRow(id);
         if (command == null) return null;
 
         return new() {
             Id     = id,
-            Name   = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(command.Name.ToDalamudString().TextValue),
-            IconId = (uint)command.Icon,
+            Name   = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(command.Value.Name.ToDalamudString().TextValue),
+            IconId = (uint)command.Value.Icon,
         };
     }
 

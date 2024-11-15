@@ -23,7 +23,7 @@ using Dalamud.Utility;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using Umbra.Common;
-using Sheet = Lumina.Excel.GeneratedSheets;
+using Sheet = Lumina.Excel.Sheets;
 
 namespace Umbra.Game;
 
@@ -217,13 +217,13 @@ internal sealed class ZoneMarkerFactory(IDataManager dataManager)
         var name     = GetStaticMarkerName(marker);
         var type     = DetermineMarkerType(marker.Icon, name);
 
-        return new ZoneMarker(
+        return new(
             type,
             name,
             position,
             MarkerToWorldPosition(map, position),
             type == ZoneMarkerType.Area ? 0u : marker.Icon,
-            marker.DataKey
+            marker.DataKey.RowId
         );
     }
 
@@ -255,19 +255,19 @@ internal sealed class ZoneMarkerFactory(IDataManager dataManager)
 
     private string GetStaticMarkerName(Sheet.MapMarker marker)
     {
-        var label = marker.PlaceNameSubtext.Value?.Name.ToDalamudString().TextValue ?? "";
+        var label = marker.PlaceNameSubtext.Value.Name.ToDalamudString().TextValue;
         if (!string.IsNullOrEmpty(label)) return SanitizeMarkerName(label);
         if (marker.Icon == 0) return "";
 
         if (marker.DataType == 4) {
-            var placeName = dataManager.GetExcelSheet<Sheet.PlaceName>()!.GetRow(marker.DataKey);
-            if (placeName != null) return SanitizeMarkerName(placeName.Name.ToDalamudString().TextValue);
+            var placeName = dataManager.GetExcelSheet<Sheet.PlaceName>().FindRow(marker.DataKey.RowId);
+            if (placeName != null) return SanitizeMarkerName(placeName.Value.Name.ToDalamudString().TextValue);
         }
 
-        var symbol = dataManager.GetExcelSheet<Sheet.MapSymbol>()!.GetRow(marker.Icon);
+        var symbol = dataManager.GetExcelSheet<Sheet.MapSymbol>().FindRow(marker.Icon);
         if (symbol == null) return "";
 
-        return SanitizeMarkerName(symbol.PlaceName.Value?.Name.ToDalamudString().TextValue ?? "");
+        return SanitizeMarkerName(symbol.Value.PlaceName.Value.Name.ToDalamudString().TextValue);
     }
 
     private static string SanitizeMarkerName(string name)

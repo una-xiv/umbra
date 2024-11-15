@@ -17,12 +17,12 @@
 using System;
 using System.Collections.Generic;
 using System.Numerics;
-using Dalamud.Game.ClientState.Fates;
 using Dalamud.Game.Text;
 using Dalamud.Memory;
 using FFXIVClientStructs.FFXIV.Client.Game.Fate;
 using Umbra.Common;
 using Umbra.Game;
+using FateState = Dalamud.Game.ClientState.Fates.FateState;
 
 namespace Umbra.Markers.Library;
 

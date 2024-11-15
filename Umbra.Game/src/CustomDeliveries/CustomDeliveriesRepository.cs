@@ -1,12 +1,11 @@
-﻿using Dalamud.Game.ClientState.Aetherytes;
-using Dalamud.Plugin.Services;
+﻿using Dalamud.Plugin.Services;
 using Dalamud.Utility;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using FFXIVClientStructs.FFXIV.Client.UI;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using FFXIVClientStructs.FFXIV.Component.GUI;
-using Lumina.Excel.GeneratedSheets2;
+using Lumina.Excel.Sheets;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -46,8 +45,8 @@ internal sealed unsafe class CustomDeliveriesRepository : ICustomDeliveriesRepos
         DataManager = dataManager;
         Player      = player;
 
-        HydrateStaticData();
-        OnTick();
+        // HydrateStaticData();
+        // OnTick();
     }
 
     public void Dispose()
@@ -79,7 +78,7 @@ internal sealed unsafe class CustomDeliveriesRepository : ICustomDeliveriesRepos
     }
 
     /// <inheritdoc />
-    public unsafe void TeleportToNearbyAetheryte(int npcId)
+    public void TeleportToNearbyAetheryte(int npcId)
     {
         if (!Player.CanUseTeleportAction) return;
         if (!SupplyNpcToAetheryteId.TryGetValue(npcId, out uint aetheryteId)) return;
@@ -136,16 +135,16 @@ internal sealed unsafe class CustomDeliveriesRepository : ICustomDeliveriesRepos
 
     private void HydrateStaticData()
     {
-        foreach (var s in DataManager.GetExcelSheet<SatisfactionNpc>()!.ToList()) {
-            if (string.IsNullOrEmpty(s.Npc.Value?.Singular.ToDalamudString().TextValue)) continue;
+        foreach (var s in DataManager.GetExcelSheet<SatisfactionNpc>().ToList()) {
+            if (null == s.Npc.ValueNullable) continue;
 
             SupplyNpcs.Add(
                 (int)s.RowId,
                 new(
-                    s.QuestRequired.Row,
+                    s.QuestRequired.RowId,
                     (uint)s.Icon,
                     s.DeliveriesPerWeek,
-                    s.Npc.Value?.Singular.ToDalamudString().TextValue ?? ""
+                    s.Npc.Value.Singular.ToDalamudString().TextValue
                 )
             );
         }

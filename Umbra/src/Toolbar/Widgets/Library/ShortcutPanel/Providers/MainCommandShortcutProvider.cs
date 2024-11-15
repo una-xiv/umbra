@@ -2,7 +2,7 @@
 using Dalamud.Utility;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.UI;
-using Lumina.Excel.GeneratedSheets;
+using Lumina.Excel.Sheets;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +23,7 @@ internal sealed class MainCommandShortcutProvider(IDataManager dataManager) : Ab
     public override unsafe IList<Shortcut> GetShortcuts(string? searchFilter)
     {
         List<Shortcut> shortcuts = [];
-        var            actions   = dataManager.GetExcelSheet<MainCommand>()!.ToList();
+        var            actions   = dataManager.GetExcelSheet<MainCommand>().ToList();
 
         actions.Sort(
             (a, b) => string.Compare(
@@ -58,13 +58,13 @@ internal sealed class MainCommandShortcutProvider(IDataManager dataManager) : Ab
     /// <inheritdoc/>
     public override unsafe Shortcut? GetShortcut(uint id, string widgetInstanceId)
     {
-        var command = dataManager.GetExcelSheet<MainCommand>()!.GetRow(id);
+        var command = dataManager.GetExcelSheet<MainCommand>().FindRow(id);
         if (command == null) return null;
 
         return new() {
-            Id         = id,
-            Name       = command.Name.ToDalamudString().TextValue,
-            IconId     = (uint)command.Icon,
+            Id     = id,
+            Name   = command.Value.Name.ToDalamudString().TextValue,
+            IconId = (uint)command.Value.Icon,
             IsDisabled = !UIModule.Instance()->IsMainCommandUnlocked(id)
                 || ActionManager.Instance()->GetActionStatus(ActionType.MainCommand, id) != 0
         };

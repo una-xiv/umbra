@@ -1,6 +1,6 @@
 ﻿using Dalamud.Interface;
 using Dalamud.Utility;
-using Lumina.Excel.GeneratedSheets;
+using Lumina.Excel.Sheets;
 using Umbra.Windows.Components;
 using Una.Drawing;
 

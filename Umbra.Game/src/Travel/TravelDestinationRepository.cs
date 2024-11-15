@@ -19,7 +19,7 @@ using System.Linq;
 using Dalamud.Game.ClientState.Aetherytes;
 using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
-using Lumina.Excel.GeneratedSheets2;
+using Lumina.Excel.Sheets;
 using Umbra.Common;
 
 namespace Umbra.Game;
@@ -47,8 +47,8 @@ public class TravelDestinationRepository : ITravelDestinationRepository
         _zoneManager     = zoneManager;
         _freeAetheryteId = GetFreeAetheryteId();
 
-        _estateAetherytes = _dataManager.GetExcelSheet<Aetheryte>()!
-            .Where(aetheryte => aetheryte.PlaceName.Row is 1145 or 1160)
+        _estateAetherytes = _dataManager.GetExcelSheet<Aetheryte>()
+            .Where(aetheryte => aetheryte.PlaceName.RowId is 1145 or 1160)
             .Select(aetheryte => aetheryte.RowId)
             .ToList();
     }

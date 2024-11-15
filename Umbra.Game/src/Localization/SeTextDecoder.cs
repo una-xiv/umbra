@@ -1,31 +1,75 @@
-﻿using Dalamud.Game;
+﻿using System.Collections.Generic;
+using Dalamud.Game;
 using Dalamud.Plugin.Services;
 using Dalamud.Utility;
 using Lumina.Excel;
 using Lumina.Text;
 using Lumina.Text.ReadOnly;
 using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Text;
 using Umbra.Common;
 using Umbra.Common.Extensions;
-using LuminaSeString = Lumina.Text.SeString;
 
 namespace Umbra.Game.Localization;
 
-/// <summary>
-/// Courtesy of Haselnussbomber.
-/// https://github.com/Haselnussbomber/TextDecoderExample/blob/master/SamplePlugin/TextDecoder.cs
-/// </summary>
+/*
+Attributive sheet:
+  Japanese:
+    Unknown0 = Singular Demonstrative
+    Unknown1 = Plural Demonstrative
+  English:
+    Unknown2 = Article before a singular noun beginning with a consonant sound
+    Unknown3 = Article before a generic noun beginning with a consonant sound
+    Unknown4 = N/A
+    Unknown5 = Article before a singular noun beginning with a vowel sound
+    Unknown6 = Article before a generic noun beginning with a vowel sound
+    Unknown7 = N/A
+  German:
+    Unknown8 = Nominative Masculine
+    Unknown9 = Nominative Feminine
+    Unknown10 = Nominative Neutral
+    Unknown11 = Nominative Plural
+    Unknown12 = Genitive Masculine
+    Unknown13 = Genitive Feminine
+    Unknown14 = Genitive Neutral
+    Unknown15 = Genitive Plural
+    Unknown16 = Dative Masculine
+    Unknown17 = Dative Feminine
+    Unknown18 = Dative Neutral
+    Unknown19 = Dative Plural
+    Unknown20 = Accusative Masculine
+    Unknown21 = Accusative Feminine
+    Unknown22 = Accusative Neutral
+    Unknown23 = Accusative Plural
+  French (unsure):
+    Unknown24 = Singular Article
+    Unknown25 = Singular Masculine Article
+    Unknown26 = Plural Masculine Article
+    Unknown27 = ?
+    Unknown28 = ?
+    Unknown29 = Singular Masculine/Feminine Article, before a noun beginning in a vowel or an h
+    Unknown30 = Plural Masculine/Feminine Article, before a noun beginning in a vowel or an h
+    Unknown31 = ?
+    Unknown32 = ?
+    Unknown33 = Singular Feminine Article
+    Unknown34 = Plural Feminine Article
+    Unknown35 = ?
+    Unknown36 = ?
+    Unknown37 = Singular Masculine/Feminine Article, before a noun beginning in a vowel or an h
+    Unknown38 = Plural Masculine/Feminine Article, before a noun beginning in a vowel or an h
+    Unknown39 = ?
+    Unknown40 = ?
+*/
+
 [Service]
 public class TextDecoder(IClientState clientState, IDataManager dataManager)
 {
-    private readonly ReadOnlySeString _empty = [];
+    private readonly ReadOnlySeString _empty = default;
 
     private readonly Dictionary<(ClientLanguage Language, string SheetName, int RowId, int Amount, int Person, int Case)
       , ReadOnlySeString> _cache = [];
 
+    // column names from ExdSchema
     private const int SingularColumnIdx          = 0;
     private const int AdjectiveColumnIdx         = 1;
     private const int PluralColumnIdx            = 2;
@@ -42,39 +86,38 @@ public class TextDecoder(IClientState clientState, IDataManager dataManager)
         );
     }
 
+    // Placeholders:
+    // [t] = article or grammatical gender (EN: the, DE: der, die, das)
+    // [n] = amount (number)
+    // [a] = declension
+    // [p] = plural
+    // [pa] = ?
+
+    // SeString macro parameters:
     // <XXnoun(SheetName,Person,RowId,Amount,Case[,UnkInt5])>
-    // UnkInt5 seems unused in En/Fr/De/Ja, so it's ignored for now
+    // UnkInt5 used in EN/FR/CH* (technically only in chinese, maybe for script variant?)
+    // made linkMarker from the noun ctors optional, since it's processed in the pronoun module
     public ReadOnlySeString ProcessNoun(
-        ClientLanguage language, string sheetName, int person, int rowId, int amount = 1, int @case = 1, int unkInt5 = 1
+        ClientLanguage language,    string sheetName, int person, int rowId, int amount = 1, int grammaticalCase = 1,
+        int            unkInt5 = 1, ReadOnlySeString linkMarker = default
     )
     {
-        @case--;
+        grammaticalCase--;
 
-        if (@case > 5 || (language != ClientLanguage.German && @case != 0)) return _empty;
+        if (grammaticalCase > 5 || (language != ClientLanguage.German && grammaticalCase != 0)) return _empty;
 
-        var key = (Language: language, SheetName: sheetName, RowId: rowId, Amount: amount, Person: person, Case: @case);
+        var key = (language, sheetName, rowId, amount, person, grammaticalCase);
         if (_cache.TryGetValue(key, out var value)) return value;
 
-        var attributiveSheet = dataManager.GameData.Excel.GetSheetRaw("Attributive", language.ToLumina());
+        var attributiveSheet = dataManager.GameData.Excel.GetSheet<RawRow>(language.ToLumina(), "Attributive");
+        var sheet            = dataManager.GameData.Excel.GetSheet<RawRow>(language.ToLumina(), sheetName);
 
-        if (attributiveSheet == null) {
-            Logger.Warning("Sheet Attributive not found");
-            return _empty;
-        }
-
-        var sheet = dataManager.GameData.Excel.GetSheetRaw(sheetName, language.ToLumina());
-
-        if (sheet == null) {
-            Logger.Warning($"Sheet {sheetName} not found");
+        if (!sheet.HasRow((uint)rowId)) {
+            Logger.Warning($"Sheet {sheetName} does not contain row #{rowId}");
             return _empty;
         }
 
         var row = sheet.GetRow((uint)rowId);
-
-        if (row == null) {
-            Logger.Warning($"Sheet {sheetName} does not contain row #{rowId}");
-            return _empty;
-        }
 
         // see "E8 ?? ?? ?? ?? 44 8B 6B 08"
         var columnOffset = sheetName switch {
@@ -87,40 +130,55 @@ public class TextDecoder(IClientState clientState, IDataManager dataManager)
         };
 
         var output = language switch {
-            ClientLanguage.Japanese => ResolveNounJa(amount, person, attributiveSheet, row),
-            ClientLanguage.English  => ResolveNounEn(amount, person, attributiveSheet, row, columnOffset),
-            ClientLanguage.German   => ResolveNounDe(amount, person, @case, attributiveSheet, row, columnOffset),
-            ClientLanguage.French   => ResolveNounFr(amount, person, attributiveSheet, row, columnOffset),
-            _                       => new ReadOnlySeString()
+            ClientLanguage.Japanese => ResolveNounJa(amount, person, attributiveSheet, row, linkMarker),
+            ClientLanguage.English  => ResolveNounEn(amount, person, attributiveSheet, row, columnOffset, linkMarker),
+            ClientLanguage.German => ResolveNounDe(
+                amount,
+                person,
+                grammaticalCase,
+                attributiveSheet,
+                row,
+                columnOffset,
+                linkMarker
+            ),
+            ClientLanguage.French => ResolveNounFr(amount, person, attributiveSheet, row, columnOffset, linkMarker),
+            _                     => _empty
         };
-
-        if (output.IsEmpty) return _empty;
 
         _cache.Add(key, output);
         return output;
     }
 
     // Component::Text::Localize::NounJa.Resolve
-    private static ReadOnlySeString ResolveNounJa(int amount, int person, RawExcelSheet attributiveSheet, RowParser row)
+    private static ReadOnlySeString ResolveNounJa(
+        int amount, int person, ExcelSheet<RawRow> attributiveSheet, RawRow row, ReadOnlySeString linkMarker
+    )
     {
-        var builder = new SeStringBuilder();
+        var builder = SeStringBuilder.SharedPool.Get();
 
         // Ko-So-A-Do
-        var ksad = attributiveSheet.GetRow((uint)person)?.ReadColumn<LuminaSeString>(amount > 1 ? 1 : 0);
-        if (ksad != null) builder.Append(ksad);
+        var ksad = attributiveSheet.GetRow((uint)person).ReadStringColumn(amount > 1 ? 1 : 0);
 
-        if (amount > 1) builder.ReplaceText("[n]"u8, Encoding.UTF8.GetBytes(amount.ToString()));
+        if (!ksad.IsEmpty) {
+            builder.Append(ksad);
 
-        // UnkInt5 can only be 0, because the offsets array has only 1 entry, which is 0
-        var text = row.ReadColumn<LuminaSeString>(0);
-        if (text != null) builder.Append(text);
+            if (amount > 1) builder.ReplaceText("[n]"u8, ReadOnlySeString.FromText(amount.ToString()));
+        }
 
-        return builder.ToReadOnlySeString();
+        if (!linkMarker.IsEmpty) builder.Append(linkMarker);
+
+        var text = row.ReadStringColumn(0);
+        if (!text.IsEmpty) builder.Append(text);
+
+        var ross = builder.ToReadOnlySeString();
+        SeStringBuilder.SharedPool.Return(builder);
+        return ross;
     }
 
     // Component::Text::Localize::NounEn.Resolve
     private static ReadOnlySeString ResolveNounEn(
-        int amount, int person, RawExcelSheet attributiveSheet, RowParser row, int columnOffset
+        int              amount, int person, ExcelSheet<RawRow> attributiveSheet, RawRow row, int columnOffset,
+        ReadOnlySeString linkMarker
     )
     {
         /*
@@ -131,37 +189,44 @@ public class TextDecoder(IClientState clientState, IDataManager dataManager)
           a1->Offsets[4] = ArticleColumnIdx
         */
 
-        // UnkInt5 isn't really used here. there are only 5 offsets in the array
-        // offsets = &a1->Offsets[5 * a2->UnkInt5];
+        var builder = SeStringBuilder.SharedPool.Get();
 
-        var builder = new SeStringBuilder();
+        var isProperNounColumn = columnOffset + ArticleColumnIdx;
+        var isProperNoun       = isProperNounColumn >= 0 ? row.ReadInt8Column(isProperNounColumn) : ~isProperNounColumn;
 
-        var articleIndex = row.ReadColumn<sbyte>(columnOffset + ArticleColumnIdx);
+        if (isProperNoun == 0) {
+            var startsWithVowelColumn = columnOffset + StartsWithVowelColumnIdx;
 
-        if (articleIndex == 0) {
-            var v14 = row.ReadColumn<sbyte>(columnOffset + StartsWithVowelColumnIdx);
-            var v17 = v14 + 2 * (v14 + 1);
+            var startsWithVowel = startsWithVowelColumn >= 0
+                ? row.ReadInt8Column(startsWithVowelColumn)
+                : ~startsWithVowelColumn;
+
+            var articleColumn                 = startsWithVowel + 2 * (startsWithVowel + 1);
+            var grammaticalNumberColumnOffset = amount == 1 ? SingularColumnIdx : PluralColumnIdx;
 
             var article = attributiveSheet
                 .GetRow((uint)person)
-                ?.ReadColumn<LuminaSeString>(v17 + (amount == 1 ? 0 : 1));
+                .ReadStringColumn(articleColumn + grammaticalNumberColumnOffset);
 
-            if (article != null) builder.Append(article);
+            if (!article.IsEmpty) builder.Append(article);
 
-            // skipping link marker ("//")
+            if (!linkMarker.IsEmpty) builder.Append(linkMarker);
         }
 
-        var text = row.ReadColumn<LuminaSeString>(columnOffset + (amount == 1 ? SingularColumnIdx : PluralColumnIdx));
-        if (text != null) builder.Append(text);
+        var text = row.ReadStringColumn(columnOffset + (amount == 1 ? SingularColumnIdx : PluralColumnIdx));
+        if (!text.IsEmpty) builder.Append(text);
 
-        builder.ReplaceText("[n]"u8, Encoding.UTF8.GetBytes(amount.ToString()));
+        builder.ReplaceText("[n]"u8, ReadOnlySeString.FromText(amount.ToString()));
 
-        return builder.ToReadOnlySeString();
+        var ross = builder.ToReadOnlySeString();
+        SeStringBuilder.SharedPool.Return(builder);
+        return ross;
     }
 
     // Component::Text::Localize::NounDe.Resolve
     private static ReadOnlySeString ResolveNounDe(
-        int amount, int person, int @case, RawExcelSheet attributiveSheet, RowParser row, int columnOffset
+        int amount, int person, int grammaticalCase, ExcelSheet<RawRow> attributiveSheet, RawRow row, int columnOffset,
+        ReadOnlySeString linkMarker
     )
     {
         /*
@@ -174,99 +239,100 @@ public class TextDecoder(IClientState clientState, IDataManager dataManager)
              a1->Offsets[6] = ArticleColumnIdx
          */
 
-        var builder = new SeStringBuilder();
+        var              builder = SeStringBuilder.SharedPool.Get();
+        ReadOnlySeString ross;
 
-        var readColumnDirectly = ((byte)(@case >> 8 & 0xFF) & 1) == 1; // BYTE2(Case) & 1
+        var readColumnDirectly = (byte)(grammaticalCase >> 8 & 0xFF) & 1; // BYTE2(Case) & 1
 
-        if ((@case & 0x10000) != 0) @case = 0;
+        if ((grammaticalCase & 0x10000) != 0) grammaticalCase = 0;
 
-        // TODO: I didn't try this out yet, see if it works
-        if (readColumnDirectly) {
-            var v15 = row.ReadColumn<LuminaSeString>(@case - 0x10000);
-            if (v15 != null) builder.Append(v15);
+        if (readColumnDirectly != 0) {
+            builder.Append(row.ReadStringColumn(grammaticalCase - 0x10000));
+            builder.ReplaceText("[n]"u8, ReadOnlySeString.FromText(amount.ToString()));
 
-            builder.ReplaceText("[n]"u8, Encoding.UTF8.GetBytes(amount.ToString()));
-
-            return builder.ToReadOnlySeString();
+            ross = builder.ToReadOnlySeString();
+            SeStringBuilder.SharedPool.Return(builder);
+            return ross;
         }
 
-        var genderIdx    = row.ReadColumn<sbyte>(columnOffset + PronounColumnIdx);
-        var articleIndex = row.ReadColumn<sbyte>(columnOffset + ArticleColumnIdx);
+        var genderIndexColumn = columnOffset + PronounColumnIdx;
+        var genderIndex       = genderIndexColumn >= 0 ? row.ReadInt8Column(genderIndexColumn) : ~genderIndexColumn;
 
-        var   caseColumnOffset = 4 * @case + 8;
-        sbyte v27;
+        var articleIndexColumn = columnOffset + ArticleColumnIdx;
+        var articleIndex       = articleIndexColumn >= 0 ? row.ReadInt8Column(articleIndexColumn) : ~articleIndexColumn;
 
-        if (amount == 1) {
-            var v26 = columnOffset + AdjectiveColumnIdx;
-            v27 = (sbyte)(v26 >= 0 ? row.ReadColumn<sbyte>(v26) : ~v26);
-        } else {
-            var v29 = columnOffset + PossessivePronounColumnIdx;
-            v27       = (sbyte)(v29 >= 0 ? row.ReadColumn<sbyte>(v29) : ~v29);
-            genderIdx = 3;
-        }
+        var caseColumnOffset = 4 * grammaticalCase + 8;
 
-        var has_t = false; // v44, has article placeholder
-        var text  = row.ReadColumn<LuminaSeString>(columnOffset + (amount == 1 ? SingularColumnIdx : PluralColumnIdx));
+        var caseRowOffsetColumn = columnOffset + (amount == 1 ? AdjectiveColumnIdx : PossessivePronounColumnIdx);
 
-        if (text != null) {
-            has_t = text.RawData.IndexOf("[t]"u8) != -1; // v34
+        var caseRowOffset = caseRowOffsetColumn >= 0
+            ? row.ReadInt8Column(caseRowOffsetColumn)
+            : (sbyte)~caseRowOffsetColumn;
 
-            if (articleIndex == 0 && !has_t) {
-                var v36 = attributiveSheet
-                    .GetRow((uint)person)
-                    ?.ReadColumn<LuminaSeString>(caseColumnOffset + genderIdx);
+        if (amount != 1) genderIndex = 3;
 
-                if (v36 != null) builder.Append(v36);
+        var hasT = false;
+        var text  = row.ReadStringColumn(columnOffset + (amount == 1 ? SingularColumnIdx : PluralColumnIdx));
+
+        if (!text.IsEmpty) {
+            hasT = text.Contains("[t]"u8);
+
+            if (articleIndex == 0 && !hasT) {
+                var grammaticalGender =
+                    attributiveSheet.GetRow((uint)person).ReadStringColumn(caseColumnOffset + genderIndex); // Genus
+
+                if (!grammaticalGender.IsEmpty) builder.Append(grammaticalGender);
             }
 
-            // skipping link marker ("//")
+            if (!linkMarker.IsEmpty) builder.Append(linkMarker);
 
             builder.Append(text);
 
-            var v43 = attributiveSheet
-                .GetRow((uint)(v27 + 26))
-                ?.ReadColumn<LuminaSeString>(caseColumnOffset + genderIdx);
+            var plural = attributiveSheet
+                .GetRow((uint)(caseRowOffset + 26))
+                .ReadStringColumn(caseColumnOffset + genderIndex);
 
-            if (v43 != null) {
-                var has_p = builder.Contains("[p]"u8); // inverted v38
+            if (builder.Contains("[p]"u8))
+                builder.ReplaceText("[p]"u8, plural);
+            else
+                builder.Append(plural);
 
-                if (has_p)
-                    builder.ReplaceText("[p]"u8, v43.RawData);
-                else
-                    builder.Append(v43);
-            }
+            if (hasT) {
+                var article =
+                    attributiveSheet.GetRow(39).ReadStringColumn(caseColumnOffset + genderIndex); // Definiter Artikel
 
-            if (has_t) {
-                var v46 = attributiveSheet
-                    .GetRow(39)
-                    ?.ReadColumn<LuminaSeString>(caseColumnOffset + genderIdx); // Definiter Artikel
-
-                if (v46 != null) builder.ReplaceText("[t]"u8, v46.RawData);
+                builder.ReplaceText("[t]"u8, article);
             }
         }
 
-        var v50 = attributiveSheet.GetRow(24)?.ReadColumn<LuminaSeString>(caseColumnOffset + genderIdx);
-        if (v50 != null) builder.ReplaceText("[pa]"u8, v50.RawData);
+        var pa = attributiveSheet.GetRow(24).ReadStringColumn(caseColumnOffset + genderIndex);
+        builder.ReplaceText("[pa]"u8, pa);
 
-        var v52 = attributiveSheet.GetRow(26); // Starke Flexion eines Artikels?!
+        RawRow declensionRow;
 
-        if (person is 2 or 6 || has_t)         // ((Person - 2) & -5) == 0
-            v52 = attributiveSheet.GetRow(25); // Schwache Flexion eines Adjektivs?!
+        if (person is 2 or 6 || hasT)
+            declensionRow = attributiveSheet.GetRow(25); // Schwache Flexion eines Adjektivs?!
         else if (person == 5)
-            v52                   = attributiveSheet.GetRow(38); // Starke Deklination
-        else if (person == 1) v52 = attributiveSheet.GetRow(37); // Gemischte Deklination
+            declensionRow = attributiveSheet.GetRow(38); // Starke Deklination
+        else if (person == 1)
+            declensionRow = attributiveSheet.GetRow(37); // Gemischte Deklination
+        else
+            declensionRow = attributiveSheet.GetRow(26); // Starke Flexion eines Artikels?!
 
-        var v54 = v52?.ReadColumn<LuminaSeString>(caseColumnOffset + genderIdx);
-        if (v54 != null) builder.ReplaceText("[a]"u8, v54.RawData);
+        var declension = declensionRow.ReadStringColumn(caseColumnOffset + genderIndex);
+        builder.ReplaceText("[a]"u8, declension);
 
-        builder.ReplaceText("[n]"u8, Encoding.UTF8.GetBytes(amount.ToString()));
+        builder.ReplaceText("[n]"u8, ReadOnlySeString.FromText(amount.ToString()));
 
-        return builder.ToReadOnlySeString();
+        ross = builder.ToReadOnlySeString();
+        SeStringBuilder.SharedPool.Return(builder);
+        return ross;
     }
 
     // Component::Text::Localize::NounFr.Resolve
     private static ReadOnlySeString ResolveNounFr(
-        int amount, int person, RawExcelSheet attributiveSheet, RowParser row, int columnOffset
+        int              amount, int person, ExcelSheet<RawRow> attributiveSheet, RawRow row, int columnOffset,
+        ReadOnlySeString linkMarker
     )
     {
         /*
@@ -278,58 +344,74 @@ public class TextDecoder(IClientState clientState, IDataManager dataManager)
             a1->Offsets[5] = ArticleColumnIdx
         */
 
-        // UnkInt5 isn't really used here either. there are only 6 offsets in the array
-        // UnkInt5--;
-        // offsets = &a1->Offsets[6 * a2->UnkInt5];
+        var              builder = SeStringBuilder.SharedPool.Get();
+        ReadOnlySeString ross;
 
-        var builder = new SeStringBuilder();
+        var startsWithVowelColumn = columnOffset + StartsWithVowelColumnIdx;
 
-        var v33 = row.ReadColumn<sbyte>(columnOffset + StartsWithVowelColumnIdx);
-        var v15 = row.ReadColumn<sbyte>(columnOffset + PronounColumnIdx);
-        var v17 = row.ReadColumn<sbyte>(columnOffset + Unknown5ColumnIdx);
-        var v19 = row.ReadColumn<sbyte>(columnOffset + ArticleColumnIdx);
-        var v20 = 4 * (v33 + 6 + 2 * v15);
+        var startsWithVowel = startsWithVowelColumn >= 0
+            ? row.ReadInt8Column(startsWithVowelColumn)
+            : ~startsWithVowelColumn;
 
-        if (v19 != 0) {
-            var v21 = attributiveSheet.GetRow((uint)person)?.ReadColumn<LuminaSeString>(v20);
-            if (v21 != null) builder.Append(v21);
+        var pronounColumn = columnOffset + PronounColumnIdx;
+        var pronoun       = pronounColumn >= 0 ? row.ReadInt8Column(pronounColumn) : ~pronounColumn;
 
-            // skipping link marker ("//")
+        var articleColumn = columnOffset + ArticleColumnIdx;
+        var article       = articleColumn >= 0 ? row.ReadInt8Column(articleColumn) : ~articleColumn;
 
-            var v30 = row.ReadColumn<LuminaSeString>(
-                columnOffset + (amount <= 1 ? SingularColumnIdx : PluralColumnIdx)
-            );
+        var v20 = 4 * (startsWithVowel + 6 + 2 * pronoun);
 
-            if (v30 != null) builder.Append(v30);
+        if (article != 0) {
+            var v21 = attributiveSheet.GetRow((uint)person).ReadStringColumn(v20);
+            if (!v21.IsEmpty) builder.Append(v21);
 
-            if (amount <= 1) builder.ReplaceText("[n]"u8, Encoding.UTF8.GetBytes(amount.ToString()));
+            if (!linkMarker.IsEmpty) builder.Append(linkMarker);
 
-            return builder.ToReadOnlySeString();
+            var text = row.ReadStringColumn(columnOffset + (amount <= 1 ? SingularColumnIdx : PluralColumnIdx));
+            if (!text.IsEmpty) builder.Append(text);
+
+            if (amount <= 1) builder.ReplaceText("[n]"u8, ReadOnlySeString.FromText(amount.ToString()));
+
+            ross = builder.ToReadOnlySeString();
+            SeStringBuilder.SharedPool.Return(builder);
+            return ross;
         }
+
+        var v17 = row.ReadInt8Column(columnOffset + Unknown5ColumnIdx);
 
         if (v17 != 0 && (amount > 1 || v17 == 2)) {
-            var v29 = attributiveSheet.GetRow((uint)person)?.ReadColumn<LuminaSeString>(v20 + 2);
+            var v29 = attributiveSheet.GetRow((uint)person).ReadStringColumn(v20 + 2);
 
-            if (v29 != null) {
+            if (!v29.IsEmpty) {
                 builder.Append(v29);
 
-                // skipping link marker ("//")
+                if (!linkMarker.IsEmpty) builder.Append(linkMarker);
 
-                var v30 = row.ReadColumn<LuminaSeString>(columnOffset + PluralColumnIdx);
-                if (v30 != null) builder.Append(v30);
+                var text = row.ReadStringColumn(columnOffset + PluralColumnIdx);
+                if (!text.IsEmpty) builder.Append(text);
             }
         } else {
-            var v27 = attributiveSheet.GetRow((uint)person)?.ReadColumn<LuminaSeString>(v20 + (v17 != 0 ? 1 : 3));
-            if (v27 != null) builder.Append(v27);
+            var v27 = attributiveSheet.GetRow((uint)person).ReadStringColumn(v20 + (v17 != 0 ? 1 : 3));
+            if (!v27.IsEmpty) builder.Append(v27);
 
-            // skipping link marker ("//")
+            if (!linkMarker.IsEmpty) builder.Append(linkMarker);
 
-            var v30 = row.ReadColumn<LuminaSeString>(columnOffset + SingularColumnIdx);
-            if (v30 != null) builder.Append(v30);
+            var text = row.ReadStringColumn(columnOffset + SingularColumnIdx);
+            if (!text.IsEmpty) builder.Append(text);
         }
 
-        builder.ReplaceText("[n]"u8, Encoding.UTF8.GetBytes(amount.ToString()));
+        builder.ReplaceText("[n]"u8, ReadOnlySeString.FromText(amount.ToString()));
 
-        return builder.ToReadOnlySeString();
+        ross = builder.ToReadOnlySeString();
+        SeStringBuilder.SharedPool.Return(builder);
+        return ross;
+    }
+}
+
+public static class ReadOnlySeStringExtensions
+{
+    public static bool Contains(this ReadOnlySeString ross, ReadOnlySpan<byte> needle)
+    {
+        return ross.Data.Span.IndexOf(needle) != -1;
     }
 }

@@ -15,7 +15,6 @@
  */
 
 using System.Reflection;
-using Dalamud.Game;
 using Dalamud.IoC;
 using Dalamud.Plugin;
 using Dalamud.Plugin.Services;
@@ -53,7 +52,7 @@ internal sealed class Plugin : IDalamudPlugin
 
     public void Dispose()
     {
-        if (ClientState.IsLoggedIn) OnLogout();
+        if (ClientState.IsLoggedIn) OnLogout(0, 0);
 
         ClientState.Login  -= OnLogin;
         ClientState.Logout -= OnLogout;
@@ -76,7 +75,7 @@ internal sealed class Plugin : IDalamudPlugin
             );
     }
 
-    private void OnLogout()
+    private void OnLogout(int type, int code)
     {
         Framework.Dispose();
     }

@@ -18,10 +18,10 @@ using System.Collections.Generic;
 using System.Linq;
 using Dalamud.Game.ClientState.Aetherytes;
 using Dalamud.Plugin.Services;
-using Lumina.Excel.GeneratedSheets;
+using Lumina.Excel.Sheets;
 using Umbra.Common;
 using Umbra.Game;
-using TerritoryType = Lumina.Excel.GeneratedSheets.TerritoryType;
+using TerritoryType = Lumina.Excel.Sheets.TerritoryType;
 
 namespace Umbra.Widgets;
 
@@ -42,39 +42,39 @@ internal partial class TeleportWidgetPopup
     private void HydrateAetherytePoints()
     {
         IZone currentZone   = Framework.Service<IZoneManager>().CurrentZone;
-        var   territoryType = DataManager.GetExcelSheet<TerritoryType>()!.GetRow(currentZone.TerritoryId);
+        var   territoryType = DataManager.GetExcelSheet<TerritoryType>().FindRow(currentZone.TerritoryId);
 
         if (territoryType == null) return;
-        var currentExNodeId = $"Ex_{territoryType.ExVersion.Value?.RowId}";
+        var currentExNodeId = $"Ex_{territoryType.Value.ExVersion.ValueNullable?.RowId}";
 
         foreach (var aetheryte in AetheryteList) {
             // Don't index housing aetherytes...
             if (IsAetherytePlayerHousing(aetheryte)) continue;
 
-            var gameData = aetheryte.AetheryteData.GameData;
+            var gameData = aetheryte.AetheryteData.ValueNullable;
             if (gameData == null) continue;
 
-            if (gameData.Invisible || !gameData.IsAetheryte) continue;
+            if (gameData.Value.Invisible || !gameData.Value.IsAetheryte) continue;
 
-            var territory = gameData.Territory.Value;
+            var territory = gameData.Value.Territory.ValueNullable;
             if (territory == null) continue;
 
-            var expansion = territory.ExVersion.Value;
+            var expansion = territory.Value.ExVersion.ValueNullable;
             if (expansion == null) continue;
 
-            var   regionName    = territory.Map.Value?.PlaceNameRegion.Value?.Name.ToString();
-            var   mapName       = territory.Map.Value?.PlaceName.Value?.Name.ToString();
-            var   aetheryteName = gameData.PlaceName.Value?.Name.ToString();
-            uint? mapId         = territory.Map.Value?.RowId;
+            var   regionName    = territory.Value.Map.ValueNullable?.PlaceNameRegion.ValueNullable?.Name.ToString();
+            var   mapName       = territory.Value.Map.ValueNullable?.PlaceName.ValueNullable?.Name.ToString();
+            var   aetheryteName = gameData.Value.PlaceName.ValueNullable?.Name.ToString();
+            uint? mapId         = territory.Value.Map.ValueNullable?.RowId;
 
             if (regionName == null || mapName == null || aetheryteName == null || mapId == null) continue;
 
-            var regionNameRowId = territory.Map.Value!.PlaceNameRegion.Row;
-            var territoryRowId  = territory.RowId;
+            var regionNameRowId = territory.Value.Map.Value.PlaceNameRegion.RowId;
+            var territoryRowId  = territory.Value.RowId;
 
-            var expansionNodeId = $"Ex_{expansion.RowId}";
-            var regionNodeId    = $"Ex_{expansion.RowId}_{regionNameRowId}";
-            var aetheryteNodeId = $"Ex_{expansion.RowId}_{territoryRowId}_{gameData.RowId}";
+            var expansionNodeId = $"Ex_{expansion.Value.RowId}";
+            var regionNodeId    = $"Ex_{expansion.Value.RowId}_{regionNameRowId}";
+            var aetheryteNodeId = $"Ex_{expansion.Value.RowId}_{territoryRowId}_{gameData.Value.RowId}";
 
             if (currentExNodeId == expansionNodeId) {
                 _selectedExpansion = expansionNodeId;
@@ -84,8 +84,8 @@ internal partial class TeleportWidgetPopup
                 expansionNodeId,
                 new() {
                     NodeId    = expansionNodeId,
-                    Name      = expansion.Name.ToString(),
-                    SortIndex = (int)expansion.RowId,
+                    Name      = expansion.Value.Name.ToString(),
+                    SortIndex = (int)expansion.Value.RowId,
                     Regions   = [],
                 }
             );
@@ -122,10 +122,10 @@ internal partial class TeleportWidgetPopup
                 AetheryteId = aetheryte.AetheryteId,
                 SubIndex    = aetheryte.SubIndex,
                 GilCost     = aetheryte.GilCost,
-                SortIndex   = gameData.Order,
+                SortIndex   = gameData.Value.Order,
                 UldPartId   = partId,
                 MapId       = (uint)mapId,
-                TerritoryId = territory.RowId,
+                TerritoryId = territory.Value.RowId,
             };
 
             mapNode.Destinations.TryAdd(aetheryteNodeId, destination);
@@ -135,8 +135,8 @@ internal partial class TeleportWidgetPopup
 
     private bool IsAetherytePlayerHousing(IAetheryteEntry entry)
     {
-        EstateAetheryteIds ??= DataManager.GetExcelSheet<Aetheryte>()!
-            .Where(aetheryte => aetheryte.PlaceName.Row is 1145 or 1160)
+        EstateAetheryteIds ??= DataManager.GetExcelSheet<Aetheryte>()
+            .Where(aetheryte => aetheryte.PlaceName.RowId is 1145 or 1160)
             .Select(aetheryte => aetheryte.RowId)
             .ToList();
 

@@ -21,6 +21,7 @@ using System.Numerics;
 using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Game.ClientState.Objects.Enums;
 using Dalamud.Plugin.Services;
+using Dalamud.Utility;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.Game.Group;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
@@ -28,7 +29,7 @@ using FFXIVClientStructs.FFXIV.Client.UI;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using FFXIVClientStructs.FFXIV.Client.UI.Info;
 using FFXIVClientStructs.FFXIV.Component.GUI;
-using Lumina.Excel.GeneratedSheets;
+using Lumina.Excel.Sheets;
 using Umbra.Common;
 using Umbra.Game.Inventory;
 using Umbra.Game.Societies;
@@ -290,7 +291,7 @@ internal sealed class Player : IPlayer
 
         AgentDeepDungeonStatus* dds = AgentDeepDungeonStatus.Instance();
 
-        OnlineStatusId = _clientState.LocalPlayer.OnlineStatus.Id;
+        OnlineStatusId = _clientState.LocalPlayer.OnlineStatus.RowId; // Was .Id
         IsMoving       = Vector3.Distance(Position, _clientState.LocalPlayer.Position) > 0.01f;
         Position       = _clientState.LocalPlayer.Position;
         Rotation       = _clientState.LocalPlayer.Rotation;
@@ -298,7 +299,7 @@ internal sealed class Player : IPlayer
         IsInPvP        = _clientState.IsPvPExcludingDen;
         IsInParty      = _partyList.Length > 0;
         IsInSanctuary  = TerritoryInfo.Instance()->InSanctuary;
-        JobId          = (byte)_clientState.LocalPlayer.ClassJob.Id;
+        JobId          = (byte)_clientState.LocalPlayer.ClassJob.RowId; // Was .Id
 
         if (dds != null && dds->IsAgentActive()) {
             JobId = (byte)dds->Data->ClassJobId;
@@ -346,11 +347,12 @@ internal sealed class Player : IPlayer
             && _condition[ConditionFlag.OccupiedInCutSceneEvent];
 
         // Unknown57 is the transient state the player is in after casting and before being actually mounted.
-        CanUseTeleportAction  = ActionManager.Instance()->GetActionStatus(ActionType.Action, 5) == 0;
-        HomeWorldName         = _clientState.LocalPlayer.HomeWorld.GameData!.Name.ToString();
-        CurrentWorldName      = _clientState.LocalPlayer.CurrentWorld.GameData!.Name.ToString();
-        HomeDataCenterName    = _clientState.LocalPlayer.HomeWorld.GameData!.DataCenter.Value!.Name.ToString();
-        CurrentDataCenterName = _clientState.LocalPlayer.CurrentWorld.GameData!.DataCenter.Value!.Name.ToString();
+        CanUseTeleportAction = ActionManager.Instance()->GetActionStatus(ActionType.Action, 5) == 0;
+        HomeWorldName = _clientState.LocalPlayer.HomeWorld.Value.Name.ToDalamudString().TextValue;
+        CurrentWorldName = _clientState.LocalPlayer.CurrentWorld.Value.Name.ToDalamudString().TextValue;
+        HomeDataCenterName = _clientState.LocalPlayer.HomeWorld.Value.DataCenter.Value.Name.ToDalamudString().TextValue;
+        CurrentDataCenterName = _clientState.LocalPlayer.CurrentWorld.Value.DataCenter.Value.Name.ToDalamudString()
+            .TextValue;
 
         var ps = PlayerState.Instance();
 
@@ -420,11 +422,11 @@ internal sealed class Player : IPlayer
     /// </summary>
     public ResolvedItem? FindResolvedItem(uint itemId)
     {
-        Item? item = _dataManager.GetExcelSheet<Item>()!.GetRow(itemId);
-        if (item != null) return new(item.RowId, item.Name.ToString(), item.Icon);
+        Item? item = _dataManager.GetExcelSheet<Item>().FindRow(itemId);
+        if (item != null) return new(item.Value.RowId, item.Value.Name.ToDalamudString().TextValue, item.Value.Icon);
 
-        EventItem? eventItem = _dataManager.GetExcelSheet<EventItem>()!.GetRow(itemId);
-        if (eventItem != null) return new(eventItem.RowId, eventItem.Name.ToString(), eventItem.Icon);
+        EventItem? eventItem = _dataManager.GetExcelSheet<EventItem>().FindRow(itemId);
+        if (eventItem != null) return new(eventItem.Value.RowId, eventItem.Value.Name.ToDalamudString().TextValue, eventItem.Value.Icon);
 
         return null;
     }
@@ -520,10 +522,10 @@ internal sealed class Player : IPlayer
     public unsafe bool IsGeneralActionUnlocked(uint actionId)
     {
         try {
-            GeneralAction? action = Framework.Service<IDataManager>().GetExcelSheet<GeneralAction>()!.GetRow(actionId);
+            GeneralAction? action = Framework.Service<IDataManager>().GetExcelSheet<GeneralAction>().FindRow(actionId);
 
             return action != null
-                && (action.UnlockLink == 0 || UIState.Instance()->IsUnlockLinkUnlocked(action.UnlockLink));
+                && (action.Value.UnlockLink == 0 || UIState.Instance()->IsUnlockLinkUnlocked(action.Value.UnlockLink));
         } catch {
             // Fall-through.
         }

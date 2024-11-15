@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using Dalamud.Plugin.Services;
 using Dalamud.Utility;
 using FFXIVClientStructs.FFXIV.Client.Game;
-using Lumina.Excel.GeneratedSheets2;
-using System.Linq;
+using Lumina.Excel.Sheets;
 using Umbra.Common;
 
 namespace Umbra.Game;
@@ -35,31 +34,31 @@ internal unsafe class EquipmentRepository : IEquipmentRepository
     /// currently equipped gear.
     /// </summary>
     public byte LowestDurability { get; private set; }
-    
+
     /// <summary>
     /// Returns the average percentage of all durability item of the player's
     /// currently equipped gear
     /// </summary>
     public byte AverageDurability { get; private set; }
-    
+
     /// <summary>
     /// Returns the percentage of the highest durability item of the player's
     /// currently equipped gear.
     /// </summary>
     public byte HighestDurability { get; private set; }
-    
+
     /// <summary>
     /// Returns the percentage of the lowest spiritbond item of the player's
     /// currently equipped gear
     /// </summary>
     public byte LowestSpiritbond { get; private set; }
-    
+
     /// <summary>
     /// Returns the average percentage of all spiritbond item of the player's
     /// currently equipped gear
     /// </summary>
     public byte AverageSpiritbond { get; private set; }
-    
+
     /// <summary>
     /// Returns the percentage of the highest spiritbond item of the player's
     /// currently equipped gear.
@@ -111,17 +110,17 @@ internal unsafe class EquipmentRepository : IEquipmentRepository
             if (equipment->Spiritbond > 0) {
                 spiritbondFilled++;
                 lowestSpiritbond = Math.Min(lowestSpiritbond, equipment->Spiritbond);
-            };
-            
+            }
+
             highestSpiritbond = Math.Max(highestSpiritbond, equipment->Spiritbond);
-            
+
             totalDurability += equipment->Condition;
             totalSpiritbond += equipment->Spiritbond;
 
-            var item = _dataManager.GetExcelSheet<Item>()!.GetRow(equipment->ItemId)!;
+            var item = _dataManager.GetExcelSheet<Item>().GetRow(equipment->ItemId);
 
             Slots[slot] = new(
-                item.Name.ToDalamudString().ToString(),
+                item.Name.ToDalamudString().TextValue,
                 item.Icon,
                 (byte)slot,
                 (byte)(equipment->Condition / DurabilityRatioPercentage),
@@ -131,7 +130,7 @@ internal unsafe class EquipmentRepository : IEquipmentRepository
 
         LowestDurability  = (byte)(lowestDurability / DurabilityRatioPercentage);
         HighestDurability = (byte)(highestDurability / DurabilityRatioPercentage);
-        
+
         LowestSpiritbond  = (byte)(lowestSpiritbond / SpiritbondRatioPercentage);
         HighestSpiritbond = (byte)(highestSpiritbond / SpiritbondRatioPercentage);
 

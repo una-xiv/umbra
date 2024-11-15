@@ -17,7 +17,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Dalamud.Plugin.Services;
-using Lumina.Excel.GeneratedSheets;
+using Lumina.Excel.Sheets;
 using Umbra.Common;
 
 namespace Umbra.Game;
@@ -29,11 +29,11 @@ internal sealed class GearsetCategoryRepository : IGearsetCategoryRepository
 
     public GearsetCategoryRepository(IDataManager dataManager)
     {
-        dataManager.GetExcelSheet<ClassJob>()!
+        dataManager.GetExcelSheet<ClassJob>()
             .ToList()
             .ForEach(
                 classJob => {
-                    _gearsetCategories[(byte)classJob.RowId] = classJob.ClassJobCategory.Row switch {
+                    _gearsetCategories[(byte)classJob.RowId] = classJob.ClassJobCategory.RowId switch {
                         30 when classJob.Role == 1 => GearsetCategory.Tank,
                         30 when classJob.Role == 2 => GearsetCategory.Melee,
                         30 when classJob.Role == 3 => GearsetCategory.Ranged,
@@ -49,8 +49,6 @@ internal sealed class GearsetCategoryRepository : IGearsetCategoryRepository
 
     public GearsetCategory GetCategoryFromJobId(byte jobId)
     {
-        return _gearsetCategories.TryGetValue(jobId, out GearsetCategory category)
-            ? category
-            : GearsetCategory.None;
+        return _gearsetCategories.GetValueOrDefault(jobId, GearsetCategory.None);
     }
 }

@@ -1,6 +1,6 @@
 ﻿using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Client.Game;
-using Lumina.Excel.GeneratedSheets;
+using Lumina.Excel.Sheets;
 using System;
 using System.Collections.Generic;
 using Umbra.Common;
@@ -54,7 +54,7 @@ internal unsafe class RetainerRepository(
 
     private JobInfo CreateJobInfoFor(RetainerManager.Retainer* r)
     {
-        return new(dataManager.GetExcelSheet<ClassJob>()!.GetRow(r->ClassJob)!) {
+        return new(dataManager.GetExcelSheet<ClassJob>().GetRow(r->ClassJob)) {
             Level = r->Level,
         };
     }

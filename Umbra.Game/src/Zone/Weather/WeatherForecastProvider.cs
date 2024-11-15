@@ -17,8 +17,9 @@
 using System;
 using System.Collections.Generic;
 using Dalamud.Plugin.Services;
+using Dalamud.Utility;
 using FFXIVClientStructs.FFXIV.Client.Game;
-using Lumina.Excel.GeneratedSheets;
+using Lumina.Excel.Sheets;
 using Umbra.Common;
 
 namespace Umbra.Game;
@@ -45,7 +46,7 @@ internal unsafe class WeatherForecastProvider
 
         byte currentWeatherId = wm->GetCurrentWeather();
 
-        Weather currentWeather = _dataManager.GetExcelSheet<Weather>()!.GetRow(currentWeatherId)!;
+        Weather currentWeather = _dataManager.GetExcelSheet<Weather>().GetRow(currentWeatherId);
         Weather lastWeather    = currentWeather;
 
         List<WeatherForecast> result = [BuildResultObject(currentWeather, GetRootTime(0))];
@@ -53,12 +54,12 @@ internal unsafe class WeatherForecastProvider
         try {
             for (var i = 1; i < 24; i++) {
                 byte weatherId = wm->GetWeatherForDaytime(territoryId, i);
-                var  weather   = _dataManager.GetExcelSheet<Weather>()!.GetRow(weatherId)!;
+                var  weather   = _dataManager.GetExcelSheet<Weather>().FindRow(weatherId)!;
                 var  time      = GetRootTime(i * WeatherPeriod);
 
-                if (lastWeather != weather) {
-                    lastWeather = weather;
-                    result.Add(BuildResultObject(weather, time));
+                if (lastWeather.RowId != weather.Value.RowId) {
+                    lastWeather = weather.Value;
+                    result.Add(BuildResultObject(weather.Value, time));
                 }
             }
         } catch (Exception e) {
@@ -71,7 +72,7 @@ internal unsafe class WeatherForecastProvider
     private static WeatherForecast BuildResultObject(Weather weather, DateTime time)
     {
         var timeString = FormatForecastTime(time);
-        var name       = weather.Name.ToString();
+        var name       = weather.Name.ToDalamudString().TextValue;
         var iconId     = (uint)weather.Icon;
 
         return new(time, timeString, name, iconId);

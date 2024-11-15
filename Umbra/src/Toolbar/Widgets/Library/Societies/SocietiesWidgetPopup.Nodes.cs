@@ -1,5 +1,5 @@
 ﻿using FFXIVClientStructs.FFXIV.Component.GUI;
-using Lumina.Excel.GeneratedSheets;
+using Lumina.Excel.Sheets;
 using System;
 using System.Linq;
 using Umbra.Common;
@@ -100,7 +100,7 @@ internal sealed partial class SocietiesWidgetPopup
                         new() {
                             ClassList = ["society--currency--icon"],
                             Style = new()
-                                { IconId = DataManager.GetExcelSheet<Item>()!.GetRow(society.CurrencyItemId)!.Icon },
+                                { IconId = DataManager.GetExcelSheet<Item>().GetRow(society.CurrencyItemId).Icon },
                         },
                         new() {
                             ClassList = ["society--currency--value"],

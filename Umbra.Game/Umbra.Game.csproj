@@ -59,4 +59,8 @@
 	<ItemGroup>
 		<ProjectReference Include="..\Umbra.Common\Umbra.Common.csproj" />
 	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="Microsoft.Extensions.ObjectPool" Version="9.0.0" />
+	</ItemGroup>
 </Project>

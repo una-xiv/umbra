@@ -17,7 +17,7 @@
 using System;
 using System.Numerics;
 using ImGuiNET;
-using Lumina.Excel.GeneratedSheets;
+using Lumina.Excel.Sheets;
 using Umbra.Common;
 using Umbra.Windows.Library.IconPicker;
 using Una.Drawing;

@@ -20,7 +20,7 @@ using System.Numerics;
 using Dalamud.Game.ClientState.Objects.Enums;
 using Dalamud.Game.ClientState.Objects.Types;
 using Dalamud.Plugin.Services;
-using Lumina.Excel.GeneratedSheets;
+using Lumina.Excel.Sheets;
 using Umbra.Common;
 using Umbra.Game;
 
@@ -144,19 +144,19 @@ internal class GatheringNodeMarkerFactory(
 
     private GatheringNode? CreateNodeFromObject(IGameObject obj)
     {
-        var point = dataManager.GetExcelSheet<GatheringPoint>()!.GetRow(obj.DataId);
+        var point = dataManager.GetExcelSheet<GatheringPoint>().FindRow(obj.DataId);
         if (point == null) return null;
 
-        List<string> items = point.GatheringPointBase.Value!
+        List<string> items = point.Value.GatheringPointBase.Value!
             .Item.Select(
                 i => {
-                    if (i == 0) return null;
+                    if (i.RowId == 0) return null;
 
-                    var gItem = dataManager.GetExcelSheet<GatheringItem>()!.GetRow((uint)i);
+                    var gItem = dataManager.GetExcelSheet<GatheringItem>().FindRow(i.RowId);
 
                     return gItem == null
                         ? null
-                        : dataManager.GetExcelSheet<Item>()!.GetRow((uint)gItem.Item)?.Name.ToString();
+                        : dataManager.GetExcelSheet<Item>().FindRow(gItem.Value.Item.RowId)?.Name.ToString();
                 }
             )
             .Where(i => i != null)
@@ -165,10 +165,10 @@ internal class GatheringNodeMarkerFactory(
         return new GatheringNode {
             Key           = $"GN_{obj.Position.X:N0}_{obj.Position.Y:N0}_{obj.Position.Z:N0}",
             Position      = obj.Position,
-            IconId        = (uint)(point.GatheringPointBase.Value?.GatheringType.Value?.IconMain ?? 0),
-            Label         = $"Lv.{point.GatheringPointBase.Value!.GatheringLevel} {obj.Name}",
-            SubLabel      = items.Count > 0 ? $"{point.Count}x {items[_displayIndex % items.Count]}" : null,
-            ShowDirection = !(!player.IsDiving && point.GatheringPointBase.Value?.GatheringType.Row == 5),
+            IconId        = (uint)(point.Value.GatheringPointBase.ValueNullable?.GatheringType.ValueNullable?.IconMain ?? 0),
+            Label         = $"Lv.{point.Value.GatheringPointBase.Value.GatheringLevel} {obj.Name}",
+            SubLabel      = items.Count > 0 ? $"{point.Value.Count}x {items[_displayIndex % items.Count]}" : null,
+            ShowDirection = !(!player.IsDiving && point.Value.GatheringPointBase.ValueNullable?.GatheringType.RowId == 5),
         };
     }
 

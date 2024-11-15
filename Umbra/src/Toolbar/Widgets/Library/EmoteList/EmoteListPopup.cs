@@ -1,7 +1,7 @@
 ﻿using Dalamud.Plugin.Services;
 using Dalamud.Utility;
 using Lumina.Excel;
-using Lumina.Excel.GeneratedSheets;
+using Lumina.Excel.Sheets;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -61,7 +61,7 @@ internal sealed partial class EmoteListPopup : WidgetPopup
                                 wnd => {
                                     if (wnd.SelectedEmote == null) return;
                                     Emotes[SelectedSlot.Item1] = Emotes.GetValueOrDefault(SelectedSlot.Item1) ?? [];
-                                    Emotes[SelectedSlot.Item1][SelectedSlot.Item2] = wnd.SelectedEmote.RowId;
+                                    Emotes[SelectedSlot.Item1][SelectedSlot.Item2] = wnd.SelectedEmote.Value.RowId;
 
                                     HydrateEmoteButtons(SelectedSlot.Item1);
                                     OnEmotesChanged?.Invoke(Emotes);
@@ -177,7 +177,7 @@ internal sealed partial class EmoteListPopup : WidgetPopup
         }
 
         Dictionary<byte, uint> emotes     = Emotes[listId];
-        ExcelSheet<Emote>      emoteSheet = DataManager.GetExcelSheet<Emote>()!;
+        ExcelSheet<Emote>      emoteSheet = DataManager.GetExcelSheet<Emote>();
 
         for (byte i = 0; i < 32; i++) {
             if (!emotes.TryGetValue(i, out var emoteId)) {
@@ -197,12 +197,12 @@ internal sealed partial class EmoteListPopup : WidgetPopup
                 continue;
             }
 
-            button.QuerySelector(".slot-button--icon")!.Style.IconId = emote.Icon;
+            button.QuerySelector(".slot-button--icon")!.Style.IconId = emote.Value.Icon;
 
             button.TagsList.Remove("empty-visible");
             button.TagsList.Remove("empty-hidden");
             button.TagsList.Add("filled");
-            button.Tooltip = emote.Name.ToDalamudString().TextValue;
+            button.Tooltip = emote.Value.Name.ToDalamudString().TextValue;
         }
     }
 
@@ -218,10 +218,10 @@ internal sealed partial class EmoteListPopup : WidgetPopup
 
         if (emoteId == 0) return;
 
-        Emote? emote = DataManager.GetExcelSheet<Emote>()!.GetRow(emoteId);
+        Emote? emote = DataManager.GetExcelSheet<Emote>().FindRow(emoteId);
         if (emote?.TextCommand.Value == null) return;
 
-        Framework.Service<IChatSender>().Send($"{emote.TextCommand.Value.Command.ToDalamudString().TextValue}");
+        Framework.Service<IChatSender>().Send($"{emote.Value.TextCommand.Value.Command.ToDalamudString().TextValue}");
         if (!KeepOpenAfterUse) Close();
     }
 

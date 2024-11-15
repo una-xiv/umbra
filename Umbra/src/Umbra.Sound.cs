@@ -14,7 +14,6 @@
  *     GNU Affero General Public License for more details.
  */
 
-using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using FFXIVClientStructs.FFXIV.Client.UI;
 using System;
 using Umbra.Common;
@@ -86,6 +85,6 @@ internal sealed class UmbraSound : IDisposable
     {
         if (!Enabled || id < 1) return;
 
-        UIModule.PlaySound(id);
+        UIGlobals.PlaySoundEffect(id);
     }
 }

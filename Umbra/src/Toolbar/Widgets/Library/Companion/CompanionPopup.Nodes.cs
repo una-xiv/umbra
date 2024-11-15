@@ -14,9 +14,8 @@
  *     GNU Affero General Public License for more details.
  */
 
-using Dalamud.Plugin.Services;
 using Dalamud.Utility;
-using Lumina.Excel.GeneratedSheets;
+using Lumina.Excel.Sheets;
 using System.Linq;
 using Umbra.Common;
 using Umbra.Game;
@@ -106,17 +105,17 @@ internal partial class CompanionPopup
 
     private void CreateFoodButton(CompanionFood foodType)
     {
-        Item? item = DataManager.GetExcelSheet<Item>()!.GetRow((uint)foodType);
+        Item? item = DataManager.GetExcelSheet<Item>().FindRow((uint)foodType);
         if (item == null) return;
 
         Node node = new() {
             Id        = $"Food_{foodType}",
             ClassList = ["food-button"],
-            Tooltip   = $"{item.Name.ToDalamudString().TextValue}\n\n{item.Description.ToDalamudString().TextValue.Split("\n").LastOrDefault() ?? ""}",
+            Tooltip   = $"{item.Value.Name.ToDalamudString().TextValue}\n\n{item.Value.Description.ToDalamudString().TextValue.Split("\n").LastOrDefault() ?? ""}",
             ChildNodes = [
                 new() {
                     ClassList = ["button--icon"],
-                    Style = new() { IconId = item.Icon }
+                    Style = new() { IconId = item.Value.Icon }
                 },
                 new() {
                     ClassList = ["button--count"],

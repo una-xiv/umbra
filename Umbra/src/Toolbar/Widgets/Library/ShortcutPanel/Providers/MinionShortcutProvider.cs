@@ -2,7 +2,7 @@
 using Dalamud.Utility;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
-using Lumina.Excel.GeneratedSheets;
+using Lumina.Excel.Sheets;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,7 +25,7 @@ internal sealed class MinionShortcutProvider(IDataManager dataManager, TextDecod
     {
         List<Shortcut> shortcuts = [];
 
-        var minions = dataManager.GetExcelSheet<Companion>()!.ToList();
+        var minions = dataManager.GetExcelSheet<Companion>().ToList();
 
         minions.Sort(
             (a, b) => string.Compare(
@@ -50,7 +50,7 @@ internal sealed class MinionShortcutProvider(IDataManager dataManager, TextDecod
                 new() {
                     Id          = minion.RowId,
                     Name        = decoder.ProcessNoun("Companion", minion.RowId),
-                    Description = $"{minion.MinionRace.Value?.Name.ToDalamudString().TextValue}",
+                    Description = $"{minion.MinionRace.ValueNullable?.Name.ToDalamudString().TextValue}",
                     IconId      = minion.Icon
                 }
             );
@@ -64,13 +64,13 @@ internal sealed class MinionShortcutProvider(IDataManager dataManager, TextDecod
     {
         if (id == 0u) return null;
 
-        var minion = dataManager.GetExcelSheet<Companion>()!.GetRow(id);
+        var minion = dataManager.GetExcelSheet<Companion>().FindRow(id);
         if (minion == null) return null;
 
         return new() {
-            Id         = minion.RowId,
-            Name       = decoder.ProcessNoun("Companion", minion.RowId),
-            IconId     = minion.Icon,
+            Id         = minion.Value.RowId,
+            Name       = decoder.ProcessNoun("Companion", minion.Value.RowId),
+            IconId     = minion.Value.Icon,
             IsDisabled = !UIState.Instance()->IsCompanionUnlocked((ushort)id),
         };
     }

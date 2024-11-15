@@ -19,7 +19,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Client.Game.Character;
-using Lumina.Excel.GeneratedSheets;
+using Lumina.Excel.Sheets;
 using Umbra.Common;
 using Umbra.Game;
 
@@ -78,9 +78,9 @@ internal class HuntWorldMarkerFactory(IDataManager dataManager, IZoneManager zon
             if (nm == null) continue;
 
             string name = bc->Character.GameObject.NameString;
-            string rank = _rankPrefixes[nm.Rank];
+            string rank = _rankPrefixes[nm.Value.Rank];
 
-            switch (nm.Rank) {
+            switch (nm.Value.Rank) {
                 case 0:
                 case 1 when !GetConfigValue<bool>("ShowB"):
                 case 2 when !GetConfigValue<bool>("ShowA"):
@@ -100,7 +100,7 @@ internal class HuntWorldMarkerFactory(IDataManager dataManager, IZoneManager zon
                     Key           = id,
                     MapId         = zoneManager.CurrentZone.Id,
                     Position      = new(p.X, p.Y + bc->Character.CalculateHeight(), p.Z),
-                    IconId        = GetMarkerIcon(nm.Rank, bc->Character.IsHostile),
+                    IconId        = GetMarkerIcon(nm.Value.Rank, bc->Character.IsHostile),
                     Label         = $"{rank} {name}",
                     SubLabel      = bc->Character.InCombat ? " (In Combat)" : null,
                     FadeDistance  = new(fadeDist, fadeDist + fadeAttn),
@@ -116,8 +116,12 @@ internal class HuntWorldMarkerFactory(IDataManager dataManager, IZoneManager zon
     {
         if (_notoriousMonstersCache.TryGetValue(dataId, out var nm)) return nm;
 
-        NotoriousMonster? monster = dataManager.GetExcelSheet<NotoriousMonster>()!
-            .FirstOrDefault(n => n.BNpcBase.Row == dataId);
+        NotoriousMonster? monster = dataManager.GetExcelSheet<NotoriousMonster>()
+            .FirstOrDefault(n => n.BNpcBase.RowId == dataId);
+
+        if (monster is { RowId: 0 }) {
+            monster = null;
+        }
 
         _notoriousMonstersCache[dataId] = monster;
 
