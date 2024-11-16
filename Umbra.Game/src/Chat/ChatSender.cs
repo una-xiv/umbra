@@ -30,33 +30,24 @@ internal sealed class ChatSender : IChatSender
 {
     private static class Signatures
     {
-        internal const string SendChat       = "48 89 5C 24 ?? 57 48 83 EC 20 48 8B FA 48 8B D9 45 84 C9";
-        internal const string SanitiseString = "E8 ?? ?? ?? ?? EB 0A 48 8D 4C 24 ?? E8 ?? ?? ?? ?? 48 8D AE";
+        internal const string SendChat       = "48 89 5C 24 ?? 48 89 74 24 ?? 57 48 83 EC ?? 48 8B F2 48 8B F9 45 84 C9";
     }
 
     private delegate void ProcessChatBoxDelegate(IntPtr uiModule, IntPtr message, IntPtr unused, byte a4);
 
     private readonly ProcessChatBoxDelegate? _processChatBox;
 
-    private readonly unsafe delegate* unmanaged<Utf8String*, int, IntPtr, void> _sanitizeString = null!;
-
     public ChatSender(ISigScanner sigScanner)
     {
         if (sigScanner.TryScanText(Signatures.SendChat, out var processChatBoxPtr)) {
             _processChatBox = Marshal.GetDelegateForFunctionPointer<ProcessChatBoxDelegate>(processChatBoxPtr);
-        }
-
-        unsafe {
-            if (sigScanner.TryScanText(Signatures.SanitiseString, out var sanitisePtr)) {
-                _sanitizeString = (delegate* unmanaged<Utf8String*, int, IntPtr, void>)sanitisePtr;
-            }
         }
     }
 
     public void Send(string message)
     {
         try {
-            var bytes = Encoding.UTF8.GetBytes(SanitizeText(message));
+            var bytes = Encoding.UTF8.GetBytes(SanitizeString(message));
             if (bytes.Length == 0) throw new ArgumentException("The message is empty", nameof(message));
 
             if (bytes.Length > 500)
@@ -87,18 +78,13 @@ internal sealed class ChatSender : IChatSender
         }
     }
 
-    private unsafe string SanitizeText(string text)
+    private static unsafe string SanitizeString(string str)
     {
-        if (_sanitizeString == null)
-            throw new InvalidOperationException("Could not find signature for chat sanitisation");
+        var uText = Utf8String.FromString(str);
 
-        var uText = Utf8String.FromString(text);
-
-        _sanitizeString(uText, 0x27F, IntPtr.Zero);
+        uText->SanitizeString( 0x27F, (Utf8String*)nint.Zero);
         var sanitised = uText->ToString();
-
-        uText->Dtor();
-        IMemorySpace.Free(uText);
+        uText->Dtor(true);
 
         return sanitised;
     }

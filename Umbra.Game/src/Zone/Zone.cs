@@ -136,86 +136,86 @@ internal sealed class Zone : IZone
                 var m = _markerFactory.FromMinimapGatheringMarker(MapSheet, marker);
                 DynamicMarkers.Add(m);
             }
-            //
-            // DynamicMarkers.AddRange(
-            //     map->ActiveLevequestMarkers
-            //         .ToList()
-            //         .Where(m => m.MapId == Id)
-            //         .Select(m => _markerFactory.FromMapMarkerData(MapSheet, m))
-            //         .ToList()
-            // );
-            //
-            // DynamicMarkers.AddRange(
-            //     map->CustomTalkMarkers
-            //         .ToList()
-            //         .SelectMany(i => i.MarkerData.ToList())
-            //         .Where(m => m.MapId == Id)
-            //         .Select(m => _markerFactory.FromMapMarkerData(MapSheet, m))
-            //         .ToList()
-            // );
-            //
-            // DynamicMarkers.AddRange(
-            //     map->GemstoneTraderMarkers
-            //         .ToList()
-            //         .SelectMany(i => i.MarkerData.ToList())
-            //         .Where(m => m.MapId == Id)
-            //         .Select(m => _markerFactory.FromMapMarkerData(MapSheet, m))
-            //         .ToList()
-            // );
-            //
-            // DynamicMarkers.AddRange(
-            //     map->GuildLeveAssignmentMarkers
-            //         .ToList()
-            //         .SelectMany(i => i.MarkerData.ToList())
-            //         .Where(m => m.MapId == Id)
-            //         .Select(m => _markerFactory.FromMapMarkerData(MapSheet, m))
-            //         .ToList()
-            // );
-            //
-            // DynamicMarkers.AddRange(
-            //     map->HousingMarkers
-            //         .ToArray()
-            //         .SelectMany(i => i.MarkerData.ToList())
-            //         .Where(m => m.MapId == Id)
-            //         .Select(m => _markerFactory.FromMapMarkerData(MapSheet, m))
-            //         .ToList()
-            // );
-            //
-            // DynamicMarkers.AddRange(
-            //     map->LevequestMarkers
-            //         .ToArray()
-            //         .SelectMany(i => i.MarkerData.ToList())
-            //         .Where(m => m.MapId == Id)
-            //         .Select(m => _markerFactory.FromMapMarkerData(MapSheet, m))
-            //         .ToList()
-            // );
-            //
-            // DynamicMarkers.AddRange(
-            //     map->QuestMarkers
-            //         .ToArray()
-            //         .SelectMany(i => i.MarkerData.ToList())
-            //         .Where(m => m.MapId == Id)
-            //         .Select(m => _markerFactory.FromMapMarkerData(MapSheet, m))
-            //         .ToList()
-            // );
-            //
-            // DynamicMarkers.AddRange(
-            //     map->TripleTriadMarkers
-            //         .ToList()
-            //         .SelectMany(i => i.MarkerData.ToList())
-            //         .Where(m => m.MapId == Id)
-            //         .Select(m => _markerFactory.FromMapMarkerData(MapSheet, m))
-            //         .ToList()
-            // );
-            //
-            // DynamicMarkers.AddRange(
-            //     map->UnacceptedQuestMarkers
-            //         .ToList()
-            //         .SelectMany(i => i.MarkerData.ToList())
-            //         .Where(m => m.MapId == Id)
-            //         .Select(m => _markerFactory.FromMapMarkerData(MapSheet, m))
-            //         .ToList()
-            // );
+
+            DynamicMarkers.AddRange(
+                map->ActiveLevequestMarkers
+                    .ToList()
+                    .Where(m => m.MapId == Id)
+                    .Select(m => _markerFactory.FromMapMarkerData(MapSheet, m))
+                    .ToList()
+            );
+
+            DynamicMarkers.AddRange(
+                map->CustomTalkMarkers
+                    .ToList()
+                    .SelectMany(i => i.MarkerData.ToList())
+                    .Where(m => m.MapId == Id)
+                    .Select(m => _markerFactory.FromMapMarkerData(MapSheet, m))
+                    .ToList()
+            );
+
+            DynamicMarkers.AddRange(
+                map->GemstoneTraderMarkers
+                    .ToList()
+                    .SelectMany(i => i.MarkerData.ToList())
+                    .Where(m => m.MapId == Id)
+                    .Select(m => _markerFactory.FromMapMarkerData(MapSheet, m))
+                    .ToList()
+            );
+
+            DynamicMarkers.AddRange(
+                map->GuildLeveAssignmentMarkers
+                    .ToList()
+                    .SelectMany(i => i.MarkerData.ToList())
+                    .Where(m => m.MapId == Id)
+                    .Select(m => _markerFactory.FromMapMarkerData(MapSheet, m))
+                    .ToList()
+            );
+
+            DynamicMarkers.AddRange(
+                map->HousingMarkers
+                    .ToArray()
+                    .SelectMany(i => i.MarkerData.ToList())
+                    .Where(m => m.MapId == Id)
+                    .Select(m => _markerFactory.FromMapMarkerData(MapSheet, m))
+                    .ToList()
+            );
+
+            DynamicMarkers.AddRange(
+                map->LevequestMarkers
+                    .ToArray()
+                    .SelectMany(i => i.MarkerData.ToList())
+                    .Where(m => m.MapId == Id)
+                    .Select(m => _markerFactory.FromMapMarkerData(MapSheet, m))
+                    .ToList()
+            );
+
+            DynamicMarkers.AddRange(
+                map->QuestMarkers
+                    .ToArray()
+                    .SelectMany(i => i.MarkerData.ToList())
+                    .Where(m => m.MapId == Id)
+                    .Select(m => _markerFactory.FromMapMarkerData(MapSheet, m))
+                    .ToList()
+            );
+
+            DynamicMarkers.AddRange(
+                map->TripleTriadMarkers
+                    .ToList()
+                    .SelectMany(i => i.MarkerData.ToList())
+                    .Where(m => m.MapId == Id)
+                    .Select(m => _markerFactory.FromMapMarkerData(MapSheet, m))
+                    .ToList()
+            );
+
+            DynamicMarkers.AddRange(
+                map->UnacceptedQuestMarkers
+                    .ToList()
+                    .SelectMany(i => i.MarkerData.ToList())
+                    .Where(m => m.MapId == Id)
+                    .Select(m => _markerFactory.FromMapMarkerData(MapSheet, m))
+                    .ToList()
+            );
         }
 
         lock (WeatherForecast) {
