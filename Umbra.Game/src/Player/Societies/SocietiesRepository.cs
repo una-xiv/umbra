@@ -50,6 +50,7 @@ internal sealed class SocietiesRepository : ISocietiesRepository, IDisposable
         { 15, 169 }, // Arkasodara - Yedlihmad
         { 16, 181 }, // Omicrons - Base Omicron
         { 17, 175 }, // Loporrits - Bestways Burrow
+        { 18, 238 }, // Pelupelu - Dock Poga
     };
 
     private IDataManager DataManager { get; }
