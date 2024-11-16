@@ -72,12 +72,12 @@ internal class HuntWorldMarkerFactory(IDataManager dataManager, IZoneManager zon
         foreach (var chara in cm->BattleCharas) {
             BattleChara* bc = chara.Value;
 
-            if (bc == null || 0 == bc->Character.GameObject.BaseId) continue;
+            if (bc == null || 0 == bc->BaseId) continue;
 
-            var nm = GetNotoriousMonster(bc->Character.GameObject.BaseId);
+            var nm = GetNotoriousMonster(bc->BaseId);
             if (nm == null) continue;
 
-            string name = bc->Character.GameObject.NameString;
+            string name = bc->NameString;
             string rank = _rankPrefixes[nm.Value.Rank];
 
             switch (nm.Value.Rank) {
@@ -89,8 +89,8 @@ internal class HuntWorldMarkerFactory(IDataManager dataManager, IZoneManager zon
                     continue;
             }
 
-            var p  = bc->Character.GameObject.Position;
-            var id = $"NM_{bc->Character.GameObject.BaseId}";
+            var p  = bc->Position;
+            var id = $"NM_{bc->BaseId}";
 
             activeIds.Add(id);
 
@@ -99,7 +99,7 @@ internal class HuntWorldMarkerFactory(IDataManager dataManager, IZoneManager zon
                 new() {
                     Key           = id,
                     MapId         = zoneManager.CurrentZone.Id,
-                    Position      = new(p.X, p.Y + bc->Character.CalculateHeight(), p.Z),
+                    Position      = new(p.X, p.Y + bc->Effects.CurrentFloatHeight, p.Z),
                     IconId        = GetMarkerIcon(nm.Value.Rank, bc->Character.IsHostile),
                     Label         = $"{rank} {name}",
                     SubLabel      = bc->Character.InCombat ? " (In Combat)" : null,
