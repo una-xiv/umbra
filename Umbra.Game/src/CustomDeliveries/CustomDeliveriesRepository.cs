@@ -45,8 +45,8 @@ internal sealed unsafe class CustomDeliveriesRepository : ICustomDeliveriesRepos
         DataManager = dataManager;
         Player      = player;
 
-        // HydrateStaticData();
-        // OnTick();
+        HydrateStaticData();
+        OnTick();
     }
 
     public void Dispose()
