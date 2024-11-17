@@ -170,6 +170,18 @@ internal sealed partial class DynamicMenuPopup
                     OutlineSize = 0,
                 }
             ),
+            new(
+                ".item--text-alt",
+                new() {
+                    Anchor       = Anchor.MiddleRight,
+                    Font         = (int)FontId.Default,
+                    FontSize     = 13,
+                    Color        = new("Widget.PopupMenuTextMuted"),
+                    OutlineColor = new("Widget.PopupMenuTextOutline"),
+                    OutlineSize  = 1,
+                    Padding      = new() { Left = 16 },
+                }
+            ),
         ]
     );
 }
