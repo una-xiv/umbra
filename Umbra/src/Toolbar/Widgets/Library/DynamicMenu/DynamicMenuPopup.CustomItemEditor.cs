@@ -23,10 +23,23 @@ internal sealed partial class DynamicMenuPopup : WidgetPopup
             MaxLength   = 100,
         };
 
+        StringVariable altLabelVar = new("SubLabel") {
+            Name        = I18N.Translate("Widget.DynamicMenu.CustomItemEditor.AltLabel.Name"),
+            Description = I18N.Translate("Widget.DynamicMenu.CustomItemEditor.AltLabel.Description"),
+            Value       = entry.Cm ?? "",
+            MaxLength   = 100,
+        };
+
         IconIdVariable iconVar = new("Icon") {
             Name        = I18N.Translate("Widget.DynamicMenu.CustomItemEditor.Icon.Name"),
             Description = I18N.Translate("Widget.DynamicMenu.CustomItemEditor.Icon.Description"),
             Value       = (entry.Ci ?? 0),
+        };
+
+        ColorVariable iconColorVar = new("IconColor") {
+            Name        = I18N.Translate("Widget.DynamicMenu.CustomItemEditor.IconColor.Name"),
+            Description = I18N.Translate("Widget.DynamicMenu.CustomItemEditor.IconColor.Description"),
+            Value       = entry.Cj,
         };
 
         StringSelectVariable typeVar = new("Type") {
@@ -46,7 +59,7 @@ internal sealed partial class DynamicMenuPopup : WidgetPopup
             MaxLength   = 100,
         };
 
-        List<Variable> variables = [labelVar, iconVar, typeVar, commandVar];
+        List<Variable> variables = [labelVar, altLabelVar, iconVar, iconColorVar, typeVar, commandVar];
 
         VariablesWindow window = new(I18N.Translate("Widget.DynamicMenu.CustomItemEditor.Title"), variables);
 
@@ -57,7 +70,9 @@ internal sealed partial class DynamicMenuPopup : WidgetPopup
                 window,
                 _ => {
                     entry.Cl = labelVar.Value;
+                    entry.Cm = altLabelVar.Value;
                     entry.Ci = iconVar.Value;
+                    entry.Cj = iconColorVar.Value;
                     entry.Ct = typeVar.Value;
                     entry.Cc = commandVar.Value;
 

@@ -74,10 +74,22 @@ internal sealed partial class DynamicMenuPopup
         public string? Cl { get; set; }
 
         /// <summary>
+        /// The item sub-label.
+        /// Applicable to custom items only.
+        /// </summary>
+        public string? Cm { get; set; }
+
+        /// <summary>
         /// The item icon ID.
         /// Applicable to custom items only.
         /// </summary>
         public uint? Ci { get; set; }
+
+        /// <summary>
+        /// The item icon color.
+        /// Applicable to custom items only.
+        /// </summary>
+        public uint Cj { get; set; }
 
         /// <summary>
         /// The chat command or website URL.

@@ -79,15 +79,19 @@ internal sealed partial class DynamicMenuPopup
             return separator;
         }
 
-        Node textNode  = new() { ClassList = ["item--text"], InheritTags      = true };
-        Node iconNode  = new() { ClassList = ["item--icon-main"], InheritTags = true };
-        Node icon2Node = new() { ClassList = ["item--icon-sub"], InheritTags  = true };
-        Node countNode = new() { ClassList = ["item--count"], InheritTags     = true };
+        Node textNode    = new() { ClassList = ["item--text"], InheritTags      = true };
+        Node iconNode    = new() { ClassList = ["item--icon-main"], InheritTags = true };
+        Node icon2Node   = new() { ClassList = ["item--icon-sub"], InheritTags  = true };
+        Node countNode   = new() { ClassList = ["item--count"], InheritTags     = true };
+        Node altTextNode = new() { ClassList = ["item--text-alt"], InheritTags   = true };
 
-        iconNode.Style.Size       = new(EntryHeight - 5, EntryHeight - 5);
-        icon2Node.Style.IsVisible = ShowSubIcons;
-        countNode.Style.IsVisible = ShowItemCount;
-        textNode.Style.FontSize   = EntryFontSize;
+        iconNode.Style.Size        = new(EntryHeight - 5, EntryHeight - 5);
+        icon2Node.Style.IsVisible  = ShowSubIcons;
+        countNode.Style.IsVisible  = ShowItemCount;
+        textNode.Style.FontSize    = EntryFontSize;
+        altTextNode.Style.FontSize = EntryFontSize;
+        iconNode.Style.ImageColor  = new(entry.Cj);
+        altTextNode.NodeValue      = entry.Cm;
 
         Node node = new() {
             ClassList = ["item"],
@@ -101,7 +105,7 @@ internal sealed partial class DynamicMenuPopup
                         Size = new(EntryHeight, EntryHeight),
                     }
                 },
-                textNode,
+                textNode, altTextNode,
             ]
         };
 
