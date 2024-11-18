@@ -1,6 +1,4 @@
-﻿using Dalamud.Interface;
-using Dalamud.Interface.Colors;
-using Dalamud.Interface.Textures.TextureWraps;
+﻿using Dalamud.Interface.Textures.TextureWraps;
 using Dalamud.Interface.Utility;
 using Dalamud.Plugin.Services;
 using ImGuiNET;
@@ -61,7 +59,7 @@ public class IconGridNode : Node
             return;
         }
 
-        if (!texture.TryGetWrap(out IDalamudTextureWrap? wrap, out Exception? e)) {
+        if (!texture.TryGetWrap(out IDalamudTextureWrap? wrap, out Exception? _)) {
             return;
         }
 
