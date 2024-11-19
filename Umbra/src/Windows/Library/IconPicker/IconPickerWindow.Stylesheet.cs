@@ -1,10 +1,8 @@
-﻿using System.Numerics;
-using Umbra.Common;
-using Una.Drawing;
+﻿using Una.Drawing;
 
 namespace Umbra.Windows.Library.IconPicker;
 
-public sealed partial class IconPickerWindow : Window
+public sealed partial class IconPickerWindow
 {
     internal static Stylesheet Stylesheet { get; } = new(
         [
