@@ -16,6 +16,7 @@ internal sealed partial class DynamicMenuPopup : WidgetPopup
     public string                 WidgetInstanceId { get; set; } = "-";
     public int                    EntryHeight      { get; set; } = 36;
     public int                    EntryFontSize    { get; set; } = 13;
+    public int                    AltEntryFontSize { get; set; } = 11;
     public bool                   ShowSubIcons     { get; set; } = true;
     public bool                   ShowItemCount    { get; set; } = true;
     public List<DynamicMenuEntry> Entries          { get; set; } = [];

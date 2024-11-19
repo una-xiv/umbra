@@ -51,6 +51,14 @@ internal sealed partial class DynamicMenuWidget
                 10,
                 20
             ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
+            new IntegerWidgetConfigVariable(
+                "MenuAltFontSize",
+                I18N.Translate("Widget.DynamicMenu.Config.MenuAltFontSize.Name"),
+                I18N.Translate("Widget.DynamicMenu.Config.MenuAltFontSize.Description"),
+                11,
+                10,
+                20
+            ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
             new BooleanWidgetConfigVariable(
                 "ShowSubIcons",
                 I18N.Translate("Widget.DynamicMenu.Config.ShowSubIcons.Name"),

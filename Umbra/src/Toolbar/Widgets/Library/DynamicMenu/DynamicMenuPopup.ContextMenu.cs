@@ -20,7 +20,9 @@ internal sealed partial class DynamicMenuPopup
                     OnClick = () => {
                         DynamicMenuEntry entry = new() {
                             Ci = 14,
+                            Cj = 0xFFFFFFFF,
                             Cl = "Custom Item",
+                            Cm = "Emote",
                             Cc = "/dance",
                             Ct = "Chat",
                         };
