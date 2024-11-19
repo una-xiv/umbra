@@ -704,6 +704,8 @@
     "Widget.DynamicMenu.Config.MenuEntryHeight.Description": "Die Höhe jedes Menüeintrags in Pixel.",
     "Widget.DynamicMenu.Config.MenuFontSize.Name": "Schriftgröße des Menüeintrags",
     "Widget.DynamicMenu.Config.MenuFontSize.Description": "Die Schriftgröße der Menüeinträge.",
+    "Widget.DynamicMenu.Config.MenuAltFontSize.Name": "Schriftgröße für Menüuntertitel",
+    "Widget.DynamicMenu.Config.MenuAltFontSize.Description": "Die Schriftgröße der Untertitel von Menüeinträgen. Diese Labels werden rechts neben dem Eintrag angezeigt und können für \"Benutzerdefinierte Einträge\" angepasst werden.",
     "Widget.DynamicMenu.Config.ShowSubIcons.Name": "Kontext-Icon anzeigen",
     "Widget.DynamicMenu.Config.ShowSubIcons.Description": "Ob ein Kontext-Icon über dem Haupt-Icon angezeigt wird. Zum Beispiel wird bei Handwerksrezepten ein Buch-Icon über dem Haupt-Icon angezeigt, um zu kennzeichnen, dass es sich um Rezepte handelt.",
     "Widget.DynamicMenu.Config.ShowItemCount.Name": "Artikelanzahl anzeigen",

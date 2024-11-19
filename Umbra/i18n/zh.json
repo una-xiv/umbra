@@ -704,6 +704,8 @@
     "Widget.DynamicMenu.Config.MenuEntryHeight.Description": "每个菜单项的高度，以像素为单位。",
     "Widget.DynamicMenu.Config.MenuFontSize.Name": "菜单项字体大小",
     "Widget.DynamicMenu.Config.MenuFontSize.Description": "菜单项的字体大小。",
+    "Widget.DynamicMenu.Config.MenuAltFontSize.Name": "菜单项子标签字体大小",
+    "Widget.DynamicMenu.Config.MenuAltFontSize.Description": "菜单项子标签的字体大小。这些标签显示在项的右侧，并且可以为“自定义项”进行配置。",
     "Widget.DynamicMenu.Config.ShowSubIcons.Name": "显示上下文图标",
     "Widget.DynamicMenu.Config.ShowSubIcons.Description": "是否在主图标上显示上下文图标。例如，制作配方会在主图标上显示一个书本图标，以表示它们是配方。",
     "Widget.DynamicMenu.Config.ShowItemCount.Name": "显示物品数量",

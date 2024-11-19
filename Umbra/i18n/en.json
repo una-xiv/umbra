@@ -704,6 +704,8 @@
     "Widget.DynamicMenu.Config.MenuEntryHeight.Description": "The height of each menu entry in pixels.",
     "Widget.DynamicMenu.Config.MenuFontSize.Name": "Menu entry font size",
     "Widget.DynamicMenu.Config.MenuFontSize.Description": "The font size of the menu entries.",
+    "Widget.DynamicMenu.Config.MenuAltFontSize.Name": "Menu entry sub-label font size",
+    "Widget.DynamicMenu.Config.MenuAltFontSize.Description": "The font size of the sub-labels of menu entries. These labels are displayed on the right side of the entry and can be configured for \"Custom Entry\"-items.",
     "Widget.DynamicMenu.Config.ShowSubIcons.Name": "Show contextual icon",
     "Widget.DynamicMenu.Config.ShowSubIcons.Description": "Whether to show a contextual icon on top of the main icon. For example, crafting recipes show a book icon on top of the main icon to denote that they are recipes.",
     "Widget.DynamicMenu.Config.ShowItemCount.Name": "Show item count",

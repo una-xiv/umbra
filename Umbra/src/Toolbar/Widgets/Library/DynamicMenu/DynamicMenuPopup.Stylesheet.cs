@@ -174,12 +174,13 @@ internal sealed partial class DynamicMenuPopup
                 ".item--text-alt",
                 new() {
                     Anchor       = Anchor.MiddleRight,
+                    TextAlign    = Anchor.MiddleRight,
                     Font         = (int)FontId.Default,
-                    FontSize     = 13,
+                    FontSize     = 11,
                     Color        = new("Widget.PopupMenuTextMuted"),
                     OutlineColor = new("Widget.PopupMenuTextOutline"),
                     OutlineSize  = 1,
-                    Padding      = new() { Left = 16 },
+                    Padding      = new() { Right = 8 },
                 }
             ),
         ]

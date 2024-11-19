@@ -704,6 +704,8 @@
     "Widget.DynamicMenu.Config.MenuEntryHeight.Description": "各メニューエントリの高さ（ピクセル単位）。",
     "Widget.DynamicMenu.Config.MenuFontSize.Name": "メニューエントリのフォントサイズ",
     "Widget.DynamicMenu.Config.MenuFontSize.Description": "メニューエントリのフォントサイズ。",
+    "Widget.DynamicMenu.Config.MenuAltFontSize.Name": "メニュー項目サブラベルの文字サイズ",
+    "Widget.DynamicMenu.Config.MenuAltFontSize.Description": "メニュー項目のサブラベルの文字サイズ。これらのラベルは項目の右側に表示され、\"カスタム項目\"に設定できます。",
     "Widget.DynamicMenu.Config.ShowSubIcons.Name": "コンテキストアイコンを表示",
     "Widget.DynamicMenu.Config.ShowSubIcons.Description": "メインアイコンの上にコンテキストアイコンを表示するかどうか。例えば、クラフトレシピでは、レシピであることを示すために、メインアイコンの上に本のアイコンが表示されます。",
     "Widget.DynamicMenu.Config.ShowItemCount.Name": "アイテム数を表示",

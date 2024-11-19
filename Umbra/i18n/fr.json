@@ -704,6 +704,8 @@
     "Widget.DynamicMenu.Config.MenuEntryHeight.Description": "La hauteur de chaque entrée de menu en pixels.",
     "Widget.DynamicMenu.Config.MenuFontSize.Name": "Taille de la police d'entrée de menu",
     "Widget.DynamicMenu.Config.MenuFontSize.Description": "La taille de la police des entrées de menu.",
+    "Widget.DynamicMenu.Config.MenuAltFontSize.Name": "Taille de police des sous-titres de menu",
+    "Widget.DynamicMenu.Config.MenuAltFontSize.Description": "La taille de police des sous-titres des entrées de menu. Ces étiquettes s’affichent à droite de l’entrée et peuvent être configurées pour les éléments \"Entrée personnalisée\".",
     "Widget.DynamicMenu.Config.ShowSubIcons.Name": "Afficher l'icône contextuelle",
     "Widget.DynamicMenu.Config.ShowSubIcons.Description": "Afficher ou non une icône contextuelle sur l'icône principale. Par exemple, les recettes de fabrication affichent une icône de livre sur l'icône principale pour indiquer qu'il s'agit de recettes.",
     "Widget.DynamicMenu.Config.ShowItemCount.Name": "Afficher le nombre d'articles",
