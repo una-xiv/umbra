@@ -56,7 +56,12 @@ public sealed partial class IconPickerWindow(uint iconId) : Window
         }, {
             "Shapes", [
                 (0, 0),
-                (82091, 82093), (90001, 90004), (90200, 90263), (90401, 90463), (61901, 61918)
+                (82091, 82093), (90001, 90004), (90200, 90263), (90401, 90463), (61901, 61918),
+                (230131, 230143), // group pose birthday
+                (230201, 230215), // group pose decoration small
+                (230301, 230317), // group pose decoration large
+                (230401, 230433), // group pose stamp symbol
+                (230701, 230715), // group pose stamp nation
             ]
         }, {
             "Minions", [
