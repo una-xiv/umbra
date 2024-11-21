@@ -1,4 +1,4 @@
-﻿/* Umbra | (c) 2024 by Una              ____ ___        ___.
+/* Umbra | (c) 2024 by Una              ____ ___        ___.
  * Licensed under the terms of AGPL-3  |    |   \ _____ \_ |__ _______ _____
  *                                     |    |   //     \ | __ \\_  __ \\__  \
  * https://github.com/una-xiv/umbra    |    |  /|  Y Y  \| \_\ \|  | \/ / __ \_
@@ -14,6 +14,7 @@
  *     GNU Affero General Public License for more details.
  */
 
+using FFXIVClientStructs.FFXIV.Client.Graphics.Kernel;
 using System.Numerics;
 using ImGuiNET;
 using System;
@@ -182,6 +183,13 @@ public abstract class WidgetPopup : IDisposable
             //       is opened. Issue has been narrowed down to the fact that
             //       the popup contains ImGui scrolling child frames.
             ImGui.SetNextWindowViewport(ImGui.GetMainViewport().ID);
+        }
+        
+        unsafe {
+            var device = Device.Instance();
+            if (Size.X > device->Width || Size.Y > device->Height)
+                Size = new Vector2(1, 1);
+                
         }
 
         ImGui.SetNextWindowPos(new(Position.X, Position.Y));
