@@ -101,7 +101,7 @@ public class VistaMarkerFactory : WorldMarkerFactory, IDisposable
                 var emote = vista.Emote.Value;
 
                 if (emote.TextCommand.ValueNullable != null) {
-                    subLabel += $" {emote.TextCommand.Value.Command.ToString()}";
+                    subLabel += $" {emote.TextCommand.Value.Command.ExtractText()}";
                 }
             }
 
@@ -112,7 +112,7 @@ public class VistaMarkerFactory : WorldMarkerFactory, IDisposable
                     Key           = id,
                     Position      = new(level.Value.X, level.Value.Y, level.Value.Z),
                     IconId        = 66413,
-                    Label         = $"{vista.Name.ToString()}",
+                    Label         = $"{vista.Name.ExtractText()}",
                     SubLabel      = string.IsNullOrEmpty(subLabel) ? null : subLabel,
                     MapId         = mapId,
                     FadeDistance  = new(fadeDistance, fadeDistance + fadeAttenuation),
