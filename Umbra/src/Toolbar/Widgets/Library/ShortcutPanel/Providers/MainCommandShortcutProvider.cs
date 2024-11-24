@@ -1,5 +1,4 @@
 ﻿using Dalamud.Plugin.Services;
-using Dalamud.Utility;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.UI;
 using Lumina.Excel.Sheets;
@@ -27,8 +26,8 @@ internal sealed class MainCommandShortcutProvider(IDataManager dataManager) : Ab
 
         actions.Sort(
             (a, b) => string.Compare(
-                a.Name.ToDalamudString().TextValue,
-                b.Name.ToDalamudString().TextValue,
+                a.Name.ExtractText(),
+                b.Name.ExtractText(),
                 StringComparison.OrdinalIgnoreCase
             )
         );
@@ -39,14 +38,14 @@ internal sealed class MainCommandShortcutProvider(IDataManager dataManager) : Ab
             if (!ui->IsMainCommandUnlocked(action.RowId) || 0 == action.Icon) continue;
 
             if (searchFilter != null
-                && !action.Name.ToDalamudString().TextValue.Contains(searchFilter, StringComparison.OrdinalIgnoreCase))
+                && !action.Name.ExtractText().Contains(searchFilter, StringComparison.OrdinalIgnoreCase))
                 continue;
 
             shortcuts.Add(
                 new() {
                     Id          = action.RowId,
-                    Name        = action.Name.ToDalamudString().TextValue,
-                    Description = action.Description.ToDalamudString().TextValue,
+                    Name        = action.Name.ExtractText(),
+                    Description = action.Description.ExtractText(),
                     IconId      = (uint)action.Icon
                 }
             );
@@ -63,7 +62,7 @@ internal sealed class MainCommandShortcutProvider(IDataManager dataManager) : Ab
 
         return new() {
             Id     = id,
-            Name   = command.Value.Name.ToDalamudString().TextValue,
+            Name   = command.Value.Name.ExtractText(),
             IconId = (uint)command.Value.Icon,
             IsDisabled = !UIModule.Instance()->IsMainCommandUnlocked(id)
                 || ActionManager.Instance()->GetActionStatus(ActionType.MainCommand, id) != 0

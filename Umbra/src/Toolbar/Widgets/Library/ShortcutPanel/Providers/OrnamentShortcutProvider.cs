@@ -1,5 +1,4 @@
 ﻿using Dalamud.Plugin.Services;
-using Dalamud.Utility;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using Lumina.Excel.Sheets;
@@ -33,7 +32,7 @@ internal sealed class OrnamentShortcutProvider(IDataManager dataManager) : Abstr
             // still in the sheets and "unlocked" for some reason.
             if (ornament.RowId is 22 or 25 or 26 or 32) continue;
 
-            var name = ornament.Singular.ToDalamudString().TextValue;
+            var name = ornament.Singular.ExtractText();
             name = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(name);
 
             if (!string.IsNullOrEmpty(searchFilter) && !name.Contains(searchFilter, StringComparison.OrdinalIgnoreCase))
@@ -59,7 +58,7 @@ internal sealed class OrnamentShortcutProvider(IDataManager dataManager) : Abstr
         var ornament = dataManager.GetExcelSheet<Ornament>().FindRow(id);
         if (ornament == null) return null;
 
-        var name = ornament.Value.Singular.ToDalamudString().TextValue;
+        var name = ornament.Value.Singular.ExtractText();
 
         return new() {
             Id         = ornament.Value.RowId,

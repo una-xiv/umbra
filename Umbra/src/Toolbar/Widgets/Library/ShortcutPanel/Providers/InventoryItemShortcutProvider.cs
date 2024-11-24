@@ -1,5 +1,4 @@
 ﻿using Dalamud.Plugin.Services;
-using Dalamud.Utility;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using Lumina.Excel.Sheets;
 using System;
@@ -44,7 +43,7 @@ internal sealed class InventoryItemShortcutProvider(IDataManager dataManager, IP
             .Select(
                 item => new Shortcut {
                     Id   = item.RowId,
-                    Name = item.Name.ToDalamudString().TextValue,
+                    Name = item.Name.ExtractText(),
                     Description =
                         $"{player.GetItemCount(item.RowId, ItemUsage.NqOnly)} NQ / {player.GetItemCount(item.RowId, ItemUsage.HqOnly)} HQ - Item ID: {item.RowId}",
                     IconId = item.Icon,
@@ -65,7 +64,7 @@ internal sealed class InventoryItemShortcutProvider(IDataManager dataManager, IP
 
         return new() {
             Id             = id,
-            Name           = item.Value.Name.ToDalamudString().TextValue,
+            Name           = item.Value.Name.ExtractText(),
             IconId         = item.Value.Icon,
             Count          = (uint)count,
             IsConfigurable = false,

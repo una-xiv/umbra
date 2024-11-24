@@ -16,7 +16,6 @@
 
 using Dalamud.Interface;
 using Dalamud.Plugin.Services;
-using Dalamud.Utility;
 using Lumina.Excel.Sheets;
 using System;
 using System.Collections.Generic;
@@ -90,8 +89,6 @@ internal partial class ToolbarProfilesWindow
             widgetNode.Style.Size = new(size.Width - 30, 0);
         }
     }
-
-    private Node BodyNode => Node.QuerySelector(".toolbar-profiles-list")!;
 
     private static Node BuildActiveProfilePanel()
     {
@@ -231,7 +228,7 @@ internal partial class ToolbarProfilesWindow
                 ChildNodes = [
                     new() {
                         ClassList = ["job-profile-select--label"],
-                        NodeValue = UpperCaseWords(job.Name.ToDalamudString().TextValue),
+                        NodeValue = UpperCaseWords(job.Name.ExtractText()),
                     },
                     selector
                 ]

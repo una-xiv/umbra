@@ -29,8 +29,8 @@ internal sealed class MountShortcutProvider(IDataManager dataManager, TextDecode
 
         mounts.Sort(
             (a, b) => string.Compare(
-                a.Singular.ToDalamudString().TextValue,
-                b.Singular.ToDalamudString().TextValue,
+                a.Singular.ExtractText(),
+                b.Singular.ExtractText(),
                 StringComparison.OrdinalIgnoreCase
             )
         );

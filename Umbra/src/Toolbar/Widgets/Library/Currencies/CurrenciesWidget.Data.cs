@@ -14,14 +14,13 @@
  *     GNU Affero General Public License for more details.
  */
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Dalamud.Plugin.Services;
-using Dalamud.Utility;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using Lumina.Excel.Sheets;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using Umbra.Common;
 using Umbra.Game;
 
@@ -93,7 +92,7 @@ internal partial class CurrenciesWidget
         Currencies[type] = new() {
             Type    = type,
             Id      = id,
-            Name    = item.Value.Name.ToDalamudString().TextValue,
+            Name    = item.Value.Name.ExtractText(),
             GroupId = groupId,
             Icon    = item.Value.Icon,
             Cap     = showCap ? item.Value.StackSize : 0,
@@ -212,7 +211,7 @@ internal partial class CurrenciesWidget
         foreach (string id in idList.Split(',')) {
             if (uint.TryParse(id.Trim(), out uint currencyId)) {
                 var item = DataManager.GetExcelSheet<Item>().FindRow(currencyId);
-                if (item is null || string.IsNullOrEmpty(item.Value.Name.ToDalamudString().TextValue)) continue;
+                if (item is null || string.IsNullOrEmpty(item.Value.Name.ExtractText())) continue;
 
                 // Test if the given id is amongst the values of CurrencyType enum.
                 if (Enum.IsDefined(typeof(CurrencyType), (int)currencyId)) {
@@ -226,7 +225,7 @@ internal partial class CurrenciesWidget
                     new() {
                         Type    = CurrencyType.Custom,
                         Id      = currencyId,
-                        Name    = item.Value.Name.ToDalamudString().TextValue,
+                        Name    = item.Value.Name.ExtractText(),
                         Icon    = item.Value.Icon,
                         Cap     = item.Value.StackSize,
                         GroupId = 5

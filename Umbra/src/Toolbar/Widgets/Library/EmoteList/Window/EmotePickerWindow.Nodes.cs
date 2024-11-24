@@ -1,12 +1,11 @@
 ﻿using Dalamud.Interface;
-using Dalamud.Utility;
 using Lumina.Excel.Sheets;
 using Umbra.Windows.Components;
 using Una.Drawing;
 
 namespace Umbra.Widgets.Library.EmoteList.Window;
 
-internal sealed partial class EmotePickerWindow : Windows.Window
+internal sealed partial class EmotePickerWindow
 {
     protected override Node Node { get; } = new() {
         Id         = "EmotePickerWindow",
@@ -49,11 +48,11 @@ internal sealed partial class EmotePickerWindow : Windows.Window
                     ChildNodes = [
                         new() {
                             ClassList = ["emote-name"],
-                            NodeValue = emote.Name.ToDalamudString().TextValue,
+                            NodeValue = emote.Name.ExtractText(),
                         },
                         new() {
                             ClassList = ["emote-command"],
-                            NodeValue = $"{emote.TextCommand.Value!.Command.ToDalamudString().TextValue}",
+                            NodeValue = $"{emote.TextCommand.Value.Command.ExtractText()}",
                         }
                     ]
                 }
@@ -72,7 +71,7 @@ internal sealed partial class EmotePickerWindow : Windows.Window
         Node.QuerySelector("#EmoteListWrapper")!.AppendChild(node);
 
         Emote e = emote;
-        node.Tooltip = emote.Name.ToDalamudString().TextValue;
+        node.Tooltip = emote.Name.ExtractText();
 
         node.OnMouseUp += _ => {
             SelectedEmote = e;

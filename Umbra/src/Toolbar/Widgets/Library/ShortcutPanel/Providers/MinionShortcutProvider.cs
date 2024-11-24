@@ -29,8 +29,8 @@ internal sealed class MinionShortcutProvider(IDataManager dataManager, TextDecod
 
         minions.Sort(
             (a, b) => string.Compare(
-                a.Singular.ToDalamudString().TextValue,
-                b.Singular.ToDalamudString().TextValue,
+                a.Singular.ExtractText(),
+                b.Singular.ExtractText(),
                 StringComparison.OrdinalIgnoreCase
             )
         );
@@ -50,7 +50,7 @@ internal sealed class MinionShortcutProvider(IDataManager dataManager, TextDecod
                 new() {
                     Id          = minion.RowId,
                     Name        = decoder.ProcessNoun("Companion", minion.RowId),
-                    Description = $"{minion.MinionRace.ValueNullable?.Name.ToDalamudString().TextValue}",
+                    Description = $"{minion.MinionRace.ValueNullable?.Name.ExtractText()}",
                     IconId      = minion.Icon
                 }
             );

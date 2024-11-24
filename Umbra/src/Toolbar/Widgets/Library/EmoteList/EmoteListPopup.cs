@@ -1,5 +1,4 @@
 ﻿using Dalamud.Plugin.Services;
-using Dalamud.Utility;
 using Lumina.Excel;
 using Lumina.Excel.Sheets;
 using System;
@@ -202,7 +201,7 @@ internal sealed partial class EmoteListPopup : WidgetPopup
             button.TagsList.Remove("empty-visible");
             button.TagsList.Remove("empty-hidden");
             button.TagsList.Add("filled");
-            button.Tooltip = emote.Value.Name.ToDalamudString().TextValue;
+            button.Tooltip = emote.Value.Name.ExtractText();
         }
     }
 
@@ -221,7 +220,7 @@ internal sealed partial class EmoteListPopup : WidgetPopup
         Emote? emote = DataManager.GetExcelSheet<Emote>().FindRow(emoteId);
         if (emote?.TextCommand.Value == null) return;
 
-        Framework.Service<IChatSender>().Send($"{emote.Value.TextCommand.Value.Command.ToDalamudString().TextValue}");
+        Framework.Service<IChatSender>().Send($"{emote.Value.TextCommand.Value.Command.ExtractText()}");
         if (!KeepOpenAfterUse) Close();
     }
 

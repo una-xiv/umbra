@@ -14,14 +14,13 @@
  *     GNU Affero General Public License for more details.
  */
 
-using System;
-using System.Collections.Generic;
 using Dalamud.Plugin.Services;
-using Dalamud.Utility;
 using FFXIVClientStructs.FFXIV.Application.Network.WorkDefinitions;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using Lumina.Excel.Sheets;
+using System;
+using System.Collections.Generic;
 using Umbra.Common;
 
 namespace Umbra.Game.Societies;
@@ -76,7 +75,7 @@ internal sealed class SocietiesRepository : ISocietiesRepository, IDisposable
                         byte maxRank, string rankName) =
                     GetTribe((byte)(i));
 
-                string name = tribe.Name.ToDalamudString().TextValue;
+                string name = tribe.Name.ExtractText();
 
                 Societies[tribe.RowId] = new() {
                     Id             = tribe.RowId,
@@ -86,7 +85,7 @@ internal sealed class SocietiesRepository : ISocietiesRepository, IDisposable
                     RankName       = rankName,
                     RankColor      = rankRow.Color.RowId,
                     ExpansionId    = tribe.Expansion.RowId,
-                    ExpansionName  = tribe.Expansion.Value!.Name.ToDalamudString().TextValue,
+                    ExpansionName  = tribe.Expansion.Value.Name.ExtractText(),
                     IconId         = tribe.Icon,
                     CurrencyItemId = tribe.CurrencyItem.RowId,
                     CurrentRep     = currentRep,
@@ -123,17 +122,17 @@ internal sealed class SocietiesRepository : ISocietiesRepository, IDisposable
         var                 tribeRow   = DataManager.GetExcelSheet<BeastTribe>().GetRow(index);
         BeastReputationRank rankRow    = DataManager.GetExcelSheet<BeastReputationRank>().GetRow(rank);
         byte                maxRank    = tribeRow.MaxRank;
-        string              rankName   = rankRow.AlliedNames.ToDalamudString().TextValue;
+        string              rankName   = rankRow.AlliedNames.ExtractText();
         ushort              neededRep  = rankRow.RequiredReputation;
 
         if (tribeRow.Expansion.RowId != 0
             && tribeRow.Unknown1 != 0
             && QuestManager.IsQuestComplete(tribeRow.Unknown1)) {
             rank++;
-            rankName  = rankRow.Name.ToDalamudString().TextValue;
+            rankName  = rankRow.Name.ExtractText();
             neededRep = 0;
         } else if (tribeRow.Expansion.RowId == 0) {
-            rankName = rankRow.Name.ToDalamudString().TextValue;
+            rankName = rankRow.Name.ExtractText();
         }
 
         if (rank > maxRank) maxRank = rank;

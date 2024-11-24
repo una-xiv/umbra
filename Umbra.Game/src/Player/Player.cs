@@ -14,22 +14,20 @@
  *     GNU Affero General Public License for more details.
  */
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
 using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Game.ClientState.Objects.Enums;
 using Dalamud.Plugin.Services;
 using Dalamud.Utility;
 using FFXIVClientStructs.FFXIV.Client.Game;
-using FFXIVClientStructs.FFXIV.Client.Game.Group;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
-using FFXIVClientStructs.FFXIV.Client.UI;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using FFXIVClientStructs.FFXIV.Client.UI.Info;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using Lumina.Excel.Sheets;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Numerics;
 using Umbra.Common;
 using Umbra.Game.Inventory;
 using Umbra.Game.Societies;
@@ -254,7 +252,6 @@ internal sealed class Player : IPlayer
     private readonly IPartyList          _partyList;
     private readonly JobInfoRepository   _jobInfoRepository;
     private readonly SocietiesRepository _societiesRepository;
-    private readonly IGameGui            _gameGui;
 
     private readonly uint[] _acceptedOnlineStatusIds = [47, 32, 31, 27, 28, 29, 30, 12, 17, 21, 22, 23];
 
@@ -263,7 +260,6 @@ internal sealed class Player : IPlayer
         ICondition           condition,
         IDataManager         dataManager,
         IEquipmentRepository equipmentRepository,
-        IGameGui             gameGui,
         IPartyList           partyList,
         JobInfoRepository    jobInfoRepository,
         SocietiesRepository  societiesRepository,
@@ -273,7 +269,6 @@ internal sealed class Player : IPlayer
         _clientState         = clientState;
         _condition           = condition;
         _dataManager         = dataManager;
-        _gameGui             = gameGui;
         _partyList           = partyList;
         _jobInfoRepository   = jobInfoRepository;
         _societiesRepository = societiesRepository;
@@ -347,12 +342,11 @@ internal sealed class Player : IPlayer
             && _condition[ConditionFlag.OccupiedInCutSceneEvent];
 
         // Unknown57 is the transient state the player is in after casting and before being actually mounted.
-        CanUseTeleportAction = ActionManager.Instance()->GetActionStatus(ActionType.Action, 5) == 0;
-        HomeWorldName = _clientState.LocalPlayer.HomeWorld.Value.Name.ToDalamudString().TextValue;
-        CurrentWorldName = _clientState.LocalPlayer.CurrentWorld.Value.Name.ToDalamudString().TextValue;
-        HomeDataCenterName = _clientState.LocalPlayer.HomeWorld.Value.DataCenter.Value.Name.ToDalamudString().TextValue;
-        CurrentDataCenterName = _clientState.LocalPlayer.CurrentWorld.Value.DataCenter.Value.Name.ToDalamudString()
-            .TextValue;
+        CanUseTeleportAction  = ActionManager.Instance()->GetActionStatus(ActionType.Action, 5) == 0;
+        HomeWorldName         = _clientState.LocalPlayer.HomeWorld.Value.Name.ExtractText();
+        CurrentWorldName      = _clientState.LocalPlayer.CurrentWorld.Value.Name.ExtractText();
+        HomeDataCenterName    = _clientState.LocalPlayer.HomeWorld.Value.DataCenter.Value.Name.ExtractText();
+        CurrentDataCenterName = _clientState.LocalPlayer.CurrentWorld.Value.DataCenter.Value.Name.ExtractText();
 
         var ps = PlayerState.Instance();
 
@@ -423,10 +417,10 @@ internal sealed class Player : IPlayer
     public ResolvedItem? FindResolvedItem(uint itemId)
     {
         Item? item = _dataManager.GetExcelSheet<Item>().FindRow(itemId);
-        if (item != null) return new(item.Value.RowId, item.Value.Name.ToDalamudString().TextValue, item.Value.Icon);
+        if (item != null) return new(item.Value.RowId, item.Value.Name.ExtractText(), item.Value.Icon);
 
         EventItem? eventItem = _dataManager.GetExcelSheet<EventItem>().FindRow(itemId);
-        if (eventItem != null) return new(eventItem.Value.RowId, eventItem.Value.Name.ToDalamudString().TextValue, eventItem.Value.Icon);
+        if (eventItem != null) return new(eventItem.Value.RowId, eventItem.Value.Name.ExtractText(), eventItem.Value.Icon);
 
         return null;
     }

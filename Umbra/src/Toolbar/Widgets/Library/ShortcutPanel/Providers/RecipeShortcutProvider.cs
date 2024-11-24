@@ -1,6 +1,5 @@
 ﻿using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Plugin.Services;
-using Dalamud.Utility;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
@@ -36,7 +35,7 @@ internal sealed class RecipeShortcutProvider(IDataManager dataManager, IConditio
         List<Recipe> recipes = dataManager.GetExcelSheet<Recipe>()
             .Where(
                 r => r is { RowId: > 0, ItemResult.ValueNullable: not null }
-                    && !string.IsNullOrEmpty(r.ItemResult.Value.Name.ToDalamudString().TextValue)
+                    && !string.IsNullOrEmpty(r.ItemResult.Value.Name.ExtractText())
                     && (r.SecretRecipeBook.RowId == 0 || ps->IsSecretRecipeBookUnlocked(r.SecretRecipeBook.RowId))
                     && (r.Quest.RowId == 0 || QuestManager.IsQuestComplete(r.Quest.RowId))
                     && (r
@@ -48,8 +47,8 @@ internal sealed class RecipeShortcutProvider(IDataManager dataManager, IConditio
 
         recipes.Sort(
             (a, b) => string.Compare(
-                a.ItemResult.Value.Name.ToDalamudString().TextValue.ToString(),
-                b.ItemResult.Value.Name.ToDalamudString().TextValue.ToString(),
+                a.ItemResult.Value.Name.ExtractText().ToString(),
+                b.ItemResult.Value.Name.ExtractText().ToString(),
                 StringComparison.OrdinalIgnoreCase
             )
         );
@@ -61,7 +60,7 @@ internal sealed class RecipeShortcutProvider(IDataManager dataManager, IConditio
                     Id   = recipe.RowId,
                     Name = recipe.ItemResult.Value.Name.ToString(),
                     Description =
-                        $"{recipe.CraftType.Value.Name.ToDalamudString().TextValue} [{recipe.RecipeLevelTable.ValueNullable?.ClassJobLevel}]",
+                        $"{recipe.CraftType.Value.Name.ExtractText()} [{recipe.RecipeLevelTable.ValueNullable?.ClassJobLevel}]",
                     IconId = recipe.ItemResult.Value.Icon
                 }
             )
@@ -77,8 +76,8 @@ internal sealed class RecipeShortcutProvider(IDataManager dataManager, IConditio
         var item   = recipe.ItemResult.ValueNullable;
         if (item == null) return null;
 
-        string itemName  = item.Value.Name.ToDalamudString().TextValue;
-        string craftType = recipe.CraftType.Value.Name.ToDalamudString().TextValue;
+        string itemName  = item.Value.Name.ExtractText();
+        string craftType = recipe.CraftType.Value.Name.ExtractText();
         uint   count     = (uint)player.GetItemCount(item.Value.RowId);
 
         return new() {

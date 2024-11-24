@@ -1,5 +1,4 @@
 ﻿using Dalamud.Plugin.Services;
-using Dalamud.Utility;
 using Lumina.Excel.Sheets;
 using System.Collections.Generic;
 using System.Globalization;
@@ -25,13 +24,13 @@ internal sealed class ExtraCommandShortcutProvider(IDataManager dataManager) : A
         List<Shortcut>     shortcuts = [];
 
         foreach (var command in commands) {
-            if (command.RowId == 0 || string.IsNullOrEmpty(command.Name.ToDalamudString().TextValue)) continue;
+            if (command.RowId == 0 || string.IsNullOrEmpty(command.Name.ExtractText())) continue;
 
             shortcuts.Add(
                 new() {
                     Id          = command.RowId,
-                    Name        = command.Name.ToDalamudString().TextValue,
-                    Description = command.Description.ToDalamudString().TextValue.Split(".")[0],
+                    Name        = command.Name.ExtractText(),
+                    Description = command.Description.ExtractText().Split(".")[0],
                     IconId      = (uint)command.Icon,
                 }
             );
@@ -50,7 +49,7 @@ internal sealed class ExtraCommandShortcutProvider(IDataManager dataManager) : A
 
         return new() {
             Id     = id,
-            Name   = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(command.Value.Name.ToDalamudString().TextValue),
+            Name   = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(command.Value.Name.ExtractText()),
             IconId = (uint)command.Value.Icon,
         };
     }

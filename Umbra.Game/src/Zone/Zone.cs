@@ -14,14 +14,14 @@
  *     GNU Affero General Public License for more details.
  */
 
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
 using Dalamud.Plugin.Services;
 using Dalamud.Utility;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
+using System.Collections.Generic;
+using System.Linq;
+using System.Numerics;
 using Umbra.Common;
 using Sheet = Lumina.Excel.Sheets;
 
@@ -67,11 +67,11 @@ internal sealed class Zone : IZone
 
         Id                  = zoneId;
         MapSheet            = dataManager.GetExcelSheet<Sheet.Map>().GetRow(zoneId);
-        Type                = (TerritoryType)MapSheet.TerritoryType.Value!.TerritoryIntendedUse.Value.RowId;
+        Type                = (TerritoryType)MapSheet.TerritoryType.Value.TerritoryIntendedUse.Value.RowId;
         TerritoryId         = MapSheet.TerritoryType.RowId;
-        Name                = MapSheet.PlaceName.Value.Name.ToDalamudString().TextValue;
-        SubName             = MapSheet.PlaceNameSub.Value.Name.ToDalamudString().TextValue;
-        RegionName          = MapSheet.PlaceNameRegion.Value.Name.ToDalamudString().TextValue;
+        Name                = MapSheet.PlaceName.Value.Name.ExtractText();
+        SubName             = MapSheet.PlaceNameSub.Value.Name.ExtractText();
+        RegionName          = MapSheet.PlaceNameRegion.Value.Name.ExtractText();
         Offset              = new(MapSheet.OffsetX, MapSheet.OffsetY);
         SizeFactor          = MapSheet.SizeFactor;
         IsSanctuary         = false;
@@ -115,7 +115,7 @@ internal sealed class Zone : IZone
             CurrentDistrictName = _dataManager
                     .GetExcelSheet<Sheet.PlaceName>()
                     .FindRow(territoryInfo->AreaPlaceNameId)
-                    ?.Name.ToDalamudString().TextValue
+                    ?.Name.ExtractText()
                 ?? "???";
         } else {
             CurrentDistrictName = GetHousingDistrictName();

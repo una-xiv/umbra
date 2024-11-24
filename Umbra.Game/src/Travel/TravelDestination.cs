@@ -14,13 +14,12 @@
  *     GNU Affero General Public License for more details.
  */
 
-using System.Collections.Generic;
 using Dalamud.Game.ClientState.Aetherytes;
 using Dalamud.Memory;
 using Dalamud.Plugin.Services;
-using Dalamud.Utility;
 using FFXIVClientStructs.FFXIV.Client.UI;
 using FFXIVClientStructs.FFXIV.Client.UI.Misc;
+using System.Collections.Generic;
 using Umbra.Common;
 
 namespace Umbra.Game;
@@ -77,7 +76,7 @@ public class TravelDestination
     private string GetDestinationName(IAetheryteEntry entry)
     {
         if (!IsHousing) {
-            return entry.AetheryteData.Value.PlaceName.Value.Name.ToDalamudString().TextValue;
+            return entry.AetheryteData.Value.PlaceName.Value.Name.ExtractText();
         }
 
         // Apartment.
@@ -146,7 +145,7 @@ public class TravelDestination
             return TerritoryNames[territoryId] = "???";
         }
 
-        return TerritoryNames[territoryId] = territory.Value.PlaceName.Value.Name.ToDalamudString().TextValue;
+        return TerritoryNames[territoryId] = territory.Value.PlaceName.Value.Name.ExtractText();
     }
 
     public override string ToString()

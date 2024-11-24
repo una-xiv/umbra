@@ -14,12 +14,11 @@
  *     GNU Affero General Public License for more details.
  */
 
-using System;
-using System.Collections.Generic;
 using Dalamud.Plugin.Services;
-using Dalamud.Utility;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using Lumina.Excel.Sheets;
+using System;
+using System.Collections.Generic;
 using Umbra.Common;
 
 namespace Umbra.Game;
@@ -72,7 +71,7 @@ internal unsafe class WeatherForecastProvider
     private static WeatherForecast BuildResultObject(Weather weather, DateTime time)
     {
         var timeString = FormatForecastTime(time);
-        var name       = weather.Name.ToDalamudString().TextValue;
+        var name       = weather.Name.ExtractText();
         var iconId     = (uint)weather.Icon;
 
         return new(time, timeString, name, iconId);

@@ -14,8 +14,6 @@
  *     GNU Affero General Public License for more details.
  */
 
-using Dalamud.Utility;
-
 namespace Umbra.Widgets;
 
 internal partial class OnlineStatusWidget
@@ -36,7 +34,7 @@ internal partial class OnlineStatusWidget
 
         Popup.AddButton(
             buttonId,
-            status.Name.ToDalamudString().TextValue,
+            status.Name.ExtractText(),
             iconId: status.Icon,
             onClick: () => {
                 _player.SetOnlineStatus(statusId);

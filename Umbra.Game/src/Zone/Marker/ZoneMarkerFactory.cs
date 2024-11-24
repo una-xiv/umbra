@@ -15,13 +15,13 @@
  */
 
 using Dalamud.Memory;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
 using Dalamud.Plugin.Services;
 using Dalamud.Utility;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
+using System.Collections.Generic;
+using System.Linq;
+using System.Numerics;
 using Umbra.Common;
 using Sheet = Lumina.Excel.Sheets;
 
@@ -255,19 +255,19 @@ internal sealed class ZoneMarkerFactory(IDataManager dataManager)
 
     private string GetStaticMarkerName(Sheet.MapMarker marker)
     {
-        var label = marker.PlaceNameSubtext.Value.Name.ToDalamudString().TextValue;
+        var label = marker.PlaceNameSubtext.Value.Name.ExtractText();
         if (!string.IsNullOrEmpty(label)) return SanitizeMarkerName(label);
         if (marker.Icon == 0) return "";
 
         if (marker.DataType == 4) {
             var placeName = dataManager.GetExcelSheet<Sheet.PlaceName>().FindRow(marker.DataKey.RowId);
-            if (placeName != null) return SanitizeMarkerName(placeName.Value.Name.ToDalamudString().TextValue);
+            if (placeName != null) return SanitizeMarkerName(placeName.Value.Name.ExtractText());
         }
 
         var symbol = dataManager.GetExcelSheet<Sheet.MapSymbol>().FindRow(marker.Icon);
         if (symbol == null) return "";
 
-        return SanitizeMarkerName(symbol.Value.PlaceName.Value.Name.ToDalamudString().TextValue);
+        return SanitizeMarkerName(symbol.Value.PlaceName.Value.Name.ExtractText());
     }
 
     private static string SanitizeMarkerName(string name)

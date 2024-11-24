@@ -1,5 +1,4 @@
 ﻿using Dalamud.Plugin.Services;
-using Dalamud.Utility;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using FFXIVClientStructs.FFXIV.Component.GUI;
@@ -30,7 +29,7 @@ internal sealed class CollectionItemShortcutProvider(IDataManager dataManager) :
             .Select(
                 i => new Shortcut {
                     Id          = i.RowId,
-                    Name        = i.UIData.Value.Name.ToDalamudString().TextValue,
+                    Name        = i.UIData.Value.Name.ExtractText(),
                     Description = "",
                     IconId      = i.UIData.Value.Icon,
                 }
@@ -49,7 +48,7 @@ internal sealed class CollectionItemShortcutProvider(IDataManager dataManager) :
 
         return new() {
             Id         = id,
-            Name       = item.Value.UIData.Value.Name.ToDalamudString().TextValue,
+            Name       = item.Value.UIData.Value.Name.ExtractText(),
             IconId     = item.Value.UIData.Value.Icon,
             IsDisabled = !PlayerState.Instance()->IsMcGuffinUnlocked((ushort)id),
         };
@@ -73,8 +72,8 @@ internal sealed class CollectionItemShortcutProvider(IDataManager dataManager) :
 
         list.Sort(
             (a, b) => String.Compare(
-                a.UIData.Value.Name.ToDalamudString().TextValue,
-                b.UIData.Value.Name.ToDalamudString().TextValue,
+                a.UIData.Value.Name.ExtractText(),
+                b.UIData.Value.Name.ExtractText(),
                 StringComparison.OrdinalIgnoreCase
             )
         );

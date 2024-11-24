@@ -1,5 +1,4 @@
 ﻿using Dalamud.Plugin.Services;
-using Dalamud.Utility;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using Lumina.Excel.Sheets;
 using System;
@@ -25,7 +24,7 @@ internal sealed class EmoteShortcutProvider(IDataManager dataManager) : Abstract
         var emoteList = dataManager.GetExcelSheet<Emote>().ToList();
 
         emoteList.Sort(
-            (a, b) => string.Compare(a.Name.ToString(), b.Name.ToString(), StringComparison.OrdinalIgnoreCase)
+            (a, b) => string.Compare(a.Name.ExtractText(), b.Name.ExtractText(), StringComparison.OrdinalIgnoreCase)
         );
 
         List<Shortcut> shortcuts = [];
@@ -34,14 +33,14 @@ internal sealed class EmoteShortcutProvider(IDataManager dataManager) : Abstract
             if (emote.TextCommand.ValueNullable == null) continue;
             if (!UIState.Instance()->IsEmoteUnlocked((ushort)emote.RowId)) continue;
 
-            var name = emote.Name.ToDalamudString().TextValue;
+            var name = emote.Name.ExtractText();
             if (!string.IsNullOrEmpty(searchFilter) && !name.Contains(searchFilter, StringComparison.OrdinalIgnoreCase)) continue;
 
             shortcuts.Add(
                 new() {
                     Id          = emote.RowId,
                     Name        = name,
-                    Description = emote.TextCommand.Value.Command.ToString(),
+                    Description = emote.TextCommand.Value.Command.ExtractText(),
                     IconId      = emote.Icon,
                 }
             );
@@ -60,7 +59,7 @@ internal sealed class EmoteShortcutProvider(IDataManager dataManager) : Abstract
 
         return new() {
             Id         = emote.Value.RowId,
-            Name       = emote.Value.Name.ToDalamudString().TextValue,
+            Name       = emote.Value.Name.ExtractText(),
             IconId     = emote.Value.Icon,
             IsDisabled = !UIState.Instance()->IsEmoteUnlocked((ushort)id),
         };
@@ -72,6 +71,6 @@ internal sealed class EmoteShortcutProvider(IDataManager dataManager) : Abstract
         Emote? emote = dataManager.GetExcelSheet<Emote>().FindRow(id);
         if (emote?.TextCommand.Value == null) return;
 
-        Framework.Service<IChatSender>().Send(emote.Value.TextCommand.Value.Command.ToDalamudString().TextValue);
+        Framework.Service<IChatSender>().Send(emote.Value.TextCommand.Value.Command.ExtractText());
     }
 }

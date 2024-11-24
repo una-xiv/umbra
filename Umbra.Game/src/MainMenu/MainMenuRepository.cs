@@ -65,7 +65,7 @@ internal sealed class MainMenuRepository : IMainMenuRepository
             .ForEach(
                 cmd => {
                     if (cmd.Name == "" || null == Enum.GetName(typeof(MenuCategory), cmd.RowId)) return;
-                    _categories[(MenuCategory)cmd.RowId] = new((MenuCategory)cmd.RowId, cmd.Name.ToDalamudString().TextValue);
+                    _categories[(MenuCategory)cmd.RowId] = new((MenuCategory)cmd.RowId, cmd.Name.ExtractText());
                 }
             );
 
@@ -83,7 +83,7 @@ internal sealed class MainMenuRepository : IMainMenuRepository
                                 if (cmd.RowId == 35) icon = 111; // Teleport
                                 if (cmd.RowId == 36) icon = 112; // Return
 
-                                MainMenuItem item = new(cmd.Name.ToDalamudString().TextValue, cmd.SortID, cmd.RowId) { Icon = icon };
+                                MainMenuItem item = new(cmd.Name.ExtractText(), cmd.SortID, cmd.RowId) { Icon = icon };
 
                                 if (cmd.RowId == 36) {
                                     // Add cooldown time for Return.
@@ -196,7 +196,7 @@ internal sealed class MainMenuRepository : IMainMenuRepository
                 category.RemoveItem(entry);
             } else if (entry is null && _player.HasItemInInventory(itemId)) {
                 category.AddItem(
-                    new(item.Value.Name.ToDalamudString().TextValue, sortIndex, () => _player.UseInventoryItem(itemId)) {
+                    new(item.Value.Name.ExtractText(), sortIndex, () => _player.UseInventoryItem(itemId)) {
                         MetadataKey    = metadataKey,
                         ItemGroupId    = "Travel",
                         ItemGroupLabel = "Destinations",

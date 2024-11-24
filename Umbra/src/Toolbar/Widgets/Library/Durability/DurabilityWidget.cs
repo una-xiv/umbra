@@ -14,11 +14,11 @@
  *     GNU Affero General Public License for more details.
  */
 
-using System.Collections.Generic;
 using Dalamud.Plugin.Services;
 using Dalamud.Utility;
 using Lumina.Excel.Sheets;
 using System;
+using System.Collections.Generic;
 using Umbra.Common;
 using Umbra.Game;
 using Umbra.Windows.Components;
@@ -262,7 +262,7 @@ internal partial class DurabilityWidget(
         }
 
         Item item = DataManager.GetExcelSheet<Item>().GetRow(highestDarkMatterType);
-        Popup.SetButtonAltLabel("Repair", $"{item.Name.ToDalamudString().TextValue} x {highestDarkMatterCount}");
+        Popup.SetButtonAltLabel("Repair", $"{item.Name.ExtractText()} x {highestDarkMatterCount}");
 
         return true;
     }

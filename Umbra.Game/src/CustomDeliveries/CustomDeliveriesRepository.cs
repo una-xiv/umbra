@@ -144,7 +144,7 @@ internal sealed unsafe class CustomDeliveriesRepository : ICustomDeliveriesRepos
                     s.QuestRequired.RowId,
                     (uint)s.Icon,
                     s.DeliveriesPerWeek,
-                    s.Npc.Value.Singular.ToDalamudString().TextValue
+                    s.Npc.Value.Singular.ExtractText()
                 )
             );
         }

@@ -120,7 +120,7 @@ internal unsafe class EquipmentRepository : IEquipmentRepository
             var item = _dataManager.GetExcelSheet<Item>().GetRow(equipment->ItemId);
 
             Slots[slot] = new(
-                item.Name.ToDalamudString().TextValue,
+                item.Name.ExtractText(),
                 item.Icon,
                 (byte)slot,
                 (byte)(equipment->Condition / DurabilityRatioPercentage),

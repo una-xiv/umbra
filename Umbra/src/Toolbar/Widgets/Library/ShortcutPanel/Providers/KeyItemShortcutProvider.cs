@@ -1,5 +1,4 @@
 ﻿using Dalamud.Plugin.Services;
-using Dalamud.Utility;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using Lumina.Excel.Sheets;
 using System;
@@ -23,7 +22,7 @@ internal sealed class KeyItemShortcutProvider(IDataManager dataManager) : Abstra
     {
         return GetEventItemsFromInventory()
             .Where(
-                i => i.Name.ToDalamudString().TextValue.Contains(searchFilter ?? "", StringComparison.OrdinalIgnoreCase)
+                i => i.Name.ExtractText().Contains(searchFilter ?? "", StringComparison.OrdinalIgnoreCase)
             )
             .Select(
                 i => new Shortcut {
@@ -59,7 +58,7 @@ internal sealed class KeyItemShortcutProvider(IDataManager dataManager) : Abstra
 
         return new() {
             Id         = id,
-            Name       = item.Value.Name.ToDalamudString().TextValue,
+            Name       = item.Value.Name.ExtractText(),
             IconId     = item.Value.Icon,
             IsDisabled = !found,
         };

@@ -111,7 +111,7 @@ internal partial class CompanionPopup
         Node node = new() {
             Id        = $"Food_{foodType}",
             ClassList = ["food-button"],
-            Tooltip   = $"{item.Value.Name.ToDalamudString().TextValue}\n\n{item.Value.Description.ToDalamudString().TextValue.Split("\n").LastOrDefault() ?? ""}",
+            Tooltip   = $"{item.Value.Name.ExtractText()}\n\n{item.Value.Description.ExtractText().Split("\n").LastOrDefault() ?? ""}",
             ChildNodes = [
                 new() {
                     ClassList = ["button--icon"],

@@ -14,7 +14,6 @@
  *     GNU Affero General Public License for more details.
  */
 
-using Dalamud.Utility;
 using System.Collections.Generic;
 using Umbra.Common;
 using Umbra.Game;
@@ -77,7 +76,7 @@ internal partial class OnlineStatusWidget(
         uint statusId = _player.OnlineStatusId == 0 ? 47 : _player.OnlineStatusId;
         var  status   = GetStatusById(statusId);
 
-        SetLabel(status.Name.ToDalamudString().TextValue);
+        SetLabel(status.Name.ExtractText());
 
         _iconId = status.Icon;
 

@@ -1,5 +1,4 @@
 ﻿using Dalamud.Plugin.Services;
-using Dalamud.Utility;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using Lumina.Excel.Sheets;
 using System;
@@ -28,8 +27,8 @@ internal sealed class GeneralActionShortcutProvider(IDataManager dataManager, IP
 
         actions.Sort(
             (a, b) => string.Compare(
-                a.Name.ToDalamudString().TextValue,
-                b.Name.ToDalamudString().TextValue,
+                a.Name.ExtractText(),
+                b.Name.ExtractText(),
                 StringComparison.OrdinalIgnoreCase
             )
         );
@@ -37,18 +36,18 @@ internal sealed class GeneralActionShortcutProvider(IDataManager dataManager, IP
         foreach (var action in actions) {
             if (!player.IsGeneralActionUnlocked(action.RowId)
                 || action.Icon < 1
-                || string.IsNullOrEmpty(action.Name.ToDalamudString().TextValue))
+                || string.IsNullOrEmpty(action.Name.ExtractText()))
                 continue;
 
             if (searchFilter != null
-                && !action.Name.ToDalamudString().TextValue.Contains(searchFilter, StringComparison.OrdinalIgnoreCase))
+                && !action.Name.ExtractText().Contains(searchFilter, StringComparison.OrdinalIgnoreCase))
                 continue;
 
             shortcuts.Add(
                 new() {
                     Id          = action.RowId,
-                    Name        = action.Name.ToDalamudString().TextValue,
-                    Description = action.Description.ToDalamudString().TextValue,
+                    Name        = action.Name.ExtractText(),
+                    Description = action.Description.ExtractText(),
                     IconId      = (uint)action.Icon
                 }
             );
@@ -65,7 +64,7 @@ internal sealed class GeneralActionShortcutProvider(IDataManager dataManager, IP
 
         return new() {
             Id         = id,
-            Name       = action.Value.Name.ToDalamudString().TextValue,
+            Name       = action.Value.Name.ExtractText(),
             IconId     = (uint)action.Value.Icon,
             IsDisabled = !player.IsGeneralActionUnlocked(id)
                 || ActionManager.Instance()->GetActionStatus(ActionType.GeneralAction, id) != 0
