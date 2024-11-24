@@ -816,6 +816,8 @@
     "Widget.GearsetSwitcher.Config.IconType.Option.Green": "Green (Small!)",
     "Widget.GearsetSwitcher.Config.GearsetNodeWidth.Name": "Gearset button width",
     "Widget.GearsetSwitcher.Config.GearsetNodeWidth.Description": "The width of the gearset buttons in the popup in pixels.",
+    "Widget.GearsetSwitcher.Config.GearsetNodeHeight.Name": "Gearset button height",
+    "Widget.GearsetSwitcher.Config.GearsetNodeHeight.Description": "The height of the gearset buttons in the popup in pixels.",
     "Widget.GearsetSwitcher.Config.AutoCloseOnChange.Name": "Auto-close popup on gearset change",
     "Widget.GearsetSwitcher.Config.AutoCloseOnChange.Description": "Automatically closes the popup when a gearset is selected.",
     "Widget.GearsetSwitcher.Config.ShowRoleNames.Name": "Show role names",

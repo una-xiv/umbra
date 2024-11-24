@@ -131,6 +131,14 @@ internal partial class GearsetSwitcherWidget
                 120,
                 400
             ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
+            new IntegerWidgetConfigVariable(
+                "GearsetNodeHeight",
+                I18N.Translate("Widget.GearsetSwitcher.Config.GearsetNodeHeight.Name"),
+                I18N.Translate("Widget.GearsetSwitcher.Config.GearsetNodeHeight.Description"),
+                40,
+                40,
+                80
+            ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
             new StringWidgetConfigVariable(
                 "GearsetFilterPrefix",
                 I18N.Translate("Widget.GearsetSwitcher.Config.GearsetFilterPrefix.Name"),

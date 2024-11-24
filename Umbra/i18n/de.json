@@ -816,6 +816,8 @@
     "Widget.GearsetSwitcher.Config.IconType.Option.Green": "Grün (Klein!)",
     "Widget.GearsetSwitcher.Config.GearsetNodeWidth.Name": "Ausrüstungs-Tastenbreite",
     "Widget.GearsetSwitcher.Config.GearsetNodeWidth.Description": "Die Breite der Ausrüstungstasten im Popup in Pixeln.",
+    "Widget.GearsetSwitcher.Config.GearsetNodeHeight.Name": "Ausrüstungs-Schaltfläche",
+    "Widget.GearsetSwitcher.Config.GearsetNodeHeight.Description": "Die Höhe der Ausrüstungs-Schaltflächen im Popup in Pixeln.",
     "Widget.GearsetSwitcher.Config.AutoCloseOnChange.Name": "Popup automatisch beim Ausrüstungswechsel schließen",
     "Widget.GearsetSwitcher.Config.AutoCloseOnChange.Description": "Schließt das Popup automatisch, wenn ein Ausrüstungsset ausgewählt wird.",
     "Widget.GearsetSwitcher.Config.ShowRoleNames.Name": "Rollennamen anzeigen",

@@ -24,8 +24,6 @@ namespace Umbra.Widgets;
 
 internal partial class GearsetNode : Node
 {
-    public const int NodeHeight = 40;
-
     public int    ButtonIconYOffset { get; set; }
     public string ButtonIconType    { get; set; } = "Default";
     public string BackgroundType    { get; set; } = "GradientV";
@@ -34,6 +32,7 @@ internal partial class GearsetNode : Node
     public bool   ShowItemLevel     { get; set; } = true;
     public bool   ShowWarningIcon   { get; set; } = true;
     public int    NodeWidth         { get; set; } = 150;
+    public int    NodeHeight        { get; set; } = 40;
 
     public readonly Gearset Gearset;
 
