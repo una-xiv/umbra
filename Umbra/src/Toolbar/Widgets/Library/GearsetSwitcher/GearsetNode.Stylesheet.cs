@@ -25,7 +25,7 @@ internal partial class GearsetNode
             new(
                 ".gearset",
                 new() {
-                    Size                    = new(240, NodeHeight),
+                    Size                    = new(240, 40),
                     IsAntialiased           = false,
                     BackgroundColor         = new("Input.Background"),
                     BorderRadius            = 7,
@@ -106,7 +106,7 @@ internal partial class GearsetNode
             new(
                 ".gearset--ilvl",
                 new() {
-                    Size      = new(50, NodeHeight - 10),
+                    Size      = new(50, 40 - 10),
                     TextAlign = Anchor.MiddleRight,
                     Color     = new("Widget.PopupMenuTextMuted"),
                     FontSize  = 20,

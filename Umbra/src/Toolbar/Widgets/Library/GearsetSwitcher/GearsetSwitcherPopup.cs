@@ -157,6 +157,7 @@ internal sealed partial class GearsetSwitcherPopup : WidgetPopup
     public string GearsetButtonBackgroundType { get; set; } = "GradientV";
     public string GearsetFilterPrefix         { get; set; } = "";
     public int    GearsetNodeWidth            { get; set; } = 150;
+    public int    GearsetNodeHeight           { get; set; } = 40;
 
     public string HeaderIconType      { get; set; } = "Default";
     public string ButtonIconType      { get; set; } = "Default";
@@ -246,7 +247,7 @@ internal sealed partial class GearsetSwitcherPopup : WidgetPopup
             var target = GetColumnForRole(category);
 
             node.Style.Size = new(GearsetNodeWidth, 0);
-            node.QuerySelector("#RoleHeader")!.Style.Size = new(GearsetNodeWidth, GearsetNode.NodeHeight);
+            node.QuerySelector("#RoleHeader")!.Style.Size = new(GearsetNodeWidth, GearsetNodeHeight);
             node.QuerySelector("#RoleBody")!.Style.Size   = new(GearsetNodeWidth + 8, 0);
 
             if (node.ParentNode != target) {
@@ -262,7 +263,7 @@ internal sealed partial class GearsetSwitcherPopup : WidgetPopup
                 int maxItems  = GetMaxItemsToDisplayForRole(category);
                 int gapHeight = listNode.ComputedStyle.Gap;
                 int setItems  = setCount < maxItems ? setCount : maxItems;
-                int height    = (setItems * GearsetNode.NodeHeight) + ((setItems - 1) * gapHeight);
+                int height    = (setItems * GearsetNodeHeight) + ((setItems - 1) * gapHeight);
                 listNode.Style.Size = new(GearsetNodeWidth, height);
             } else {
                 listNode.Style.Size = new(GearsetNodeWidth, 0);
@@ -302,6 +303,7 @@ internal sealed partial class GearsetSwitcherPopup : WidgetPopup
             }
 
             node.NodeWidth         = GearsetNodeWidth;
+            node.NodeHeight        = GearsetNodeHeight;
             node.ButtonIconType    = ButtonIconType;
             node.ButtonIconYOffset = ButtonIconYOffset;
             node.BackgroundType    = GearsetButtonBackgroundType;

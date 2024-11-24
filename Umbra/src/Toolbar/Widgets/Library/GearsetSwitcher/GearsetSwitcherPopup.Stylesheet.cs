@@ -163,7 +163,7 @@ internal sealed partial class GearsetSwitcherPopup
             new(
                 "#RoleHeader",
                 new() {
-                    Size         = new(240, GearsetNode.NodeHeight),
+                    Size         = new(240, 40),
                     Font         = 0,
                     FontSize     = 16,
                     Color        = new("Widget.PopupMenuText"),
