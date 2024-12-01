@@ -40,7 +40,7 @@ public sealed class MapLinkMarkerFactory(IZoneManager zoneManager) : WorldMarker
         var  fadeDistance    = GetConfigValue<int>("FadeDistance");
         var  fadeAttenuation = GetConfigValue<int>("FadeAttenuation");
 
-        List<ZoneMarkerType> types = [ZoneMarkerType.MapLink];
+        List<ZoneMarkerType> types = [ZoneMarkerType.MapLink, ZoneMarkerType.Ferry];
 
         if (GetConfigValue<bool>("ShowInstanceEntries")) {
             types.Add(ZoneMarkerType.InstanceEntry);

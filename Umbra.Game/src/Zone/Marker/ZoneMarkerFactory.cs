@@ -196,25 +196,16 @@ internal sealed class ZoneMarkerFactory(IDataManager dataManager)
         );
     }
 
-    public ZoneMarker FromMiniMapMarker(Sheet.Map map, MiniMapMarker marker)
-    {
-        var type = DetermineMarkerType(marker.MapMarker.IconId, "");
-
-        return new ZoneMarker(
-            type,
-            "",
-            new Vector2(marker.MapMarker.X, marker.MapMarker.Y),
-            MarkerToWorldPosition(map, new Vector2(marker.MapMarker.X, marker.MapMarker.Y)),
-            type is ZoneMarkerType.Area or ZoneMarkerType.ObjectiveArea ? 0u : marker.MapMarker.IconId,
-            0
-        );
-    }
-
     public ZoneMarker FromMapMarkerSheet(Sheet.Map map, Sheet.MapMarker marker)
     {
         var position = new Vector2(marker.X, marker.Y);
         var name     = GetStaticMarkerName(marker);
         var type     = DetermineMarkerType(marker.Icon, name);
+
+        if (map.RowId == 51) {
+            // Wolves' Den Pier Fuckery...
+            position.X -= 924;
+        }
 
         return new(
             type,
