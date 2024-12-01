@@ -30,6 +30,12 @@ internal class QuestMarkerFactory(IZoneManager zoneManager) : WorldMarkerFactory
                 I18N.Translate("Markers.Quest.ShowUnavailableBlueQuests.Description"),
                 false
             ),
+            new BooleanMarkerConfigVariable(
+                "ShowMapLinkMarkers",
+                I18N.Translate("Markers.Quest.ShowMapLinkMarkers.Name"),
+                I18N.Translate("Markers.Quest.ShowMapLinkMarkers.Description"),
+                true // Default true since this was the behavior prior to 2.3.3
+            ),
             ..DefaultStateConfigVariables,
             ..DefaultFadeConfigVariables,
         ];
@@ -55,6 +61,10 @@ internal class QuestMarkerFactory(IZoneManager zoneManager) : WorldMarkerFactory
 
         if (GetConfigValue<bool>("ShowBlueQuests")) {
             types.Add(ZoneMarkerType.FeatureQuest);
+        }
+
+        if (GetConfigValue<bool>("ShowMapLinkMarkers")) {
+            types.Add(ZoneMarkerType.QuestLink);
         }
 
         List<ZoneMarker> markers = zoneManager
