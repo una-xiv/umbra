@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using ImGuiNET;
+using System.Collections.Generic;
 using System.Linq;
 using Umbra.Common;
 using Umbra.Game;
@@ -29,9 +30,14 @@ public sealed class MapLinkMarkerFactory(IZoneManager zoneManager) : WorldMarker
     [OnTick(interval: 1000)]
     private void OnUpdate()
     {
-        RemoveAllMarkers();
+        if (!GetConfigValue<bool>("Enabled") || !zoneManager.HasCurrentZone) {
+            RemoveAllMarkers();
+            return;
+        }
 
-        if (!zoneManager.HasCurrentZone) {
+        if (zoneManager.CurrentZone.Offset.X != 0 || zoneManager.CurrentZone.Offset.Y != 0) {
+            // Temporarily disable static markers from maps with offsets until we figure out how to handle them.
+            RemoveAllMarkers();
             return;
         }
 
@@ -40,14 +46,16 @@ public sealed class MapLinkMarkerFactory(IZoneManager zoneManager) : WorldMarker
         var  fadeDistance    = GetConfigValue<int>("FadeDistance");
         var  fadeAttenuation = GetConfigValue<int>("FadeAttenuation");
 
-        List<ZoneMarkerType> types = [ZoneMarkerType.MapLink, ZoneMarkerType.Ferry];
+        List<ZoneMarkerType> types = [
+            ZoneMarkerType.MapLink, ZoneMarkerType.Ferry,
+            ZoneMarkerType.Aetheryte, ZoneMarkerType.SummoningBell, ZoneMarkerType.Mailbox, ZoneMarkerType.Aethernet
+        ];
 
         if (GetConfigValue<bool>("ShowInstanceEntries")) {
             types.Add(ZoneMarkerType.InstanceEntry);
         }
 
         List<string> usedIds = [];
-
         List<ZoneMarker> markers = zoneManager
             .CurrentZone.StaticMarkers
             .Where(marker => types.Contains(marker.Type))
@@ -72,4 +80,13 @@ public sealed class MapLinkMarkerFactory(IZoneManager zoneManager) : WorldMarker
 
         RemoveMarkersExcept(usedIds);
     }
+    //
+    // [OnDraw]
+    // private void OnDraw()
+    // {
+    //     ImGui.Begin("MapLinkWindowThing", ImGuiWindowFlags.None | ImGuiWindowFlags.NoSavedSettings);
+    //     ImGui.TextUnformatted($"MapScale: {zoneManager.CurrentZone.SizeFactor}");
+    //     ImGui.TextUnformatted($"MapOffset: {zoneManager.CurrentZone.Offset}");
+    //     ImGui.End();
+    // }
 }

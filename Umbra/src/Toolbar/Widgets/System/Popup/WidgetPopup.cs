@@ -186,11 +186,12 @@ public abstract class WidgetPopup : IDisposable
             ImGui.SetNextWindowViewport(ImGui.GetMainViewport().ID);
         }
 
-        unsafe {
-            var device = Device.Instance();
-            if (Size.X > device->Width || Size.Y > device->Height)
-                Size = new Vector2(1, 1);
+        if (IsMultiMonitor) {
+            unsafe {
+                var device = Device.Instance();
 
+                if (Size.X > device->Width || Size.Y > device->Height) Size = new(1, 1);
+            }
         }
 
         ImGui.SetNextWindowPos(new(Position.X, Position.Y));
@@ -234,6 +235,9 @@ public abstract class WidgetPopup : IDisposable
         _yOffset     = Toolbar.IsTopAligned ? -32 : 32;
         _yOffsetDest = 0;
     }
+
+    private static bool IsMultiMonitor =>
+        (ImGui.GetIO().ConfigFlags & ImGuiConfigFlags.ViewportsEnable) == ImGuiConfigFlags.ViewportsEnable;
 
     private static Vector2 GetPopupPositionAligned(ToolbarWidget activator, Vector2 size)
     {
