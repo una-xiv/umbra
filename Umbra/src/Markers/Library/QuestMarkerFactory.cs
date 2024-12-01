@@ -13,9 +13,23 @@ internal class QuestMarkerFactory(IZoneManager zoneManager) : WorldMarkerFactory
     public override string Name        { get; } = I18N.Translate("Markers.Quest.Name");
     public override string Description { get; } = I18N.Translate("Markers.Quest.Description");
 
+    private static List<uint> UnavailableQuestIconIds { get; } = [71151, 71152, 71153, 71154, 71155];
+
     public override List<IMarkerConfigVariable> GetConfigVariables()
     {
         return [
+            new BooleanMarkerConfigVariable(
+                "ShowBlueQuests",
+                I18N.Translate("Markers.Quest.ShowBluePendingQuests.Name"),
+                I18N.Translate("Markers.Quest.ShowBluePendingQuests.Description"),
+                false
+            ),
+            new BooleanMarkerConfigVariable(
+                "ShowUnavailableBlueQuests",
+                I18N.Translate("Markers.Quest.ShowUnavailableBlueQuests.Name"),
+                I18N.Translate("Markers.Quest.ShowUnavailableBlueQuests.Description"),
+                false
+            ),
             ..DefaultStateConfigVariables,
             ..DefaultFadeConfigVariables,
         ];
@@ -34,9 +48,19 @@ internal class QuestMarkerFactory(IZoneManager zoneManager) : WorldMarkerFactory
             return;
         }
 
+        List<ZoneMarkerType> types = [
+            ZoneMarkerType.ObjectiveArea,
+            ZoneMarkerType.QuestObjective
+        ];
+
+        if (GetConfigValue<bool>("ShowBlueQuests")) {
+            types.Add(ZoneMarkerType.FeatureQuest);
+        }
+
         List<ZoneMarker> markers = zoneManager
             .CurrentZone.DynamicMarkers.Where(
-                marker => marker.Type is ZoneMarkerType.ObjectiveArea or ZoneMarkerType.QuestObjective
+                marker => types.Contains(marker.Type) &&
+                          (!UnavailableQuestIconIds.Contains(marker.IconId) || GetConfigValue<bool>("ShowUnavailableBlueQuests"))
             )
             .ToList();
 
