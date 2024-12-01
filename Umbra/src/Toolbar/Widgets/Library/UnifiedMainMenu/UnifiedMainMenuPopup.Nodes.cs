@@ -1,6 +1,7 @@
 ﻿using Dalamud.Game.Text;
 using System.Linq;
 using Umbra.Game;
+using Umbra.Widgets.System;
 using Una.Drawing;
 
 namespace Umbra.Widgets.Library.UnifiedMainMenu;
@@ -236,18 +237,19 @@ internal sealed partial class UnifiedMainMenuPopup
                 .Max();
         }
 
-        HeaderNode.Style.Size     = new((cw + ew), 64);
-        CategoriesNode.Style.Size = new(cw, h - 2);
-        EntriesNode.Style.Size    = new(ew, h - 2);
-        PinnedListNode.Style.Size = new(cw, 0);
+        HeaderNode.Style.Size         = new((cw + ew), 64);
+        HeaderNode.Style.BorderRadius = WidgetManager.UseRoundedCornersInPopups ? 6 : 0;
+        CategoriesNode.Style.Size     = new(cw, h - 2);
+        EntriesNode.Style.Size        = new(ew, h - 2);
+        PinnedListNode.Style.Size     = new(cw, 0);
 
         if (null != Node.ParentNode) {
             bool isFloating = Node.ParentNode!.TagsList.Contains("floating");
 
-            CategoriesNode.Style.BorderRadius   = isFloating ? 8 : 0;
+            CategoriesNode.Style.BorderRadius   = WidgetManager.UseRoundedCornersInPopups && isFloating ? 8 : 0;
             CategoriesNode.Style.IsAntialiased  = !isFloating;
             CategoriesNode.Style.RoundedCorners = isTop ? RoundedCorners.TopLeft : RoundedCorners.BottomLeft;
-            EntriesNode.Style.BorderRadius      = isFloating ? 8 : 0;
+            EntriesNode.Style.BorderRadius      = WidgetManager.UseRoundedCornersInPopups && isFloating ? 8 : 0;
             EntriesNode.Style.IsAntialiased     = !isFloating;
             EntriesNode.Style.RoundedCorners    = isTop ? RoundedCorners.TopRight : RoundedCorners.BottomRight;
         }

@@ -167,9 +167,10 @@ public abstract class WidgetPopup : IDisposable
 
         if (_opacity > 0.9) _opacity = 1;
 
-        _popupNode.Style.Opacity     = _opacity;
-        _popupNode.Style.ShadowInset = (int)(_yOffset + 8);
-        _popupNode.Style.ShadowSize  = WidgetManager.EnableWidgetPopupShadow ? null : new(0);
+        _popupNode.Style.Opacity      = _opacity;
+        _popupNode.Style.ShadowInset  = (int)(_yOffset + 8);
+        _popupNode.Style.ShadowSize   = WidgetManager.EnableWidgetPopupShadow ? null : new(0);
+        _popupNode.Style.BorderRadius = WidgetManager.UseRoundedCornersInPopups ? 7 : 0;
 
         // Draw the popup window.
         ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding,    Vector2.Zero);
@@ -184,12 +185,12 @@ public abstract class WidgetPopup : IDisposable
             //       the popup contains ImGui scrolling child frames.
             ImGui.SetNextWindowViewport(ImGui.GetMainViewport().ID);
         }
-        
+
         unsafe {
             var device = Device.Instance();
             if (Size.X > device->Width || Size.Y > device->Height)
                 Size = new Vector2(1, 1);
-                
+
         }
 
         ImGui.SetNextWindowPos(new(Position.X, Position.Y));

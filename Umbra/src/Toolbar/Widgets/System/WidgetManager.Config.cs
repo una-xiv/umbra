@@ -50,6 +50,9 @@ internal partial class WidgetManager
     [ConfigVariable("Toolbar.EnforceFloatingPopups")]
     public static bool EnforceFloatingPopups { get; set; } = false;
 
+    [ConfigVariable("Toolbar.UseRoundedCornersInPopups")]
+    public static bool UseRoundedCornersInPopups { get; set; } = true;
+
     [ConfigVariable("Toolbar.EnableQuickSettingAccess", "General", "Toolbar")]
     public static bool EnableQuickSettingAccess { get; set; } = false;
 

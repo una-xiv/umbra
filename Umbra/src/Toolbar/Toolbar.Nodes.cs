@@ -123,7 +123,8 @@ internal partial class Toolbar
             _        => AuxBarXPos,
         };
 
-        _auxBarNode.Style.ShadowSize = AuxEnableShadow ? new(64) : new(0);
+        _auxBarNode.Style.ShadowSize   = AuxEnableShadow ? new(64) : new(0);
+        _auxBarNode.Style.BorderRadius = RoundedCorners ? 5 : 0;
 
         _auxBarNode.Render(
             ImGui.GetBackgroundDrawList(),
@@ -145,11 +146,12 @@ internal partial class Toolbar
                 : 0
         );
 
-        _toolbarNode.Style.Gap     = ItemSpacing * 2;
-        _toolbarNode.Style.Opacity = player.IsEditingHud ? 0.66f : _autoHideOpacity;
-        LeftPanel.Style.Gap        = ItemSpacing;
-        CenterPanel.Style.Gap      = ItemSpacing;
-        RightPanel.Style.Gap       = ItemSpacing;
+        _toolbarNode.Style.Gap          = ItemSpacing * 2;
+        _toolbarNode.Style.Opacity      = player.IsEditingHud ? 0.66f : _autoHideOpacity;
+        _toolbarNode.Style.BorderRadius = RoundedCorners ? 5 : 0;
+        LeftPanel.Style.Gap             = ItemSpacing;
+        CenterPanel.Style.Gap           = ItemSpacing;
+        RightPanel.Style.Gap            = ItemSpacing;
 
         _toolbarNode.Render(
             ImGui.GetBackgroundDrawList(),
@@ -195,9 +197,9 @@ internal partial class Toolbar
         RightPanel.Style.Anchor  = Anchor.MiddleCenter;
 
         _toolbarNode.Style.Size = new(
-            (int)(LeftPanel.OuterWidth / Node.ScaleFactor)
-            + (int)(CenterPanel.OuterWidth / Node.ScaleFactor)
-            + (int)(RightPanel.OuterWidth / Node.ScaleFactor)
+            (int)Math.Ceiling(LeftPanel.OuterWidth / Node.ScaleFactor)
+            + (int)Math.Ceiling(CenterPanel.OuterWidth / Node.ScaleFactor)
+            + (int)Math.Ceiling(RightPanel.OuterWidth / Node.ScaleFactor)
             + (ItemSpacing * 6),
             Height
         );

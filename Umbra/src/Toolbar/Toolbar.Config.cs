@@ -41,6 +41,9 @@ internal partial class Toolbar
     [ConfigVariable("Toolbar.IsStretched", "General", "Toolbar")]
     public static bool IsStretched { get; set; } = true;
 
+    [ConfigVariable("Toolbar.RoundedCorners", "General", "Toolbar")]
+    public static bool RoundedCorners { get; set; } = true;
+
     [ConfigVariable("Toolbar.EnableShadow", "General", "Toolbar")]
     private static bool EnableShadow { get; set; } = true;
 

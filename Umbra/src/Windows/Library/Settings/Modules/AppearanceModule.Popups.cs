@@ -38,10 +38,19 @@ internal partial class AppearanceModule
             I18N.Translate("Settings.AppearanceModule.PopupAppearance.EnforceFloatingPopups.Description")
         );
 
+        CheckboxNode roundedCornersOption = new(
+            "UseRoundedCorners",
+            WidgetManager.UseRoundedCornersInPopups,
+            I18N.Translate("Settings.AppearanceModule.PopupAppearance.UseRoundedCorners.Name"),
+            I18N.Translate("Settings.AppearanceModule.PopupAppearance.UseRoundedCorners.Description")
+        );
+
         shadowOption.OnValueChanged += v => ConfigManager.Set("Toolbar.EnableWidgetPopupShadow", v);
         floatingOption.OnValueChanged += v => ConfigManager.Set("Toolbar.EnforceFloatingPopups", v);
+        roundedCornersOption.OnValueChanged += v => ConfigManager.Set("Toolbar.UseRoundedCornersInPopups", v);
 
         PopupPanel.ChildNodes.Add(shadowOption);
         PopupPanel.ChildNodes.Add(floatingOption);
+        PopupPanel.ChildNodes.Add(roundedCornersOption);
     }
 }
