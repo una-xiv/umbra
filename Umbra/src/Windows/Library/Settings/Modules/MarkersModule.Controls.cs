@@ -43,7 +43,7 @@ internal sealed partial class MarkersModule
     private static CheckboxNode RenderCheckboxNode(WorldMarkerFactory factory, BooleanMarkerConfigVariable cvar)
     {
         CheckboxNode node = new(
-            cvar.Id,
+            $"{factory.Id}_{cvar.Id}",
             factory.GetConfigValue<bool>(cvar.Id),
             cvar.Name,
             cvar.Description
@@ -59,7 +59,7 @@ internal sealed partial class MarkersModule
     private static IntegerInputNode RenderIntegerNode(WorldMarkerFactory factory, IntegerMarkerConfigVariable cvar)
     {
         IntegerInputNode node = new(
-            cvar.Id,
+            $"{factory.Id}_{cvar.Id}",
             factory.GetConfigValue<int>(cvar.Id),
             cvar.MinValue,
             cvar.MaxValue,
@@ -83,10 +83,8 @@ internal sealed partial class MarkersModule
             selectedValue = cvar.Options.First().Value;
         }
 
-        Logger.Info($"Selected value: {selectedValue}");
-
         var node = new SelectNode(
-            cvar.Id,
+            $"{factory.Id}_{cvar.Id}",
             selectedValue,
             cvar.Options.Values.ToList(),
             cvar.Name,
