@@ -56,7 +56,7 @@ internal sealed unsafe class CustomDeliveriesRepository : ICustomDeliveriesRepos
     }
 
     /// <inheritdoc />
-    public void OpenCustomDeliveriesWindow(int npcId)
+    public void OpenCustomDeliveriesWindow(int? npcId)
     {
         AtkUnitBase* b = RaptureAtkUnitManager.Instance()->GetAddonByName("SatisfactionSupply");
 
@@ -69,10 +69,11 @@ internal sealed unsafe class CustomDeliveriesRepository : ICustomDeliveriesRepos
         AgentContentsTimer* act = AgentContentsTimer.Instance();
         if (act == null) return;
 
+        // 12/12 opens the Client List window. 18/npcId opens the NPC window.
         var result = stackalloc AtkValue[1];
         var values = stackalloc AtkValue[2];
-        values[0].SetInt(18);    // case
-        values[1].SetInt(npcId); // npc index
+        values[0].SetInt(npcId == null ? 12 : 18); // case
+        values[1].SetInt(npcId ?? 12); // npc index
 
         act->ReceiveEvent(result, values, 2, 0);
     }

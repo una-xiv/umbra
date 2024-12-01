@@ -1,4 +1,5 @@
 ﻿using Dalamud.Game.Text;
+using ImGuiNET;
 using System.Collections.Generic;
 using Umbra.Common;
 using Umbra.Game.CustomDeliveries;
@@ -52,8 +53,15 @@ internal sealed class CustomDeliveriesWidget(
         Popup.OnNpcSelected += OnNpcSelected;
 
         Node.OnRightClick += _ => {
-            int trackedNpcId = GetConfigValue<int>("TrackedNpcId");
-            if (trackedNpcId != 0) Repository.TeleportToNearbyAetheryte(trackedNpcId);
+            bool isShiftOrCtrl = ImGui.GetIO().KeyShift || ImGui.GetIO().KeyCtrl;
+            int  trackedNpcId  = GetConfigValue<int>("TrackedNpcId");
+
+            if (!isShiftOrCtrl && trackedNpcId != 0) {
+                Repository.TeleportToNearbyAetheryte(trackedNpcId);
+                return;
+            }
+
+            Repository.OpenCustomDeliveriesWindow(null);
         };
     }
 

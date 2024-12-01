@@ -16,15 +16,16 @@ public interface ICustomDeliveriesRepository
     public int DeliveriesRemainingThisWeek { get; }
 
     /// <summary>
-    /// Opens the "Satisfaction Supply" window for the specified NPC.
+    /// Opens the "Satisfaction Supply" window for the specified NPC or the
+    /// list window if no NPC is specified.
     /// </summary>
-    /// <param name="npcId">The ID of the supply npc (1~10)</param>
-    public void OpenCustomDeliveriesWindow(int npcId);
+    /// <param name="npcId">The ID of the supply npc</param>
+    public void OpenCustomDeliveriesWindow(int? npcId);
 
     /// <summary>
     /// Teleports the player to a nearby aetheryte for the specified NPC.
     /// Does nothing if the player is not allowed to teleport in its current conditions.
     /// </summary>
-    /// <param name="npcId">The ID of the supply npc (1~10)</param>
+    /// <param name="npcId">The ID of the supply npc</param>
     public void TeleportToNearbyAetheryte(int npcId);
 }
