@@ -75,6 +75,14 @@ internal partial class ExperienceBarWidget
                 500
             ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             new IntegerWidgetConfigVariable(
+                "TextSize",
+                I18N.Translate("Widgets.DefaultToolbarWidget.Config.TextSize.Name"),
+                I18N.Translate("Widgets.DefaultToolbarWidget.Config.TextSize.Description"),
+                13,
+                8,
+                24
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            new IntegerWidgetConfigVariable(
                 "TextYOffset",
                 I18N.Translate("Widgets.DefaultToolbarWidget.Config.TextYOffset.Name"),
                 I18N.Translate("Widgets.DefaultToolbarWidget.Config.TextYOffset.Description"),

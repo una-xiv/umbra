@@ -62,11 +62,12 @@ internal partial class ExperienceBarWidget(
         LeftLabelNode.NodeValue  = GetLevelString();
         RightLabelNode.NodeValue = GetExpString();
 
-        LeftLabelNode.Style.TextOffset       = new(0, GetConfigValue<int>("TextYOffset"));
-        RightLabelNode.Style.TextOffset      = new(0, GetConfigValue<int>("TextYOffset"));
-        SanctuaryIconNode.Style.TextOffset   = new(0, GetConfigValue<int>("MoonYOffset"));
-        SyncIconNode.Style.TextOffset        = new(0, GetConfigValue<int>("SyncYOffset"));
-        RightLabelNode.Style.FontSize        = GetConfigValue<bool>("ShowPreciseExperience") ? 11 : 13;
+        LeftLabelNode.Style.TextOffset     = new(0, GetConfigValue<int>("TextYOffset"));
+        LeftLabelNode.Style.FontSize       = GetConfigValue<int>("TextSize");
+        RightLabelNode.Style.TextOffset    = new(0, GetConfigValue<int>("TextYOffset"));
+        RightLabelNode.Style.FontSize      = GetConfigValue<int>("TextSize");
+        SanctuaryIconNode.Style.TextOffset = new(0, GetConfigValue<int>("MoonYOffset"));
+        SyncIconNode.Style.TextOffset      = new(0, GetConfigValue<int>("SyncYOffset"));
 
         int fullWidth = GetConfigValue<int>("WidgetWidth")
             - 12
