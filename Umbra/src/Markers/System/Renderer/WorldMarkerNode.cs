@@ -138,7 +138,7 @@ internal class WorldMarkerNode : Node
         float distance = Vector3.Distance(_player.Position, WorldPosition.Value);
         float opacity  = Math.Clamp((distance - minDist) / (maxDist - minDist), 0, 1);
 
-        QuerySelector(".distance-label")!.NodeValue = $"{I18N.FormatNumber(distance)} yalms";
+        QuerySelector(".distance-label")!.NodeValue = $"{Math.Ceiling(distance)} yalms";
 
         UpdateNodeSizes();
         Style.Opacity = opacity;
