@@ -60,6 +60,8 @@
     "Markers.Hunt.ShowSS": "Show SS-rank mobs",
     "Markers.MapLink.Name": "Adjacent Area Markers",
     "Markers.MapLink.Description": "Shows markers for locations to adjacent and instanced areas.",
+    "Markers.MapLink.ShowAreaBoundaries.Name": "Show area boundaries",
+    "Markers.MapLink.ShowAreaBoundaries.Description": "Shows markers to the map boundaries to adjacent areas.",
     "Markers.MapLink.ShowInstanceEntries.Name": "Show instance entries",
     "Markers.MapLink.ShowInstanceEntries.Description": "Shows markers for instance entries that are in the current zone.",
     "Markers.MapLink.ShowAetherytes.Name": "Show aetherytes",

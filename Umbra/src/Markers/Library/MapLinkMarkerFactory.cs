@@ -17,6 +17,12 @@ public sealed class MapLinkMarkerFactory(IZoneManager zoneManager) : WorldMarker
     {
         return [
             new BooleanMarkerConfigVariable(
+                "ShowAreaBoundaries",
+                I18N.Translate("Markers.MapLink.ShowAreaBoundaries.Name"),
+                I18N.Translate("Markers.MapLink.ShowAreaBoundaries.Description"),
+                true
+            ),
+            new BooleanMarkerConfigVariable(
                 "ShowInstanceEntries",
                 I18N.Translate("Markers.MapLink.ShowInstanceEntries.Name"),
                 I18N.Translate("Markers.MapLink.ShowInstanceEntries.Description"),
@@ -60,19 +66,17 @@ public sealed class MapLinkMarkerFactory(IZoneManager zoneManager) : WorldMarker
             return;
         }
 
-        if (zoneManager.CurrentZone.Offset.X != 0 || zoneManager.CurrentZone.Offset.Y != 0) {
-            // Temporarily disable static markers from maps with offsets until we figure out how to handle them.
-            RemoveAllMarkers();
-            return;
-        }
-
         uint mapId           = zoneManager.CurrentZone.Id;
         var  showDirection   = GetConfigValue<bool>("ShowOnCompass");
         var  fadeDistance    = GetConfigValue<int>("FadeDistance");
         var  fadeAttenuation = GetConfigValue<int>("FadeAttenuation");
         var  maxVisDistance  = GetConfigValue<int>("MaxVisibleDistance");
 
-        List<ZoneMarkerType> types = [ZoneMarkerType.MapLink];
+        List<ZoneMarkerType> types = [];
+
+        if (GetConfigValue<bool>("ShowAreaBoundaries")) {
+            types.Add(ZoneMarkerType.MapLink);
+        }
 
         if (GetConfigValue<bool>("ShowInstanceEntries")) {
             types.Add(ZoneMarkerType.InstanceEntry);
@@ -121,13 +125,4 @@ public sealed class MapLinkMarkerFactory(IZoneManager zoneManager) : WorldMarker
 
         RemoveMarkersExcept(usedIds);
     }
-    //
-    // [OnDraw]
-    // private void OnDraw()
-    // {
-    //     ImGui.Begin("MapLinkWindowThing", ImGuiWindowFlags.None | ImGuiWindowFlags.NoSavedSettings);
-    //     ImGui.TextUnformatted($"MapScale: {zoneManager.CurrentZone.SizeFactor}");
-    //     ImGui.TextUnformatted($"MapOffset: {zoneManager.CurrentZone.Offset}");
-    //     ImGui.End();
-    // }
 }

@@ -60,6 +60,8 @@
     "Markers.Hunt.ShowSS": "SSランクモブを表示",
     "Markers.MapLink.Name": "隣接エリアのマーカー",
     "Markers.MapLink.Description": "隣接エリアやインスタンスエリアの場所を示すマーカーを表示します。",
+    "Markers.MapLink.ShowAreaBoundaries.Name": "エリア境界を表示",
+    "Markers.MapLink.ShowAreaBoundaries.Description": "隣接エリアへのマップ境界を示すマーカーを表示します。",
     "Markers.MapLink.ShowInstanceEntries.Name": "インスタンスの入口を表示",
     "Markers.MapLink.ShowInstanceEntries.Description": "現在のゾーンにあるインスタンス入口のマーカーを表示します。",
     "Markers.MapLink.ShowAetherytes.Name": "エーテライトを表示",

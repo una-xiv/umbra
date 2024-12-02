@@ -60,6 +60,8 @@
     "Markers.Hunt.ShowSS": "Afficher les mobs de rang SS",
     "Markers.MapLink.Name": "Marqueurs de zones adjacentes",
     "Markers.MapLink.Description": "Affiche des marqueurs pour les zones adjacentes et instanciées.",
+    "Markers.MapLink.ShowAreaBoundaries.Name": "Afficher les frontières de zone",
+    "Markers.MapLink.ShowAreaBoundaries.Description": "Affiche des marqueurs sur les frontières de la carte vers les zones adjacentes.",
     "Markers.MapLink.ShowInstanceEntries.Name": "Afficher les entrées d'instances",
     "Markers.MapLink.ShowInstanceEntries.Description": "Affiche des marqueurs pour les entrées d'instances dans la zone actuelle.",
     "Markers.MapLink.ShowAetherytes.Name": "Afficher les éthérites",

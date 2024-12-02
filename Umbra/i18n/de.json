@@ -60,6 +60,8 @@
     "Markers.Hunt.ShowSS": "SS-Rang-Mobs anzeigen",
     "Markers.MapLink.Name": "Angrenzende Bereichsmarkierungen",
     "Markers.MapLink.Description": "Zeigt Markierungen für angrenzende und instanzierte Bereiche an.",
+    "Markers.MapLink.ShowAreaBoundaries.Name": "Zeige Gebietsgrenzen",
+    "Markers.MapLink.ShowAreaBoundaries.Description": "Zeigt Markierungen an den Kartenrändern zu benachbarten Gebieten.",
     "Markers.MapLink.ShowInstanceEntries.Name": "Instanzeingänge anzeigen",
     "Markers.MapLink.ShowInstanceEntries.Description": "Zeigt Markierungen für Instanzeingänge in der aktuellen Zone an.",
     "Markers.MapLink.ShowAetherytes.Name": "Zeige Ätheryten",

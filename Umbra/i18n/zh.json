@@ -60,6 +60,8 @@
     "Markers.Hunt.ShowSS": "显示SS级恶名精英",
     "Markers.MapLink.Name": "相邻区域标记",
     "Markers.MapLink.Description": "显示相邻和实例区域的位置标记。",
+    "Markers.MapLink.ShowAreaBoundaries.Name": "显示区域边界",
+    "Markers.MapLink.ShowAreaBoundaries.Description": "显示地图边界的标记，指向邻接区域。",
     "Markers.MapLink.ShowInstanceEntries.Name": "显示实例入口",
     "Markers.MapLink.ShowInstanceEntries.Description": "显示当前区域内实例入口的标记。",
     "Markers.MapLink.ShowAetherytes.Name": "显示以太水晶",

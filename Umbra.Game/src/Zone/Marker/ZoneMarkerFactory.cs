@@ -49,7 +49,7 @@ internal sealed class ZoneMarkerFactory(IDataManager dataManager)
         { ZoneMarkerType.Inn, [60436, 60559, 60988] },
         { ZoneMarkerType.Mailbox, [60551] },
         { ZoneMarkerType.HuntVendor, [60571] },
-        { ZoneMarkerType.Taxi, [60581, 60311] },
+        { ZoneMarkerType.Taxi, [60311] },
         { ZoneMarkerType.Ferry, [60352, 60456] },
         { ZoneMarkerType.ChocoboTender, [60842] },
         { ZoneMarkerType.GoldSaucerEmployee, [60582] },
@@ -202,11 +202,6 @@ internal sealed class ZoneMarkerFactory(IDataManager dataManager)
         var name     = GetStaticMarkerName(marker);
         var type     = DetermineMarkerType(marker.Icon, name);
 
-        if (map.RowId == 51) {
-            // Wolves' Den Pier Fuckery...
-            position.X -= 924;
-        }
-
         return new(
             type,
             name,
@@ -237,8 +232,9 @@ internal sealed class ZoneMarkerFactory(IDataManager dataManager)
     {
         var v = pos.ToVector3();
 
-        v.X = ((v.X - 1024f) / (map.SizeFactor / 100.0f)) - (map.OffsetX * (map.SizeFactor / 100.0f));
-        v.Z = ((v.Z - 1024f) / (map.SizeFactor / 100.0f)) - (map.OffsetY * (map.SizeFactor / 100.0f));
+        var scale = map.SizeFactor / 100f;
+        v.X = (v.X / scale) - map.OffsetX - 1024 / scale;
+        v.Z = (v.Z / scale) - map.OffsetY - 1024 / scale;
 
         return v;
     }
