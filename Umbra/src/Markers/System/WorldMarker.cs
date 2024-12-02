@@ -73,6 +73,12 @@ public record WorldMarker
     public Vector2 FadeDistance { get; set; }
 
     /// <summary>
+    /// Defines the maximum distance at which the marker will be visible.
+    /// A value of 0 will make the marker always visible.
+    /// </summary>
+    public float MaxVisibleDistance { get; set; }
+
+    /// <summary>
     /// The ID of the map where the marker is located.
     /// </summary>
     public uint MapId { get; set; }

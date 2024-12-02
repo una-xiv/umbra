@@ -82,6 +82,9 @@ internal partial class CompassRenderer(
             if (!marker.ShowOnCompass) continue;
 
             Vector3 pos = marker.WorldPosition;
+            float dist  = Vector2.Distance(pos.ToVector2(), player.Position.ToVector2());
+
+            if (marker.MaxVisibleDistance > 0 && dist > marker.MaxVisibleDistance) continue;
 
             // Skip rendering if the marker itself is in view.
             if (gameCamera.WorldToScreen(pos, out Vector2 markerScreenPosition, SafeZoneOffsetWidth, SafeZoneOffsetHeight))

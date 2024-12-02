@@ -117,8 +117,9 @@ internal class WorldMarkerNode : Node
 
         var markers = _markers.Values.ToArray();
 
-        float minDist = 0.1f;
-        float maxDist = 0.25f;
+        float minDist    = 0.1f;
+        float maxDist    = 0.25f;
+        float maxVisDist = 0;
 
         for (var i = 0; i < 3; i++) {
             if (i < markers.Length) {
@@ -127,20 +128,36 @@ internal class WorldMarkerNode : Node
                 } else {
                     UpdateState(i, markers[i].Label, markers[i].SubLabel, markers[i].IconId);
 
-                    minDist = Math.Max(minDist, markers[i].FadeDistance.X);
-                    maxDist = Math.Max(maxDist, markers[i].FadeDistance.Y);
+                    minDist    = Math.Max(minDist,    markers[i].FadeDistance.X);
+                    maxDist    = Math.Max(maxDist,    markers[i].FadeDistance.Y);
+                    maxVisDist = Math.Max(maxVisDist, markers[i].MaxVisibleDistance);
                 }
             } else {
                 ClearState(i);
             }
         }
 
-        float distance = Vector3.Distance(_player.Position, WorldPosition.Value);
-        float opacity  = Math.Clamp((distance - minDist) / (maxDist - minDist), 0, 1);
+        // maxVisDist should never be smaller than maxDist + 1.
+        if (maxVisDist > 0) {
+            maxVisDist = Math.Max(maxVisDist, maxDist + 1f);
+        }
+
+        float distance = Vector2.Distance(_player.Position.ToVector2(), WorldPosition.Value.ToVector2());
+        float opacity;
+
+        if (maxVisDist > 0 && distance > maxVisDist) {
+            return;
+        }
+
+        if (distance > maxVisDist - maxDist && distance < maxVisDist) {
+            opacity = Math.Clamp(1 - (distance - (maxVisDist - maxDist)) / (maxVisDist - (maxVisDist - maxDist)), 0, 1);
+        } else {
+            opacity = Math.Clamp((distance - minDist) / (maxDist - minDist), 0, 1);
+        }
 
         QuerySelector(".distance-label")!.NodeValue = $"{Math.Ceiling(distance)} yalms";
-
         UpdateNodeSizes();
+
         Style.Opacity = opacity;
 
         if (opacity < 0.05f) return;

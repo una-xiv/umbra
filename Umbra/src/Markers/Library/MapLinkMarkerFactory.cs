@@ -22,6 +22,31 @@ public sealed class MapLinkMarkerFactory(IZoneManager zoneManager) : WorldMarker
                 I18N.Translate("Markers.MapLink.ShowInstanceEntries.Description"),
                 false
             ),
+            new BooleanMarkerConfigVariable(
+                "ShowAetherytes",
+                I18N.Translate("Markers.MapLink.ShowAetherytes.Name"),
+                I18N.Translate("Markers.MapLink.ShowAetherytes.Description"),
+                false
+            ),
+            new BooleanMarkerConfigVariable(
+                "ShowAethernetShards",
+                I18N.Translate("Markers.MapLink.ShowAethernetShards.Name"),
+                I18N.Translate("Markers.MapLink.ShowAethernetShards.Description"),
+                false
+            ),
+            new BooleanMarkerConfigVariable(
+                "ShowFerryDocks",
+                I18N.Translate("Markers.MapLink.ShowFerryDocks.Name"),
+                I18N.Translate("Markers.MapLink.ShowFerryDocks.Description"),
+                false
+            ),
+            new BooleanMarkerConfigVariable(
+                "ShowChocoboPorters",
+                I18N.Translate("Markers.MapLink.ShowChocoboPorters.Name"),
+                I18N.Translate("Markers.MapLink.ShowChocoboPorters.Description"),
+                false
+            ),
+
             ..DefaultStateConfigVariables,
             ..DefaultFadeConfigVariables,
         ];
@@ -45,17 +70,32 @@ public sealed class MapLinkMarkerFactory(IZoneManager zoneManager) : WorldMarker
         var  showDirection   = GetConfigValue<bool>("ShowOnCompass");
         var  fadeDistance    = GetConfigValue<int>("FadeDistance");
         var  fadeAttenuation = GetConfigValue<int>("FadeAttenuation");
+        var  maxVisDistance  = GetConfigValue<int>("MaxVisibleDistance");
 
-        List<ZoneMarkerType> types = [
-            ZoneMarkerType.MapLink, ZoneMarkerType.Ferry,
-            ZoneMarkerType.Aetheryte, ZoneMarkerType.SummoningBell, ZoneMarkerType.Mailbox, ZoneMarkerType.Aethernet
-        ];
+        List<ZoneMarkerType> types = [ZoneMarkerType.MapLink];
 
         if (GetConfigValue<bool>("ShowInstanceEntries")) {
             types.Add(ZoneMarkerType.InstanceEntry);
         }
 
+        if (GetConfigValue<bool>("ShowAetherytes")) {
+            types.Add(ZoneMarkerType.Aetheryte);
+        }
+
+        if (GetConfigValue<bool>("ShowAethernetShards")) {
+            types.Add(ZoneMarkerType.Aethernet);
+        }
+
+        if (GetConfigValue<bool>("ShowFerryDocks")) {
+            types.Add(ZoneMarkerType.Ferry);
+        }
+
+        if (GetConfigValue<bool>("ShowChocoboPorters")) {
+            types.Add(ZoneMarkerType.Taxi);
+        }
+
         List<string> usedIds = [];
+
         List<ZoneMarker> markers = zoneManager
             .CurrentZone.StaticMarkers
             .Where(marker => types.Contains(marker.Type))
@@ -67,13 +107,14 @@ public sealed class MapLinkMarkerFactory(IZoneManager zoneManager) : WorldMarker
 
             SetMarker(
                 new() {
-                    Key           = id,
-                    Position      = marker.WorldPosition,
-                    IconId        = marker.IconId,
-                    Label         = marker.Name,
-                    MapId         = mapId,
-                    FadeDistance  = new(fadeDistance, fadeDistance + fadeAttenuation),
-                    ShowOnCompass = showDirection,
+                    Key                = id,
+                    Position           = marker.WorldPosition,
+                    IconId             = marker.IconId,
+                    Label              = marker.Name,
+                    MapId              = mapId,
+                    FadeDistance       = new(fadeDistance, fadeDistance + fadeAttenuation),
+                    MaxVisibleDistance = maxVisDistance,
+                    ShowOnCompass      = showDirection,
                 }
             );
         }

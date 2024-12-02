@@ -213,6 +213,12 @@ public abstract class WorldMarkerFactory : IDisposable
             0,
             100
         ),
+        new IntegerMarkerConfigVariable(
+            "MaxVisibleDistance",
+            I18N.Translate("Settings.MarkersModule.Config.MaxVisibleDistance.Name"),
+            I18N.Translate("Settings.MarkersModule.Config.MaxVisibleDistance.Description"),
+            0
+        ),
     ];
 
     /// <summary>
