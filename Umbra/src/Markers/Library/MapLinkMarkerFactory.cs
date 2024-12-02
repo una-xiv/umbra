@@ -1,5 +1,4 @@
-﻿using ImGuiNET;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Umbra.Common;
 using Umbra.Game;
