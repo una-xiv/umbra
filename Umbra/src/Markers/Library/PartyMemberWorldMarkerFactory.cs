@@ -96,8 +96,9 @@ internal class PartyMemberWorldMarkerFactory(IPlayer player, IPartyList partyLis
             return;
         }
 
-        var fadeDist = GetConfigValue<int>("FadeDistance");
-        var fadeAttn = GetConfigValue<int>("FadeAttenuation");
+        var fadeDist       = GetConfigValue<int>("FadeDistance");
+        var fadeAttn       = GetConfigValue<int>("FadeAttenuation");
+        var maxVisDistance = GetConfigValue<int>("MaxVisibleDistance");
 
         List<string> usedKeys      = [];
         Vector3      playerPos     = player.Position;
@@ -123,13 +124,14 @@ internal class PartyMemberWorldMarkerFactory(IPlayer player, IPartyList partyLis
 
             SetMarker(
                 new() {
-                    Key           = key,
-                    Label         = showName ? member.Name.TextValue : "",
-                    IconId        = showIcon ? jobInfo.GetIcon(iconType) : 0,
-                    Position      = member.Position with { Y = member.Position.Y + 1.5f },
-                    MapId         = zoneManager.CurrentZone.Id,
-                    FadeDistance  = new(fadeDist, fadeDist + fadeAttn),
-                    ShowOnCompass = showOnCompass,
+                    Key                = key,
+                    Label              = showName ? member.Name.TextValue : "",
+                    IconId             = showIcon ? jobInfo.GetIcon(iconType) : 0,
+                    Position           = member.Position with { Y = member.Position.Y + 1.5f },
+                    MapId              = zoneManager.CurrentZone.Id,
+                    FadeDistance       = new(fadeDist, fadeDist + fadeAttn),
+                    ShowOnCompass      = showOnCompass,
+                    MaxVisibleDistance = maxVisDistance,
                 }
             );
         }

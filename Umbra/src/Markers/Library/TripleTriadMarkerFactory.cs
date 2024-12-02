@@ -55,7 +55,8 @@ internal class TripleTriadMarkerFactory(IDataManager dataManager, IZoneManager z
         UIState* ui = UIState.Instance();
         if (ui == null) return;
 
-        dataManager.GetExcelSheet<TripleTriadCardResident>()
+        dataManager
+            .GetExcelSheet<TripleTriadCardResident>()
             .ToList()
             .ForEach(
                 (resident) => {
@@ -111,6 +112,7 @@ internal class TripleTriadMarkerFactory(IDataManager dataManager, IZoneManager z
         var showDirection   = GetConfigValue<bool>("ShowOnCompass");
         var fadeDistance    = GetConfigValue<int>("FadeDistance");
         var fadeAttenuation = GetConfigValue<int>("FadeAttenuation");
+        var maxVisDistance  = GetConfigValue<int>("MaxVisibleDistance");
 
         UIState*     uiState   = UIState.Instance();
         List<string> activeIds = [];
@@ -137,14 +139,15 @@ internal class TripleTriadMarkerFactory(IDataManager dataManager, IZoneManager z
 
             SetMarker(
                 new() {
-                    Key           = id,
-                    MapId         = zoneManager.CurrentZone.Id,
-                    IconId        = 71102,
-                    Label         = name,
-                    SubLabel      = subLabel,
-                    Position      = card.Position,
-                    FadeDistance  = new(fadeDistance, fadeDistance + fadeAttenuation),
-                    ShowOnCompass = showDirection,
+                    Key                = id,
+                    MapId              = zoneManager.CurrentZone.Id,
+                    IconId             = 71102,
+                    Label              = name,
+                    SubLabel           = subLabel,
+                    Position           = card.Position,
+                    FadeDistance       = new(fadeDistance, fadeDistance + fadeAttenuation),
+                    ShowOnCompass      = showDirection,
+                    MaxVisibleDistance = maxVisDistance,
                 }
             );
         }

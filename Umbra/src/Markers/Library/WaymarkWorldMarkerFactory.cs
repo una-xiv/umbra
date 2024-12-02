@@ -47,6 +47,7 @@ public class WaymarkWorldMarkerFactory(IPlayer player, IZoneManager zoneManager)
         var showDirection   = GetConfigValue<bool>("ShowOnCompass");
         var fadeDistance    = GetConfigValue<int>("FadeDistance");
         var fadeAttenuation = GetConfigValue<int>("FadeAttenuation");
+        var maxVisDistance  = GetConfigValue<int>("MaxVisibleDistance");
 
         for (var i = 0; i < 8; i++) {
             var marker = mc->FieldMarkers[i];
@@ -57,12 +58,13 @@ public class WaymarkWorldMarkerFactory(IPlayer player, IZoneManager zoneManager)
 
             SetMarker(
                 new() {
-                    Key           = key,
-                    MapId         = mapId,
-                    IconId        = Icons[i],
-                    Position      = new(marker.X / 1000f, marker.Y / 1000f, marker.Z / 1000f),
-                    ShowOnCompass = showDirection,
-                    FadeDistance  = new(fadeDistance, fadeDistance + fadeAttenuation),
+                    Key                = key,
+                    MapId              = mapId,
+                    IconId             = Icons[i],
+                    Position           = new(marker.X / 1000f, marker.Y / 1000f, marker.Z / 1000f),
+                    ShowOnCompass      = showDirection,
+                    FadeDistance       = new(fadeDistance, fadeDistance + fadeAttenuation),
+                    MaxVisibleDistance = maxVisDistance,
                 }
             );
         }

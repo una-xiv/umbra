@@ -73,23 +73,25 @@ internal class GatheringNodeMarkerFactory(
 
         List<string> activeIds = [];
 
-        var fadeDist = GetConfigValue<int>("FadeDistance");
-        var fadeAttn = GetConfigValue<int>("FadeAttenuation");
-        var showCtns = GetConfigValue<bool>("ShowContents");
+        var fadeDist       = GetConfigValue<int>("FadeDistance");
+        var fadeAttn       = GetConfigValue<int>("FadeAttenuation");
+        var showCtns       = GetConfigValue<bool>("ShowContents");
+        var maxVisDistance = GetConfigValue<int>("MaxVisibleDistance");
 
         foreach (GatheringNode node in _gatheringNodes) {
             activeIds.Add(node.Key);
 
             SetMarker(
                 new() {
-                    MapId         = zoneManager.CurrentZone.Id,
-                    Key           = node.Key,
-                    Position      = node.Position,
-                    IconId        = node.IconId,
-                    Label         = node.Label,
-                    SubLabel      = showCtns ? node.SubLabel : null,
-                    ShowOnCompass = node.ShowDirection && GetConfigValue<bool>("ShowOnCompass"),
-                    FadeDistance  = new(fadeDist, fadeDist + fadeAttn)
+                    MapId              = zoneManager.CurrentZone.Id,
+                    Key                = node.Key,
+                    Position           = node.Position,
+                    IconId             = node.IconId,
+                    Label              = node.Label,
+                    SubLabel           = showCtns ? node.SubLabel : null,
+                    ShowOnCompass      = node.ShowDirection && GetConfigValue<bool>("ShowOnCompass"),
+                    FadeDistance       = new(fadeDist, fadeDist + fadeAttn),
+                    MaxVisibleDistance = maxVisDistance,
                 }
             );
         }

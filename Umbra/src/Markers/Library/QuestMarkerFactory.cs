@@ -79,6 +79,7 @@ internal class QuestMarkerFactory(IZoneManager zoneManager) : WorldMarkerFactory
         var showDirection   = GetConfigValue<bool>("ShowOnCompass");
         var fadeDistance    = GetConfigValue<int>("FadeDistance");
         var fadeAttenuation = GetConfigValue<int>("FadeAttenuation");
+        var maxVisDistance  = GetConfigValue<int>("MaxVisibleDistance");
 
         foreach (ZoneMarker marker in markers) {
             string id =
@@ -88,13 +89,14 @@ internal class QuestMarkerFactory(IZoneManager zoneManager) : WorldMarkerFactory
 
             SetMarker(
                 new() {
-                    Key           = id,
-                    MapId         = zoneManager.CurrentZone.Id,
-                    IconId        = marker.IconId,
-                    Position      = marker.WorldPosition,
-                    Label         = marker.Name,
-                    ShowOnCompass = showDirection,
-                    FadeDistance  = new(fadeDistance, fadeDistance + fadeAttenuation),
+                    Key                = id,
+                    MapId              = zoneManager.CurrentZone.Id,
+                    IconId             = marker.IconId,
+                    Position           = marker.WorldPosition,
+                    Label              = marker.Name,
+                    ShowOnCompass      = showDirection,
+                    FadeDistance       = new(fadeDistance, fadeDistance + fadeAttenuation),
+                    MaxVisibleDistance = maxVisDistance,
                 }
             );
         }

@@ -30,9 +30,10 @@ internal class TreasureCofferMarkerFactory(IObjectTable objectTable, IZoneManage
             return;
         }
 
-        var fadeDist      = GetConfigValue<int>("FadeDistance");
-        var fadeAttn      = GetConfigValue<int>("FadeAttenuation");
-        var showOnCompass = GetConfigValue<bool>("ShowOnCompass");
+        var fadeDist       = GetConfigValue<int>("FadeDistance");
+        var fadeAttn       = GetConfigValue<int>("FadeAttenuation");
+        var showOnCompass  = GetConfigValue<bool>("ShowOnCompass");
+        var maxVisDistance = GetConfigValue<int>("MaxVisibleDistance");
 
         List<string> usedIds = [];
         IZone        zone    = zoneManager.CurrentZone;
@@ -45,13 +46,14 @@ internal class TreasureCofferMarkerFactory(IObjectTable objectTable, IZoneManage
 
             SetMarker(
                 new() {
-                    Key           = key,
-                    MapId         = zone.Id,
-                    Label         = obj.Name.TextValue,
-                    IconId        = 60356u,
-                    Position      = obj.Position,
-                    FadeDistance  = new(fadeDist, fadeDist + fadeAttn),
-                    ShowOnCompass = showOnCompass,
+                    Key                = key,
+                    MapId              = zone.Id,
+                    Label              = obj.Name.TextValue,
+                    IconId             = 60356u,
+                    Position           = obj.Position,
+                    FadeDistance       = new(fadeDist, fadeDist + fadeAttn),
+                    ShowOnCompass      = showOnCompass,
+                    MaxVisibleDistance = maxVisDistance,
                 }
             );
         }

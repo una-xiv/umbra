@@ -64,6 +64,7 @@ public class VistaMarkerFactory : WorldMarkerFactory, IDisposable
         var          showDirection   = GetConfigValue<bool>("ShowOnCompass");
         var          fadeDistance    = GetConfigValue<int>("FadeDistance");
         var          fadeAttenuation = GetConfigValue<int>("FadeAttenuation");
+        var          maxVisDistance  = GetConfigValue<int>("MaxVisibleDistance");
 
         List<string>    usedIds = [];
         List<Adventure> vistas  = VistaByMap.GetValueOrDefault(mapId, []);
@@ -109,14 +110,15 @@ public class VistaMarkerFactory : WorldMarkerFactory, IDisposable
 
             SetMarker(
                 new() {
-                    Key           = id,
-                    Position      = new(level.Value.X, level.Value.Y, level.Value.Z),
-                    IconId        = 66413,
-                    Label         = $"{vista.Name.ExtractText()}",
-                    SubLabel      = string.IsNullOrEmpty(subLabel) ? null : subLabel,
-                    MapId         = mapId,
-                    FadeDistance  = new(fadeDistance, fadeDistance + fadeAttenuation),
-                    ShowOnCompass = showDirection,
+                    Key                = id,
+                    Position           = new(level.Value.X, level.Value.Y, level.Value.Z),
+                    IconId             = 66413,
+                    Label              = $"{vista.Name.ExtractText()}",
+                    SubLabel           = string.IsNullOrEmpty(subLabel) ? null : subLabel,
+                    MapId              = mapId,
+                    FadeDistance       = new(fadeDistance, fadeDistance + fadeAttenuation),
+                    ShowOnCompass      = showDirection,
+                    MaxVisibleDistance = maxVisDistance,
                 }
             );
         }

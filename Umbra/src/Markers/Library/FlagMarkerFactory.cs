@@ -55,17 +55,19 @@ internal class FlagMarkerFactory : WorldMarkerFactory
             return;
         }
 
-        var fadeDist = GetConfigValue<int>("FadeDistance");
-        var key      = $"FlagMarker_{agentMap->FlagMapMarker.MapId}";
+        var fadeDist       = GetConfigValue<int>("FadeDistance");
+        var maxVisDistance = GetConfigValue<int>("MaxVisibleDistance");
+        var key            = $"FlagMarker_{agentMap->FlagMapMarker.MapId}";
 
         SetMarker(
             new() {
-                Key           = key,
-                IconId        = agentMap->FlagMapMarker.MapMarker.IconId,
-                MapId         = agentMap->FlagMapMarker.MapId,
-                Position      = new(agentMap->FlagMapMarker.XFloat, 0, agentMap->FlagMapMarker.YFloat),
-                FadeDistance  = new(fadeDist, fadeDist + Math.Max(1, GetConfigValue<int>("FadeAttenuation"))),
-                ShowOnCompass = GetConfigValue<bool>("ShowOnCompass"),
+                Key                = key,
+                IconId             = agentMap->FlagMapMarker.MapMarker.IconId,
+                MapId              = agentMap->FlagMapMarker.MapId,
+                Position           = new(agentMap->FlagMapMarker.XFloat, 0, agentMap->FlagMapMarker.YFloat),
+                FadeDistance       = new(fadeDist, fadeDist + Math.Max(1, GetConfigValue<int>("FadeAttenuation"))),
+                ShowOnCompass      = GetConfigValue<bool>("ShowOnCompass"),
+                MaxVisibleDistance = maxVisDistance,
             }
         );
 

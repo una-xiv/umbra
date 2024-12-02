@@ -47,9 +47,10 @@ internal class AetherCurrentsWorldMarkerFactory(IObjectTable objectTable, IZoneM
 
         List<string> activeIds = [];
 
-        bool showOnCompass = GetConfigValue<bool>("ShowOnCompass");
-        var  fadeDist      = GetConfigValue<int>("FadeDistance");
-        var  fadeAttn      = GetConfigValue<int>("FadeAttenuation");
+        bool showOnCompass  = GetConfigValue<bool>("ShowOnCompass");
+        var  fadeDist       = GetConfigValue<int>("FadeDistance");
+        var  fadeAttn       = GetConfigValue<int>("FadeAttenuation");
+        var  maxVisDistance = GetConfigValue<int>("MaxVisibleDistance");
 
         PlayerState* ps = PlayerState.Instance();
 
@@ -69,13 +70,14 @@ internal class AetherCurrentsWorldMarkerFactory(IObjectTable objectTable, IZoneM
 
             SetMarker(
                 new() {
-                    Key           = key,
-                    Position      = obj->Position,
-                    IconId        = 60033u,
-                    Label         = obj->NameString,
-                    MapId         = _lastMapId,
-                    FadeDistance  = new(fadeDist, fadeDist + fadeAttn),
-                    ShowOnCompass = showOnCompass,
+                    Key                = key,
+                    Position           = obj->Position,
+                    IconId             = 60033u,
+                    Label              = obj->NameString,
+                    MapId              = _lastMapId,
+                    FadeDistance       = new(fadeDist, fadeDist + fadeAttn),
+                    ShowOnCompass      = showOnCompass,
+                    MaxVisibleDistance = maxVisDistance,
                 }
             );
         }

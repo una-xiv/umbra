@@ -64,8 +64,9 @@ internal class HuntWorldMarkerFactory(IDataManager dataManager, IZoneManager zon
         var cm = CharacterManager.Instance();
         if (cm == null) return;
 
-        var fadeDist = GetConfigValue<int>("FadeDistance");
-        var fadeAttn = GetConfigValue<int>("FadeAttenuation");
+        var fadeDist       = GetConfigValue<int>("FadeDistance");
+        var fadeAttn       = GetConfigValue<int>("FadeAttenuation");
+        var maxVisDistance = GetConfigValue<int>("MaxVisibleDistance");
 
         List<string> activeIds = [];
 
@@ -95,16 +96,18 @@ internal class HuntWorldMarkerFactory(IDataManager dataManager, IZoneManager zon
             activeIds.Add(id);
 
             RemoveAllMarkers();
+
             SetMarker(
                 new() {
-                    Key           = id,
-                    MapId         = zoneManager.CurrentZone.Id,
-                    Position      = new(p.X, p.Y + bc->Effects.CurrentFloatHeight, p.Z),
-                    IconId        = GetMarkerIcon(nm.Value.Rank, bc->Character.IsHostile),
-                    Label         = $"{rank} {name}",
-                    SubLabel      = bc->Character.InCombat ? " (In Combat)" : null,
-                    FadeDistance  = new(fadeDist, fadeDist + fadeAttn),
-                    ShowOnCompass = GetConfigValue<bool>("ShowOnCompass")
+                    Key                = id,
+                    MapId              = zoneManager.CurrentZone.Id,
+                    Position           = new(p.X, p.Y + bc->Effects.CurrentFloatHeight, p.Z),
+                    IconId             = GetMarkerIcon(nm.Value.Rank, bc->Character.IsHostile),
+                    Label              = $"{rank} {name}",
+                    SubLabel           = bc->Character.InCombat ? " (In Combat)" : null,
+                    FadeDistance       = new(fadeDist, fadeDist + fadeAttn),
+                    ShowOnCompass      = GetConfigValue<bool>("ShowOnCompass"),
+                    MaxVisibleDistance = maxVisDistance,
                 }
             );
         }
@@ -116,7 +119,8 @@ internal class HuntWorldMarkerFactory(IDataManager dataManager, IZoneManager zon
     {
         if (_notoriousMonstersCache.TryGetValue(dataId, out var nm)) return nm;
 
-        NotoriousMonster? monster = dataManager.GetExcelSheet<NotoriousMonster>()
+        NotoriousMonster? monster = dataManager
+            .GetExcelSheet<NotoriousMonster>()
             .FirstOrDefault(n => n.BNpcBase.RowId == dataId);
 
         if (monster is { RowId: 0 }) {

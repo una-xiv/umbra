@@ -154,6 +154,7 @@ internal sealed partial class EurekaCoffersMarkerFactory : WorldMarkerFactory
         var     showDirection   = GetConfigValue<bool>("ShowOnCompass");
         var     fadeDistance    = GetConfigValue<int>("FadeDistance");
         var     fadeAttenuation = GetConfigValue<int>("FadeAttenuation");
+        var     maxVisDistance  = GetConfigValue<int>("MaxVisibleDistance");
 
         if (bunnyFate is null && _lastBunnyFateSpawnTime > 0) {
             long currentTime = DateTimeOffset.Now.ToUnixTimeSeconds();
@@ -176,14 +177,15 @@ internal sealed partial class EurekaCoffersMarkerFactory : WorldMarkerFactory
 
         SetMarker(
             new() {
-                Key           = "BunnyFate",
-                Position      = position,
-                MapId         = _zoneManager.CurrentZone.Id,
-                IconId        = 60723,
-                Label         = "Bunny Fate",
-                SubLabel      = subLabel,
-                FadeDistance  = new(fadeDistance, fadeDistance + fadeAttenuation),
-                ShowOnCompass = showDirection,
+                Key                = "BunnyFate",
+                Position           = position,
+                MapId              = _zoneManager.CurrentZone.Id,
+                IconId             = 60723,
+                Label              = "Bunny Fate",
+                SubLabel           = subLabel,
+                FadeDistance       = new(fadeDistance, fadeDistance + fadeAttenuation),
+                ShowOnCompass      = showDirection,
+                MaxVisibleDistance = maxVisDistance,
             }
         );
     }
