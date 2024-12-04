@@ -61,6 +61,10 @@ Attributive sheet:
     Unknown40 = ?
 */
 
+/// <summary>
+/// Courtesy of Haselnussbomber.<br/>
+/// <see href="https://github.com/Haselnussbomber/HaselCommon/blob/main/HaselCommon/Services/TextDecoder.cs"/>
+/// </summary>
 [Service]
 public class TextDecoder(IClientState clientState, IDataManager dataManager)
 {
@@ -405,13 +409,5 @@ public class TextDecoder(IClientState clientState, IDataManager dataManager)
         ross = builder.ToReadOnlySeString();
         SeStringBuilder.SharedPool.Return(builder);
         return ross;
-    }
-}
-
-public static class ReadOnlySeStringExtensions
-{
-    public static bool Contains(this ReadOnlySeString ross, ReadOnlySpan<byte> needle)
-    {
-        return ross.Data.Span.IndexOf(needle) != -1;
     }
 }
