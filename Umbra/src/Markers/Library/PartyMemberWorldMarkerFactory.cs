@@ -59,22 +59,7 @@ internal class PartyMemberWorldMarkerFactory(IPlayer player, IPartyList partyLis
                     { "Green", I18N.Translate("Widget.GearsetSwitcher.Config.IconType.Option.Green") }
                 }
             ),
-            new IntegerMarkerConfigVariable(
-                "FadeDistance",
-                I18N.Translate("Settings.MarkersModule.Config.FadeDistance.Name"),
-                I18N.Translate("Settings.MarkersModule.Config.FadeDistance.Description"),
-                50,
-                35,
-                1000
-            ),
-            new IntegerMarkerConfigVariable(
-                "FadeAttenuation",
-                I18N.Translate("Settings.MarkersModule.Config.FadeAttenuation.Name"),
-                I18N.Translate("Settings.MarkersModule.Config.FadeAttenuation.Description"),
-                10,
-                0,
-                100
-            ),
+            ..DefaultFadeConfigVariables
         ];
     }
 
