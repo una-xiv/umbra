@@ -1,6 +1,6 @@
 ﻿using Dalamud.Plugin.Services;
-using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.UI;
+using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using Lumina.Excel.Sheets;
 using System;
 using System.Collections.Generic;
@@ -60,12 +60,17 @@ internal sealed class MainCommandShortcutProvider(IDataManager dataManager) : Ab
         var command = dataManager.GetExcelSheet<MainCommand>().FindRow(id);
         if (command == null) return null;
 
+        UIModule* uiModule = UIModule.Instance();
+        if (uiModule == null) return null;
+
+        AgentHUD* agentHud = AgentHUD.Instance();
+        if (agentHud == null) return null;
+
         return new() {
             Id     = id,
             Name   = command.Value.Name.ExtractText(),
             IconId = (uint)command.Value.Icon,
-            IsDisabled = !UIModule.Instance()->IsMainCommandUnlocked(id)
-                || ActionManager.Instance()->GetActionStatus(ActionType.MainCommand, id) != 0
+            IsDisabled = !uiModule->IsMainCommandUnlocked(id) || !agentHud->IsMainCommandEnabled(id)
         };
     }
 
@@ -74,6 +79,9 @@ internal sealed class MainCommandShortcutProvider(IDataManager dataManager) : Ab
     {
         UIModule* uiModule = UIModule.Instance();
         if (uiModule == null || !uiModule->IsMainCommandUnlocked(id)) return;
+
+        AgentHUD* agentHud = AgentHUD.Instance();
+        if (agentHud == null || !agentHud->IsMainCommandEnabled(id)) return;
 
         uiModule->ExecuteMainCommand(id);
     }
