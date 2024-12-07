@@ -6,14 +6,19 @@ namespace Umbra.Common.Extensions;
 
 public static class ReadOnlySeStringExtensions
 {
-    public static ReadOnlySeString ReplaceText(this ReadOnlySeString rosss, ReadOnlySpan<byte> toFind, ReadOnlySpan<byte> replacement)
+    public static bool Contains(this ReadOnlySeString ross, ReadOnlySpan<byte> needle)
     {
-        if (rosss.IsEmpty)
-            return rosss;
+        return ross.Data.Span.IndexOf(needle) != -1;
+    }
 
-        var sb = new SeStringBuilder();
+    public static ReadOnlySeString ReplaceText(this ReadOnlySeString ross, ReadOnlySpan<byte> toFind, ReadOnlySpan<byte> replacement)
+    {
+        if (ross.IsEmpty)
+            return ross;
 
-        foreach (var payload in rosss)
+        var sb = SeStringBuilder.SharedPool.Get();
+
+        foreach (var payload in ross)
         {
             if (payload.Type == ReadOnlySePayloadType.Invalid)
                 continue;
@@ -25,19 +30,31 @@ public static class ReadOnlySeStringExtensions
             }
 
             var index = payload.Body.Span.IndexOf(toFind);
-            if (index == -1)
-            {
+            if (index == -1) {
                 sb.Append(payload);
                 continue;
             }
 
-            sb.Append(new ReadOnlySpan<byte>([
-                .. payload.Body.Span[..index],
-                .. replacement,
-                .. payload.Body.Span[(index + toFind.Length)..]
-            ]));
+            var lastIndex = 0;
+            while (index != -1) {
+                sb.Append(payload.Body.Span[lastIndex..index]);
+
+                if (!replacement.IsEmpty) {
+                    sb.Append(replacement);
+                }
+
+                lastIndex = index + toFind.Length;
+                index = payload.Body.Span[lastIndex..].IndexOf(toFind);
+
+                if (index != -1)
+                    index += lastIndex;
+            }
+
+            sb.Append(payload.Body.Span[lastIndex..]);
         }
 
-        return sb.ToReadOnlySeString();
+        var output = sb.ToReadOnlySeString();
+        SeStringBuilder.SharedPool.Return(sb);
+        return output;
     }
 }
