@@ -182,6 +182,16 @@ public interface IPlayer
     public bool IsBattleMentor { get; }
 
     /// <summary>
+    /// True if the player is a new adventurer.
+    /// </summary>
+    public bool IsNovice { get; }
+
+    /// <summary>
+    /// True if the player is a returning adventurer.
+    /// </summary>
+    public bool IsReturner { get; }
+
+    /// <summary>
     /// Sets the player's online status to the specified status ID.
     /// </summary>
     /// <param name="statusId">
