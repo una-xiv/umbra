@@ -808,6 +808,8 @@
     "Widget.GearsetSwitcher.ContextMenu.MoveDown": "Move Down",
     "Widget.GearsetSwitcher.ContextMenu.Rename": "Rename Gearset",
     "Widget.GearsetSwitcher.ContextMenu.Delete": "Delete Gearset",
+    "Widget.GearsetSwitcher.Config.CustomLabel.Name": "Custom Label",
+    "Widget.GearsetSwitcher.Config.CustomLabel.Description": "If not empty, the text entered will be used as label instead of the gearset name.",
     "Widget.GearsetSwitcher.Config.InfoType.Name": "Info type (while not max level)",
     "Widget.GearsetSwitcher.Config.InfoType.Description": "The type of information that should be displayed as a sub-label on the widget while the job is not max level.",
     "Widget.GearsetSwitcher.Config.InfoTypeMaxLevel.Name": "Info type (for max level jobs)",

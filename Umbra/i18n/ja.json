@@ -808,6 +808,8 @@
     "Widget.GearsetSwitcher.ContextMenu.MoveDown": "下に移動",
     "Widget.GearsetSwitcher.ContextMenu.Rename": "装備セットの名前を変更",
     "Widget.GearsetSwitcher.ContextMenu.Delete": "装備セットを削除",
+    "Widget.GearsetSwitcher.Config.CustomLabel.Name": "カスタムラベル",
+    "Widget.GearsetSwitcher.Config.CustomLabel.Description": "空でない場合、入力されたテキストがギアセット名の代わりにラベルとして使用されます。",
     "Widget.GearsetSwitcher.Config.InfoType.Name": "情報タイプ（最大レベルでない場合）",
     "Widget.GearsetSwitcher.Config.InfoType.Description": "ジョブが最大レベルでない場合にウィジェットにサブラベルとして表示される情報の種類。",
     "Widget.GearsetSwitcher.Config.InfoTypeMaxLevel.Name": "情報タイプ（最大レベルのジョブの場合）",

@@ -55,6 +55,12 @@ internal partial class GearsetSwitcherWidget
 
         return [
             ..DefaultToolbarWidgetConfigVariables,
+            new StringWidgetConfigVariable(
+                "CustomLabel",
+                I18N.Translate("Widget.GearsetSwitcher.Config.CustomLabel.Name"),
+                I18N.Translate("Widget.GearsetSwitcher.Config.CustomLabel.Description"),
+                ""
+            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             new SelectWidgetConfigVariable(
                 "InfoType",
                 I18N.Translate("Widget.GearsetSwitcher.Config.InfoType.Name"),
