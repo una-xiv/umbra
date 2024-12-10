@@ -196,6 +196,16 @@ internal sealed class Player : IPlayer
     public bool IsBattleMentor { get; private set; }
 
     /// <summary>
+    /// True if the player is a new adventurer.
+    /// </summary>
+    public bool IsNovice { get; private set; }
+
+    /// <summary>
+    /// True if the player is a returning adventurer.
+    /// </summary>
+    public bool IsReturner { get; private set;  }
+
+    /// <summary>
     /// Whether the player is currently in a sanctuary.
     /// </summary>
     public bool IsInSanctuary { get; private set; }
@@ -354,6 +364,8 @@ internal sealed class Player : IPlayer
         IsBattleMentor = ps->IsBattleMentor() && ps->MentorVersion == 3;
         IsTradeMentor  = ps->IsTradeMentor() && ps->MentorVersion == 3;
         IsMentor       = IsBattleMentor && IsTradeMentor;
+        IsNovice       = ps->IsNovice();
+        IsReturner    = ps->IsReturner();
 
         // Experience and level information.
         Level       = GetJobInfo(JobId).Level;
