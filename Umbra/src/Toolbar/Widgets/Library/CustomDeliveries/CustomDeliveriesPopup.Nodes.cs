@@ -30,6 +30,8 @@ internal sealed partial class CustomDeliveriesPopup
             node.QuerySelector(".npc-body--count")!.NodeValue =
                 $"{npc.DeliveriesThisWeek} / {npc.MaxDeliveriesPerWeek}";
 
+            node.QuerySelector(".npc-bonus")!.Style.UldPartId = npc.BonusType;
+
             return;
         }
 
@@ -59,11 +61,16 @@ internal sealed partial class CustomDeliveriesPopup
                         new() {
                             ClassList   = ["npc-body--hearts"],
                             InheritTags = true,
-                            ChildNodes = [
+                            ChildNodes  = [
                                 ..CreateHearts(npc)
                             ]
                         },
                     ]
+                },
+                new() {
+                    ClassList   = ["npc-bonus"],
+                    Style       = new() { UldPartId = npc.BonusType },
+                    InheritTags = true,
                 },
             ]
         };

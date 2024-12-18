@@ -16,7 +16,7 @@ internal sealed partial class CustomDeliveriesPopup
             new(
                 "#AllowanceStatus",
                 new() {
-                    Size          = new(200, 0),
+                    Size          = new(248, 0),
                     Padding       = new(6, 4) { Top = 0 },
                     Font          = 0,
                     FontSize      = 11,
@@ -115,6 +115,14 @@ internal sealed partial class CustomDeliveriesPopup
                     Color        = new("Misc.CustomDeliveriesFilledHeart"),
                     OutlineColor = new("Widget.PopupMenuTextOutline"),
                     Opacity      = 1,
+                }
+            ),
+            new(
+                ".npc-bonus",
+                new() {
+                    Size = new(38, 28),
+                    UldPartsId = 10,
+                    UldResource = "ui/uld/ContentsInfoSatisfaction"
                 }
             ),
             new(
