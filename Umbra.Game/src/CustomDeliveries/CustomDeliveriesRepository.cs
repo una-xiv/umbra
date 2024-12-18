@@ -29,6 +29,7 @@ internal sealed unsafe class CustomDeliveriesRepository : ICustomDeliveriesRepos
         { 8, 182 },  // Ameliance -- Old Sharlayan
         { 9, 144 },  // Anden -- Lydha Lran
         { 10, 167 }, // Margrat -- Sharlyan Hamlet
+        { 11, 208 }, // Nitowikwe -- Sheshenewezi Springs
     };
 
     private IDataManager DataManager { get; }
@@ -95,7 +96,7 @@ internal sealed unsafe class CustomDeliveriesRepository : ICustomDeliveriesRepos
 
         DeliveriesRemainingThisWeek = ssm->GetRemainingAllowances();
 
-        for (var i = 0; i < 10; i++) {
+        for (var i = 0; i < ssm->SatisfactionRanks.Length; i++) {
             byte heartCount    = ssm->SatisfactionRanks[i]; // 1 ~ 5 (Hearts in the UI)
             byte usedAllowance = ssm->UsedAllowances[i];
 
@@ -113,6 +114,7 @@ internal sealed unsafe class CustomDeliveriesRepository : ICustomDeliveriesRepos
                         6  => 61666,
                         9  => 61671,
                         10 => 61673,
+                        11 => 61674,
                         _  => 0,
                     };
                 }
