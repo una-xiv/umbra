@@ -96,9 +96,25 @@ internal sealed unsafe class CustomDeliveriesRepository : ICustomDeliveriesRepos
 
         DeliveriesRemainingThisWeek = ssm->GetRemainingAllowances();
 
-        for (var i = 0; i < ssm->SatisfactionRanks.Length; i++) {
+        var npcNum = ssm->SatisfactionRanks.Length;
+        var adjustedTimestamp = ssm->TimeAdjustmentForBonusGuarantee + FFXIVClientStructs.FFXIV.Client.System.Framework.Framework.GetServerTime();
+        var satisfactionBonusGuaranteeRowId = (uint)((adjustedTimestamp - 1657008000) / 604800 % npcNum);
+        var satisfactionBonusGuarantee = DataManager.GetExcelSheet<SatisfactionBonusGuarantee>().GetRow(satisfactionBonusGuaranteeRowId);
+
+        for (var i = 0; i < npcNum; i++) {
             byte heartCount    = ssm->SatisfactionRanks[i]; // 1 ~ 5 (Hearts in the UI)
             byte usedAllowance = ssm->UsedAllowances[i];
+            int? bonusType     = null;
+
+            if (heartCount == 5)
+                for (var j = 0; j < 2; j++) {
+                    if (satisfactionBonusGuarantee.BonusDoH[j] == i + 1)
+                        bonusType = 5;
+                    if (satisfactionBonusGuarantee.BonusDoL[j] == i + 1)
+                        bonusType = 6;
+                    if (satisfactionBonusGuarantee.BonusFisher[j] == i + 1)
+                        bonusType = 7;
+                }
 
             SatisfactionSupplyNpc? npc = SupplyNpcs.GetValueOrDefault(i + 1);
             if (npc == null) continue;
@@ -106,18 +122,7 @@ internal sealed unsafe class CustomDeliveriesRepository : ICustomDeliveriesRepos
             if (!QuestManager.IsQuestComplete(npc.RequiredQuest)) continue;
 
             if (!Npcs.TryGetValue(i + 1, out CustomDeliveryNpc? customNpc)) {
-                var iconId = npc.IconId;
-
-                if (npc.IconId == 0) {
-                    // Not all NPCs have an icon, so we need to manually set it.
-                    iconId = (i + 1) switch {
-                        6  => 61666,
-                        9  => 61671,
-                        10 => 61673,
-                        11 => 61674,
-                        _  => 0,
-                    };
-                }
+                var iconId = npc.IconIds[heartCount];
 
                 customNpc = new() {
                     Id                   = i + 1,
@@ -125,13 +130,15 @@ internal sealed unsafe class CustomDeliveriesRepository : ICustomDeliveriesRepos
                     IconId               = iconId,
                     HeartCount           = heartCount,
                     DeliveriesThisWeek   = usedAllowance,
-                    MaxDeliveriesPerWeek = npc.MaxDeliveriesPerWeek
+                    MaxDeliveriesPerWeek = npc.MaxDeliveriesPerWeek,
+                    BonusType            = bonusType,
                 };
 
                 Npcs.Add(i + 1, customNpc);
             } else {
                 customNpc.HeartCount         = heartCount;
                 customNpc.DeliveriesThisWeek = usedAllowance;
+                customNpc.BonusType          = bonusType;
             }
         }
     }
@@ -145,7 +152,7 @@ internal sealed unsafe class CustomDeliveriesRepository : ICustomDeliveriesRepos
                 (int)s.RowId,
                 new(
                     s.QuestRequired.RowId,
-                    (uint)s.Icon,
+                    s.RankParams.Select(t => (uint)t.ImageId).ToArray(),
                     s.DeliveriesPerWeek,
                     s.Npc.Value.Singular.ExtractText()
                 )
@@ -155,7 +162,7 @@ internal sealed unsafe class CustomDeliveriesRepository : ICustomDeliveriesRepos
 
     private record SatisfactionSupplyNpc(
         uint   RequiredQuest,
-        uint   IconId,
+        uint[]   IconIds,
         byte   MaxDeliveriesPerWeek,
         string Name
     );
