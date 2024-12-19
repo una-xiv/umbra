@@ -391,6 +391,7 @@ internal class UmbraColors
         Color.AssignByName("Misc.DurabilityBar",                  0xFF4c8eb9);
         Color.AssignByName("Misc.SpiritbondBar",                  0xFFb98e4c);
         Color.AssignByName("Misc.CompleteSpiritbondBar",          0xFFD0D0D0);
+        Color.AssignByName("Misc.MaxLevelIndicator",              0xF5A562FF);
     }
 
     private static void OnConfigProfileChanged(string _)

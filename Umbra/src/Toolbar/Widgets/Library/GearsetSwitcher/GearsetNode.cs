@@ -16,6 +16,7 @@
 
 using Dalamud.Interface;
 using System;
+using System.Linq;
 using Umbra.Common;
 using Umbra.Game;
 using Una.Drawing;
@@ -50,6 +51,8 @@ internal partial class GearsetNode : Node
 
         OnMouseUp += _ => _repository.EquipGearset(gearset.Id);
 
+        var infoClass = gearset.IsMaxLevel ? "gearset--body--info-max-level" : "gearset--body--info";
+
         ChildNodes = [
             new() {
                 Id        = "Icon",
@@ -75,8 +78,8 @@ internal partial class GearsetNode : Node
                     },
                     new() {
                         Id        = "Info",
-                        ClassList = ["gearset--body--info"],
-                        NodeValue = $"Level {gearset.JobLevel} {gearset.JobName}"
+                        ClassList = [infoClass],
+                        NodeValue = $"Level {gearset.JobLevel} {gearset.JobName}",
                     }
                 ]
             },
@@ -126,6 +129,10 @@ internal partial class GearsetNode : Node
         ExpBarFillNode.Style.Size      = new((NodeWidth - 12) * Gearset.JobXp / 100, 1);
         WarnNode.Style.IsVisible       = ShowWarningIcon;
 
+
+        if (Gearset.IsMaxLevel) {
+            InfoNode.TagsList.Add("max-level");
+        }
         if (!ShowExperiencePct) {
             IlvlNode.TagsList.Remove("with-exp-bar");
         } else {

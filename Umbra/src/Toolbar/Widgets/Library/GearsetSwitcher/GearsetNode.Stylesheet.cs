@@ -104,6 +104,12 @@ internal partial class GearsetNode
                 }
             ),
             new(
+                ".gearset--body--info:max-level",
+                new() {
+                    Color = new("Misc.MaxLevelIndicator"),
+                }
+            ),
+            new(
                 ".gearset--ilvl",
                 new() {
                     Size      = new(50, 40 - 10),

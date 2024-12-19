@@ -1429,6 +1429,8 @@
     "Color.Misc.SpiritbondBar.Description": "スピリットボンドバーに使用される色。",
     "Color.Misc.CompleteSpiritbondBar.Name": "スピリットボンドバー（完了）",
     "Color.Misc.CompleteSpiritbondBar.Description": "スピリットボンドバーが100％に達したときに使用される色。",
+    "Color.Misc.MaxLevelIndicator.Name": "最大レベルインジケーター",
+    "Color.Misc.MaxLevelIndicator.Description": "最大ジョブレベルを示すために使用される色。",
     "ToolbarProfilesWindow.Title": "ツールバープロファイル",
     "ToolbarProfilesWindow.ActiveProfile.Name": "アクティブプロファイル",
     "ToolbarProfilesWindow.ActiveProfile.Description": "ウィジェットの配置と設定に現在使用されているアクティブなプロファイル。",
