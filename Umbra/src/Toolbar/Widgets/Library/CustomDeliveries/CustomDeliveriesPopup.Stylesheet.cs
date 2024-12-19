@@ -16,7 +16,7 @@ internal sealed partial class CustomDeliveriesPopup
             new(
                 "#AllowanceStatus",
                 new() {
-                    Size          = new(200, 0),
+                    Size          = new(344, 0),
                     Padding       = new(6, 4) { Top = 0 },
                     Font          = 0,
                     FontSize      = 11,
@@ -26,17 +26,18 @@ internal sealed partial class CustomDeliveriesPopup
                     TextAlign     = Anchor.MiddleCenter,
                     BorderColor   = new() { Bottom = new("Widget.Border") },
                     BorderWidth   = new() { Bottom = 1 },
-                    IsAntialiased = false,
+                    IsAntialiased = false
                 }
             ),
             new(
                 ".npc",
                 new() {
+                    Size          = new(344, 0),
                     Flow          = Flow.Horizontal,
                     Gap           = 8,
                     Padding       = new(4),
                     BorderRadius  = 6,
-                    IsAntialiased = false,
+                    IsAntialiased = false
                 }
             ),
             new(
@@ -115,6 +116,21 @@ internal sealed partial class CustomDeliveriesPopup
                     Color        = new("Misc.CustomDeliveriesFilledHeart"),
                     OutlineColor = new("Widget.PopupMenuTextOutline"),
                     Opacity      = 1,
+                }
+            ),
+            new(
+                ".npc-bonus",
+                new() {
+                    Flow = Flow.Horizontal,
+                    Gap = 0,
+                }
+            ),
+            new (
+                ".npc-bonus--bonus",
+                new () {
+                    Size = new (38, 28),
+                    UldPartsId = 10,
+                    UldResource = "ui/uld/ContentsInfoSatisfaction",
                 }
             ),
             new(
