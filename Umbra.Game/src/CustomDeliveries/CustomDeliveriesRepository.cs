@@ -1,4 +1,4 @@
-﻿using Dalamud.Plugin.Services;
+using Dalamud.Plugin.Services;
 using Dalamud.Utility;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
@@ -29,6 +29,7 @@ internal sealed unsafe class CustomDeliveriesRepository : ICustomDeliveriesRepos
         { 8, 182 },  // Ameliance -- Old Sharlayan
         { 9, 144 },  // Anden -- Lydha Lran
         { 10, 167 }, // Margrat -- Sharlyan Hamlet
+        { 11, 208 }, // Nitowike -- Sheshenewezi Springs
     };
 
     private IDataManager DataManager { get; }
