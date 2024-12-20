@@ -1,5 +1,6 @@
 ﻿using Dalamud.Interface;
 using System.Collections.Generic;
+using System.Linq;
 using Umbra.Common;
 using Umbra.Game.CustomDeliveries;
 using Una.Drawing;
@@ -30,6 +31,8 @@ internal sealed partial class CustomDeliveriesPopup
             node.QuerySelector(".npc-body--count")!.NodeValue =
                 $"{npc.DeliveriesThisWeek} / {npc.MaxDeliveriesPerWeek}";
 
+            node.QuerySelector(".npc-bonus")!.ChildNodes = new(CreateBonus(npc));
+            
             return;
         }
 
@@ -59,12 +62,19 @@ internal sealed partial class CustomDeliveriesPopup
                         new() {
                             ClassList   = ["npc-body--hearts"],
                             InheritTags = true,
-                            ChildNodes = [
+                            ChildNodes  = [
                                 ..CreateHearts(npc)
                             ]
-                        },
+                        }
                     ]
                 },
+                new () {
+                    ClassList   = ["npc-bonus"],
+                    InheritTags = true,
+                    ChildNodes = [
+                        ..CreateBonus(npc)
+                    ]
+                }
             ]
         };
 
@@ -109,5 +119,14 @@ internal sealed partial class CustomDeliveriesPopup
         }
 
         return hearts;
+    }
+
+    private static List<Node> CreateBonus(CustomDeliveryNpc npc)
+    {
+        return npc.BonusType.Select(t => new Node {
+            ClassList   = ["npc-bonus--bonus"], 
+            Style       = new() { UldPartId = t }, 
+            InheritTags = true,
+        }).ToList();
     }
 }
