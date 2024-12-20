@@ -1429,6 +1429,8 @@
     "Color.Misc.SpiritbondBar.Description": "Farbe, die für die Bindungsleiste verwendet wird.",
     "Color.Misc.CompleteSpiritbondBar.Name": "Bindungsleiste (Vollständig)",
     "Color.Misc.CompleteSpiritbondBar.Description": "Farbe, die für den Bindungsleiste bei 100 % verwendet wird.",
+    "Color.Misc.MaxLevelIndicator.Name": "Maximallevelindikator",
+    "Color.Misc.MaxLevelIndicator.Description": "Farbe, die als Indikator für das Maximallevel eines Jobs verwendet wird.",
     "ToolbarProfilesWindow.Title": "Symbolleistenprofile",
     "ToolbarProfilesWindow.ActiveProfile.Name": "Aktives Profil",
     "ToolbarProfilesWindow.ActiveProfile.Description": "Das aktive Profil, das derzeit für die Anordnung und Einstellungen der Widgets verwendet wird.",
