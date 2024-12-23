@@ -846,6 +846,8 @@
     "Widget.GearsetSwitcher.Config.GearsetNodeWidth.Description": "ポップアップ内のギアセットボタンの幅（ピクセル単位）。",
     "Widget.GearsetSwitcher.Config.GearsetNodeHeight.Name": "ギアセットボタンの高さ",
     "Widget.GearsetSwitcher.Config.GearsetNodeHeight.Description": "ポップアップ内のギアセットボタンの高さ（ピクセル単位）。",
+    "Widget.GearsetSwitcher.Config.HideLevelIfMax.Name": "レベル上限の場合は非表示",
+    "Widget.GearsetSwitcher.Config.HideLevelIfMax.Description": "ジョブがレベル上限に達した場合、装備セットボタンでレベルを非表示にします。",
     "Widget.GearsetSwitcher.Config.AutoCloseOnChange.Name": "装備セット変更時にポップアップを自動的に閉じる",
     "Widget.GearsetSwitcher.Config.AutoCloseOnChange.Description": "装備セットが選択されたときにポップアップを自動的に閉じます。",
     "Widget.GearsetSwitcher.Config.ShowRoleNames.Name": "役割名を表示",

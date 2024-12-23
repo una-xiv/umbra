@@ -846,6 +846,8 @@
     "Widget.GearsetSwitcher.Config.GearsetNodeWidth.Description": "Die Breite der Ausrüstungstasten im Popup in Pixeln.",
     "Widget.GearsetSwitcher.Config.GearsetNodeHeight.Name": "Ausrüstungs-Schaltfläche",
     "Widget.GearsetSwitcher.Config.GearsetNodeHeight.Description": "Die Höhe der Ausrüstungs-Schaltflächen im Popup in Pixeln.",
+    "Widget.GearsetSwitcher.Config.HideLevelIfMax.Name": "Stufe ausblenden, wenn maximal",
+    "Widget.GearsetSwitcher.Config.HideLevelIfMax.Description": "Blendet die Job-Stufe in den Ausrüstungs-Slots aus, wenn der Job die maximale Stufe erreicht hat.",
     "Widget.GearsetSwitcher.Config.AutoCloseOnChange.Name": "Popup automatisch beim Ausrüstungswechsel schließen",
     "Widget.GearsetSwitcher.Config.AutoCloseOnChange.Description": "Schließt das Popup automatisch, wenn ein Ausrüstungsset ausgewählt wird.",
     "Widget.GearsetSwitcher.Config.ShowRoleNames.Name": "Rollennamen anzeigen",

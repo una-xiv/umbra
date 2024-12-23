@@ -154,6 +154,7 @@ internal sealed partial class GearsetSwitcherPopup : WidgetPopup
     public bool   ShowExperienceBar           { get; set; } = true;
     public bool   ShowExperiencePct           { get; set; } = true;
     public bool   ShowItemLevel               { get; set; } = true;
+    public bool   HideLevelIfMax              { get; set; }
     public string GearsetButtonBackgroundType { get; set; } = "GradientV";
     public string GearsetFilterPrefix         { get; set; } = "";
     public int    GearsetNodeWidth            { get; set; } = 150;
@@ -240,13 +241,12 @@ internal sealed partial class GearsetSwitcherPopup : WidgetPopup
         Node.QuerySelector("#HeaderGearsetName")!.Style.Size = new(GearsetNodeWidth, 0);
         Node.QuerySelector("#HeaderGearsetInfo")!.Style.Size = new(GearsetNodeWidth, 0);
 
-
         // Assign role containers to the configured columns.
         foreach ((GearsetCategory category, Node node) in RoleContainers) {
             node.SortIndex = GetSortIndexForRole(category);
             var target = GetColumnForRole(category);
 
-            node.Style.Size = new(GearsetNodeWidth, 0);
+            node.Style.Size                               = new(GearsetNodeWidth, 0);
             node.QuerySelector("#RoleHeader")!.Style.Size = new(GearsetNodeWidth, GearsetNodeHeight);
             node.QuerySelector("#RoleBody")!.Style.Size   = new(GearsetNodeWidth + 8, 0);
 
@@ -311,6 +311,7 @@ internal sealed partial class GearsetSwitcherPopup : WidgetPopup
             node.ShowWarningIcon   = ShowWarningIcon;
             node.ShowExperienceBar = ShowExperienceBar;
             node.ShowExperiencePct = ShowExperiencePct;
+            node.HideLevelIfMax    = HideLevelIfMax;
 
             node.Update();
         }

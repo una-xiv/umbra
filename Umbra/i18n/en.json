@@ -846,6 +846,8 @@
     "Widget.GearsetSwitcher.Config.GearsetNodeWidth.Description": "The width of the gearset buttons in the popup in pixels.",
     "Widget.GearsetSwitcher.Config.GearsetNodeHeight.Name": "Gearset button height",
     "Widget.GearsetSwitcher.Config.GearsetNodeHeight.Description": "The height of the gearset buttons in the popup in pixels.",
+    "Widget.GearsetSwitcher.Config.HideLevelIfMax.Name": "Hide level when capped",
+    "Widget.GearsetSwitcher.Config.HideLevelIfMax.Description": "Hides the job level in the gearset buttons when the job is at the level cap.",
     "Widget.GearsetSwitcher.Config.AutoCloseOnChange.Name": "Auto-close popup on gearset change",
     "Widget.GearsetSwitcher.Config.AutoCloseOnChange.Description": "Automatically closes the popup when a gearset is selected.",
     "Widget.GearsetSwitcher.Config.ShowRoleNames.Name": "Show role names",

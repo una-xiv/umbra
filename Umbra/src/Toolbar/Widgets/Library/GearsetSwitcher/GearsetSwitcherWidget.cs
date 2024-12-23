@@ -93,6 +93,7 @@ internal sealed partial class GearsetSwitcherWidget(
         Popup.ShowExperiencePct           = GetConfigValue<bool>("ShowExperiencePct");
         Popup.ShowItemLevel               = GetConfigValue<bool>("ShowButtonItemLevel");
         Popup.ShowWarningIcon             = GetConfigValue<bool>("ShowWarningIcon");
+        Popup.HideLevelIfMax              = GetConfigValue<bool>("HideLevelIfMax");
         Popup.GearsetFilterPrefix         = GetConfigValue<string>("GearsetFilterPrefix");
         Popup.GearsetNodeWidth            = GetConfigValue<int>("GearsetNodeWidth");
         Popup.GearsetNodeHeight           = GetConfigValue<int>("GearsetNodeHeight");

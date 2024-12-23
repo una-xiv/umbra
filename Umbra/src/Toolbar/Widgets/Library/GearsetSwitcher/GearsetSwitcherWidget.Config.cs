@@ -118,6 +118,12 @@ internal partial class GearsetSwitcherWidget
                 0xFF212021
             ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
             new BooleanWidgetConfigVariable(
+                "HideLevelIfMax",
+                I18N.Translate("Widget.GearsetSwitcher.Config.HideLevelIfMax.Name"),
+                I18N.Translate("Widget.GearsetSwitcher.Config.HideLevelIfMax.Description"),
+                false
+            ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
+            new BooleanWidgetConfigVariable(
                 "AutoCloseOnChange",
                 I18N.Translate("Widget.GearsetSwitcher.Config.AutoCloseOnChange.Name"),
                 I18N.Translate("Widget.GearsetSwitcher.Config.AutoCloseOnChange.Description"),

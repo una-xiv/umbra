@@ -8,5 +8,5 @@ public class CustomDeliveryNpc
     public byte   HeartCount           { get; internal set; }
     public byte   DeliveriesThisWeek   { get; internal set; }
     public byte   MaxDeliveriesPerWeek { get; internal set; }
-    public int[]  BonusType            { get; internal set; }
+    public int[]  BonusType            { get; internal set; } = [];
 }

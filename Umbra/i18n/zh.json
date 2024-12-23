@@ -846,6 +846,8 @@
     "Widget.GearsetSwitcher.Config.GearsetNodeWidth.Description": "弹出窗口中装备按钮的宽度，以像素为单位。",
     "Widget.GearsetSwitcher.Config.GearsetNodeHeight.Name": "装备按钮高度",
     "Widget.GearsetSwitcher.Config.GearsetNodeHeight.Description": "弹出窗口中装备按钮的高度（像素）。",
+    "Widget.GearsetSwitcher.Config.HideLevelIfMax.Name": "达到上限时隐藏等级",
+    "Widget.GearsetSwitcher.Config.HideLevelIfMax.Description": "当职业达到等级上限时，在装备栏按钮中隐藏等级。",
     "Widget.GearsetSwitcher.Config.AutoCloseOnChange.Name": "选择套装时自动关闭弹出窗口",
     "Widget.GearsetSwitcher.Config.AutoCloseOnChange.Description": "当选择套装时自动关闭弹出窗口。",
     "Widget.GearsetSwitcher.Config.ShowRoleNames.Name": "显示职能名称",
