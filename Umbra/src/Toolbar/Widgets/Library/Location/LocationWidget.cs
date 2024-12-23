@@ -75,7 +75,14 @@ internal partial class LocationWidget(
         }
 
         districtLabel = districtLabel.Trim();
-        showDistrict  = showDistrict && !string.IsNullOrEmpty(districtLabel);
+
+        if (string.IsNullOrEmpty(districtLabel) && name.Contains(" - ")) {
+            string[] chunks = name.Split(" - ");
+            name          = chunks[0];
+            districtLabel = string.Join(" - ", chunks[1..]);
+        }
+
+        showDistrict = showDistrict && !string.IsNullOrEmpty(districtLabel);
 
         if (useTwoLabels && showDistrict) {
             SetTwoLabels(name, districtLabel);
