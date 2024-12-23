@@ -22,8 +22,19 @@ internal sealed partial class CustomDeliveriesPopup : WidgetPopup
             Repository.DeliveriesRemainingThisWeek
         );
 
+        int maxBonus  = 0;
+        int menuWidth = 160;
+
         foreach (var npc in Repository.Npcs.Values) {
             CreateOrUpdateNpcNode(npc);
+            maxBonus = Math.Max(maxBonus, npc.BonusType.Length);
+        }
+
+        menuWidth += (maxBonus > 0 ? 8 + (maxBonus * 38) : 0);
+
+        Node.QuerySelector("#AllowanceStatus")!.Style.Size = new(menuWidth, 0);
+        foreach (var node in Node.QuerySelectorAll(".npc")) {
+            node.Style.Size = new(menuWidth, 0);
         }
 
         ContextMenu = new(
