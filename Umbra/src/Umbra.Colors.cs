@@ -310,6 +310,7 @@ internal class UmbraColors
 
     public static void RegisterDefaultColors()
     {
+        // Colors are in ABGR format.
         Color.AssignByName("Window.Background",                   0xFF212021);
         Color.AssignByName("Window.BackgroundLight",              0xFF292829);
         Color.AssignByName("Window.Border",                       0xFF484848);
@@ -391,7 +392,7 @@ internal class UmbraColors
         Color.AssignByName("Misc.DurabilityBar",                  0xFF4c8eb9);
         Color.AssignByName("Misc.SpiritbondBar",                  0xFFb98e4c);
         Color.AssignByName("Misc.CompleteSpiritbondBar",          0xFFD0D0D0);
-        Color.AssignByName("Misc.MaxLevelIndicator",              0xF5A562FF);
+        Color.AssignByName("Misc.MaxLevelIndicator",              0xFF62A5F5);
     }
 
     private static void OnConfigProfileChanged(string _)
