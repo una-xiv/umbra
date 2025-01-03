@@ -23,14 +23,14 @@ internal sealed partial class CustomDeliveriesPopup : WidgetPopup
         );
 
         int maxBonus  = 0;
-        int menuWidth = 160;
+        int menuWidth = 200;
 
         foreach (var npc in Repository.Npcs.Values) {
             CreateOrUpdateNpcNode(npc);
             maxBonus = Math.Max(maxBonus, npc.BonusType.Length);
         }
 
-        menuWidth += (maxBonus > 0 ? 8 + (maxBonus * 38) : 0);
+        menuWidth += (maxBonus > 0 ? 8 + (maxBonus * 42) : 0);
 
         Node.QuerySelector("#AllowanceStatus")!.Style.Size = new(menuWidth, 0);
         foreach (var node in Node.QuerySelectorAll(".npc")) {
