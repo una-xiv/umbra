@@ -50,7 +50,7 @@ internal sealed class ZoneMarkerFactory(IDataManager dataManager)
         { ZoneMarkerType.Mailbox, [60551] },
         { ZoneMarkerType.HuntVendor, [60571] },
         { ZoneMarkerType.Taxi, [60311] },
-        { ZoneMarkerType.Ferry, [60352, 60456] },
+        { ZoneMarkerType.Ferry, [60352, 60456, 63970] },
         { ZoneMarkerType.ChocoboTender, [60842] },
         { ZoneMarkerType.GoldSaucerEmployee, [60582] },
         { ZoneMarkerType.FashionReportNpc, [60960] },
