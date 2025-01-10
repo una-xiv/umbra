@@ -52,8 +52,6 @@ internal partial class GearsetNode : Node
 
         OnMouseUp += _ => _repository.EquipGearset(gearset.Id);
 
-        var infoClass = gearset.IsMaxLevel ? "gearset--body--info-max-level" : "gearset--body--info";
-
         ChildNodes = [
             new() {
                 Id        = "Icon",
@@ -79,7 +77,7 @@ internal partial class GearsetNode : Node
                     },
                     new() {
                         Id        = "Info",
-                        ClassList = [infoClass],
+                        ClassList = ["gearset--body--info"],
                         NodeValue = $"Level {gearset.JobLevel} {gearset.JobName}",
                     }
                 ]
