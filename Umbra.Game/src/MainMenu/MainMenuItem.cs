@@ -128,9 +128,11 @@ public sealed class MainMenuItem : IDisposable
         AgentHUD* agentHud = AgentHUD.Instance();
         if (agentHud == null) return;
 
+        if (CommandId == null) return;
+
         IsDisabled = false
             == (
-                agentHud->IsMainCommandEnabled(CommandId!.Value) && uiModule->IsMainCommandUnlocked(CommandId!.Value)
+                agentHud->IsMainCommandEnabled(CommandId.Value) && uiModule->IsMainCommandUnlocked(CommandId.Value)
             );
 
         if (CommandId == 36) {
