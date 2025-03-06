@@ -46,6 +46,7 @@ internal sealed partial class DynamicMenuPopup : WidgetPopup
     {
         EmptyButtonPlaceholder.Style.IsVisible   = EditModeEnabled;
         EmptyButtonPlaceholder.Style.BorderWidth = new() { Top = Entries.Count > 0 ? 1 : 0 };
+        EmptyButtonPlaceholder.Tooltip = I18N.Translate("Widget.DynamicMenu.EmptyButtonPlaceholderTooltip");
 
         RebuildMenu();
     }

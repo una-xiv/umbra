@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Dalamud.Game.Text;
+using System;
 using System.Xml.Serialization;
 using Umbra.Common;
 using Umbra.Widgets.Library.ShortcutPanel.Providers;
@@ -17,7 +18,7 @@ internal sealed partial class DynamicMenuPopup
             },
             new() {
                 Id        = "EmptyButtonPlaceholder",
-                NodeValue = I18N.Translate("Widget.DynamicMenu.EmptyButtonPlaceholder"),
+                NodeValue = $"{SeIconChar.MouseRightClick.ToIconString()} {I18N.Translate("Widget.DynamicMenu.EmptyButtonPlaceholder")}",
             }
         ],
         BeforeReflow = node => {
