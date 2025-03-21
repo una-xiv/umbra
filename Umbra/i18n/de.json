@@ -964,7 +964,7 @@
     "Widget.Volume.Channel.PERF": "PERF",
     "Widget.Volume.Tooltip.Bg.On": "Aktiviert, wenn das Spiel im Hintergrund läuft.",
     "Widget.Volume.Tooltip.Bg.Off": "Deaktiviert, wenn das Spiel im Hintergrund läuft.",
-    "Widget.Volume.Option.SoundChocobo": "Musik abspielen, wenn montiert",
+    "Widget.Volume.Option.SoundChocobo": "Reittiermusik abspielen",
     "Widget.Volume.Option.SoundFieldBattle": "Normale Musik während des Kampfes abspielen",
     "Widget.Volume.Option.SoundHousing": "Stadtstaatmusik in Wohngebieten abspielen",
     "Widget.Volume.Option.SoundHousing.Description": "Erfordert, dass du den Bereich erneut betrittst, um wirksam zu werden.",
