@@ -43,8 +43,7 @@ internal unsafe partial class FlagWidget
     {
         AgentMap* agentMap = AgentMap.Instance();
 
-        return null != agentMap
-            && 0 != agentMap->IsFlagMarkerSet;
+        return null != agentMap && agentMap->IsFlagMarkerSet;
     }
 
     private void UpdateWidgetInfoState()

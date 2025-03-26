@@ -107,15 +107,15 @@ internal unsafe class EquipmentRepository : IEquipmentRepository
             lowestDurability  = Math.Min(lowestDurability, equipment->Condition);
             highestDurability = Math.Max(highestDurability, equipment->Condition);
 
-            if (equipment->Spiritbond > 0) {
+            if (equipment->SpiritbondOrCollectability > 0) {
                 spiritbondFilled++;
-                lowestSpiritbond = Math.Min(lowestSpiritbond, equipment->Spiritbond);
+                lowestSpiritbond = Math.Min(lowestSpiritbond, equipment->SpiritbondOrCollectability);
             }
 
-            highestSpiritbond = Math.Max(highestSpiritbond, equipment->Spiritbond);
+            highestSpiritbond = Math.Max(highestSpiritbond, equipment->SpiritbondOrCollectability);
 
             totalDurability += equipment->Condition;
-            totalSpiritbond += equipment->Spiritbond;
+            totalSpiritbond += equipment->SpiritbondOrCollectability;
 
             var item = _dataManager.GetExcelSheet<Item>().GetRow(equipment->ItemId);
 
@@ -124,7 +124,7 @@ internal unsafe class EquipmentRepository : IEquipmentRepository
                 item.Icon,
                 (byte)slot,
                 (byte)(equipment->Condition / DurabilityRatioPercentage),
-                (byte)(equipment->Spiritbond / SpiritbondRatioPercentage)
+                (byte)(equipment->SpiritbondOrCollectability / SpiritbondRatioPercentage)
             );
         }
 

@@ -60,7 +60,7 @@ internal sealed unsafe partial class FlagWidget(
     /// <inheritdoc/>
     protected override void OnUpdate()
     {
-        if (0 == AgentMap.Instance()->IsFlagMarkerSet) {
+        if (!AgentMap.Instance()->IsFlagMarkerSet) {
             Node.Style.IsVisible = false;
             return;
         }
@@ -103,7 +103,7 @@ internal sealed unsafe partial class FlagWidget(
     private static void OnRightClick()
     {
         if (!IsFlagMarkerSet()) return;
-        AgentMap.Instance()->IsFlagMarkerSet = 0;
+        AgentMap.Instance()->IsFlagMarkerSet = false;
     }
 
     private void Broadcast()

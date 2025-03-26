@@ -39,24 +39,25 @@ internal sealed class Plugin : IDalamudPlugin
     {
         PluginInterface = plugin;
         plugin.Inject(this);
-
+        
+        
         DrawingLib.Setup(plugin);
-
+        
         RegisterServices();
-
+        
         ClientState.Login  += OnLogin;
         ClientState.Logout += OnLogout;
-
+        
         if (ClientState.IsLoggedIn) OnLogin();
     }
 
     public void Dispose()
     {
         if (ClientState.IsLoggedIn) OnLogout(0, 0);
-
+        
         ClientState.Login  -= OnLogin;
         ClientState.Logout -= OnLogout;
-
+        
         DrawingLib.Dispose();
     }
 

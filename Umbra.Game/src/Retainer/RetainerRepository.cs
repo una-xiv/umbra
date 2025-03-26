@@ -23,7 +23,7 @@ internal unsafe class RetainerRepository(
     public IEnumerable<Retainer> GetRetainers()
     {
         RetainerManager* rm = RetainerManager.Instance();
-        if (rm == null || rm->Ready == 0) return [];
+        if (rm == null || !rm->IsReady) return [];
 
         List<Retainer> retainers = [];
 

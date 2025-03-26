@@ -50,7 +50,7 @@ internal class FlagMarkerFactory : WorldMarkerFactory
 
         AgentMap* agentMap = AgentMap.Instance();
 
-        if (!enabled || agentMap is null || agentMap->IsFlagMarkerSet == 0) {
+        if (!enabled || agentMap is null || !agentMap->IsFlagMarkerSet) {
             RemoveAllMarkers();
             return;
         }

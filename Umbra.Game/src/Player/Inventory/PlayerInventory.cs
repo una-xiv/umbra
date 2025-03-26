@@ -29,7 +29,7 @@ internal class PlayerInventory : IPlayerInventory
             InventoryManager*   im  = InventoryManager.Instance();
             InventoryContainer* inv = im->GetInventoryContainer(type);
 
-            if (inv->Loaded == 0 || inv->Size == 0) return 0;
+            if (!inv->IsLoaded || inv->Size == 0) return 0;
 
             uint usedSpace = 0;
 
@@ -54,7 +54,7 @@ internal class PlayerInventory : IPlayerInventory
             InventoryManager*   im  = InventoryManager.Instance();
             InventoryContainer* inv = im->GetInventoryContainer(type);
 
-            return inv->Loaded == 0 ? 0 : inv->Size;
+            return !inv->IsLoaded ? 0 : inv->Size;
         } catch {
             // Absolute failsafe in case the inventory type is not available.
             // We are safeguarding for this before calling this method, but

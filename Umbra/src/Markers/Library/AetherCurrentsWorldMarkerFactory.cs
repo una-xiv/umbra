@@ -60,7 +60,7 @@ internal class AetherCurrentsWorldMarkerFactory(IObjectTable objectTable, IZoneM
             var obj = (GameObject*)gameObject.Address;
             if (obj == null || obj->EventHandler == null) continue;
 
-            if (obj->EventHandler->Info.EventId.ContentId != EventHandlerType.AetherCurrent) continue;
+            if (obj->EventHandler->Info.EventId.ContentId != EventHandlerContent.AetherCurrent) continue;
 
             uint aetherCurrentId = obj->EventHandler->Info.EventId;
             if (ps->IsAetherCurrentUnlocked(aetherCurrentId) || (obj->TargetableStatus & ObjectTargetableFlags.IsTargetable) == 0) continue;
