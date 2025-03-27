@@ -138,7 +138,8 @@ internal sealed class Zone : IZone
             }
 
             DynamicMarkers.AddRange(
-                map->ActiveLevequestMarkers
+                map->ActiveLevequestMarker
+                    .MarkerData
                     .ToList()
                     .Where(m => m.MapId == Id)
                     .Select(m => _markerFactory.FromMapMarkerData(MapSheet, m))
