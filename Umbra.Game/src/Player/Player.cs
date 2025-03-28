@@ -385,7 +385,7 @@ internal sealed class Player : IPlayer
             return;
         }
 
-        IsMaxLevel              = hud->ExpIsMaxLevel;
+        IsMaxLevel              = hud->ExpFlags.HasFlag(AgentHudExpFlag.MaxLevel);
         CurrentExperience       = hud->ExpCurrentExperience;
         RestedExperience        = hud->ExpRestedExperience;
         TotalRequiredExperience = hud->ExpNeededExperience;
