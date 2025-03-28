@@ -22,7 +22,6 @@ using Dalamud.Memory;
 using FFXIVClientStructs.FFXIV.Client.Game.Fate;
 using Umbra.Common;
 using Umbra.Game;
-using FateState = Dalamud.Game.ClientState.Fates.FateState;
 
 namespace Umbra.Markers.Library;
 
@@ -76,7 +75,7 @@ internal class FateMarkerFactory(IZoneManager zoneManager) : WorldMarkerFactory
 
             var id       = $"FATE_{fate->FateId}";
             var progress = "";
-            var state    = (FateState)fate->State;
+            var state    = fate->State;
 
             if (fate->Progress > 0) {
                 progress = $" - {fate->Progress}%";
