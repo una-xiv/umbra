@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Dalamud.NET.Sdk/12.0.2">
     <PropertyGroup>
         <OutputPath>..\out\$(Configuration)\</OutputPath>
@@ -35,13 +35,5 @@
         <ProjectReference Include="..\Umbra.Common\Umbra.Common.csproj" />
         <ProjectReference Include="..\Umbra.Game\Umbra.Game.csproj" />
         <ProjectReference Include="..\drawing\Una.Drawing\Una.Drawing.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <EditorConfigFiles Remove="D:\source\repos\umbra\Umbra\.editorconfig" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <None Include="D:\source\repos\umbra\Umbra\.editorconfig" />
     </ItemGroup>
 </Project>
