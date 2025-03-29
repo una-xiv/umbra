@@ -7,12 +7,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Umbra.Common;
-using Umbra.Game.Localization;
+using static Dalamud.Interface.Utility.Raii.ImRaii;
 
 namespace Umbra.Widgets.Library.ShortcutPanel.Providers;
 
 [Service]
-internal sealed class MountShortcutProvider(IDataManager dataManager, TextDecoder decoder) : AbstractShortcutProvider
+internal sealed class MountShortcutProvider(IDataManager dataManager) : AbstractShortcutProvider
 {
     public override string ShortcutType          => "MO"; // Mount
     public override string PickerWindowTitle     => I18N.Translate("Widget.ShortcutPanel.PickerWindow.Mount.Title");
@@ -40,16 +40,15 @@ internal sealed class MountShortcutProvider(IDataManager dataManager, TextDecode
         foreach (var mount in mounts) {
             if (!ps->IsMountUnlocked(mount.RowId)) continue;
 
-            if (searchFilter != null
-                && !mount
-                    .Singular.ToDalamudString()
-                    .TextValue.Contains(searchFilter, StringComparison.OrdinalIgnoreCase))
+            var mountName = GetMountName(mount);
+
+            if (searchFilter != null && !mountName.Contains(searchFilter, StringComparison.OrdinalIgnoreCase))
                 continue;
 
             shortcuts.Add(
                 new() {
                     Id          = mount.RowId,
-                    Name        = decoder.ProcessNoun("Mount", mount.RowId),
+                    Name        = mountName,
                     Description = "",
                     IconId      = mount.Icon
                 }
@@ -69,7 +68,7 @@ internal sealed class MountShortcutProvider(IDataManager dataManager, TextDecode
 
         return new() {
             Id         = id,
-            Name       = decoder.ProcessNoun("Mount", id),
+            Name       = GetMountName(mount.Value),
             IconId     = mount.Value.Icon,
             IsDisabled = !PlayerState.Instance()->IsMountUnlocked((ushort)id),
         };
@@ -83,4 +82,7 @@ internal sealed class MountShortcutProvider(IDataManager dataManager, TextDecode
 
         am->UseAction(ActionType.Mount, id);
     }
+
+    private string GetMountName(in Mount mount)
+        => mount.Singular.ExtractText().StripSoftHyphen().FirstCharToUpper();
 }
