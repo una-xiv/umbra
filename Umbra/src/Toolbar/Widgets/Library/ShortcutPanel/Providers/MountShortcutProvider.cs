@@ -7,7 +7,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Umbra.Common;
-using static Dalamud.Interface.Utility.Raii.ImRaii;
 
 namespace Umbra.Widgets.Library.ShortcutPanel.Providers;
 
