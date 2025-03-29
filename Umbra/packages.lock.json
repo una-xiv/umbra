@@ -14,11 +14,6 @@
         "resolved": "1.2.25",
         "contentHash": "xCXiw7BCxHJ8pF6wPepRUddlh2dlQlbr81gXA72hdk4FLHkKXas7EH/n+fk5UCA/YfMqG1Z6XaPiUjDbUNBUzg=="
       },
-      "Microsoft.Extensions.ObjectPool": {
-        "type": "Transitive",
-        "resolved": "9.0.0",
-        "contentHash": "UbsU/gYe4nv1DeqMXIVzDfNNek7Sk2kKuAOXL/Y+sLcAR0HwFUqzg1EPiU88jeHNe0g81aPvvHbvHarQr3r9IA=="
-      },
       "SkiaSharp": {
         "type": "Transitive",
         "resolved": "3.118.0-preview.1.2",
@@ -39,15 +34,11 @@
         "contentHash": "pjcuvrYCJ74gPdz+W327JcwJKyy5QVXOfVXxAKnih+n1d8b6A0m41LNqlOMhUzfbpl4TDnqB19KraMWZqiaVjg=="
       },
       "umbra.common": {
-        "type": "Project",
-        "dependencies": {
-          "Microsoft.Extensions.ObjectPool": "[9.0.0, )"
-        }
+        "type": "Project"
       },
       "umbra.game": {
         "type": "Project",
         "dependencies": {
-          "Microsoft.Extensions.ObjectPool": "[9.0.0, )",
           "Umbra.Common": "[1.0.0, )"
         }
       },
