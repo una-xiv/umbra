@@ -792,6 +792,8 @@
     "Widget.GearsetSwitcher.EquipRecommendedGear": "Equip recommended gear",
     "Widget.GearsetSwitcher.UpdateGearset": "Update gearset",
     "Widget.GearsetSwitcher.CreateGearset": "Create new gearset",
+    "Widget.GearsetSwitcher.RandomJob": "Pick a random job",
+    "Widget.GearsetSwitcher.RandomJob.Toast": "Equipped gearset {0}.",
     "Widget.GearsetSwitcher.Role.Tank": "Tank",
     "Widget.GearsetSwitcher.Role.Healer": "Healer",
     "Widget.GearsetSwitcher.Role.Melee": "Melee",

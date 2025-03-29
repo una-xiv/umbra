@@ -792,6 +792,8 @@
     "Widget.GearsetSwitcher.EquipRecommendedGear": "Équiper l'équipement recommandé",
     "Widget.GearsetSwitcher.UpdateGearset": "Mettre à jour l'ensemble d'équipement",
     "Widget.GearsetSwitcher.CreateGearset": "Créer un nouvel ensemble d'équipement",
+    "Widget.GearsetSwitcher.RandomJob": "Choisis un job au hasard",
+    "Widget.GearsetSwitcher.RandomJob.Toast": "Set d'équipement {0} équipé.",
     "Widget.GearsetSwitcher.Role.Tank": "Tank",
     "Widget.GearsetSwitcher.Role.Healer": "Soigneur",
     "Widget.GearsetSwitcher.Role.Melee": "Mêlée",

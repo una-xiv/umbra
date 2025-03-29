@@ -15,8 +15,6 @@
  */
 
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
-using FFXIVClientStructs.FFXIV.Client.UI.Misc;
-using System;
 using Umbra.Common;
 using Umbra.Game;
 using Una.Drawing;
@@ -60,6 +58,15 @@ internal sealed partial class GearsetSwitcherPopup
             8,
             I18N.Translate("Widget.GearsetSwitcher.CreateGearset")
         );
+        
+        
+        Node randomJob = CreateUldHeaderButtonNode(
+            "RandomJob",
+            uld,
+            15,
+            3,
+            I18N.Translate("Widget.GearsetSwitcher.RandomJob")
+        );
 
         Node node = new() {
             Stylesheet = GearsetSwitcherHeaderStylesheet,
@@ -86,6 +93,7 @@ internal sealed partial class GearsetSwitcherPopup
                                 openGlamButton,
                                 updateButton,
                                 duplicateButton,
+                                randomJob
                             ]
                         }
                     ]
@@ -96,10 +104,17 @@ internal sealed partial class GearsetSwitcherPopup
                 }
             ]
         };
+        
 
         updateButton.OnMouseUp    += _ => _gearsetRepository.UpdateEquippedGearset();
         duplicateButton.OnMouseUp += _ => _gearsetRepository.DuplicateEquippedGearset();
-
+        randomJob.OnMouseUp       += _ => {
+            Gearset? gs = _gearsetRepository.EquipRandomJob();
+            if (null != gs) {
+                _toastGui.ShowNormal(I18N.Translate("Widget.GearsetSwitcher.RandomJob.Toast", gs.Name));
+            }
+        };
+        
         openGlamButton.OnMouseUp += _ => {
             _player.UseGeneralAction(25); // Glamour Plate.
             Close();

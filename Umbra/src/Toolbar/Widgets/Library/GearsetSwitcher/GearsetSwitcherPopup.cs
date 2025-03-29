@@ -48,7 +48,8 @@ internal sealed partial class GearsetSwitcherPopup : WidgetPopup
     private readonly IDataManager       _dataManager;
     private readonly IGearsetRepository _gearsetRepository;
     private readonly IPlayer            _player;
-
+    private readonly IToastGui          _toastGui;
+    
     private Gearset? _currentGearset;
     private Gearset? _ctxSelectedGearset;
 
@@ -57,6 +58,7 @@ internal sealed partial class GearsetSwitcherPopup : WidgetPopup
         _dataManager       = Framework.Service<IDataManager>();
         _gearsetRepository = Framework.Service<IGearsetRepository>();
         _player            = Framework.Service<IPlayer>();
+        _toastGui          = Framework.Service<IToastGui>();
 
         ForcePopupInMainViewport = true;
 

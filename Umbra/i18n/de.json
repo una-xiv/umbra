@@ -792,6 +792,8 @@
     "Widget.GearsetSwitcher.EquipRecommendedGear": "Empfohlene Ausrüstung ausrüsten",
     "Widget.GearsetSwitcher.UpdateGearset": "Ausrüstungsset aktualisieren",
     "Widget.GearsetSwitcher.CreateGearset": "Neues Ausrüstungsset erstellen",
+    "Widget.GearsetSwitcher.RandomJob": "Wähle einen zufälligen Job",
+    "Widget.GearsetSwitcher.RandomJob.Toast": "Ausrüstungsset {0} ausgerüstet.",
     "Widget.GearsetSwitcher.Role.Tank": "Verteidiger",
     "Widget.GearsetSwitcher.Role.Healer": "Heiler",
     "Widget.GearsetSwitcher.Role.Melee": "Nahkampf",

@@ -792,6 +792,8 @@
     "Widget.GearsetSwitcher.EquipRecommendedGear": "おすすめの装備を装備する",
     "Widget.GearsetSwitcher.UpdateGearset": "装備セットを更新する",
     "Widget.GearsetSwitcher.CreateGearset": "新しい装備セットを作成する",
+    "Widget.GearsetSwitcher.RandomJob": "ランダムなジョブを選ぶ",
+    "Widget.GearsetSwitcher.RandomJob.Toast": "装備セット {0} を装備した。",
     "Widget.GearsetSwitcher.Role.Tank": "タンク",
     "Widget.GearsetSwitcher.Role.Healer": "ヒーラー",
     "Widget.GearsetSwitcher.Role.Melee": "近接",

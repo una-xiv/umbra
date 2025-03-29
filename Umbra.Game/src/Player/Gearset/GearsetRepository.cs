@@ -36,7 +36,7 @@ internal sealed class GearsetRepository : IGearsetRepository, IDisposable
 
     public Gearset? CurrentGearset { get; private set; }
 
-    private readonly Dictionary<ushort, Gearset> _gearsets      = [];
+    private readonly Dictionary<ushort, Gearset> _gearsets = [];
     private readonly Dictionary<ushort, Gearset> _validGearsets = [];
 
     private readonly Hook<RaptureGearsetModule.Delegates.LinkGlamourPlate> _linkGlamourPlateHook;
@@ -58,22 +58,19 @@ internal sealed class GearsetRepository : IGearsetRepository, IDisposable
 
         _linkGlamourPlateHook.Enable();
 
-        for (ushort i = 0; i < 100; i++)
-        {
+        for (ushort i = 0; i < 100; i++) {
             var gearset = new Gearset(i, categoryRepository, player);
 
             _gearsets.Add(i, gearset);
 
-            gearset.OnCreated += () =>
-            {
+            gearset.OnCreated += () => {
                 _validGearsets.Add(gearset.Id, gearset);
                 OnGearsetCreated?.Invoke(gearset);
             };
 
             gearset.OnChanged += () => { OnGearsetChanged?.Invoke(gearset); };
 
-            gearset.OnRemoved += () =>
-            {
+            gearset.OnRemoved += () => {
                 _validGearsets.Remove(gearset.Id);
                 OnGearsetRemoved?.Invoke(gearset);
             };
@@ -122,10 +119,14 @@ internal sealed class GearsetRepository : IGearsetRepository, IDisposable
         _linkGlamourPlateHook.Dispose();
         CurrentGearset = null;
 
-        foreach (var handler in OnGearsetCreated?.GetInvocationList() ?? []) OnGearsetCreated -= (Action<Gearset>)handler;
-        foreach (var handler in OnGearsetChanged?.GetInvocationList() ?? []) OnGearsetChanged -= (Action<Gearset>)handler;
-        foreach (var handler in OnGearsetRemoved?.GetInvocationList() ?? []) OnGearsetRemoved -= (Action<Gearset>)handler;
-        foreach (var handler in OnGearsetEquipped?.GetInvocationList() ?? []) OnGearsetEquipped -= (Action<Gearset>)handler;
+        foreach (var handler in OnGearsetCreated?.GetInvocationList() ?? [])
+            OnGearsetCreated -= (Action<Gearset>)handler;
+        foreach (var handler in OnGearsetChanged?.GetInvocationList() ?? [])
+            OnGearsetChanged -= (Action<Gearset>)handler;
+        foreach (var handler in OnGearsetRemoved?.GetInvocationList() ?? [])
+            OnGearsetRemoved -= (Action<Gearset>)handler;
+        foreach (var handler in OnGearsetEquipped?.GetInvocationList() ?? [])
+            OnGearsetEquipped -= (Action<Gearset>)handler;
     }
 
     /// <summary>
@@ -135,8 +136,7 @@ internal sealed class GearsetRepository : IGearsetRepository, IDisposable
     /// <exception cref="KeyNotFoundException"></exception>
     public unsafe void EquipGearset(ushort id)
     {
-        if (!_gearsets.TryGetValue(id, out var gs))
-        {
+        if (!_gearsets.TryGetValue(id, out var gs)) {
             throw new KeyNotFoundException($"Gearset #{id} does not exist.");
         }
 
@@ -158,8 +158,7 @@ internal sealed class GearsetRepository : IGearsetRepository, IDisposable
 
         if (amp == null) return;
 
-        if (!_player.IsInSanctuary)
-        {
+        if (!_player.IsInSanctuary) {
             Framework.Service<IToastGui>().ShowError(I18N.Translate("UnableToApplyGlamourPlatesHere"));
             return;
         }
@@ -213,8 +212,7 @@ internal sealed class GearsetRepository : IGearsetRepository, IDisposable
 
         sbyte newId = gsm->CreateGearset();
 
-        if (newId == -1)
-        {
+        if (newId == -1) {
             Logger.Error($"Failed to create gearset.");
         }
 
@@ -240,7 +238,7 @@ internal sealed class GearsetRepository : IGearsetRepository, IDisposable
 
         var result = stackalloc AtkValue[1];
         var values = stackalloc AtkValue[2];
-        values[0].SetInt(2);          // case
+        values[0].SetInt(2); // case
         values[1].SetInt(gearset.Id); // gearsetIndex
         AgentGearSet.Instance()->ReceiveEvent(result, values, 2, 0);
     }
@@ -259,6 +257,47 @@ internal sealed class GearsetRepository : IGearsetRepository, IDisposable
         if (null != newId) ReassignGearset(gearset, newId.Value);
     }
 
+    public Gearset? EquipRandomJob()
+    {
+        // Find the highest level job in category tank/healer/dps.
+        var highestLevelJob = _gearsets
+            .Values
+            .Where(g => g is {
+                IsValid: true,
+                IsCurrent: true,
+                Category: GearsetCategory.Tank
+                or GearsetCategory.Healer
+                or GearsetCategory.Melee
+                or GearsetCategory.Ranged
+            })
+            .MaxBy(g => g.JobLevel);
+
+        if (highestLevelJob == null) return null;
+
+        // Grab a list of all jobs with the same level.
+        var sameLevelJobs = _gearsets
+            .Values
+            .Where(g => g is {
+                IsValid: true,
+                IsCurrent: false,
+                Category: GearsetCategory.Tank
+                or GearsetCategory.Healer
+                or GearsetCategory.Melee
+                or GearsetCategory.Ranged,
+            } && g.JobLevel == highestLevelJob.JobLevel)
+            .ToList();
+
+        if (sameLevelJobs.Count == 0) return null;
+
+        // Pick a random job from the list.
+        var randomJob = sameLevelJobs[Random.Shared.Next(0, sameLevelJobs.Count)];
+
+        // Equip the random job.
+        EquipGearset(randomJob.Id);
+
+        return randomJob;
+    }
+
     [OnTick(interval: 250)]
     public unsafe void OnTick()
     {
@@ -269,17 +308,14 @@ internal sealed class GearsetRepository : IGearsetRepository, IDisposable
 
         var currentGearset = _gearsets[(ushort)gsm->CurrentGearsetIndex];
 
-        if (currentGearset is { IsCurrent: true, IsValid: true })
-        {
+        if (currentGearset is { IsCurrent: true, IsValid: true }) {
             CurrentGearset = currentGearset;
         }
 
-        foreach (var gearset in _gearsets.Values)
-        {
+        foreach (var gearset in _gearsets.Values) {
             gearset.Sync();
 
-            if (gearset is { IsValid: true, IsCurrent: true })
-            {
+            if (gearset is { IsValid: true, IsCurrent: true }) {
                 CurrentGearset = gearset;
             }
         }
@@ -291,21 +327,19 @@ internal sealed class GearsetRepository : IGearsetRepository, IDisposable
 
         Logger.Debug($"Attempting to reassign gearset #{oldId} to #{newId}...");
 
-        if (newId is < 0 or > 99)
-        {
+        if (newId is < 0 or > 99) {
             Logger.Warning($"Cannot reassign gearset #{oldId} to #{newId}. The new ID exceeds the bounds of 0~99.");
             return;
         }
 
         RaptureGearsetModule* gsm = RaptureGearsetModule.Instance();
-        RaptureHotbarModule*  hbm = RaptureHotbarModule.Instance();
+        RaptureHotbarModule* hbm = RaptureHotbarModule.Instance();
 
         if (null == gsm || null == hbm) return;
 
         int assignedId = gsm->ReassignGearsetId(oldId, newId);
 
-        if (assignedId < 0)
-        {
+        if (assignedId < 0) {
             Logger.Error($"Failed to assign gearset #{oldId} to #{newId}. (Error: {assignedId})");
             return;
         }

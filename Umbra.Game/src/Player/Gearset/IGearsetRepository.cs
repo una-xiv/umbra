@@ -95,6 +95,11 @@ public interface IGearsetRepository
     public void DuplicateEquippedGearset();
 
     /// <summary>
+    /// Equips a random DoW/DoM job and returns the gearset.
+    /// </summary>
+    public Gearset? EquipRandomJob();
+
+    /// <summary>
     /// Updates the currently equipped gearset.
     /// </summary>
     public void UpdateEquippedGearset();

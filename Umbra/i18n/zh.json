@@ -792,6 +792,8 @@
     "Widget.GearsetSwitcher.EquipRecommendedGear": "装备推荐的装备",
     "Widget.GearsetSwitcher.UpdateGearset": "更新装备套装",
     "Widget.GearsetSwitcher.CreateGearset": "创建新装备套装",
+    "Widget.GearsetSwitcher.RandomJob": "随机选择一个职业",
+    "Widget.GearsetSwitcher.RandomJob.Toast": "已装备套装 {0}。",
     "Widget.GearsetSwitcher.Role.Tank": "坦克",
     "Widget.GearsetSwitcher.Role.Healer": "治疗",
     "Widget.GearsetSwitcher.Role.Melee": "近战",
