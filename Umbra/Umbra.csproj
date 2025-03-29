@@ -1,15 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project Sdk="Microsoft.NET.Sdk">
-    <Import Project="..\Dalamud.Plugin.Bootstrap.targets" />
-
+<Project Sdk="Dalamud.NET.Sdk/12.0.2">
     <PropertyGroup>
-        <TargetFramework>net9.0-windows</TargetFramework>
-        <Platforms>x64</Platforms>
-        <Nullable>enable</Nullable>
-        <LangVersion>latest</LangVersion>
-        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-        <ProduceReferenceAssembly>false</ProduceReferenceAssembly>
-        <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
         <OutputPath>..\out\$(Configuration)\</OutputPath>
     </PropertyGroup>
 
@@ -18,7 +9,7 @@
         <Company>Una-XIV</Company>
         <Version>2.3.11</Version>
         <Description>Umbra UI</Description>
-        <Copyright>(C)2024, by Una</Copyright>
+        <Copyright>(C)2025, by Una</Copyright>
         <PackageProjectUrl>https://github.com/una-xiv/umbra</PackageProjectUrl>
         <PackageLicenseExpression>AGPL-3.0-or-later</PackageLicenseExpression>
         <IsPackable>false</IsPackable>
@@ -46,21 +37,10 @@
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Update="DalamudPackager" Version="12.0.0" />
-    </ItemGroup>
-
-    <ItemGroup>
       <EditorConfigFiles Remove="D:\source\repos\umbra\Umbra\.editorconfig" />
     </ItemGroup>
 
     <ItemGroup>
       <None Include="D:\source\repos\umbra\Umbra\.editorconfig" />
-    </ItemGroup>
-    
-    <ItemGroup>
-        <Reference Include="InteropGenerator.Runtime">
-            <HintPath>$(DalamudLibPath)InteropGenerator.Runtime.dll</HintPath>
-            <Private>false</Private>
-        </Reference>
     </ItemGroup>
 </Project>
