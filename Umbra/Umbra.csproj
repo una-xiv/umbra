@@ -17,9 +17,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Content Include="Umbra.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </Content>
+        <Content Include="Umbra.json" CopyToOutputDirectory="PreserveNewest" />
     </ItemGroup>
 
     <ItemGroup>
