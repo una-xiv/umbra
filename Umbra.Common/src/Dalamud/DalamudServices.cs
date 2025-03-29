@@ -26,6 +26,8 @@ using Dalamud.Plugin.Services;
 
 namespace Umbra.Common;
 
+#pragma warning disable SeStringEvaluator
+
 internal sealed class DalamudServices
 {
     [PluginService] private IPluginLog Log { get; init; } = null!;
@@ -81,6 +83,8 @@ internal sealed class DalamudServices
     [PluginService] private ITitleScreenMenu TitleScreenMenu { get; init; } = null!;
 
     [PluginService] private IToastGui ToastGui { get; init; } = null!;
+
+    [PluginService] private ISeStringEvaluator SeStringEvaluator { get; init; } = null!;
 
     [PluginService] private ISigScanner SigScanner { get; init; } = null!;
 

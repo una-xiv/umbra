@@ -1,4 +1,6 @@
-﻿using Dalamud.Plugin.Services;
+﻿using Dalamud.Game;
+using Dalamud.Game.ClientState.Objects.Enums;
+using Dalamud.Plugin.Services;
 using Dalamud.Utility;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
@@ -7,12 +9,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Umbra.Common;
-using Umbra.Game.Localization;
 
 namespace Umbra.Widgets.Library.ShortcutPanel.Providers;
 
+#pragma warning disable SeStringEvaluator
+
 [Service]
-internal sealed class MinionShortcutProvider(IDataManager dataManager, TextDecoder decoder) : AbstractShortcutProvider
+internal sealed class MinionShortcutProvider(IDataManager dataManager, ISeStringEvaluator evaluator) : AbstractShortcutProvider
 {
     public override string ShortcutType          => "MI"; // Minion
     public override string PickerWindowTitle     => I18N.Translate("Widget.ShortcutPanel.PickerWindow.Minion.Title");
@@ -49,7 +52,7 @@ internal sealed class MinionShortcutProvider(IDataManager dataManager, TextDecod
             shortcuts.Add(
                 new() {
                     Id          = minion.RowId,
-                    Name        = decoder.ProcessNoun("Companion", minion.RowId),
+                    Name        = evaluator.EvaluateObjStr(ObjectKind.Companion, minion.RowId),
                     Description = $"{minion.MinionRace.ValueNullable?.Name.ExtractText()}",
                     IconId      = minion.Icon
                 }
@@ -69,7 +72,7 @@ internal sealed class MinionShortcutProvider(IDataManager dataManager, TextDecod
 
         return new() {
             Id         = minion.Value.RowId,
-            Name       = decoder.ProcessNoun("Companion", minion.Value.RowId),
+            Name       = evaluator.EvaluateObjStr(ObjectKind.Companion, minion.Value.RowId),
             IconId     = minion.Value.Icon,
             IsDisabled = !UIState.Instance()->IsCompanionUnlocked((ushort)id),
         };
