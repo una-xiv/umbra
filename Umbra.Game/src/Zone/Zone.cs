@@ -69,7 +69,7 @@ internal sealed class Zone : IZone
         MapSheet            = dataManager.GetExcelSheet<Sheet.Map>().GetRow(zoneId);
         Type                = (TerritoryType)MapSheet.TerritoryType.Value.TerritoryIntendedUse.Value.RowId;
         TerritoryId         = MapSheet.TerritoryType.RowId;
-        Name                = MapSheet.PlaceName.Value.Name.ExtractText();
+        Name                = GetHousingZoneName() ?? MapSheet.PlaceName.Value.Name.ExtractText();
         SubName             = MapSheet.PlaceNameSub.Value.Name.ExtractText();
         RegionName          = MapSheet.PlaceNameRegion.Value.Name.ExtractText();
         Offset              = new(MapSheet.OffsetX, MapSheet.OffsetY);
@@ -108,6 +108,7 @@ internal sealed class Zone : IZone
 
         IsSanctuary = territoryInfo->InSanctuary;
         InstanceId  = UIState.Instance()->PublicInstance.InstanceId;
+        Name = GetHousingZoneName() ?? MapSheet.PlaceName.Value.Name.ExtractText();
 
         HousingManager* housingManager = HousingManager.Instance();
 
@@ -234,6 +235,21 @@ internal sealed class Zone : IZone
                 CurrentWeather = new(time, timeString, WeatherForecast[0].Name, WeatherForecast[0].IconId);
             }
         }
+    }
+
+    private unsafe string? GetHousingZoneName()
+    {
+        if (!HousingManager.Instance()->IsInside())
+            return null;
+
+        var housingTerritoryTypeId = HousingManager.GetOriginalHouseTerritoryTypeId();
+        if (housingTerritoryTypeId == 0)
+            return null;
+
+        if (!_dataManager.Excel.GetSheet<Sheet.TerritoryType>().TryGetRow(housingTerritoryTypeId, out var territory))
+            return null;
+
+        return territory.Map.ValueNullable?.PlaceName.ValueNullable?.Name.ExtractText();
     }
 
     private unsafe string GetHousingDistrictName()
