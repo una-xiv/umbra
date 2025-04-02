@@ -16,7 +16,6 @@
 
 using FFXIVClientStructs.FFXIV.Client.UI;
 using System.Collections.Generic;
-using System.Numerics;
 using Umbra.Common;
 using Umbra.Game;
 
@@ -25,8 +24,8 @@ namespace Umbra.Widgets;
 [ToolbarWidget("Companion", "Widget.Companion.Name", "Widget.Companion.Description")]
 [ToolbarWidgetTags(["companion", "chocobo", "pet", "summon", "buddy"])]
 internal sealed partial class CompanionWidget(
-    WidgetInfo                  info,
-    string?                     guid         = null,
+    WidgetInfo info,
+    string? guid = null,
     Dictionary<string, object>? configValues = null
 ) : DefaultToolbarWidget(info, guid, configValues)
 {

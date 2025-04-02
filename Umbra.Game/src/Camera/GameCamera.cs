@@ -17,6 +17,7 @@
 using System.Numerics;
 using FFXIVClientStructs.FFXIV.Client.Graphics.Scene;
 using ImGuiNET;
+using System;
 using Umbra.Common;
 
 namespace Umbra.Game;
@@ -60,5 +61,11 @@ internal sealed class GameCamera : IGameCamera
         Vector3 toPoint         = worldPos - _cameraPosition;
 
         return Vector3.Dot(cameraDirection, toPoint) > 0;
+    }
+    
+    public float GetCameraAngle()
+    {
+        Vector3 cameraDirection = Vector3.Normalize(_lookAtVector - _cameraPosition);
+        return MathF.Atan2(cameraDirection.Z, cameraDirection.X);
     }
 }
