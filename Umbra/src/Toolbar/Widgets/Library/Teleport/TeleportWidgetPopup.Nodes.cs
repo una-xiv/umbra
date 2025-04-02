@@ -265,6 +265,10 @@ internal partial class TeleportWidgetPopup
             return;
         }
 
+        if (item.IsDisabled) {
+            return; // Don't show disabled items in this widget.
+        }
+        
         uint iconId = 0;
 
         if (item.Icon is uint u) {
