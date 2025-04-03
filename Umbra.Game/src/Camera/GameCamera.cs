@@ -66,6 +66,12 @@ internal sealed class GameCamera : IGameCamera
     public float GetCameraAngle()
     {
         Vector3 cameraDirection = Vector3.Normalize(_lookAtVector - _cameraPosition);
-        return MathF.Atan2(cameraDirection.Z, cameraDirection.X);
+        var result = MathF.Atan2(cameraDirection.Z, cameraDirection.X);
+        
+        if (float.IsNaN(result)) {
+            return 0;
+        }
+
+        return result;
     }
 }
