@@ -5,8 +5,7 @@ using Umbra.Common;
 using Umbra.Widgets.System;
 using Umbra.Windows;
 using Umbra.Windows.Components;
-using Umbra.Windows.Library.VariablesWindow;
-using Una.Drawing;
+using Umbra.Windows.Library.VariableEditor;
 
 namespace Umbra.Widgets;
 
@@ -88,7 +87,7 @@ internal sealed class WidgetInstanceEditor : IDisposable
 
             windowManager.Present(
                 "WidgetInstanceEditor",
-                new VariablesWindow(
+                new VariablesEditorWindow(
                     widget.GetInstanceName(),
                     _variables.Keys.ToList(),
                     [_copyButton, _pasteButton]
@@ -103,8 +102,8 @@ internal sealed class WidgetInstanceEditor : IDisposable
         {
             _isDisposed = true;
 
-            foreach (Variable variable in _variables.Keys) variable.Dispose();
-            _variables.Clear();
+            // foreach (Variable variable in _variables.Keys) variable.Dispose();
+            // _variables.Clear();
 
             OnDisposed?.Invoke();
 
@@ -137,7 +136,7 @@ internal sealed class WidgetInstanceEditor : IDisposable
                     case FloatVariable f when wVar is FloatWidgetConfigVariable wf:
                         f.Value = wf.Value;
                         break;
-                    case IconIdVariable ic when wVar is IconIdWidgetConfigVariable wic:
+                    case GameIconVariable ic when wVar is IconIdWidgetConfigVariable wic:
                         ic.Value = wic.Value;
                         break;
                     case IntegerVariable i when wVar is IntegerWidgetConfigVariable wi:
@@ -164,9 +163,11 @@ internal sealed class WidgetInstanceEditor : IDisposable
                         Category    = i.Category,
                         Name        = i.Name,
                         Description = i.Description,
+                        Group       = i.Group,
                         Value       = i.Value,
                         Min         = i.MinValue,
                         Max         = i.MaxValue,
+                        DisplayIf   = i.DisplayIf,
                     };
 
                     intVar.ValueChanged += v => widget.SetConfigValue(i.Id, v);
@@ -174,25 +175,29 @@ internal sealed class WidgetInstanceEditor : IDisposable
                     return intVar;
                 }
                 case IconIdWidgetConfigVariable i: {
-                    IconIdVariable iconVar = new(i.Id) {
+                    GameIconVariable gameIconVar = new(i.Id) {
                         Category    = i.Category,
                         Name        = i.Name,
                         Description = i.Description,
+                        Group       = i.Group,
                         Value       = i.Value,
+                        DisplayIf   = i.DisplayIf,
                     };
 
-                    iconVar.ValueChanged += v => widget.SetConfigValue(i.Id, v);
+                    gameIconVar.ValueChanged += v => widget.SetConfigValue(i.Id, v);
 
-                    return iconVar;
+                    return gameIconVar;
                 }
                 case FloatWidgetConfigVariable f: {
                     FloatVariable floatVar = new(f.Id) {
                         Category    = f.Category,
                         Name        = f.Name,
                         Description = f.Description,
+                        Group       = f.Group,
                         Value       = f.Value,
                         Min         = f.MinValue,
                         Max         = f.MaxValue,
+                        DisplayIf   = f.DisplayIf,
                     };
 
                     floatVar.ValueChanged += v => widget.SetConfigValue(f.Id, v);
@@ -204,7 +209,9 @@ internal sealed class WidgetInstanceEditor : IDisposable
                         Category    = b.Category,
                         Name        = b.Name,
                         Description = b.Description,
+                        Group       = b.Group,
                         Value       = b.Value,
+                        DisplayIf   = b.DisplayIf,
                     };
 
                     boolVar.ValueChanged += v => widget.SetConfigValue(b.Id, v);
@@ -216,7 +223,9 @@ internal sealed class WidgetInstanceEditor : IDisposable
                         Category    = s.Category,
                         Name        = s.Name,
                         Description = s.Description,
+                        Group       = s.Group,
                         Value       = s.Value,
+                        DisplayIf   = s.DisplayIf,
                     };
 
                     stringVar.ValueChanged += v => widget.SetConfigValue(s.Id, v);
@@ -228,8 +237,10 @@ internal sealed class WidgetInstanceEditor : IDisposable
                         Category    = select.Category,
                         Name        = select.Name,
                         Description = select.Description,
+                        Group       = select.Group,
                         Value       = select.Value,
                         Choices     = select.Options,
+                        DisplayIf   = select.DisplayIf,
                     };
 
                     selectVar.ValueChanged += v => widget.SetConfigValue(select.Id, v);
@@ -241,7 +252,9 @@ internal sealed class WidgetInstanceEditor : IDisposable
                         Category    = c.Category,
                         Name        = c.Name,
                         Description = c.Description,
+                        Group       = c.Group,
                         Value       = c.Value,
+                        DisplayIf   = c.DisplayIf,
                     };
 
                     colorVar.ValueChanged += v => widget.SetConfigValue(c.Id, v);
@@ -253,12 +266,45 @@ internal sealed class WidgetInstanceEditor : IDisposable
                         Category    = fa.Category,
                         Name        = fa.Name,
                         Description = fa.Description,
+                        Group       = fa.Group,
                         Value       = fa.Value,
+                        DisplayIf   = fa.DisplayIf,
                     };
 
                     faVar.ValueChanged += v => widget.SetConfigValue(fa.Id, v);
 
                     return faVar;
+                }
+                case GameGlyphWidgetConfigVariable gg: {
+                    GameGlyphVariable ggVar = new(gg.Id) {
+                        Category    = gg.Category,
+                        Name        = gg.Name,
+                        Description = gg.Description,
+                        Group       = gg.Group,
+                        Value       = gg.Value,
+                        DisplayIf   = gg.DisplayIf,
+                    };
+
+                    ggVar.ValueChanged += v => widget.SetConfigValue(gg.Id, v);
+
+                    return ggVar;
+                }
+                case BitmapIconWidgetConfigVariable bi: {
+                    BitmapIconVariable biVar = new(bi.Id) {
+                        Category    = bi.Category,
+                        Name        = bi.Name,
+                        Description = bi.Description,
+                        Group       = bi.Group,
+                        Value       = bi.Value,
+                        DisplayIf   = bi.DisplayIf,
+                    };
+
+                    biVar.ValueChanged += v => widget.SetConfigValue(bi.Id, v);
+
+                    return biVar;
+                }
+                case IEnumWidgetConfigVariable e: {
+                    return e.CreateEnumVariable(widget);
                 }
                 default:
                     Logger.Warning($"No conversion for {var.GetType().Name}.");

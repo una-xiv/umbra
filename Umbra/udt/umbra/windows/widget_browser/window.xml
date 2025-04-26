@@ -1,0 +1,132 @@
+﻿<udt>
+    <node id="main">
+        <node class="search-panel">
+            <node class="icon" value="FA(Search)"/>
+            <node class="input">
+                <string-input-node id="search" immediate="true"/>
+            </node>
+        </node>
+        <node class="body" overflow="false">
+            <node class="list" id="widgets"/>
+        </node>
+        <node class="footer ui-window-footer">
+            <node class="buttons">
+                <button-node id="cancel-button" label="_L(Cancel)" is-ghost="true"/>
+                <button-node id="confirm-button" label="Add" is-disabled="true"/>
+            </node>
+        </node>
+    </node>
+    
+    <template name="widget">
+        <argument name="label"/>
+        <argument name="description"/>
+        
+        <node class="widget">
+            <node class="label ui-text-default" value="${label}"/>
+            <node class="description ui-text-muted" value="${description}"/>
+            <node class="deprecated ui-text-default"/>
+        </node>
+        
+    </template>
+    
+    <![CDATA[
+    @import "globals";
+    
+    #main {
+        flow: vertical;
+        auto-size: grow;
+        
+        & > .search-panel {
+            auto-size: grow fit;
+            padding: 8;
+            background-color: "Window.Background";
+            border-color: "Window.Border";
+            border-width: 0 0 1 0;
+            gap: 8;
+            
+            & > .icon {
+                anchor: middle-left;
+                size: 16;
+                font: 2; // FontAwesome
+                font-size: 16;
+                color: "Window.TextMuted";
+                text-align: middle-center;
+            }
+            
+            & > .input {
+                anchor: middle-left; 
+                auto-size: grow fit; 
+            }
+        }
+        
+        & > .body {
+            auto-size: grow;
+            background-color: "Window.Background";
+            scrollbar-track-color: "Window.Background";
+            
+            & > .list {
+                flow: vertical;
+                background-color: "Input.Background";
+                border-radius: 5;
+                auto-size: grow fit;
+                padding: 8;
+                margin: 8;
+                gap: 8;
+            }
+        }
+        
+        & > .footer {
+            & > .buttons {
+                anchor: middle-right;
+                padding: 8;
+                gap: 8;
+            }
+        }
+    }
+    
+    .widget {
+        flow: vertical;
+        auto-size: grow fit;
+        padding: 8;
+        background-color: "Window.Background";
+        stroke-width: 1;
+        stroke-inset: 2;
+        stroke-color: "Input.Border";
+        stroke-radius: 4;
+        border-radius: 5;
+        transition-duration: 100;
+        transition-type: ease-in-out-sine;
+        
+        & > .description {
+            auto-size: grow fit;
+            word-wrap: true;
+            text-overflow: false;
+            line-height: 1;
+        }
+        
+        & > .deprecated {
+            auto-size: grow fit;
+            is-visible: false;
+            word-wrap: true;
+            text-overflow: false;
+            line-height: 1;
+            font-size: 12;
+            padding: 16 0 0 0;
+        }
+        
+        &:hover {
+            stroke-color: "Window.AccentColor";
+            background-color: "Window.BackgroundLight";
+            
+            & > .label {
+                color: "Window.TextLight";
+            }
+        }
+        
+        &.selected {
+            background-color: "Window.BackgroundLight";
+            stroke-color: "Input.BorderHover";
+        }
+    }
+    ]]>
+</udt>

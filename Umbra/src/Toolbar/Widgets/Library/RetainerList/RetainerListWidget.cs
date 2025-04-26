@@ -4,30 +4,32 @@ using Umbra.Game;
 
 namespace Umbra.Widgets.Library.RetainerList;
 
-[ToolbarWidget("RetainerList", "Widget.RetainerList.Name", "Widget.RetainerList.Description")]
-[ToolbarWidgetTags(["retainer", "sales", "marketboard", "ventures"])]
+[ToolbarWidget("RetainerList", "Widget.RetainerList.Name", "Widget.RetainerList.Description", ["retainer", "sales", "marketboard", "ventures"])]
 internal partial class RetainerListWidget(
     WidgetInfo                  info,
     string?                     guid         = null,
     Dictionary<string, object>? configValues = null
-) : DefaultToolbarWidget(info, guid, configValues)
+) : StandardToolbarWidget(info, guid, configValues)
 {
     private IPlayer Player { get; } = Framework.Service<IPlayer>();
 
-    /// <inheritdoc/>
+    protected override StandardWidgetFeatures Features =>
+        StandardWidgetFeatures.Text |
+        StandardWidgetFeatures.Icon |
+        StandardWidgetFeatures.CustomizableIcon;
+
+    protected override string DefaultIconType => IconTypeGameIcon;
+    protected override uint   DefaultGameIconId => 60560;
+
     public override RetainerListPopup Popup { get; } = new();
 
-    /// <inheritdoc/>
-    protected override void Initialize()
+    protected override void OnLoad()
     {
-        SetLabel(Info.Name);
+        SetText(Info.Name);
     }
 
-    /// <inheritdoc/>
-    protected override void OnUpdate()
+    protected override void OnDraw()
     {
-        SetIcon(GetConfigValue<uint>("IconId"));
-
         // Not allowed to use the retainer widget while on a different world or in an instance.
         // The game performs the same checks when opening the timer window. (Thanks Hasel!)
         SetDisabled(Player.CurrentWorldName != Player.HomeWorldName || Player.IsBoundByInstancedDuty);
@@ -37,7 +39,5 @@ internal partial class RetainerListWidget(
         Popup.ShowInventory     = GetConfigValue<bool>("ShowInventory");
         Popup.ShowItemsOnSale   = GetConfigValue<bool>("ShowItemsOnSale");
         Popup.ShowVenture       = GetConfigValue<bool>("ShowVenture");
-
-        base.OnUpdate();
     }
 }

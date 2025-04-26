@@ -1,0 +1,82 @@
+﻿<udt>
+    <import from="umbra.windows.settings._shared.xml"/>
+    
+    <sidebar-layout>
+        <node slot="side" class="sidebar">
+            <node class="category-group">
+                <node class="body" id="sidebar-buttons"/>
+            </node>
+        </node>
+        <node id="main"/>
+    </sidebar-layout>
+    
+    <template name="marker-config">
+        <argument name="name"/>
+        <argument name="description"/>
+        
+        <node class="marker-config">
+            <node class="header">
+                <node class="text ui-text-default" value="${name}"/>
+                <node class="desc ui-text-muted" value="${description}"/>
+            </node>
+            <node class="body">
+                <checkbox-node class="ctrl-is-visible" label="_L(Settings.MarkersModule.Config.Enabled.Name)"/>
+                <node class="controls">
+                    <checkbox-node class="ctrl-show-on-compass" label="_L(Settings.MarkersModule.Config.ShowOnCompass.Name)" style="margin: 0 0 16 0;"/>
+                    <integer-input-node class="ctrl-fade-distance" label="_L(Settings.MarkersModule.Config.FadeDistance.Name)" description="_L(Settings.MarkersModule.Config.FadeDistance.Description)" left-margin="36" min-value="0" max-value="100"/>
+                    <integer-input-node class="ctrl-fade-attenuation" label="_L(Settings.MarkersModule.Config.FadeAttenuation.Name)" description="_L(Settings.MarkersModule.Config.FadeAttenuation.Description)" left-margin="36" min-value="0" max-value="100"/>
+                    <integer-input-node class="ctrl-max-visible-distance" label="_L(Settings.MarkersModule.Config.MaxVisibleDistance.Name)" description="_L(Settings.MarkersModule.Config.MaxVisibleDistance.Description)" left-margin="36" min-value="0"/>
+                </node>
+            </node>
+        </node>
+    </template>
+    
+    <![CDATA[
+    #main {
+        flow: vertical;
+        auto-size: grow fit;
+    }
+    
+    .marker-config {
+        flow: vertical;
+        auto-size: grow fit;
+        
+        & > .header {
+            flow: vertical;
+            auto-size: grow fit;
+            padding: 10;
+            border-color: "Window.Border";
+            border-width: 0 0 1 0;
+            
+            & > .text {
+                font-size: 18;
+            }
+            
+            & > .desc {
+                text-overflow: false;
+                word-wrap: true;
+            }
+        }
+        
+        & > .body {
+            flow: vertical;
+            auto-size: grow fit;
+            padding: 10 0;
+            gap: 6;
+            
+            & > .controls {
+                flow: vertical;
+                auto-size: grow fit;
+                gap: 6;
+                
+                & > .separator {
+                    auto-size: grow fit;
+                    size: 0 13;
+                    margin: 6 0;
+                    background-color: "Window.Border";
+                }
+            }
+        }
+    }
+    ]]>
+</udt>

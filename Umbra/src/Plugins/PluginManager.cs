@@ -171,7 +171,7 @@ internal static class PluginManager
         await Task.Delay(500);
 
         if (requiresRestart) {
-            Framework.Restart();
+            await Framework.Restart();
             return;
         }
 

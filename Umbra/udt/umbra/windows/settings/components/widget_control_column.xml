@@ -1,0 +1,64 @@
+﻿<udt>
+    <node class="column">
+        <node class="header" value="${label}"/>
+        <node class="widgets"
+              overflow="false"
+              sortable="true"
+              sortable-group-id="widgets-column"
+        >
+        </node>
+        <node class="footer">
+            <button-node id="pst-button" is-small="true" icon="Clipboard" is-ghost="true" tooltip="_L(Settings.WidgetsModule.AddFromClipboard)"/>
+            <button-node id="add-button" is-small="true" icon="Plus" label="_L(Settings.WidgetsModule.AddWidget)" is-ghost="true"/>
+            <node style="auto-size: grow fit;"/>
+            <button-node id="clr-button" is-small="true" is-ghost="true" value="SeIcon(Prohibited)"/>
+        </node>
+    </node>
+    
+    <![CDATA[
+    @import "globals";
+    
+    .column {
+        flow: vertical;
+        gap: 2;
+        auto-size: grow;
+        background-color: "Input.Background";
+        border-radius: 5;
+        
+        & > .header {
+            gap: 4;
+            auto-size: grow fit;
+            padding: 8;
+            border-width: 0 0 1 0;
+            border-color: "Window.Border";
+            font: 0;
+            font-size: 14;
+            color: "Window.Text";
+            opacity: 0.45;
+            text-align: middle-center;
+        }
+        
+        & > .widgets {
+            flow: vertical;
+            auto-size: grow;
+            scrollbar-track-color: 0;
+            padding: 8;
+            gap: 8;
+            stroke-width: 1;
+            stroke-inset: 2;
+            stroke-color: 0;
+            
+            &:droppable {
+                stroke-color: "Window.AccentColor";
+            }
+        }
+        
+        & > .footer {
+            padding: 8;
+            auto-size: grow fit;
+            color: "Window.TextMuted";
+        }
+    }
+    
+    ]]>
+</udt>

@@ -1,20 +1,4 @@
-﻿/* Umbra | (c) 2024 by Una              ____ ___        ___.
- * Licensed under the terms of AGPL-3  |    |   \ _____ \_ |__ _______ _____
- *                                     |    |   //     \ | __ \\_  __ \\__  \
- * https://github.com/una-xiv/umbra    |    |  /|  Y Y  \| \_\ \|  | \/ / __ \_
- *                                     |______//__|_|  /____  /|__|   (____  /
- *     Umbra is free software: you can redistribute  \/     \/             \/
- *     it and/or modify it under the terms of the GNU Affero General Public
- *     License as published by the Free Software Foundation, either version 3
- *     of the License, or (at your option) any later version.
- *
- *     Umbra UI is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *     GNU Affero General Public License for more details.
- */
-
-using Dalamud.Plugin;
+﻿using Dalamud.Plugin;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,40 +15,48 @@ internal static class WidgetRegistry
     private static void WhenFrameworkCompiling()
     {
         Framework.Assemblies.SelectMany(asm => asm.GetTypes())
-            .Where(type => type is { IsClass: true, IsAbstract: false } && type.IsSubclassOf(typeof(ToolbarWidget)))
-            .ToList()
-            .ForEach(type =>
-            {
-                var info = type.GetCustomAttribute<ToolbarWidgetAttribute>();
-                if (info != null) {
-                    string name = I18N.Has(info.Name) ? I18N.Translate(info.Name) : info.Name;
-                    string desc = I18N.Has(info.Description) ? I18N.Translate(info.Description) : info.Description;
+                 .Where(type => type is { IsClass: true, IsAbstract: false } && type.IsSubclassOf(typeof(ToolbarWidget)))
+                 .ToList()
+                 .ForEach(type => {
+                      var deprecated = type.GetCustomAttribute<DeprecatedToolbarWidgetAttribute>();
+                      bool isDeprecated = deprecated != null;
 
-                    List<string> tags = type.GetCustomAttribute<ToolbarWidgetTagsAttribute>()?.Tags ?? [];
+                      string? altPluginName = isDeprecated && deprecated!.AlternativeWidgetName != null
+                          ? (I18N.Has(deprecated.AlternativeWidgetName) ? I18N.Translate(deprecated.AlternativeWidgetName) : deprecated.AlternativeWidgetName)
+                          : null;
 
-                    RegisteredWidgets.Add((type, new(info.Id, name, desc, null, tags)));
-                    return;
-                }
+                      string deprecatedMessage = isDeprecated
+                          ? (altPluginName != null ? I18N.Translate("Widget.Deprecated.Alt", altPluginName) : I18N.Translate("Widget.Deprecated"))
+                          : string.Empty;
+                      
+                      var info = type.GetCustomAttribute<ToolbarWidgetAttribute>();
+                      if (info != null) {
+                          string       name = I18N.Has(info.Name) ? I18N.Translate(info.Name) : info.Name;
+                          string       desc = I18N.Has(info.Description) ? I18N.Translate(info.Description) : info.Description;
+                          List<string> tags = info.SearchTags.ToList();
 
-                var info2 = type.GetCustomAttribute<InteropToolbarWidgetAttribute>();
-                if (info2 != null) {
-                    // This code runs after the login event, so we can safely check for loaded plugins.
-                    IExposedPlugin? plugin = Framework.DalamudPlugin.InstalledPlugins
-                        .FirstOrDefault(p => p.InternalName == info2.PluginName && p.IsLoaded);
+                          RegisteredWidgets.Add((type, new(info.Id, name, desc, null, tags, isDeprecated, deprecatedMessage)));
+                          return;
+                      }
 
-                    if (plugin == null) {
-                        Logger.Warning($"Could not load widget {info2.Name} because it relies on plugin {info2.PluginName} which is not loaded.");
-                        return;
-                    }
+                      var info2 = type.GetCustomAttribute<InteropToolbarWidgetAttribute>();
+                      if (info2 != null) {
+                          // This code runs after the login event, so we can safely check for loaded plugins.
+                          IExposedPlugin? plugin = Framework.DalamudPlugin.InstalledPlugins
+                                                            .FirstOrDefault(p => p.InternalName == info2.PluginName && p.IsLoaded);
 
-                    string name = I18N.Has(info2.Name) ? I18N.Translate(info2.Name) : info2.Name;
-                    string desc = I18N.Has(info2.Description) ? I18N.Translate(info2.Description) : info2.Description;
+                          if (plugin == null) {
+                              Logger.Warning($"Could not load widget {info2.Name} because it relies on plugin {info2.PluginName} which is not loaded.");
+                              return;
+                          }
 
-                    List<string> tags = type.GetCustomAttribute<ToolbarWidgetTagsAttribute>()?.Tags ?? [];
+                          string       name = I18N.Has(info2.Name) ? I18N.Translate(info2.Name) : info2.Name;
+                          string       desc = I18N.Has(info2.Description) ? I18N.Translate(info2.Description) : info2.Description;
+                          List<string> tags = info2.SearchTags.ToList();
 
-                    RegisteredWidgets.Add((type, new(info2.Id, name, desc, plugin, tags)));
-                }
-            });
+                          RegisteredWidgets.Add((type, new(info2.Id, name, desc, plugin, tags, isDeprecated, deprecatedMessage)));
+                      }
+                  });
     }
 
     [WhenFrameworkDisposing]

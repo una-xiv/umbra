@@ -1,21 +1,4 @@
-﻿/* Umbra | (c) 2024 by Una              ____ ___        ___.
- * Licensed under the terms of AGPL-3  |    |   \ _____ \_ |__ _______ _____
- *                                     |    |   //     \ | __ \\_  __ \\__  \
- * https://github.com/una-xiv/umbra    |    |  /|  Y Y  \| \_\ \|  | \/ / __ \_
- *                                     |______//__|_|  /____  /|__|   (____  /
- *     Umbra is free software: you can redistribute  \/     \/             \/
- *     it and/or modify it under the terms of the GNU Affero General Public
- *     License as published by the Free Software Foundation, either version 3
- *     of the License, or (at your option) any later version.
- *
- *     Umbra UI is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *     GNU Affero General Public License for more details.
- */
-
-using Dalamud.Game.Text.SeStringHandling;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Dalamud.Plugin.Services;
 using Umbra.Common;
 using Umbra.Game;
@@ -23,8 +6,12 @@ using Una.Drawing;
 
 namespace Umbra.Widgets;
 
-[ToolbarWidget("DtrBar", "Widget.DtrBar.Name", "Widget.DtrBar.Description")]
-[ToolbarWidgetTags(["dtr", "server", "info", "bar"])]
+[ToolbarWidget(
+    "DtrBar",
+    "Widget.DtrBar.Name",
+    "Widget.DtrBar.Description",
+    ["dtr", "server", "info", "bar"]
+)]
 internal sealed partial class DtrBarWidget(
     WidgetInfo                  info,
     string?                     guid         = null,
@@ -32,12 +19,15 @@ internal sealed partial class DtrBarWidget(
 )
     : ToolbarWidget(info, guid, configValues)
 {
+    public override Node Node { get; } = UmbraDrawing.DocumentFrom("umbra.widgets.dtr_bar.xml").RootNode!;
+
+    public override WidgetPopup? Popup => null;
+
     private IDtrBarEntryRepository? _repository;
     private IGameGui?               _gameGui;
 
     private readonly Dictionary<string, Node> _entries = [];
 
-    /// <inheritdoc/>
     protected override void Initialize()
     {
         _gameGui    = Framework.Service<IGameGui>();
@@ -50,7 +40,6 @@ internal sealed partial class DtrBarWidget(
         foreach (var entry in _repository.GetEntries()) OnDtrBarEntryAdded(entry);
     }
 
-    /// <inheritdoc/>
     protected override void OnUpdate()
     {
         UpdateNativeServerInfoBar();
@@ -64,16 +53,16 @@ internal sealed partial class DtrBarWidget(
         foreach ((string id, Node node) in _entries) {
             switch (decorateMode) {
                 case "Always":
-                    node.TagsList.Remove("ghost");
+                    node.ToggleClass("decorated", true);
                     break;
                 case "Never":
-                    if (!node.TagsList.Contains("ghost")) node.TagsList.Add("ghost");
+                    node.ToggleClass("decorated", false);
                     break;
                 case "Auto" when node.IsInteractive:
-                    node.TagsList.Remove("ghost");
+                    node.ToggleClass("decorated", true);
                     break;
                 case "Auto" when !node.IsInteractive:
-                    if (!node.TagsList.Contains("ghost")) node.TagsList.Add("ghost");
+                    node.ToggleClass("decorated", false);
                     break;
             }
 
@@ -89,34 +78,8 @@ internal sealed partial class DtrBarWidget(
                 labelNode.Style.FontSize   = GetConfigValue<int>("TextSize");
             }
         }
-
-        switch (GetConfigValue<string>("DecorateMode")) {
-            case "Always":
-                foreach (Node node in Node.QuerySelectorAll(".dtr-bar-entry")) {
-                    node.TagsList.Remove("ghost");
-                }
-
-                break;
-            case "Never":
-                foreach (Node node in Node.QuerySelectorAll(".dtr-bar-entry")) {
-                    if (!node.TagsList.Contains("ghost")) node.TagsList.Add("ghost");
-                }
-
-                break;
-            case "Auto":
-                foreach (Node node in Node.QuerySelectorAll(".dtr-bar-entry")) {
-                    if (node.IsInteractive) {
-                        node.TagsList.Remove("ghost");
-                    } else {
-                        if (!node.TagsList.Contains("ghost")) node.TagsList.Add("ghost");
-                    }
-                }
-
-                break;
-        }
     }
 
-    /// <inheritdoc/>
     protected override void OnDisposed()
     {
         if (_repository is not null) {
@@ -136,7 +99,7 @@ internal sealed partial class DtrBarWidget(
         }
 
         Node node = new() {
-            ClassList = ["toolbar-widget-default", "dtr-bar-entry"],
+            ClassList = ["dtr-bar-entry"],
             SortIndex = entry.SortIndex,
             Style = new() {
                 Anchor = Anchor.MiddleRight

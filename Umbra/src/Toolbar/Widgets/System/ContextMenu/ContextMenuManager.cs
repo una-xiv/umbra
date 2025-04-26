@@ -76,8 +76,9 @@ internal sealed class ContextMenuManager(UmbraDelvClipRects clipRects) : IDispos
         ImGui.PushStyleColor(ImGuiCol.PopupBg, 0);
 
         if (ImGui.BeginPopup(_contextMenu.Id, ImGuiWindowFlags.NoMove | ImGuiWindowFlags.NoResize | ImGuiWindowFlags.NoCollapse | ImGuiWindowFlags.NoSavedSettings)) {
-            Vector2 cursorPos = ImGui.GetCursorScreenPos();
-            Point position    = new((int)cursorPos.X + 16, (int)cursorPos.Y + 16);
+            // Vector2 cursorPos = ImGui.GetCursorScreenPos();
+            // Vector2 position    = new(cursorPos.X + 16, cursorPos.Y + 16);
+            Vector2 position = new(16, 16);
 
             _contextMenu.Node.Render(ImGui.GetWindowDrawList(), position);
 

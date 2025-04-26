@@ -1,47 +1,32 @@
-﻿/* Umbra | (c) 2024 by Una              ____ ___        ___.
- * Licensed under the terms of AGPL-3  |    |   \ _____ \_ |__ _______ _____
- *                                     |    |   //     \ | __ \\_  __ \\__  \
- * https://github.com/una-xiv/umbra    |    |  /|  Y Y  \| \_\ \|  | \/ / __ \_
- *                                     |______//__|_|  /____  /|__|   (____  /
- *     Umbra is free software: you can redistribute  \/     \/             \/
- *     it and/or modify it under the terms of the GNU Affero General Public
- *     License as published by the Free Software Foundation, either version 3
- *     of the License, or (at your option) any later version.
- *
- *     Umbra UI is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *     GNU Affero General Public License for more details.
- */
-
-using System.Collections.Generic;
-using Dalamud.Plugin.Services;
-using Dalamud.Utility;
-using Lumina.Excel.Sheets;
+﻿using System.Collections.Generic;
 using Umbra.Common;
 using Umbra.Game;
 using Una.Drawing;
 
 namespace Umbra.Widgets;
 
-[ToolbarWidget("ItemButton", "Widget.ItemButton.Name", "Widget.ItemButton.Description")]
-[ToolbarWidgetTags(["button", "item", "use", "inventory"])]
+[ToolbarWidget(
+    "ItemButton", 
+    "Widget.ItemButton.Name", 
+    "Widget.ItemButton.Description", 
+    ["button", "item", "use", "inventory"]
+)]
 internal sealed partial class ItemButtonWidget(
     WidgetInfo                  info,
     string?                     guid         = null,
     Dictionary<string, object>? configValues = null
 )
-    : DefaultToolbarWidget(info, guid, configValues)
+    : StandardToolbarWidget(info, guid, configValues)
 {
-    /// <inheritdoc/>
-    public override WidgetPopup? Popup => null;
+    protected override StandardWidgetFeatures Features => StandardWidgetFeatures.Icon | StandardWidgetFeatures.Text;
 
-    private IDataManager DataManager { get; } = Framework.Service<IDataManager>();
-    private IPlayer      Player      { get; } = Framework.Service<IPlayer>();
+    private IPlayer Player { get; } = Framework.Service<IPlayer>();
 
     private uint    ItemId   { get; set; }
     private uint?   IconId   { get; set; }
     private string? ItemName { get; set; }
+
+    protected override uint DefaultGameIconId => 14;
 
     public override string GetInstanceName()
     {
@@ -50,15 +35,12 @@ internal sealed partial class ItemButtonWidget(
             : $"{I18N.Translate("Widget.ItemButton.Name")}";
     }
 
-    /// <inheritdoc/>
-    protected override void Initialize()
+    protected override void OnLoad()
     {
-        SetLeftIcon(14);
         Node.OnClick += UseItem;
     }
 
-    /// <inheritdoc/>
-    protected override void OnUpdate()
+    protected override void OnDraw()
     {
         var itemId = (uint)GetConfigValue<int>("ItemId");
 
@@ -71,7 +53,7 @@ internal sealed partial class ItemButtonWidget(
         }
 
         Node.Style.IsVisible = !GetConfigValue<bool>("HideIfNotOwned")
-            || Player.HasItemInInventory(ItemId, 1, GetItemUsage());
+                               || Player.HasItemInInventory(ItemId, 1, GetItemUsage());
 
         bool showLabel = GetConfigValue<bool>("ShowLabel") && ItemName is not null;
         bool showCount = GetConfigValue<bool>("ShowCount");
@@ -81,11 +63,9 @@ internal sealed partial class ItemButtonWidget(
         string count = showCount ? $"{owned}" : "";
         string label = showLabel && showCount ? $"{ItemName} x {owned}" : name + count;
 
-        SetLabel(label);
+        SetText(label);
         SetDisabled(!CanUseItem());
-        SetIcon(IconId ?? 14);
-
-        base.OnUpdate();
+        SetGameIconId(IconId ?? 14);
     }
 
     private void UseItem(Node _)

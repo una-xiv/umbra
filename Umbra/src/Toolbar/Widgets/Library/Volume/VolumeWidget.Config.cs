@@ -1,20 +1,4 @@
-﻿/* Umbra | (c) 2024 by Una              ____ ___        ___.
- * Licensed under the terms of AGPL-3  |    |   \ _____ \_ |__ _______ _____
- *                                     |    |   //     \ | __ \\_  __ \\__  \
- * https://github.com/una-xiv/umbra    |    |  /|  Y Y  \| \_\ \|  | \/ / __ \_
- *                                     |______//__|_|  /____  /|__|   (____  /
- *     Umbra is free software: you can redistribute  \/     \/             \/
- *     it and/or modify it under the terms of the GNU Affero General Public
- *     License as published by the Free Software Foundation, either version 3
- *     of the License, or (at your option) any later version.
- *
- *     Umbra UI is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *     GNU Affero General Public License for more details.
- */
-
-using Dalamud.Interface;
+﻿using Dalamud.Interface;
 using System.Collections.Generic;
 using Umbra.Common;
 
@@ -22,35 +6,35 @@ namespace Umbra.Widgets;
 
 internal sealed partial class VolumeWidget
 {
-    /// <inheritdoc/>
     protected override IEnumerable<IWidgetConfigVariable> GetConfigVariables()
     {
         return [
+            ..base.GetConfigVariables(),
+            
             new FaIconWidgetConfigVariable(
                 "UpIcon",
                 I18N.Translate("Widget.Volume.Config.UpIcon.Name"),
                 I18N.Translate("Widget.Volume.Config.UpIcon.Description"),
                 FontAwesomeIcon.VolumeUp
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            ),
             new FaIconWidgetConfigVariable(
                 "DownIcon",
                 I18N.Translate("Widget.Volume.Config.DownIcon.Name"),
                 I18N.Translate("Widget.Volume.Config.DownIcon.Description"),
                 FontAwesomeIcon.VolumeDown
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            ),
             new FaIconWidgetConfigVariable(
                 "OffIcon",
                 I18N.Translate("Widget.Volume.Config.OffIcon.Name"),
                 I18N.Translate("Widget.Volume.Config.OffIcon.Description"),
                 FontAwesomeIcon.VolumeOff
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            ),
             new FaIconWidgetConfigVariable(
                 "MuteIcon",
                 I18N.Translate("Widget.Volume.Config.MuteIcon.Name"),
                 I18N.Translate("Widget.Volume.Config.MuteIcon.Description"),
                 FontAwesomeIcon.VolumeMute
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
-            ..DefaultIconToolbarWidgetConfigVariables,
+            ),
             new BooleanWidgetConfigVariable(
                 "ShowOptions",
                 I18N.Translate("Widget.Volume.Config.ShowOptions.Name"),

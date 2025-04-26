@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using Umbra.Common;
 using Umbra.Windows;
-using Umbra.Windows.Library.VariablesWindow;
+using Umbra.Windows.Library.VariableEditor;
 
-namespace Umbra.Widgets.Library.DynamicMenu;
+namespace Umbra.Widgets;
 
 internal sealed partial class DynamicMenuPopup
 {
@@ -19,12 +19,12 @@ internal sealed partial class DynamicMenuPopup
             MaxLength   = 100,
         };
 
-        List<Variable>  variables = [labelVar];
-        VariablesWindow window    = new(I18N.Translate("Widget.DynamicMenu.SeparatorEditor.Title"), variables);
+        List<Variable>        variables = [labelVar];
+        VariablesEditorWindow window    = new(I18N.Translate("Widget.DynamicMenu.SeparatorEditor.Title"), variables, []);
 
         Framework
-            .Service<WindowManager>()
-            .Present(
+           .Service<WindowManager>()
+           .Present(
                 "SeparatorEditor",
                 window,
                 _ => {

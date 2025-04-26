@@ -1,0 +1,55 @@
+﻿<!-- Toolbar Widget Base -->
+<udt>
+    <![CDATA[
+    .widget {
+        auto-size: fit grow;
+        border-radius: 5;
+        stroke-radius: 4;
+        stroke-width: 1;
+        stroke-inset: 1;
+        margin: 2 0;
+        
+        &.decorated {
+            background-color: "Widget.Background";
+            stroke-color: "Widget.Border";
+            padding: 0 0 0 6;
+        }
+        
+        & > .label {
+            anchor: middle-center;
+            gap: 4;
+            auto-size: grow fit;
+        }
+        
+        .text {
+            font: 0;
+            font-size: 13;
+            padding: 0;
+            auto-size: fit grow;
+            
+            anchor: middle-left;
+            color: "Widget.Text";
+            outline-color: "Widget.TextOutline";
+            outline-size: 2;
+            
+            &.muted { color: "Widget.TextMuted"; }
+            &.monospace { font: 1; }
+            &.size-small { font-size: 11; }
+        }
+        
+        .icon {
+            anchor: middle-center;
+            text-align: middle-center;
+            size: 22;
+            font: 2; // FontAwesome
+            font-size: 15;
+            color: "Widget.Text";
+            outline-color: "Widget.TextOutline";
+            outline-size: 2;
+        }
+    }
+    
+    .widget:hover .text { color: "Widget.TextHover"; }
+    .widget:disabled .text { color: "Widget.TextDisabled"; }
+    ]]>
+</udt>

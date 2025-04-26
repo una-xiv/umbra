@@ -1,20 +1,4 @@
-﻿/* Umbra | (c) 2024 by Una              ____ ___        ___.
- * Licensed under the terms of AGPL-3  |    |   \ _____ \_ |__ _______ _____
- *                                     |    |   //     \ | __ \\_  __ \\__  \
- * https://github.com/una-xiv/umbra    |    |  /|  Y Y  \| \_\ \|  | \/ / __ \_
- *                                     |______//__|_|  /____  /|__|   (____  /
- *     Umbra is free software: you can redistribute  \/     \/             \/
- *     it and/or modify it under the terms of the GNU Affero General Public
- *     License as published by the Free Software Foundation, either version 3
- *     of the License, or (at your option) any later version.
- *
- *     Umbra UI is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *     GNU Affero General Public License for more details.
- */
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Dalamud.Plugin.Services;
 using Dalamud.Utility;
 using Umbra.Common;
@@ -23,50 +7,41 @@ using Una.Drawing;
 
 namespace Umbra.Widgets;
 
-[ToolbarWidget("CustomButton", "Widget.CustomButton.Name", "Widget.CustomButton.Description")]
-[ToolbarWidgetTags(["button", "command", "macro", "action", "url", "website"])]
+[ToolbarWidget("CustomButton", "Widget.CustomButton.Name", "Widget.CustomButton.Description", ["button", "command", "macro", "action", "url", "website"])]
 internal sealed partial class CustomButtonWidget(
     WidgetInfo                  info,
     string?                     guid         = null,
     Dictionary<string, object>? configValues = null
 )
-    : DefaultToolbarWidget(info, guid, configValues)
+    : StandardToolbarWidget(info, guid, configValues)
 {
-    /// <inheritdoc/>
-    public override WidgetPopup? Popup => null;
+    protected override StandardWidgetFeatures Features =>
+        StandardWidgetFeatures.Text |
+        StandardWidgetFeatures.Icon | 
+        StandardWidgetFeatures.CustomizableIcon;
 
     private IChatSender      ChatSender      { get; } = Framework.Service<IChatSender>();
     private ICommandManager  CommandManager  { get; } = Framework.Service<ICommandManager>();
-    private ITextureProvider TextureProvider { get; } = Framework.Service<ITextureProvider>();
-
-    private uint?  LeftIconId  { get; set; }
-    private uint?  RightIconId { get; set; }
 
     public override string GetInstanceName()
     {
         return $"{I18N.Translate("Widget.CustomButton.Name")} - {GetConfigValue<string>("Label")}";
     }
 
-    /// <inheritdoc/>
-    protected override void Initialize()
-    {
-        SetLeftIcon(14);
+    protected override uint DefaultGameIconId => 14u;
 
+    protected override void OnLoad()
+    {
         Node.OnClick += InvokeCommand;
         Node.OnRightClick += InvokeAltCommand;
     }
 
-    /// <inheritdoc/>
-    protected override void OnUpdate()
+    protected override void OnDraw()
     {
-        SetLabel(GetConfigValue<bool>("HideLabel") ? "" : GetConfigValue<string?>("Label"));
-        UpdateIcons();
-
-        base.OnUpdate();
+        SetText(GetConfigValue<bool>("HideLabel") ? null : GetConfigValue<string?>("Label"));
 
         string tooltipString = GetConfigValue<string>("Tooltip");
         Node.Tooltip = !string.IsNullOrEmpty(tooltipString) ? tooltipString : null;
-
     }
 
     private void InvokeCommand(Node _)
@@ -77,49 +52,6 @@ internal sealed partial class CustomButtonWidget(
     private void InvokeAltCommand(Node _)
     {
         InvokeCommand(GetConfigValue<string>("AltMode"), GetConfigValue<string>("AltCommand").Trim());
-    }
-
-    private void UpdateIcons()
-    {
-        var leftIconId  = GetConfigValue<uint>("LeftIconId");
-        var rightIconId = GetConfigValue<uint>("RightIconId");
-
-        if (leftIconId != LeftIconId) {
-            LeftIconId = leftIconId;
-            SetLeftIcon(GetExistingIconId(LeftIconId ?? 0));
-        }
-
-        if (rightIconId != RightIconId) {
-            RightIconId = rightIconId;
-            SetRightIcon(GetExistingIconId(RightIconId ?? 0));
-        }
-    }
-
-    /// <summary>
-    /// Returns the ID of an icon that is bound to exist.
-    /// </summary>
-    private uint? GetExistingIconId(uint iconId)
-    {
-        uint existingCustomIconId = iconId;
-
-        if (existingCustomIconId > 0) {
-            // Make sure the icon exists.
-            if (IconByIdExists(existingCustomIconId) == false) {
-                existingCustomIconId = 0;
-            }
-        }
-
-        return existingCustomIconId == 0 ? null : existingCustomIconId;
-    }
-
-    private bool IconByIdExists(uint iconId)
-    {
-        try {
-            TextureProvider.GetIconPath(iconId);
-            return true;
-        } catch {
-            return false;
-        }
     }
 
     private void InvokeCommand(string mode, string command)

@@ -1,47 +1,32 @@
-﻿/* Umbra | (c) 2024 by Una              ____ ___        ___.
- * Licensed under the terms of AGPL-3  |    |   \ _____ \_ |__ _______ _____
- *                                     |    |   //     \ | __ \\_  __ \\__  \
- * https://github.com/una-xiv/umbra    |    |  /|  Y Y  \| \_\ \|  | \/ / __ \_
- *                                     |______//__|_|  /____  /|__|   (____  /
- *     Umbra is free software: you can redistribute  \/     \/             \/
- *     it and/or modify it under the terms of the GNU Affero General Public
- *     License as published by the Free Software Foundation, either version 3
- *     of the License, or (at your option) any later version.
- *
- *     Umbra UI is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *     GNU Affero General Public License for more details.
- */
-
-using Dalamud.Game.Text;
+﻿using Dalamud.Game.Text;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Dalamud.Plugin.Services;
-using System.IO;
 using Umbra.Common;
 using Umbra.Game;
 
 namespace Umbra.Widgets;
 
-[ToolbarWidget("MainMenu", "Widget.MainMenu.Name", "Widget.MainMenu.Description")]
-[ToolbarWidgetTags(["menu", "main", "navigation", "category"])]
+[ToolbarWidget("MainMenu", "Widget.MainMenu.Name", "Widget.MainMenu.Description", ["menu", "main", "navigation", "category"])]
 internal sealed class MainMenuWidget(
     WidgetInfo                  info,
     string?                     guid         = null,
     Dictionary<string, object>? configValues = null
-) : DefaultToolbarWidget(info, guid, configValues)
+) : StandardToolbarWidget(info, guid, configValues)
 {
-    /// <inheritdoc/>
     public override MenuPopup Popup { get; } = new();
+
+    protected override StandardWidgetFeatures Features =>
+        StandardWidgetFeatures.Text |
+        StandardWidgetFeatures.Icon |
+        StandardWidgetFeatures.CustomizableIcon;
 
     private IMainMenuRepository? _repository;
     private MainMenuCategory?    _category;
     private string?              _selectedCategory;
-    private string?              _displayMode;
-    private string?              _iconLocation;
-    private uint?                _customIconId;
+
+    private readonly Dictionary<string, MenuPopup.Button> _buttons = [];
+    private readonly Dictionary<string, MenuPopup.Group>  _groups  = [];
 
     public override string GetInstanceName()
     {
@@ -50,81 +35,62 @@ internal sealed class MainMenuWidget(
             : $"{base.GetInstanceName()} - {_category.Name}";
     }
 
-    /// <inheritdoc/>
-    protected override void Initialize()
+    protected override void OnLoad()
     {
         _repository       =  Framework.Service<IMainMenuRepository>();
-        Popup.OnPopupOpen += OnPopupOpened;
+        Popup.OnPopupOpen += OnPopup2Opened;
     }
 
-    /// <inheritdoc/>
-    protected override void OnUpdate()
+    protected override void OnUnload()
+    {
+        Popup.OnPopupOpen -= OnPopup2Opened;
+
+        if (_category is null) return;
+
+        _category.OnItemAdded   -= OnItemAdded;
+        _category.OnItemRemoved -= OnItemRemoved;
+    }
+
+    protected override void OnDraw()
     {
         var selectedCategory = GetConfigValue<string>("Category");
 
         if (selectedCategory != _selectedCategory) {
             _selectedCategory = selectedCategory;
-            _displayMode      = null;
-            _iconLocation     = null;
-            _customIconId     = null;
             SetCategory(_repository!.GetCategory(Enum.Parse<MenuCategory>(selectedCategory)));
         }
 
         if (_category is null) return;
 
-        var displayMode   = GetConfigValue<string>("DisplayMode");
-        var iconLocation  = GetConfigValue<string>("IconLocation");
-        var customIconId  = GetConfigValue<uint>("CustomIconId");
-        var showItemIcons = GetConfigValue<bool>("ShowItemIcons");
-
-        if (displayMode != _displayMode || iconLocation != _iconLocation || customIconId != _customIconId) {
-            _displayMode  = displayMode;
-            _iconLocation = iconLocation;
-            _customIconId = customIconId;
-
-            uint existingCustomIconId = customIconId;
-
-            if (existingCustomIconId > 0) {
-                // Make sure the icon exists.
-                try {
-                    Framework.Service<ITextureProvider>().GetIconPath(customIconId);
-                } catch (FileNotFoundException) {
-                    existingCustomIconId = 0;
-                }
-            }
-
-            bool hasIcon = displayMode is "IconOnly" or "TextAndIcon";
-
-            if (hasIcon) {
-                SetIcon((existingCustomIconId == 0 ? _category.GetIconId() : existingCustomIconId));
-            } else {
-                SetIcon(null);
-            }
-
-            SetLabel(_category.Name);
+        if (!GetConfigValue<bool>("UseCustomIcon")) {
+            SetGameIconId(_category.GetIconId());
         }
+
+        SetText(_category.Name);
 
         Popup.UseGrayscaleIcons = GetConfigValue<bool>("UseGrayscaleIcons");
 
-        if (Popup.IsOpen) {
+        if (Popup.IsOpen && _category != null) {
+            var showItemIcons = GetConfigValue<bool>("ShowItemIcons");
+
             foreach (var item in _category.Items) {
-                if (Popup.HasButton(item.Id)) {
-                    Popup.SetButtonDisabled(item.Id, item.IsDisabled);
-                    Popup.SetButtonAltLabel(item.Id, string.IsNullOrEmpty(item.ShortKey) ? " " : item.ShortKey);
-                    Popup.SetButtonIcon(item.Id, showItemIcons || item.Icon is SeIconChar ? item.Icon : null);
-                }
+                if (!_buttons.TryGetValue(item.Id, out var button)) continue;
+
+                button.IsDisabled = item.IsDisabled;
+                button.AltText    = string.IsNullOrEmpty(item.ShortKey) ? " " : item.ShortKey;
+                button.Icon       = showItemIcons || item.Icon is SeIconChar ? item.Icon : null;
+                button.IconColor  = item.IconColor != null ? new(item.IconColor.Value) : null;
+                button.SortIndex  = item.SortIndex;
             }
         }
-
-        base.OnUpdate();
     }
 
-    /// <inheritdoc/>
     protected override IEnumerable<IWidgetConfigVariable> GetConfigVariables()
     {
         var repository = Framework.Service<IMainMenuRepository>();
 
         return [
+            ..base.GetConfigVariables(),
             new SelectWidgetConfigVariable(
                 "Category",
                 I18N.Translate("Widget.MainMenu.Config.Category.Name"),
@@ -132,14 +98,12 @@ internal sealed class MainMenuWidget(
                 MenuCategory.Character.ToString(),
                 repository.GetCategories().ToDictionary(c => c.Category.ToString(), c => c.Name)
             ),
-            new IconIdWidgetConfigVariable(
-                "CustomIconId",
-                I18N.Translate("Widget.MainMenu.Config.CustomIconId.Name"),
-                I18N.Translate("Widget.MainMenu.Config.CustomIconId.Description"),
-                0
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
-            ..DefaultToolbarWidgetConfigVariables,
-            ..SingleLabelTextOffsetVariables,
+            new BooleanWidgetConfigVariable(
+                "UseCustomIcon",
+                I18N.Translate("Widget.MainMenu.Config.UseCustomIcon.Name"),
+                I18N.Translate("Widget.MainMenu.Config.UseCustomIcon.Description"),
+                false
+            ),
             new BooleanWidgetConfigVariable(
                 "ShowItemIcons",
                 I18N.Translate("Widget.MainMenu.Config.ShowItemIcons.Name"),
@@ -155,22 +119,15 @@ internal sealed class MainMenuWidget(
         ];
     }
 
-    protected override void OnDisposed()
-    {
-        Popup.OnPopupOpen -= OnPopupOpened;
-
-        if (_category is null) return;
-
-        _category.OnItemAdded   -= OnItemAdded;
-        _category.OnItemRemoved -= OnItemRemoved;
-    }
-
     private void SetCategory(MainMenuCategory category)
     {
+        Popup.Clear(true);
+        _buttons.Clear();
+        _groups.Clear();
+
         if (_category is not null) {
             _category.OnItemAdded   -= OnItemAdded;
             _category.OnItemRemoved -= OnItemRemoved;
-            Popup.Clear();
         }
 
         _category                =  category;
@@ -182,40 +139,55 @@ internal sealed class MainMenuWidget(
 
     private void OnItemAdded(MainMenuItem item)
     {
-        if (item.Type == MainMenuItemType.Separator) return;
-
-        if (item.ItemGroupId is not null
-            && item.ItemGroupLabel is not null
-            && Popup.HasGroup(item.ItemGroupId) == false) {
-            Popup.AddGroup(item.ItemGroupId, item.ItemGroupLabel, item.SortIndex);
+        if (_buttons.ContainsKey(item.Id)) {
+            Logger.Warning($"MainMenuWidget: Item with ID {item.Id} already exists in the popup.");
+            return;
         }
 
-        Popup.AddButton(
-            item.Id,
-            item.Name,
-            item.SortIndex,
-            item.Icon,
-            item.ShortKey,
-            item.Invoke,
-            item.ItemGroupId,
-            new(item.IconColor ?? 0)
-        );
+        if (item.ItemGroupLabel != null && !_groups.TryGetValue(item.ItemGroupLabel, out var group)) {
+            group = new MenuPopup.Group(item.ItemGroupLabel ?? "--") { SortIndex = item.SortIndex };
+            Popup.Add(group);
+            _groups.Add(item.ItemGroupLabel ?? "--", group);
+        }
+
+        switch (item.Type) {
+            case MainMenuItemType.Separator:
+                Popup.Add(new MenuPopup.Separator { SortIndex = item.SortIndex });
+                break;
+            default:
+                var button = new MenuPopup.Button(item.Id) {
+                    IsVisible         = true,
+                    Label             = item.Name,
+                    AltText           = item.ShortKey,
+                    Icon              = item.Icon,
+                    IconColor         = item.IconColor != null ? new(item.IconColor.Value) : null,
+                    IsDisabled        = item.IsDisabled,
+                    SortIndex         = item.SortIndex,
+                    ClosePopupOnClick = true,
+                    OnClick           = item.Invoke,
+                };
+
+                if (item.ItemGroupLabel != null) {
+                    _groups[item.ItemGroupLabel].Add(button);
+                    Logger.Info($"ADDED ITEM {item.Id} ({item.Name}) TO GROUP: {item.ItemGroupLabel}");
+                } else {
+                    Popup.Add(button);
+                }
+
+                _buttons.Add(item.Id, button);
+                break;
+        }
     }
 
     private void OnItemRemoved(MainMenuItem item)
     {
         if (item.Type == MainMenuItemType.Separator) return;
 
-        Popup.RemoveButton(item.Id);
-
-        if (item.ItemGroupId is not null
-            && Popup.HasGroup(item.ItemGroupId)
-            && Popup.GetGroupItemCount(item.ItemGroupId) == 0) {
-            Popup.RemoveGroup(item.ItemGroupId);
-        }
+        Popup.RemoveById(item.Id);
+        _buttons.Remove(item.Id);
     }
 
-    private void OnPopupOpened()
+    private void OnPopup2Opened()
     {
         if (string.IsNullOrEmpty(GetConfigValue<string>("Category"))) return;
         SetCategory(_repository!.GetCategory(Enum.Parse<MenuCategory>(_selectedCategory!)));

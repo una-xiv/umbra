@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Linq;
-using System.Text.Json.Serialization;
 using Umbra.Common;
 
-namespace Umbra.Widgets.Library.DynamicMenu;
+namespace Umbra.Widgets;
 
 internal sealed partial class DynamicMenuPopup
 {

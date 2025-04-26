@@ -1,0 +1,169 @@
+﻿<udt>
+    <template name="extended-expansion">
+        <argument name="label"/>
+
+        <node class="expansion">
+            <node class="header">
+                <node class="text" value="${label}"/>
+            </node>
+            <node class="list"/>
+        </node>
+    </template>
+
+    <template name="extended-region">
+        <argument name="label"/>
+
+        <node class="region">
+            <node class="header">
+                <node class="text" value="${label}"/>
+            </node>
+            <node class="list"/>
+        </node>
+    </template>
+
+    <template name="extended-teleport">
+        <node class="teleport">
+            <node class="icon"/>
+            <node class="text"/>
+            <node class="cost"/>
+        </node>
+    </template>
+    
+    <![CDATA[
+    #extended-ui {
+        is-visible: true;
+        gap: 8;
+        margin: 3;
+        
+        & > .separator {
+            size: 1 0;
+            auto-size: fit grow;
+        }
+        
+        .expansion {
+            flow: vertical;
+            
+            &.other {
+                auto-size: grow;
+                background-color: "Widget.PopupBackground.Gradient2";
+                border-radius: 7;
+                rounded-corners: top-right bottom-right;
+                drop-shadow: 0 0 8 8;
+            }
+            
+            & > .header {
+                auto-size: grow fit;
+                padding: 4;
+                border-color: "Window.AccentColor";
+                border-width: 0 0 1 0;
+                
+                & > .text {
+                    auto-size: grow fit;
+                    text-overflow: false;
+                    word-wrap: false;
+                    text-align: middle-center;
+                    font-size: 14;
+                    color: "Widget.PopupMenuText";
+                    outline-color: "Widget.PopupMenuTextOutline";
+                    outline-size: 1;
+                }
+            }
+            
+            & > .list {
+                flow: vertical;
+                auto-size: grow fit;
+                gap: 8;
+                
+                & > .region {
+                    flow: vertical;
+                    auto-size: grow fit;
+                    background-color: "Widget.PopupBackground.Gradient2";
+                    border-radius: 5;
+                    
+                    & > .header {
+                        auto-size: grow fit;
+                        padding: 2 4;
+                        background-color: "Widget.PopupBackground.Gradient1";
+                        
+                        & > .text {
+                            auto-size: grow fit;
+                            text-overflow: false;
+                            word-wrap: false;
+                            text-align: middle-center;
+                            font-size: 11;
+                            color: "Widget.PopupMenuTextMuted";
+                            outline-color: "Widget.PopupMenuTextOutline";
+                            outline-size: 1;
+                        }
+                    }
+                    
+                    & > .list {
+                        auto-size: grow fit;
+                        gap: 2;
+                        flow: vertical;
+                    }
+                }
+            }
+        }
+        
+        .teleport {
+            auto-size: grow fit;
+            padding: 2 4;
+            background-color: "Widget.PopupBackground.Gradient2";
+            transition-type: ease-out-sine;
+            transition-duration: 200;
+            
+            & > .icon {
+                size: 16;
+                color: "Widget.PopupMenuText";
+                outline-color: "Widget.PopupMenuTextOutline";
+                font-size: 12;
+                text-align: middle-center;
+            }
+            
+            &.uld {
+                & > .icon {
+                    uld-resource: "ui/uld/Teleport";
+                    uld-parts-id: 16;
+                    uld-part-id: 3;
+                }
+            }
+            
+            & > .text {
+                auto-size: grow fit;
+                text-overflow: false;
+                word-wrap: false;
+                text-align: middle-left;
+                font-size: 11;
+                color: "Widget.PopupMenuText";
+                outline-color: "Widget.PopupMenuTextOutline";
+                outline-size: 1;
+                padding: 0 32 0 0;
+            }
+            
+            & > .cost {
+                text-align: middle-right;
+                font-size: 11;
+                color: "Widget.PopupMenuTextMuted";
+                outline-color: "Widget.PopupMenuTextOutline";
+                outline-size: 1;
+            }
+            
+            &:hover {
+                background-color: "Widget.PopupMenuBackgroundHover";
+                transition-duration: 1;
+                
+                & > .text {
+                    color: "Widget.PopupMenuTextHover";
+                    outline-color: "Widget.PopupMenuTextOutlineHover";
+                }
+                
+                & > .cost {
+                    color: "Widget.PopupMenuTextHover";
+                    outline-color: "Widget.PopupMenuTextOutlineHover";
+                }
+            }
+        }
+    }
+    ]]>
+</udt>

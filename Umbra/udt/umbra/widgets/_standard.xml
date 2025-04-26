@@ -1,0 +1,213 @@
+﻿<udt>
+    <node class="ui-widget-standard">
+        <node class="wrapper">
+            <progress-bar-node id="progress-bar" use-border="false" use-overflow="true"/>
+            <node class="icon"/>
+            <node class="body">
+                <node class="single-label">
+                    <node class="text"/>
+                </node>
+                <node class="multi-label">
+                    <node class="text text-top"/>
+                    <node class="text text-bottom"/>
+                </node>
+            </node>
+        </node>
+    </node>
+
+    <![CDATA[
+    .ui-widget-standard {
+        background-color: 0;
+        stroke-color: 0;
+        border-radius: 5;
+        stroke-radius: 3;
+        stroke-width: 1;
+        stroke-inset: 1;
+        padding: 0;
+        
+        &.decorated {
+            background-color: "Widget.Background";
+            stroke-color: "Widget.Border";
+            padding: 0 3;
+            
+            &:hover {
+                background-color: "Widget.BackgroundHover";
+                stroke-color: "Widget.BorderHover";
+            }
+        }
+        
+        & > .wrapper {
+            auto-size: fit grow;
+            anchor: middle-center;
+            
+            & > .icon {
+                anchor: middle-center;
+                auto-size: fit grow;
+                image-grayscale: false;
+                margin: 0;
+                
+                &.fa-icon {
+                    font: 2;
+                    font-size: 16;
+                    color:  "Widget.Text";
+                    outline-color: "Widget.TextOutline";
+                    outline-size: 2;
+                    text-align: middle-center;
+                    text-offset: 0 1;
+                    padding: 0 4;
+                }
+                
+                &.game-icon {
+                    size: 20 20;
+                    border-radius: 3;
+                }
+                
+                &.glyph-icon {
+                    font: 0;
+                    font-size: 16;
+                    color:  "Widget.Text";
+                    outline-color: "Widget.TextOutline";
+                    outline-size: 2;
+                    text-align: middle-center;
+                    padding: 0 4;
+                }
+                
+                &.desaturated {
+                    image-grayscale: true;
+                }
+            }
+            
+            & > .body {
+                anchor: middle-center;
+                auto-size: fit grow;
+                padding: 0 4; 
+                
+                .text { font: 0; }
+                
+                & > .single-label {
+                    anchor: middle-left;
+                    auto-size: grow fit;
+                    
+                    & > .text {
+                        color:  "Widget.Text";
+                        outline-color: "Widget.TextOutline";
+                        outline-size: 2;
+                    }
+                }
+                
+                & > .multi-label {
+                    anchor: middle-left;
+                    flow: vertical;
+                    auto-size: fit grow;
+                    padding: 0 2;
+                    
+                    & > .text-top {
+                        font-size: 11;
+                        color:  "Widget.Text";
+                        outline-color: "Widget.TextOutline";
+                        outline-size: 2;
+                    }
+                    
+                    & > .text-bottom {
+                        font: 0;
+                        font-size: 9;
+                        color:  "Widget.TextMuted";
+                        outline-color: "Widget.TextOutline";
+                        outline-size: 2;
+                    }
+                }
+            }
+        }
+    }
+    
+    .ui-widget-standard.reverse > .wrapper { flow-order: reverse; }
+    
+    .ui-widget-standard.text-align-left {
+        .single-label {
+            .text { anchor: middle-left; }
+        }
+        .multi-label {
+            .text-top { anchor: top-left; }
+            .text-bottom { anchor: bottom-left; }
+        }
+    }
+    
+    .ui-widget-standard.text-align-right {
+        .single-label {
+            .text { anchor: middle-right; }
+        }
+        .multi-label {
+            .text-top { anchor: top-right; }
+            .text-bottom { anchor: bottom-right; }
+        }
+    }
+    
+    .ui-widget-standard.text-align-center {
+        .single-label {
+            .text { anchor: middle-center; }
+        }
+        .multi-label {
+            .text-top { anchor: top-center; }
+            .text-bottom { anchor: bottom-center; }
+        }
+    }
+    
+    .ui-widget-standard.text-only {
+        .icon { is-visible: false; }
+        .body { is-visible: true; }
+    }
+    
+    .ui-widget-standard.icon-only {
+        .icon { is-visible: true; }
+        .body { is-visible: false; }
+    }
+    
+    .ui-widget-standard:hover > .wrapper {
+        & > .icon {
+            color: "Widget.TextHover";
+        }
+        & > .body {
+            & > .single-label > .text { color: "Widget.TextHover"; }
+            & > .multi-label > .text-top { color: "Widget.TextHover"; }
+            & > .multi-label > .text-bottom { color: "Widget.TextHover"; }
+        }
+    }
+    
+    .ui-widget-standard:disabled {
+        opacity: 0.7;
+        
+        .icon { 
+            color: "Widget.TextDisabled";
+            image-grayscale: true;
+        }
+        .body {
+            & > .single-label > .text { color: "Widget.TextDisabled"; }
+            & > .multi-label > .text-top { color: "Widget.TextDisabled"; }
+            & > .multi-label > .text-bottom { color: "Widget.TextDisabled"; }
+        }
+    }
+    
+    .ui-widget-standard > .wrapper > .icon.updated {
+        transition-type: linear;
+        transition-duration: 100;
+        transition-remove-class: updated;
+        transition-add-class: updated2;
+        margin: 2;
+    }
+    
+    .ui-widget-standard > .wrapper > .icon.updated2 {
+        transition-type: ease-out-sine;
+        transition-duration: 250;
+        transition-remove-class: updated2;
+        transition-add-class: updated3;
+        margin: -4;
+    }
+    
+    .ui-widget-standard > .wrapper > .icon.updated3 {
+        transition-type: ease-out-sine;
+        transition-duration: 250;
+        transition-remove-class: updated3;
+        margin: 0;
+    }
+    ]]>
+</udt>

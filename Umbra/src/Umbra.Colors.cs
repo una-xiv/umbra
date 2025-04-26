@@ -30,7 +30,9 @@ namespace Umbra;
 [Service]
 internal class UmbraColors
 {
-    public static event Action? OnColorProfileChanged;
+    public static event Action<string>? OnColorProfileChanged;
+    public static event Action<string>? OnColorProfileAdded;
+    public static event Action<string>? OnColorProfileRemoved;
 
     [ConfigVariable("ColorProfileData")] private static string ColorProfileData { get; set; } = "";
     [ConfigVariable("ColorProfileName")] private static string ColorProfileName { get; set; } = "Umbra (built-in)";
@@ -129,7 +131,7 @@ internal class UmbraColors
             }
         }
 
-        OnColorProfileChanged?.Invoke();
+        OnColorProfileChanged?.Invoke(name);
 
         return true;
     }
@@ -196,6 +198,8 @@ internal class UmbraColors
             ColorProfiles[name] = profile;
             PersistColorProfiles();
 
+            OnColorProfileAdded?.Invoke(name);
+            
             if (apply) Apply(name);
 
             return ImportResult.Success;
@@ -220,9 +224,15 @@ internal class UmbraColors
             colors.Add(id, Color.GetNamedColor(id));
         }
 
+        bool isNew = !ColorProfiles.ContainsKey(name);
+
         ColorProfiles[name] = colors;
         PersistColorProfiles();
 
+        if (isNew) {
+            OnColorProfileAdded?.Invoke(name);
+        }
+        
         if (ColorProfileName != name) Apply(name);
 
         if (_debounceTimer is not null) {
@@ -241,6 +251,8 @@ internal class UmbraColors
 
         ColorProfiles.Remove(name);
         PersistColorProfiles();
+        
+        OnColorProfileRemoved?.Invoke(name);
 
         if (ColorProfileName == name) Apply("Umbra (built-in)");
     }
@@ -361,6 +373,8 @@ internal class UmbraColors
         Color.AssignByName("Widget.Border",                       0xFF484848);
         Color.AssignByName("Widget.BorderDisabled",               0xFF484848);
         Color.AssignByName("Widget.BorderHover",                  0xFF8A8A8A);
+        Color.AssignByName("Widget.ProgressBar",                  0xA0accef9);
+        Color.AssignByName("Widget.ProgressBarOverflow",          0xC0accef9);
         Color.AssignByName("Widget.Text",                         0xFFD0D0D0);
         Color.AssignByName("Widget.TextDisabled",                 0xA0D0D0D0);
         Color.AssignByName("Widget.TextHover",                    0xFFFFFFFF);

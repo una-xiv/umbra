@@ -1,20 +1,4 @@
-﻿/* Umbra | (c) 2024 by Una              ____ ___        ___.
- * Licensed under the terms of AGPL-3  |    |   \ _____ \_ |__ _______ _____
- *                                     |    |   //     \ | __ \\_  __ \\__  \
- * https://github.com/una-xiv/umbra    |    |  /|  Y Y  \| \_\ \|  | \/ / __ \_
- *                                     |______//__|_|  /____  /|__|   (____  /
- *     Umbra is free software: you can redistribute  \/     \/             \/
- *     it and/or modify it under the terms of the GNU Affero General Public
- *     License as published by the Free Software Foundation, either version 3
- *     of the License, or (at your option) any later version.
- *
- *     Umbra UI is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *     GNU Affero General Public License for more details.
- */
-
-using ImGuiNET;
+﻿using ImGuiNET;
 using System;
 using Una.Drawing;
 
@@ -78,14 +62,14 @@ internal partial class Toolbar
     {
         if (!AllowAutoHide) return true;
 
-        int nodeWidth  = _toolbarNode.Width;
-        int nodeHeight = _toolbarNode.Height;
+        float nodeWidth  = _toolbarNode.Width;
+        float nodeHeight = _toolbarNode.Height;
 
-        int y = ToolbarYPosition - (IsTopAligned ? 0 :nodeHeight);
-        int x = (nodeWidth / 2) + (ToolbarLeftMargin / 2) + (ToolbarRightMargin / 2);
+        float y = ToolbarYPosition - (IsTopAligned ? 0 :nodeHeight);
+        float x = (nodeWidth / 2f) + (ToolbarLeftMargin / 2f) + (ToolbarRightMargin / 2f);
 
         var bounds = new Rect(ToolbarXPosition - x, y, ToolbarXPosition + x, y + nodeHeight);
-        bounds.Expand(new(_toolbarNode.Height / 2, 0));
+        bounds.Expand(new(_toolbarNode.Height / 2f, 0));
 
         // Apply margins.
         bounds.X1 += ToolbarLeftMargin;

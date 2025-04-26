@@ -24,6 +24,8 @@ internal partial class InventorySpaceWidget
     protected override IEnumerable<IWidgetConfigVariable> GetConfigVariables()
     {
         return [
+            ..base.GetConfigVariables(),
+            
             new SelectWidgetConfigVariable(
                 "Source",
                 I18N.Translate("Widget.InventorySpace.Config.Source.Name"),
@@ -56,27 +58,25 @@ internal partial class InventorySpaceWidget
                 I18N.Translate("Widget.InventorySpace.Config.ShowTotal.Name"),
                 I18N.Translate("Widget.InventorySpace.Config.ShowTotal.Description"),
                 true
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            ),
             new BooleanWidgetConfigVariable(
                 "ShowRemaining",
                 I18N.Translate("Widget.InventorySpace.Config.ShowRemaining.Name"),
                 I18N.Translate("Widget.InventorySpace.Config.ShowRemaining.Description"),
                 false
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            ),
             new IconIdWidgetConfigVariable(
                 "InventoryIcon",
                 I18N.Translate("Widget.InventorySpace.Config.InventoryIcon.Name"),
                 I18N.Translate("Widget.InventorySpace.Config.InventoryIcon.Description"),
                 2
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            ) { Category = I18N.Translate("Widgets.Standard.Config.Category.Icon") },
             new IconIdWidgetConfigVariable(
                 "SaddlebagIcon",
                 I18N.Translate("Widget.InventorySpace.Config.SaddlebagIcon.Name"),
                 I18N.Translate("Widget.InventorySpace.Config.SaddlebagIcon.Description"),
                 74
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
-            ..DefaultToolbarWidgetConfigVariables,
-            ..SingleLabelTextOffsetVariables,
+            ) { Category = I18N.Translate("Widgets.Standard.Config.Category.Icon") }
         ];
     }
 }

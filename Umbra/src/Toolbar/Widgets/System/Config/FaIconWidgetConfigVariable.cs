@@ -1,6 +1,5 @@
 ﻿using Dalamud.Interface;
 using System;
-using Umbra.Common;
 
 namespace Umbra.Widgets;
 
@@ -16,7 +15,7 @@ public class FaIconWidgetConfigVariable(string id, string name, string? descript
 
         try {
             string str = Convert.ToString(value) ?? "0";
-            var f = Enum.TryParse(str, out FontAwesomeIcon icon) ? icon : DefaultValue;
+            var    f   = Enum.TryParse(str, out FontAwesomeIcon icon) ? icon : DefaultValue;
             return f;
         } catch {
             return FontAwesomeIcon.None;

@@ -52,7 +52,8 @@ public static class Framework
 
         // Always make sure config is loaded first.
         ConfigManager.Initialize();
-
+        bool isSuccess = true;
+        
         foreach (var initializer in GetMethodInfoListWith<WhenFrameworkAsyncCompilingAttribute>()) {
             await (Task)initializer.Invoke(null, null)!;
         }
@@ -63,6 +64,7 @@ public static class Framework
                     try {
                         initializer.Invoke(null, null);
                     } catch (Exception e) {
+                        isSuccess = false;
                         Logger.Error(
                             $"Failed to run initializer {initializer.DeclaringType?.Name}::{initializer.Name}: {e}"
                         );
@@ -71,6 +73,11 @@ public static class Framework
             }
         );
 
+        if (!isSuccess) {
+            Logger.Error("Umbra failed to start. Please check the logs for more information.");
+            return;
+        }
+        
         Scheduler.Start();
     }
 
@@ -86,13 +93,22 @@ public static class Framework
         ConfigManager.Dispose();
     }
 
-    public static async void Restart()
+    public static async Task Restart()
     {
         Dispose();
-        await Task.Delay(500);
+        await Task.Delay(100);
         await Compile(DalamudFramework, DalamudPlugin, LocalCharacterId);
     }
 
+    public static async Task RunDelayed(double timeoutMilliseconds, Action callback)
+    {
+        if (callback == null) throw new ArgumentNullException(nameof(callback));
+        if (timeoutMilliseconds < 0) throw new ArgumentOutOfRangeException(nameof(timeoutMilliseconds), "Delay must be non-negative.");
+
+        await Task.Delay(TimeSpan.FromMilliseconds(timeoutMilliseconds));
+        callback();
+    }
+    
     /// <summary>
     /// Enables logging of hitch warnings of the scheduler in the console.
     /// </summary>

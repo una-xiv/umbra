@@ -1,37 +1,46 @@
-﻿using Dalamud.Game.Text;
-using ImGuiNET;
+﻿using ImGuiNET;
 using System.Collections.Generic;
 using Umbra.Common;
 using Umbra.Game.CustomDeliveries;
 
 namespace Umbra.Widgets.Library.CustomDeliveries;
 
-[ToolbarWidget("CustomDeliveries", "Widget.CustomDeliveries.Name", "Widget.CustomDeliveries.Description")]
-[ToolbarWidgetTags(["delivery", "deliveries", "npc"])]
+[ToolbarWidget(
+    "CustomDeliveries",
+    "Widget.CustomDeliveries.Name",
+    "Widget.CustomDeliveries.Description",
+    ["delivery", "deliveries", "npc"]
+)]
 internal sealed class CustomDeliveriesWidget(
     WidgetInfo                  info,
     string?                     guid         = null,
     Dictionary<string, object>? configValues = null
-) : DefaultToolbarWidget(info, guid, configValues)
+) : StandardToolbarWidget(info, guid, configValues)
 {
     public override CustomDeliveriesPopup Popup { get; } = new();
 
+    protected override StandardWidgetFeatures Features =>
+        StandardWidgetFeatures.Text |
+        StandardWidgetFeatures.SubText |
+        StandardWidgetFeatures.Icon |
+        StandardWidgetFeatures.CustomizableIcon;
+
+    protected override string DefaultIconType   => IconTypeGameIcon;
+    protected override uint   DefaultGameIconId => 60927;
+
     private ICustomDeliveriesRepository Repository { get; } = Framework.Service<ICustomDeliveriesRepository>();
 
-    /// <inheritdoc/>
     protected override IEnumerable<IWidgetConfigVariable> GetConfigVariables()
     {
         return [
+            ..base.GetConfigVariables(),
+
             new StringWidgetConfigVariable(
                 "ButtonLabel",
                 I18N.Translate("Widget.CustomDeliveries.Config.ButtonLabel.Name"),
                 I18N.Translate("Widget.CustomDeliveries.Config.ButtonLabel.Description"),
                 Info.Name
             ),
-            DefaultIconConfigVariable(60927, "ButtonIcon"),
-            ..DefaultToolbarWidgetConfigVariables,
-            ..SingleLabelTextOffsetVariables,
-            ..TwoLabelTextOffsetVariables,
             new SelectWidgetConfigVariable(
                 "PrimaryAction",
                 I18N.Translate("Widget.CustomDeliveries.Config.PrimaryAction.Name"),
@@ -47,8 +56,7 @@ internal sealed class CustomDeliveriesWidget(
         ];
     }
 
-    /// <inheritdoc/>
-    protected override void Initialize()
+    protected override void OnLoad()
     {
         Popup.OnNpcSelected += OnNpcSelected;
 
@@ -65,13 +73,12 @@ internal sealed class CustomDeliveriesWidget(
         };
     }
 
-    protected override void OnDisposed()
+    protected override void OnUnload()
     {
         Popup.OnNpcSelected -= OnNpcSelected;
     }
 
-    /// <inheritdoc/>
-    protected override void OnUpdate()
+    protected override void OnDraw()
     {
         int                npcId = GetConfigValue<int>("TrackedNpcId");
         CustomDeliveryNpc? npc   = Repository.Npcs.GetValueOrDefault(npcId);
@@ -79,15 +86,13 @@ internal sealed class CustomDeliveriesWidget(
         Popup.TrackedNpcId  = npcId;
         Popup.PrimaryAction = GetConfigValue<string>("PrimaryAction");
 
-        SetIcon(GetConfigValue<uint>("ButtonIcon"));
-
         if (npcId == 0 || npc == null) {
-            SetLabel(GetConfigValue<string>("ButtonLabel"));
+            SetText(GetConfigValue<string>("ButtonLabel"));
+            SetSubText(null);
         } else {
-            SetTwoLabels(npc.Name, $"{npc.DeliveriesThisWeek} / {npc.MaxDeliveriesPerWeek}");
+            SetText(npc.Name);
+            SetSubText($"{npc.DeliveriesThisWeek} / {npc.MaxDeliveriesPerWeek}");
         }
-
-        base.OnUpdate();
 
         if (GetConfigValue<string>("DisplayMode") == "IconOnly") {
             Node.Tooltip = npc?.Name;

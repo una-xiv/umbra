@@ -1,19 +1,3 @@
-/* Umbra | (c) 2024 by Una              ____ ___        ___.
- * Licensed under the terms of AGPL-3  |    |   \ _____ \_ |__ _______ _____
- *                                     |    |   //     \ | __ \\_  __ \\__  \
- * https://github.com/una-xiv/umbra    |    |  /|  Y Y  \| \_\ \|  | \/ / __ \_
- *                                     |______//__|_|  /____  /|__|   (____  /
- *     Umbra is free software: you can redistribute  \/     \/             \/
- *     it and/or modify it under the terms of the GNU Affero General Public
- *     License as published by the Free Software Foundation, either version 3
- *     of the License, or (at your option) any later version.
- *
- *     Umbra UI is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *     GNU Affero General Public License for more details.
- */
-
 using System;
 using System.Numerics;
 using ImGuiNET;
@@ -43,9 +27,10 @@ internal static class ImDrawListPtrExtensions
         float              opacity = 1.0f
     )
     {
-        size    ??= new (32, 32);
-        color   ??= new (0xFFFFFFFF);
-        color.A *=  opacity;
+        size  ??= new (32, 32);
+        color ??= new(0xFFFFFFFF);
+
+        color = new(color.Value.R, color.Value.G, color.Value.B, (byte)Math.Clamp(opacity * 255, 0, 255));
 
         var center = size.Value / 2;
 
@@ -76,7 +61,7 @@ internal static class ImDrawListPtrExtensions
             Vector2.Zero,
             Vector2.UnitX,
             Vector2.One,
-            color.ToUInt()
+            color.Value.ToUInt()
         );
     }
 }

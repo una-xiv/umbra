@@ -1,100 +1,55 @@
-﻿/* Umbra | (c) 2024 by Una              ____ ___        ___.
- * Licensed under the terms of AGPL-3  |    |   \ _____ \_ |__ _______ _____
- *                                     |    |   //     \ | __ \\_  __ \\__  \
- * https://github.com/una-xiv/umbra    |    |  /|  Y Y  \| \_\ \|  | \/ / __ \_
- *                                     |______//__|_|  /____  /|__|   (____  /
- *     Umbra is free software: you can redistribute  \/     \/             \/
- *     it and/or modify it under the terms of the GNU Affero General Public
- *     License as published by the Free Software Foundation, either version 3
- *     of the License, or (at your option) any later version.
- *
- *     Umbra UI is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *     GNU Affero General Public License for more details.
- */
-
-using Dalamud.Plugin.Services;
+﻿using Dalamud.Plugin.Services;
 using Dalamud.Utility;
-using Lumina.Excel.Sheets;
 using System.Collections.Generic;
 using System.Globalization;
 using Umbra.Common;
 using Umbra.Game;
-using Umbra.Game.Inventory;
-using NotImplementedException = System.NotImplementedException;
 
 namespace Umbra.Widgets;
 
-[ToolbarWidget("CustomMenu", "Widget.CustomMenu.Name", "Widget.CustomMenu.Description")]
-[ToolbarWidgetTags(["button", "command", "macro", "action", "url", "website", "menu", "list"])]
+[ToolbarWidget(
+    "CustomMenu",
+    "Widget.CustomMenu.Name",
+    "Widget.CustomMenu.Description",
+    ["button", "command", "macro", "action", "url", "website", "menu", "list"]
+)]
+[DeprecatedToolbarWidget("Widget.DynamicMenu.Name")]
 internal sealed partial class CustomMenuWidget(
     WidgetInfo                  info,
     string?                     guid         = null,
     Dictionary<string, object>? configValues = null
-) : DefaultToolbarWidget(info, guid, configValues)
+) : StandardToolbarWidget(info, guid, configValues)
 {
-    /// <inheritdoc/>
     public override MenuPopup Popup { get; } = new();
+
+    protected override StandardWidgetFeatures Features =>
+        StandardWidgetFeatures.Text |
+        StandardWidgetFeatures.Icon |
+        StandardWidgetFeatures.CustomizableIcon;
 
     private ICommandManager  CommandManager  { get; } = Framework.Service<ICommandManager>();
     private IChatSender      ChatSender      { get; } = Framework.Service<IChatSender>();
     private ITextureProvider TextureProvider { get; } = Framework.Service<ITextureProvider>();
     private IPlayer          Player          { get; } = Framework.Service<IPlayer>();
 
-    private uint? LeftIconId  { get; set; }
-    private uint? RightIconId { get; set; }
-
-    /// <inheritdoc/>
     public override string GetInstanceName()
     {
         return $"{I18N.Translate("Widget.CustomMenu.Name")} - {GetConfigValue<string>("Label")}";
     }
 
-    /// <inheritdoc/>
-    protected override void Initialize()
+    protected override void OnLoad()
     {
         Popup.OnPopupOpen += UpdateItemList;
     }
 
-    /// <inheritdoc/>
-    protected override void OnUpdate()
+    protected override void OnDraw()
     {
-        SetLabel(GetConfigValue<bool>("HideLabel") ? "" : GetConfigValue<string?>("Label"));
-        UpdateIcons();
-
-        base.OnUpdate();
-
+        SetText(GetConfigValue<bool>("HideLabel") ? null : GetConfigValue<string?>("Label"));
         string tooltipString = GetConfigValue<string>("Tooltip");
-        Node.Tooltip = !string.IsNullOrEmpty(tooltipString) ? tooltipString : null;
-
-        Popup.CloseOnItemClick  = GetConfigValue<bool>("CloseOnClick");
-        Popup.UseGrayscaleIcons = GetConfigValue<bool>("DesaturateMenuIcons");
+        Node.Tooltip            = !string.IsNullOrEmpty(tooltipString) ? tooltipString : null;
     }
 
-    private void UpdateIcons()
-    {
-        if (GetConfigValue<string>("DisplayMode") == "TextOnly") {
-            SetLeftIcon(null);
-            SetRightIcon(null);
-            return;
-        }
-
-        var leftIconId  = GetConfigValue<uint>("LeftIconId");
-        var rightIconId = GetConfigValue<uint>("RightIconId");
-
-        if (leftIconId != LeftIconId) {
-            LeftIconId = leftIconId;
-            SetLeftIcon(GetExistingIconId(LeftIconId ?? 0));
-        }
-
-        if (rightIconId != RightIconId) {
-            RightIconId = rightIconId;
-            SetRightIcon(GetExistingIconId(RightIconId ?? 0));
-        }
-    }
-
-    protected override void OnDisposed()
+    protected override void OnUnload()
     {
         Popup.OnPopupOpen -= UpdateItemList;
     }
@@ -103,12 +58,9 @@ internal sealed partial class CustomMenuWidget(
     {
         Popup.Clear();
 
-        bool    inverseOrder = GetConfigValue<bool>("InverseOrder");
-        string? lastGroupId  = null;
+        bool inverseOrder = GetConfigValue<bool>("InverseOrder");
 
         for (var i = 0; i < MaxButtons; i++) {
-            var       id        = $"Button_{i}";
-            int       sortIndex = (inverseOrder ? -i : i);
             string    label     = GetConfigValue<string>($"ButtonLabel_{i}").Trim();
             string    altLabel  = GetConfigValue<string>($"ButtonAltLabel_{i}").Trim();
             string    command   = GetConfigValue<string>($"ButtonCommand_{i}").Trim();
@@ -117,68 +69,55 @@ internal sealed partial class CustomMenuWidget(
             uint      iconColor = GetConfigValue<uint>($"ButtonIconColor_{i}");
             ItemUsage usage     = ParseItemUsageString(GetConfigValue<string>($"ButtonItemUsage_{i}"));
 
-            if (mode == "Separator") {
-                Popup.AddGroup(id, label, sortIndex);
-                lastGroupId = id;
+            if (string.IsNullOrEmpty(command) && string.IsNullOrEmpty(label) && mode != "Separator") {
                 continue;
             }
-
-            if (string.IsNullOrEmpty(command) && string.IsNullOrEmpty(label)) {
-                continue;
-            }
-
-            int i1 = i;
-            Popup.AddButton(id, label, sortIndex, iconId, altLabel, () => InvokeMenuItem(i1), groupId: lastGroupId);
-            Popup.SetButtonIconColor(id, new(iconColor));
 
             switch (mode) {
                 case "Command":
                 case "URL":
-                    UpdateMenuItem(id, label, altLabel, iconId);
+                    AddMenuItem(i, label, altLabel, iconId, iconColor);
                     break;
                 case "Item":
-                    UpdateItemMenuItem(id, command, usage);
+                    AddItemMenuItem(i, command, usage);
                     break;
                 case "Separator":
-                    Popup.SetButtonLabel(id, "");
-                    Popup.SetButtonAltLabel(id, "");
-                    Popup.SetButtonIcon(id, null);
-                    Popup.SetButtonDisabled(id, true);
+                    Popup.Add(new MenuPopup.Separator());
                     break;
             }
         }
     }
 
-    private void UpdateMenuItem(string id, string label, string altLabel, uint iconId)
+    private void AddMenuItem(int index, string label, string altLabel, uint iconId, uint? iconColor)
     {
-        Popup.SetButtonLabel(id, label);
-        Popup.SetButtonAltLabel(id, altLabel);
-        Popup.SetButtonIcon(id, iconId);
-        Popup.SetButtonDisabled(id, false);
+        Popup.Add(new MenuPopup.Button(label) {
+            AltText   = altLabel,
+            Icon      = GetExistingIconId(iconId),
+            IconColor = iconColor != null ? new(iconColor.Value) : null,
+            OnClick   = () => InvokeMenuItem(index),
+        });
     }
 
-    private void UpdateItemMenuItem(string id, string command, ItemUsage usage)
+    private void AddItemMenuItem(int index, string command, ItemUsage usage)
     {
         if (false == uint.TryParse(command, NumberStyles.Any, null, out uint itemId)) {
-            Popup.SetButtonIcon(id, null);
-            Popup.SetButtonLabel(id, $"Invalid item id: {command}");
-            Popup.SetButtonDisabled(id, true);
+            Popup.Add(new MenuPopup.Button($"Invalid item id: {command}"));
             return;
         }
 
         ResolvedItem? item = Player.FindResolvedItem(itemId);
 
         if (null == item) {
-            Popup.SetButtonIcon(id, null);
-            Popup.SetButtonLabel(id, $"Invalid item id: {command}");
-            Popup.SetButtonDisabled(id, true);
+            Popup.Add(new MenuPopup.Button($"Invalid item id: {command}"));
             return;
         }
 
-        Popup.SetButtonLabel(id, item.Value.Name);
-        Popup.SetButtonIcon(id, item.Value.IconId);
-        Popup.SetButtonDisabled(id, !Player.HasItemInInventory(itemId, 1, usage));
-        Popup.SetButtonAltLabel(id, Player.GetItemCount(itemId, usage).ToString());
+        Popup.Add(new MenuPopup.Button(item.Value.Name) {
+            Icon       = item.Value.IconId,
+            AltText    = Player.GetItemCount(itemId, usage).ToString(),
+            IsDisabled = !Player.HasItemInInventory(itemId, 1, usage),
+            OnClick    = () => InvokeMenuItem(index),
+        });
     }
 
     private void InvokeMenuItem(int index)

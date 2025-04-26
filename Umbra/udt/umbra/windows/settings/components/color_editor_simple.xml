@@ -1,0 +1,85 @@
+﻿<udt>
+    <node id="color-editor-simple">
+        <node class="columns">
+            <node class="color">
+                <node class="picker">
+                    <simple-color-picker-node id="windows"/>
+                </node>
+                <node class="label" value="Windows"/>
+            </node>
+            <node class="color">
+                <node class="picker">
+                    <simple-color-picker-node id="widgets"/>
+                </node>
+                <node class="label" value="Widgets"/>
+            </node>
+            <node class="color">
+                <node class="picker">
+                    <simple-color-picker-node id="inputs"/>
+                </node>
+                <node class="label" value="Inputs"/>
+            </node>
+            <node class="color">
+                <node class="picker">
+                    <simple-color-picker-node id="accent"/>
+                </node>
+                <node class="label" value="Accent Color"/>
+            </node>
+        </node>
+        <node class="text" value="Dominant Colors"/>
+    </node>
+    
+    <![CDATA[
+    #color-editor-simple {
+        flow: vertical;
+        auto-size: grow fit;
+        padding: 8;
+        background-color: "Window.Background";
+        stroke-color: "Window.BackgroundLight";
+        stroke-radius: 4;
+        stroke-width: 1;
+        stroke-inset: 1;
+        border-radius: 6;
+        
+        & > .text {
+            auto-size: grow fit;
+            text-align: bottom-center;
+            padding: 10 0 0 0;
+            font-size: 15;
+            color: "Window.TextMuted";
+            outline-color: "Window.TextOutline";
+        }
+        
+        & > .columns {
+            flow: horizontal;
+            auto-size: grow fit;
+            gap: 12;
+            
+            & > .color {
+                flow: vertical;
+                auto-size: grow fit;
+                gap: 8;
+                
+                & > .picker {
+                    auto-size: grow fit;
+                    size: 0 80;
+                    background-color: "Input.Background";
+                    stroke-color: "Input.Border";
+                    stroke-radius: 4;
+                    stroke-inset: 1;
+                    border-radius: 6;
+                    padding: 6;
+                }
+                
+                & > .label {
+                    auto-size: grow fit;
+                    text-align: middle-center;
+                    font-size: 12;
+                    color: "Window.Text";
+                    outline-color: "Window.TextOutline";
+                }
+            }
+        }
+    }
+    ]]>
+</udt>

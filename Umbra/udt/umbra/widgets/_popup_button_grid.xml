@@ -1,0 +1,112 @@
+﻿<udt>
+    <node id="Popup">
+        <node id="CategoryBar"/>
+    </node>
+    
+    <template name="button">
+        <node class="slot-button"/>
+    </template>
+    
+    <![CDATA[
+    #Popup {
+        flow: vertical;
+        padding: 8;
+        gap: 8;
+        
+        #Footer {
+            flow: vertical;
+            auto-size: grow fit;
+        }
+    }
+    
+    #CategoryBar {
+        auto-size: grow fit;
+        
+        & > .button {
+            auto-size: grow fit;
+            size: 0 24;
+            padding: 0 4;
+            text-align: middle-left;
+            font-size: 13;
+            color: "Widget.PopupMenuTextMuted";
+            outline-color: "Widget.PopupMenuTextOutline";
+            outline-size: 1;
+            text-overflow: false;
+            word-wrap: false;
+            border-width: 0;
+            
+            &:hover {
+                background-color: 0x40FFFFFF;
+                color: "Widget.PopupMenuText";
+                outline-color: "Widget.PopupMenuTextOutline";
+            }
+            
+            &:selected {
+                color: "Widget.PopupMenuText";
+                outline-color: "Widget.PopupMenuTextOutline";
+                border-color: "Window.AccentColor";
+                border-width: 0 0 2 0;
+            }
+        }
+    }
+    
+    .slot-container {
+        flow: vertical;
+        gap: 8;
+        
+        .slot-row {
+            flow: horizontal;
+            gap: 8;
+            
+            & > .slot-button {
+                size: 46;
+                background-color: "Input.Background";
+                stroke-color: "Input.Border";
+                stroke-width: 1;
+                border-radius: 6;
+                padding: 2;
+                
+                & > .icon {
+                    size: 42;
+                    border-radius: 5;
+                }
+                
+                & > .sub-icon {
+                    anchor: top-right;
+                    size: 20;
+                }
+                
+                & > .count {
+                    anchor: bottom-right;
+                    font-size: 12;
+                    padding: 2;
+                    color: "Window.Text";
+                    outline-color: "Window.TextOutline";
+                    outline-size: 1;
+                }
+                
+                &:hover {
+                    background-color: "Input.BackgroundHover";
+                    stroke-color: "Input.BorderHover";
+                }
+                
+                &:empty-hidden {
+                    background-color: 0;
+                    stroke-color: 0;
+                    opacity: 0.15;
+                }
+                
+                &:empty {
+                    opacity: 0.15;
+                    
+                    &:hover {
+                        opacity: 0.5;
+                    }
+                }
+            }
+        }
+    }
+    
+
+    ]]>
+</udt>

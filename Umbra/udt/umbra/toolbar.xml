@@ -1,0 +1,93 @@
+﻿<udt>
+    <!-- 
+        The toolbar contains three sections to contain widgets: left, center,
+        and right. The three sections each use different anchors and _may_
+        overlap one another when there is not enough space to fit all the widgets.
+        
+        Alignment options:
+        
+            ".top"    - The toolbar is anchored to the top of the screen.
+            ".bottom" - The toolbar is anchored to the bottom of the screen.
+            
+        Visual options:
+            
+            ".shadow"    - The toolbar has a shadow.
+            ".stretched" - The toolbar is stretched to the full width of the screen.
+            ".rounded"   - The toolbar has rounded corners.
+    -->
+    
+    <node id="Toolbar" class="toolbar bottom">
+        <node id="Left" class="section left"/>
+        <node id="Center" class="section center"/>
+        <node id="Right" class="section right"/>
+    </node>
+
+    <![CDATA[
+    .toolbar {
+        size: 0 32;
+        gap: 8;
+        border-color: "Toolbar.Border";
+        
+        &.shadow {
+            drop-shadow: 0 0 12 12;
+        }
+        
+        &.rounded {
+            rounded-corners: all;
+            border-radius: 8;
+        }
+        
+        &.top {
+            anchor: top-center;
+            background-gradient: vertical "Toolbar.Background2" "Toolbar.Background1";
+            border-width: 0 1 1 1;
+            rounded-corners: bottom-left bottom-right;
+            padding: 0 0 1 0; // Offset for the border.
+            
+            &.stretched {
+                border-width: 0 0 1 0;
+                border-radius: 0;
+            }
+            
+            &:blur {
+                border-color: "Toolbar.InactiveBorder";
+                background-gradient: vertical "Toolbar.InactiveBackground2" "Toolbar.InactiveBackground1";
+            }
+        }
+        
+        &.bottom {
+            anchor: bottom-center;
+            background-gradient: vertical "Toolbar.Background1" "Toolbar.Background2";
+            border-width: 1 1 0 1;
+            rounded-corners: top-left top-right;
+            padding: 1 0 0 0; // Offset for the border.
+            
+            &.stretched {
+                border-width: 1 0 0 0;
+                border-radius: 0;
+            }
+            
+            &:blur {
+                border-color: "Toolbar.InactiveBorder";
+                background-gradient: vertical "Toolbar.InactiveBackground1" "Toolbar.InactiveBackground2";
+            }
+        }
+        
+        &.floating {
+            background-gradient: vertical "Toolbar.Background1" "Toolbar.Background2";
+            border-width: 1;
+            rounded-corners: all;
+        }
+        
+        & > .section {
+            auto-size: fit grow;
+            gap: 8;
+            padding: 0 8;
+            
+            &.left { anchor: top-left; }
+            &.center { anchor: top-center; }
+            &.right { anchor: top-right; }
+        }
+    }
+    ]]>
+</udt>

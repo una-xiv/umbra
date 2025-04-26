@@ -1,30 +1,15 @@
-﻿/* Umbra | (c) 2024 by Una              ____ ___        ___.
- * Licensed under the terms of AGPL-3  |    |   \ _____ \_ |__ _______ _____
- *                                     |    |   //     \ | __ \\_  __ \\__  \
- * https://github.com/una-xiv/umbra    |    |  /|  Y Y  \| \_\ \|  | \/ / __ \_
- *                                     |______//__|_|  /____  /|__|   (____  /
- *     Umbra is free software: you can redistribute  \/     \/             \/
- *     it and/or modify it under the terms of the GNU Affero General Public
- *     License as published by the Free Software Foundation, either version 3
- *     of the License, or (at your option) any later version.
- *
- *     Umbra UI is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *     GNU Affero General Public License for more details.
- */
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Umbra.Common;
 
 namespace Umbra.Widgets;
 
 internal partial class ClockWidget
 {
-    /// <inheritdoc/>
     protected override IEnumerable<IWidgetConfigVariable> GetConfigVariables()
     {
         return [
+            ..base.GetConfigVariables(),
+            
             new SelectWidgetConfigVariable(
                 "TimeSource",
                 I18N.Translate("Widget.Clock.Config.TimeSource.Name"),
@@ -40,7 +25,7 @@ internal partial class ClockWidget
                 "ClickToSwitch",
                 I18N.Translate("Widget.Clock.Config.ClickToSwitch.Name"),
                 I18N.Translate("Widget.Clock.Config.ClickToSwitch.Description"),
-                false
+                true
             ) { Category = I18N.Translate("Widget.ConfigCategory.TimeSource") },
             new BooleanWidgetConfigVariable(
                 "ShowSeconds",
@@ -69,24 +54,20 @@ internal partial class ClockWidget
                 16
             ) { Category = I18N.Translate("Widget.ConfigCategory.FormatOptions") },
             new BooleanWidgetConfigVariable(
-                "Decorate",
-                I18N.Translate("Widget.Clock.Config.Decorate.Name"),
-                I18N.Translate("Widget.Clock.Config.Decorate.Description"),
-                true
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
-            new BooleanWidgetConfigVariable(
                 "UseCustomPrefix",
                 I18N.Translate("Widget.Clock.Config.UseCustomPrefix.Name"),
                 I18N.Translate("Widget.Clock.Config.UseCustomPrefix.Description"),
                 false
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            ),
             new StringWidgetConfigVariable(
                 "PrefixText",
                 I18N.Translate("Widget.Clock.Config.PrefixText.Name"),
                 I18N.Translate("Widget.Clock.Config.PrefixText.Description"),
                 "LT",
                 16
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            ) {
+                DisplayIf = () => GetConfigValue<bool>("UseCustomPrefix"),
+            },
             new IntegerWidgetConfigVariable(
                 "TextYOffset",
                 I18N.Translate("Widget.Clock.Config.TextYOffset.Name"),
@@ -94,15 +75,15 @@ internal partial class ClockWidget
                 0,
                 -5,
                 5
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            ),
             new IntegerWidgetConfigVariable(
                 "PrefixYOffset",
                 I18N.Translate("Widget.Clock.Config.PrefixYOffset.Name"),
                 I18N.Translate("Widget.Clock.Config.PrefixYOffset.Description"),
-                0,
+                1,
                 -5,
                 5
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            ),
             new IntegerWidgetConfigVariable(
                 "CustomWidth",
                 I18N.Translate("Widget.Clock.Config.CustomWidth.Name"),
@@ -110,7 +91,7 @@ internal partial class ClockWidget
                 0,
                 0,
                 256
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            ),
         ];
     }
 }

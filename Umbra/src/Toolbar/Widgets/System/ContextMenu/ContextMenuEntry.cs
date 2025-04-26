@@ -1,4 +1,5 @@
 ﻿using System;
+using Umbra.Common;
 using Una.Drawing;
 
 namespace Umbra.Widgets;
@@ -76,7 +77,8 @@ public sealed class ContextMenuEntry(string? id) : IDisposable
         if (!IsDisabled) {
             Node.TagsList.Remove("hover");
             _onClick?.Invoke();
-            OnInvoke?.Invoke();
+
+            Framework.DalamudFramework.RunOnTick(() => OnInvoke?.Invoke());
         }
     }
 
@@ -86,7 +88,7 @@ public sealed class ContextMenuEntry(string? id) : IDisposable
                 ".context-menu-entry",
                 new() {
                     Flow          = Flow.Horizontal,
-                    Stretch       = true,
+                    AutoSize      = (AutoSize.Grow, AutoSize.Fit),
                     BorderRadius  = 5,
                     IsAntialiased = false,
                     Padding       = new(0, 4),

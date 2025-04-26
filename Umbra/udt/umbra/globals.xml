@@ -1,0 +1,86 @@
+﻿<udt>
+    <![CDATA[
+    .scrollbars {
+        scrollbar-thumb-color: "Window.ScrollbarThumb";
+        scrollbar-thumb-hover-color: "Window.ScrollbarThumbHover";
+        scrollbar-thumb-active-color: "Window.ScrollbarThumbActive";
+    }
+    
+    /**
+     * Default text is the standard text used throughout the UI.
+     * It is typically used for labels, buttons and other text elements.
+     */
+    .ui-text-default {
+        font: 0;
+        font-size: 13;
+        color: "Input.Text";
+        outline-color: "Input.TextOutline";
+        outline-size: 2;
+        
+        &:hover { 
+            color: "Input.TextHover"; 
+            outline-color: "Input.TextOutlineHover"; 
+        }
+        
+        &:disabled { 
+            color: "Input.TextDisabled"; 
+            outline-color: "Input.TextOutlineDisabled";
+        }
+    }
+    
+    /**
+     * Muted text is a darker and smaller variant of the default text.
+     * Typically used for description texts and secondary labels.
+     */
+    .ui-text-muted {
+        font: 0;
+        font-size: 11;
+        color: "Input.TextMuted";
+        outline-color: "Input.TextOutlineDisabled";
+        outline-size: 1;
+        
+        &:hover { 
+            color: "Input.TextHover"; 
+            outline-color: "Input.TextOutlineHover"; 
+        }
+        
+        &:disabled { 
+            color: "Input.TextDisabled"; 
+            outline-color: "Input.TextOutlineDisabled";
+        }
+    }
+    
+    /**
+     * Input Frames are used for framing input and button components.
+     */
+    .ui-frame-input {
+        font-size: 13;
+        background-color: "Input.Background";
+        color: "Input.Text";
+        outline-color: "Input.TextOutline";
+        outline-size: 2;
+        border-radius: 6;
+        stroke-color: "Input.Border";
+        stroke-width: 1;
+        stroke-inset: 1;
+        stroke-radius: 4;
+        
+        &:hover {
+            background-color: "Input.BackgroundHover";
+            stroke-color: "Input.BorderHover";
+            color: "Input.TextHover";
+        }
+    }
+    
+    .ui-window-footer {
+        auto-size: grow fit;
+        margin: 1;
+        padding: 0 8;
+        background-color: "Window.BackgroundLight";
+        border-color: "Window.Border";
+        border-width: 1 0 0 0;
+        border-radius: 6;
+        rounded-corners: bottom-left bottom-right;
+    }
+    ]]>
+</udt>

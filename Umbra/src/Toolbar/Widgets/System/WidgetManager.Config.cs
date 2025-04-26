@@ -1,20 +1,4 @@
-﻿/* Umbra | (c) 2024 by Una              ____ ___        ___.
- * Licensed under the terms of AGPL-3  |    |   \ _____ \_ |__ _______ _____
- *                                     |    |   //     \ | __ \\_  __ \\__  \
- * https://github.com/una-xiv/umbra    |    |  /|  Y Y  \| \_\ \|  | \/ / __ \_
- *                                     |______//__|_|  /____  /|__|   (____  /
- *     Umbra is free software: you can redistribute  \/     \/             \/
- *     it and/or modify it under the terms of the GNU Affero General Public
- *     License as published by the Free Software Foundation, either version 3
- *     of the License, or (at your option) any later version.
- *
- *     Umbra UI is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *     GNU Affero General Public License for more details.
- */
-
-using Dalamud.Plugin.Services;
+﻿using Dalamud.Plugin.Services;
 using Lumina.Excel.Sheets;
 using System;
 using System.Collections.Generic;
@@ -23,6 +7,7 @@ using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using Newtonsoft.Json;
+using System.Threading.Tasks;
 using Umbra.Common;
 
 namespace Umbra.Widgets.System;
@@ -32,8 +17,7 @@ internal partial class WidgetManager
     [ConfigVariable("Toolbar.ActiveProfile")]
     public static string ActiveProfile { get; set; } = "Default";
 
-    [ConfigVariable("Toolbar.WidgetData")]
-    private static string WidgetConfigData { get; set; } = "";
+    [ConfigVariable("Toolbar.WidgetData")] private static string WidgetConfigData { get; set; } = "";
 
     [ConfigVariable("Toolbar.WidgetProfiles")]
     private static string WidgetProfileData { get; set; } = "";
@@ -80,59 +64,57 @@ internal partial class WidgetManager
         Framework.DalamudFramework.Run(() => _isSavingState = false);
     }
 
-    public void LoadState()
+    public async Task LoadState()
     {
         if (_isLoadingState) return;
         if (_isSavingState) return;
 
         _isLoadingState = true;
 
-        Framework.DalamudFramework.Run(
-            () => {
-                if (_instances.Count > 0) {
-                    List<ToolbarWidget> widgets = [.._instances.Values];
-                    foreach (var widget in widgets) {
-                        RemoveWidget(widget.Id, false);
-                    }
-                }
-
-                _instances.Clear();
-                _widgetState.Clear();
-
-                if (string.IsNullOrEmpty(WidgetConfigData)) {
-                    _isLoadingState = false;
-                    return;
-                }
-
-                string json = Decode(WidgetConfigData);
-                var    data = JsonConvert.DeserializeObject<Dictionary<string, WidgetConfigStruct>>(json);
-
-                if (data is null) {
-                    _isLoadingState = false;
-                    return;
-                }
-
-                foreach ((string guid, WidgetConfigStruct config) in data) {
-                    if (!_widgetTypes.ContainsKey(config.Name)) continue;
-
-                    _widgetState[guid] = config;
-                    CreateWidget(config.Name, config.Location, config.SortIndex, guid, config.Config, false);
-                }
-
-                // Migrate the default configuration over to the profile data if needed.
-                if (ActiveProfile == "Default" && string.IsNullOrEmpty(_widgetProfiles[ActiveProfile])) {
-                    _widgetProfiles[ActiveProfile] = WidgetConfigData;
-                    SaveProfileData();
-                }
-
-                // Solve the sort indices for each column.
-                SolveSortIndices("Left");
-                SolveSortIndices("Center");
-                SolveSortIndices("Right");
-
-                _isLoadingState = false;
+        if (_instances.Count > 0) {
+            List<ToolbarWidget> widgets = [.._instances.Values];
+            foreach (var widget in widgets) {
+                RemoveWidget(widget.Id, false);
             }
-        );
+        }
+
+        _instances.Clear();
+        _widgetState.Clear();
+        
+        if (string.IsNullOrEmpty(WidgetConfigData)) {
+            _isLoadingState = false;
+            return;
+        }
+
+        await Framework.RunDelayed(10, () => {
+            string json = Decode(WidgetConfigData);
+            var    data = JsonConvert.DeserializeObject<Dictionary<string, WidgetConfigStruct>>(json);
+
+            if (data is null) {
+                _isLoadingState = false;
+                return;
+            }
+
+            foreach ((string guid, WidgetConfigStruct config) in data) {
+                if (!_widgetTypes.ContainsKey(config.Name)) continue;
+
+                _widgetState[guid] = config;
+                CreateWidget(config.Name, config.Location, config.SortIndex, guid, config.Config, false);
+            }
+
+            // Migrate the default configuration over to the profile data if needed.
+            if (ActiveProfile == "Default" && string.IsNullOrEmpty(_widgetProfiles[ActiveProfile])) {
+                _widgetProfiles[ActiveProfile] = WidgetConfigData;
+                SaveProfileData();
+            }
+
+            // Solve the sort indices for each column.
+            SolveSortIndices("Left");
+            SolveSortIndices("Center");
+            SolveSortIndices("Right");
+
+            _isLoadingState = false;
+        });
     }
 
     public void SaveWidgetState(string guid)

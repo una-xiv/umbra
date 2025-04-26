@@ -1,0 +1,71 @@
+﻿<udt>
+    <node id="main">
+        <node class="body">
+            <node class="sidebar categories">
+            </node>
+            <node class="list" overflow="false"/>
+        </node>
+        <node class="ui-window-footer footer">
+            <node class="buttons">
+                <button-node id="cancel" label="_L(Cancel)"/>
+                <button-node id="confirm" label="_L(Apply)"/>
+            </node>
+        </node>
+    </node>
+    
+    <![CDATA[
+    @import "globals";
+    
+    #main {
+        auto-size: grow;
+        flow: vertical;
+        
+        & > .body {
+            auto-size: grow;
+            
+            & > .sidebar {
+                flow: vertical;
+                size: 200 0;
+                auto-size: fit grow;
+                background-color: "Widget.BackgroundLight";
+                border-color: "Widget.Border";
+                border-width: 0 1 0 0;
+                border-inset: 1;
+                gap: 1;
+                padding: 4 0;
+                
+                & > .category-button {
+                    auto-size: grow fit;
+                    padding: 4 8;
+                    border-width: 1 0 1 0;
+                    
+                    &:hover {
+                        background-color: "Widget.Background";
+                    }
+                    
+                    &.selected {
+                        background-color: "Widget.Background";
+                        border-color: "Widget.Border";
+                    }
+                }
+            }
+            
+            & > .list {
+                flow: vertical;
+                size: 0 0;
+                auto-size: grow;
+                background-color: "Widget.Background";
+            }
+        }
+        
+        & > .footer {
+            padding: 8;
+            
+            & > .buttons {
+                anchor: middle-right;
+                gap: 8;
+            }
+        }
+    }
+    ]]>
+</udt>

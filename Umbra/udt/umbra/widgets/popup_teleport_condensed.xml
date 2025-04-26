@@ -1,0 +1,199 @@
+﻿<udt>
+    <template name="condensed-side-panel-button">
+        <argument name="label"/>
+        <node class="side-panel-button">
+            <node class="icon"/>
+            <node class="text" value="${label}"/>
+        </node>
+    </template>
+    
+    <template name="condensed-region">
+        <argument name="label"/>
+        <node class="condensed-region">
+            <node class="header">
+                <node class="line"/>
+                <node class="text" value="${label}"/>
+                <node class="line"/>
+            </node>
+            <node class="list"/>
+        </node>
+    </template>
+    
+    <template name="condensed-teleport">
+        <argument name="label"/>
+        <argument name="cost"/>
+        
+        <node class="teleport">
+            <node class="icon"/>
+            <node class="text" value="${label}"/>
+            <node class="cost" value="${cost}"/>
+        </node>
+    </template>
+    
+    <![CDATA[
+    #condensed-ui {
+        is-visible: false;
+        
+        & > .side-panel {
+            flow: vertical;
+            auto-size: fit grow;
+            background-color: "Widget.PopupBackground.Gradient1";
+            border-color: "Widget.Border";
+            border-width: 0 1 0 0;
+            border-radius: 7;
+            rounded-corners: top-left bottom-left;
+            padding: 8;
+            border-inset: 1;
+            margin: 2;
+            gap: 4;
+            
+            .side-panel-separator {
+                auto-size: grow fit;
+                size: 0 1;
+                background-color: "Widget.Border";
+            }
+            
+            .side-panel-button {
+                auto-size: grow fit;
+                padding: 2 4;
+                background-color: "Widget.PopupBackground.Gradient1";
+                gap: 6;
+                
+                & > .icon {
+                    size: 16;
+                }
+                
+                & > .text {
+                    color: "Widget.PopupMenuText";
+                    outline-color: "Widget.PopupMenuTextOutline";
+                    outline-size: 2;
+                    font-size: 13;
+                }
+                
+                &.selected {
+                    background-color: "Widget.PopupMenuBackgroundHover";
+                    & > .text {
+                        color: "Widget.PopupMenuTextHover";
+                        outline-color: "Widget.PopupMenuTextOutlineHover";
+                    }
+                }
+            }
+            
+             .side-panel-spacer {
+                auto-size: fit grow;
+                size: 0 1;
+                is-visible: false;
+            }
+            
+            &.bottom > .side-panel-spacer { is-visible: true; }
+        }
+        
+        & > .contents {
+            flow: vertical;
+            auto-size: grow;
+            padding: 0 8;
+            margin: 1 8 1 0;
+            scrollbar-track-color: 0;
+            
+            & > .list {
+                auto-size: grow fit;
+                flow: vertical;
+                gap: 8;
+            }
+        }
+    }
+    
+    .condensed-expansion {
+        flow: vertical;
+        auto-size: grow fit;
+        gap: 12;
+    }
+    
+    .condensed-region {
+        flow: vertical;
+        auto-size: grow fit;
+        border-radius: 5;
+        
+        & > .header {
+            auto-size: grow fit;
+            padding: 2 4;
+            gap: 4;
+            
+            & > .line {
+                anchor: middle-left;
+                size: 0 1;
+                auto-size: grow fit;
+                background-color: "Widget.Border";
+            }
+            
+            & > .text {
+                anchor: middle-left;
+                text-overflow: false;
+                word-wrap: false;
+                text-align: middle-center;
+                font-size: 11;
+                color: "Widget.PopupMenuTextMuted";
+                outline-color: "Widget.PopupMenuTextOutline";
+                outline-size: 1;
+            }
+        }
+        
+        & > .list {
+            auto-size: grow fit;
+            gap: 2;
+            flow: vertical;
+            
+            & > .teleport {
+                auto-size: grow fit;
+                gap: 4;
+                transition-type: ease-out-sine;
+                transition-duration: 200;
+            
+                & > .icon {
+                    size: 16;
+                    uld-resource: "ui/uld/Teleport";
+                    uld-parts-id: 16;
+                    uld-part-id: 3;
+                }
+                
+                & > .text {
+                    auto-size: grow fit;
+                    text-overflow: false;
+                    word-wrap: false;
+                    text-align: middle-left;
+                    font-size: 11;
+                    color: "Widget.PopupMenuText";
+                    outline-color: "Widget.PopupMenuTextOutline";
+                    outline-size: 1;
+                    padding: 0 32 0 0;
+                }
+                
+                & > .cost {
+                    text-align: middle-right;
+                    font-size: 11;
+                    color: "Widget.PopupMenuTextMuted";
+                    outline-color: "Widget.PopupMenuTextOutline";
+                    outline-size: 1;
+                }
+                
+                &:hover {
+                    background-color: "Widget.PopupMenuBackgroundHover";
+                    transition-duration: 1;
+                    
+                    & > .text {
+                        color: "Widget.PopupMenuTextHover";
+                        outline-color: "Widget.PopupMenuTextOutlineHover";
+                    }
+                    
+                    & > .cost {
+                        color: "Widget.PopupMenuTextHover";
+                        outline-color: "Widget.PopupMenuTextOutlineHover";
+                    }
+                }
+            }
+        }
+    }
+    
+    
+    ]]>
+</udt>

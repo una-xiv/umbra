@@ -21,7 +21,7 @@ public class ProgressBarNode : Node
     /// <summary>
     /// Minimum value allowed on this bar
     /// </summary>
-    public int Minimum { get; set; } = 0;
+    public int Minimum { get; set; }
 
     /// <summary>
     /// Maximum value allowed on this bar
@@ -31,7 +31,7 @@ public class ProgressBarNode : Node
     /// <summary>
     /// Current value the bar should display
     /// </summary>
-    public int Value { get; set; } = 0;
+    public int Value { get; set; }
 
     /// <summary>
     /// Define if the bar should support overflow. Overflow will handle a value range progress from 100% to 200%.
@@ -68,6 +68,15 @@ public class ProgressBarNode : Node
         BeforeDraw += UpdateBar;
     }
 
+    public ProgressBarNode()
+    {
+        ClassList  = ["progressbar"];
+        ChildNodes = [BarNode, OverflowNode];
+        Stylesheet = BarStylesheet;
+
+        BeforeDraw += UpdateBar;
+    }
+
     private void UpdateBar(Node _)
     {
         if (!IsVisible) return;
@@ -87,26 +96,21 @@ public class ProgressBarNode : Node
             progress = 1;
         }
 
-        float scaledHeight = Height / ScaleFactor;
-        float scaledWidth = Width / ScaleFactor;
-        
+        float scaledWidth = InnerWidth / ScaleFactor;
+
         progress = Math.Clamp(progress, 0, 1);
         overflow = Math.Clamp(overflow, 0, 1);
 
-        int padding     = UseBorder ? PaddingSize * 2 : 0;
-        int innerHeight = (int) (scaledHeight - padding);
+        var progressWidth = progress * scaledWidth;
+        var overflowWidth = overflow * scaledWidth;
 
-        var progressWidth = (int)(progress * (scaledWidth - padding));
-        var overflowWidth = (int)(overflow * (scaledWidth - padding));
+        BarNode.Style.Size      = new(progressWidth, 0);
+        OverflowNode.Style.Size = new(overflowWidth, 0);
 
-        BarNode.Style.Size      = new(progressWidth, innerHeight);
-        OverflowNode.Style.Size = new(overflowWidth, innerHeight);
+        BarNode.Style.IsVisible      = progress > 0f;
+        OverflowNode.Style.IsVisible = overflow > 0f;
 
-        if (Value >= Maximum) {
-            BarNode.TagsList.Add("full");
-        } else {
-            BarNode.TagsList.Remove("full");
-        }
+        BarNode.ToggleTag("full", Value >= Maximum);
 
         if (Direction == FillDirection.RightToLeft) {
             BarNode.Style.Anchor      = Anchor.TopRight;
@@ -122,8 +126,10 @@ public class ProgressBarNode : Node
     /// </summary>
     private static readonly Stylesheet BarStylesheet = new([
         new(".progressbar", new() {
-            BorderRadius  = 5,
-            IsAntialiased = true,
+            Anchor       = Anchor.None,
+            AutoSize     = (AutoSize.Grow, AutoSize.Grow),
+            BorderRadius = 3,
+            Margin       = new(3, 0),
         }),
         new(
             ".progressbar:bordered",
@@ -133,27 +139,28 @@ public class ProgressBarNode : Node
                 StrokeColor     = new("Widget.Border"),
                 StrokeWidth     = 1,
                 StrokeInset     = 1,
-                StrokeRadius    = 4,
+                StrokeRadius    = 3,
             }
         ),
         new(
             ".bar",
             new() {
+                AutoSize      = (AutoSize.Fit, AutoSize.Grow),
                 Size          = new(0),
-                BorderRadius  = 3,
+                BorderRadius  = 2,
                 IsAntialiased = true,
             }
         ),
         new(
             ".bar--current-value",
             new() {
-                BackgroundColor = new("Window.TextMuted"),
+                BackgroundColor = new("Widget.ProgressBar"),
             }
         ),
         new(
             ".bar--overflow-value",
             new() {
-                BackgroundColor = new("Window.Text"),
+                BackgroundColor = new("Widget.ProgressBarOverflow"),
             }
         ),
     ]);

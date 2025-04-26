@@ -1,0 +1,129 @@
+﻿<udt>
+    <node id="Popup">
+        <node id="ItemList"/>
+        <node id="EmptyButtonPlaceholder" value="SeIcon(MouseRightClick) _L(Widget.DynamicMenu.EmptyButtonPlaceholder)"/>
+    </node>
+
+    <![CDATA[
+    #Popup {
+        flow: vertical;
+        padding: 4 0;
+        auto-size: grow fit;
+        gap: 16;
+        
+        & > #ItemList {
+            auto-size: grow fit;
+            flow: vertical;
+            gap: 2;
+        }
+        
+        & > #EmptyButtonPlaceholder {
+            auto-size: grow fit;
+            font: 0;
+            font-size: 11;
+            color: "Widget.PopupMenuTextMuted";
+            outline-color: "Widget.PopupMenuTextOutline";
+            outline-size: 1;
+            padding: 4;
+            text-align: middle-center;
+            border-color: "Widget.PopupBorder";
+            border-width: 1 0 0 0;
+            
+            &:hover {
+                background-color: "Widget.PopupMenuBackgroundHover";
+                color: "Widget.PopupMenuTextHover"; 
+                outline-color: "Widget.PopupMenuTextOutlineHover";
+            }
+        }
+    }
+    
+    .item {
+        auto-size: grow fit;
+        gap: 8;
+        size: 0 36;
+        margin: 0 4;
+        transition-type: ease-out-sine;
+        transition-duration: 250;
+        
+        &:hover {
+            background-color: "Widget.PopupMenuBackgroundHover";
+            transition-duration: 50;
+        }
+        
+        &.separator { size: 0 0; margin: 0; }
+        
+        & > .separator {
+            auto-size: grow fit;
+            background-color: 0;
+            gap: 2;
+            
+            & > .line {
+                anchor: middle-center;
+                auto-size: grow fit;
+                size: 0 1;
+                background-color: "Widget.PopupBorder";
+            }
+            
+            & > .separator-text {
+                anchor: middle-center;
+                text-align: middle-center;
+                font-size: 11;
+                color: "Widget.PopupMenuTextMuted";
+                outline-color: "Widget.PopupMenuTextOutline";
+                outline-size: 1;
+            }
+        }
+        
+        & > .icon-wrapper {
+            anchor: middle-left;
+            size: 36;
+            
+            & > .icon {
+                anchor: middle-center;
+                size: 31;
+                &.disabled { image-grayscale: true; }
+            }
+            
+            & > .icon-sub {
+                anchor: top-left;
+                size: 16;
+            }
+            
+            & > .item-count {
+                anchor: bottom-right;
+                font-size: 11;
+                color: "Widget.PopupMenuText";
+                outline-color: "Widget.PopupMenuTextOutline";
+                outline-size: 1;
+            }
+        }
+        
+        & > .text {
+            auto-size: grow fit;
+            anchor: middle-left;
+            font-size: 13;
+            color: "Widget.PopupMenuText";
+            outline-color: "Widget.PopupMenuTextOutline";
+            outline-size: 1;
+            padding: 0 8 0 0;
+            
+            &:hover {
+                color: "Widget.PopupMenuTextHover";
+                outline-color: "Widget.PopupMenuTextOutlineHover";
+            }
+            
+            &.disabled { color: "Widget.PopupMenuTextDisabled"; outline-color: 0; }
+            &:disabled { color: "Widget.PopupMenuTextDisabled"; outline-color: 0; }
+        }
+        
+        &.text-alt {
+            text-align: middle-left;
+            font-size: 11;
+            color: "Widget.PopupMenuTextMuted";
+            outline-color: "Widget.PopupMenuTextOutline";
+            outline-size: 1;
+            padding: 0 8 0 0;
+        }
+    }
+    ]]>
+</udt>

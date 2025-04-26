@@ -1,11 +1,14 @@
 ﻿using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
+using FFXIVClientStructs.FFXIV.Client.UI.Agent;
+using FFXIVClientStructs.FFXIV.Component.GUI;
 using Lumina.Excel.Sheets;
 using System.Collections.Generic;
 using System.Linq;
 using Umbra.Common;
+using Una.Drawing;
 
-namespace Umbra.Widgets.Library.CollectionItemButton;
+namespace Umbra.Widgets;
 
 internal partial class CollectionItemButtonWidget
 {
@@ -36,5 +39,17 @@ internal partial class CollectionItemButtonWidget
         public readonly uint   Id   = id;
         public readonly uint   Icon = icon;
         public readonly string Name = name;
+    }
+    
+    private unsafe void Invoke(Node _)
+    {
+        if (!Items.TryGetValue(GetConfigValue<string>("Item"), out var item)) return;
+
+        var result = stackalloc AtkValue[1];
+        var values = stackalloc AtkValue[2];
+        values[0].SetInt(1);
+        values[1].SetUInt(item.Id);
+
+        AgentModule.Instance()->GetAgentByInternalId(AgentId.McGuffin)->ReceiveEvent(result, values, 2, 0);
     }
 }

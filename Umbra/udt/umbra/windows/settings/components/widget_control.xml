@@ -1,0 +1,67 @@
+﻿<udt>
+    <node class="widget-control">
+        <node class="deprecated"/>
+        <node class="label ui-text-default" value="Widget Name Here"/>
+        <node class="buttons">
+            <button-node id="delete-button" icon="TrashAlt" tooltip="_L(Delete)"/>
+            <button-node id="copy-button" icon="Copy" tooltip="_L(Settings.WidgetsModule.CopyWidget)"/>
+            <button-node id="edit-button" icon="Cog" tooltip="_L(Settings.WidgetsModule.EditWidget)"/>
+        </node>
+    </node>
+    
+    <![CDATA[
+    @import "globals";
+    
+    .widget-control {
+        auto-size: grow fit;
+        size: 0 32;
+        padding: 0 2;
+        background-color: "Window.Background";
+        border-radius: 4;
+        stroke-color: "Window.Border";
+        stroke-width: 1;
+        stroke-inset: 1;
+        stroke-radius: 3;
+        
+        &:dragging { opacity: 0.5; }
+        
+        &:hover {
+            background-color: "Input.BackgroundHover";
+            stroke-color: "Input.BorderHover"; 
+        }
+        
+        & > .deprecated {
+            anchor: middle-left;
+            size: 20;
+            is-visible: false;
+            text-align: middle-left;
+            padding: 0 0 0 2;
+            text-offset: 1 1;
+        }
+        
+        & > .label {
+            anchor: middle-left;
+            auto-size: grow fit;
+            word-wrap: false;
+            text-overflow: false;
+            padding: 0 0 0 6;
+        }
+        
+        & > .buttons {
+            anchor: middle-left;
+            gap: 1;
+            is-visible: false;
+            opacity: 0;
+            transition-duration: 250;
+            transition-type: ease-out-sine;
+        }
+    }
+
+    .widget-control:hover > .buttons { 
+        is-visible: true;
+        opacity: 1;
+        transition-duration: 250;
+        transition-type: ease-out-sine; 
+    }
+    ]]>
+</udt>

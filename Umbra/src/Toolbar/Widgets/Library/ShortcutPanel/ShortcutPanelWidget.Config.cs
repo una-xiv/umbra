@@ -22,21 +22,15 @@ internal sealed partial class ShortcutPanelWidget
         }
 
         return [
+            ..base.GetConfigVariables(),
+            
             new StringWidgetConfigVariable(
                 "ButtonLabel",
                 I18N.Translate("Widget.ShortcutPanel.Config.ButtonLabel.Name"),
                 I18N.Translate("Widget.ShortcutPanel.Config.ButtonLabel.Description"),
                 Info.Name,
                 32
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
-            new IconIdWidgetConfigVariable(
-                "ButtonIconId",
-                I18N.Translate("Widget.ShortcutPanel.Config.ButtonIconId.Name"),
-                I18N.Translate("Widget.ShortcutPanel.Config.ButtonIconId.Description"),
-                0
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
-            ..DefaultToolbarWidgetConfigVariables,
-            ..SingleLabelTextOffsetVariables,
+            ),
             ..categoryNameFields,
             new IntegerWidgetConfigVariable(
                 "NumCols",

@@ -1,0 +1,100 @@
+﻿<udt>
+    <template name="tab-bar">
+        <node class="tab-bar">
+            <node class="spacer"/>
+            <node class="button-list">
+                <slot/>
+            </node>
+            <node class="filler"/>
+        </node>
+    </template>
+
+    <template name="tab-button">
+        <argument name="name"/>
+        
+        <node class="tab-button">
+            <node class="bg"/>
+            <node class="text" value="${name}" inherit-tags="true"/>
+        </node>
+    </template>
+    
+    <![CDATA[
+    .tab-bar {
+        auto-size: grow fit;
+        size: 0 32;
+        background-color: "Window.BackgroundLight";
+        
+        & > .spacer {
+            size: 8 0;
+            anchor: bottom-left;
+            auto-size: fit grow;
+            border-color: "Window.Border";
+            border-width: 0 0 1 0;
+        }
+        
+        & > .button-list {
+            anchor: bottom-left;
+            size: 0 32;
+        }
+        
+        & > .filler {
+            anchor: bottom-left;
+            auto-size: grow;
+            border-color: "Window.Border";
+            border-width: 0 0 1 0;
+        }
+    }
+    
+    .tab-button {
+        anchor: bottom-left;
+        size:  0 28;
+        border-radius: 9;
+        rounded-corners: top-left top-right;
+        border-color: "Window.Border";
+        border-width: 0 0 1 0;
+        
+        &:selected {
+            background-color: "Window.Background";
+            border-color: "Window.Border" "Window.Border" "Window.Background" "Window.Border";
+            border-width: 1;
+            margin: 0;
+        }
+        
+        .bg {
+            anchor: top-left;
+            is-visible: false;
+        }
+        
+        &:selected > .bg {
+            is-visible: true;
+            anchor: top-left;
+            auto-size: grow;
+            margin: 2 2 6 2;
+            background-gradient: vertical "Window.AccentColor" "Window.Background";
+            opacity: 0.25;
+            border-radius: 8;
+            rounded-corners: top-left top-right;
+        }
+        
+        & > .text {
+            anchor: "middle-center";
+            color: "Window.Text";
+            padding: 0 10;
+            font: 0;
+            font-size: 13;
+            text-offset: 0 -2;
+            opacity: 0.6;
+            
+            &:selected { 
+                color: "Window.TextLight";
+                outline-color: "Window.TextOutline";
+                outline-size: 2;
+                padding: 0 8;
+                opacity: 1;
+            }
+            
+            &:hover { color: "Window.Text"; opacity: 1; }
+        }
+    }
+    ]]>
+</udt>

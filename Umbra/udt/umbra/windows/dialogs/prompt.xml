@@ -1,0 +1,53 @@
+﻿<udt>
+    <node id="main">
+        <node class="body">
+            <node id="message" class="ui-text-default" value="Are you sure?"/>
+            <string-input-node id="input" immediate="true"/>
+            <node id="hint" class="ui-text-muted"/>
+        </node>
+        <node class="ui-window-footer">
+            <node class="buttons">
+                <button-node id="cancel" label="_L(No)" is-ghost="true"/>
+                <button-node id="confirm" label="_L(Yes)"/>
+            </node>
+        </node>
+    </node>
+    
+    <![CDATA[
+    @import "globals";
+    
+    #main {
+        flow: vertical;
+        auto-size: fit;
+        size: 500 0;
+                
+        & > .body {
+            flow: vertical;
+            auto-size: grow fit;
+            padding: 12;
+            gap: 12;
+            
+            & > #message {
+                auto-size: grow fit;
+                font-size: 14;
+                text-align: middle-center;
+                word-wrap: true;
+            }
+            
+            & > #hint {
+                auto-size: grow fit;
+                text-align: middle-center;
+                word-wrap: true;
+            }
+        }
+        
+        & > .ui-window-footer {
+            & > .buttons {
+                anchor: middle-right;
+                padding: 8;
+                gap: 8;
+            }
+        }
+    }
+    ]]>
+</udt>

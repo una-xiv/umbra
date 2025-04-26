@@ -1,20 +1,4 @@
-﻿/* Umbra | (c) 2024 by Una              ____ ___        ___.
- * Licensed under the terms of AGPL-3  |    |   \ _____ \_ |__ _______ _____
- *                                     |    |   //     \ | __ \\_  __ \\__  \
- * https://github.com/una-xiv/umbra    |    |  /|  Y Y  \| \_\ \|  | \/ / __ \_
- *                                     |______//__|_|  /____  /|__|   (____  /
- *     Umbra is free software: you can redistribute  \/     \/             \/
- *     it and/or modify it under the terms of the GNU Affero General Public
- *     License as published by the Free Software Foundation, either version 3
- *     of the License, or (at your option) any later version.
- *
- *     Umbra UI is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *     GNU Affero General Public License for more details.
- */
-
-using System;
+﻿using System;
 using FFXIVClientStructs.FFXIV.Client.System.Framework;
 
 namespace Umbra.Widgets;
@@ -22,11 +6,9 @@ namespace Umbra.Widgets;
 internal partial class ClockWidget
 {
     /// <summary>
-    /// Returns a <see cref="DateTime"/> object based on the configured time
-    /// source.
+    /// Returns a <see cref="DateTime"/> instance based on the configured
+    /// time source.
     /// </summary>
-    /// <returns></returns>
-    /// <exception cref="NotImplementedException"></exception>
     private DateTime GetTime()
     {
         var timeSource = GetConfigValue<string>("TimeSource");
@@ -42,7 +24,6 @@ internal partial class ClockWidget
     /// <summary>
     /// Returns the current server time.
     /// </summary>
-    /// <returns></returns>
     private static DateTime GetServerTime()
     {
         long serverTime = Framework.GetServerTime();
@@ -56,7 +37,6 @@ internal partial class ClockWidget
     /// <summary>
     /// Returns the current Eorzea time.
     /// </summary>
-    /// <returns></returns>
     private static unsafe DateTime GetEorzeaTime()
     {
         var fw = Framework.Instance();

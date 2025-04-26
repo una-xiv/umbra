@@ -40,8 +40,7 @@ internal sealed class Plugin : IDalamudPlugin
         PluginInterface = plugin;
         plugin.Inject(this);
         
-        
-        DrawingLib.Setup(plugin);
+        UmbraDrawing.Initialize(plugin);
         
         RegisterServices();
         
@@ -58,7 +57,7 @@ internal sealed class Plugin : IDalamudPlugin
         ClientState.Login  -= OnLogin;
         ClientState.Logout -= OnLogout;
         
-        DrawingLib.Dispose();
+        UmbraDrawing.Dispose();
     }
 
     private void OnLogin()

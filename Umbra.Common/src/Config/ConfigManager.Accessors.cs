@@ -67,7 +67,7 @@ public static partial class ConfigManager
             Framework.DalamudFramework.Run(
                 async () => {
                     await Task.Delay(250);
-                    Framework.Restart();
+                    await Framework.Restart();
                 });
             return;
         }

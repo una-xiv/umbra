@@ -6,18 +6,21 @@ using NotImplementedException = System.NotImplementedException;
 
 namespace Umbra.Widgets.Library.EmoteList;
 
-[ToolbarWidget("EmoteList", "Widget.EmoteList.Name", "Widget.EmoteList.Description")]
-[ToolbarWidgetTags(["emote", "list", "panel", "shortcuts"])]
+[ToolbarWidget("EmoteList", "Widget.EmoteList.Name", "Widget.EmoteList.Description", ["emote", "list", "panel", "shortcuts"])]
 internal sealed partial class EmoteListWidget(
     WidgetInfo                  info,
     string?                     guid         = null,
     Dictionary<string, object>? configValues = null
-) : DefaultToolbarWidget(info, guid, configValues)
+) : StandardToolbarWidget(info, guid, configValues)
 {
     public override EmoteListPopup Popup { get; } = new();
 
-    /// <inheritdoc/>
-    protected override void Initialize()
+    protected override StandardWidgetFeatures Features =>
+        StandardWidgetFeatures.Text |
+        StandardWidgetFeatures.Icon |
+        StandardWidgetFeatures.CustomizableIcon;
+
+    protected override void OnLoad()
     {
         Node.OnRightClick += _ => {
             Framework.Service<IChatSender>().Send("/emotelist");
@@ -27,7 +30,6 @@ internal sealed partial class EmoteListWidget(
         Popup.OnKeepOpenChanged += OnKeepOpenChanged;
         Popup.OnEmotesChanged   += OnEmotesChanged;
 
-        // Load previously stored emotes.
         try {
             var emotes =
                 JsonSerializer.Deserialize<Dictionary<byte, Dictionary<byte, uint>>>(
@@ -42,19 +44,16 @@ internal sealed partial class EmoteListWidget(
         }
     }
 
-    /// <inheritdoc/>
-    protected override void OnDisposed()
+    protected override void OnUnload()
     {
         Popup.OnCategoryChanged -= OnEmoteCategoryChanged;
         Popup.OnKeepOpenChanged -= OnKeepOpenChanged;
         Popup.OnEmotesChanged   -= OnEmotesChanged;
     }
 
-    /// <inheritdoc/>
-    protected override void OnUpdate()
+    protected override void OnDraw()
     {
-        SetLabel(GetConfigValue<string>("Label"));
-        SetIcon(GetConfigValue<uint>("IconId"));
+        SetText(GetConfigValue<string>("Label"));
 
         Popup.KeepOpenAfterUse     = GetConfigValue<bool>("KeepOpenAfterUse");
         Popup.LastSelectedCategory = (byte)GetConfigValue<int>("LastSelectedCategory");
@@ -73,8 +72,6 @@ internal sealed partial class EmoteListWidget(
             GetConfigValue<string>("Category_2_Name"),
             GetConfigValue<string>("Category_3_Name"),
         ];
-
-        base.OnUpdate();
     }
 
     private void OnEmoteCategoryChanged(byte id)

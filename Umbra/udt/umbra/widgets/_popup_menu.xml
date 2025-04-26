@@ -1,0 +1,132 @@
+﻿<udt>
+    <node class="popup"/>
+    
+    <![CDATA[
+    .popup {
+        flow: vertical;
+        gap: 2;
+        padding: 2;
+        
+        .group {
+            flow: vertical;
+            auto-size: grow fit;
+            
+            & > .header {
+                auto-size: grow fit;
+                gap: 4;
+                
+                & > .line {
+                    anchor: middle-left;
+                    auto-size: grow fit;
+                    size: 0 1;
+                    background-color: "Widget.PopupMenuTextDisabled";
+                }
+                
+                & > .text {
+                    anchor: middle-left;
+                    font-size: 12;
+                    color: "Widget.PopupMenuTextMuted";
+                    outline-color: "Widget.PopupMenuTextOutline";
+                    outline-size: 1;
+                }
+            }
+            
+            & > .content {
+                flow: vertical;
+                auto-size: grow fit;
+                gap: 2;
+            }
+        }
+        
+        .separator {
+            auto-size: grow fit;
+            size: 0 1;
+            background-color: "Widget.Border";
+        }
+        
+        .button {
+            auto-size: grow fit;
+            padding: 4 8;
+            gap: 4;
+            border-radius: 2;
+            background-color: 0;
+            transition-type: ease-in-sine;
+            transition-duration: 150;
+            
+            & > .icon {
+                anchor: middle-left;
+                size: 22;
+                transition-type: linear;
+                transition-duration: 120;
+                font-size: 13;
+                text-align: middle-center;
+                color: "Widget.PopupMenuText";
+                outline-color: "Widget.PopupMenuTextOutline";
+                outline-size: 1;
+            }
+            
+            & > .text {
+                anchor: middle-left;
+                auto-size: grow fit;
+                font-size: 13;
+                color: "Widget.PopupMenuText";
+                outline-color: "Widget.PopupMenuTextOutline";
+                outline-size: 1;
+                text-align: middle-left;
+                transition-type: linear;
+                transition-duration: 120;
+            }
+            
+            & > .alt-text {
+                anchor: middle-left;
+                auto-size: fit;
+                font-size: 11;
+                color: "Widget.PopupMenuTextMuted";
+                outline-color: "Widget.PopupMenuTextOutline";
+                outline-size: 1;
+                text-align: middle-left;
+                padding: 0 0 0 24;
+                transition-type: linear;
+                transition-duration: 120;
+            }
+            
+            &.selected {
+                & > .icon {
+                    color: "Widget.PopupMenuTextHover";
+                    outline-color: "Widget.PopupMenuTextOutlineHover";
+                }
+                
+                & > .text {
+                    color: "Widget.PopupMenuTextHover";
+                    outline-color: "Widget.PopupMenuTextOutlineHover";
+                }
+                
+                & > .alt-text {
+                    color: "Widget.PopupMenuTextHover";
+                    outline-color: "Widget.PopupMenuTextOutlineHover";
+                }
+            }
+            
+            &:hover {
+                background-color: "Widget.PopupMenuBackgroundHover";
+                transition-duration: 1;
+                
+                & > .icon {
+                    color: "Widget.PopupMenuTextHover";
+                    outline-color: "Widget.PopupMenuTextOutlineHover";
+                }
+                
+                & > .text {
+                    color: "Widget.PopupMenuTextHover";
+                    outline-color: "Widget.PopupMenuTextOutlineHover";
+                }
+                
+                & > .alt-text {
+                    color: "Widget.PopupMenuTextHover";
+                    outline-color: "Widget.PopupMenuTextOutlineHover";
+                }
+            }
+        }
+    }
+    ]]>
+</udt>

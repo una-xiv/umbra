@@ -1,184 +1,136 @@
-﻿/* Umbra | (c) 2024 by Una              ____ ___        ___.
- * Licensed under the terms of AGPL-3  |    |   \ _____ \_ |__ _______ _____
- *                                     |    |   //     \ | __ \\_  __ \\__  \
- * https://github.com/una-xiv/umbra    |    |  /|  Y Y  \| \_\ \|  | \/ / __ \_
- *                                     |______//__|_|  /____  /|__|   (____  /
- *     Umbra is free software: you can redistribute  \/     \/             \/
- *     it and/or modify it under the terms of the GNU Affero General Public
- *     License as published by the Free Software Foundation, either version 3
- *     of the License, or (at your option) any later version.
- *
- *     Umbra UI is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *     GNU Affero General Public License for more details.
- */
-
-using Dalamud.Interface;
+﻿using Dalamud.Interface;
+using ImGuiNET;
 using Una.Drawing;
+using Una.Drawing.Templating.StyleParser;
 
 namespace Umbra.Windows.Components;
 
 public class ButtonNode : Node
 {
     public string? Label {
-        set => QuerySelector("Label")!.NodeValue = value;
+        get => _label;
+        set
+        {
+            _label                    = value?.Trim();
+            LabelNode.NodeValue       = _label;
+            ToggleClass("has-label", null != value);
+        }
     }
 
     public FontAwesomeIcon? Icon {
-        set => QuerySelector("Icon")!.NodeValue = value?.ToIconString();
+        get => _icon;
+        set
+        {
+            _icon                    = value;
+            IconNode.NodeValue       = _icon?.ToIconString();
+            ToggleClass("has-icon", null != value);
+        }
     }
 
-    public bool IsGhost { get; set; }
+    public bool IsGhost {
+        get => ClassList.Contains("ghost");
+        set => ToggleClass("ghost", value);
+    }
+
+    public bool IsSmall {
+        get => ClassList.Contains("small");
+        set => ToggleClass("small", value);
+    }
+
+    private string?          _label;
+    private FontAwesomeIcon? _icon;
+
+    private Node IconNode  => QuerySelector("#Icon")!;
+    private Node LabelNode => QuerySelector("#Label")!;
 
     public ButtonNode(
         string id, string? label, FontAwesomeIcon? icon = null, bool isGhost = false, bool isSmall = false
     )
     {
-        Id         = id;
-        IsGhost    = isGhost;
-        ClassList  = ["button"];
-        Stylesheet = ButtonStylesheet;
+        CreateNode();
 
-        if (isSmall) TagsList.Add("small");
-
-        ChildNodes = [
-            new() { Id = "Icon", ClassList  = ["button--icon"], InheritTags  = true },
-            new() { Id = "Label", ClassList = ["button--label"], InheritTags = true },
-        ];
-
-        Label = label;
-        Icon  = icon;
-
-        BeforeReflow += _ => {
-            switch (IsGhost) {
-                case true when !ClassList.Contains("ghost"):
-                    ClassList.Add("ghost");
-                    break;
-                case false when ClassList.Contains("ghost"):
-                    ClassList.Remove("ghost");
-                    break;
-            }
-
-            QuerySelector("Icon")!.Style.IsVisible  = QuerySelector("Icon")!.NodeValue is not null;
-            QuerySelector("Label")!.Style.IsVisible = QuerySelector("Label")!.NodeValue is not null;
-
-            if (IsDisabled) {
-                QuerySelector("Label")!.TagsList.Add("disabled");
-                QuerySelector("Icon")!.TagsList.Add("disabled");
-            } else {
-                QuerySelector("Label")!.TagsList.Remove("disabled");
-                QuerySelector("Icon")!.TagsList.Remove("disabled");
-            }
-
-            return true;
-        };
+        Id      = id;
+        IsGhost = isGhost;
+        Label   = label;
+        Icon    = icon;
+        IsSmall = isSmall;
     }
 
-    private static Stylesheet ButtonStylesheet { get; } = new(
-        [
-            new(
-                ".button",
-                new() {
-                    Size            = new(0, 28),
-                    Padding         = new(0, 8),
-                    BorderRadius    = 5,
-                    StrokeInset     = 1,
-                    StrokeWidth     = 1,
-                    Gap             = 6,
-                    BackgroundColor = new("Input.Background"),
-                    StrokeColor     = new("Input.Border"),
-                    IsAntialiased   = false,
-                }
-            ),
-            new(
-                ".button:small",
-                new() {
-                    Size    = new(0, 20),
-                    Padding = new(0, 5),
-                }
-            ),
-            new(
-                ".button:hover",
-                new() {
-                    BackgroundColor = new("Input.BackgroundHover"),
-                    StrokeColor     = new("Input.BorderHover"),
-                }
-            ),
-            new(
-                ".button:disabled",
-                new() {
-                    Color           = new("Input.TextDisabled"),
-                    OutlineColor    = new("Input.TextOutlineDisabled"),
-                    BackgroundColor = new("Input.BackgroundDisabled"),
-                    StrokeColor     = new("Input.BorderDisabled"),
-                }
-            ),
-            new(
-                ".button.ghost",
-                new() {
-                    BackgroundColor = new(0),
-                    StrokeColor     = new(0),
-                }
-            ),
-            new(
-                ".button--icon",
-                new() {
-                    Anchor       = Anchor.MiddleLeft,
-                    TextAlign    = Anchor.MiddleCenter,
-                    FontSize     = 13,
-                    Font         = 2,
-                    Size         = new(0, 28),
-                    Color        = new("Input.Text"),
-                    OutlineColor = new("Input.TextOutline"),
-                }
-            ),
-            new(
-                ".button--label",
-                new() {
-                    Anchor       = Anchor.MiddleLeft,
-                    TextAlign    = Anchor.MiddleCenter,
-                    Size         = new(0, 28),
-                    FontSize     = 13,
-                    OutlineSize  = 1,
-                    Color        = new("Input.Text"),
-                    OutlineColor = new("Input.TextOutline"),
-                }
-            ),
-            new(
-                ".button--label:small",
-                new() {
-                    FontSize = 11,
-                }
-            ),
-            new(
-                ".button--icon:hover",
-                new() {
-                    Color        = new("Input.TextHover"),
-                    OutlineColor = new("Input.TextOutlineHover"),
-                }
-            ),
-            new(
-                ".button--label:hover",
-                new() {
-                    Color        = new("Input.TextHover"),
-                    OutlineColor = new("Input.TextOutlineHover"),
-                }
-            ),
-            new(
-                ".button--icon:disabled",
-                new() {
-                    Color        = new("Input.TextDisabled"),
-                    OutlineColor = new("Input.TextOutlineDisabled"),
-                }
-            ),
-            new(
-                ".button--label:disabled",
-                new() {
-                    Color        = new("Input.TextDisabled"),
-                    OutlineColor = new("Input.TextOutlineDisabled"),
-                }
-            )
-        ]
+    public ButtonNode()
+    {
+        CreateNode();
+
+        Label = null;
+        Icon  = null;
+    }
+
+    private void CreateNode()
+    {
+        IsGhost    = false;
+        ClassList  = ["button", "ui-frame-input"];
+        Stylesheet = ButtonStylesheet;
+        ChildNodes = [
+            new() { Id = "Icon", ClassList  = ["icon", "ui-text-default"], InheritTags  = true },
+            new() { Id = "Label", ClassList = ["label", "ui-text-default"], InheritTags = true },
+        ];
+    }
+
+    protected override void OnDraw(ImDrawListPtr _)
+    {
+    }
+
+    private static readonly Stylesheet ButtonStylesheet = StyleParser.StylesheetFromCode(
+        """
+        @import "globals";
+
+        .button {
+            size: 0 28;
+            padding: 0 8;
+            gap: 6;
+            
+            &:disabled {
+                color: "Input.TextDisabled";
+                outline-color: "Input.TextOutlineDisabled";
+                background-color: "Input.BackgroundDisabled";
+                stroke-color: "Input.BorderDisabled";
+            }
+            
+            &.ghost {
+                background-color: 0;
+                stroke-color: 0;
+            }
+            
+            & > .icon {
+                anchor: middle-left;
+                auto-size: fit grow;
+                size: 16 0;
+                text-align: middle-center;
+                font-size: 13;
+                text-offset: 0 1;
+                font: 2; // FontAwesome
+                is-visible: false;
+            }
+            
+            & > .label {
+                anchor: middle-left;
+                text-align: middle-center;
+                size: 0 28;
+                is-visible: false;
+            }
+        }
+        
+        .button.has-label > .label { is-visible: true; }
+        .button.has-icon  > .icon  { is-visible: true; }
+        
+        .button.small {
+            size: 0 20;
+            padding: 0 5;
+            
+            &.has-label > .label { padding: 0 8 0 0; }
+            
+            & > .icon { size: 13 0; font-size: 11; }
+            & > .label { size: 0 20; font-size: 10; }
+        }
+        """
     );
 }

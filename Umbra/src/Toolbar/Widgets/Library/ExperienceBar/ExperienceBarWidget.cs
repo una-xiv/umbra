@@ -1,20 +1,4 @@
-﻿/* Umbra | (c) 2024 by Una              ____ ___        ___.
- * Licensed under the terms of AGPL-3  |    |   \ _____ \_ |__ _______ _____
- *                                     |    |   //     \ | __ \\_  __ \\__  \
- * https://github.com/una-xiv/umbra    |    |  /|  Y Y  \| \_\ \|  | \/ / __ \_
- *                                     |______//__|_|  /____  /|__|   (____  /
- *     Umbra is free software: you can redistribute  \/     \/             \/
- *     it and/or modify it under the terms of the GNU Affero General Public
- *     License as published by the Free Software Foundation, either version 3
- *     of the License, or (at your option) any later version.
- *
- *     Umbra UI is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *     GNU Affero General Public License for more details.
- */
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using Umbra.Common;
 using Umbra.Game;
@@ -22,8 +6,7 @@ using Una.Drawing;
 
 namespace Umbra.Widgets;
 
-[ToolbarWidget("ExperienceBar", "Widget.ExperienceBar.Name", "Widget.ExperienceBar.Description")]
-[ToolbarWidgetTags(["exp", "experience", "bar", "level"])]
+[ToolbarWidget("ExperienceBar", "Widget.ExperienceBar.Name", "Widget.ExperienceBar.Description", ["exp", "experience", "bar", "level"])]
 internal partial class ExperienceBarWidget(
     WidgetInfo                  info,
     string?                     guid         = null,
@@ -73,12 +56,12 @@ internal partial class ExperienceBarWidget(
             - 12
             - ((SyncIconNode.Style.IsVisible ?? true) || (SanctuaryIconNode.Style.IsVisible ?? true) ? 20 : 0);
 
-        int leftWidth = LeftLabelNode.InnerWidth;
+        float leftWidth = LeftLabelNode.InnerWidth;
 
         SanctuaryIconNode.Style.Size = new(0, SafeHeight);
         SyncIconNode.Style.Size      = new(0, SafeHeight);
         LeftLabelNode.Style.Size     = new(0, SafeHeight);
-        RightLabelNode.Style.Size    = new(fullWidth - (int)(leftWidth / Node.ScaleFactor) - 4, SafeHeight);
+        RightLabelNode.Style.Size    = new(fullWidth - (leftWidth / Node.ScaleFactor) - 4, SafeHeight);
 
         UpdateVisualBars();
     }

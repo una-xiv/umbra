@@ -20,6 +20,7 @@ using System.Linq;
 using System.Reflection;
 using Dalamud.Plugin.Services;
 using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace Umbra.Common;
 
@@ -72,6 +73,18 @@ internal static class Scheduler
         _isRunning                             =  false;
     }
 
+    internal static async Task RunDelayed(double delay, Action action)
+    {
+        if (delay <= 0) {
+            action.Invoke();
+            return;
+        }
+
+        await Task.Delay(TimeSpan.FromMilliseconds(delay));
+
+        action.Invoke();
+    }
+    
     private static void OnUmbraTick(IFramework fw)
     {
         fw.RunOnFrameworkThread(

@@ -1,0 +1,71 @@
+﻿<udt>
+    <node class="collapsible-group expanded">
+        <node class="header">
+            <node class="chevron expanded" value="FA(ChevronCircleDown)"/>
+            <node class="chevron collapsed" value="FA(ChevronCircleRight)"/>
+            <node class="text ui-text-default"/>
+        </node>
+        <node class="body"/>
+    </node>
+    
+    <![CDATA[
+    @import "globals";
+    
+    .collapsible-group {
+        flow: vertical;
+        auto-size: grow fit;
+        
+        background-color: "Window.BackgroundLight";
+        border-radius: 6;
+        stroke-color: "Window.Background";
+        stroke-width: 1;
+        stroke-radius: 5;
+        stroke-inset: 1;
+        
+        .header {
+            auto-size: grow fit;
+            gap: 8;
+            padding: 4 8 4 8;
+        
+            & > .chevron {
+                size: 28;
+                anchor: middle-left;
+                font: 2; // FontAwesome
+                font-size: 18;
+                is-visible: false;
+                text-align: middle-center;
+                text-offset: 0 1;
+            }
+            
+            & > .text {
+                size: 0 32;
+                anchor: middle-left;
+                auto-size: grow fit;
+                text-align: middle-left;
+                font-size: 16;
+            }
+        }
+        
+        .body {
+            auto-size: grow fit;
+            flow: vertical;
+            gap: 20;
+            padding: 16 8;
+            border-color: "Window.Background";
+            border-width: 1 0 0 0;
+        }
+        
+        &.expanded {
+            & > .header > .chevron.expanded { is-visible: true; }
+            & > .header > .chevron.collapsed { is-visible: false; }
+            & > .body { is-visible: true; }
+        }
+        
+        &.collapsed {
+            & > .header > .chevron.expanded { is-visible: false; }
+            & > .header > .chevron.collapsed { is-visible: true; }
+            & > .body { is-visible: false; }
+        }
+    }
+    ]]>
+</udt>

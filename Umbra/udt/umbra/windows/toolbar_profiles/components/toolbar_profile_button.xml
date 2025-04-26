@@ -1,0 +1,82 @@
+﻿<udt>
+    <node class="toolbar-profile-button">
+        <node class="check" value="FA(Check)"/>
+        <node class="name"/>
+        <node class="buttons">
+            <button-node is-small="false" icon="FileExport" tooltip="_L(ToolbarProfilesWindow.ExportToClipboard)" id="export-button"/>
+            <button-node is-small="false" icon="TrashAlt" tooltip="_L(ToolbarProfilesWindow.DeleteProfile)" id="delete-button"/>
+        </node>
+    </node>
+    
+    <![CDATA[
+    .toolbar-profile-button {
+        auto-size: grow fit;
+        gap: 4;
+        size: 0 32;
+        padding: 2;
+        background-color: "Input.Background";
+        transition-type: ease-out-sine;
+        transition-duration: 150;
+        
+        & > .check {
+            anchor: middle-left;
+            text-align: middle-center;
+            size: 20;
+            font: 2; // FontAwesome
+            font-size: 14;
+            color: "Window.Text";
+            outline-color: "Window.TextOutline";
+            outline-size: 1;
+            opacity: 0;
+        }
+        
+        & > .name {
+            anchor: middle-left;
+            auto-size: grow fit;
+            font-size: 13;
+            color: "Input.Text";
+            outline-color: "Input.TextOutline";
+            outline-size: 1;
+            text-overflow: false;
+            word-wrap: false;
+        }
+        
+        & > .buttons {
+            anchor: middle-left;
+            gap: 2;
+            opacity: 0;
+            transition-type: ease-out-sine;
+            transition-duration: 150;
+        }
+        
+        &:hover {
+            transition-duration: 1;
+            background-color: "Widget.PopupMenuBackgroundHover";
+            
+            & > .check { 
+                color: "Widget.PopupMenuTextHover";
+                outline-color: "Widget.PopupMenuTextOutlineHover";
+                outline-size: 1;
+            }
+            
+            & > .name { 
+                color: "Widget.PopupMenuTextHover";
+                outline-color: "Widget.PopupMenuTextOutlineHover";
+                outline-size: 1;
+            }
+            
+            & > .buttons {
+                transition-duration: 1;
+                opacity: 1;
+            }
+        }
+        
+        &.active {
+            background-color: "Window.Background";
+            
+            & > .check { opacity: 1; }
+            & > .name { color: "Window.Text"; outline-color: "Window.TextOutline"; }
+        }
+    }
+    ]]>
+</udt>

@@ -1,0 +1,30 @@
+﻿<udt>
+    <import from="umbra.windows.settings._shared.xml"/>
+
+    <sidebar-layout>
+        <node slot="side" class="sidebar">
+            <node id="sidebar-buttons"/>
+        </node>
+        <node id="main"/>
+    </sidebar-layout>
+    
+    <template name="category-group">
+        <argument name="label" default="Category"/>
+        <node class="category-group">
+           <node class="header">
+               <node class="line"/>
+               <node class="text" value="${label}"/>
+               <node class="line"/>
+           </node> 
+            <node class="body"/>
+        </node>
+    </template>
+    
+    <![CDATA[
+    #main {
+        flow: vertical;
+        auto-size: grow fit;
+        gap: 24;
+    }
+    ]]>
+</udt>

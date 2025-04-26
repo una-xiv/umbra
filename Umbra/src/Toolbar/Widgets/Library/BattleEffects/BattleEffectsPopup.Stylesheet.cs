@@ -44,7 +44,7 @@ internal partial class BattleEffectsPopup
                 new() {
                     Size         = new(320, 0),
                     TextAlign    = Anchor.MiddleCenter,
-                    Stretch      = true,
+                    AutoSize     = (AutoSize.Fit, AutoSize.Grow),
                     FontSize     = 13,
                     Color        = new("Widget.PopupMenuTextMuted"),
                     OutlineColor = new("Widget.PopupMenuTextOutline"),

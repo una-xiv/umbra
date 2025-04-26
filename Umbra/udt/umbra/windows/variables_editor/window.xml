@@ -1,0 +1,94 @@
+﻿<udt>
+    <import from="umbra.components.tab_bar.xml"/>
+    
+    <node id="main">
+        <tab-bar/>
+        <node class="body" overflow="false">
+            <node id="variables"/>
+        </node>
+        <node class="footer ui-window-footer">
+            <node class="buttons" id="extra-buttons"/>
+            <node class="spacer"/>
+            <node class="buttons">
+                <button-node id="close-button" label="_L(Close)"/>
+            </node>
+        </node>
+    </node>
+
+    <template name="widget">
+        <argument name="label"/>
+        <argument name="description"/>
+
+        <node class="widget">
+            <node class="label ui-text-default" value="${label}"/>
+            <node class="description ui-text-muted" value="${description}"/>
+        </node>
+
+    </template>
+
+    <![CDATA[
+    @import "globals";
+    
+    #main {
+        flow: vertical;
+        auto-size: grow;
+        
+        & > .body {
+            auto-size: grow;
+            background-color: "Window.Background";
+            scrollbar-track-color: "Window.Background";
+            
+            & > #variables {
+                flow: vertical;
+                auto-size: grow fit;
+                border-radius: 5;
+                margin: 8;
+                
+                & > .variable-group {
+                    flow: vertical;
+                    auto-size: grow fit;
+                    padding: 8 12 8 8;
+                    gap: 20;
+                    is-visible: false;
+                    
+                    &.active { is-visible: true; }
+                }
+            }
+        }
+        
+        & > .footer {
+            & > .spacer {
+                auto-size: grow fit;
+            }
+        
+            & > .buttons {
+                padding: 8;
+                gap: 8;
+            }
+        }
+    }
+    
+    .widget {
+        flow: vertical;
+        auto-size: grow fit;
+        padding: 8;
+        background-color: "Window.Background";
+        stroke-width: 1;
+        stroke-inset: 2;
+        stroke-color: "Input.Border";
+        stroke-radius: 4;
+        border-radius: 5;
+        transition-duration: 100;
+        transition-type: ease-in-out-sine;
+        
+        &:hover {
+            stroke-color: "Window.AccentColor";
+            background-color: "Window.BackgroundLight";
+            
+            & > .label {
+                color: "Window.TextLight";
+            }
+        }
+    }
+    ]]>
+</udt>

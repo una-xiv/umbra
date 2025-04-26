@@ -1,41 +1,59 @@
-﻿using Lumina.Data.Parsing;
-using System.Collections.Generic;
-using System.Numerics;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Umbra.Common;
 
-namespace Umbra.Widgets.Library.CollectionItemButton;
+namespace Umbra.Widgets;
 
-[ToolbarWidget("CollectionItemButton", "Widget.CollectionItemButton.Name", "Widget.CollectionItemButton.Description")]
-[ToolbarWidgetTags(["button", "item", "collectible", "collection"])]
+[ToolbarWidget(
+    "CollectionItemButton",
+    "Widget.CollectionItemButton.Name",
+    "Widget.CollectionItemButton.Description",
+    ["button", "item", "collectible", "collection"]
+)]
 internal sealed partial class CollectionItemButtonWidget(
     WidgetInfo                  info,
     string?                     guid         = null,
     Dictionary<string, object>? configValues = null
-) : DefaultToolbarWidget(info, guid, configValues)
+) : StandardToolbarWidget(info, guid, configValues)
 {
-    public override WidgetPopup? Popup { get; } = null;
+    protected override StandardWidgetFeatures Features => StandardWidgetFeatures.Icon | StandardWidgetFeatures.Text;
 
-    protected override void Initialize()
+    protected override void OnLoad()
     {
         LoadCollectionItems();
-        SetLabel("Collection");
+        SetText("Collection");
 
         Node.OnMouseUp += Invoke;
     }
 
-    protected override void OnDisposed()
+    protected override void OnDraw()
     {
-        Node.OnMouseUp -= Invoke;
-    }
-
-    protected override void OnUpdate()
-    {
-        SetGhost(!GetConfigValue<bool>("Decorate"));
-
         if (!Items.TryGetValue(GetConfigValue<string>("Item"), out var item)) return;
 
-        SetIcon(item.Icon);
-        SetLabel(GetConfigValue<string>("DisplayMode") is "TextOnly" or "TextAndIcon" ? item.Name : null);
+        SetGameIconId(item.Icon);
+        SetText(item.Name);
+    }
 
-        base.OnUpdate();
+    protected override IEnumerable<IWidgetConfigVariable> GetConfigVariables()
+    {
+        LoadCollectionItems();
+
+        Dictionary<string, string> items = [];
+
+        foreach (var item in Items) {
+            items.Add(item.Key, item.Value.Name);
+        }
+
+        return [
+            ..base.GetConfigVariables(),
+
+            new SelectWidgetConfigVariable(
+                "Item",
+                I18N.Translate("Widget.CollectionItemButton.Config.Item.Name"),
+                I18N.Translate("Widget.CollectionItemButton.Config.Item.Description"),
+                items.Keys.First(),
+                items
+            ),
+        ];
     }
 }

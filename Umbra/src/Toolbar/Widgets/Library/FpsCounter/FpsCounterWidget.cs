@@ -2,24 +2,27 @@
 using Umbra.Common;
 using Framework = FFXIVClientStructs.FFXIV.Client.System.Framework.Framework;
 
-namespace Umbra.Widgets.Library.FPS;
+namespace Umbra.Widgets;
 
-[ToolbarWidget("FpsCounter", "Widget.Fps.Name", "Widget.Fps.Description")]
-[ToolbarWidgetTags(["fps", "counter", "performance"])]
+[ToolbarWidget(
+    "FpsCounter",
+    "Widget.Fps.Name",
+    "Widget.Fps.Description",
+    ["fps", "counter", "performance"]
+)]
 internal sealed class FpsCounterWidget(
     WidgetInfo                  info,
     string?                     guid         = null,
     Dictionary<string, object>? configValues = null
-) : DefaultToolbarWidget(info, guid, configValues)
+) : StandardToolbarWidget(info, guid, configValues)
 {
-    /// <inheritdoc/>
-    public override WidgetPopup? Popup => null;
+    protected override StandardWidgetFeatures Features => StandardWidgetFeatures.Text;
 
-
-    /// <inheritdoc/>
     protected override IEnumerable<IWidgetConfigVariable> GetConfigVariables()
     {
         return [
+            ..base.GetConfigVariables(),
+
             new IntegerWidgetConfigVariable(
                 "HideThreshold",
                 I18N.Translate("Widget.Fps.Config.HideThreshold.Name"),
@@ -35,27 +38,17 @@ internal sealed class FpsCounterWidget(
                 "FPS",
                 32
             ),
-            ..DefaultToolbarWidgetConfigVariables,
-            ..SingleLabelTextOffsetVariables,
         ];
     }
 
-    /// <inheritdoc/>
-    protected override void Initialize()
+    protected override unsafe void OnDraw()
     {
-    }
-
-    protected override unsafe void OnUpdate()
-    {
-        int fps = (int)Framework.Instance()->FrameRate;
-
-        Node.Style.IsVisible = fps < GetConfigValue<int>("HideThreshold");
-
+        int    fps   = (int)Framework.Instance()->FrameRate;
         string label = $"{fps} {GetConfigValue<string>("Label")}";
 
-        SetLabel(label);
-        base.OnUpdate();
-
+        IsVisible    = fps < GetConfigValue<int>("HideThreshold");
         Node.Tooltip = label;
+
+        SetText(label);
     }
 }

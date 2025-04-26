@@ -1,0 +1,69 @@
+﻿<udt>
+    <node class="fa-icon-picker-window">
+        <node class="search-panel">
+            <node class="icon" value="FA(Search)"/>
+            <node class="wrapper">
+                <string-input-node id="search" immediate="true"/>
+            </node>
+        </node>
+        <node class="body"/>
+        <node class="footer">
+            <node class="buttons">
+                <button-node class="button" id="cancel" label="_L(Cancel)"/>
+                <button-node class="button" id="confirm" label="_L(Apply)" icon="check"/>
+            </node>
+        </node>
+    </node>
+    
+    <![CDATA[
+    .fa-icon-picker-window {
+        flow: vertical;
+        auto-size: grow grow;    
+    
+        & > .search-panel {
+            auto-size: grow fit;
+            size: 0 32;
+            background-color: "Input.Background";
+            border-color: "Window.Border";
+            border-width: 0 0 1 0;
+            gap: 4;
+            padding: 0 8;
+            
+            & > .icon {
+                anchor: middle-left;
+                font: 2;
+                font-size: 18;
+                color: "Window.TextMuted";
+                outline-color: "Window.TextOutline";
+                outline-size: 1;
+                text-offset: 0 -2;
+            }
+            
+            & > .wrapper {
+                anchor: middle-left;
+                auto-size: grow fit;
+                size: 0 26;
+            }
+        }
+        
+        & > .body {
+            auto-size: grow;
+        }
+        
+        & > .footer {
+            padding: 10;
+            auto-size: grow fit;
+            background-color: "Window.BackgroundLight";
+            
+            & > .buttons {
+                anchor: middle-right;
+                gap: 10;    
+            }
+        }
+    }
+    
+    .fa-icon-grid {
+        scrollbar-track-color: "Window.Background";
+    }
+    ]]>
+</udt>

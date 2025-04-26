@@ -9,6 +9,8 @@ internal partial class StackedClockWidget
     protected override IEnumerable<IWidgetConfigVariable> GetConfigVariables()
     {
         return [
+            ..base.GetConfigVariables(),
+            
             new SelectWidgetConfigVariable(
                 "TimeSourceTop",
                 I18N.Translate("Widget.StackedClock.Config.TimeSourceTop.Name"),
@@ -67,9 +69,6 @@ internal partial class StackedClockWidget
                 I18N.Translate("Widget.StackedClock.Config.EnablePopup.Description"),
                 true
             ),
-            ..DefaultToolbarWidgetConfigVariables,
-            ..SingleLabelTextOffsetVariables,
-            ..TwoLabelTextOffsetVariables,
         ];
     }
 }

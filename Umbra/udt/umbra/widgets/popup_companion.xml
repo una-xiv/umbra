@@ -1,0 +1,122 @@
+﻿<udt>
+    <node class="popup">
+        <node class="header">
+            <node class="text">
+                <node class="name" value="Companion Name"/>
+                <node class="info" value="Companion Info"/>
+            </node>
+            <node class="time-left" value="00:00:00"/>
+        </node>
+        <node id="StanceButtons" class="body"/>
+        <node id="FoodButtons" class="body"/>
+        <node class="footer">
+            <button-node id="InfoButton" label="_L(Widget.Companion.InfoWindow)"/>
+            <button-node id="FeedButton" label="_L(Widget.Companion.Feed)"/>
+            <button-node id="DismissButton" label="_L(Widget.Companion.Withdraw)"/>
+        </node>
+    </node>
+
+    <![CDATA[
+    .popup {
+        flow: vertical;
+        size: 330 0;
+        
+        & > .header {
+            auto-size: grow fit;
+            padding: 15;
+            gap: 15;
+            background-gradient: vertical 0x80ACD1F1 0x00ACD1F1;
+            background-gradient-inset: 4;
+            border-radius: 3;
+            
+            & > .text {
+                auto-size: grow fit;
+                flow: vertical;
+                gap: 3;
+                
+                & > .name {
+                    size: 200 0;
+                    font: 0;
+                    font-size: 20;
+                    color: "Widget.PopupMenuText";
+                    outline-color: "Widget.PopupMenuTextOutline";
+                    outline-size: 1;
+                    text-offset: 0 2;
+                    text-overflow: false;
+                    word-wrap: false;
+                }
+                
+                & > .info {
+                    size: 200 0;
+                    font: 0;
+                    font-size: 13;
+                    color: "Widget.PopupMenuTextMuted";
+                    outline-color: "Widget.PopupMenuTextOutline";
+                    outline-size: 1;
+                    text-overflow: false;
+                    word-wrap: false;
+                }
+            }
+            
+            & > .time-left {
+                font-size: 28;
+                color: "Widget.PopupMenuText";
+                outline-color: "Widget.PopupMenuTextOutline";
+                outline-size: 1;
+            }
+        }
+        
+        & > .body {
+            flow: horizontal;
+            auto-size: grow fit;
+            padding: 15 0;
+            gap: 15;
+            border-color: "Widget.Border";
+            border-width: 0 0 1 0;
+            
+            & > .button {
+                anchor: middle-center;
+                size: 48 48;
+                padding: 4;
+                background-color: "Widget.Background";
+                border-radius: 6;
+                
+                & > .icon {
+                    size: 40 40;
+                    padding: 4;
+                    border-radius: 4;
+                    background-color: "Input.Background";
+                }
+                
+                & > .count {
+                    anchor: bottom-right;
+                    text-align: top-right;
+                    font-size: 13;
+                    color: "Widget.PopupMenuText";
+                    outline-color: "Widget.PopupMenuTextOutline";
+                    outline-size: 1;
+                    padding: 2;
+                }
+                
+                &.unusable {
+                    opacity: 0.75;
+                }
+                
+                &.usable:hover {
+                    stroke-color: "Window.AccentColor";
+                    stroke-inset: 2;
+                    stroke-width: 2;
+                }
+            }
+        }
+        
+        & > .footer {
+            size: 325 0;
+            padding: 15;
+            gap: 15;
+            background-color: "Toolbar.Background1";
+            margin: 2 0 0 0;
+        }
+    }
+    ]]>
+</udt>

@@ -1,0 +1,18 @@
+﻿<udt>
+    <import from="umbra.widgets.popup_teleport_condensed.xml"/>
+    <import from="umbra.widgets.popup_teleport_extended.xml"/>
+    
+    <node class="popup">
+        <node id="extended-ui"/>
+        <node id="condensed-ui">
+            <node class="side-panel"/>
+            <node class="contents"/>
+        </node>
+    </node>
+    
+    <![CDATA[
+    #condensed-ui {
+        is-visible: false;
+    }
+    ]]>
+</udt>
