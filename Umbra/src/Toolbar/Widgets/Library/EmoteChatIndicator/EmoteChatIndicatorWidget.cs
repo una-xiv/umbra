@@ -55,13 +55,13 @@ internal class EmoteChatIndicatorWidget(
     protected override void OnDraw()
     {
         if (IsEmoteChatEnabled) {
-            Node.Style.IsVisible = true;
-            Node.Tooltip         = I18N.Translate("Widget.EmoteChatIndicator.Tooltip.Enabled");
+            IsVisible    = true;
+            Node.Tooltip = I18N.Translate("Widget.EmoteChatIndicator.Tooltip.Enabled");
 
             SetFontAwesomeIcon(GetConfigValue<FontAwesomeIcon>("OnIcon"));
         } else {
-            Node.Style.IsVisible = !GetConfigValue<bool>("OnlyShowWhenEnabled");
-            Node.Tooltip         = I18N.Translate("Widget.EmoteChatIndicator.Tooltip.Disabled");
+            IsVisible    = !GetConfigValue<bool>("OnlyShowWhenEnabled");
+            Node.Tooltip = I18N.Translate("Widget.EmoteChatIndicator.Tooltip.Disabled");
 
             SetFontAwesomeIcon(GetConfigValue<FontAwesomeIcon>("OffIcon"));
         }

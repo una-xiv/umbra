@@ -91,7 +91,7 @@ internal partial class DurabilityWidget(
             return;
         }
 
-        Node.Style.IsVisible    = true;
+        IsVisible               = true;
         Popup.UseGrayscaleIcons = false;
 
         SetGameIconId(GetIconId());
@@ -244,7 +244,7 @@ internal partial class DurabilityWidget(
 
     private void UpdateBars(byte durability, byte spiritbond)
     {
-        var width  = GetConfigValue<int>("BarWidth");
+        var width = GetConfigValue<int>("BarWidth");
 
         DurabilityBarNode.Style.Size = new(width, 0);
         SpiritbondBarNode.Style.Size = new(width, 0);

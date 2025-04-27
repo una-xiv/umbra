@@ -6,9 +6,9 @@ using Una.Drawing;
 namespace Umbra.Widgets;
 
 [ToolbarWidget(
-    "ItemButton", 
-    "Widget.ItemButton.Name", 
-    "Widget.ItemButton.Description", 
+    "ItemButton",
+    "Widget.ItemButton.Name",
+    "Widget.ItemButton.Description",
     ["button", "item", "use", "inventory"]
 )]
 internal sealed partial class ItemButtonWidget(
@@ -52,8 +52,8 @@ internal sealed partial class ItemButtonWidget(
             IconId   = item?.IconId;
         }
 
-        Node.Style.IsVisible = !GetConfigValue<bool>("HideIfNotOwned")
-                               || Player.HasItemInInventory(ItemId, 1, GetItemUsage());
+        IsVisible = !GetConfigValue<bool>("HideIfNotOwned")
+                    || Player.HasItemInInventory(ItemId, 1, GetItemUsage());
 
         bool showLabel = GetConfigValue<bool>("ShowLabel") && ItemName is not null;
         bool showCount = GetConfigValue<bool>("ShowCount");

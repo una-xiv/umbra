@@ -24,7 +24,7 @@ internal partial class ExperienceBarWidget(
     protected override void OnUpdate()
     {
         if (Player.IsMaxLevel && !GetConfigValue<bool>("DisplayAtMaxLevel")) {
-            Node.Style.IsVisible = false;
+            IsVisible = false;
             return;
         }
 
@@ -37,10 +37,10 @@ internal partial class ExperienceBarWidget(
         SanctuaryIconNode.Style.IsVisible = GetConfigValue<bool>("ShowSanctuaryIcon") && Player.IsInSanctuary;
 
         SyncIconNode.Style.IsVisible = GetConfigValue<bool>("ShowLevelSyncIcon")
-            && Player.SyncedLevel > 0
-            && Player.SyncedLevel != Player.Level;
+                                       && Player.SyncedLevel > 0
+                                       && Player.SyncedLevel != Player.Level;
 
-        Node.Style.IsVisible     = true;
+        IsVisible                = true;
         Node.Tooltip             = GetTooltipText();
         LeftLabelNode.NodeValue  = GetLevelString();
         RightLabelNode.NodeValue = GetExpString();
@@ -53,8 +53,8 @@ internal partial class ExperienceBarWidget(
         SyncIconNode.Style.TextOffset      = new(0, GetConfigValue<int>("SyncYOffset"));
 
         int fullWidth = GetConfigValue<int>("WidgetWidth")
-            - 12
-            - ((SyncIconNode.Style.IsVisible ?? true) || (SanctuaryIconNode.Style.IsVisible ?? true) ? 20 : 0);
+                        - 12
+                        - ((SyncIconNode.Style.IsVisible ?? true) || (SanctuaryIconNode.Style.IsVisible ?? true) ? 20 : 0);
 
         float leftWidth = LeftLabelNode.InnerWidth;
 
