@@ -44,6 +44,7 @@
         margin: 0 4;
         transition-type: ease-out-sine;
         transition-duration: 250;
+        background-color: 0;
         
         &:hover {
             background-color: "Widget.PopupMenuBackgroundHover";

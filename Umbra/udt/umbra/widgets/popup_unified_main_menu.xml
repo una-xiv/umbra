@@ -94,11 +94,17 @@
                     .pinned-list {
                         flow: vertical;
                         auto-size: grow fit;
-                        padding: 8 0 0 0;
-                        margin: 8 0 0 0;
+                        padding: 0 0 8 0;
+                        margin: 0 0 8 0;
                         gap: 2;
                         border-color: "Widget.Border";
-                        border-width: 1 0 0 0;
+                        border-width: 0 0 1 0;
+                        
+                        &.top {
+                            padding: 8 0 0 0;
+                            margin: 8 0 0 0;
+                            border-width: 1 0 0 0;
+                        }
                     }
                     
                     & > .category-button {

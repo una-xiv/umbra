@@ -33,7 +33,7 @@ internal sealed partial class UnifiedMainMenuPopup
     private void CreateContentNodes()
     {
         ContentsNode.Clear();
-
+        
         foreach (var category in MainMenuRepository.GetCategories()) {
             Node categoryNode = new() {
                 Id        = $"Category_{category.Category.ToString()}",
@@ -149,6 +149,8 @@ internal sealed partial class UnifiedMainMenuPopup
 
     private void UpdatePinnedItems()
     {
+        PinnedListNode.ToggleClass("top", IsTopAligned);
+        
         if (PinnedItems.Count == 0) {
             Logger.Info("No pinned items found.");
             PinnedListNode.Style.IsVisible = false;
