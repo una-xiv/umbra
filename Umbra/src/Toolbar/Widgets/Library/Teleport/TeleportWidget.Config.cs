@@ -15,7 +15,7 @@ internal sealed partial class TeleportWidget
                 "PopupDisplayMode",
                 I18N.Translate("Widget.Teleport.Config.PopupDisplayMode.Name"),
                 I18N.Translate("Widget.Teleport.Config.PopupDisplayMode.Description"),
-                PopupDisplayMode.Extended
+                PopupDisplayMode.Condensed
             ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
             
             new SelectWidgetConfigVariable(
