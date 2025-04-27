@@ -97,8 +97,13 @@ public abstract class ToolbarWidget(
 
                 if (cfg is IUntypedWidgetConfigVariable u) {
                     if (cfg is IEnumWidgetConfigVariable e) {
-                        Type enumType = cfg.GetType().GenericTypeArguments[0];
-                        u.SetValue(Enum.ToObject(enumType, value));
+                        try {
+                            Type enumType = e.GetType().GenericTypeArguments[0];
+                            u.SetValue(Enum.ToObject(enumType, value));
+                        } catch {
+                            // Faulty config.
+                            Logger.Error($"Failed to set config value '{key}' to '{value}' in widget '{Info.Name}'.");
+                        }
                     } else {
                         u.SetValue(value);
                     }
