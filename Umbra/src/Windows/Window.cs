@@ -240,7 +240,9 @@ public abstract class Window : IWindow
         } catch (Exception e) {
             Logger.Error($"An exception occurred while rendering window \"{GetType().Name}\": {e.Message}");
             if (e.InnerException != null) Logger.Error($" -> {e.InnerException.Message}");
-            Logger.Info(e.InnerException?.StackTrace ?? e.StackTrace ?? " - No stack trace available -");
+            if (e.InnerException != null) Logger.Error($" -> {e.InnerException.StackTrace}");
+            
+            Logger.Info(e.StackTrace ?? " - No stack trace available -");
             Dispose();
         } finally {
             ImGui.End();

@@ -27,6 +27,8 @@ public class VariablesEditorWindow(string title, List<Variable> variables, List<
 
     protected override void OnOpen()
     {
+        _variableNodes.Clear();
+        
         foreach (var (category, groups) in _variables) {
             CreateTabButton(category);
             CreateVariableTabContainer(category, groups);
@@ -46,13 +48,19 @@ public class VariablesEditorWindow(string title, List<Variable> variables, List<
         RootNode.QuerySelector("#close-button")!.OnClick += _ => Dispose();
     }
 
+    protected override void OnClose()
+    {
+        _variableNodes.Clear();
+        _tabButtons.Clear();
+        _tabNodes.Clear();
+    }
+
     protected override void OnDraw()
     {
         base.OnDraw();
 
         foreach (var (node, variable) in _variableNodes) {
-            bool shown = variable.DisplayIf?.Invoke() ?? true;
-            node.Style.IsVisible = shown;
+            node.Style.IsVisible = variable.DisplayIf?.Invoke() ?? true;
         }
     }
 

@@ -27,8 +27,7 @@ internal partial class DurabilityWidget(
     protected override StandardWidgetFeatures Features =>
         StandardWidgetFeatures.Icon |
         StandardWidgetFeatures.Text |
-        StandardWidgetFeatures.SubText |
-        StandardWidgetFeatures.ProgressBar;
+        StandardWidgetFeatures.SubText;
 
     private IPlayer      Player      { get; } = Framework.Service<IPlayer>();
     private IDataManager DataManager { get; } = Framework.Service<IDataManager>();
