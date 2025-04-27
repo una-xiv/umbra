@@ -23,8 +23,8 @@ internal sealed class AuxBarManager : IDisposable
     public event Action<AuxBarConfig>? AuxBarCreated;
     public event Action<AuxBarConfig>? AuxBarDeleted;
 
-    private List<AuxBarConfig>             AuxBarConfigs { get; set; } = [];
-    private Dictionary<string, AuxBarNode> AuxBarNodes   { get; }      = [];
+    private List<AuxBarConfig>             AuxBarConfigs { get; } = [];
+    private Dictionary<string, AuxBarNode> AuxBarNodes   { get; } = [];
 
     private readonly IPlayer   player;
     private readonly IKeyState keyState;
@@ -96,7 +96,7 @@ internal sealed class AuxBarManager : IDisposable
 
     public List<(AuxBarNode, AuxBarConfig)> VisibleAuxBarPanels =>
         AuxBarConfigs
-           .Where(config => config.IsEnabled && ShouldRenderAuxBar(config))
+           .Where(config => config.IsEnabled && ShouldRenderAuxBar(config) && AuxBarNodes.ContainsKey(config.Id))
            .Select(config => (AuxBarNodes[config.Id], config))
            .Where(node => node.Item1.WidgetCount > 0)
            .ToList();

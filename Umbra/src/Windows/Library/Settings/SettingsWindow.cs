@@ -69,6 +69,8 @@ public class SettingsWindow : Window
     /// <param name="id"></param>
     private void SwitchActiveMainTab(string id)
     {
+        if (ActiveModule?.Id == id) return;
+        
         ActiveModule?.Deactivate();
 
         ActiveModule = Modules.FirstOrDefault(m => m.Id.Equals(id));

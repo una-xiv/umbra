@@ -30,6 +30,11 @@ internal class SettingsWindowToolbarWidgetsModule : SettingsWindowModule
 
     protected override void OnClose()
     {
+        AuxBarManager.AuxBarCreated -= OnAuxBarCreated;
+        AuxBarManager.AuxBarDeleted -= OnAuxBarDeleted;
+
+        RootNode.QuerySelector("#bar-list")?.Clear();
+        RootNode.QuerySelector(".body")?.Clear();
     }
 
     protected override void OnDraw()
@@ -248,19 +253,22 @@ internal class SettingsWindowToolbarWidgetsModule : SettingsWindowModule
             return;
         }
 
-        Node             targetNode = RootNode.QuerySelector("#bar-list")!;
-        AuxBarButtonNode btnNode    = new(config);
+        Node? targetNode = RootNode.QuerySelector("#bar-list");
+        if (null == targetNode) return;
+
+        AuxBarButtonNode btnNode = new(config);
 
         btnNode.OnClick += _ => ActivateBar(config.Id);
         targetNode.AppendChild(btnNode);
     }
 
-    private void OnAuxBarDeleted(AuxBarConfig config)
+    private void OnAuxBarDeleted(AuxBarConfig? config)
     {
-        if (config.Id == _activeBarId) {
+        if (null == config || config.Id == _activeBarId) {
             ActivateBar("main");
         }
 
+        if (config == null) return;
         RootNode.QuerySelector($"#btn-{config.Id}")?.Dispose();
     }
 

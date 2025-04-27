@@ -59,7 +59,12 @@ public static partial class ConfigManager
         if (cvar.Value == value) return;
 
         cvar.Value = value;
-        CvarChanged?.Invoke(id);
+
+        if (!_isInitialLoad && !cvar.RequiresRestart) {
+            Framework.DalamudFramework.RunOnTick(() => CvarChanged?.Invoke(id));
+        } else {
+            CvarChanged?.Invoke(id);
+        }
 
         if (!_isInitialLoad && cvar.RequiresRestart) {
             _debounceTimer?.Dispose();
