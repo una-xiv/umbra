@@ -15,7 +15,7 @@ internal sealed partial class UnifiedMainMenuWidget
                 I18N.Translate("Widget.UnifiedMainMenu.Config.Label.Name"),
                 I18N.Translate("Widget.UnifiedMainMenu.Config.Label.Description"),
                 "Start"
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            ),
             new BooleanWidgetConfigVariable(
                 "OpenSubMenusOnHover",
                 I18N.Translate("Widget.UnifiedMainMenu.Config.OpenSubMenusOnHover.Name"),

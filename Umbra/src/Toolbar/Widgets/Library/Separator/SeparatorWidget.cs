@@ -56,7 +56,7 @@ internal class SeparatorWidget(
                 10,
                 1,
                 2000
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            ),
             new IntegerWidgetConfigVariable(
                 "LineWidth",
                 I18N.Translate("Widget.Separator.Config.LineWidth.Name"),
@@ -64,7 +64,7 @@ internal class SeparatorWidget(
                 1,
                 1,
                 2000
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            ),
             new IntegerWidgetConfigVariable(
                 "LineHeight",
                 I18N.Translate("Widget.Separator.Config.LineHeight.Name"),
@@ -72,14 +72,14 @@ internal class SeparatorWidget(
                 20,
                 1,
                 2000
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            ),
             new SelectWidgetConfigVariable(
                 "LineColor",
                 I18N.Translate("Widget.Separator.Config.LineColor.Name"),
                 I18N.Translate("Widget.Separator.Config.LineColor.Description"),
                 "Widget.TextMuted",
                 GetColorSelectOptions()
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+            ),
         ];
     }
 }
