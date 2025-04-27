@@ -210,7 +210,7 @@
                 outline-size: 1;
                 text-overflow: false;
                 word-wrap: false;
-                padding: 0 32 0 0;
+                padding: 0 16 0 0;
             }
             
             & > .alt {
