@@ -116,8 +116,8 @@
             &:disabled { color: "Widget.PopupMenuTextDisabled"; outline-color: 0; }
         }
         
-        &.text-alt {
-            text-align: middle-left;
+        & > .text-alt {
+            anchor: middle-left;
             font-size: 11;
             color: "Widget.PopupMenuTextMuted";
             outline-color: "Widget.PopupMenuTextOutline";
