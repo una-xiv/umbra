@@ -281,8 +281,6 @@ public abstract class ToolbarWidget(
 
         c.Value = value;
 
-        Logger.Info($"Set config value '{name}' to '{value}'.");
-
         Framework.Service<WidgetManager>().SaveWidgetState(Id);
         Framework.Service<WidgetManager>().SaveState();
 

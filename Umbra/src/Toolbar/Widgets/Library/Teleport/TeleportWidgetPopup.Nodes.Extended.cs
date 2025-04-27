@@ -142,7 +142,6 @@ internal partial class TeleportWidgetPopup
     private void ExtendedBuildFavoritesButton(TeleportDestination destination)
     {
         FavoritesNode.Style.IsVisible = true;
-        Logger.Info($"Adding favorite: {destination.Name}");
 
         var target = FavoritesNode.QuerySelector(".list");
         if (null == target) {
@@ -151,7 +150,6 @@ internal partial class TeleportWidgetPopup
         }
 
         var button = CreateTeleportButton(destination, true);
-        Logger.Info($"Created button: {button.Id}");
 
         if (FavoritesNode.QuerySelector($"#{button.Id}") != null) {
             Logger.Warning($"This button is already added! (ID: {button}.Id}})");
@@ -163,7 +161,6 @@ internal partial class TeleportWidgetPopup
 
     private void ExtendedRemoveFavoritesButton(TeleportDestination destination)
     {
-        Logger.Info($"Removing favorite: {destination.Name}");
         FavoritesNode.QuerySelector($"#Sortable_{destination.NodeId}")?.Dispose();
 
         if (Favorites.Count == 0) {

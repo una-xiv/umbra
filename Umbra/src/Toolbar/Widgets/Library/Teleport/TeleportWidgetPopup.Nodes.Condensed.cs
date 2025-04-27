@@ -228,7 +228,6 @@ internal partial class TeleportWidgetPopup
         var icon = node.QuerySelector(".icon");
         if (icon != null) {
             icon.Style.UldPartId = destination.UldPartId;
-            Logger.Info($"Setting icon for {destination.Name} to {destination.UldPartId}");
         } else {
             Logger.Warning($"CondensedBuildFavoritesButton: Icon not found in {node.Id}");
         }

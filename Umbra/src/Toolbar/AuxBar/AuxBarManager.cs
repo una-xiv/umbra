@@ -86,7 +86,6 @@ internal sealed class AuxBarManager : IDisposable
 
         AuxBarCreated?.Invoke(config);
 
-        Logger.Info($"Migrated aux bar config: {id}");
         Persist();
 
         return node.QuerySelector(".section")!;
@@ -158,7 +157,6 @@ internal sealed class AuxBarManager : IDisposable
     public void Persist()
     {
         ConfigManager.Set("AuxBar.Data", JsonConvert.SerializeObject(AuxBarConfigs));
-        Logger.Info($"Saved {AuxBarConfigs.Count} auxiliary bars.");
     }
 
     private void OnCvarChanged(string name)

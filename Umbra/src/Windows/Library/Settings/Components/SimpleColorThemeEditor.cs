@@ -44,8 +44,6 @@ public class SimpleColorThemeEditor : UdtNode
     
     private void OnWindowColorChanged(uint color)
     {
-        Logger.Info($"Window Color Changed: {color}");
-
         uint textColor    = GetContrastingTextColor(color);
         uint outlineColor = SetAlpha(GetContrastingTextColor(textColor), (byte)(IsBright(textColor) ? 150 : 1));
 

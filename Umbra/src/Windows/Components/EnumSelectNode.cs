@@ -19,7 +19,6 @@ public class EnumSelectNode<T> : ImGuiInputNode, IEnumSelectNode where T : struc
             if (_value.Equals(value)) return;
             _value       = value;
             _selectedKey = Enum.GetName(value) ?? string.Empty;
-            Logger.Info($"Selected value: {value} ({_selectedKey})");
             OnValueChanged?.Invoke(value);
         }
     }

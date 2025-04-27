@@ -19,8 +19,6 @@ public class AuxBarNode : UdtNode
         ToggleClass("rounded", config.RoundedCorners);
 
         QuerySelector(".section")!.Style.Gap = config.ItemSpacing;
-        
-        Logger.Info($"AuxBar: {config.Id} - {config.Name} (Decorated: {config.Decorate})");
     }
 
     protected override void OnDraw(ImDrawListPtr _)

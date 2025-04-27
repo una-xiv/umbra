@@ -116,8 +116,6 @@ internal sealed partial class ShortcutPanelPopup
 
     private static void SetSlotState(Node slotNode, Shortcut shortcut)
     {
-        Logger.Info($"Setting slot state {shortcut.Name}");
-        
         slotNode.QuerySelector(".icon")!.Style.IconId     = shortcut.IconId;
         slotNode.QuerySelector(".sub-icon")!.Style.IconId = shortcut.SubIconId;
         slotNode.QuerySelector(".count")!.NodeValue       = shortcut.Count?.ToString();

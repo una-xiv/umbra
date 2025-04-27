@@ -56,8 +56,6 @@ internal sealed partial class WidgetManager
         ConfigManager.Set("Toolbar.ActiveProfile", name);
         ConfigManager.Set("Toolbar.WidgetData",    _widgetProfiles[name]);
 
-        Logger.Info($"Activated toolbar profile: {name}.");
-
         if (UseJobAssociatedProfiles) {
             JobToProfileName[Player.JobId] = name;
             SaveProfileData();
@@ -214,8 +212,6 @@ internal sealed partial class WidgetManager
 
         JobToProfileName[jobId] = name;
         SaveProfileData();
-
-        Logger.Info($"Set profile for job ID {jobId} to '{name}'.");
 
         if (UseJobAssociatedProfiles && Framework.Service<IPlayer>().JobId == jobId) {
             ActivateProfile(name);

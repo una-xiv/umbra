@@ -29,7 +29,6 @@ internal sealed class WidgetInstanceEditor : IDisposable
     {
         _editor?.Dispose();
         _editor = new(widget, WidgetManager, WindowManager);
-        Logger.Info($"Open settings for widget {widget.Id} (Type={widget.Info.Id})");
 
         _editor.OnDisposed += () => _editor = null;
     }

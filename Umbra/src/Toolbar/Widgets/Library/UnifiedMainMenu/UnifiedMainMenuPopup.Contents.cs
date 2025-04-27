@@ -152,13 +152,11 @@ internal sealed partial class UnifiedMainMenuPopup
         PinnedListNode.ToggleClass("top", IsTopAligned);
         
         if (PinnedItems.Count == 0) {
-            Logger.Info("No pinned items found.");
             PinnedListNode.Style.IsVisible = false;
             return;
         }
 
         PinnedListNode.Style.IsVisible = true;
-        Logger.Info($"Pinned items found : {PinnedItems.Count}");
 
         int sortIndex = 0;
 

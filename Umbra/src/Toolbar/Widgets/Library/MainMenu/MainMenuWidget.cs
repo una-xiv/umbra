@@ -169,7 +169,6 @@ internal sealed class MainMenuWidget(
 
                 if (item.ItemGroupLabel != null) {
                     _groups[item.ItemGroupLabel].Add(button);
-                    Logger.Info($"ADDED ITEM {item.Id} ({item.Name}) TO GROUP: {item.ItemGroupLabel}");
                 } else {
                     Popup.Add(button);
                 }
