@@ -25,6 +25,11 @@ public static class ServiceActivator
 {
     private static readonly List<Type> CircularReferenceCheck = [];
 
+    internal static void ClearCircularReferenceCheck()
+    {
+        CircularReferenceCheck.Clear();
+    }
+    
     public static T CreateInstance<T>()
     {
         return (T)CreateInstance(typeof(T), false);
