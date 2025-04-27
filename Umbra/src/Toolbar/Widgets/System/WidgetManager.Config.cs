@@ -64,7 +64,7 @@ internal partial class WidgetManager
         Framework.DalamudFramework.Run(() => _isSavingState = false);
     }
 
-    public async Task LoadState()
+    public void LoadState()
     {
         if (_isLoadingState) return;
         if (_isSavingState) return;
@@ -86,35 +86,33 @@ internal partial class WidgetManager
             return;
         }
 
-        await Framework.RunDelayed(10, () => {
-            string json = Decode(WidgetConfigData);
-            var    data = JsonConvert.DeserializeObject<Dictionary<string, WidgetConfigStruct>>(json);
+        string json = Decode(WidgetConfigData);
+        var    data = JsonConvert.DeserializeObject<Dictionary<string, WidgetConfigStruct>>(json);
 
-            if (data is null) {
-                _isLoadingState = false;
-                return;
-            }
-
-            foreach ((string guid, WidgetConfigStruct config) in data) {
-                if (!_widgetTypes.ContainsKey(config.Name)) continue;
-
-                _widgetState[guid] = config;
-                CreateWidget(config.Name, config.Location, config.SortIndex, guid, config.Config, false);
-            }
-
-            // Migrate the default configuration over to the profile data if needed.
-            if (ActiveProfile == "Default" && string.IsNullOrEmpty(_widgetProfiles[ActiveProfile])) {
-                _widgetProfiles[ActiveProfile] = WidgetConfigData;
-                SaveProfileData();
-            }
-
-            // Solve the sort indices for each column.
-            SolveSortIndices("Left");
-            SolveSortIndices("Center");
-            SolveSortIndices("Right");
-
+        if (data is null) {
             _isLoadingState = false;
-        });
+            return;
+        }
+
+        foreach ((string guid, WidgetConfigStruct config) in data) {
+            if (!_widgetTypes.ContainsKey(config.Name)) continue;
+
+            _widgetState[guid] = config;
+            CreateWidget(config.Name, config.Location, config.SortIndex, guid, config.Config, false);
+        }
+
+        // Migrate the default configuration over to the profile data if needed.
+        if (ActiveProfile == "Default" && string.IsNullOrEmpty(_widgetProfiles[ActiveProfile])) {
+            _widgetProfiles[ActiveProfile] = WidgetConfigData;
+            SaveProfileData();
+        }
+
+        // Solve the sort indices for each column.
+        SolveSortIndices("Left");
+        SolveSortIndices("Center");
+        SolveSortIndices("Right");
+
+        _isLoadingState = false;
     }
 
     public void SaveWidgetState(string guid)

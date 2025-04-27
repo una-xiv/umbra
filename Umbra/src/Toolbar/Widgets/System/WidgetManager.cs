@@ -48,8 +48,9 @@ internal sealed partial class WidgetManager : IDisposable
         }
 
         ConfigManager.CvarChanged += OnCvarChanged;
+        
         LoadProfileData();
-        LoadState().ContinueWith(_ => { });
+        LoadState();
     }
 
     public void Dispose()
@@ -415,7 +416,7 @@ internal sealed partial class WidgetManager : IDisposable
 
     private void OnCvarChanged(string name)
     {
-        if (name == "Toolbar.WidgetData") LoadState().ContinueWith(_ => { });
+        if (name == "Toolbar.WidgetData") LoadState();
         if (name == "Toolbar.ProfileData") LoadProfileData();
         if (name == "Toolbar.EnableQuickSettingAccess") ToggleQuickAccessBindings();
     }
