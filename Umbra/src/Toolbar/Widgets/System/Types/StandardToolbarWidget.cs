@@ -32,7 +32,7 @@ public abstract class StandardToolbarWidget(
     protected ProgressBarNode ProgressBarNode => Node.QuerySelector<ProgressBarNode>("#progress-bar")!;
 
     private bool _isUpdating;
-    
+
     protected virtual void OnLoad() { }
 
     protected virtual void OnUnload() { }
@@ -52,7 +52,7 @@ public abstract class StandardToolbarWidget(
         }
 
         _isUpdating = true;
-        
+
         Node.ToggleClass("decorated", GetConfigValue<bool>(CvarNameDecorate));
         Node.Style.Size = new(0, SafeHeight);
 
@@ -717,7 +717,7 @@ public abstract class StandardToolbarWidget(
         500
     ) {
         Category = I18N.Translate("Widgets.Standard.Config.Category.Text"),
-        Group    = "Boundary",
+        Group    = I18N.Translate("Widgets.Standard.Config.Group.Boundary"),
     };
 
     private IntegerWidgetConfigVariable ConfigVariableMaxTextWidth() => new(
@@ -729,7 +729,7 @@ public abstract class StandardToolbarWidget(
         1000
     ) {
         Category = I18N.Translate("Widgets.Standard.Config.Category.Text"),
-        Group    = "Boundary",
+        Group    = I18N.Translate("Widgets.Standard.Config.Group.Boundary"),
     };
 
     private IntegerWidgetConfigVariable ConfigVariableSingleLabelTextSize() => new(
@@ -741,7 +741,7 @@ public abstract class StandardToolbarWidget(
         24
     ) {
         Category  = I18N.Translate("Widgets.Standard.Config.Category.Text"),
-        Group     = "Text Size",
+        Group     = I18N.Translate("Widgets.Standard.Config.Group.TextSize"),
         DisplayIf = () => IsSingleLabelFeature() || (IsMultiLabelFeature() && !GetConfigValue<bool>(CvarNameShowSubText)),
     };
 
@@ -754,7 +754,7 @@ public abstract class StandardToolbarWidget(
         5
     ) {
         Category  = I18N.Translate("Widgets.Standard.Config.Category.Text"),
-        Group     = "Text Offset",
+        Group     = I18N.Translate("Widgets.Standard.Config.Group.TextOffset"),
         DisplayIf = () => IsSingleLabelFeature() || (IsMultiLabelFeature() && !GetConfigValue<bool>(CvarNameShowSubText)),
     };
 
@@ -767,7 +767,7 @@ public abstract class StandardToolbarWidget(
         24
     ) {
         Category  = I18N.Translate("Widgets.Standard.Config.Category.Text"),
-        Group     = "Text Size",
+        Group     = I18N.Translate("Widgets.Standard.Config.Group.TextSize"),
         DisplayIf = () => IsMultiLabelFeature() && GetConfigValue<bool>(CvarNameShowSubText),
     };
 
@@ -780,7 +780,7 @@ public abstract class StandardToolbarWidget(
         24
     ) {
         Category  = I18N.Translate("Widgets.Standard.Config.Category.Text"),
-        Group     = "Text Size",
+        Group     = I18N.Translate("Widgets.Standard.Config.Group.TextSize"),
         DisplayIf = () => IsMultiLabelFeature() && GetConfigValue<bool>(CvarNameShowSubText),
     };
 
@@ -793,7 +793,7 @@ public abstract class StandardToolbarWidget(
         5
     ) {
         Category  = I18N.Translate("Widgets.Standard.Config.Category.Text"),
-        Group     = "Text Offset",
+        Group     = I18N.Translate("Widgets.Standard.Config.Group.TextOffset"),
         DisplayIf = () => IsMultiLabelFeature() && GetConfigValue<bool>(CvarNameShowSubText),
     };
 
@@ -806,7 +806,7 @@ public abstract class StandardToolbarWidget(
         5
     ) {
         Category  = I18N.Translate("Widgets.Standard.Config.Category.Text"),
-        Group     = "Text Offset",
+        Group     = I18N.Translate("Widgets.Standard.Config.Group.TextOffset"),
         DisplayIf = () => IsMultiLabelFeature() && GetConfigValue<bool>(CvarNameShowSubText),
     };
 
@@ -817,7 +817,7 @@ public abstract class StandardToolbarWidget(
         DefaultUseCustomTextColor
     ) {
         Category  = I18N.Translate("Widgets.Standard.Config.Category.Text"),
-        Group     = "Text Color",
+        Group     = I18N.Translate("Widgets.Standard.Config.Group.TextColor"),
         DisplayIf = () => IsSingleLabelFeature() || IsMultiLabelFeature(),
     };
 
@@ -828,7 +828,7 @@ public abstract class StandardToolbarWidget(
         Color.GetNamedColor("Widget.Text")
     ) {
         Category  = I18N.Translate("Widgets.Standard.Config.Category.Text"),
-        Group     = "Text Color",
+        Group     = I18N.Translate("Widgets.Standard.Config.Group.TextColor"),
         DisplayIf = () => (IsSingleLabelFeature() || IsMultiLabelFeature()) && GetConfigValue<bool>(CvarNameUseCustomTextColor),
     };
 
@@ -839,7 +839,7 @@ public abstract class StandardToolbarWidget(
         Color.GetNamedColor("Widget.TextOutline")
     ) {
         Category  = I18N.Translate("Widgets.Standard.Config.Category.Text"),
-        Group     = "Text Color",
+        Group     = I18N.Translate("Widgets.Standard.Config.Group.TextColor"),
         DisplayIf = () => (IsSingleLabelFeature() || IsMultiLabelFeature()) && GetConfigValue<bool>(CvarNameUseCustomTextColor),
     };
 
@@ -850,7 +850,7 @@ public abstract class StandardToolbarWidget(
         Color.GetNamedColor("Widget.TextMuted")
     ) {
         Category = I18N.Translate("Widgets.Standard.Config.Category.Text"),
-        Group    = "Text Color",
+        Group     = I18N.Translate("Widgets.Standard.Config.Group.TextColor"),
         DisplayIf = () => IsMultiLabelFeature()
                           && GetConfigValue<bool>(CvarNameUseCustomTextColor)
                           && GetConfigValue<bool>(CvarNameShowSubText),
@@ -863,7 +863,7 @@ public abstract class StandardToolbarWidget(
         Color.GetNamedColor("Widget.TextOutline")
     ) {
         Category = I18N.Translate("Widgets.Standard.Config.Category.Text"),
-        Group    = "Text Color",
+        Group     = I18N.Translate("Widgets.Standard.Config.Group.TextColor"),
         DisplayIf = () => IsMultiLabelFeature()
                           && GetConfigValue<bool>(CvarNameUseCustomTextColor)
                           && GetConfigValue<bool>(CvarNameShowSubText),
