@@ -1,0 +1,37 @@
+﻿<udt>
+    <import from="umbra.windows.installer.pages._shared.xml"/>
+
+    <page title="_L(Window.Installer.Configure.Title)" description="_L(Window.Installer.Configure.Description)">
+        <node class="block">
+            <checkbox-node
+                    id="ctrl-toolbar-position"
+                    label="_L(CVAR.Toolbar.IsTopAligned.Name)"
+                    description="_L(CVAR.Toolbar.IsTopAligned.Description)"
+            />
+            <checkbox-node
+                    id="ctrl-toolbar-stretched"
+                    label="_L(CVAR.Toolbar.IsStretched.Name)"
+                    description="_L(CVAR.Toolbar.IsStretched.Description)"
+            />
+            <checkbox-node
+                    id="ctrl-toolbar-auto-hide"
+                    label="_L(CVAR.Toolbar.IsAutoHideEnabled.Name)"
+                    description="_L(CVAR.Toolbar.IsAutoHideEnabled.Description)"
+            />
+            <checkbox-node
+                    id="ctrl-toolbar-quick-settings"
+                    label="_L(CVAR.Toolbar.EnableQuickSettingAccess.Name)"
+                    description="_L(CVAR.Toolbar.EnableQuickSettingAccess.Description)"
+            />
+        </node>
+    </page>
+
+    <![CDATA[
+    .block {
+        flow: vertical;
+        auto-size: grow fit;
+        gap: 32;
+        padding: 0 32;
+    }
+    ]]>
+</udt>

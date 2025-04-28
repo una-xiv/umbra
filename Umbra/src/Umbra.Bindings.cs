@@ -2,10 +2,12 @@
 using Dalamud.Plugin.Services;
 using System;
 using System.Linq;
+using System.Reflection;
 using Umbra.Common;
 using Umbra.Widgets.System;
 using Umbra.Windows;
 using Umbra.Windows.GameIconPicker;
+using Umbra.Windows.Library.Installer;
 // using Umbra.Windows.Oobe;
 using Umbra.Windows.Settings;
 using Una.Drawing;
@@ -15,7 +17,7 @@ namespace Umbra;
 [Service]
 internal sealed class UmbraBindings : IDisposable
 {
-    [ConfigVariable("IsFirstTimeStart")]
+    [ConfigVariable("IsFirstTimeStart.V3")]
     public static bool IsFirstTimeStart { get; set; } = true;
     
     [ConfigVariable("General.UiScale", "General", null, 50, 250)]
@@ -47,7 +49,7 @@ internal sealed class UmbraBindings : IDisposable
         _commandManager = commandManager;
         _windowManager  = windowManager;
         _widgetManager  = widgetManager;
-
+        
         _commandManager.AddHandler(
             "/umbra",
             new(HandleUmbraCommand) {
@@ -82,7 +84,7 @@ internal sealed class UmbraBindings : IDisposable
         // #endif
 
         if (IsFirstTimeStart) {
-            // _windowManager.Present("OOBE", new OobeWindow());
+            _windowManager.Present("Installer", new InstallerWindow());
         }
     }
 

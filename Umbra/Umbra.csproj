@@ -21,8 +21,10 @@
     </ItemGroup>
 
     <ItemGroup>
-        <EmbeddedResource Include="images\logo.png" LogicalName="Logo.png" />
-        <EmbeddedResource Include="images\shadow.png" LogicalName="Shadow.png" />
+        <EmbeddedResource Include="images\*.png"/>
+    </ItemGroup>
+    
+    <ItemGroup>
         <EmbeddedResource Include="udt\**\*.*"/>
     </ItemGroup>
 

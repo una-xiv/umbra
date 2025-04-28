@@ -1,0 +1,9 @@
+﻿<udt>
+    <import from="umbra.windows.installer.pages._shared.xml"/>
+    
+    <page title="" description="_L(Window.Installer.Finish.Description)">
+        <content-with-banner size="600 140" icon="121552">
+            <node value="_L(Window.Installer.Finish.Text)" class="text wrapped"/>
+        </content-with-banner>
+    </page>
+</udt>

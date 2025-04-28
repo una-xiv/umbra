@@ -1,0 +1,151 @@
+﻿<udt>
+    <template name="page">
+        <argument name="title"/>
+        <argument name="description"/>
+        <argument name="flow" default="horizontal"/>
+
+        <node class="page">
+            <node class="header">
+                <node class="icon" img-src="logo.png"/>
+                <node class="text">
+                    <node class="title" value="${title}"/>
+                    <node class="sub-title" value="${description}"/>
+                </node>
+            </node>
+
+            <node class="body">
+                <node class="content" style="flow: ${flow};">
+                    <slot/>
+                </node>
+            </node>
+        </node>
+    </template>
+    
+    <template name="content-with-image">
+        <argument name="icon"/>
+        <node class="content-with-image">
+            <node class="image-wrapper">
+                <node class="icon" style="icon-id: ${icon};"/>
+            </node>
+            <node class="body"><slot/></node>
+        </node>
+    </template>
+
+    <template name="content-with-banner">
+        <argument name="icon"/>
+        <argument name="size" default="512 128"/>
+
+        <node class="content-with-banner">
+            <node class="icon" style="icon-id: ${icon}; size: ${size};"/>
+            <node class="body"><slot/></node>
+        </node>
+    </template>
+
+    <![CDATA[
+    .page {
+        flow: vertical;
+        auto-size: grow;
+        
+        & > .header {
+            auto-size: grow fit;
+            gap: 16;
+            padding: 10;
+            background-color: "Window.BackgroundLight";
+            border-color: "Window.Border";
+            border-width: 0 0 1 0;
+            
+            & > .icon {
+                size: 64 64;
+            }
+            
+            & > .text {
+                flow: vertical;
+                auto-size: grow;
+                
+                & > .title {
+                    anchor: middle-left;
+                    font-size: 24;
+                    color: "Window.Text";
+                    outline-color: "Window.TextOutline";
+                    outline-size: 1;
+                }
+                
+                & > .sub-title {
+                    anchor: middle-left;
+                    font-size: 12;
+                    color: "Window.TextMuted";
+                    outline-color: "Window.TextOutline";
+                    outline-size: 1;
+                }
+            }
+        }
+        
+        & > .body {
+            auto-size: grow;
+            flow: vertical;
+            
+            & > .content {
+                anchor: middle-center;
+                auto-size: grow fit;
+                padding: 10;
+                
+                .text {
+                    font: 0;
+                    font-size: 13;
+                    color: "Window.Text";
+                    outline-color: "Window.TextOutline";
+                    outline-size: 1;
+                    
+                    &.wrapped {
+                        auto-size: grow fit;
+                        text-overflow: false;
+                        word-wrap: true;
+                    }
+                }
+            }
+        }
+    }
+    
+    .content-with-image {
+        flow: horizontal;
+        gap: 42;
+        auto-size: grow;
+        padding: 0 32;
+        
+        & > .image-wrapper {
+            size: 148 148;
+            background-color: "Window.BackgroundLight";
+            border-radius: 6;
+            drop-shadow: 0 2 8 8;
+            background-gradient: vertical "Window.BackgroundLight" "Window.Background";
+            
+            & > .icon {
+                size: 128;
+                anchor: middle-center;
+            }
+        }
+        
+        & > .body {
+            auto-size: grow fit;
+            flow: vertical;
+        }
+    }
+    
+    .content-with-banner {
+        flow: vertical;
+        gap: 16;
+        auto-size: grow;
+        padding: 0 32;
+        
+        & > .icon {
+            anchor: middle-center;
+        }
+        
+        & > .body {
+            flow: vertical;
+            anchor: middle-center;
+            auto-size: grow fit;
+        }
+    }
+    ]]>
+</udt>

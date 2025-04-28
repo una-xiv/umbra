@@ -71,15 +71,21 @@ internal static class UmbraDrawing
     /// <exception cref="InvalidOperationException"></exception>
     internal static void SetImageFromResource(this Node node, string resourceName)
     {
+        resourceName = resourceName.ToLowerInvariant();
+        
         foreach (var asm in Framework.Assemblies) {
-            using var stream = asm.GetManifestResourceStream(resourceName);
-            if (stream == null) continue;
+            foreach (var name in asm.GetManifestResourceNames()) {
+                if (name.ToLowerInvariant().EndsWith(resourceName)) {
+                    using var stream = asm.GetManifestResourceStream(name);
+                    if (stream == null) continue;
 
-            var imageData = new byte[stream.Length];
-            int _         = stream.Read(imageData, 0, imageData.Length);
+                    var imageData = new byte[stream.Length];
+                    int _         = stream.Read(imageData, 0, imageData.Length);
 
-            node.Style.ImageBytes = imageData;
-            return;
+                    node.Style.ImageBytes = imageData;
+                    return;
+                }
+            }
         }
 
         throw new InvalidOperationException($"Failed to load embedded texture \"{resourceName}\".");

@@ -1,0 +1,37 @@
+﻿<udt>
+    <node id="main">
+        <node id="content"/>
+        <node class="footer">
+            <checkbox-node id="dont-show-again" label="Don't show this dialog again." description="You can always open this window via Umbra's Settings window later."/>
+            <node id="footer-spacer" class="spacer"/>
+            <button-node id="btn-prev" label="_L(Cancel)"/>
+            <button-node id="btn-next" label="_L(Next)"/>
+        </node>
+    </node>
+    
+    <![CDATA[
+    #main {
+        flow: vertical;
+        auto-size: grow;
+        
+        #content {
+            flow: vertical;
+            auto-size: grow;
+        }
+        
+        & > .footer {
+            auto-size: grow fit;
+            padding: 10;
+            background-color: "Window.BackgroundLight";
+            border-color: "Window.Border";
+            border-width: 1 0 0 0;
+            gap: 8;
+            
+            & > .spacer {
+                auto-size: grow fit;
+                size: 0 1;
+            }
+        }
+    }
+    ]]>
+</udt>

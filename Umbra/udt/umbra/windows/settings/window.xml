@@ -8,7 +8,7 @@
 
         <node class="ui-window-footer">
             <node class="version">
-                <node class="logo" img-src="Logo.png"/>
+                <node class="logo" img-src="logo.png"/>
                 <node class="info">
                     <node class="text version" id="version" value="Umbra 2.5.0"/>
                     <node id="btn-kofi" class="text link" value="_L(Settings.Window.KoFi)"/>
