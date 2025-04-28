@@ -80,9 +80,11 @@ public abstract class ImGuiInputNode : Node
         ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, new Vector2(8, 4));
         ImGui.PushStyleVar(ImGuiStyleVar.FrameRounding, 5);
         ImGui.PushStyleVar(ImGuiStyleVar.PopupRounding, 5);
+        ImGui.PushStyleVar(ImGuiStyleVar.PopupBorderSize, 1);
 
         ImGui.PushStyleColor(ImGuiCol.Text, new Color("Input.Text").ToUInt());
         ImGui.PushStyleColor(ImGuiCol.PopupBg, new Color("Input.Background").ToUInt());
+        ImGui.PushStyleColor(ImGuiCol.Border, new Color("Input.Border").ToUInt());
         ImGui.PushStyleColor(ImGuiCol.Button, new Color("Input.Background").ToUInt());
         ImGui.PushStyleColor(ImGuiCol.ButtonHovered, new Color("Input.Background").ToUInt());
         ImGui.PushStyleColor(ImGuiCol.FrameBg, new Color("Input.Background").ToUInt());
@@ -94,8 +96,8 @@ public abstract class ImGuiInputNode : Node
         } catch (Exception e) {
             Logger.Error($"Error while drawing ImGui input node: {e.Message}");
         } finally {
-            ImGui.PopStyleColor(7);
-            ImGui.PopStyleVar(4);
+            ImGui.PopStyleColor(8);
+            ImGui.PopStyleVar(5);
         }
 
         base.OnDraw(drawList);

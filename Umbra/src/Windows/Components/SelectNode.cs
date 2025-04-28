@@ -1,9 +1,7 @@
-﻿using System;
+﻿using ImGuiNET;
+using System;
 using System.Collections.Generic;
-using System.Numerics;
-using ImGuiNET;
 using System.Collections.Immutable;
-using System.Linq;
 using Umbra.Common;
 using Umbra.Common.Extensions;
 using Una.Drawing;
@@ -83,7 +81,6 @@ public class SelectNode : ImGuiInputNode
                     ImGui.SetItemDefaultFocus();
                 }
             }
-
             ImGui.EndCombo();
         }
     }
