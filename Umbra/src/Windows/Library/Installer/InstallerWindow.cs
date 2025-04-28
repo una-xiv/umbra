@@ -35,8 +35,8 @@ internal sealed class InstallerWindow : Window
         PrevButton.OnClick += _ => OnPrevButtonClicked();
         NextButton.OnClick += _ => OnNextButtonClicked();
 
-        DontShowAgain.Value = UmbraBindings.IsFirstTimeStart;
-        DontShowAgain.OnValueChanged += v => ConfigManager.Set("IsFirstTimeStart.V3", v);
+        DontShowAgain.Value = !UmbraBindings.IsFirstTimeStart;
+        DontShowAgain.OnValueChanged += v => ConfigManager.Set("IsFirstTimeStart.V3", !v);
     }
 
     protected override void OnClose()
@@ -53,6 +53,7 @@ internal sealed class InstallerWindow : Window
     private void LoadPage(uint pageIndex)
     {
         if (pageIndex >= Pages.Count) {
+            ConfigManager.Set("IsFirstTimeStart.V3", false);
             Close();
             return;
         }
@@ -97,11 +98,6 @@ internal sealed class InstallerWindow : Window
 
     private void OnNextButtonClicked()
     {
-        if (IsLastPage()) {
-            Close();
-            return;
-        }
-
         LoadPage(_currentPageIndex + 1);
     }
 

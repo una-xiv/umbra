@@ -5,6 +5,7 @@ using System.Linq;
 using System.Numerics;
 using System.Reflection;
 using Umbra.Common;
+using Umbra.Windows.Library.Installer;
 using Una.Drawing;
 
 namespace Umbra.Windows.Settings;
@@ -27,7 +28,7 @@ public class SettingsWindow : Window
     protected override void OnOpen()
     {
         RootNode.QuerySelector("#version")!.NodeValue = $"Umbra v{Framework.DalamudPlugin.Manifest.AssemblyVersion.ToString(3)}";
-        
+
         BindFooterButtonActions();
 
         if (Modules.Count == 0) return;
@@ -37,7 +38,7 @@ public class SettingsWindow : Window
         }
 
         SwitchActiveMainTab(Modules.First().Id);
-        
+
         RootNode.QuerySelector(".ui-window-footer .logo")!.OnRightClick += _ => {
             DrawingLib.ShowDebugWindow = !DrawingLib.ShowDebugWindow;
         };
@@ -70,7 +71,7 @@ public class SettingsWindow : Window
     private void SwitchActiveMainTab(string id)
     {
         if (ActiveModule?.Id == id) return;
-        
+
         ActiveModule?.Deactivate();
 
         ActiveModule = Modules.FirstOrDefault(m => m.Id.Equals(id));
@@ -116,10 +117,17 @@ public class SettingsWindow : Window
 
     private void BindFooterButtonActions()
     {
+        RootNode.QuerySelector("#btn-install")!.OnMouseUp += _ => OpenInstallerWindow();
         RootNode.QuerySelector("#btn-kofi")!.OnMouseUp    += _ => Util.OpenLink("https://ko-fi.com/una-xiv");
         RootNode.QuerySelector("#btn-discord")!.OnMouseUp += _ => Util.OpenLink("https://discord.gg/xaEnsuAhmm");
         RootNode.QuerySelector("#btn-close")!.OnMouseUp   += _ => Dispose();
         RootNode.QuerySelector("#btn-restart")!.OnMouseUp +=
             _ => Framework.DalamudFramework.RunOnTick(Framework.Restart);
+    }
+
+    private void OpenInstallerWindow()
+    {
+        Framework.Service<WindowManager>().Present("Installer", new InstallerWindow());
+        Close();
     }
 }
