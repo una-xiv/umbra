@@ -36,7 +36,7 @@ internal partial class RetainerListWidget
                 true
             ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
             new SelectWidgetConfigVariable(
-                "IconType",
+                "RetainerIconType",
                 I18N.Translate("Widget.RetainerList.Config.IconType.Name"),
                 I18N.Translate("Widget.RetainerList.Config.IconType.Description"),
                 "Default",
