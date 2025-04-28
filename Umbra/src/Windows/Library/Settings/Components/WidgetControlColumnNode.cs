@@ -120,9 +120,10 @@ public class WidgetControlColumnNode : UdtNode
     private void OnClearButtonClicked()
     {
         WindowManager.Present("DeleteAllWidgetsFromColumn", new ConfirmationWindow(
-            "Are you sure?",
-            "This will remove all widgets from this column. This action cannot be undone.",
-            $"Delete all widgets from the {ColumnName} column"
+            I18N.Translate("ConfirmationDialog.Title"),
+            I18N.Translate("ConfirmationDialog.DeleteAllWidgets.Message", ColumnName),
+            I18N.Translate("Delete"),
+            I18N.Translate("Cancel")
         ), window => {
             if (!window.Confirmed) return;
 

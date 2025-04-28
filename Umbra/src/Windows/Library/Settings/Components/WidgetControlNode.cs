@@ -75,11 +75,11 @@ public class WidgetControlNode : UdtNode
         }
 
         Framework.Service<WindowManager>().Present<ConfirmationWindow>("DeleteWidgetInstanceConfirmation2", new(
-            "Are you sure?",
-            $"Are you sure you want to delete the widget \"{Widget.GetInstanceName()}\"? This action cannot be undone.",
-            "Delete",
-            "Cancel",
-            "You can circumvent this dialog by holding the Shift key when clicking the delete button."
+            I18N.Translate("ConfirmationDialog.Title"),
+            I18N.Translate("ConfirmationDialog.DeleteWidget.Message", Widget.GetInstanceName()),
+            I18N.Translate("Delete"),
+            I18N.Translate("Cancel"),
+            I18N.Translate("ConfirmationDialog.OmitDialog")
         ), window => {
             if (!window.Confirmed) return;
             Manager.RemoveWidget(Widget.Id);
