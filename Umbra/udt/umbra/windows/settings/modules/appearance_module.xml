@@ -7,13 +7,13 @@
                 <node class="category-group">
                     <node class="body">
                         <node class="tab-button" id="toolbar-widget-appearance" tags="selected" value="_L(Settings.AppearanceModule.MainAppearance)"/>
-                        <node class="tab-button" id="font-configuration" value="Font configuration"/>
+                        <node class="tab-button" id="font-configuration" value="_L(Settings.AppearanceModule.FontConfiguration)"/>
                     </node>
                 </node>
                 <node class="category-group">
                     <node class="header">
                         <node class="line"/>
-                        <node class="text" value="Installed themes"/>
+                        <node class="text" value="_L(Settings.AppearanceModule.InstalledThemes)"/>
                         <node class="line"/>
                     </node>
                     <node class="body" id="color-theme-list"/>
@@ -21,12 +21,12 @@
                 <node class="category-group">
                     <node class="header">
                         <node class="line"/>
-                        <node class="text" value="Create or Import"/>
+                        <node class="text" value="_L(Settings.AppearanceModule.CreateOrImport)"/>
                         <node class="line"/>
                     </node>
                     <node class="body">
-                        <button-node id="btn-create" is-ghost="true" label="Create a new theme" icon="Plus"/>
-                        <button-node id="btn-import" is-ghost="true" label="Import a theme from clipboard" icon="FileImport"/>
+                        <button-node id="btn-create" is-ghost="true" label="_L(Settings.AppearanceModule.CreateTheme)" icon="Plus"/>
+                        <button-node id="btn-import" is-ghost="true" label="_L(Settings.AppearanceModule.ImportTheme)" icon="FileImport"/>
                     </node>
                 </node>
             </node>
@@ -54,28 +54,28 @@
                     <node class="color-pickers" id="color-pickers"/>
                 </node>
                 <node class="built-in-message">
-                    <node class="text" value="Built-in themes cannot be modified."/>
-                    <node class="text" value="Please create a new theme to start editing."/>
+                    <node class="text" value="_L(Settings.AppearanceModule.BuiltInMessage.CannotModify)"/>
+                    <node class="text" value="_L(Settings.AppearanceModule.BuildInMessage.CreateToEdit)"/>
                 </node>
             </node>
         </node>
     </sidebar-layout>
-    
+
     <template name="separator">
         <argument name="label"/>
-        
+
         <node class="separator2">
             <node class="line"/>
             <node class="text" value="${label}"/>
             <node class="line short"/>
         </node>
     </template>
-    
+
     <template name="font-row">
         <argument name="id"/>
         <argument name="label"/>
         <argument name="description"/>
-        
+
         <node class="font-row">
             <node class="inputs">
                 <node class="font-wrapper">
@@ -88,10 +88,10 @@
             <node class="description ui-text-muted" value="${description}"/>
         </node>
     </template>
-    
+
     <template name="color-profile-button">
         <argument name="name"/>
-        
+
         <node class="color-profile-button">
             <node class="icon" value="FA(Check)"/>
             <node class="text" value="${name}"/>
@@ -102,54 +102,54 @@
             </node>
         </node>
     </template>
-    
+
     <![CDATA[
     #main {
         auto-size: grow;
-        
+
         & > .tab {
             flow: vertical;
             auto-size: grow fit;
             gap: 12;
             is-visible: false;
-            
+
             &.active {
                 is-visible: true;
             }
-            
+
             .color-editor-body {
                 flow: vertical;
                 auto-size: grow fit;
                 gap: 10;
             }
-            
+
             .color-pickers {
                 flow: vertical;
                 auto-size: grow fit;
                 gap: 10;
-                
+
                 & > .row {
                     auto-size: grow fit;
                     gap: 10;
-                    
+
                     & > .col {
                         flow: vertical;
                         auto-size: grow fit;
                         gap: 10;
-                        
+
                         & > .color-list {
                             auto-size: grow fit;
                             flow: vertical;
                             gap: 10;
                         }
-                    } 
+                    }
                 }
             }
-            
+
             .built-in-message {
                 flow: vertical;
                 auto-size: grow;
-                
+
                 & > .text {
                     anchor: middle-center;
                     color:  "Window.TextMuted";
@@ -158,19 +158,19 @@
                     font-size: 12;
                 }
             }
-            
+
             .font-row {
                 flow: vertical;
                 auto-size: grow fit;
-                
+
                 & > .inputs {
                     auto-size: grow fit;
                     gap: 12;
-                    
+
                     & > .font-wrapper { auto-size: grow fit; }
                     & > .size-wrapper { size: 150 0; }
                 }
-                
+
                 & > .description {
                     auto-size: grow fit;
                     text-overflow: false;
@@ -180,23 +180,23 @@
                 }
             }
         }
-        
+
         .separator2 {
             auto-size: grow fit;
             gap: 4;
-            
+
             & > .line {
                 anchor: middle-left;
                 auto-size: grow fit;
                 size: 0 1;
                 background-color: "Window.Border";
-                
+
                 &.short {
                     auto-size: fit;
                     size: 16 1;
                 }
             }
-            
+
             & > .text {
                 anchor: middle-left;
                 color: "Window.TextMuted";
@@ -205,7 +205,7 @@
             }
         }
     }
-    
+
     .color-profile-button {
         auto-size: grow fit;
         size: 0 32;
@@ -215,7 +215,7 @@
         stroke-color: 0;
         stroke-width: 1;
         padding: 0 4;
-            
+
         & > .icon {
             anchor: middle-left;
             size: 16;
@@ -227,7 +227,7 @@
             text-offset: 0 2;
             opacity: 0;
         }
-        
+
         & > .text {
             anchor: middle-left;
             auto-size: grow fit;
@@ -238,14 +238,14 @@
             text-overflow: false;
             word-wrap: false;
         }
-        
+
         & > .built-in {
             anchor: middle-left;
             color: "Window.TextMuted";
             outline-size: 1;
             font-size: 10;
         }
-        
+
         & > .buttons {
             anchor: middle-left;
             gap: 2;
@@ -253,11 +253,11 @@
             transition-type: ease-out-sine;
             transition-duration: 150;
         }
-        
+
         &:hover {
             stroke-color: "Window.AccentColor";
             transition-duration: 1;
-            
+
             & > .buttons {
                 opacity: 1;
                 transition-duration: 1;

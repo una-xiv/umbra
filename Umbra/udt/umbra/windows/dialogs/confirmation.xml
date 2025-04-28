@@ -3,7 +3,7 @@
         <node class="body">
             <node class="content">
                 <node class="icon" value="FA(ExclamationTriangle)"/>
-                <node id="message" class="ui-text-default" value="Are you sure?"/>
+                <node id="message" class="ui-text-default" value="_L(ConfirmationDialog.Title)"/>
             </node>
             <node id="hint" class="ui-text-muted"/>
         </node>
@@ -14,32 +14,32 @@
             </node>
         </node>
     </node>
-    
+
     <![CDATA[
     @import "globals";
-    
+
     #main {
         flow: vertical;
         auto-size: fit;
         size: 500 0;
-                
+
         & > .body {
             flow: vertical;
             auto-size: grow fit;
             padding: 12;
             gap: 12;
-            
-            
+
+
             & > .content {
-                auto-size: grow fit;    
-                gap: 12;        
-                
+                auto-size: grow fit;
+                gap: 12;
+
                 & > .icon {
                     font-size: 48;
                     font: 2; // FontAwesome
                     color: "Window.TextMuted";
                 }
-                
+
                 & > #message {
                     auto-size: grow fit;
                     font-size: 14;
@@ -47,14 +47,14 @@
                     word-wrap: true;
                 }
             }
-            
+
             & > #hint {
                 auto-size: grow fit;
                 text-align: middle-center;
                 word-wrap: true;
             }
         }
-        
+
         & > .ui-window-footer {
             & > .buttons {
                 anchor: middle-right;
