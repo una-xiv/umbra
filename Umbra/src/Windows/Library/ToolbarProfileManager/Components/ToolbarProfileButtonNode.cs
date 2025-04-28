@@ -33,13 +33,13 @@ public class ToolbarProfileButtonNode : UdtNode
             Manager.DeleteProfile(Name);
             return;
         }
-        
+
         Framework.Service<WindowManager>().Present<ConfirmationWindow>("DeleteToolbarProfileConfirmation", new (
-            "Are you sure?",
-            "This will permanently delete the profile \"{Name}\". This operation cannot be undone.",
-            "Delete",
-            "Cancel",
-            "Hold shift while clicking the delete button to omit this confirmation."
+            I18N.Translate("ConfirmationDialog.Title"),
+            I18N.Translate("ConfirmationDialog.DeleteProfile.Message", Name),
+            I18N.Translate("Delete"),
+            I18N.Translate("Cancel"),
+            I18N.Translate("ConfirmationDialog.OmitDialog")
         ), window => {
             if (window.Confirmed) {
                 Manager.DeleteProfile(Name);
