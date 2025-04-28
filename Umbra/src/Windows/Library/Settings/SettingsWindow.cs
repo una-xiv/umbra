@@ -14,8 +14,8 @@ public class SettingsWindow : Window
 {
     protected override string  UdtResourceName => "umbra.windows.settings.window.xml";
     protected override string  Title           { get; } = I18N.Translate("Settings.Window.Title");
-    protected override Vector2 MinSize         { get; } = new(1000, 400);
-    protected override Vector2 MaxSize         { get; } = new(1200, 900);
+    protected override Vector2 MinSize         { get; } = new(1000, 600);
+    protected override Vector2 MaxSize         { get; } = new(1300, 1000);
     protected override Vector2 DefaultSize     { get; } = new(1100, 700);
 
     private Node TabBarNode  => RootNode.QuerySelector(".tab-bar > .button-list")!;
