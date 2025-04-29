@@ -18,6 +18,7 @@ using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json;
 using System;
+using System.Diagnostics;
 using System.Globalization;
 
 namespace Umbra.Common;
@@ -166,7 +167,7 @@ public static class I18N
         Translations.Clear();
     }
 
-    // [Conditional("DEBUG")]
+    [Conditional("DEBUG")]
     private static void ValidateTranslationKeys()
     {
         var en = Translations["en"];

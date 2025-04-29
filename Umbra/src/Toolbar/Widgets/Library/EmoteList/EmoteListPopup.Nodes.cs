@@ -1,5 +1,5 @@
-﻿using Umbra.Common;
-using Umbra.Style;
+﻿using System.Linq;
+using Umbra.Common;
 using Umbra.Windows.Components;
 using Una.Drawing;
 
@@ -15,38 +15,36 @@ internal sealed partial class EmoteListPopup
     private CheckboxNode WriteToChatNode => Node.QuerySelector<CheckboxNode>("WriteToChat")!;
     private CheckboxNode KeepOpenNode    => Node.QuerySelector<CheckboxNode>("KeepOpen")!;
 
-    protected override Node Node { get; } = new() {
-        Id         = "Popup",
-        Stylesheet = PopupStyles.ButtonGridStylesheet,
-        ChildNodes = [
-            new() {
-                Id = "CategoryBar",
-                ChildNodes = [
-                    new() {
-                        Id       = "CategoryButton_0", ClassList = ["category-button"], NodeValue = "Category 1",
-                        TagsList = ["selected"]
-                    },
-                    new() {
-                        Id        = "CategoryButton_1", ClassList = ["category-button"],
-                        NodeValue = "Category 2 with a very long name"
-                    },
-                    new() { Id = "CategoryButton_2", ClassList = ["category-button"], NodeValue = "Category 3" },
-                    new() { Id = "CategoryButton_3", ClassList = ["category-button"], NodeValue = "Category 4" },
-                ]
-            },
-            CreateEmoteContainer(0, true),
-            CreateEmoteContainer(1),
-            CreateEmoteContainer(2),
-            CreateEmoteContainer(3),
-            new() {
-                Id = "Footer",
-                ChildNodes = [
-                    new CheckboxNode("WriteToChat", false, I18N.Translate("Widget.EmoteList.Option.WriteToChat")),
-                    new CheckboxNode("KeepOpen",    false, I18N.Translate("Widget.EmoteList.Option.KeepPopupOpen")),
-                ]
-            }
-        ]
-    };
+    protected override Node Node { get; }
+
+    private UdtDocument Document { get; } = UmbraDrawing.DocumentFrom("umbra.widgets._popup_button_grid.xml");
+
+    private void BuildInterface()
+    {
+        CategoryBarNode.Clear();
+        for (byte i = 0; i < 4; i++) {
+            Node button = new() {
+                Id        = $"CategoryButton_{i}",
+                ClassList = ["button"],
+                NodeValue = $"Category {i + 1}"
+            };
+
+            button.Style.IsVisible = EnabledCategories.ElementAt(i);
+            CategoryBarNode.AppendChild(button);
+
+            Node.AppendChild(CreateEmoteContainer(i, i == 0));
+        }
+        
+        Node footer = new() {
+            Id = "Footer",
+            ChildNodes = [
+                new CheckboxNode("WriteToChat", false, I18N.Translate("Widget.EmoteList.Option.WriteToChat")),
+                new CheckboxNode("KeepOpen", false, I18N.Translate("Widget.EmoteList.Option.KeepPopupOpen")),
+            ]
+        };
+
+        Node.AppendChild(footer);
+    }
 
     private static Node CreateEmoteContainer(byte listId, bool isVisible = false)
     {
@@ -90,7 +88,7 @@ internal sealed partial class EmoteListPopup
             ClassList = ["slot-button"],
             ChildNodes = [
                 new() {
-                    ClassList = ["slot-button--icon"],
+                    ClassList = ["icon"],
                 }
             ]
         };

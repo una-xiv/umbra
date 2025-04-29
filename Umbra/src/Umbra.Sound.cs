@@ -71,12 +71,12 @@ internal sealed class UmbraSound : IDisposable
         PlaySound((uint)ClosePopupId);
     }
 
-    private static void OnWindowOpened(Window _)
+    private static void OnWindowOpened(IWindow _)
     {
         PlaySound((uint)OpenWindowId);
     }
 
-    private static void OnWindowClosed(Window _)
+    private static void OnWindowClosed(IWindow _)
     {
         PlaySound((uint)CloseWindowId);
     }

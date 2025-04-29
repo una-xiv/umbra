@@ -1,43 +1,29 @@
 ﻿using Dalamud.Interface;
-using FFXIVClientStructs.FFXIV.Client.Game;
-using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using System.Collections.Generic;
 using Umbra.Common;
 using Umbra.Game;
 
 namespace Umbra.Widgets.Library.SanctuaryIndicator;
 
-[ToolbarWidget("SanctuaryIndicator", "Widget.SanctuaryIndicator.Name", "Widget.SanctuaryIndicator.Description")]
-[ToolbarWidgetTags(["sanctuary", "city", "town", "housing", "rest", "afk", "indicator"])]
+[ToolbarWidget(
+    "SanctuaryIndicator",
+    "Widget.SanctuaryIndicator.Name",
+    "Widget.SanctuaryIndicator.Description",
+    ["sanctuary", "city", "town", "housing", "rest", "afk", "indicator"]
+)]
 internal sealed class SanctuaryIndicator(
     WidgetInfo                  info,
     string?                     guid         = null,
     Dictionary<string, object>? configValues = null
-) : IconToolbarWidget(info, guid, configValues)
+) : StandardToolbarWidget(info, guid, configValues)
 {
-    /// <inheritdoc/>
-    public override WidgetPopup? Popup => null;
+    protected override StandardWidgetFeatures Features => StandardWidgetFeatures.Icon | StandardWidgetFeatures.CustomizableIcon;
 
-    /// <inheritdoc/>
-    protected override IEnumerable<IWidgetConfigVariable> GetConfigVariables()
-    {
-        return [
-            CustomIconConfigVariable(FontAwesomeIcon.Moon),
-            ..DefaultIconToolbarWidgetConfigVariables,
-        ];
-    }
+    protected override string          DefaultIconType        => IconTypeFontAwesome;
+    protected override FontAwesomeIcon DefaultFontAwesomeIcon => FontAwesomeIcon.Moon;
 
-    /// <inheritdoc/>
-    protected override void Initialize()
+    protected override void OnDraw()
     {
-    }
-
-    /// <inheritdoc/>
-    protected override void OnUpdate()
-    {
-        SetIcon(GetConfigValue<FontAwesomeIcon>("Icon"));
         Node.Style.IsVisible = Framework.Service<IPlayer>().IsInSanctuary;
-
-        base.OnUpdate();
     }
 }

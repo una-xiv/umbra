@@ -5,8 +5,7 @@ namespace Umbra.Widgets;
 
 internal partial class DurabilityWidget
 {
-
-    private Node BarWrapperNode = new() {
+    private Node BarWrapperNode { get; } = new() {
         Stylesheet = Stylesheet,
         SortIndex  = -1,
         Id         = "BarWrapper",

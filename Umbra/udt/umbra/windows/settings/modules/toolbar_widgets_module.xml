@@ -1,0 +1,202 @@
+﻿<udt>
+    <import from="umbra.windows.settings._shared.xml"/>
+    
+    <node id="main">
+        <node class="list-panel">
+            <node class="list" overflow="false">
+                <node id="bar-list"/>
+            </node>
+            <node class="footer">
+                <button-node 
+                        id="add-bar" 
+                        is-ghost="true"
+                        is-small="true"
+                        icon="Plus"
+                        label="_L(Settings.WidgetsModule.CreateBar)"
+                        style="anchor: middle-center;"
+                />
+            </node>
+        </node>
+        <node class="body"/>
+    </node>
+    
+    <template name="aux-config">
+        <node class="config" overflow="false">
+            <node class="list">
+                <string-input-node class="input-name" label="_L(Settings.WidgetsModule.Aux.Name.Name)"/>
+                <separator label="_L(Settings.WidgetsModule.Aux.Positioning)"/>
+                <integer-input-node class="input-x-pos" label="_L(Settings.WidgetsModule.Aux.XPosition.Name)" description="_L(Settings.WidgetsModule.Aux.XPosition.Description)"/>
+                <integer-input-node class="input-y-pos" label="_L(Settings.WidgetsModule.Aux.YPosition.Name)" description="_L(Settings.WidgetsModule.Aux.YPosition.Description)"/>
+                <select-node class="input-x-align" label="_L(Settings.WidgetsModule.Aux.XAlign.Name)" description="_L(Settings.WidgetsModule.Aux.XAlign.Description)" choices="{['Left', 'Center', 'Right']}"/>
+                <separator label="_L(Settings.WidgetsModule.Aux.Appearance)"/>
+                <checkbox-node class="input-decorate" label="_L(Settings.WidgetsModule.Aux.Decorate.Name)" description="_L(Settings.WidgetsModule.Aux.Decorate.Description)"/>
+                <checkbox-node class="input-shadow" label="_L(Settings.WidgetsModule.Aux.EnableShadow.Name)" description="_L(Settings.WidgetsModule.Aux.EnableShadow.Description)"/>
+                <checkbox-node class="input-rounded-corners" label="_L(Settings.WidgetsModule.Aux.RoundedCorners.Name)" description="_L(Settings.WidgetsModule.Aux.RoundedCorners.Description)"/>
+                <integer-input-node class="input-item-spacing" label="_L(Settings.WidgetsModule.Aux.ItemSpacing.Name)" description="_L(Settings.WidgetsModule.Aux.ItemSpacing.Description)"/>
+                <separator label="_L(Settings.WidgetsModule.Aux.Visibility)"/>
+                <checkbox-node class="input-hide-in-cutscenes" label="_L(Settings.WidgetsModule.Aux.HideInCutscenes.Name)" description="_L(Settings.WidgetsModule.Aux.HideInCutscenes.Description)"/>
+                <checkbox-node class="input-hide-in-pvp" label="_L(Settings.WidgetsModule.Aux.HideInPvP.Name)" description="_L(Settings.WidgetsModule.Aux.HideInPvP.Description)"/>
+                <checkbox-node class="input-hide-in-duty" label="_L(Settings.WidgetsModule.Aux.HideInDuty.Name)" description="_L(Settings.WidgetsModule.Aux.HideInDuty.Description)"/>
+                <checkbox-node class="input-hide-in-combat" label="_L(Settings.WidgetsModule.Aux.HideInCombat.Name)" description="_L(Settings.WidgetsModule.Aux.HideInCombat.Description)"/>
+                <checkbox-node class="input-hide-if-unsheathed" label="_L(Settings.WidgetsModule.Aux.HideIfUnsheathed.Name)" description="_L(Settings.WidgetsModule.Aux.HideIfUnsheathed.Description)"/>
+                <separator label="_L(Settings.WidgetsModule.Aux.ConditionalVisibility)"/>
+                <checkbox-node class="input-conditional-visibility" label="_L(Settings.WidgetsModule.Aux.ConditionalVisibility.Name)" description="_L(Settings.WidgetsModule.Aux.ConditionalVisibility.Description)"/>
+                <select-node class="input-hold-key" left-margin="36" label="_L(Settings.WidgetsModule.Aux.HoldKey.Name)" description="_L(Settings.WidgetsModule.Aux.HoldKey.Description)" choices="{['None', 'Shift', 'Ctrl', 'Alt']}"/>
+                <checkbox-node class="input-show-in-cutscene" label="_L(Settings.WidgetsModule.Aux.ShowInCutscene.Name)" description="_L(Settings.WidgetsModule.Aux.ShowInCutscene.Description)"/>
+                <checkbox-node class="input-show-in-gpose" label="_L(Settings.WidgetsModule.Aux.ShowInGPose.Name)" description="_L(Settings.WidgetsModule.Aux.ShowInGPose.Description)"/>
+                <checkbox-node class="input-show-in-instance" label="_L(Settings.WidgetsModule.Aux.ShowInInstance.Name)" description="_L(Settings.WidgetsModule.Aux.ShowInInstance.Description)"/>
+                <checkbox-node class="input-show-in-combat" label="_L(Settings.WidgetsModule.Aux.ShowInCombat.Name)" description="_L(Settings.WidgetsModule.Aux.ShowInCombat.Description)"/>
+                <checkbox-node class="input-show-unsheathed" label="_L(Settings.WidgetsModule.Aux.ShowUnsheathed.Name)" description="_L(Settings.WidgetsModule.Aux.ShowUnsheathed.Description)"/>
+            </node>
+        </node>
+    </template>
+    
+    <template name="separator">
+        <argument name="label"/>
+        
+        <node class="separator">
+            <node class="line"/>
+            <node class="text" value="${label}"/>
+            <node class="line"/>
+        </node>
+    </template>
+    
+    <![CDATA[
+    #main {
+        auto-size: grow;
+        
+        & > .list-panel {
+            flow: vertical;
+            auto-size: fit grow;
+            size: 250 0;
+            border-color: "Window.Border";
+            border-width: 0 1 0 0;
+            
+            & > .list {
+                flow: vertical;
+                auto-size: grow;
+                gap: 8;
+                scrollbar-track-color: 0;
+                
+                & > #bar-list {
+                    flow: vertical;
+                    auto-size: grow fit;
+                    gap: 2;
+                    padding: 8;
+                }
+                
+                .bar-button {
+                    auto-size: grow fit;
+                    padding: 4 6;
+                    background-color: "Window.Background";
+                    stroke-color: 0;
+                    stroke-width: 1;
+                    border-radius: 5;
+                    font-size: 13;
+                    color: "Window.Text";
+                    outline-color: "Window.TextOutline";
+                    outline-size: 1;
+                    text-overflow: false;
+                    word-wrap: false;
+                    transition-type: ease-out-sine;
+                    transition-duration: 150;
+                    
+                    &.active {
+                        background-color: "Window.BackgroundLight";
+                        
+                        & > .name {
+                            color: "Window.TextLight";
+                            outline-color: "Window.TextOutline";
+                        }
+                    }
+                    
+                    &:hover {
+                        stroke-color: "Window.AccentColor";
+                        transition-duration: 1;
+                        
+                        & > .buttons {
+                            transition-duration: 1;
+                            opacity: 1;
+                        }
+                    }
+                }
+                
+                .separator {
+                    auto-size: grow fit;
+                    size: 0 9;
+                    margin: 4 0;
+                    background-color: "Window.Border";
+                }
+            }
+            
+            & > .footer {
+                auto-size: grow fit;
+                padding: 4;
+                border-color: "Window.Border";
+                border-width: 1 0 0 0;
+            }
+        }
+            
+        & > .body {
+            flow: vertical;
+            auto-size: grow;
+            background-color: "Window.BackgroundLight";
+            
+            & > .header {
+                auto-size: grow fit;
+                padding: 10 0 0 0;
+                
+                & > .c { anchor: middle-center; }
+                & > .buttons {
+                    anchor: middle-right;
+                    padding: 0 10 0 0;
+                }
+            }
+        
+            & > .columns {
+                padding: 10;
+                auto-size: grow;
+                gap: 16;
+                
+                & > .config {
+                    auto-size: grow;
+                    flow: vertical;
+                    background-color: "Window.Background";
+                    scrollbar-track-color: 0;
+                    stroke-color: "Input.Background";
+                    stroke-width: 1;
+                    border-radius: 5;
+                    padding: 2 0;
+                    
+                    & > .list {
+                        flow: vertical;
+                        auto-size: grow fit;
+                        padding: 8 12 8 8;
+                        gap: 10;
+                        
+                        & > .separator {
+                            auto-size: grow fit;
+                            gap: 4;
+                            
+                            & > .line {
+                                anchor: middle-left;
+                                auto-size: grow fit;
+                                size: 0 1;
+                                background-color: "Window.Border";
+                            }
+                            
+                            & > .text {
+                                anchor: middle-left;
+                                font-size: 11;
+                                color: "Window.TextMuted";
+                                outline-color: "Window.TextOutline";
+                                outline-size: 1;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    ]]>
+</udt>

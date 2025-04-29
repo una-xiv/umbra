@@ -1,25 +1,9 @@
-/* Umbra | (c) 2024 by Una              ____ ___        ___.
- * Licensed under the terms of AGPL-3  |    |   \ _____ \_ |__ _______ _____
- *                                     |    |   //     \ | __ \\_  __ \\__  \
- * https://github.com/una-xiv/umbra    |    |  /|  Y Y  \| \_\ \|  | \/ / __ \_
- *                                     |______//__|_|  /____  /|__|   (____  /
- *     Umbra is free software: you can redistribute  \/     \/             \/
- *     it and/or modify it under the terms of the GNU Affero General Public
- *     License as published by the Free Software Foundation, either version 3
- *     of the License, or (at your option) any later version.
- *
- *     Umbra UI is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *     GNU Affero General Public License for more details.
- */
-
 using FFXIVClientStructs.FFXIV.Client.Graphics.Kernel;
 using System.Numerics;
 using ImGuiNET;
 using System;
+using System.Collections.Generic;
 using Umbra.Common;
-using Umbra.Style;
 using Umbra.Widgets.System;
 using Una.Drawing;
 
@@ -36,10 +20,7 @@ public abstract class WidgetPopup : IDisposable
     internal Vector2 Position { get; set; }
     internal Vector2 Size     { get; set; }
 
-    private readonly Node _popupNode = new() {
-        Stylesheet = PopupStyles.WidgetPopupStylesheet,
-        ClassList  = ["widget-popup"],
-    };
+    private readonly UdtNode _popupNode = new("umbra.widgets._popup.xml");
 
     /// <summary>
     /// The content node of this popup.
@@ -65,7 +46,7 @@ public abstract class WidgetPopup : IDisposable
     /// <summary>
     /// Closes the popup.
     /// </summary>
-    protected void Close()
+    public void Close()
     {
         _shouldClose = true;
     }
@@ -82,6 +63,10 @@ public abstract class WidgetPopup : IDisposable
     protected virtual void OnClose() { }
 
     protected virtual void OnDisposed() { }
+
+    protected virtual void UpdateConfigVariables(ToolbarWidget widget) { }
+
+    public virtual IEnumerable<IWidgetConfigVariable> GetConfigVariables() => [];
 
     protected ContextMenu? ContextMenu { get; set; }
 
@@ -101,12 +86,16 @@ public abstract class WidgetPopup : IDisposable
 
     public bool Render(ToolbarWidget activator)
     {
+        UpdateConfigVariables(activator);
+        
         if (!CanOpen()) {
             return false;
         }
 
-        if (_popupNode.ChildNodes.Count == 0) {
-            _popupNode.ChildNodes.Add(Node);
+        var wrapper = _popupNode.QuerySelector(".wrapper")!;
+        if (wrapper.ChildNodes.Count == 0) {
+            wrapper.AppendChild(Node);
+            wrapper.ComputeBoundingSize();
         }
 
         if (!_isOpen) {
@@ -116,32 +105,15 @@ public abstract class WidgetPopup : IDisposable
             OnOpen();
         }
 
-        switch (IsPopupOpenDownward(activator)) {
-            case true when !_popupNode.TagsList.Contains("top"):
-                _popupNode.TagsList.Remove("bottom");
-                _popupNode.TagsList.Add("top");
-                break;
-            case false when !_popupNode.TagsList.Contains("bottom"):
-                _popupNode.TagsList.Remove("top");
-                _popupNode.TagsList.Add("bottom");
-                break;
-        }
+        bool isAuxWidget = activator.Node.ParentNode?.Id?.StartsWith("aux") ?? false;
+        bool isDownward  = IsPopupOpenDownward(activator);
+        bool isFloating  = !Toolbar.IsStretched || WidgetManager.EnforceFloatingPopups || isAuxWidget;
 
-        bool isAuxWidget = activator.Node.ParentNode!.Id == "aux";
-
-        switch (!Toolbar.IsStretched || WidgetManager.EnforceFloatingPopups || isAuxWidget) {
-            case true when !_popupNode.TagsList.Contains("floating"):
-                _popupNode.TagsList.Add("floating");
-                break;
-            case false when _popupNode.TagsList.Contains("floating"):
-                _popupNode.TagsList.Remove("floating");
-                break;
-        }
+        _popupNode.ToggleTag("top", !isFloating && isDownward);
+        _popupNode.ToggleTag("bottom", !isFloating && !isDownward);
+        _popupNode.ToggleTag("floating", isFloating);
 
         OnUpdate();
-
-        // Reflow to pre-calculate bounds.
-        _popupNode.Reflow();
 
         Size = new(_popupNode.OuterWidth, _popupNode.OuterHeight);
 
@@ -149,7 +121,6 @@ public abstract class WidgetPopup : IDisposable
             ? GetPopupPositionAligned(activator, Size)
             : GetPopupPositionCentered(activator, Size);
 
-        // Animate the popup.
         float deltaTime = ImGui.GetIO().DeltaTime * 10;
 
         _opacityDest = 1;
@@ -168,13 +139,15 @@ public abstract class WidgetPopup : IDisposable
         if (_opacity > 0.9) _opacity = 1;
 
         _popupNode.Style.Opacity      = _opacity;
-        _popupNode.Style.ShadowInset  = (int)(_yOffset + 8);
-        _popupNode.Style.ShadowSize   = WidgetManager.EnableWidgetPopupShadow ? null : new(0);
-        _popupNode.Style.BorderRadius = WidgetManager.UseRoundedCornersInPopups ? 7 : 0;
+        
+        var w = _popupNode.QuerySelector(".wrapper")!;
+        
+        w.Style.ShadowSize   = WidgetManager.EnableWidgetPopupShadow ? null : new(0);
+        w.Style.BorderRadius = WidgetManager.UseRoundedCornersInPopups ? 7 : 0;
 
         // Draw the popup window.
-        ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding,    Vector2.Zero);
-        ImGui.PushStyleVar(ImGuiStyleVar.WindowRounding,   0f);
+        ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, Vector2.Zero);
+        ImGui.PushStyleVar(ImGuiStyleVar.WindowRounding, 0f);
         ImGui.PushStyleVar(ImGuiStyleVar.WindowBorderSize, 0f);
         ImGui.PushStyleVar(ImGuiStyleVar.WindowBorderSize, 0f);
 
@@ -200,7 +173,7 @@ public abstract class WidgetPopup : IDisposable
 
         bool hasFocus = ImGui.IsWindowFocused(ImGuiFocusedFlags.RootAndChildWindows);
 
-        _popupNode.Render(ImGui.GetWindowDrawList(), new((int)Position.X, (int)(Position.Y + _yOffset)));
+        _popupNode.Render(ImGui.GetWindowDrawList(), new(0, _yOffset));
 
         if (ContextMenu is { ShouldRender: true }) {
             _contextMenuManager.Draw();
@@ -236,20 +209,17 @@ public abstract class WidgetPopup : IDisposable
         _yOffsetDest = 0;
     }
 
-    private static bool IsMultiMonitor =>
-        (ImGui.GetIO().ConfigFlags & ImGuiConfigFlags.ViewportsEnable) == ImGuiConfigFlags.ViewportsEnable;
+    private static bool IsMultiMonitor => ImGui.GetIO().ConfigFlags.HasFlag(ImGuiConfigFlags.ViewportsEnable);
 
     private static Vector2 GetPopupPositionAligned(ToolbarWidget activator, Vector2 size)
     {
-        string toolbarColumnId      = activator.Node.ParentNode!.Id!;
-        Rect   activatorBoundingBox = activator.Node.Bounds.MarginRect;
-        Rect   toolbarBoundingBox   = activator.Node.ParentNode!.ParentNode!.Bounds.MarginRect;
+        Rect toolbarBoundingBox = activator.Node.ParentNode!.ParentNode!.Bounds.MarginRect;
 
         float popupX = GetXOffsetsOf(activator, size);
 
         float popupY = IsPopupOpenDownward(activator)
-            ? toolbarBoundingBox.Y2 - 2
-            : (toolbarBoundingBox.Y1 + 2) - size.Y;
+            ? toolbarBoundingBox.Y2 - 1
+            : (toolbarBoundingBox.Y1 + 1) - size.Y;
 
         var viewportPos  = ImGui.GetMainViewport().WorkPos;
         var viewportSize = ImGui.GetMainViewport().WorkSize;
@@ -268,7 +238,7 @@ public abstract class WidgetPopup : IDisposable
         string toolbarColumnId      = activator.Node.ParentNode!.Id!;
         Rect   activatorBoundingBox = activator.Node.Bounds.MarginRect;
 
-        if (toolbarColumnId == "aux") {
+        if (toolbarColumnId.StartsWith("aux")) {
             if (activator.Node.ParentNode.ParentNode!.ClassList.Contains("left-aligned")) {
                 toolbarColumnId = "Left";
             } else if (activator.Node.ParentNode.ParentNode!.ClassList.Contains("right-aligned")) {
@@ -301,7 +271,7 @@ public abstract class WidgetPopup : IDisposable
         Rect  tBounds = activator.Node.ParentNode!.ParentNode!.Bounds.MarginRect;
 
         float windowX     = actX - (size.X / 2);
-        float windowY     = IsPopupOpenDownward(activator) ? tBounds.Y2 - 2 : tBounds.Y1 + 2;
+        float windowY     = IsPopupOpenDownward(activator) ? tBounds.Y2 - 1 : tBounds.Y1 + 1;
         float screenWidth = ImGui.GetMainViewport().WorkSize.X;
         float screenPosX  = ImGui.GetMainViewport().WorkPos.X;
 
@@ -323,7 +293,7 @@ public abstract class WidgetPopup : IDisposable
     /// </summary>
     private static bool IsPopupOpenDownward(ToolbarWidget activator)
     {
-        if (activator.Node.ParentNode!.Id == "aux") {
+        if (activator.Node.ParentNode?.Id?.StartsWith("aux") ?? false) {
             var h = ImGui.GetMainViewport().WorkPos.Y + (ImGui.GetMainViewport().WorkSize.Y / 2);
             var y = activator.Node.Bounds.MarginRect.Y1 + activator.Node.OuterHeight;
 

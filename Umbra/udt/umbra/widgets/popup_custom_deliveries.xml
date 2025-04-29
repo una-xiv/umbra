@@ -1,0 +1,148 @@
+﻿<udt>
+    <node class="popup">
+        <node class="header">
+            <node class="text"/>
+        </node>
+        <node class="list"/>
+    </node>
+    
+    <template name="npc">
+        <argument name="name"/>
+        <argument name="icon"/>
+        
+        <node class="npc">
+            <node class="avatar">
+                <node class="icon" style="icon-id: ${icon};"/>
+            </node>
+            <node class="info">
+                <node class="name" value="${name}"/>
+                <node class="hearts">
+                    <node class="heart heart0 empty" value="FA(Heart)"/>
+                    <node class="heart heart1 empty" value="FA(Heart)"/>
+                    <node class="heart heart2 empty" value="FA(Heart)"/>
+                    <node class="heart heart3 empty" value="FA(Heart)"/>
+                    <node class="heart heart4 empty" value="FA(Heart)"/>
+                </node>
+            </node>
+            <node class="bonus-icons"/>
+        </node>
+    </template>
+    
+    <![CDATA[
+    .popup {
+        flow: vertical;
+        margin: 2;
+        
+        & > .header {
+            auto-size: grow fit;
+            padding: 4;
+            border-color: "Widget.Border";
+            border-width: 0 0 1 0;
+                
+            & > .text {
+                auto-size: grow fit;
+                font-size: 10;
+                color: "Widget.PopupMenuTextMuted";
+                outline-color: "Widget.PopupMenuTextOutline";
+                outline-size: 1;
+                text-align: middle-center;
+            }
+        }
+        
+        & > .list {
+            flow: vertical;
+            auto-size: grow fit;
+            padding: 4;
+            gap: 8;
+        }
+    }
+    
+    .npc {
+        gap: 8;
+        auto-size: grow fit;
+        padding: 2;
+        background-color: "Widget.PopupBackground.Gradient2";
+        stroke-color: 0;
+        stroke-inset: 1;
+        stroke-width: 1;
+        transition-type: ease-out-sine;
+        transition-duration: 150;
+        border-radius: 5;
+        
+        &:hover {
+            transition-duration: 1;
+            stroke-color: "Window.AccentColor";
+        }
+        
+        & > .avatar {
+            anchor: middle-left;
+            padding: 3;
+            background-color: "Input.Background";
+            stroke-color: "Widget.Border";
+            stroke-inset: 1;
+            stroke-width: 1;
+            stroke-radius: 3;
+            border-radius: 5;
+            
+            & > .icon {
+                size: 28 32;
+                color: "Widget.PopupMenuTextMuted";
+                outline-color: "Widget.PopupMenuTextOutline";
+                outline-size: 1;
+                image-scale: 2.0;
+                image-offset: -14 -12;
+            }
+        }
+        
+        & > .info {
+            anchor: middle-left;
+            flow: vertical;
+            auto-size: grow fit;
+            gap: 4;
+            
+            & > .name {
+                font-size: 13;
+                color: "Widget.PopupMenuText";
+                outline-color: "Widget.PopupMenuTextOutline";
+                outline-size: 1;
+            }
+            
+            & > .hearts {
+                gap: 4;
+                
+                & > .heart {
+                    font: 2; // FontAwesome.
+                    color: "Widget.PopupMenuTextMuted";
+                    outline-color: "Widget.PopupMenuTextOutline";
+                    outline-size: 1;
+                    font-size: 13;
+                    
+                    &.filled { 
+                        opacity: 1;
+                        color: "Window.AccentColor";
+                        outline-color: 0;
+                    }
+                    
+                    &.empty { 
+                        color: 0;
+                        outline-color: "Widget.PopupMenuText";
+                        outline-size: 2;
+                        opacity: 0.3;
+                    }
+                }
+            }
+        }
+        
+        & > .bonus-icons {
+            anchor: middle-left;
+            gap: 4;
+            
+            & > .bonus-icon {
+                size: 32 24;
+                uld-resource: "ui/uld/ContentsInfoSatisfaction";
+                uld-parts-id: 10;
+            }
+        }
+    }
+    ]]>
+</udt>

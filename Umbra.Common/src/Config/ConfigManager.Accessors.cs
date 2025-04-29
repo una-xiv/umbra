@@ -59,6 +59,7 @@ public static partial class ConfigManager
         if (cvar.Value == value) return;
 
         cvar.Value = value;
+
         CvarChanged?.Invoke(id);
 
         if (!_isInitialLoad && cvar.RequiresRestart) {
@@ -67,7 +68,7 @@ public static partial class ConfigManager
             Framework.DalamudFramework.Run(
                 async () => {
                     await Task.Delay(250);
-                    Framework.Restart();
+                    await Framework.Restart();
                 });
             return;
         }

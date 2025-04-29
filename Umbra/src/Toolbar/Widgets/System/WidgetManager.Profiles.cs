@@ -1,20 +1,4 @@
-﻿/* Umbra | (c) 2024 by Una              ____ ___        ___.
- * Licensed under the terms of AGPL-3  |    |   \ _____ \_ |__ _______ _____
- *                                     |    |   //     \ | __ \\_  __ \\__  \
- * https://github.com/una-xiv/umbra    |    |  /|  Y Y  \| \_\ \|  | \/ / __ \_
- *                                     |______//__|_|  /____  /|__|   (____  /
- *     Umbra is free software: you can redistribute  \/     \/             \/
- *     it and/or modify it under the terms of the GNU Affero General Public
- *     License as published by the Free Software Foundation, either version 3
- *     of the License, or (at your option) any later version.
- *
- *     Umbra UI is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *     GNU Affero General Public License for more details.
- */
-
-using Dalamud.Interface.ImGuiNotification;
+﻿using Dalamud.Interface.ImGuiNotification;
 using Dalamud.Plugin.Services;
 using ImGuiNET;
 using Newtonsoft.Json;
@@ -71,8 +55,6 @@ internal sealed partial class WidgetManager
 
         ConfigManager.Set("Toolbar.ActiveProfile", name);
         ConfigManager.Set("Toolbar.WidgetData",    _widgetProfiles[name]);
-
-        Logger.Info($"Activated toolbar profile: {name}.");
 
         if (UseJobAssociatedProfiles) {
             JobToProfileName[Player.JobId] = name;
@@ -160,7 +142,7 @@ internal sealed partial class WidgetManager
         ActivateProfile(name);
     }
 
-    public void CreateFromClipboard(string name)
+    public void CreateProfileFromClipboard(string name)
     {
         name = name.Trim();
 
@@ -230,8 +212,6 @@ internal sealed partial class WidgetManager
 
         JobToProfileName[jobId] = name;
         SaveProfileData();
-
-        Logger.Info($"Set profile for job ID {jobId} to '{name}'.");
 
         if (UseJobAssociatedProfiles && Framework.Service<IPlayer>().JobId == jobId) {
             ActivateProfile(name);

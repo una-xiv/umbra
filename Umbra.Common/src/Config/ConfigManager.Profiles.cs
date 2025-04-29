@@ -74,11 +74,11 @@ public static partial class ConfigManager
     }
 
     /// <summary>
-    /// Imports a base64-encoded profile string.
+    /// Imports a deflated base64-encoded profile string. Returns true on success or false on failure.
     /// </summary>
     /// <param name="profileName"></param>
     /// <param name="data"></param>
-    public static void ImportProfile(string profileName, string data)
+    public static bool ImportProfile(string profileName, string data)
     {
         if (profileName != ActiveProfileName) {
             SetProfile(profileName);
@@ -90,7 +90,7 @@ public static partial class ConfigManager
 
         if (null == dataDict) {
             Logger.Error("Failed to import profile.");
-            return;
+            return false;
         }
 
         // Prevent restarting...
@@ -104,6 +104,8 @@ public static partial class ConfigManager
         }
 
         _isInitialLoad = false;
+
+        return true;
     }
 
     /// <summary>

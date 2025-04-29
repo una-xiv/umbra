@@ -1,0 +1,243 @@
+﻿<udt>
+    <node id="main">
+        <node id="warning">
+            <node class="header">
+                <node class="icon" value="FA(ExclamationTriangle)"/>
+                <node class="title" value="_L(Settings.PluginsModule.WarningTitle)"/>
+            </node>
+            <node class="text" value="_L(Settings.PluginsModule.WarningText)"/>
+            <node class="buttons">
+                <button-node label="_L(Settings.PluginsModule.WarningAccept)" id="accept" style="anchor: middle-right;"/>
+            </node>
+        </node>
+        
+        <node id="plugins">
+            <node class="left-side">
+                <node class="section-title" value="_L(Settings.PluginsModule.InstalledPlugins)"/>
+                <node class="plugin-list" overflow="false">
+                    <node id="plugin-list"/>
+                </node>
+            </node>
+            <node class="right-side">
+                <node class="section-title" value="_L(Settings.PluginsModule.InstallPlugin)"/>
+                <node class="install-block">
+                    <node class="title" value="_L(Settings.PluginsModule.InstallFromFile.Title)"/>
+                    <node class="description" value="_L(Settings.PluginsModule.InstallFromFile.Description)"/>
+                    <button-node id="btn-install-from-file" label="_L(Settings.PluginsModule.InstallFromFile.Browse)"/>
+                </node>
+            </node>
+        </node>
+    </node>
+    
+    <template name="plugin">
+        <argument name="name"/>
+        <argument name="error"/>
+        <argument name="is_load_error"/>
+        <argument name="is_restart_required"/>
+        <argument name="is_loaded"/>
+        
+        <node class="plugin">
+            <node class="icon loaded" value="FA(CheckCircle)" style="is-visible: ${is_loaded};"/>
+            <node class="icon error" value="FA(ExclamationTriangle)" style="is-visible: ${is_load_error};"/>
+            <node class="icon warning" value="FA(ExclamationTriangle)" style="is-visible: ${is_restart_required};"/>
+            <node class="info">
+                <node class="name" value="${name}">
+                    <button-node class="btn-remove" label="_L(Delete)" style="anchor: middle-right;"/>
+                </node>
+                <node class="loaded" value="_L(Settings.PluginsModule.Loaded)" style="is-visible: ${is_loaded};"/>
+                <node class="error" value="${error}" style="is-visible: ${is_load_error};"/>
+                <node class="restart" value="_L(Settings.PluginsModule.PluginRestartRequired)" style="is-visible: ${is_restart_required};"/>
+            </node>
+        </node>
+    </template>
+    
+    <![CDATA[
+    #main {
+        auto-size: grow;
+        padding: 10;
+        gap: 10;
+        
+        #plugins {
+            is-visible: false;
+            gap: 10;
+            auto-size: grow;
+            
+            .section-title {
+                auto-size: grow fit;
+                border-color: "Window.Border";
+                border-width: 0 0 1 0;
+                padding: 8 0;
+                text-align: middle-left;
+                font-size: 11;
+                color: "Window.TextMuted";
+                outline-color: "Window.TextOutline";
+                outline-size: 1;
+            }
+            
+            & > .left-side {
+                flow: vertical;
+                auto-size: grow;
+                gap: 10;
+                
+                & > .plugin-list {
+                    flow: vertical;
+                    auto-size: grow;
+                    scrollbar-track-color: 0;
+                    
+                    & > #plugin-list {
+                        flow: vertical;
+                        auto-size: grow fit;
+                        gap: 10;
+                        
+                        .plugin {
+                            auto-size: grow fit;
+                            background-color: "Window.BackgroundLight";
+                            border-radius: 6;
+                            padding: 10;
+                            gap: 10;
+                            
+                            & > .icon {
+                                anchor: top-left;
+                                text-align: middle-center;
+                                size: 48;
+                                font: 2; // FontAwesome
+                                font-size: 40;
+                                color: "Window.AccentColor";
+                                outline-color: "Window.TextOutline";
+                                outline-size: 1;
+                                
+                                &.error {
+                                    color: 0xFF2235FF;
+                                }
+                            }
+                            
+                            & > .info {
+                                flow: vertical;
+                                auto-size: grow fit;
+                                gap: 4;
+                                
+                                & > .name {
+                                    auto-size: grow fit;
+                                    text-overflow: false;
+                                    color: "Window.Text";
+                                    outline-color: "Window.TextOutline";
+                                    outline-size: 1;
+                                    font-size: 18;
+                                }
+                                
+                                & > .error {
+                                    auto-size: grow fit;
+                                    text-overflow: false;
+                                    word-wrap: true;
+                                    color: "Window.Text";
+                                    outline-color: "Window.TextOutline";
+                                    outline-size: 1;
+                                    font-size: 11;
+                                }
+                                
+                                & > .restart {
+                                    auto-size: grow fit;
+                                    text-overflow: false;
+                                    word-wrap: true;
+                                    color: "Window.TextMuted";
+                                    outline-color: "Window.TextOutline";
+                                    outline-size: 1;
+                                    font-size: 11;
+                                }
+                                
+                                & > .buttons {
+                                    auto-size: grow fit;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            
+            & > .right-side {
+                flow: vertical;
+                size: 350 0;
+                gap: 10;
+                
+                & > .install-block {
+                    flow: vertical;
+                    auto-size: grow fit;
+                    gap: 8;
+                    background-color: "Window.BackgroundLight";
+                    border-radius: 6;
+                    padding: 10;
+                    
+                    & > .title {
+                        auto-size: grow fit;
+                        text-overflow: false;
+                        color: "Window.Text";
+                        outline-color: "Window.TextOutline";
+                        outline-size: 1;
+                        font-size: 18;
+                    }
+                    
+                    & > .description {
+                        auto-size: grow fit;
+                        text-overflow: false;
+                        word-wrap: true;
+                        color: "Window.Text";
+                        outline-color: "Window.TextOutline";
+                        outline-size: 1;
+                        font-size: 11;
+                    }
+                }
+            }
+        }
+        
+        #warning {
+            anchor: middle-center;
+            flow: vertical;
+            size: 680 0;
+            
+            & > .header {
+                gap: 16;
+                
+                & > .icon {
+                    anchor: top-left;
+                    text-align: middle-center;
+                    size: 48;
+                    font: 2; // FontAwesome
+                    font-size: 40;
+                    color: "Window.AccentColor";
+                    outline-color: "Window.TextOutline";
+                    outline-size: 1;
+                }
+                
+                & > .title {
+                    anchor: top-left;
+                    auto-size: grow fit;
+                    font-size: 24;
+                    color: "Window.Text";
+                    outline-color: "Window.TextOutline";
+                    outline-size: 1;
+                    text-overflow: false;
+                    word-wrap: true;
+                }
+            }
+            
+            & > .text {
+                auto-size: grow fit;
+                margin: -8 0 0 0;
+                font-size: 13;
+                line-height: 1.1;
+                padding: 0 0 0 62;
+                color: "Window.Text";
+                outline-color: "Window.TextOutline";
+                outline-size: 1;
+                text-overflow: false;
+                word-wrap: true;
+            }
+            
+            & > .buttons {
+                auto-size: grow fit;
+                padding: 16 0 0 0;
+            }
+        }
+    }
+    ]]>
+</udt>

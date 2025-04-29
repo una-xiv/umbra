@@ -1,0 +1,136 @@
+﻿<udt>
+    <node id="main">
+        <node id="SearchPanel">
+            <node id="SearchIcon" value="FA(Search)"/>
+            <node id="SearchInputWrapper">
+                <string-input-node id="Search" max-length="128" immediate="true"/>
+            </node>
+        </node>
+        <node id="ItemList" overflow="false"/>
+    </node>
+
+    <![CDATA[
+    #main {
+        auto-size: grow;
+        flow: vertical;
+        
+        & > #SearchPanel {
+            auto-size: grow fit;
+            flow: horizontal;
+            gap: 8;
+            padding: 8;
+            background-color: "Window.BackgroundLight";
+            border-color: "Window.Border";
+            border-width: 0 0 1 0;
+            
+            & > #SearchIcon {
+                anchor: top-left;
+                size: 22;
+                font: 2; // FontAwesome
+                font-size: 16;
+                text-offset: 0 4;
+            }
+            
+            & > #SearchInputWrapper {
+                anchor: top-left;
+                auto-size: grow fit;
+                size: 0 26;
+            }
+        }
+        
+        & > #ItemList {
+            auto-size: grow;
+            flow: vertical;
+            gap: 8;
+            padding: 4 12 4 4;
+        }
+    }
+    
+    .item {
+        auto-size: grow fit;
+        gap: 8;
+        background-color: "Window.Background";
+        transition-duration: 250;
+        stroke-color: "Window.Background";
+        stroke-width: 1;
+        border-radius: 5;
+        padding: 4;
+        
+        & > .icon {
+            anchor: middle-left;
+            size: 32;
+            border-radius: 5;
+            image-inset: 1;
+            background-color: 0xA0000000;
+        }
+        
+        & > .body {
+            anchor: middle-left;
+            flow: vertical;
+            auto-size: grow fit;
+            
+            & > .name {
+                auto-size: grow fit;
+                font-size: 13;
+                color: "Window.Text";
+                outline-color: "Window.TextOutline";
+            }
+            
+            & > .command {
+                auto-size: grow fit;
+                font-size: 10;
+                color: "Window.TextMuted";
+                outline-color: "Window.TextOutline";
+                word-wrap: true;
+                text-overflow: false;
+            }
+        }
+        
+        &:hover {
+            background-color: "Window.BackgroundLight";
+            stroke-color: "Window.AccentColor";
+            transition-duration: 50;
+        }
+    }
+    
+    #TooManyResultsMessage {
+        auto-size: grow fit;
+        font-size: 12;
+        color: "Window.TextMuted";
+        outline-color: "Window.TextOutline";
+        outline-size: 1;
+        text-align: top-center;
+        word-wrap: true;
+        text-overflow: false;
+    }
+    ]]>
+</udt>
+
+        <!-- 
+        protected override Node Node { get; } = new() {
+                Id         = "ItemPickerWindow",
+                //Stylesheet = WindowStyles.ItemPickerStylesheet,
+                ChildNodes = [
+                    new() {
+                        Id = "SearchPanel",
+                        ChildNodes = [
+                            new() {
+                                Id        = "SearchIcon",
+                                NodeValue = FontAwesomeIcon.Search.ToIconString(),
+                            },
+                            new() {
+                                Id         = "SearchInputWrapper",
+                                ChildNodes = [new StringInputNode("Search", "", 128, null, null, 0, true)]
+                            }
+                        ]
+                    },
+                    new() {
+                        Id       = "ItemList",
+                        Overflow = false,
+                        ChildNodes = [
+                            new() { Id = "ItemListWrapper" }
+                        ]
+                    }
+                ]
+            };
+        -->

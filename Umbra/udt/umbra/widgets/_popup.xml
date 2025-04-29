@@ -1,0 +1,44 @@
+﻿<udt>
+    <node class="popup">
+        <node class="wrapper"/>
+    </node>
+    <![CDATA[
+    .box { padding: 10; }
+    
+    .popup {
+        .wrapper {
+            flow: vertical;
+            background-color: "Widget.PopupBackground";
+            border-color: "Widget.PopupBorder";
+            border-radius: 7;
+            rounded-corners: all;
+            shadow-inset: 8;
+        }
+        
+        &:top > .wrapper {
+            shadow-size: 0 64 64 64;
+            border-width: 0 1 1 1;
+            rounded-corners: bottom-left bottom-right;
+            background-gradient: vertical "Widget.PopupBackground.Gradient1" "Widget.PopupBackground.Gradient2";
+            background-gradient-inset: 0 2 2 2;
+        }
+        
+        &:bottom > .wrapper {
+            shadow-size: 64 64 0 64;
+            border-width: 1 1 0 1;
+            rounded-corners: top-left top-right;
+            background-gradient: vertical "Widget.PopupBackground.Gradient2" "Widget.PopupBackground.Gradient1";
+            background-gradient-inset: 2 2 0 2;
+        }
+        
+        &:floating > .wrapper {
+            border-width: 1;
+            background-gradient: vertical "Widget.PopupBackground.Gradient2" "Widget.PopupBackground.Gradient1";
+            background-gradient-inset: 2;
+            rounded-corners: all;
+            margin: 3;
+            shadow-size: 48;
+        }
+    }
+    ]]>
+</udt>

@@ -1,41 +1,31 @@
-﻿/* Umbra | (c) 2024 by Una              ____ ___        ___.
- * Licensed under the terms of AGPL-3  |    |   \ _____ \_ |__ _______ _____
- *                                     |    |   //     \ | __ \\_  __ \\__  \
- * https://github.com/una-xiv/umbra    |    |  /|  Y Y  \| \_\ \|  | \/ / __ \_
- *                                     |______//__|_|  /____  /|__|   (____  /
- *     Umbra is free software: you can redistribute  \/     \/             \/
- *     it and/or modify it under the terms of the GNU Affero General Public
- *     License as published by the Free Software Foundation, either version 3
- *     of the License, or (at your option) any later version.
- *
- *     Umbra UI is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *     GNU Affero General Public License for more details.
- */
-
-using FFXIVClientStructs.FFXIV.Client.UI;
+﻿using FFXIVClientStructs.FFXIV.Client.UI;
 using System.Collections.Generic;
 using Umbra.Common;
 using Umbra.Game;
 
 namespace Umbra.Widgets;
 
-[ToolbarWidget("Companion", "Widget.Companion.Name", "Widget.Companion.Description")]
-[ToolbarWidgetTags(["companion", "chocobo", "pet", "summon", "buddy"])]
-internal sealed partial class CompanionWidget(
-    WidgetInfo info,
-    string? guid = null,
+[ToolbarWidget(
+    "Companion",
+    "Widget.Companion.Name",
+    "Widget.Companion.Description",
+    ["companion", "chocobo", "pet", "summon", "buddy"]
+)]
+internal sealed class CompanionWidget(
+    WidgetInfo                  info,
+    string?                     guid         = null,
     Dictionary<string, object>? configValues = null
-) : DefaultToolbarWidget(info, guid, configValues)
+) : StandardToolbarWidget(info, guid, configValues)
 {
-    /// <inheritdoc/>
     public override CompanionPopup Popup { get; } = new();
+
+    protected override StandardWidgetFeatures Features =>
+        StandardWidgetFeatures.Icon |
+        StandardWidgetFeatures.Text;
 
     private ICompanionManager Companion { get; } = Framework.Service<ICompanionManager>();
 
-    /// <inheritdoc/>
-    protected override void Initialize()
+    protected override void OnLoad()
     {
         Node.OnClick += _ => TrySummonIfInactive();
 
@@ -47,20 +37,19 @@ internal sealed partial class CompanionWidget(
             }
         };
 
-        Node.QuerySelector("#Label")!.Style.Font = 1;
+        SingleLabelTextNode.Style.Font = 1;
     }
 
-    protected override void OnUpdate()
+    protected override void OnDraw()
     {
         if (Companion.Level == 0 || Companion.CompanionName == "") {
-            Node.Style.IsVisible = false;
+            IsVisible = false;
             return;
         }
 
+        IsVisible = true;
+
         Popup.ShowFoodButtons = GetConfigValue<bool>("ShowFoodButtons");
-
-        Node.Style.IsVisible = true;
-
         SetDisabled(!Companion.HasGysahlGreens || !Companion.CanSummon());
 
         if (GetConfigValue<string>("DisplayMode") is "TextAndIcon" or "TextOnly") {
@@ -68,31 +57,39 @@ internal sealed partial class CompanionWidget(
         }
 
         UpdateWidgetIcon();
-        base.OnUpdate();
     }
 
     private void UpdateWidgetText()
     {
         if (Companion.TimeLeft == 0) {
-            SetLabel(null);
+            SetText(null);
             return;
         }
 
-        SetLabel(Companion.TimeLeftString);
+        SetText(Companion.TimeLeftString);
     }
 
     private void UpdateWidgetIcon()
     {
-        SetIcon(Companion.IconId);
+        SetGameIconId(Companion.IconId);
     }
 
-    /// <summary>
-    /// Attempts to summon the companion if it is not currently active.
-    /// </summary>
     private void TrySummonIfInactive()
     {
         if (Companion.TimeLeft > 0) return; // Opens the popup.
-
         Companion.Summon();
+    }
+
+    protected override IEnumerable<IWidgetConfigVariable> GetConfigVariables()
+    {
+        return [
+            ..base.GetConfigVariables(),
+            new BooleanWidgetConfigVariable(
+                "ShowFoodButtons",
+                I18N.Translate("Widget.Companion.Config.ShowFoodButtons.Name"),
+                I18N.Translate("Widget.Companion.Config.ShowFoodButtons.Description"),
+                true
+            ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
+        ];
     }
 }

@@ -6,7 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Umbra.Common;
 using Umbra.Game;
-using Umbra.Widgets.Library.EmoteList.Window;
+using Umbra.Widgets.Library.ShortcutPanel.Providers;
+using Umbra.Widgets.Library.ShortcutPanel.Windows;
 using Umbra.Windows;
 using Una.Drawing;
 
@@ -34,6 +35,10 @@ internal sealed partial class EmoteListPopup : WidgetPopup
 
     public EmoteListPopup()
     {
+        Node = Document.RootNode!;
+
+        BuildInterface();
+        
         GetCategoryButton(0).OnMouseUp += _ => ActivateCategory(0);
         GetCategoryButton(1).OnMouseUp += _ => ActivateCategory(1);
         GetCategoryButton(2).OnMouseUp += _ => ActivateCategory(2);
@@ -53,14 +58,15 @@ internal sealed partial class EmoteListPopup : WidgetPopup
                     Label = I18N.Translate("Widget.EmoteList.ContextMenu.Pick"),
                     OnClick = () => {
                         Framework
-                            .Service<WindowManager>()
-                            .Present(
+                           .Service<WindowManager>()
+                           .Present(
                                 "EmotePicker",
-                                new EmotePickerWindow(GetUsedEmoteIds()),
+                                new ShortcutPickerWindow(Framework.Service<EmoteShortcutProvider>()),
                                 wnd => {
-                                    if (wnd.SelectedEmote == null) return;
+                                    if (null == wnd.PickedId || !uint.TryParse(wnd.PickedId.Split('/')[1], out var emoteId)) return;
+
                                     Emotes[SelectedSlot.Item1] = Emotes.GetValueOrDefault(SelectedSlot.Item1) ?? [];
-                                    Emotes[SelectedSlot.Item1][SelectedSlot.Item2] = wnd.SelectedEmote.Value.RowId;
+                                    Emotes[SelectedSlot.Item1][SelectedSlot.Item2] = emoteId;
 
                                     HydrateEmoteButtons(SelectedSlot.Item1);
                                     OnEmotesChanged?.Invoke(Emotes);
@@ -69,10 +75,10 @@ internal sealed partial class EmoteListPopup : WidgetPopup
                     }
                 },
                 new("Clear") {
-                    Label = I18N.Translate("Widget.EmoteList.ContextMenu.Clear"),
+                    Label  = I18N.Translate("Widget.EmoteList.ContextMenu.Clear"),
                     IconId = 61502u,
                     OnClick = () => {
-                        Emotes[SelectedSlot.Item1] = Emotes.GetValueOrDefault(SelectedSlot.Item1) ?? [];
+                        Emotes[SelectedSlot.Item1]                     = Emotes.GetValueOrDefault(SelectedSlot.Item1) ?? [];
                         Emotes[SelectedSlot.Item1][SelectedSlot.Item2] = 0;
                         HydrateEmoteButtons(SelectedSlot.Item1);
                         OnEmotesChanged?.Invoke(Emotes);
@@ -191,12 +197,12 @@ internal sealed partial class EmoteListPopup : WidgetPopup
             button.TagsList.Add(ShowEmptySlots ? "empty-visible" : "empty-hidden");
 
             if (emoteId == 0 || emote?.TextCommand.Value == null) {
-                button.QuerySelector(".slot-button--icon")!.Style.IconId = 0;
-                button.Tooltip = I18N.Translate("Widget.EmoteList.EmptySlotTooltip");
+                button.QuerySelector(".icon")!.Style.IconId = 0;
+                button.Tooltip                                           = I18N.Translate("Widget.EmoteList.EmptySlotTooltip");
                 continue;
             }
 
-            button.QuerySelector(".slot-button--icon")!.Style.IconId = emote.Value.Icon;
+            button.QuerySelector(".icon")!.Style.IconId = emote.Value.Icon;
 
             button.TagsList.Remove("empty-visible");
             button.TagsList.Remove("empty-hidden");

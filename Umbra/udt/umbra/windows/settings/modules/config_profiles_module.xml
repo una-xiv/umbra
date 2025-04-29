@@ -1,0 +1,247 @@
+﻿<udt>
+    <node id="main">
+        <node class="header">
+            <node class="title" value="_L(Settings.ProfilesModule.CreateProfile)"/>
+            <node class="ui-text-muted wrapped" value="_L(Settings.ProfilesModule.Description)"/>
+            <node class="row">
+                <node class="c ui-text-default" value="_L(Settings.ProfilesModule.ProfileName)"/>
+                <node class="c input">
+                    <string-input-node class="ctrl-profile-name" immediate="true"/>
+                </node>
+                <button-node class="ctrl-create-profile" label="_L(Settings.ProfilesModule.CreateButton)" is-disabled="true" style="anchor: middle-left;"/>
+            </node>
+        </node>
+        <node class="body">
+            <node class="profile-list">
+                <node id="profiles">
+                    <node value="Profile here"/>
+                </node>
+            </node>
+            <node class="profile-details">
+                <node class="header">
+                    <node class="title ui-text-default" value="Profile Name"/>
+                </node>
+                <node class="row">
+                    <node class="button" id="btn-activate">
+                        <node class="icon" value="FA(CheckCircle)"/>
+                        <node class="text">
+                            <node class="c name ui-text-default" value="_L(Settings.ProfilesModule.Btn.Activate.Name)"/>
+                            <node class="c desc ui-text-muted" value="_L(Settings.ProfilesModule.Btn.Activate.Description)"/>
+                        </node>
+                    </node>
+                    <node class="button" id="btn-export">
+                        <node class="icon" value="FA(FileExport)"/>
+                        <node class="text">
+                            <node class="c name ui-text-default" value="_L(Settings.ProfilesModule.Btn.Export.Name)"/>
+                            <node class="c desc ui-text-muted" value="_L(Settings.ProfilesModule.Btn.Export.Description)"/>
+                        </node>
+                    </node> 
+                    <node class="button" id="btn-import">
+                        <node class="icon" value="FA(FileImport)"/>
+                        <node class="text">
+                            <node class="c name ui-text-default" value="_L(Settings.ProfilesModule.Btn.Import.Name)"/>
+                            <node class="c desc ui-text-muted" value="_L(Settings.ProfilesModule.Btn.Import.Description)"/>
+                        </node>
+                    </node>
+                </node>
+                <node class="row">
+                    <button-node
+                            id="btn-delete"
+                            label="_L(Settings.ProfilesModule.Btn.Delete.Name)"
+                            icon="TrashAlt"
+                            class="button"
+                            is-disabled="true"
+                    />
+                </node>
+            </node>
+        </node>
+    </node>
+    
+    <template name="profile-button">
+        <node class="profile-button">
+            <node class="c icon" value="FA(Check)"/>
+            <node class="c text ui-text-default"/>
+        </node>
+    </template>
+    
+    <![CDATA[
+    @import "globals";
+    
+    #main {
+        flow: vertical;
+        auto-size: grow;
+        padding: 10;
+        gap: 10;
+        
+        & > .header {
+            flow: vertical;
+            auto-size: grow fit;
+            background-color: "Window.BackgroundLight";
+            padding: 10;
+            gap: 10;
+            border-radius: 5;
+            
+            & > .title {
+                font-size: 18;
+                color: "Window.Text";
+                outline-color: "Window.TextOutline";
+                outline-size: 1;
+            }
+            
+            & > .wrapped {
+                auto-size: grow fit;
+                text-overflow: false;
+                word-wrap: true;
+            }
+            
+            & > .row {
+                auto-size: grow fit;
+                gap: 10;
+                
+                & > .c {
+                    anchor: middle-left;
+                }
+                
+                & > .input {
+                    auto-size: grow fit;
+                }
+            }
+        }
+        
+        & > .body {
+            gap: 10;
+            auto-size: grow;
+            
+            & > .profile-list {
+                auto-size: fit grow;
+                background-color: "Input.Background";
+                border-radius: 5;
+                padding: 10;
+                size: 250 0;
+                
+                & > #profiles {
+                    flow: vertical;
+                    auto-size: grow fit;
+                    gap: 4;
+                }
+            }
+            
+            & > .profile-details {
+                flow: vertical;
+                auto-size: grow;
+                gap: 16;
+                
+                & > .header {
+                    flow: vertical;
+                    auto-size: grow fit;
+                    border-color: "Window.Border";
+                    border-width: 0 0 1 0;
+                    
+                    & > .title {
+                        auto-size: grow fit;
+                        text-align: middle-right;
+                        font-size: 18;
+                    }
+                }
+                
+                & > .row {
+                    auto-size: grow fit;
+                    gap: 16;
+                    
+                    & > .button {
+                        anchor: top-center;
+                        flow: vertical;
+                        auto-size: grow;
+                        padding: 10;
+                        background-color: "Input.Background";
+                        border-color: "Input.Background";
+                        border-width: 1;
+                        border-radius: 5;
+                        border-inset: 0;
+                        stroke-color: "Input.Border";
+                        stroke-width: 1;
+                        stroke-inset: 1;
+                        stroke-radius: 3;
+                        drop-shadow: 0 0 0 0;
+                        transition-type: ease-out-sine;
+                        transition-duration: 200;
+        
+                        & > .icon {
+                            anchor: top-center;
+                            margin: 10;
+                            font: 2; // FontAwesome
+                            font-size: 32;
+                            color: "Window.Text";
+                            outline-color: "Window.TextOutline";
+                            outline-size: 1;
+                        }
+                        
+                        & > .text {
+                            flow: vertical;
+                            anchor: top-center;
+                            auto-size: grow fit;
+                            gap: 4;
+                            
+                            & > .c {
+                                auto-size: grow fit;
+                                text-align: top-center;
+                                text-overflow: false;
+                                
+                                &.desc {
+                                    word-wrap: true;
+                                }
+                            }
+                        }
+                        
+                        &:hover {
+                            transition-duration: 10;
+                            drop-shadow: 0 4 8 8;
+                            stroke-color: "Window.AccentColor";
+                            background-color: "Input.BackgroundHover";
+                        }
+                        
+                        &:disabled {
+                            opacity: 0.35;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    .profile-button {
+        auto-size: grow fit;
+        gap: 4;
+        size: 0 24;
+        padding: 0 8;
+        background-color: "Input.Background";
+        border-radius: 4;
+        stroke-color: 0;
+        stroke-width: 1;
+        transition-type: ease-out-sine;
+        transition-duration: 200;
+        
+        & > .c { anchor: middle-left; }
+        
+        & > .icon {
+            font: 2; // FontAwesome
+            font-size: 15;
+            color: "Window.Text";
+            outline-color: "Window.TextOutline";
+            outline-size: 1;
+            opacity: 0;
+        }
+        
+        &.active > .icon { opacity: 1; }
+        
+        &.selected {
+            background-color: "Window.Background";
+        }
+        
+        &:hover {
+            transition-duration: 1;
+            stroke-color: "Window.AccentColor";
+        }
+    }
+    ]]>
+</udt>

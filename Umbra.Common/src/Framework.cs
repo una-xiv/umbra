@@ -21,6 +21,9 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Dalamud.Plugin;
 using Dalamud.Plugin.Services;
+using ImGuiNET;
+using System.Numerics;
+using System.Text;
 
 namespace Umbra.Common;
 
@@ -46,6 +49,9 @@ public static class Framework
     /// </remarks>
     public static async Task Compile(IFramework dalamudFramework, IDalamudPluginInterface dalamudPlugin, ulong charId)
     {
+        ServiceActivator.ClearCircularReferenceCheck();
+        CrashLogger.Initialize(dalamudPlugin);
+        
         DalamudPlugin    = dalamudPlugin;
         DalamudFramework = dalamudFramework;
         LocalCharacterId = charId;
@@ -53,25 +59,20 @@ public static class Framework
         // Always make sure config is loaded first.
         ConfigManager.Initialize();
 
-        foreach (var initializer in GetMethodInfoListWith<WhenFrameworkAsyncCompilingAttribute>()) {
-            await (Task)initializer.Invoke(null, null)!;
-        }
+        await CrashLogger.Guard("Umbra failed to start", async () => {
+            foreach (var initializer in GetMethodInfoListWith<WhenFrameworkAsyncCompilingAttribute>()) {
+                await (Task)initializer.Invoke(null, null)!;
+            }
 
-        await dalamudFramework.RunOnFrameworkThread(
-            () => {
-                foreach (var initializer in GetMethodInfoListWith<WhenFrameworkCompilingAttribute>()) {
-                    try {
+            await dalamudFramework.RunOnFrameworkThread(() => {
+                    foreach (var initializer in GetMethodInfoListWith<WhenFrameworkCompilingAttribute>()) {
                         initializer.Invoke(null, null);
-                    } catch (Exception e) {
-                        Logger.Error(
-                            $"Failed to run initializer {initializer.DeclaringType?.Name}::{initializer.Name}: {e}"
-                        );
                     }
                 }
-            }
-        );
-
-        Scheduler.Start();
+            );
+            
+            Scheduler.Start();
+        });
     }
 
     /// <summary>
@@ -84,13 +85,23 @@ public static class Framework
         GetMethodInfoListWith<WhenFrameworkDisposingAttribute>().ForEach(method => method.Invoke(null, null));
 
         ConfigManager.Dispose();
+        CrashLogger.Dispose();
     }
 
-    public static async void Restart()
+    public static async Task Restart()
     {
         Dispose();
-        await Task.Delay(500);
+        await Task.Delay(100);
         await Compile(DalamudFramework, DalamudPlugin, LocalCharacterId);
+    }
+
+    public static async Task RunDelayed(double timeoutMilliseconds, Action callback)
+    {
+        if (callback == null) throw new ArgumentNullException(nameof(callback));
+        if (timeoutMilliseconds < 0) throw new ArgumentOutOfRangeException(nameof(timeoutMilliseconds), "Delay must be non-negative.");
+
+        await Task.Delay(TimeSpan.FromMilliseconds(timeoutMilliseconds));
+        callback();
     }
 
     /// <summary>
@@ -165,14 +176,13 @@ public static class Framework
     private static List<MethodInfo> GetMethodInfoListWith<T>() where T : Attribute
     {
         List<MethodInfo> methods = Assemblies
-            .SelectMany(assembly => assembly.GetTypes())
-            .SelectMany(type => type.GetMethods(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic))
-            .Where(method => method.GetCustomAttributes<T>().Any())
-            .ToList();
+                                  .SelectMany(assembly => assembly.GetTypes())
+                                  .SelectMany(type => type.GetMethods(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic))
+                                  .Where(method => method.GetCustomAttributes<T>().Any())
+                                  .ToList();
 
         if (typeof(T).GetInterfaces().Contains(typeof(IExecutionOrderAware))) {
-            methods.Sort(
-                (a, b) => {
+            methods.Sort((a, b) => {
                     var orderA = a.GetCustomAttribute<T>() as IExecutionOrderAware;
                     var orderB = b.GetCustomAttribute<T>() as IExecutionOrderAware;
 

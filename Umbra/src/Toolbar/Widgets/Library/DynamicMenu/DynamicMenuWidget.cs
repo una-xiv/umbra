@@ -6,22 +6,26 @@ using Umbra.Common.Utility;
 
 namespace Umbra.Widgets.Library.DynamicMenu;
 
-[ToolbarWidget("DynamicMenu", "Widget.DynamicMenu.Name", "Widget.DynamicMenu.Description")]
-[ToolbarWidgetTags(["button", "command", "macro", "action", "url", "website", "menu", "list"])]
+[ToolbarWidget("DynamicMenu", "Widget.DynamicMenu.Name", "Widget.DynamicMenu.Description", ["button", "command", "macro", "action", "url", "website", "menu", "list"])]
 internal sealed partial class DynamicMenuWidget(
     WidgetInfo                  info,
     string?                     guid         = null,
     Dictionary<string, object>? configValues = null
-) : DefaultToolbarWidget(info, guid, configValues)
+) : StandardToolbarWidget(info, guid, configValues)
 {
     public override DynamicMenuPopup Popup { get; } = new();
-    
+
     public override string GetInstanceName()
     {
         return $"{I18N.Translate("Widget.DynamicMenu.Name")} - {GetConfigValue<string>("ButtonLabel")}";
     }
-    
-    protected override void Initialize()
+
+    protected override StandardWidgetFeatures Features =>
+        StandardWidgetFeatures.Text |
+        StandardWidgetFeatures.Icon |
+        StandardWidgetFeatures.CustomizableIcon;
+
+    protected override void OnLoad()
     {
         Popup.OnEditModeChanged += OnEditModeChanged;
         Popup.OnEntriesChanged  += OnEntriesChanged;
@@ -42,13 +46,13 @@ internal sealed partial class DynamicMenuWidget(
         }
     }
 
-    protected override void OnDisposed()
+    protected override void OnUnload()
     {
         Popup.OnEditModeChanged -= OnEditModeChanged;
         Popup.OnEntriesChanged  -= OnEntriesChanged;
     }
 
-    protected override void OnUpdate()
+    protected override void OnDraw()
     {
         Popup.WidgetInstanceId = Id;
         Popup.EditModeEnabled  = GetConfigValue<bool>("EditModeEnabled");
@@ -57,10 +61,7 @@ internal sealed partial class DynamicMenuWidget(
         Popup.ShowSubIcons     = GetConfigValue<bool>("ShowSubIcons");
         Popup.ShowItemCount    = GetConfigValue<bool>("ShowItemCount");
 
-        SetLabel(GetConfigValue<string>("ButtonLabel"));
-        SetIcon(GetConfigValue<uint>("ButtonIcon"));
-
-        base.OnUpdate();
+        SetText(GetConfigValue<string>("ButtonLabel"));
 
         string tooltip = GetConfigValue<string>("ButtonTooltip").Trim();
         Node.Tooltip = string.IsNullOrEmpty(tooltip) ? null : tooltip;

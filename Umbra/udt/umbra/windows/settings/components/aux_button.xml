@@ -1,0 +1,81 @@
+﻿<udt>
+    <node class="bar-button">
+        <node class="icon" value="FA(Eye)"/>
+        <node class="name"/>
+        <node class="buttons">
+            <button-node icon="TrashAlt" tooltip="_L(Delete)" id="delete-button"/>
+        </node>
+    </node>
+    
+    <![CDATA[
+    .bar-button {
+        auto-size: grow fit;
+        padding: 4;
+        border-radius: 4;
+        background-color: "Window.Background";
+        gap: 6;
+        padding: 0 2;
+        stroke-color: 0;
+        stroke-width: 1;
+        transition-type: ease-out-sine;
+        transition-duration: 150;
+        size: 0 32;
+        
+        & > .icon {
+            anchor: middle-left;
+            auto-size: fit;
+            color: "Window.TextMuted";
+            outline-color: "Window.TextOutline";
+            outline-size: 1;
+            padding: 0 0 0 6;
+            font: 2; // FontAwesome
+            font-size: 13;
+        }
+        
+        & > .name {
+            anchor: middle-left;
+            auto-size: grow fit;
+            font-size: 13;
+            color: "Window.Text";
+            outline-color: "Window.TextOutline";
+            outline-size: 1;
+            text-overflow: false;
+            word-wrap: false;
+        }
+        
+        & > .buttons {
+            anchor: middle-right;
+            opacity: 0;
+            transition-type: ease-out-sine;
+            transition-duration: 150;
+        }
+        
+        &.active {
+            background-color: "Window.BackgroundLight";
+            
+            & > .name {
+                color: "Window.TextLight";
+            }
+        }
+        
+        &.hidden {
+            & > .icon {
+                opacity: 0;
+            }
+            & > .name {
+                color: "Window.TextMuted";
+            }
+        }
+        
+        &:hover {
+            stroke-color: "Window.AccentColor";
+            transition-duration: 1;
+            
+            & > .buttons {
+                transition-duration: 1;
+                opacity: 1;
+            }
+        }
+    }
+    ]]>
+</udt>

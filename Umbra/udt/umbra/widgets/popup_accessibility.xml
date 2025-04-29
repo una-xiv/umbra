@@ -1,0 +1,65 @@
+﻿<udt>
+    <node class="popup">
+        <node class="left-side">
+            <node class="slider">
+                <vertical-slider-node id="Va" min-value="0" max-value="100" style="size: 30 80;"/>
+                <node class="label" value="VAS" tooltip="_L(Widget.Accessibility.Config.VisualAlertsSize)"/>
+            </node>
+            <node class="slider">
+                <vertical-slider-node id="Vt" min-value="0" max-value="100" style="size: 30 80;"/>
+                <node class="label" value="VAT" tooltip="_L(Widget.Accessibility.Config.VisualAlertsTransparency)"/>
+            </node>
+            <node class="slider">
+                <vertical-slider-node id="Cf" min-value="0" max-value="100" style="size: 30 80;"/>
+                <node class="label" value="CFR" tooltip="_L(Widget.Accessibility.Config.ColorFilterRange)"/>
+            </node>
+        </node>
+        <node class="right-side">
+            <node class="checkbox">
+                <checkbox-node id="EnableAudioVis" value="false" label="_L(Widget.Accessibility.Config.VisualAlerts)"/>
+            </node>
+            <node class="checkbox">
+                <checkbox-node id="EnableColorBlindMode" value="false" label="_L(Widget.Accessibility.Config.ColorFilter)"/>
+            </node>
+            <node class="select">
+                <select-node id="ColorBlindMode" value="None" style="size: 200 0;"
+                    choices="{['None', 'Protanopia', 'Deuteranopia', 'Tritanopia']}"
+                />
+            </node>
+        </node>
+    </node>
+    
+    <![CDATA[
+    .popup {
+        flow: horizontal;
+        padding: 15;
+        gap: 15;
+        
+        & > .left-side {
+            size: 106 100;
+            gap: 8;
+            
+            & > .slider {
+                flow: vertical;
+                size: 30 100;
+                gap: 8;
+                
+                & > .label {
+                    size: 30 0;
+                    text-align: middle-center;
+                }
+            }
+        }
+        
+        & > .right-side {
+            flow: vertical;
+            gap: 8;
+            size: 200 0;
+            
+            & > .checkbox {
+                auto-size: grow fit;
+            }
+        }
+    }
+    ]]>
+</udt>

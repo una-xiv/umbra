@@ -8,15 +8,13 @@ internal sealed partial class EmoteListWidget
     protected override IEnumerable<IWidgetConfigVariable> GetConfigVariables()
     {
         return [
+            ..base.GetConfigVariables(),
             new StringWidgetConfigVariable(
                 "Label",
                 I18N.Translate("Widget.EmoteList.Config.Label.Name"),
                 I18N.Translate("Widget.EmoteList.Config.Label.Description"),
                 I18N.Translate("Widget.EmoteList.Config.Label.Default")
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
-            DefaultIconConfigVariable(64015),
-            ..DefaultToolbarWidgetConfigVariables,
-            ..SingleLabelTextOffsetVariables,
+            ),
             ..GetEmoteListConfigVariables(0),
             ..GetEmoteListConfigVariables(1),
             ..GetEmoteListConfigVariables(2),

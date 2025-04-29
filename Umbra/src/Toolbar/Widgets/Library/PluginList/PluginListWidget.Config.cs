@@ -29,14 +29,15 @@ internal sealed partial class PluginListWidget
     protected override IEnumerable<IWidgetConfigVariable> GetConfigVariables()
     {
         return [
+            ..base.GetConfigVariables(),
+            
             new BooleanWidgetConfigVariable(
                 "ShowTooltip",
                 I18N.Translate("Widget.PluginList.Config.ShowTooltip.Name"),
                 I18N.Translate("Widget.PluginList.Config.ShowTooltip.Description"),
                 true
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
-            CustomIconConfigVariable(FontAwesomeIcon.Plug),
-            ..DefaultIconToolbarWidgetConfigVariables,
+            ),
+            
             ..GetPluginListItems()
         ];
     }
@@ -51,12 +52,14 @@ internal sealed partial class PluginListWidget
 
         foreach (IExposedPlugin plugin in plugins) {
             if (usedNames.Contains(plugin.InternalName)) continue;
+            
             usedNames.Add(plugin.InternalName);
+            
             pluginList.Add(new BooleanWidgetConfigVariable(
                 $"EnabledPlugin_{Crc32.Get(plugin.InternalName)}",
                 plugin.Name,
                 null,
-                plugin.InternalName == "Umbra" // Always enable one entry. We know for sure this one exists.
+                plugin.InternalName == "Umbra"
             ) { Category = I18N.Translate("Widget.PluginList.Config.EnabledCategory") });
         }
 

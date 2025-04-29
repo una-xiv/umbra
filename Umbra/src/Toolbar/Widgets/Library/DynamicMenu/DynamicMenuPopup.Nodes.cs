@@ -1,148 +1,51 @@
-﻿using Dalamud.Game.Text;
-using System;
-using System.Xml.Serialization;
-using Umbra.Common;
+﻿using Umbra.Common;
 using Umbra.Widgets.Library.ShortcutPanel.Providers;
 using Una.Drawing;
 
-namespace Umbra.Widgets.Library.DynamicMenu;
+namespace Umbra.Widgets;
 
 internal sealed partial class DynamicMenuPopup
 {
-    protected override Node Node { get; } = new() {
-        Id         = "Popup",
-        Stylesheet = Stylesheet,
-        ChildNodes = [
-            new() {
-                Id = "ItemList",
-            },
-            new() {
-                Id        = "EmptyButtonPlaceholder",
-                NodeValue = $"{SeIconChar.MouseRightClick.ToIconString()} {I18N.Translate("Widget.DynamicMenu.EmptyButtonPlaceholder")}",
-            }
-        ],
-        BeforeReflow = node => {
-            int maxLabelWidth    = 0;
-            int maxAltLabelWidth = 0;
-
-            foreach (var childNode in node.QuerySelectorAll(".item")) {
-                if (childNode.ClassList.Contains("separator")) continue;
-
-                Node? textNode    = childNode.QuerySelector(".item--text");
-                Node? altTextNode = childNode.QuerySelector(".item--text-alt");
-
-                if (textNode != null) {
-                    maxLabelWidth = Math.Max(maxLabelWidth, textNode.Bounds.ContentSize.Width);
-                }
-
-                if (altTextNode != null) {
-                    maxAltLabelWidth = Math.Max(maxAltLabelWidth, altTextNode.Bounds.ContentSize.Width);
-                }
-            }
-
-            foreach (var childNode in node.QuerySelectorAll(".item")) {
-                if (childNode.ClassList.Contains("separator")) continue;
-
-                Node? textNode    = childNode.QuerySelector(".item--text");
-                Node? altTextNode = childNode.QuerySelector(".item--text-alt");
-
-                if (textNode != null) {
-                    Size padding = textNode.Bounds.PaddingSize - textNode.Bounds.ContentSize;
-                    Size margin  = textNode.Bounds.MarginSize - textNode.Bounds.ContentSize;
-                    Size size    = new(maxLabelWidth, textNode.Bounds.ContentSize.Height);
-                    textNode.Bounds.ContentSize = size;
-                    textNode.Bounds.PaddingSize = size + padding;
-                    textNode.Bounds.MarginSize  = size + margin;
-                }
-
-                if (altTextNode != null) {
-                    Size padding = altTextNode.Bounds.PaddingSize - altTextNode.Bounds.ContentSize;
-                    Size margin  = altTextNode.Bounds.MarginSize - altTextNode.Bounds.ContentSize;
-                    Size size    = new(maxAltLabelWidth, altTextNode.Bounds.ContentSize.Height);
-
-                    altTextNode.Bounds.ContentSize = size;
-                    altTextNode.Bounds.PaddingSize = size + padding;
-                    altTextNode.Bounds.MarginSize  = size + margin;
-                }
-            }
-
-            Size paddingSize = node.Bounds.PaddingSize - node.Bounds.ContentSize;
-            Size marginSize  = node.Bounds.MarginSize - node.Bounds.ContentSize;
-            Size newNodeSize = new(maxLabelWidth + maxAltLabelWidth + (int)((36 + 48) * Node.ScaleFactor), node.Bounds.ContentSize.Height);
-
-            node.Bounds.ContentSize = newNodeSize;
-            node.Bounds.PaddingSize = (newNodeSize + paddingSize);
-            node.Bounds.MarginSize  = (newNodeSize + marginSize);
-
-            int width = node.Bounds.ContentSize.Width;
-
-            foreach (var entry in node.QuerySelectorAll(".item, #EmptyButtonPlaceholder")) {
-                entry.Bounds.MarginSize  = new(width, entry.Bounds.MarginSize.Height);
-                entry.Bounds.PaddingSize = new(width, entry.Bounds.PaddingSize.Height);
-                entry.Bounds.ContentSize = new(width, entry.Bounds.ContentSize.Height);
-
-                if (entry.ClassList.Contains("separator")) {
-                    Node? lineLeft  = entry.QuerySelector(".separator--line.left");
-                    Node? lineRight = entry.QuerySelector(".separator--line.right");
-                    Node? lineText  = entry.QuerySelector(".separator--text");
-
-                    if (lineLeft != null && lineRight != null && lineText != null) {
-                        var textWidth = lineText.Bounds.MarginSize.Width;
-                        var lineWidth = (int)Math.Max(0, ((width - textWidth) / 2 - (4 * Node.ScaleFactor)));
-
-                        lineLeft.Bounds.MarginSize   = new(lineWidth, lineLeft.Bounds.MarginSize.Height);
-                        lineLeft.Bounds.PaddingSize  = new(lineWidth, lineLeft.Bounds.PaddingSize.Height);
-                        lineLeft.Bounds.ContentSize  = new(lineWidth, lineLeft.Bounds.ContentSize.Height);
-                        lineRight.Bounds.MarginSize  = new(lineWidth, lineRight.Bounds.MarginSize.Height);
-                        lineRight.Bounds.PaddingSize = new(lineWidth, lineRight.Bounds.PaddingSize.Height);
-                        lineRight.Bounds.ContentSize = new(lineWidth, lineRight.Bounds.ContentSize.Height);
-                    }
-                }
-            }
-
-            return true;
-        },
-        BeforeDraw = node => {
-
-        }
-    };
-
     private Node? CreateEntryNode(DynamicMenuEntry entry)
     {
         int itemIndex = Entries.IndexOf(entry);
         if (itemIndex == -1) return null;
 
         if (entry.Ct == null && entry.Cl == "-") {
-            Node separator = new() {
+            Node separator = new() { 
+                ClassList = ["separator"],
+                ChildNodes = [new() { ClassList = ["line"] }]
+            };
+            
+            Node separatorBase = new() {
                 ClassList = ["item", "separator"],
                 SortIndex = itemIndex,
+                ChildNodes = [separator],
             };
 
             if (!string.IsNullOrEmpty(entry.Sl)) {
-                separator.AppendChild(new() { ClassList = ["separator--line", "left"] });
-
                 separator.AppendChild(
                     new() {
-                        ClassList = ["separator--text"],
+                        ClassList = ["separator-text"],
                         NodeValue = entry.Sl,
                     }
                 );
 
-                separator.AppendChild(new() { ClassList = ["separator--line", "right"] });
+                separator.AppendChild(new() { ClassList = ["line"] });
                 separator.ClassList.Add("has-text");
             }
 
-            separator.OnRightClick += _ => OpenContextMenu(itemIndex);
-            return separator;
+            separatorBase.OnRightClick += _ => OpenContextMenu(itemIndex);
+            return separatorBase;
         }
 
-        Node textNode    = new() { ClassList = ["item--text"], InheritTags      = true };
-        Node iconNode    = new() { ClassList = ["item--icon-main"], InheritTags = true };
-        Node icon2Node   = new() { ClassList = ["item--icon-sub"], InheritTags  = true };
-        Node countNode   = new() { ClassList = ["item--count"], InheritTags     = true };
-        Node altTextNode = new() { ClassList = ["item--text-alt"], InheritTags  = true };
+        Node textNode    = new() { ClassList = ["text"], InheritTags       = true };
+        Node iconNode    = new() { ClassList = ["icon"], InheritTags       = true };
+        Node icon2Node   = new() { ClassList = ["icon-sub"], InheritTags   = true };
+        Node countNode   = new() { ClassList = ["item-count"], InheritTags = true };
+        Node altTextNode = new() { ClassList = ["text-alt"], InheritTags   = true };
 
-        iconNode.Style.Size        = new(EntryHeight - 5, EntryHeight - 5);
+        iconNode.Style.Size = new(EntryHeight - 5, EntryHeight - 5);
 
         if (entry.Cj != 0) {
             iconNode.Style.ImageColor = new(entry.Cj);
@@ -160,7 +63,7 @@ internal sealed partial class DynamicMenuPopup
             Style     = new() { Size = new(0, EntryHeight) },
             ChildNodes = [
                 new() {
-                    ClassList  = ["item--icon-wrapper"],
+                    ClassList  = ["icon-wrapper"],
                     ChildNodes = [iconNode, icon2Node, countNode],
                     Style = new() {
                         Size = new(EntryHeight, EntryHeight),

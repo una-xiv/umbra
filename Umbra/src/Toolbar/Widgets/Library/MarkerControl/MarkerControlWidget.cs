@@ -1,71 +1,67 @@
-﻿/* Umbra | (c) 2024 by Una              ____ ___        ___.
- * Licensed under the terms of AGPL-3  |    |   \ _____ \_ |__ _______ _____
- *                                     |    |   //     \ | __ \\_  __ \\__  \
- * https://github.com/una-xiv/umbra    |    |  /|  Y Y  \| \_\ \|  | \/ / __ \_
- *                                     |______//__|_|  /____  /|__|   (____  /
- *     Umbra is free software: you can redistribute  \/     \/             \/
- *     it and/or modify it under the terms of the GNU Affero General Public
- *     License as published by the Free Software Foundation, either version 3
- *     of the License, or (at your option) any later version.
- *
- *     Umbra UI is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *     GNU Affero General Public License for more details.
- */
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Dalamud.Interface;
 using Umbra.Common;
 using Umbra.Markers.System;
 
 namespace Umbra.Widgets;
 
-[ToolbarWidget("MarkerControl", "Widget.MarkerControl.Name", "Widget.MarkerControl.Description")]
-[ToolbarWidgetTags(["marker", "world", "map", "sign", "icon"])]
+[ToolbarWidget(
+    "MarkerControl",
+    "Widget.MarkerControl.Name",
+    "Widget.MarkerControl.Description",
+    ["marker", "world", "map", "sign", "icon"]
+)]
 internal class MarkerControlWidget(
     WidgetInfo                  info,
     string?                     guid         = null,
     Dictionary<string, object>? configValues = null
 )
-    : IconToolbarWidget(info, guid, configValues)
+    : StandardToolbarWidget(info, guid, configValues)
 {
-    public override MenuPopup Popup { get; } = new() { CloseOnItemClick = false };
+    protected override StandardWidgetFeatures Features =>
+        StandardWidgetFeatures.Icon |
+        StandardWidgetFeatures.CustomizableIcon;
+
+    public override MenuPopup Popup { get; } = new();
+
+    protected override string          DefaultIconType        => IconTypeFontAwesome;
+    protected override FontAwesomeIcon DefaultFontAwesomeIcon => FontAwesomeIcon.MapSigns;
 
     private WorldMarkerFactoryRegistry Registry { get; } = Framework.Service<WorldMarkerFactoryRegistry>();
 
-    protected override void Initialize()
+    private readonly Dictionary<string, MenuPopup.Button> _buttons = [];
+
+    protected override void OnLoad()
     {
         foreach (string id in Registry.GetFactoryIds()) {
             var factory = Registry.GetFactory(id);
+            var button = new MenuPopup.Button(id) {
+                Icon              = FontAwesomeIcon.Check,
+                Label             = factory.Name,
+                Selected          = true,
+                ClosePopupOnClick = false,
+                OnClick           = () => factory.SetConfigValue("Enabled", !factory.GetConfigValue<bool>("Enabled")),
+            };
 
-            Popup.AddButton(
-                id,
-                factory.Name,
-                onClick: () => { factory.SetConfigValue("Enabled", !factory.GetConfigValue<bool>("Enabled")); }
-            );
+            Popup.Add(button);
+            _buttons.Add(id, button);
         }
     }
 
-    protected override void OnUpdate()
+    protected override void OnUnload()
     {
-        SetIcon(GetConfigValue<FontAwesomeIcon>("Icon"));
+        _buttons.Clear();
+    }
 
+    protected override void OnDraw()
+    {
         foreach (string id in Registry.GetFactoryIds()) {
             var factory = Registry.GetFactory(id);
             var enabled = factory.GetConfigValue<bool>("Enabled");
+            var button  = _buttons[id];
 
-            Popup.SetButtonIcon(id, enabled ? FontAwesomeIcon.Check : null);
+            button.Icon     = enabled ? FontAwesomeIcon.Check : null;
+            button.Selected = enabled;
         }
-
-        base.OnUpdate();
-    }
-
-    protected override IEnumerable<IWidgetConfigVariable> GetConfigVariables()
-    {
-        return [
-            CustomIconConfigVariable(FontAwesomeIcon.MapSigns),
-            ..DefaultIconToolbarWidgetConfigVariables,
-        ];
     }
 }

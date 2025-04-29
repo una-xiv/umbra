@@ -1,133 +1,65 @@
-﻿/* Umbra | (c) 2024 by Una              ____ ___        ___.
- * Licensed under the terms of AGPL-3  |    |   \ _____ \_ |__ _______ _____
- *                                     |    |   //     \ | __ \\_  __ \\__  \
- * https://github.com/una-xiv/umbra    |    |  /|  Y Y  \| \_\ \|  | \/ / __ \_
- *                                     |______//__|_|  /____  /|__|   (____  /
- *     Umbra is free software: you can redistribute  \/     \/             \/
- *     it and/or modify it under the terms of the GNU Affero General Public
- *     License as published by the Free Software Foundation, either version 3
- *     of the License, or (at your option) any later version.
- *
- *     Umbra UI is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *     GNU Affero General Public License for more details.
- */
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Umbra.Common;
-using Una.Drawing;
+using Umbra.Game;
 
 namespace Umbra.Widgets;
 
-internal partial class GearsetSwitcherWidget
+internal sealed partial class GearsetSwitcherWidget
 {
-    /// <inheritdoc/>
     protected override IEnumerable<IWidgetConfigVariable> GetConfigVariables()
     {
-        Dictionary<string, string> iconTypeChoices = new() {
-            { "Default", I18N.Translate("Widget.GearsetSwitcher.Config.IconType.Option.Default") },
-            { "Framed", I18N.Translate("Widget.GearsetSwitcher.Config.IconType.Option.Framed") },
-            { "Gearset", I18N.Translate("Widget.GearsetSwitcher.Config.IconType.Option.Gearset") },
-            { "Glowing", I18N.Translate("Widget.GearsetSwitcher.Config.IconType.Option.Glowing") },
-            { "Light", I18N.Translate("Widget.GearsetSwitcher.Config.IconType.Option.Light") },
-            { "Dark", I18N.Translate("Widget.GearsetSwitcher.Config.IconType.Option.Dark") },
-            { "Gold", I18N.Translate("Widget.GearsetSwitcher.Config.IconType.Option.Gold") },
-            { "Orange", I18N.Translate("Widget.GearsetSwitcher.Config.IconType.Option.Orange") },
-            { "Red", I18N.Translate("Widget.GearsetSwitcher.Config.IconType.Option.Red") },
-            { "Purple", I18N.Translate("Widget.GearsetSwitcher.Config.IconType.Option.Purple") },
-            { "Blue", I18N.Translate("Widget.GearsetSwitcher.Config.IconType.Option.Blue") },
-            { "Green", I18N.Translate("Widget.GearsetSwitcher.Config.IconType.Option.Green") }
-        };
-
-        Dictionary<string, string> infoTypeChoices = new() {
-            { "None", I18N.Translate("Widget.GearsetSwitcher.Config.InfoType.Option.None") },
-            { "Auto", I18N.Translate("Widget.GearsetSwitcher.Config.InfoType.Option.Auto") },
-            { "ItemLevel", I18N.Translate("Widget.GearsetSwitcher.Config.InfoType.Option.ItemLevel") },
-            { "JobLevel", I18N.Translate("Widget.GearsetSwitcher.Config.InfoType.Option.JobLevel") },
-        };
-
-        Dictionary<string, string> underlayBarDisplayChoices = new() {
-            { "Never", I18N.Translate("Widget.GearsetSwitcher.Config.UnderlayBarDisplayMode.Option.Never") },
-            { "HideWhenFull", I18N.Translate("Widget.GearsetSwitcher.Config.UnderlayBarDisplayMode.Option.HideWhenFull") },
-            { "Always", I18N.Translate("Widget.GearsetSwitcher.Config.UnderlayBarDisplayMode.Option.Always") },
-        };
-
         return [
-            ..DefaultToolbarWidgetConfigVariables,
-            new StringWidgetConfigVariable(
-                "CustomLabel",
-                I18N.Translate("Widget.GearsetSwitcher.Config.CustomLabel.Name"),
-                I18N.Translate("Widget.GearsetSwitcher.Config.CustomLabel.Description"),
-                ""
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
-            new SelectWidgetConfigVariable(
+            ..base.GetConfigVariables(),
+            
+            ..GetWidgetConfigVariables(),
+            ..GetPopupConfigVariables(),
+        ];
+    }
+
+    private IEnumerable<IWidgetConfigVariable> GetWidgetConfigVariables()
+    {
+        return [
+            new EnumWidgetConfigVariable<JobIconType>(
+                "WidgetButtonIconType",
+                I18N.Translate("Widget.GearsetSwitcher.Config.WidgetButtonIconType.Name"),
+                I18N.Translate("Widget.GearsetSwitcher.Config.WidgetButtonIconType.Description"),
+                JobIconType.Default
+            ),
+            new EnumWidgetConfigVariable<GearsetSwitcherInfoDisplayType>(
                 "InfoType",
                 I18N.Translate("Widget.GearsetSwitcher.Config.InfoType.Name"),
                 I18N.Translate("Widget.GearsetSwitcher.Config.InfoType.Description"),
-                "Auto",
-                infoTypeChoices
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
-            new SelectWidgetConfigVariable(
+                GearsetSwitcherInfoDisplayType.Auto
+            ),
+            new EnumWidgetConfigVariable<GearsetSwitcherInfoDisplayType>(
                 "InfoTypeMaxLevel",
                 I18N.Translate("Widget.GearsetSwitcher.Config.InfoTypeMaxLevel.Name"),
                 I18N.Translate("Widget.GearsetSwitcher.Config.InfoTypeMaxLevel.Description"),
-                "Auto",
-                infoTypeChoices
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+                GearsetSwitcherInfoDisplayType.Auto
+            ),
             new BooleanWidgetConfigVariable(
                 "ShowSyncedLevelInInfo",
                 I18N.Translate("Widget.GearsetSwitcher.Config.ShowSyncedLevelInInfo.Name"),
                 I18N.Translate("Widget.GearsetSwitcher.Config.ShowSyncedLevelInInfo.Description"),
                 true
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
-            new SelectWidgetConfigVariable(
-                "WidgetButtonIconType",
-                I18N.Translate("Widget.GearsetSwitcher.Config.WidgetButtonIconType.Name"),
-                I18N.Translate("Widget.GearsetSwitcher.Config.WidgetButtonIconType.Description"),
-                "Default",
-                iconTypeChoices
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
-            ..SingleLabelTextOffsetVariables,
-            ..TwoLabelTextOffsetVariables,
-            new SelectWidgetConfigVariable(
-                "UnderlayBarDisplayMode",
-                I18N.Translate("Widget.GearsetSwitcher.Config.UnderlayBarDisplayMode.Name"),
-                I18N.Translate("Widget.GearsetSwitcher.Config.UnderlayBarDisplayMode.Description"),
-                "Never",
-                underlayBarDisplayChoices
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
-            new IntegerWidgetConfigVariable(
-                "UnderlayBarWidth",
-                I18N.Translate("Widget.GearsetSwitcher.Config.UnderlayBarWidth.Name"),
-                I18N.Translate("Widget.GearsetSwitcher.Config.UnderlayBarWidth.Description"),
-                100,
-                100,
-                500
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
-            new BooleanWidgetConfigVariable(
-                "UnderlayBarColorOverride",
-                I18N.Translate("Widget.GearsetSwitcher.Config.UnderlayBarColorOverride.Name"),
-                I18N.Translate("Widget.GearsetSwitcher.Config.UnderlayBarColorOverride.Description"),
-                false
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
-            new ColorWidgetConfigVariable(
-                "UnderlayBarColor",
-                I18N.Translate("Widget.GearsetSwitcher.Config.UnderlayBarColor.Name"),
-                I18N.Translate("Widget.GearsetSwitcher.Config.UnderlayBarColor.Description"),
-                0xFF212021
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
-            new BooleanWidgetConfigVariable(
-                "HideLevelIfMax",
-                I18N.Translate("Widget.GearsetSwitcher.Config.HideLevelIfMax.Name"),
-                I18N.Translate("Widget.GearsetSwitcher.Config.HideLevelIfMax.Description"),
-                false
+            ),
+        ];
+    }
+
+    private IEnumerable<IWidgetConfigVariable> GetPopupConfigVariables()
+    {
+        return [
+            new EnumWidgetConfigVariable<JobIconType>(
+                "PopupHeaderIconType",
+                I18N.Translate("Widget.GearsetSwitcher.Config.PopupHeaderIconType.Name"),
+                I18N.Translate("Widget.GearsetSwitcher.Config.PopupHeaderIconType.Description"),
+                JobIconType.Glowing
             ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
-            new BooleanWidgetConfigVariable(
-                "AutoCloseOnChange",
-                I18N.Translate("Widget.GearsetSwitcher.Config.AutoCloseOnChange.Name"),
-                I18N.Translate("Widget.GearsetSwitcher.Config.AutoCloseOnChange.Description"),
-                true
+            new EnumWidgetConfigVariable<JobIconType>(
+                "PopupButtonIconType",
+                I18N.Translate("Widget.GearsetSwitcher.Config.PopupButtonIconType.Name"),
+                I18N.Translate("Widget.GearsetSwitcher.Config.PopupButtonIconType.Description"),
+                JobIconType.Gearset
             ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
             new BooleanWidgetConfigVariable(
                 "EnableRoleScrolling",
@@ -135,159 +67,34 @@ internal partial class GearsetSwitcherWidget
                 I18N.Translate("Widget.GearsetSwitcher.Config.EnableRoleScrolling.Description"),
                 false
             ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
-            new IntegerWidgetConfigVariable(
-                "GearsetNodeWidth",
-                I18N.Translate("Widget.GearsetSwitcher.Config.GearsetNodeWidth.Name"),
-                I18N.Translate("Widget.GearsetSwitcher.Config.GearsetNodeWidth.Description"),
-                240,
-                120,
-                400
-            ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
-            new IntegerWidgetConfigVariable(
-                "GearsetNodeHeight",
-                I18N.Translate("Widget.GearsetSwitcher.Config.GearsetNodeHeight.Name"),
-                I18N.Translate("Widget.GearsetSwitcher.Config.GearsetNodeHeight.Description"),
-                40,
-                40,
-                80
-            ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
-            new StringWidgetConfigVariable(
-                "GearsetFilterPrefix",
-                I18N.Translate("Widget.GearsetSwitcher.Config.GearsetFilterPrefix.Name"),
-                I18N.Translate("Widget.GearsetSwitcher.Config.GearsetFilterPrefix.Description"),
-                "",
-                14
-            ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
-            new SelectWidgetConfigVariable(
-                "PopupHeaderIconType",
-                I18N.Translate("Widget.GearsetSwitcher.Config.PopupHeaderIconType.Name"),
-                I18N.Translate("Widget.GearsetSwitcher.Config.PopupHeaderIconType.Description"),
-                "Default",
-                iconTypeChoices
-            ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
-            new SelectWidgetConfigVariable(
-                "PopupButtonIconType",
-                I18N.Translate("Widget.GearsetSwitcher.Config.PopupButtonIconType.Name"),
-                I18N.Translate("Widget.GearsetSwitcher.Config.PopupButtonIconType.Description"),
-                "Default",
-                iconTypeChoices
-            ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
-            new IntegerWidgetConfigVariable(
-                "HeaderIconYOffset",
-                I18N.Translate("Widget.GearsetSwitcher.Config.HeaderIconYOffset.Name"),
-                I18N.Translate("Widget.GearsetSwitcher.Config.HeaderIconYOffset.Description"),
-                0,
-                -5,
-                5
-            ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
-            new IntegerWidgetConfigVariable(
-                "ButtonIconYOffset",
-                I18N.Translate("Widget.GearsetSwitcher.Config.ButtonIconYOffset.Name"),
-                I18N.Translate("Widget.GearsetSwitcher.Config.ButtonIconYOffset.Description"),
-                1,
-                -5,
-                5
-            ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
-            new BooleanWidgetConfigVariable(
-                "ShowRoleNames",
-                I18N.Translate("Widget.GearsetSwitcher.Config.ShowRoleNames.Name"),
-                I18N.Translate("Widget.GearsetSwitcher.Config.ShowRoleNames.Description"),
-                true
-            ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
-            new BooleanWidgetConfigVariable(
-                "ShowWarningIcon",
-                I18N.Translate("Widget.GearsetSwitcher.Config.ShowWarningIcon.Name"),
-                I18N.Translate("Widget.GearsetSwitcher.Config.ShowWarningIcon.Description"),
-                true
-            ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
-            new BooleanWidgetConfigVariable(
-                "ShowExperienceBar",
-                I18N.Translate("Widget.GearsetSwitcher.Config.ShowExperienceBar.Name"),
-                I18N.Translate("Widget.GearsetSwitcher.Config.ShowExperienceBar.Description"),
-                true
-            ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
-            new BooleanWidgetConfigVariable(
-                "ShowExperiencePct",
-                I18N.Translate("Widget.GearsetSwitcher.Config.ShowExperiencePct.Name"),
-                I18N.Translate("Widget.GearsetSwitcher.Config.ShowExperiencePct.Description"),
-                true
-            ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
-            new BooleanWidgetConfigVariable(
-                "ShowButtonItemLevel",
-                I18N.Translate("Widget.GearsetSwitcher.Config.ShowButtonItemLevel.Name"),
-                I18N.Translate("Widget.GearsetSwitcher.Config.ShowButtonItemLevel.Description"),
-                true
-            ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
-            new BooleanWidgetConfigVariable(
-                "ShowCurrentJobGradient",
-                I18N.Translate("Widget.GearsetSwitcher.Config.ShowCurrentJobGradient.Name"),
-                I18N.Translate("Widget.GearsetSwitcher.Config.ShowCurrentJobGradient.Description"),
-                true
-            ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
-            new SelectWidgetConfigVariable(
-                "GearsetButtonBackgroundType",
-                I18N.Translate("Widget.GearsetSwitcher.Config.GearsetButtonBackgroundType.Name"),
-                I18N.Translate("Widget.GearsetSwitcher.Config.GearsetButtonBackgroundType.Description"),
-                "GradientV",
-                new() {
-                    { "None", I18N.Translate("Widget.GearsetSwitcher.Config.GearsetButtonBackgroundType.Option.None") }, {
-                        "GradientV",
-                        I18N.Translate("Widget.GearsetSwitcher.Config.GearsetButtonBackgroundType.Option.GradientV")
-                    }, {
-                        "GradientVI",
-                        I18N.Translate("Widget.GearsetSwitcher.Config.GearsetButtonBackgroundType.Option.GradientVI")
-                    }, {
-                        "GradientH",
-                        I18N.Translate("Widget.GearsetSwitcher.Config.GearsetButtonBackgroundType.Option.GradientH")
-                    }, {
-                        "GradientHI",
-                        I18N.Translate("Widget.GearsetSwitcher.Config.GearsetButtonBackgroundType.Option.GradientHI")
-                    }, {
-                        "Plain",
-                        I18N.Translate("Widget.GearsetSwitcher.Config.GearsetButtonBackgroundType.Option.Plain")
-                    },
-                }
-            ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
-            new SelectWidgetConfigVariable(
-                "UldStyleSource",
-                I18N.Translate("Widget.GearsetSwitcher.Config.UldStyleSource.Name"),
-                I18N.Translate("Widget.GearsetSwitcher.Config.UldStyleSource.Description"),
-                "Light",
-                new() {
-                    { "Default", I18N.Translate("Widget.GearsetSwitcher.Config.UldStyleSource.Option.Default") },
-                    { "Light", I18N.Translate("Widget.GearsetSwitcher.Config.UldStyleSource.Option.Light") },
-                    { "Classic", I18N.Translate("Widget.GearsetSwitcher.Config.UldStyleSource.Option.Classic") },
-                    { "TransparentBlue", I18N.Translate("Widget.GearsetSwitcher.Config.UldStyleSource.Option.TransparentBlue") }
-                }
-            ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
-
-            // Role Configuration
-            ..AddRoleOptionsFor("Tank",           "LeftColumn",   0, 3),
-            ..AddRoleOptionsFor("Healer",         "LeftColumn",   1, 2),
-            ..AddRoleOptionsFor("Melee",          "LeftColumn",   2, 5),
+            
+            ..AddRoleOptionsFor("Tank", "LeftColumn", 0, 3),
+            ..AddRoleOptionsFor("Healer", "LeftColumn", 1, 2),
+            ..AddRoleOptionsFor("Melee", "LeftColumn", 2, 5),
             ..AddRoleOptionsFor("PhysicalRanged", "MiddleColumn", 2, 5),
-            ..AddRoleOptionsFor("MagicalRanged",  "MiddleColumn", 2, 5),
-            ..AddRoleOptionsFor("Crafter",        "RightColumn",  1, 7),
-            ..AddRoleOptionsFor("Gatherer",       "RightColumn",  0, 3)
+            ..AddRoleOptionsFor("MagicalRanged", "MiddleColumn", 2, 5),
+            ..AddRoleOptionsFor("Gatherer", "RightColumn", 0, 3),
+            ..AddRoleOptionsFor("Crafter", "RightColumn", 1, 7),
         ];
     }
-
-    private static IEnumerable<IWidgetConfigVariable> AddRoleOptionsFor(
-        string name, string column, int sortIndex, int maxItems
-    )
+    
+    private IEnumerable<IWidgetConfigVariable> AddRoleOptionsFor(string name, string column, int sortIndex, int maxItems)
     {
         string role = I18N.Translate($"Widget.GearsetSwitcher.Role.{name}");
 
         return [
             new BooleanWidgetConfigVariable(
                 $"Show{name}",
-                I18N.Translate("Widget.GearsetSwitcher.Config.ShowRole.Name",        role),
+                I18N.Translate("Widget.GearsetSwitcher.Config.ShowRole.Name", role),
                 I18N.Translate("Widget.GearsetSwitcher.Config.ShowRole.Description", role),
                 true
-            ) { Category = I18N.Translate("Widget.ConfigCategory.GearsetRoleOptions", role) },
+            ) {
+                Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance"),
+                Group    = I18N.Translate("Widget.ConfigCategory.GearsetRoleOptions", role)
+            },
             new SelectWidgetConfigVariable(
                 $"{name}RoleLocation",
-                I18N.Translate("Widget.GearsetSwitcher.Config.RoleLocation.Name",        role),
+                I18N.Translate("Widget.GearsetSwitcher.Config.RoleLocation.Name", role),
                 I18N.Translate("Widget.GearsetSwitcher.Config.RoleLocation.Description", role),
                 column,
                 new() {
@@ -296,23 +103,33 @@ internal partial class GearsetSwitcherWidget
                     },
                     { "RightColumn", I18N.Translate("Widget.GearsetSwitcher.Config.RoleLocation.Option.RightColumn") }
                 }
-            ) { Category = I18N.Translate("Widget.ConfigCategory.GearsetRoleOptions", role) },
+            ) {
+                Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance"),
+                Group    = I18N.Translate("Widget.ConfigCategory.GearsetRoleOptions", role)
+            },
             new IntegerWidgetConfigVariable(
                 $"{name}RoleSortIndex",
-                I18N.Translate("Widget.GearsetSwitcher.Config.RoleSortIndex.Name",        role),
+                I18N.Translate("Widget.GearsetSwitcher.Config.RoleSortIndex.Name", role),
                 I18N.Translate("Widget.GearsetSwitcher.Config.RoleSortIndex.Description", role),
                 sortIndex,
                 0,
                 10
-            ) { Category = I18N.Translate("Widget.ConfigCategory.GearsetRoleOptions", role) },
+            ) {
+                Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance"),
+                Group    = I18N.Translate("Widget.ConfigCategory.GearsetRoleOptions", role)
+            },
             new IntegerWidgetConfigVariable(
                 $"{name}MaxItems",
-                I18N.Translate("Widget.GearsetSwitcher.Config.RoleMaxItems.Name",        role),
+                I18N.Translate("Widget.GearsetSwitcher.Config.RoleMaxItems.Name", role),
                 I18N.Translate("Widget.GearsetSwitcher.Config.RoleMaxItems.Description", role),
                 maxItems,
                 1,
                 10
-            ) { Category = I18N.Translate("Widget.ConfigCategory.GearsetRoleOptions", role) },
+            ) {
+                Category  = I18N.Translate("Widget.ConfigCategory.MenuAppearance"),
+                Group     = I18N.Translate("Widget.ConfigCategory.GearsetRoleOptions", role),
+                DisplayIf = () => GetConfigValue<bool>("EnableRoleScrolling"),
+            },
         ];
     }
 }

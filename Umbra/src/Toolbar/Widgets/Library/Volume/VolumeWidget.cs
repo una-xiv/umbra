@@ -1,53 +1,40 @@
-﻿/* Umbra | (c) 2024 by Una              ____ ___        ___.
- * Licensed under the terms of AGPL-3  |    |   \ _____ \_ |__ _______ _____
- *                                     |    |   //     \ | __ \\_  __ \\__  \
- * https://github.com/una-xiv/umbra    |    |  /|  Y Y  \| \_\ \|  | \/ / __ \_
- *                                     |______//__|_|  /____  /|__|   (____  /
- *     Umbra is free software: you can redistribute  \/     \/             \/
- *     it and/or modify it under the terms of the GNU Affero General Public
- *     License as published by the Free Software Foundation, either version 3
- *     of the License, or (at your option) any later version.
- *
- *     Umbra UI is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *     GNU Affero General Public License for more details.
- */
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Dalamud.Interface;
 using Dalamud.Plugin.Services;
 using Umbra.Common;
 
 namespace Umbra.Widgets;
 
-[ToolbarWidget("Volume", "Widget.Volume.Name", "Widget.Volume.Description")]
-[ToolbarWidgetTags(["volume", "audio", "channels", "sound", "sfx", "bgm"])]
+[ToolbarWidget(
+    "Volume", 
+    "Widget.Volume.Name", 
+    "Widget.Volume.Description", 
+    ["volume", "audio", "channels", "sound", "sfx", "bgm"]
+)]
 internal sealed partial class VolumeWidget(
     WidgetInfo                  info,
     string?                     guid         = null,
     Dictionary<string, object>? configValues = null
-) : IconToolbarWidget(info, guid, configValues)
+) : StandardToolbarWidget(info, guid, configValues)
 {
     /// <inheritdoc/>
     public override VolumeWidgetPopup Popup { get; } = new();
 
-    private IGameConfig _gameConfig = null!;
+    protected override StandardWidgetFeatures Features =>
+        StandardWidgetFeatures.Icon;
 
-    /// <inheritdoc/>
-    protected override void Initialize()
+    private readonly IGameConfig _gameConfig = Framework.Service<IGameConfig>();
+
+    protected override void OnLoad()
     {
-        _gameConfig = Framework.Service<IGameConfig>();
-
-        SetIcon(FontAwesomeIcon.VolumeUp);
+        SetFontAwesomeIcon(FontAwesomeIcon.VolumeUp);
 
         Node.OnRightClick += _ => ToggleMute();
     }
 
-    /// <inheritdoc/>
-    protected override void OnUpdate()
+    protected override void OnDraw()
     {
-        SetIcon(GetVolumeIcon("SoundMaster", "IsSndMaster"));
+        SetFontAwesomeIcon(GetVolumeIcon("SoundMaster", "IsSndMaster"));
 
         Popup.ShowOptions = GetConfigValue<bool>("ShowOptions");
         Popup.ShowBgm     = GetConfigValue<bool>("ShowBgm");
@@ -61,8 +48,6 @@ internal sealed partial class VolumeWidget(
         Popup.DownIcon    = GetConfigValue<FontAwesomeIcon>("DownIcon");
         Popup.OffIcon     = GetConfigValue<FontAwesomeIcon>("OffIcon");
         Popup.MuteIcon    = GetConfigValue<FontAwesomeIcon>("MuteIcon");
-
-        base.OnUpdate();
     }
 
     private void ToggleMute()

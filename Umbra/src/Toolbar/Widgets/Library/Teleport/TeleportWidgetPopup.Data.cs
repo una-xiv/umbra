@@ -1,19 +1,3 @@
-/* Umbra | (c) 2024 by Una              ____ ___        ___.
- * Licensed under the terms of AGPL-3  |    |   \ _____ \_ |__ _______ _____
- *                                     |    |   //     \ | __ \\_  __ \\__  \
- * https://github.com/una-xiv/umbra    |    |  /|  Y Y  \| \_\ \|  | \/ / __ \_
- *                                     |______//__|_|  /____  /|__|   (____  /
- *     Umbra is free software: you can redistribute  \/     \/             \/
- *     it and/or modify it under the terms of the GNU Affero General Public
- *     License as published by the Free Software Foundation, either version 3
- *     of the License, or (at your option) any later version.
- *
- *     Umbra UI is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *     GNU Affero General Public License for more details.
- */
-
 using System.Collections.Generic;
 using System.Linq;
 using Dalamud.Game.ClientState.Aetherytes;
@@ -34,6 +18,7 @@ internal partial class TeleportWidgetPopup
     private readonly Dictionary<string, TeleportDestination> _destinations = [];
 
     private List<uint>? EstateAetheryteIds { get; set; }
+    private string?     _selectedExpansion;
 
     /// <summary>
     /// Hydrates the aetheryte points into the expansion/region/destination structure that can be used to build
@@ -48,7 +33,6 @@ internal partial class TeleportWidgetPopup
         var currentExNodeId = $"Ex_{territoryType.Value.ExVersion.ValueNullable?.RowId}";
 
         foreach (var aetheryte in AetheryteList) {
-            // Don't index housing aetherytes...
             if (IsAetherytePlayerHousing(aetheryte)) continue;
 
             var gameData = aetheryte.AetheryteData.ValueNullable;

@@ -1,38 +1,22 @@
-﻿/* Umbra | (c) 2024 by Una              ____ ___        ___.
- * Licensed under the terms of AGPL-3  |    |   \ _____ \_ |__ _______ _____
- *                                     |    |   //     \ | __ \\_  __ \\__  \
- * https://github.com/una-xiv/umbra    |    |  /|  Y Y  \| \_\ \|  | \/ / __ \_
- *                                     |______//__|_|  /____  /|__|   (____  /
- *     Umbra is free software: you can redistribute  \/     \/             \/
- *     it and/or modify it under the terms of the GNU Affero General Public
- *     License as published by the Free Software Foundation, either version 3
- *     of the License, or (at your option) any later version.
- *
- *     Umbra UI is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *     GNU Affero General Public License for more details.
- */
-
-using System;
-using System.Numerics;
+﻿using Dalamud.Interface.Textures.TextureWraps;
 using Dalamud.Plugin.Services;
 using ImGuiNET;
+using System;
+using System.Numerics;
 using Umbra.Common;
 using Umbra.Game;
 using Umbra.Interface;
-using Umbra.Windows.Clipping;
 using Una.Drawing;
+using Una.Drawing.Clipping;
 
 namespace Umbra.Markers.System.Compass;
 
 [Service]
-internal partial class CompassRenderer(
+internal sealed class CompassRenderer(
     IGameCamera         gameCamera,
     IPlayer             player,
     ITextureProvider    textureProvider,
     IZoneManager        zoneManager,
-    ClipRectProvider    clipRectProvider,
     WorldMarkerRegistry registry,
     UmbraVisibility     visibility
 )
@@ -81,8 +65,8 @@ internal partial class CompassRenderer(
         foreach (var marker in registry.GetMarkers()) {
             if (!marker.ShowOnCompass) continue;
 
-            Vector3 pos = marker.WorldPosition;
-            float dist  = Vector2.Distance(pos.ToVector2(), player.Position.ToVector2());
+            Vector3 pos  = marker.WorldPosition;
+            float   dist = Vector2.Distance(pos.ToVector2(), player.Position.ToVector2());
 
             if (marker.MaxVisibleDistance > 0 && dist > marker.MaxVisibleDistance) continue;
 
@@ -107,8 +91,8 @@ internal partial class CompassRenderer(
             if (GetIcon(marker.IconId) is not { } icon) continue;
 
             ImGui
-                .GetBackgroundDrawList()
-                .AddImage(icon.ImGuiHandle, p1, p2, Vector2.Zero, Vector2.One, iconColor);
+               .GetBackgroundDrawList()
+               .AddImage(icon.ImGuiHandle, p1, p2, Vector2.Zero, Vector2.One, iconColor);
 
             DrawDirectionArrowAt(iconPos + workPos, direction, iconSize, iconColor);
         }
@@ -126,8 +110,8 @@ internal partial class CompassRenderer(
         arrowPos.Y += ((iconSize + (16 * (IconScaleFactor / 100f) * Node.ScaleFactor)) - halfSize) * MathF.Sin(angle);
 
         ImGui
-            .GetBackgroundDrawList()
-            .AddImageRotated(arrow.ImGuiHandle, angle, arrowPos, new(halfSize * 2, halfSize * 2), new(iconColor));
+           .GetBackgroundDrawList()
+           .AddImageRotated(arrow.ImGuiHandle, angle, arrowPos, new(halfSize * 2, halfSize * 2), new(iconColor));
     }
 
     /// <summary>
@@ -135,8 +119,17 @@ internal partial class CompassRenderer(
     /// rectangle. This determines whether the marker is obscured by a native
     /// UI window.
     /// </summary>
-    private bool ShouldRenderAt(Windows.Clipping.Rect rect)
+    private bool ShouldRenderAt(ClipRect rect)
     {
-        return clipRectProvider.FindClipRectsIntersectingWith(rect).Count == 0;
+        return ClipRectProvider.FindClipRectsIntersectingWith(rect).Count == 0;
+    }
+
+    private IDalamudTextureWrap? GetIcon(uint iconId)
+    {
+        try {
+            return textureProvider.GetFromGameIcon(new(iconId)).GetWrapOrDefault();
+        } catch {
+            return null;
+        }
     }
 }

@@ -37,12 +37,26 @@ public static partial class ConfigManager
     public static List<string> GetCategories()
     {
         return Cvars
-            .Values
-            .Select(cvar => cvar.Category)
-            .Where(c => c != null && I18N.Has($"CVAR.Group.{c}"))
-            .Distinct()
-            .OrderBy(c => c)
-            .ToList()!;
+              .Values
+              .Select(cvar => cvar.Category)
+              .Where(c => c != null && I18N.Has($"CVAR.Group.{c}"))
+              .Distinct()
+              .ToList()!;
+    }
+
+    /// <summary>
+    /// Returns a distinct list of subcategory names for the given category.
+    /// Only subcategories with localized names are included in the result.
+    /// </summary>
+    public static List<string> GetSubCategories(string category)
+    {
+        return Cvars
+              .Values
+              .Where(c => c.Category == category)
+              .Select(cvar => cvar.SubCategory)
+              .Where(c => c != null && I18N.Has($"CVAR.SubGroup.{c}"))
+              .Distinct()
+              .ToList()!;
     }
 
     /// <summary>
@@ -54,8 +68,38 @@ public static partial class ConfigManager
     public static List<Cvar> GetVariablesFromCategory(string category)
     {
         return Cvars
-            .Values
-            .Where(cvar => cvar.Category == category && I18N.Has($"CVAR.{cvar.Id}.Name") && cvar.Category != null)
-            .ToList();
+              .Values
+              .Where(cvar => cvar.Category == category && I18N.Has($"CVAR.{cvar.Id}.Name") && cvar.Category != null)
+              .ToList();
+    }
+
+    /// <summary>
+    /// Returns a nested dictionary of all registered config variables, grouped by
+    /// category and subcategory.
+    /// </summary>
+    /// <returns></returns>
+    public static Dictionary<string, Dictionary<string, List<Cvar>>> GetVariablesTree()
+    {
+        Dictionary<string, Dictionary<string, List<Cvar>>> tree = [];
+
+        foreach (string category in GetCategories()) {
+            List<Cvar> cvars = GetVariablesFromCategory(category);
+            if (cvars.Count == 0) continue;
+
+            foreach (var cvar in cvars) {
+                string subCategory = cvar.SubCategory ?? "General";
+                if (!tree.TryGetValue(category, out var subCategories)) {
+                    tree.Add(category, subCategories = []);
+                }
+
+                if (!subCategories.TryGetValue(subCategory, out var cvarList)) {
+                    subCategories.Add(subCategory, cvarList = []);
+                }
+
+                if (!cvarList.Contains(cvar)) cvarList.Add(cvar);
+            }
+        }
+
+        return tree;
     }
 }

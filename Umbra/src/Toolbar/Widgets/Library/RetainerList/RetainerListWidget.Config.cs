@@ -9,9 +9,8 @@ internal partial class RetainerListWidget
     protected override IEnumerable<IWidgetConfigVariable> GetConfigVariables()
     {
         return [
-            DefaultIconConfigVariable(60560),
-            ..DefaultToolbarWidgetConfigVariables,
-            ..SingleLabelTextOffsetVariables,
+            ..base.GetConfigVariables(),
+
             new BooleanWidgetConfigVariable(
                 "ShowGil",
                 I18N.Translate("Widget.RetainerList.Config.ShowGil.Name"),
@@ -37,7 +36,7 @@ internal partial class RetainerListWidget
                 true
             ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
             new SelectWidgetConfigVariable(
-                "IconType",
+                "RetainerIconType",
                 I18N.Translate("Widget.RetainerList.Config.IconType.Name"),
                 I18N.Translate("Widget.RetainerList.Config.IconType.Description"),
                 "Default",

@@ -1,20 +1,4 @@
-﻿/* Umbra | (c) 2024 by Una              ____ ___        ___.
- * Licensed under the terms of AGPL-3  |    |   \ _____ \_ |__ _______ _____
- *                                     |    |   //     \ | __ \\_  __ \\__  \
- * https://github.com/una-xiv/umbra    |    |  /|  Y Y  \| \_\ \|  | \/ / __ \_
- *                                     |______//__|_|  /____  /|__|   (____  /
- *     Umbra is free software: you can redistribute  \/     \/             \/
- *     it and/or modify it under the terms of the GNU Affero General Public
- *     License as published by the Free Software Foundation, either version 3
- *     of the License, or (at your option) any later version.
- *
- *     Umbra UI is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *     GNU Affero General Public License for more details.
- */
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Umbra.Common;
 
 namespace Umbra.Widgets;
@@ -23,7 +7,6 @@ internal sealed partial class CustomMenuWidget
 {
     private const int MaxButtons = 24;
 
-    /// <inheritdoc/>
     protected override IEnumerable<IWidgetConfigVariable> GetConfigVariables()
     {
         List<IWidgetConfigVariable> buttonVariables = [];
@@ -33,9 +16,8 @@ internal sealed partial class CustomMenuWidget
         }
 
         return [
+            ..base.GetConfigVariables(),
             ..ToolbarWidgetVariables,
-            ..DefaultToolbarWidgetConfigVariables,
-            ..SingleLabelTextOffsetVariables,
             ..buttonVariables
         ];
     }
@@ -47,37 +29,19 @@ internal sealed partial class CustomMenuWidget
             I18N.Translate("Widget.CustomMenu.Config.Label.Description"),
             "My Menu",
             32
-        ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+        ),
         new StringWidgetConfigVariable(
             "Tooltip",
             I18N.Translate("Widget.CustomMenu.Config.Tooltip.Name"),
             I18N.Translate("Widget.CustomMenu.Config.Tooltip.Description"),
             ""
-        ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
+        ),
         new BooleanWidgetConfigVariable(
             "HideLabel",
             I18N.Translate("Widget.CustomMenu.Config.HideLabel.Name"),
             I18N.Translate("Widget.CustomMenu.Config.HideLabel.Description"),
             false
-        ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
-        new IconIdWidgetConfigVariable(
-            "LeftIconId",
-            I18N.Translate("Widget.CustomMenu.Config.LeftIconId.Name"),
-            I18N.Translate("Widget.CustomMenu.Config.LeftIconId.Description"),
-            0
-        ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
-        new IconIdWidgetConfigVariable(
-            "RightIconId",
-            I18N.Translate("Widget.CustomMenu.Config.RightIconId.Name"),
-            I18N.Translate("Widget.CustomMenu.Config.RightIconId.Description"),
-            0
-        ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
-        new BooleanWidgetConfigVariable(
-            "DesaturateMenuIcons",
-            I18N.Translate("Widget.CustomMenu.Config.DesaturateMenuIcons.Name"),
-            I18N.Translate("Widget.CustomMenu.Config.DesaturateMenuIcons.Description"),
-            false
-        ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
+        ),
         new BooleanWidgetConfigVariable(
             "InverseOrder",
             I18N.Translate("Widget.CustomMenu.Config.InverseOrder.Name"),
@@ -106,39 +70,57 @@ internal sealed partial class CustomMenuWidget
                     { "Item", I18N.Translate("Widget.CustomMenu.Config.ButtonMode.Option.Item") },
                     { "Separator", I18N.Translate("Widget.CustomMenu.Config.ButtonMode.Option.Separator") }
                 }
-            ) { Category = I18N.Translate("Widget.CustomMenu.Config.ButtonId", buttonIndex + 1) },
+            ) { 
+                Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance"), 
+                Group = I18N.Translate("Widget.CustomMenu.Config.ButtonId", buttonIndex + 1) 
+            },
             new StringWidgetConfigVariable(
                 $"ButtonLabel_{buttonIndex}",
                 I18N.Translate("Widget.CustomMenu.Config.ButtonLabel.Name"),
                 I18N.Translate("Widget.CustomMenu.Config.ButtonLabel.Description"),
                 "",
                 32
-            ) { Category = I18N.Translate("Widget.CustomMenu.Config.ButtonId", buttonIndex + 1) },
+            ) {
+                Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance"),
+                Group = I18N.Translate("Widget.CustomMenu.Config.ButtonId", buttonIndex + 1)
+            },
             new StringWidgetConfigVariable(
                 $"ButtonAltLabel_{buttonIndex}",
                 I18N.Translate("Widget.CustomMenu.Config.ButtonAltLabel.Name"),
                 I18N.Translate("Widget.CustomMenu.Config.ButtonAltLabel.Description"),
                 "",
                 32
-            ) { Category = I18N.Translate("Widget.CustomMenu.Config.ButtonId", buttonIndex + 1) },
+            ) {
+                Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance"),
+                Group = I18N.Translate("Widget.CustomMenu.Config.ButtonId", buttonIndex + 1)
+            },
             new IconIdWidgetConfigVariable(
                 $"ButtonIconId_{buttonIndex}",
                 I18N.Translate("Widget.CustomMenu.Config.ButtonIconId.Name"),
                 I18N.Translate("Widget.CustomMenu.Config.ButtonIconId.Description"),
                 0
-            ) { Category = I18N.Translate("Widget.CustomMenu.Config.ButtonId", buttonIndex + 1) },
+            ) {
+                Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance"),
+                Group = I18N.Translate("Widget.CustomMenu.Config.ButtonId", buttonIndex + 1)
+            },
             new ColorWidgetConfigVariable(
                 $"ButtonIconColor_{buttonIndex}",
                 I18N.Translate("Widget.CustomMenu.Config.ButtonIconColor.Name"),
                 I18N.Translate("Widget.CustomMenu.Config.ButtonIconColor.Description"),
                 0xFFFFFFFF
-            ) { Category = I18N.Translate("Widget.CustomMenu.Config.ButtonId", buttonIndex + 1) },
+            ) {
+                Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance"),
+                Group = I18N.Translate("Widget.CustomMenu.Config.ButtonId", buttonIndex + 1)
+            },
             new StringWidgetConfigVariable(
                 $"ButtonCommand_{buttonIndex}",
                 I18N.Translate("Widget.CustomMenu.Config.ButtonCommand.Name"),
                 I18N.Translate("Widget.CustomMenu.Config.ButtonCommand.Description"),
                 ""
-            ) { Category = I18N.Translate("Widget.CustomMenu.Config.ButtonId", buttonIndex + 1) },
+            ) {
+                Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance"),
+                Group = I18N.Translate("Widget.CustomMenu.Config.ButtonId", buttonIndex + 1)
+            },
             new SelectWidgetConfigVariable(
                 $"ButtonItemUsage_{buttonIndex}",
                 I18N.Translate("Widget.CustomMenu.Config.ItemUsage.Name"),
@@ -150,7 +132,10 @@ internal sealed partial class CustomMenuWidget
                     { "HqOnly", I18N.Translate("Widget.CustomMenu.Config.ItemUsage.Option.HqOnly") },
                     { "NqOnly", I18N.Translate("Widget.CustomMenu.Config.ItemUsage.Option.NqOnly") }
                 }
-            ) { Category = I18N.Translate("Widget.CustomMenu.Config.ButtonId", buttonIndex + 1) },
+            ) {
+                Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance"),
+                Group = I18N.Translate("Widget.CustomMenu.Config.ButtonId", buttonIndex + 1)
+            },
         ];
     }
 }

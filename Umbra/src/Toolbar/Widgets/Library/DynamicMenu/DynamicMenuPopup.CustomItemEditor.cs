@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using Umbra.Common;
-using Umbra.Widgets.Library.ShortcutPanel.Providers;
 using Umbra.Windows;
-using Umbra.Windows.Library.VariablesWindow;
-using Una.Drawing;
+using Umbra.Windows.Library.VariableEditor;
 
-namespace Umbra.Widgets.Library.DynamicMenu;
+namespace Umbra.Widgets;
 
-internal sealed partial class DynamicMenuPopup : WidgetPopup
+internal sealed partial class DynamicMenuPopup
 {
     private void OpenCustomItemEditor()
     {
@@ -30,7 +26,7 @@ internal sealed partial class DynamicMenuPopup : WidgetPopup
             MaxLength   = 100,
         };
 
-        IconIdVariable iconVar = new("Icon") {
+        GameIconVariable iconVar = new("Icon") {
             Name        = I18N.Translate("Widget.DynamicMenu.CustomItemEditor.Icon.Name"),
             Description = I18N.Translate("Widget.DynamicMenu.CustomItemEditor.Icon.Description"),
             Value       = (entry.Ci ?? 0),
@@ -61,11 +57,11 @@ internal sealed partial class DynamicMenuPopup : WidgetPopup
 
         List<Variable> variables = [labelVar, altLabelVar, iconVar, iconColorVar, typeVar, commandVar];
 
-        VariablesWindow window = new(I18N.Translate("Widget.DynamicMenu.CustomItemEditor.Title"), variables);
+        VariablesEditorWindow window = new(I18N.Translate("Widget.DynamicMenu.CustomItemEditor.Title"), variables, []);
 
         Framework
-            .Service<WindowManager>()
-            .Present(
+           .Service<WindowManager>()
+           .Present(
                 "CustomItemEditor",
                 window,
                 _ => {

@@ -1,28 +1,12 @@
-﻿/* Umbra | (c) 2024 by Una              ____ ___        ___.
- * Licensed under the terms of AGPL-3  |    |   \ _____ \_ |__ _______ _____
- *                                     |    |   //     \ | __ \\_  __ \\__  \
- * https://github.com/una-xiv/umbra    |    |  /|  Y Y  \| \_\ \|  | \/ / __ \_
- *                                     |______//__|_|  /____  /|__|   (____  /
- *     Umbra is free software: you can redistribute  \/     \/             \/
- *     it and/or modify it under the terms of the GNU Affero General Public
- *     License as published by the Free Software Foundation, either version 3
- *     of the License, or (at your option) any later version.
- *
- *     Umbra UI is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *     GNU Affero General Public License for more details.
- */
-
-using ImGuiNET;
+﻿using ImGuiNET;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using Umbra.Common;
 using Umbra.Game;
-using Umbra.Windows.Clipping;
 using Una.Drawing;
+using Una.Drawing.Clipping;
 
 namespace Umbra.Markers.System.Renderer;
 
@@ -70,7 +54,6 @@ internal class WorldMarkerNode : Node
 
     private readonly IGameCamera      _gameCamera = Framework.Service<IGameCamera>();
     private readonly IPlayer          _player     = Framework.Service<IPlayer>();
-    private readonly ClipRectProvider _clipRects  = Framework.Service<ClipRectProvider>();
 
     public void AddMarker(WorldMarker marker)
     {
@@ -169,9 +152,9 @@ internal class WorldMarkerNode : Node
             int y = (int)(screenPos.Y + workPos.Y);
 
             int                   halfSize = MaxWidth / 2;
-            Windows.Clipping.Rect rect     = new(x - halfSize, y - halfSize, x + halfSize, y + halfSize);
+            ClipRect rect     = new(x - halfSize, y - halfSize, x + halfSize, y + halfSize);
 
-            if (_clipRects.FindClipRectsIntersectingWith(rect).Count > 0) return;
+            if (ClipRectProvider.FindClipRectsIntersectingWith(rect).Count > 0) return;
 
             Render(ImGui.GetBackgroundDrawList(), new(x, y));
         }

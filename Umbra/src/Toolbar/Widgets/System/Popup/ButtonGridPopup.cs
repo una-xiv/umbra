@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using Umbra.Style;
 using Una.Drawing;
 
 namespace Umbra.Widgets;
@@ -14,28 +13,24 @@ public abstract class ButtonGridPopup : WidgetPopup
 
     public event Action<byte>? OnCategoryChanged;
 
-    protected sealed override Node Node { get; } = new() {
-        Id         = "Popup",
-        Stylesheet = PopupStyles.ButtonGridStylesheet,
-        ChildNodes = [new() { Id = "CategoryBar" }],
-    };
-
+    protected sealed override Node Node { get; } = UmbraDrawing.DocumentFrom("umbra.widgets._popup_button_grid.xml").RootNode!;
+    
     protected void ReconfigurePanel(string[] categoryNames, byte numRows, byte numCols)
     {
-        foreach (var node in Node.ChildNodes.ToArray()) node.Remove();
+        foreach (var node in Node.ChildNodes.ToArray()) node.Dispose();
 
         categoryNames = categoryNames.Where(name => !string.IsNullOrEmpty(name.Trim())).ToArray();
         int numCategories = categoryNames.Length;
 
         Node categoryBarNode = new() { Id = "CategoryBar" };
         Node.AppendChild(categoryBarNode);
-
+        
         int width  = (numCols * (SlotSize + GapSize)) + 8;
         int height = (numRows * (SlotSize + GapSize)) + 24 + 16;
-
+        
         Node.Style.Size = new(width, height);
         categoryBarNode.Style.Size = new(Node.Style.Size.Width - 16, 24);
-
+        
         for (byte i = 0; i < categoryNames.Length; i++) {
             categoryBarNode.ChildNodes.Add(CreateCategoryButton(i, i == 0, categoryNames[i], width, numCategories));
             Node.ChildNodes.Add(CreateSlotContainer(i, i == 0, numRows, numCols));
@@ -46,13 +41,10 @@ public abstract class ButtonGridPopup : WidgetPopup
     {
         Node node = new() {
             Id        = $"CategoryButton_{id}",
-            ClassList = ["category-button"],
+            ClassList = ["button"],
             NodeValue = name,
             TagsList  = isActive ? ["selected"] : [],
             Style     = new() { IsVisible = true },
-            BeforeDraw = node => {
-                node.Style.Size = new((width - 14) / numCategories, 24);
-            }
         };
 
         node.OnMouseUp += _ => ActivateCategory(id);
@@ -103,9 +95,9 @@ public abstract class ButtonGridPopup : WidgetPopup
             ClassList = ["slot-button"],
             TagsList  = ["empty"],
             ChildNodes = [
-                new() { ClassList = ["slot-button--icon"], InheritTags     = true},
-                new() { ClassList = ["slot-button--sub-icon"], InheritTags = true },
-                new() { ClassList = ["slot-button--count"], InheritTags    = true }
+                new() { ClassList = ["icon"] },
+                new() { ClassList = ["sub-icon"] },
+                new() { ClassList = ["count"] }
             ]
         };
 
@@ -118,7 +110,7 @@ public abstract class ButtonGridPopup : WidgetPopup
 
     protected Node GetCategoryButton(byte id) => Node.QuerySelector($"#CategoryButton_{id}")!;
     protected Node GetSlotContainer(byte  id) => Node.FindById($"SlotContainer_{id}")!;
-    protected int  NumCategories              => Node.QuerySelectorAll(".category-button").Count();
+    protected int  NumCategories              => Node.QuerySelectorAll("#CategoryBar > .button").Count();
 
     protected void ActivateCategory(byte id)
     {
@@ -139,7 +131,7 @@ public abstract class ButtonGridPopup : WidgetPopup
         selectedCategoryButton.TagsList.Add("selected");
         selectedSlotContainer.Style.IsVisible = true;
 
-        foreach (var node in Node.QuerySelectorAll(".category-button")) {
+        foreach (var node in Node.QuerySelectorAll("#CategoryBar > .button")) {
             if (node != selectedCategoryButton) node.TagsList.Remove("selected");
         }
 

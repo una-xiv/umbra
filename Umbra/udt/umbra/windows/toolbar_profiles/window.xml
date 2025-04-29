@@ -1,0 +1,118 @@
+﻿<udt>
+    <import from="umbra.components.tab_bar.xml"/>
+    
+    <node id="main">
+        <tab-bar/>
+        <node class="body hidden" id="profiles-tab">
+            <node class="profile-list">
+                <node class="profile-list-wrapper" overflow="false">
+                    <node id="profile-list"/>
+                </node>
+            </node>
+            <node class="profile-edit" overflow="false">
+                <node id="profile-edit"/>
+            </node>
+        </node>   
+        <node class="body hidden" id="jobs-tab">
+            <node class="jobs-edit" overflow="false">
+                <node id="jobs-edit"/>
+            </node>
+        </node>
+        <node class="footer">
+            <node class="buttons">
+                <button-node label="Close" id="close-button"/>
+            </node>
+        </node>
+    </node>
+    
+    <![CDATA[
+    #main {
+        flow: vertical;
+        auto-size: grow;
+        
+        & > .body {
+            auto-size: grow;
+            gap: 8;
+            
+            &.hidden {
+                is-visible: false;
+            }
+            
+            & > .profile-list {
+                flow: vertical;
+                auto-size: fit grow;
+                size: 250 0;
+                background-color: "Input.Background";
+                border-color: "Window.Border";
+                border-width: 0 1 0 0;
+                
+                .profile-list-wrapper {
+                    auto-size: grow;
+                    flow: vertical;
+                    
+                    & > #profile-list {
+                        flow: vertical;
+                        auto-size: grow fit;
+                        padding: 8 12 8 8;
+                    }
+                }
+            }
+            
+            & > .profile-edit {
+                auto-size: grow;
+                flow: vertical;
+                
+                & > #profile-edit {
+                    flow: vertical;
+                    auto-size: grow fit;
+                    padding: 8 12 8 8;
+                    gap: 12;
+                    
+                    & > .job-association-message {
+                        auto-size: grow fit;
+                        padding: 16;
+                        text-overflow: false;
+                        word-wrap: true;
+                        text-align: middle-center;
+                        color: "Window.TextMuted";
+                        outline-color: "Window.TextOutline";
+                        outline-size: 1;
+                    }
+                }
+            }
+            
+            & > .jobs-edit {
+                auto-size: grow;
+                flow: vertical;
+                
+                & > #jobs-edit {
+                    flow: vertical;
+                    auto-size: grow fit;
+                    padding: 8 12 8 8;
+                    gap: 12;
+                    
+                    & > .jobs-list {
+                        flow: vertical;
+                        auto-size: grow fit;
+                        gap: 8;
+                    }
+                }
+            }
+        }
+        
+        & > .footer {
+            auto-size: grow fit;
+            padding: 8;
+            background-color: "Window.BackgroundLight";
+            border-color: "Window.Border";
+            border-width: 1 0 0 0;
+            border-radius: 8;
+            rounded-corners: bottom-left bottom-right;
+            
+            & > .buttons {
+                anchor: middle-right;
+            }
+        }
+    }
+    ]]>
+</udt>

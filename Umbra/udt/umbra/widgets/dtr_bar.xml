@@ -1,0 +1,41 @@
+﻿<udt>
+    <node class="dtr-bar"/>
+    
+    <![CDATA[
+    .dtr-bar {
+        gap: 8;
+        
+        & > .dtr-bar-entry {
+            background-color: 0;
+            stroke-color: 0;
+            border-radius: 5;
+            stroke-radius: 3;
+            stroke-width: 1;
+            stroke-inset: 1;
+            
+            &.decorated {
+                background-color: "Widget.Background";
+                stroke-color: "Widget.Border";
+                padding: 0 3;
+                
+                &:hover {
+                    background-color: "Widget.BackgroundHover";
+                    stroke-color: "Widget.BorderHover";
+                }
+            }
+            
+            & > #Label {
+                anchor: middle-center;
+                font-size: 13;
+                color: "Widget.Text";
+                outline-color: "Widget.TextOutline";
+                outline-size: 1;
+            }
+            
+            &.decorated > #Label {
+                padding: 0 4;
+            }
+        }
+    }
+    ]]>
+</udt>

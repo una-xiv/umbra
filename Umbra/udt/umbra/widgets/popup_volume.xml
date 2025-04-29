@@ -1,0 +1,106 @@
+﻿<udt>
+    <node class="popup">
+        <node class="channel-list">
+            <channel id="Master"/>
+            <node class="separator"/>
+            <channel id="BGM"/>
+            <channel id="SFX"/>
+            <channel id="VOC"/>
+            <channel id="AMB"/>
+            <channel id="SYS"/>
+            <channel id="PERF"/>
+        </node>
+        <node class="options-list"/>
+    </node>
+    
+    <template name="channel">
+        <argument name="id"/>
+        
+        <node class="channel" id="${id}">
+            <node class="name" value="${id}"/>
+            <node class="value"/>
+            <vertical-slider-node id="${id}_Slider" class="slider" style="anchor: top-center; size: 40 150;"/>
+            <node class="buttons">
+                <node class="button mute-button" value="FA(VolumeMute)"/>
+                <node class="button bg-button" value="FA(PlusCircle)"/>
+            </node>
+        </node>
+    </template>
+    
+    <![CDATA[
+    .popup {
+        flow: vertical;
+        padding: 8;
+        gap: 8;
+        
+        & > .channel-list {
+            gap: 8;
+        }
+        
+        & > .options-list {
+            auto-size: grow fit;
+            flow: vertical;
+            padding: 8;
+            gap: 8;
+        }
+        
+        .channel {
+            flow: vertical;
+            gap: 8;
+            size: 48 0;
+            padding: 4;
+            border-radius: 7;
+            background-color: 0x60000000;
+            
+            & > .name {
+                anchor: top-center;
+                size: 40 0;
+                font: 0;
+                font-size: 12;
+                text-align: top-center;
+                color: "Widget.PopupMenuText";
+                outline-color: "Widget.PopupMenuTextOutline";
+                outline-size: 1;
+                text-overflow: false;
+                word-wrap: false;
+            }
+            
+            & > .value {
+                anchor: top-center;
+                size: 40 0;
+                font-size: 12;
+                text-align: top-center;
+                color: "Widget.PopupMenuTextMuted";
+                outline-color: "Widget.PopupMenuTextOutlineDisabled";
+                outline-size: 1;
+                text-overflow: false;
+                word-wrap: false;
+            }
+            
+            & > .buttons {
+                anchor: top-center;
+                flow: vertical;
+                size: 40 0;
+                gap: 4;
+                
+                & > .button {
+                    anchor: top-center;
+                    size: 24;
+                    font: 2;
+                    font-size: 12;
+                    text-align: middle-center;
+                    stroke-width: 1;
+                    color: "Widget.PopupMenuTextMuted";
+                    outline-color: "Widget.PopupMenuTextOutlineDisabled";
+                    outline-size: 1;
+                    
+                    &:hover {
+                        background-color: "Widget.Background";
+                        stroke-color: "Widget.Border";
+                    }
+                }
+            }
+        }
+    }    
+    ]]>
+</udt>

@@ -1,113 +1,133 @@
-﻿/* Umbra | (c) 2024 by Una              ____ ___        ___.
- * Licensed under the terms of AGPL-3  |    |   \ _____ \_ |__ _______ _____
- *                                     |    |   //     \ | __ \\_  __ \\__  \
- * https://github.com/una-xiv/umbra    |    |  /|  Y Y  \| \_\ \|  | \/ / __ \_
- *                                     |______//__|_|  /____  /|__|   (____  /
- *     Umbra is free software: you can redistribute  \/     \/             \/
- *     it and/or modify it under the terms of the GNU Affero General Public
- *     License as published by the Free Software Foundation, either version 3
- *     of the License, or (at your option) any later version.
- *
- *     Umbra UI is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *     GNU Affero General Public License for more details.
- */
-
+﻿using Dalamud.Utility;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Numerics;
-using Dalamud.Utility;
+using System.Reflection;
 using Umbra.Common;
-using Umbra.Windows.Oobe;
-using Umbra.Windows.Settings.Modules;
+using Umbra.Windows.Library.Installer;
+using Una.Drawing;
 
 namespace Umbra.Windows.Settings;
 
-internal partial class SettingsWindow : Window
+public class SettingsWindow : Window
 {
-    protected override Vector2 MinSize     { get; } = new(1100, 680);
-    protected override Vector2 MaxSize     { get; } = new(1600, 1300);
-    protected override Vector2 DefaultSize { get; } = new(1100, 680);
-    protected override string  Title       { get; } = I18N.Translate("Settings.Window.Title");
+    protected override string  UdtResourceName => "umbra.windows.settings.window.xml";
+    protected override string  Title           { get; } = I18N.Translate("Settings.Window.Title");
+    protected override Vector2 MinSize         { get; } = new(1000, 600);
+    protected override Vector2 MaxSize         { get; } = new(1300, 1000);
+    protected override Vector2 DefaultSize     { get; } = new(1100, 700);
 
-    private bool _isDisposed;
+    private Node TabBarNode  => RootNode.QuerySelector(".tab-bar > .button-list")!;
+    private Node ContentNode => RootNode.QuerySelector("#tab-content")!;
 
-    /// <inheritdoc/>
+    private List<SettingsWindowModule> Modules { get; } = InitializeModules();
+
+    private SettingsWindowModule? ActiveModule { get; set; }
+
     protected override void OnOpen()
     {
-        AddModule(new WidgetsModule());
-        AddModule(new AuxWidgetsModule());
-        AddModule(new MarkersModule());
+        RootNode.QuerySelector("#version")!.NodeValue = $"Umbra v{Framework.DalamudPlugin.Manifest.AssemblyVersion.ToString(3)}";
 
-        foreach (string category in ConfigManager.GetCategories()) {
-            AddModule(new CvarModule(category));
+        BindFooterButtonActions();
+
+        if (Modules.Count == 0) return;
+
+        foreach (var module in Modules) {
+            CreateMainTab(module.Name, module.Id);
         }
 
-        AddModule(new AppearanceModule());
-        AddModule(new ProfilesModule());
-        AddModule(new PluginsModule());
+        SwitchActiveMainTab(Modules.First().Id);
 
-        Node.ParentNode!.Overflow = true;
-
-        Node.QuerySelector("RestartButton")!.OnMouseUp += _ => Framework.Restart();
-        Node.QuerySelector("KoFiButton")!.OnMouseUp    += _ => Util.OpenLink("https://ko-fi.com/una_xiv");
-        Node.QuerySelector("DiscordButton")!.OnMouseUp += _ => Util.OpenLink("https://discord.gg/xaEnsuAhmm");
-        Node.QuerySelector("CloseButton")!.OnMouseUp   += _ => Close();
-        Node.QuerySelector("OobeButton")!.OnMouseUp    += _ => {
-            Framework.Service<WindowManager>().Present("OOBE", new OobeWindow());
-            Close();
+        RootNode.QuerySelector(".ui-window-footer .logo")!.OnRightClick += _ => {
+            DrawingLib.ShowDebugWindow = !DrawingLib.ShowDebugWindow;
         };
     }
 
-    /// <inheritdoc/>
-    protected override void OnUpdate(int instanceId)
-    {
-        if (_isDisposed) return;
-
-        Node.Style.Size                = ContentSize;
-        NavigationPanelNode.Style.Size = new(220, ContentSize.Height - 40);
-        ContentPanelNode.Style.Size    = new(ContentSize.Width - 220, ContentSize.Height - 41);
-        FooterPanelNode.Style.Size     = new(ContentSize.Width, 40);
-
-        LogoNode.Style.Size = new(
-            NavigationPanelNode.Style.Size.Width - LogoNode.ComputedStyle.Margin.HorizontalSize,
-            NavigationPanelNode.Style.Size.Width - LogoNode.ComputedStyle.Margin.VerticalSize
-        );
-
-        NavigationListNode.Style.Size = new(
-            NavigationPanelNode.Style.Size.Width,
-            NavigationPanelNode.Style.Size.Height - LogoNode.Style.Size.Height - 30
-        );
-
-        ModuleButtonsNode.Style.Size = new(
-            NavigationListNode.Style.Size.Width - 32,
-            NavigationListNode.Style.Size.Height
-        );
-
-        foreach (var btn in ModuleButtonsNode.QuerySelectorAll(".module-button")) {
-            btn.Style.Size = new(ModuleButtonsNode.Style.Size.Width - 30, 28);
-        }
-
-        _currentModule?.OnUpdate();
-    }
-
-    /// <inheritdoc/>
     protected override void OnClose()
     {
-        _currentModule?.OnClose();
-
-        foreach (var module in _modules.Values) {
-            module.Dispose();
-        }
-
-        _modules.Clear();
+        ActiveModule?.Deactivate();
     }
 
-    /// <inheritdoc/>
-    protected override void OnDisposed()
+    protected override void OnDraw()
     {
-        if (_isDisposed) return;
-        _isDisposed = true;
+        ActiveModule?.Draw();
+    }
 
-        base.OnDisposed();
+    private void CreateMainTab(string name, string id)
+    {
+        Node button = Document!.CreateNodeFromTemplate("tab-button", new() { { "name", name } });
+
+        button.Id        =  $"TabButton_{id}";
+        button.OnMouseUp += _ => SwitchActiveMainTab(id);
+
+        TabBarNode.AppendChild(button);
+    }
+
+    /// <summary>
+    /// Switches the active main tab in the settings window.
+    /// </summary>
+    /// <param name="id"></param>
+    private void SwitchActiveMainTab(string id)
+    {
+        if (ActiveModule?.Id == id) return;
+
+        ActiveModule?.Deactivate();
+
+        ActiveModule = Modules.FirstOrDefault(m => m.Id.Equals(id));
+        ActiveModule?.Activate(ContentNode);
+
+        foreach (Node button in TabBarNode.QuerySelectorAll(".tab-button")) {
+            button.ToggleTag("selected", button.Id?.Equals($"TabButton_{id}") ?? false);
+        }
+    }
+
+    /// <summary>
+    /// Loads all settings window modules from the loaded assemblies.
+    /// </summary>
+    private static List<SettingsWindowModule> InitializeModules()
+    {
+        List<SettingsWindowModule> modules = [];
+
+        foreach (var assembly in Framework.Assemblies) {
+            modules.AddRange(InitializeModules(assembly));
+        }
+
+        return modules.OrderBy(m => m.Order).ToList();
+    }
+
+    /// <summary>
+    /// Loads all settings window modules from the given assembly.
+    /// </summary>
+    private static List<SettingsWindowModule> InitializeModules(Assembly assembly)
+    {
+        var types = assembly.GetTypes().Where(c =>
+            c is { IsClass: true, IsAbstract: false } && c.IsSubclassOf(typeof(SettingsWindowModule)));
+
+        List<SettingsWindowModule> modules = [];
+
+        foreach (var type in types) {
+            if (Activator.CreateInstance(type) is SettingsWindowModule module) {
+                modules.Add(module);
+            }
+        }
+
+        return modules;
+    }
+
+    private void BindFooterButtonActions()
+    {
+        RootNode.QuerySelector("#btn-install")!.OnMouseUp += _ => OpenInstallerWindow();
+        RootNode.QuerySelector("#btn-kofi")!.OnMouseUp    += _ => Util.OpenLink("https://ko-fi.com/una-xiv");
+        RootNode.QuerySelector("#btn-discord")!.OnMouseUp += _ => Util.OpenLink("https://discord.gg/xaEnsuAhmm");
+        RootNode.QuerySelector("#btn-close")!.OnMouseUp   += _ => Dispose();
+        RootNode.QuerySelector("#btn-restart")!.OnMouseUp +=
+            _ => Framework.DalamudFramework.RunOnTick(Framework.Restart);
+    }
+
+    private void OpenInstallerWindow()
+    {
+        Framework.Service<WindowManager>().Present("Installer", new InstallerWindow());
+        Close();
     }
 }

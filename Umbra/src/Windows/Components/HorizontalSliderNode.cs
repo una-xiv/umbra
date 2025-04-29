@@ -44,7 +44,7 @@ public class HorizontalSlideNode : Node
     protected override void OnDraw(ImDrawListPtr drawList)
     {
         Rect rect = Bounds.ContentRect;
-        Size size = Bounds.ContentSize - new Size(ComputedStyle.Padding.HorizontalSize, 0);
+        Size size = Bounds.ContentSize;
 
         ImGui.SetCursorScreenPos(rect.TopLeft + new Vector2(0, (size.Height / 2) - 8));
         ImGui.PushID($"HS##{Id}");
@@ -62,7 +62,7 @@ public class HorizontalSlideNode : Node
         ImGui.PushStyleColor(ImGuiCol.SliderGrab,       Color.GetNamedColor("Widget.PopupMenuTextDisabled"));
         ImGui.PushStyleColor(ImGuiCol.SliderGrabActive, Color.GetNamedColor("Widget.PopupMenuTextHover"));
 
-        ImGui.SetNextItemWidth(size.IsAutoWidth ? ParentNode!.Bounds.ContentSize.Width : size.Width);
+        ImGui.SetNextItemWidth(size.IsFitWidth ? ParentNode!.Bounds.ContentSize.Width : size.Width);
 
         if (ImGui.SliderInt("##HS", ref value, MinValue, MaxValue, "")) {
             Value = value;

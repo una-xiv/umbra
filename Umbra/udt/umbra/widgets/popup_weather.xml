@@ -1,0 +1,150 @@
+﻿<udt>
+    <node class="weather-popup">
+        <node class="background">
+            <node class="bg-top"/>
+            <node class="bg-bottom"/>
+        </node>
+        <node class="line"/>
+        <node class="header">
+            <node class="icon"/>
+            <node class="text">
+                <node class="text-top ui-text-default" value="Weather Name Here"/>
+                <node class="text-bottom ui-text-default" value="1 hour and 43 minutes."/>
+            </node>
+        </node>
+        <node class="body">
+            <forecast index="1"/>
+            <forecast index="2"/>
+            <forecast index="3"/>
+            <forecast index="4"/>
+            <forecast index="5"/>
+            <forecast index="6"/>
+            <forecast index="7"/>
+            <forecast index="8"/>
+        </node>
+    </node>
+    
+    <template name="forecast">
+        <argument name="index"/>
+        <node class="forecast" id="ForecastItem${index}">
+            <node class="icon"/>
+            <node class="text">
+                <node class="text-top ui-text-default" value="Weather Name #${index} Here"/>
+                <node class="text-bottom ui-text-default" value="1 hour and 43 minutes."/>
+            </node>
+        </node>
+    </template>
+    
+    <![CDATA[
+    .weather-popup {
+        flow: vertical;
+        
+        & > .background {
+            anchor: none;
+            auto-size: grow;
+            flow: vertical;
+            margin: 0 3;
+            
+            & > .bg-top {
+                auto-size: grow fit;
+                size: 0 42;
+                background-gradient: vertical 0x00000000 0x70FFAA66;
+                rounded-corners: top-left top-right;
+                border-radius: 5;
+            }
+            
+            & > .bg-bottom {
+                auto-size: grow;
+                background-gradient: vertical 0x70FFAA66 0x00000000;
+                rounded-corners: bottom-left bottom-right;
+                border-radius: 5;
+            }
+        }
+        
+        & > .line {
+            anchor: none;
+            size: 40 0;
+            margin: 60 0 40 39;
+            auto-size: fit grow;
+            background-color: "Widget.Border";
+        }
+        
+        & > .header {
+            size: 0 64;
+            padding: 15;
+            gap: 15;
+            auto-size: grow fit;
+            
+            & > .icon {
+                size: 48;
+                icon-id: 60277;
+            }
+           
+            & > .text {
+                flow: vertical;
+                auto-size: grow fit;
+                gap: -6;
+                padding: 4 0 0 0;
+                
+                & > .text-top {
+                    auto-size: grow fit;
+                    font-size: 18;
+                    color: "Widget.Text";
+                    outline-color: "Widget.TextOutline";
+                    outline-size: 2;
+                }
+                
+                & > .text-bottom {
+                    auto-size: grow fit;
+                    font-size: 11;
+                    color: "Widget.Text";
+                    outline-color: "Widget.TextOutline";
+                    outline-size: 1;
+                    padding: 0 0 0 10;
+                }
+            }
+        }
+        
+        & > .body {
+            flow: vertical;
+            auto-size: grow fit;
+            padding: 10 15;
+            gap: 10;
+            
+            & > .forecast {
+                padding: 0 8;
+                gap: 15;
+                auto-size: grow fit;
+                
+                & > .icon {
+                    size: 32;
+                    icon-id: 60277;
+                }
+               
+                & > .text {
+                    flow: vertical;
+                    auto-size: grow fit;
+                    
+                    & > .text-top {
+                        auto-size: grow fit;
+                        font-size: 13;
+                        color: "Widget.Text";
+                        outline-color: "Widget.TextOutline";
+                        outline-size: 2;
+                    }
+                    
+                    & > .text-bottom {
+                        auto-size: grow fit;
+                        font-size: 11;
+                        color: "Widget.TextMuted";
+                        outline-color: "Widget.TextOutline";
+                        outline-size: 1;
+                    }
+                }
+            }
+        }
+        
+      
+    }
+    ]]>
+</udt>

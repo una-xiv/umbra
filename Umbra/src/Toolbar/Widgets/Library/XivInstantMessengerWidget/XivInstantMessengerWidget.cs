@@ -10,59 +10,46 @@ namespace Umbra.Widgets.Library.XIVInstantMessengerWidget;
     "XIVInstantMessengerWidget",
     "Widget.XivInstantMessenger.Name",
     "Widget.XivInstantMessenger.Description",
-    "Messenger" // XIV Instant Messenger internal plugin name.
+    "Messenger", // XIV Instant Messenger internal plugin name.
+    ["xim", "instant", "messenger", "whisper", "chat", "xiv"]
 )]
 public sealed partial class XivInstantMessengerWidget(
     WidgetInfo                  info,
     string?                     guid         = null,
     Dictionary<string, object>? configValues = null
-) : DefaultToolbarWidget(info, guid, configValues)
+) : StandardToolbarWidget(info, guid, configValues)
 {
+    protected override StandardWidgetFeatures Features =>
+        StandardWidgetFeatures.Text |
+        StandardWidgetFeatures.Icon;
+
     public override MenuPopup Popup { get; } = new();
 
-    protected override IEnumerable<IWidgetConfigVariable> GetConfigVariables()
+    protected override void OnLoad()
     {
-        return [
-            ..DefaultToolbarWidgetConfigVariables,
-            ..SingleLabelTextOffsetVariables
-        ];
-    }
-
-    /// <inheritdoc/>
-    protected override void Initialize()
-    {
-        SetIcon(63933);
+        SetGameIconId(63933);
 
         Node.OnMouseDown  += OnMouseDown;
         Node.OnRightClick += OpenXimWindow;
     }
 
-    /// <inheritdoc/>
-    protected override void OnUpdate()
+    protected override void OnDraw()
     {
         int count  = GetConversationCount();
         int unread = GetUnreadConversationCount();
 
         SetDisabled(count == 0);
-        SetLabel(unread > 0 ? I18N.Translate("Widget.XivInstantMessenger.UnreadCountLabel", unread) : null);
+        SetText(unread > 0 ? I18N.Translate("Widget.XivInstantMessenger.UnreadCountLabel", unread) : null);
 
         Popup.IsDisabled = count == 0;
-
-        base.OnUpdate();
     }
 
-    /// <inheritdoc/>
-    protected override void OnDisposed()
+    protected override void OnUnload()
     {
         Node.OnMouseDown  -= OnMouseDown;
         Node.OnRightClick -= OpenXimWindow;
-
-        base.OnDisposed();
     }
 
-    /// <summary>
-    /// Invoked when the user opens the popup.
-    /// </summary>
     private void OnMouseDown(Node _)
     {
         Popup.Clear();
@@ -81,14 +68,13 @@ public sealed partial class XivInstantMessengerWidget(
 
             string[] nameParts = name.Split('@');
 
-            Popup.AddButton(
-                $"C_{index}",
-                label: nameParts[0],
-                altText: nameParts[1],
-                sortIndex: index,
-                iconId: isUnread ? (uint)63933 : null,
-                onClick: () => OpenMessenger(name, true)
-            );
+            Popup.Add(new MenuPopup.Button($"C_{index}") {
+                Label             = nameParts[0],
+                AltText           = nameParts[1],
+                Icon              = isUnread ? (uint)63933 : null,
+                ClosePopupOnClick = false,
+                OnClick           = () => OpenMessenger(name, true),
+            });
         }
     }
 

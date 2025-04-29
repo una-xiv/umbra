@@ -1,0 +1,268 @@
+﻿<udt>
+    <import from="umbra.windows.settings._shared.xml"/>
+
+    <sidebar-layout>
+        <node slot="side" class="sidebar">
+            <node id="sidebar-buttons">
+                <node class="category-group">
+                    <node class="body">
+                        <node class="tab-button" id="toolbar-widget-appearance" tags="selected" value="_L(Settings.AppearanceModule.MainAppearance)"/>
+                        <node class="tab-button" id="font-configuration" value="_L(Settings.AppearanceModule.FontConfiguration)"/>
+                    </node>
+                </node>
+                <node class="category-group">
+                    <node class="header">
+                        <node class="line"/>
+                        <node class="text" value="_L(Settings.AppearanceModule.InstalledThemes)"/>
+                        <node class="line"/>
+                    </node>
+                    <node class="body" id="color-theme-list"/>
+                </node>
+                <node class="category-group">
+                    <node class="header">
+                        <node class="line"/>
+                        <node class="text" value="_L(Settings.AppearanceModule.CreateOrImport)"/>
+                        <node class="line"/>
+                    </node>
+                    <node class="body">
+                        <button-node id="btn-create" is-ghost="true" label="_L(Settings.AppearanceModule.CreateTheme)" icon="Plus"/>
+                        <button-node id="btn-import" is-ghost="true" label="_L(Settings.AppearanceModule.ImportTheme)" icon="FileImport"/>
+                    </node>
+                </node>
+            </node>
+        </node>
+        <node id="main">
+            <node class="tab active" id="toolbar-widget-appearance">
+                <separator label="_L(Settings.AppearanceModule.ToolbarAppearance)"/>
+                <checkbox-node id="enable-shadow" label="_L(Settings.AppearanceModule.EnableShadow.Name)" description="_L(Settings.AppearanceModule.EnableShadow.Description)"/>
+                <checkbox-node id="rounded-corners" label="_L(Settings.AppearanceModule.RoundedCorners.Name)" description="_L(Settings.AppearanceModule.RoundedCorners.Description)"/>
+                <checkbox-node id="enable-inactive-colors" label="_L(Settings.AppearanceModule.EnableInactiveColors.Name)" description="_L(Settings.AppearanceModule.EnableInactiveColors.Description)"/>
+                <separator label="_L(Settings.AppearanceModule.PopupAppearance)"/>
+                <checkbox-node id="popup-enable-shadow" label="_L(Settings.AppearanceModule.PopupAppearance.EnableShadow.Name)" description="_L(Settings.AppearanceModule.PopupAppearance.EnableShadow.Description)"/>
+                <checkbox-node id="popup-enforce-floating" label="_L(Settings.AppearanceModule.PopupAppearance.EnforceFloatingPopups.Name)" description="_L(Settings.AppearanceModule.PopupAppearance.EnforceFloatingPopups.Description)"/>
+                <checkbox-node id="popup-rounded-corners" label="_L(Settings.AppearanceModule.PopupAppearance.UseRoundedCorners.Name)" description="_L(Settings.AppearanceModule.PopupAppearance.UseRoundedCorners.Description)"/>
+            </node>
+            <node class="tab" id="font-configuration">
+                <font-row id="font-default" label="_L(Settings.AppearanceModule.Fonts.Default.Name)" description="_L(Settings.AppearanceModule.Fonts.Default.Description)"/>
+                <font-row id="font-monospace" label="_L(Settings.AppearanceModule.Fonts.Monospace.Name)" description="_L(Settings.AppearanceModule.Fonts.Monospace.Description)"/>
+                <font-row id="font-emphasis" label="_L(Settings.AppearanceModule.Fonts.Emphasis.Name)" description="_L(Settings.AppearanceModule.Fonts.Emphasis.Description)"/>
+                <font-row id="font-markers" label="_L(Settings.AppearanceModule.Fonts.WorldMarkers.Name)" description="_L(Settings.AppearanceModule.Fonts.WorldMarkers.Description)"/>
+            </node>
+            <node class="tab" id="color-profile-editor">
+                <node class="color-editor-body">
+                    <simple-color-theme-editor/>
+                    <node class="color-pickers" id="color-pickers"/>
+                </node>
+                <node class="built-in-message">
+                    <node class="text" value="_L(Settings.AppearanceModule.BuiltInMessage.CannotModify)"/>
+                    <node class="text" value="_L(Settings.AppearanceModule.BuildInMessage.CreateToEdit)"/>
+                </node>
+            </node>
+        </node>
+    </sidebar-layout>
+
+    <template name="separator">
+        <argument name="label"/>
+
+        <node class="separator2">
+            <node class="line"/>
+            <node class="text" value="${label}"/>
+            <node class="line short"/>
+        </node>
+    </template>
+
+    <template name="font-row">
+        <argument name="id"/>
+        <argument name="label"/>
+        <argument name="description"/>
+
+        <node class="font-row">
+            <node class="inputs">
+                <node class="font-wrapper">
+                    <select-node id="${id}" label="${label}" value="Dalamud Default" choices="{['Dalamud Default']}"/>
+                </node>
+                <node class="size-wrapper">
+                    <float-input-node id="${id}-size" label="_L(Settings.AppearanceModule.Fonts.Size)" min-value="-10" max-value="10"/>
+                </node>
+            </node>
+            <node class="description ui-text-muted" value="${description}"/>
+        </node>
+    </template>
+
+    <template name="color-profile-button">
+        <argument name="name"/>
+
+        <node class="color-profile-button">
+            <node class="icon" value="FA(Check)"/>
+            <node class="text" value="${name}"/>
+            <node class="built-in" value="Built-in"/>
+            <node class="buttons">
+                <button-node class="btn-export" icon="FileExport" tooltip="_L(CopyToClipboard)"/>
+                <button-node class="btn-delete" icon="TrashAlt" tooltip="_L(Delete)"/>
+            </node>
+        </node>
+    </template>
+
+    <![CDATA[
+    #main {
+        auto-size: grow;
+
+        & > .tab {
+            flow: vertical;
+            auto-size: grow fit;
+            gap: 12;
+            is-visible: false;
+
+            &.active {
+                is-visible: true;
+            }
+
+            .color-editor-body {
+                flow: vertical;
+                auto-size: grow fit;
+                gap: 10;
+            }
+
+            .color-pickers {
+                flow: vertical;
+                auto-size: grow fit;
+                gap: 10;
+
+                & > .row {
+                    auto-size: grow fit;
+                    gap: 10;
+
+                    & > .col {
+                        flow: vertical;
+                        auto-size: grow fit;
+                        gap: 10;
+
+                        & > .color-list {
+                            auto-size: grow fit;
+                            flow: vertical;
+                            gap: 10;
+                        }
+                    }
+                }
+            }
+
+            .built-in-message {
+                flow: vertical;
+                auto-size: grow;
+
+                & > .text {
+                    anchor: middle-center;
+                    color:  "Window.TextMuted";
+                    outline-color: "Window.TextOutline";
+                    outline-size: 1;
+                    font-size: 12;
+                }
+            }
+
+            .font-row {
+                flow: vertical;
+                auto-size: grow fit;
+
+                & > .inputs {
+                    auto-size: grow fit;
+                    gap: 12;
+
+                    & > .font-wrapper { auto-size: grow fit; }
+                    & > .size-wrapper { size: 150 0; }
+                }
+
+                & > .description {
+                    auto-size: grow fit;
+                    text-overflow: false;
+                    word-wrap: true;
+                    line-height: 1.2;
+                    padding: 3 8;
+                }
+            }
+        }
+
+        .separator2 {
+            auto-size: grow fit;
+            gap: 4;
+
+            & > .line {
+                anchor: middle-left;
+                auto-size: grow fit;
+                size: 0 1;
+                background-color: "Window.Border";
+
+                &.short {
+                    auto-size: fit;
+                    size: 16 1;
+                }
+            }
+
+            & > .text {
+                anchor: middle-left;
+                color: "Window.TextMuted";
+                outline-color: "Window.TextOutline";
+                font-size: 11;
+            }
+        }
+    }
+
+    .color-profile-button {
+        auto-size: grow fit;
+        size: 0 32;
+        gap: 5;
+        transition-type: ease-out-sine;
+        transition-duration: 150;
+        stroke-color: 0;
+        stroke-width: 1;
+        padding: 0 4;
+
+        & > .icon {
+            anchor: middle-left;
+            size: 16;
+            font: 2; // FontAwesome
+            font-size: 13;
+            color: "Window.Text";
+            outline-color: "Window.TextOutline";
+            outline-size: 1;
+            text-offset: 0 2;
+            opacity: 0;
+        }
+
+        & > .text {
+            anchor: middle-left;
+            auto-size: grow fit;
+            color: "Window.Text";
+            outline-color: "Window.TextOutline";
+            outline-size: 1;
+            font-size: 13;
+            text-overflow: false;
+            word-wrap: false;
+        }
+
+        & > .built-in {
+            anchor: middle-left;
+            color: "Window.TextMuted";
+            outline-size: 1;
+            font-size: 10;
+        }
+
+        & > .buttons {
+            anchor: middle-left;
+            gap: 2;
+            opacity: 0;
+            transition-type: ease-out-sine;
+            transition-duration: 150;
+        }
+
+        &:hover {
+            stroke-color: "Window.AccentColor";
+            transition-duration: 1;
+
+            & > .buttons {
+                opacity: 1;
+                transition-duration: 1;
+            }
+        }
+    }
+    ]]>
+</udt>

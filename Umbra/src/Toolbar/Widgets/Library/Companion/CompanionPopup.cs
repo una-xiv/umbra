@@ -1,20 +1,4 @@
-﻿/* Umbra | (c) 2024 by Una              ____ ___        ___.
- * Licensed under the terms of AGPL-3  |    |   \ _____ \_ |__ _______ _____
- *                                     |    |   //     \ | __ \\_  __ \\__  \
- * https://github.com/una-xiv/umbra    |    |  /|  Y Y  \| \_\ \|  | \/ / __ \_
- *                                     |______//__|_|  /____  /|__|   (____  /
- *     Umbra is free software: you can redistribute  \/     \/             \/
- *     it and/or modify it under the terms of the GNU Affero General Public
- *     License as published by the Free Software Foundation, either version 3
- *     of the License, or (at your option) any later version.
- *
- *     Umbra UI is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *     GNU Affero General Public License for more details.
- */
-
-using Dalamud.Plugin.Services;
+﻿using Dalamud.Plugin.Services;
 using System;
 using Umbra.Common;
 using Umbra.Game;
@@ -58,11 +42,11 @@ internal sealed partial class CompanionPopup : WidgetPopup
     /// <inheritdoc/>
     protected override void OnUpdate()
     {
-        Node.QuerySelector("FeedButton")!.IsDisabled       = !Companion.CanSummon();
-        Node.QuerySelector(".header-text-name")!.NodeValue = Companion.CompanionName;
-        Node.QuerySelector(".header-time-left")!.NodeValue = Companion.TimeLeftString;
+        Node.QuerySelector("#FeedButton")!.IsDisabled            = !Companion.CanSummon();
+        Node.QuerySelector(".header > .text > .name")!.NodeValue = Companion.CompanionName;
+        Node.QuerySelector(".header > .time-left")!.NodeValue    = Companion.TimeLeftString;
 
-        Node infoNode = Node.QuerySelector(".header-text-info")!;
+        Node infoNode = Node.QuerySelector(".header > .text > .info")!;
 
         if (Companion.Level < 20) {
             infoNode.Style.IsVisible = true;
@@ -85,17 +69,11 @@ internal sealed partial class CompanionPopup : WidgetPopup
 
             int count = Player.GetItemCount((uint)foodType);
 
-            node.QuerySelector(".button--icon")!.Style.ImageGrayscale = count == 0;
-            node.QuerySelector(".button--count")!.NodeValue           = count > 0 ? $"{count}" : null;
-
-            switch (count > 0) {
-                case true when !node.ClassList.Contains("has-food"):
-                    node.ClassList.Add("has-food");
-                    break;
-                case false when node.ClassList.Contains("has-food"):
-                    node.ClassList.Remove("has-food");
-                    break;
-            }
+            node.QuerySelector(".icon")!.Style.ImageGrayscale = count == 0;
+            node.QuerySelector(".count")!.NodeValue           = count > 0 ? $"{count}" : null;
+            
+            node.ToggleClass("usable", count > 0);
+            node.ToggleClass("unusable", count == 0);
         }
     }
 }

@@ -1,27 +1,14 @@
-﻿/* Umbra | (c) 2024 by Una              ____ ___        ___.
- * Licensed under the terms of AGPL-3  |    |   \ _____ \_ |__ _______ _____
- *                                     |    |   //     \ | __ \\_  __ \\__  \
- * https://github.com/una-xiv/umbra    |    |  /|  Y Y  \| \_\ \|  | \/ / __ \_
- *                                     |______//__|_|  /____  /|__|   (____  /
- *     Umbra is free software: you can redistribute  \/     \/             \/
- *     it and/or modify it under the terms of the GNU Affero General Public
- *     License as published by the Free Software Foundation, either version 3
- *     of the License, or (at your option) any later version.
- *
- *     Umbra UI is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *     GNU Affero General Public License for more details.
- */
-
-using Dalamud.Game.Text.SeStringHandling;
+﻿using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.Plugin.Services;
 using System;
 using System.Linq;
+using System.Reflection;
 using Umbra.Common;
 using Umbra.Widgets.System;
 using Umbra.Windows;
-using Umbra.Windows.Oobe;
+using Umbra.Windows.GameIconPicker;
+using Umbra.Windows.Library.Installer;
+// using Umbra.Windows.Oobe;
 using Umbra.Windows.Settings;
 using Una.Drawing;
 
@@ -30,27 +17,21 @@ namespace Umbra;
 [Service]
 internal sealed class UmbraBindings : IDisposable
 {
+    [ConfigVariable("IsFirstTimeStart.V3")]
+    public static bool IsFirstTimeStart { get; set; } = true;
+    
     [ConfigVariable("General.UiScale", "General", null, 50, 250)]
     public static int UiScale { get; set; } = 100;
 
-    [ConfigVariable("IsFirstTimeStart")]
-    public static bool IsFirstTimeStart { get; set; } = true;
-
-    [ConfigVariable("General.UseThreadedStyleComputation", "General", "Experimental")]
+    [ConfigVariable("General.UseThreadedStyleComputation", "General")]
     public static bool UseThreadedStyleComputation { get; set; } = true;
-
-    [ConfigVariable("General.EnableHitchWarnings", "General", "DeveloperTools")]
-    public static bool EnableHitchWarnings { get; set; } = false;
-
-    [ConfigVariable("General.TickHitchThresholdMs", "General", "DeveloperTools", min: 0.1f, max: 50f)]
-    public static float TickHitchThresholdMs { get; set; } = 4.0f;
-
-    [ConfigVariable("General.DrawHitchThresholdMs", "General", "DeveloperTools", min: 0.1f, max: 50f)]
-    public static float DrawHitchThresholdMs { get; set; } = 5.0f;
 
     [ConfigVariable("General.UseGameMouseCursor", "General")]
     public static bool UseGameMouseCursor { get; set; } = false;
 
+    [ConfigVariable("General.ShowInputControlDescriptions", "General")]
+    public static bool ShowInputControlDescriptions { get; set; } = true;
+    
     private ICommandManager _commandManager;
 
     private readonly IChatGui        _chatGui;
@@ -68,7 +49,7 @@ internal sealed class UmbraBindings : IDisposable
         _commandManager = commandManager;
         _windowManager  = windowManager;
         _widgetManager  = widgetManager;
-
+        
         _commandManager.AddHandler(
             "/umbra",
             new(HandleUmbraCommand) {
@@ -95,16 +76,15 @@ internal sealed class UmbraBindings : IDisposable
 
         Framework.DalamudPlugin.UiBuilder.OpenConfigUi += OpenSettingsWindow;
         Framework.DalamudPlugin.UiBuilder.OpenMainUi   += OpenSettingsWindow;
-        Framework.SetSchedulerHitchWarnings(EnableHitchWarnings, TickHitchThresholdMs, DrawHitchThresholdMs);
 
         Node.ScaleFactor = 1.0f;
 
-        #if DEBUG
-        _windowManager.Present("UmbraSettings", new SettingsWindow());
-        #endif
+        // #if DEBUG
+        // _windowManager.Present("UmbraSettings", new SettingsWindow());
+        // #endif
 
         if (IsFirstTimeStart) {
-            _windowManager.Present("OOBE", new OobeWindow());
+            _windowManager.Present("Installer", new InstallerWindow());
         }
     }
 
@@ -131,7 +111,6 @@ internal sealed class UmbraBindings : IDisposable
         Node.ScaleFactor = (float)Math.Round(Math.Clamp(UiScale / 100f, 0.5f, 3.0f), 2);
         Node.UseThreadedStyleComputation = UseThreadedStyleComputation;
 
-        Framework.SetSchedulerHitchWarnings(EnableHitchWarnings, TickHitchThresholdMs, DrawHitchThresholdMs);
         Framework.DalamudPlugin.UiBuilder.OverrideGameCursor = !UseGameMouseCursor;
     }
 

@@ -1,0 +1,314 @@
+﻿<udt>
+    <node class="popup">
+        <node class="background"><node class="top"/><node class="bottom"/></node>
+        <node class="header">
+            <node class="icon" id="header-icon" />
+            <node class="content">
+                <node class="title" id="header-name" value="Gearset Name"/>
+                <node class="info" id="header-info" value="Info goes here."/>
+                <node class="buttons">
+                    <node class="uld" id="BestInSlot" style="uld-parts-id: 13; uld-part-id: 2;" tooltip="_L(Widget.GearsetSwitcher.EquipRecommendedGear)"/>
+                    <node class="uld" id="OpenGlam" style="uld-parts-id: 13; uld-part-id: 3;" tooltip="_L(Widget.GearsetSwitcher.ContextMenu.LinkGlamourPlate)"/>
+                    <node class="uld" id="Update" style="uld-parts-id: 15; uld-part-id: 4;" tooltip="_L(Widget.GearsetSwitcher.UpdateGearset)"/>
+                    <node class="uld" id="Duplicate" style="uld-parts-id: 15; uld-part-id: 8;" tooltip="_L(Widget.GearsetSwitcher.CreateGearset)"/>
+                    <node class="uld" id="RandomJob" style="uld-parts-id: 15; uld-part-id: 3;" tooltip="_L(Widget.GearsetSwitcher.RandomJob)"/>
+                </node>
+            </node>
+            <node class="item-level" id="header-ilvl" value="740"/>
+        </node>
+        <node class="body">
+            <node class="column" id="LeftColumn"/>
+            <node class="column" id="MiddleColumn"/>
+            <node class="column" id="RightColumn"/>
+        </node>
+    </node>
+    
+    <template name="gearset-group">
+        <node class="gearset-group">
+            <node class="title" value="Gearset Group Name Here"/>
+            <node class="body"/>
+        </node>
+    </template>
+    
+    <template name="gearset">
+        <node class="gearset">
+            <node class="icon"/>
+            <node class="content">
+                <node class="name" value="Gearset Name Here"/>
+                <node class="level" value="Lv. 100"/>
+            </node>
+            <node class="item-level" value="740"/>
+            <node class="progress-bar-wrapper">
+                <node class="progress">
+                    <node class="bar"/>
+                </node>
+            </node>
+        </node>
+    </template>
+    
+    <![CDATA[
+    .popup {
+        flow: vertical;
+        
+        & > .background {
+            anchor: none;
+            flow: vertical;
+            auto-size: grow;
+            margin: 3;
+            
+            & > .top {
+                size: 0 100;
+                auto-size: grow fit;
+                background-gradient: vertical 0 0xA04488FF;
+                opacity: 0.75;
+                transition-type: ease-out-sine;
+                transition-duration: 500;
+            }
+            
+            & > .bottom {
+                auto-size: grow;
+                background-gradient: vertical 0x804488FF 0;
+                opacity: 0.45;
+                transition-type: ease-in-sine;
+                transition-duration: 500;
+            }
+            
+            &.tank { 
+                & > .top { background-gradient: vertical 0 "Role.Tank"; }
+                & > .bottom { background-gradient: vertical "Role.Tank" 0; }
+            }
+            &.healer { 
+                & > .top { background-gradient: vertical 0 "Role.Healer"; }
+                & > .bottom { background-gradient: vertical "Role.Healer" 0; }
+            }
+            &.melee { 
+                & > .top { background-gradient: vertical 0 "Role.MeleeDps"; }
+                & > .bottom { background-gradient: vertical "Role.MeleeDps" 0; }
+            }
+            &.caster { 
+                & > .top { background-gradient: vertical 0 "Role.MagicalRangedDps"; }
+                & > .bottom { background-gradient: vertical "Role.MagicalRangedDps" 0; }
+            }
+            &.ranged { 
+                & > .top { background-gradient: vertical 0 "Role.PhysicalRangedDps"; }
+                & > .bottom { background-gradient: vertical "Role.PhysicalRangedDps" 0; }
+            }
+            &.gatherer { 
+                & > .top { background-gradient: vertical 0 "Role.Gatherer"; }
+                & > .bottom { background-gradient: vertical "Role.Gatherer" 0; }
+            }
+            &.crafter { 
+                & > .top { background-gradient: vertical 0 "Role.Crafter"; }
+                & > .bottom { background-gradient: vertical "Role.Crafter" 0; }
+            }
+        }
+        
+        & > .header {
+            gap: 15;
+            padding: 15 15 0 15;
+            auto-size: grow fit;
+            
+            & > .icon {
+                size: 74;
+                background-color: 0x45FFFFFF;
+                stroke-color: "Widget.Border";
+                stroke-width: 1;
+                border-radius: 8;
+                image-inset: 4;
+                icon-id: 62101;
+            }
+            
+            & > .content {
+                flow: vertical;
+                auto-size: grow fit;
+                gap: -4;
+                
+                & > .title {
+                    auto-size: grow fit;
+                    font-size: 18;
+                    color: "Widget.PopupMenuText";
+                    outline-color: "Widget.PopupMenuTextOutline";
+                    outline-size: 2;
+                    text-overflow: false;
+                    word-wrap: false;
+                }
+                
+                & > .info {
+                    auto-size: grow fit;
+                    font-size: 11;
+                    color: "Widget.PopupMenuText";
+                    outline-color: "Widget.PopupMenuTextOutline";
+                    outline-size: 1;
+                    text-overflow: false;
+                    word-wrap: false;
+                }
+                
+                & > .buttons {
+                    auto-size: grow fit;
+                    gap: 4;
+                    padding: 10 0 0 0;
+                    
+                    & > .uld {
+                        size: 32;
+                        uld-resource: "ui/uld/Character";
+                        image-grayscale: true;
+                        
+                        &:hover {
+                            image-grayscale: false;
+                        }
+                        
+                        &:disabled {
+                            image-grayscale: true;
+                            opacity: 0.5;
+                        }
+                    }
+                }
+            }
+            
+            & > .item-level {
+                size: 0 64;
+                font-size: 38;
+                text-align: top-right;
+                color: "Widget.PopupMenuText";
+                outline-color: "Widget.PopupMenuTextOutline";
+                outline-size: 1;
+                text-overflow: false;
+                word-wrap: false;
+            }
+            
+            
+        }
+        
+        & > .body {
+            padding: 0 15;
+            gap: 15;
+            auto-size: grow;
+            
+            & > .column {
+                flow: vertical;
+                auto-size: grow fit;
+            }
+        }
+    }
+    
+    .gearset-group {
+        flow: vertical;
+        auto-size: grow fit;
+        padding: 0 0 8 0;
+        
+        & > .title {
+            auto-size: grow fit;
+            text-align: middle-center;
+            font-size: 16;
+            color: "Widget.PopupMenuText";
+            outline-color: "Widget.PopupMenuTextOutline";
+            outline-size: 2;
+            size: 0 40;
+        }
+        
+        & > .body {
+            flow: vertical;
+            auto-size: grow fit;
+            gap: 6;
+            
+            &.scrolling {
+                padding: 0 12 0 0;
+                scrollbar-track-color: 0;
+            }
+        }
+    }
+    
+    .gearset {
+        auto-size: grow fit;
+        padding: 4;
+        background-color: 0x45FFFFFF;
+        border-radius: 6;
+        stroke-color: "Widget.Border";
+        stroke-width: 1;
+        gap: 4;
+        size: 0 40;
+        transition-type: ease-out-sine;
+        transition-duration: 500;
+        
+        & > .icon {
+            anchor: middle-left;
+            size: 32;
+            icon-id: 62101;
+        }
+        
+        & > .content {
+            flow: vertical;
+            anchor: middle-left;
+            auto-size: grow;
+            gap: -4;
+            
+            & > .name {
+                anchor: middle-left;
+                font-size: 13;
+                color: "Widget.PopupMenuText";
+                outline-color: "Widget.PopupMenuTextOutline";
+                padding: 0 48 0 0;
+            }
+            
+            & > .level {
+                anchor: middle-left;
+                font-size: 11;
+                color: "Widget.PopupMenuTextMuted";
+                outline-color: "Widget.PopupMenuTextOutline";
+                padding: 0 48 0 0;
+            }
+        }
+        
+        & > .item-level {
+            anchor: middle-left;
+            size: 0 32;
+            font-size: 18;
+            text-align: middle-right;
+            color: "Widget.PopupMenuText";
+            outline-color: "Widget.PopupMenuTextOutline";
+            outline-size: 1;
+        }
+
+        & > .progress-bar-wrapper {
+            anchor: none;
+            auto-size: grow;
+            margin: 31 0 4 36;
+            
+            & > .progress {
+                anchor: bottom-left;
+                auto-size: grow fit;
+                size: 0 4;
+                background-color: 0x70000000;
+                border-radius: 2;
+                padding: 1;
+                
+                & > .bar {
+                    auto-size: fit grow;
+                    size: 50 0;
+                    background-color: "Misc.ExperienceBar";
+                    opacity: 0.75;
+                }
+            }
+        }
+        
+        &.active {
+            &.tank { background-color: "Role.Tank"; }
+            &.healer { background-color: "Role.Healer"; }
+            &.melee { background-color: "Role.MeleeDps"; }
+            &.caster { background-color: "Role.MagicalRangedDps"; }
+            &.ranged { background-color: "Role.PhysicalRangedDps"; }
+            &.gatherer { background-color: "Role.Gatherer"; }
+            &.crafter { background-color: "Role.Crafter"; }
+        }
+        
+        &:hover {
+            stroke-color: "Window.AccentColor";
+            transition-duration: 50;
+        }
+        
+        &.capped > .content > .level {
+            color: "Misc.MaxLevelIndicator";
+        }
+    }
+    ]]>
+</udt>

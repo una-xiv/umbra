@@ -1,38 +1,36 @@
-﻿using Dalamud.Game.Text.SeStringHandling;
-using Dalamud.Interface;
+﻿using Dalamud.Interface;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using System.Collections.Generic;
 using Umbra.Common;
-using Una.Drawing;
 
 namespace Umbra.Widgets.Library.DutyRecorderIndicator;
 
 [ToolbarWidget(
     "DutyRecorderIndicator",
     "Widget.DutyRecorderIndicator.Name",
-    "Widget.DutyRecorderIndicator.Description"
+    "Widget.DutyRecorderIndicator.Description",
+    ["duty", "recorder", "indicator"]
 )]
-[ToolbarWidgetTags(["duty", "recorder", "indicator"])]
-internal sealed partial class DutyRecorderIndicator(
+internal sealed class DutyRecorderIndicator(
     WidgetInfo                  info,
     string?                     guid         = null,
     Dictionary<string, object>? configValues = null
-) : IconToolbarWidget(info, guid, configValues)
+) : StandardToolbarWidget(info, guid, configValues)
 {
-    public override WidgetPopup? Popup => null;
+    protected override StandardWidgetFeatures Features =>
+        StandardWidgetFeatures.Icon |
+        StandardWidgetFeatures.CustomizableIcon;
 
-    protected override void Initialize()
+    protected override string          DefaultIconType        => IconTypeFontAwesome;
+    protected override FontAwesomeIcon DefaultFontAwesomeIcon => FontAwesomeIcon.Video;
+
+    protected override void OnLoad()
     {
         Node.Tooltip = I18N.Translate("Widget.DutyRecorderIndicator.Tooltip");
     }
 
-    protected override void OnUpdate()
+    protected override unsafe void OnDraw()
     {
-        SetIcon(GetConfigValue<FontAwesomeIcon>("Icon"));
-        Node.Style.IsVisible = IsRecordingDuty;
-
-        base.OnUpdate();
+        IsVisible = AgentHUD.Instance()->IsMainCommandEnabled(79);
     }
-
-    private static unsafe bool IsRecordingDuty => AgentHUD.Instance()->IsMainCommandEnabled(79);
 }

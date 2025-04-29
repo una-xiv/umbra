@@ -1,84 +1,70 @@
-﻿/* Umbra | (c) 2024 by Una              ____ ___        ___.
- * Licensed under the terms of AGPL-3  |    |   \ _____ \_ |__ _______ _____
- *                                     |    |   //     \ | __ \\_  __ \\__  \
- * https://github.com/una-xiv/umbra    |    |  /|  Y Y  \| \_\ \|  | \/ / __ \_
- *                                     |______//__|_|  /____  /|__|   (____  /
- *     Umbra is free software: you can redistribute  \/     \/             \/
- *     it and/or modify it under the terms of the GNU Affero General Public
- *     License as published by the Free Software Foundation, either version 3
- *     of the License, or (at your option) any later version.
- *
- *     Umbra UI is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *     GNU Affero General Public License for more details.
- */
-
+﻿using Dalamud.Game.Text.SeStringHandling;
 using System.Collections.Generic;
-using Dalamud.Game.Text.SeStringHandling;
 using Umbra.Common;
 using Umbra.Game;
 
 namespace Umbra.Widgets;
 
-[ToolbarWidget("WorldName", "Widget.WorldName.Name", "Widget.WorldName.Description")]
-[ToolbarWidgetTags(["world", "home", "travel"])]
-internal partial class WorldNameWidget(
+[ToolbarWidget(
+    "WorldName", 
+    "Widget.WorldName.Name", 
+    "Widget.WorldName.Description", 
+    ["world", "home", "travel"]
+)]
+internal class WorldNameWidget(
     WidgetInfo                  info,
     string?                     guid         = null,
     Dictionary<string, object>? configValues = null
-) : DefaultToolbarWidget(info, guid, configValues)
+) : StandardToolbarWidget(info, guid, configValues)
 {
-    /// <inheritdoc/>
-    public override WidgetPopup? Popup => null;
+    protected override StandardWidgetFeatures Features =>
+        StandardWidgetFeatures.Icon |
+        StandardWidgetFeatures.Text |
+        StandardWidgetFeatures.SubText;
 
+    protected override bool DefaultShowSubText => false;
+    
     private IPlayer _player = Framework.Service<IPlayer>();
 
-    /// <inheritdoc/>
-    protected override void Initialize()
+    protected override void OnLoad()
     {
         _player = Framework.Service<IPlayer>();
 
-        SetTwoLabels("World", "Data Center");
+        SetText("WorldName");
+        SetSubText("Data Center");
+        ClearIcon();
     }
 
-    /// <inheritdoc/>
-    protected override void OnUpdate()
+    protected override void OnDraw()
     {
         var  hideOnHomeWorld = GetConfigValue<bool>("HideOnHomeWorld");
-        var  showDataCenter  = GetConfigValue<bool>("ShowDataCenter");
-        var  decorate        = GetConfigValue<bool>("Decorate");
-        var  textYOffset     = GetConfigValue<int>("TextYOffset");
-        var  iconLocation    = GetConfigValue<string>("IconLocation");
         bool showIcon        = GetConfigValue<string>("DisplayMode") != "TextOnly";
         bool isVisible       = !hideOnHomeWorld || _player.CurrentWorldName != _player.HomeWorldName;
 
-        Node.Style.IsVisible = isVisible;
+        IsVisible = isVisible;
 
-        if (isVisible) {
-            SeStringBuilder str = new SeStringBuilder();
+        if (!isVisible) return;
 
-            if (iconLocation == "Left" && showIcon && _player.CurrentWorldName != _player.HomeWorldName) {
-                str.AddIcon(BitmapFontIcon.CrossWorld);
-            }
-
-            str.AddText(_player.CurrentWorldName);
-
-            if (iconLocation == "Right" && showIcon && _player.CurrentWorldName != _player.HomeWorldName) {
-                str.AddIcon(BitmapFontIcon.CrossWorld);
-            }
-
-            string worldNameLabel = str.Build().ToString();
-
-            if (showDataCenter) {
-                SetTwoLabels(worldNameLabel, _player.CurrentDataCenterName);
-            } else {
-                SetLabel(worldNameLabel);
-            }
-
-            SetGhost(!decorate);
+        if (showIcon && _player.CurrentWorldName != _player.HomeWorldName) {
+            SetGfdIcon(BitmapFontIcon.CrossWorld);
+        } else {
+            ClearIcon();
         }
+        
+        SetText(_player.CurrentWorldName);
+        SetSubText(_player.CurrentDataCenterName);
+    }
 
-        base.OnUpdate();
+    protected override IEnumerable<IWidgetConfigVariable> GetConfigVariables()
+    {
+        return [
+            ..base.GetConfigVariables(),
+            new BooleanWidgetConfigVariable(
+                "HideOnHomeWorld",
+                I18N.Translate("Widget.WorldName.Config.HideOnHomeWorld.Name"),
+                I18N.Translate("Widget.WorldName.Config.HideOnHomeWorld.Description"),
+                false
+            )
+        ];
     }
 }

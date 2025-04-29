@@ -1,0 +1,118 @@
+﻿<udt>
+    <import from="umbra.windows.installer.pages._shared.xml"/>
+    
+    <page title="_L(Window.Installer.Prefill.Title)" description="_L(Window.Installer.Prefill.Description)" flow="vertical">
+        <node class="prefill-row vertical">
+            <node class="preview-image" img-src="installer_toolbar_preview.png"/>
+        </node>
+        <node class="prefill-row">
+            <node class="prefill-button" id="btn-yes">
+                <node class="icon" value="FA(ThumbsUp)"/>
+                <node class="text" value="_L(Window.Installer.Prefill.Yes)"/>
+                <node class="hint" value="_L(Window.Installer.Prefill.Yes.Hint)"/>
+            </node>
+            <node class="prefill-button" id="btn-no">
+                <node class="icon" value="FA(UserEdit)"/>
+                <node class="text" value="_L(Window.Installer.Prefill.No)"/>
+                <node class="hint" value="_L(Window.Installer.Prefill.No.Hint)"/>
+            </node>
+            <node class="prefill-button" id="btn-disable">
+                <node class="icon" value="FA(ThumbsDown)"/>
+                <node class="text" value="_L(Window.Installer.Prefill.NoToolbar)"/>
+                <node class="hint" value="_L(Window.Installer.Prefill.NoToolbar.Hint)"/>
+            </node>
+        </node>
+        <node class="prefill-row">
+            <node id="click-next-to-confirm" class="confirm-text" value="_L(Window.Installer.Prefill.ClickNextToConfirm)"/>
+        </node>
+    </page>
+    
+    <![CDATA[
+    .prefill-row {
+        gap: 16;
+        auto-size: grow fit;
+        
+        &.vertical {
+            flow: vertical;
+            padding: 0 0 32 0;
+        }
+        
+        & > .preview-image {
+            anchor: middle-center;
+            size: 800 64;
+        }
+        
+        & > .confirm-text {
+            auto-size: grow fit;
+            text-align: middle-center;
+            font-size: 14;
+            color: "Window.TextMuted";
+            outline-color: "Window.TextOutline";
+            outline-size: 1;
+            word-wrap: true;
+            text-overflow: false;
+            margin: 16 0 0 0;
+        }
+        
+        & > .prefill-button {
+            flow: vertical;
+            auto-size: grow;
+            padding: 10;
+            background-color: "Input.Background";
+            stroke-color: "Input.Border";
+            border-color: 0;
+            border-width: 0;
+            stroke-width: 1;
+            stroke-inset: 1;
+            stroke-radius: 5;
+            border-radius: 7;
+            transition-type: ease-out-sine;
+            transition-duration: 150;
+            
+            &:hover {
+                transition-duration: 16;
+                background-color: "Input.BackgroundHover";
+                stroke-color: "Window.AccentColor";
+            }
+            
+            &.selected {
+                border-color: "Window.AccentColor";
+                border-width: 2;
+                background-color: "Input.BackgroundHover";
+            }
+            
+            & > .icon {
+                anchor: top-center;
+                text-align: middle-center;
+                size: 64 64;
+                font: 2;
+                font-size: 48;
+            }
+            
+            & > .text {
+                anchor: top-center;
+                auto-size: grow fit;
+                font-size: 14;
+                text-align: middle-center;
+                color: "Window.Text";
+                outline-color: "Window.TextOutline";
+                outline-size: 1;
+                word-wrap: true;
+                text-overflow: false;
+            }
+            
+            & > .hint {
+                anchor: top-center;
+                auto-size: grow fit;
+                font-size: 11;
+                text-align: middle-center;
+                color: "Window.TextMuted";
+                outline-color: "Window.TextOutline";
+                outline-size: 1;
+                word-wrap: true;
+                text-overflow: false;
+            }
+        }
+    }
+    ]]>
+</udt>

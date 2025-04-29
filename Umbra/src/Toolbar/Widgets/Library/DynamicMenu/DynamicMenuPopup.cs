@@ -8,7 +8,7 @@ using Umbra.Game;
 using Umbra.Widgets.Library.ShortcutPanel.Providers;
 using Una.Drawing;
 
-namespace Umbra.Widgets.Library.DynamicMenu;
+namespace Umbra.Widgets;
 
 internal sealed partial class DynamicMenuPopup : WidgetPopup
 {
@@ -24,15 +24,22 @@ internal sealed partial class DynamicMenuPopup : WidgetPopup
     public event Action?       OnEntriesChanged;
     public event Action<bool>? OnEditModeChanged;
 
+    protected override Node Node { get; }
+
+    private UdtDocument Document { get; } = UmbraDrawing.DocumentFrom("umbra.widgets.popup_dynamic_menu.xml");
+    
     private ShortcutProviderRepository Providers      { get; } = Framework.Service<ShortcutProviderRepository>();
     private ICommandManager            CommandManager { get; } = Framework.Service<ICommandManager>();
     private IChatSender                ChatSender     { get; } = Framework.Service<IChatSender>();
 
     public DynamicMenuPopup()
     {
+        Node = Document.RootNode!;
+        
         CreateContextMenu();
 
         EmptyButtonPlaceholder.OnRightClick += _ => OpenContextMenu();
+        EmptyButtonPlaceholder.OnClick      += _ => { };
 
         Framework.DalamudFramework.Run(RebuildMenu);
     }

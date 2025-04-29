@@ -1,0 +1,16 @@
+﻿<udt>
+    <node class="label">
+        <node id="prefix" class="text prefix" value="SeIcon(EorzeaTimeEn)"/>
+        <node id="time" class="text time" value="12:00"/>
+    </node>
+    
+    <![CDATA[
+    .label {
+        auto-size: grow;
+        gap: 4;
+        
+        .prefix { anchor: middle-center; }
+        .time { anchor: middle-center; font: 1; font-size: 14; }
+    }
+    ]]>
+</udt>

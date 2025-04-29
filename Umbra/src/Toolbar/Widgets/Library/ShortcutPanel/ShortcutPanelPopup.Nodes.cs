@@ -61,7 +61,7 @@ internal sealed partial class ShortcutPanelPopup
 
         string typeId;
         uint   itemId;
-
+        
         try {
             string[] payload = data.Split('/');
             typeId = payload[0];
@@ -90,6 +90,7 @@ internal sealed partial class ShortcutPanelPopup
             return;
         }
 
+        node.TagsList.Remove("empty");
         node.TagsList.Remove("empty-hidden");
         node.TagsList.Remove("empty-visible");
 
@@ -99,10 +100,11 @@ internal sealed partial class ShortcutPanelPopup
 
     private void ClearSlot(Node slotNode, byte categoryId, int slotId)
     {
-        slotNode.Tooltip                                               = null;
-        slotNode.QuerySelector(".slot-button--icon")!.Style.IconId     = null;
-        slotNode.QuerySelector(".slot-button--sub-icon")!.Style.IconId = null;
-        slotNode.QuerySelector(".slot-button--count")!.NodeValue       = null;
+        slotNode.Tooltip = null;
+
+        slotNode.QuerySelector(".icon")!.Style.IconId     = null;
+        slotNode.QuerySelector(".sub-icon")!.Style.IconId = null;
+        slotNode.QuerySelector(".count")!.NodeValue       = null;
 
         slotNode.TagsList.Add($"empty-{(ShowEmptySlots ? "visible" : "hidden")}");
         slotNode.TagsList.Remove($"empty-{(ShowEmptySlots ? "hidden" : "visible")}");
@@ -114,9 +116,10 @@ internal sealed partial class ShortcutPanelPopup
 
     private static void SetSlotState(Node slotNode, Shortcut shortcut)
     {
-        slotNode.QuerySelector(".slot-button--icon")!.Style.IconId     = shortcut.IconId;
-        slotNode.QuerySelector(".slot-button--sub-icon")!.Style.IconId = shortcut.SubIconId;
-        slotNode.QuerySelector(".slot-button--count")!.NodeValue       = shortcut.Count?.ToString();
-        slotNode.Tooltip                                               = shortcut.Name;
+        slotNode.QuerySelector(".icon")!.Style.IconId     = shortcut.IconId;
+        slotNode.QuerySelector(".sub-icon")!.Style.IconId = shortcut.SubIconId;
+        slotNode.QuerySelector(".count")!.NodeValue       = shortcut.Count?.ToString();
+
+        slotNode.Tooltip = shortcut.Name;
     }
 }

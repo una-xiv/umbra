@@ -1,0 +1,128 @@
+<udt>
+    <!--
+        This template defines a window with a title bar and a main content area.
+    -->
+    <node id="window">
+        <node class="header">
+            <node class="titlebar">
+                <node class="title text window-name" value="Untitled Window"/>
+                <node class="buttons">
+                    <node class="button close" value="FA(Times)"/>
+                    <node class="button collapse" value="FA(WindowMinimize)"/>
+                    <node class="button expand" value="FA(ChevronDown)"/>
+                </node>
+            </node>
+        </node>
+        <node class="main" id="Content"/>
+    </node>
+    
+    <![CDATA[
+    #window {
+        flow: vertical;
+        background-gradient: vertical "Window.Background" "Window.BackgroundLight";
+        border-radius: 8;
+        shadow-inset: 4;
+        stroke-color: "Window.Border";
+        stroke-width: 1;
+        padding: 1;
+        
+        & > .header {
+            size: 0 32;
+            auto-size: grow fit;
+            background-color: "Window.TitlebarBackground";
+            rounded-corners: top-left top-right;
+            border-radius: 8;
+            padding: 1;
+            
+            & > .titlebar {
+                auto-size: grow;
+                background-gradient: vertical "Window.TitlebarGradient1" "Window.TitlebarGradient2";
+                border-width: 1;
+                border-color: "Window.TitlebarBorder";
+                border-radius: 6;
+                rounded-corners: top-left top-right;
+                
+                & > .title {
+                    auto-size: grow;
+                    text-align: middle-left;
+                    padding: 0 8;
+                    margin: 0 0 4 0;
+                    color: "Window.TitlebarText";
+                    outline-color: "Window.TitlebarTextOutline";
+                    outline-size: 2;
+                    font-size: 13;
+                }
+                
+                & > .buttons {
+                    flow-order: reverse;
+                    auto-size: fit grow;
+                    gap: -1;
+                    margin: 0 0 2 0;
+                    
+                    & > .button {
+                        anchor: middle-right;
+                        auto-size: fit grow;
+                        text-align: middle-center;
+                        font: 2; // Font-Awesome
+                        font-size: 14;
+                        color: "Window.TitlebarCloseButtonX";
+                        size: 32 0;
+                        text-offset: 0 1;
+                        
+                        &.close { 
+                            rounded-corners: top-right;
+                            border-radius: 6;
+                            
+                            &:hover { background-color: "Window.TitlebarCloseButtonHover"; }
+                        }
+                        
+                        &.collapse { text-offset: 0 -2; }
+                        &.expand { is-visible: false; }
+                        
+                        &:hover {
+                            color: "Window.TitlebarCloseButtonXHover";
+                            stroke-color: "Window.TitlebarCloseButtonBorder";
+                            stroke-width: 1;
+                            outline-color: "Window.TitlebarCloseButtonXOutline";
+                            outline-size: 2;
+                        }
+                    }
+                }
+            }
+        }
+        
+        & > .main {
+            background-color: "Window.Background";
+            auto-size: grow;
+            margin: 1;
+        }
+    }
+    
+    #window.collapsed {
+        rounded-corners: all;
+    
+        & > .header {
+            rounded-corners: all;
+            
+            & > .titlebar {
+                rounded-corners: all;
+                border-radius: 6;
+                
+                & > .buttons {
+                    & > .button.close { rounded-corners: top-right bottom-right; }
+                    & > .button.collapse { is-visible: false; }
+                    & > .button.expand { is-visible: true; }
+                }
+            }
+        }
+        
+        & > .main {
+            is-visible: false;
+        }
+    }
+    
+    #window.no-collapse {
+        .button.collapse { is-visible: false; }
+    }
+    ]]>
+</udt>

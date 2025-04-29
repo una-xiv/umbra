@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Umbra.Common;
 using Umbra.Game.CustomDeliveries;
+using Una.Drawing;
 
 namespace Umbra.Widgets.Library.CustomDeliveries;
 
@@ -11,70 +13,85 @@ internal sealed partial class CustomDeliveriesPopup : WidgetPopup
     public int          TrackedNpcId  { get; set; }
     public string       PrimaryAction { get; set; } = "Teleport";
 
+    protected override Node Node { get; }
+
     private ICustomDeliveriesRepository Repository { get; } = Framework.Service<ICustomDeliveriesRepository>();
+
+    private UdtDocument Document { get; } = UmbraDrawing.DocumentFrom("umbra.widgets.popup_custom_deliveries.xml");
 
     private int _selectedNpcId;
 
+    public CustomDeliveriesPopup()
+    {
+        Node = Document.RootNode!;
+        CreateContextMenu();
+    }
+
     protected override void OnOpen()
     {
-        Node.FindById("AllowanceStatus")!.NodeValue = I18N.Translate(
+        Node.QuerySelector(".header > .text")!.NodeValue = I18N.Translate(
             "Widget.CustomDeliveries.AllowanceStatus",
             Repository.DeliveriesRemainingThisWeek
         );
 
-        int maxBonus  = 0;
-        int menuWidth = 200;
-
+        Node.QuerySelector(".list")!.Clear();
+        
         foreach (var npc in Repository.Npcs.Values) {
             CreateOrUpdateNpcNode(npc);
-            maxBonus = Math.Max(maxBonus, npc.BonusType.Length);
         }
-
-        menuWidth += (maxBonus > 0 ? 8 + (maxBonus * 42) : 0);
-
-        Node.QuerySelector("#AllowanceStatus")!.Style.Size = new(menuWidth, 0);
-        foreach (var node in Node.QuerySelectorAll(".npc")) {
-            node.Style.Size = new(menuWidth, 0);
-        }
-
-        ContextMenu = new(
-            [
-                new("Track") {
-                    Label = I18N.Translate("Widget.CustomDeliveries.ContextMenu.Track"),
-                    OnClick = () => {
-                        if (_selectedNpcId == 0) return;
-                        OnNpcSelected?.Invoke(_selectedNpcId);
-                        Close();
-                    }
-                },
-                new("Untrack") {
-                    Label = I18N.Translate("Widget.CustomDeliveries.ContextMenu.Untrack"),
-                    OnClick = () => {
-                        if (_selectedNpcId == 0) return;
-                        OnNpcSelected?.Invoke(0);
-                        Close();
-                    }
-                },
-                new("OpenWindow") {
-                    Label = I18N.Translate("Widget.CustomDeliveries.ContextMenu.OpenWindow"),
-                    OnClick = () => {
-                        if (_selectedNpcId == 0) return;
-                        Repository.OpenCustomDeliveriesWindow(_selectedNpcId);
-                        Close();
-                    }
-                },
-                new("Teleport") {
-                    Label  = I18N.Translate("Widget.CustomDeliveries.ContextMenu.Teleport"),
-                    IconId = 60453u,
-                    OnClick = () => {
-                        if (_selectedNpcId == 0) return;
-                        Repository.TeleportToNearbyAetheryte(_selectedNpcId);
-                        Close();
-                    }
-                }
-            ]
-        );
     }
 
     protected override void OnClose() { }
+
+    private void CreateOrUpdateNpcNode(CustomDeliveryNpc npc)
+    {
+        Node node = Document.CreateNodeFromTemplate("npc", new() {
+            { "name", npc.Name },
+            { "icon", npc.IconId.ToString() }
+        });
+
+        for (int i = 0; i < 5; i++) {
+            Node heart = node.QuerySelector($".heart{i}")!;
+            heart.ToggleClass("empty", i > npc.HeartCount - 1);
+            heart.ToggleClass("filled", i <= npc.HeartCount - 1);
+        }
+
+        foreach (var bonusNode in CreateBonus(npc)) {
+            node.QuerySelector(".bonus-icons")!.AppendChild(bonusNode);
+        }
+        
+        node.OnMouseUp += _ => {
+            switch (PrimaryAction) {
+                case "Track":
+                    OnNpcSelected?.Invoke(npc.Id);
+                    break;
+                case "Teleport":
+                    Repository.TeleportToNearbyAetheryte(npc.Id);
+                    break;
+                case "OpenWindow":
+                    Repository.OpenCustomDeliveriesWindow(npc.Id);
+                    break;
+            }
+
+            Close();
+        };
+
+        node.OnRightClick += _ => {
+            _selectedNpcId = npc.Id;
+            ContextMenu?.SetEntryDisabled("Track", TrackedNpcId == npc.Id);
+            ContextMenu?.SetEntryDisabled("Untrack", TrackedNpcId != npc.Id);
+            ContextMenu?.Present();
+        };
+        
+        Node.QuerySelector(".list")!.AppendChild(node);
+    }
+    
+    private static List<Node> CreateBonus(CustomDeliveryNpc npc)
+    {
+        return npc.BonusType.Select(t => new Node {
+            ClassList   = ["bonus-icon"], 
+            Style       = new() { UldPartId = t }, 
+            InheritTags = true,
+        }).ToList();
+    }
 }

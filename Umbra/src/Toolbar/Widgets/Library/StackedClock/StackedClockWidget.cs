@@ -6,34 +6,44 @@ using Umbra.Common;
 
 namespace Umbra.Widgets.Library.StackedClock;
 
-[ToolbarWidget("StackedClock", "Widget.StackedClock.Name", "Widget.StackedClock.Description")]
-[ToolbarWidgetTags(["clock", "time"])]
+[ToolbarWidget("StackedClock", "Widget.StackedClock.Name", "Widget.StackedClock.Description", ["clock", "time"])]
 internal sealed partial class StackedClockWidget(
     WidgetInfo                  info,
     string?                     guid         = null,
     Dictionary<string, object>? configValues = null
-) : DefaultToolbarWidget(info, guid, configValues)
+) : StandardToolbarWidget(info, guid, configValues)
 {
+    protected override StandardWidgetFeatures Features =>
+        StandardWidgetFeatures.Text |
+        StandardWidgetFeatures.SubText;
+
+    protected override bool DefaultDecorate                    => false;
+    protected override int  DefaultMultiLabelTextSizeTop       => 11;
+    protected override int  DefaultMultiLabelTextSizeBottom    => 11;
+    protected override int  DefaultMultiLabelTextYOffsetTop    => 3;
+    protected override int  DefaultMultiLabelTextYOffsetBottom => 0;
+
     public override MenuPopup Popup { get; } = new();
 
-    protected override void Initialize()
+    private readonly Dictionary<string, MenuPopup.Button> _buttons = new() {
+        { "LT", new("LT") { Label = "00:00" } },
+        { "ST", new("ST") { Label = "00:00" } },
+        { "ET", new("ET") { Label = "00:00" } }
+    };
+
+    protected override void OnLoad()
     {
-        LabelNode.Style.Font       = 1;
-        TopLabelNode.Style.Font    = 1;
-        BottomLabelNode.Style.Font = 1;
+        SingleLabelTextNode.Style.Font      = 1; // Monospace.
+        MultiLabelTextTopNode.Style.Font    = 1;
+        MultiLabelTextBottomNode.Style.Font = 1;
 
-        SetTwoLabels("00:00", "00:00");
-        TopLabelNode.NodeValue    = $"{SeIconChar.ServerTimeEn.ToIconChar()} 00:00";
-        BottomLabelNode.NodeValue = $"{SeIconChar.EorzeaTimeEn.ToIconChar()} 00:00";
+        SetText($"{SeIconChar.ServerTimeEn.ToIconChar()} 00:00");
+        SetSubText($"{SeIconChar.EorzeaTimeEn.ToIconChar()} 00:00");
 
-        Popup.AddButton("LT", "Local Time",  0, null, "00:00");
-        Popup.AddButton("ST", "Server Time", 0, null, "00:00");
-        Popup.AddButton("ET", "Eorzea Time", 0, null, "00:00");
-
-        BottomLabelNode.Style.Color = new("Widget.Text");
+        foreach (var btn in _buttons.Values) Popup.Add(btn);
     }
 
-    protected override void OnUpdate()
+    protected override void OnDraw()
     {
         Popup.IsDisabled = !GetConfigValue<bool>("EnablePopup");
 
@@ -43,29 +53,21 @@ internal sealed partial class StackedClockWidget(
         var fmt2 = GetConfigValue<string>("TimeFormatBottom");
         var fmt3 = GetConfigValue<string>("TimeFormatPopup");
 
-        if (src2 == "None") {
-            SetLabel(FormatTime(src1, fmt1, true));
-        } else {
-            SetTwoLabels(
-                FormatTime(src1, fmt1, true),
-                FormatTime(src2, fmt2, true)
-            );
-        }
+        SetText(FormatTime(src1, fmt1, true));
+        SetSubText(src2 != "None" ? FormatTime(src2, fmt2, true) : null);
 
-        Popup.SetButtonAltLabel("LT", FormatTime("LT", fmt3, false));
-        Popup.SetButtonAltLabel("ST", FormatTime("ST", fmt3, false));
-        Popup.SetButtonAltLabel("ET", FormatTime("ET", fmt3, false));
-
-        base.OnUpdate();
+        _buttons["LT"].Icon  = GetPrefixIcon("LT");
+        _buttons["LT"].Label = FormatTime("LT", fmt3, false);
+        _buttons["ST"].Icon  = GetPrefixIcon("ST");
+        _buttons["ST"].Label = FormatTime("ST", fmt3, false);
+        _buttons["ET"].Icon  = GetPrefixIcon("ET");
+        _buttons["ET"].Label = FormatTime("ET", fmt3, false);
     }
 
     private string FormatTime(string timeSource, string format, bool showPrefix)
     {
         string prefixPos = GetConfigValue<string>("PrefixPosition");
-
-        string prefixStr = GetConfigValue<string>("DisplayMode") != "TextOnly" && showPrefix
-            ? $"{GetPrefixIcon(timeSource).ToIconChar()} "
-            : string.Empty;
+        string prefixStr = showPrefix ? $"{GetPrefixIcon(timeSource).ToIconChar()} " : string.Empty;
 
         string l = prefixPos == "Left" ? prefixStr : string.Empty;
         string r = prefixPos == "Right" ? prefixStr : string.Empty;

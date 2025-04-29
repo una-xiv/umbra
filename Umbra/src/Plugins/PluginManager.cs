@@ -1,20 +1,4 @@
-﻿/* Umbra | (c) 2024 by Una              ____ ___        ___.
- * Licensed under the terms of AGPL-3  |    |   \ _____ \_ |__ _______ _____
- *                                     |    |   //     \ | __ \\_  __ \\__  \
- * https://github.com/una-xiv/umbra    |    |  /|  Y Y  \| \_\ \|  | \/ / __ \_
- *                                     |______//__|_|  /____  /|__|   (____  /
- *     Umbra is free software: you can redistribute  \/     \/             \/
- *     it and/or modify it under the terms of the GNU Affero General Public
- *     License as published by the Free Software Foundation, either version 3
- *     of the License, or (at your option) any later version.
- *
- *     Umbra UI is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *     GNU Affero General Public License for more details.
- */
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -27,7 +11,11 @@ namespace Umbra.Plugins;
 
 internal static class PluginManager
 {
-    [ConfigVariable("CustomPluginPaths")] private static string CustomPluginsRaw { get; set; } = string.Empty;
+    [ConfigVariable("CustomPlugins.Paths")]
+    private static string CustomPluginPathsRaw { get; set; } = string.Empty;
+    
+    [ConfigVariable("CustomPlugins.Enabled")] 
+    public static bool CustomPluginsEnabled { get; set; } = false;
 
     public static List<Plugin> Plugins { get; private set; } = [];
 
@@ -94,8 +82,11 @@ internal static class PluginManager
     [WhenFrameworkCompiling(executionOrder: int.MinValue)]
     private static void LoadCustomPlugins()
     {
-        if (string.IsNullOrEmpty(CustomPluginsRaw)) return;
-        List<string>? customPluginPaths = JsonConvert.DeserializeObject<List<string>>(CustomPluginsRaw);
+        // Don't load custom plugins if the user has not agreed to the EULA.
+        if (!CustomPluginsEnabled) return;
+        
+        if (string.IsNullOrEmpty(CustomPluginPathsRaw)) return;
+        List<string>? customPluginPaths = JsonConvert.DeserializeObject<List<string>>(CustomPluginPathsRaw);
 
         if (customPluginPaths == null) return;
         CustomPluginPaths = customPluginPaths;
@@ -149,7 +140,7 @@ internal static class PluginManager
 
     private static void StoreCustomPluginsPaths()
     {
-        ConfigManager.Set("CustomPluginPaths", JsonConvert.SerializeObject(CustomPluginPaths));
+        ConfigManager.Set("CustomPlugins.Paths", JsonConvert.SerializeObject(CustomPluginPaths));
     }
 
     private static async void WatchForPluginFileChanges()
@@ -171,7 +162,7 @@ internal static class PluginManager
         await Task.Delay(500);
 
         if (requiresRestart) {
-            Framework.Restart();
+            await Framework.Restart();
             return;
         }
 

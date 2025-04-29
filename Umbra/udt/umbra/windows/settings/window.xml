@@ -1,0 +1,107 @@
+<udt>
+    <import from="umbra.components.tab_bar.xml"/>
+
+    <node id="settings-window">
+        <tab-bar/>
+        
+        <node id="tab-content"/>
+
+        <node class="ui-window-footer">
+            <node class="version">
+                <node class="logo" img-src="logo.png"/>
+                <node class="info">
+                    <node class="text version" id="version" value="Umbra 2.5.0"/>
+                    <node id="btn-kofi" class="text link" value="_L(Settings.Window.KoFi)"/>
+                </node>
+            </node>
+            <node class="spacer"/>
+            <node class="buttons">
+                <node class="wrapper">
+                    <button-node id="btn-install" label="_L(Settings.Window.RunOOBE)" is-ghost="true"/>
+                    <button-node id="btn-restart" label="_L(Settings.Window.RestartUmbra)" is-ghost="true"/>
+                    <node class="separator"/>
+                    <button-node id="btn-discord" label="Discord" icon="ChalkboardTeacher"/>
+                    <button-node id="btn-close" label="_L(Close)"/>
+                </node>
+            </node>
+        </node>
+    </node>
+
+    <![CDATA[
+    @import "globals";
+    
+    #settings-window {
+        flow: vertical;
+        auto-size: grow;
+    }
+    
+    #tab-content {
+        auto-size: grow;
+    }
+    
+    .ui-window-footer {
+        auto-size: grow fit;
+        size: 0 40;
+        
+        & > .version {
+            anchor: middle-left;
+            gap: 4;
+            padding: 4 0 0 0;
+            
+            & > .logo {
+                anchor: middle-left;
+                size: 32;
+            }
+            
+            & > .info {
+                anchor: middle-left;
+                flow: vertical;
+                gap: -2;
+                
+                & > .text {
+                    anchor: middle-left;
+                    color: "Window.Text";
+                    opacity: 0.75;
+                    font-size: 12;
+                    
+                    &.version {
+                        text-offset: 0 2;
+                    }
+                    
+                    &.link {
+                        font-size: 11;
+                        opacity: 0.75;
+                        color: "Window.AccentColor";
+                        
+                        &:hover {
+                            opacity: 1;
+                        }
+                    }
+                }
+            }
+        }
+        
+        & > .spacer {
+            anchor: middle-left;
+            auto-size: grow;
+        }
+        
+        & > .buttons {
+            anchor: middle-left;
+            auto-size: fit;
+            gap: 8;
+            
+            & > .wrapper {
+                anchor: middle-right;
+                gap: 10;
+                
+                & > .separator {
+                    size: 9 28;
+                    margin: 4 8 4 0;
+                    background-color: "Window.Border";
+                }
+            }
+        }
+    }
+    ]]>
+</udt>

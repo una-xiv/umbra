@@ -8,21 +8,14 @@ internal sealed partial class SocietiesWidget
     protected override IEnumerable<IWidgetConfigVariable> GetConfigVariables()
     {
         return [
+            ..base.GetConfigVariables(),
+            
             new StringWidgetConfigVariable(
                 "ButtonLabel",
                 I18N.Translate("Widget.Societies.Config.ButtonLabel.Name"),
                 I18N.Translate("Widget.Societies.Config.ButtonLabel.Description"),
                 Info.Name
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
-            new IconIdWidgetConfigVariable(
-                "ButtonIconId",
-                I18N.Translate("Widget.Societies.Config.ButtonIconId.Name"),
-                I18N.Translate("Widget.Societies.Config.ButtonIconId.Description"),
-                65042
-            ) { Category = I18N.Translate("Widget.ConfigCategory.WidgetAppearance") },
-            ..DefaultToolbarWidgetConfigVariables,
-            ..SingleLabelTextOffsetVariables,
-            ..TwoLabelTextOffsetVariables,
+            ),
             new SelectWidgetConfigVariable(
                 "PrimaryAction",
                 I18N.Translate("Widget.Societies.Config.PrimaryAction.Name"),

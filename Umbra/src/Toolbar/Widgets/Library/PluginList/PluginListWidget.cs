@@ -20,25 +20,36 @@ using ImGuiNET;
 using Lumina.Misc;
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using Umbra.Common;
 using Umbra.Game;
 
 namespace Umbra.Widgets;
 
-[ToolbarWidget("PluginList", "Widget.PluginList.Name", "Widget.PluginList.Description")]
-[ToolbarWidgetTags(["plugin", "addon", "dalamud", "list", "menu"])]
+[ToolbarWidget(
+    "PluginList",
+    "Widget.PluginList.Name",
+    "Widget.PluginList.Description",
+    ["plugin", "addon", "dalamud", "list", "menu"]
+)]
 internal sealed partial class PluginListWidget(
     WidgetInfo                  info,
     string?                     guid         = null,
     Dictionary<string, object>? configValues = null
-) : IconToolbarWidget(info, guid, configValues)
+) : StandardToolbarWidget(info, guid, configValues)
 {
+    protected override StandardWidgetFeatures Features =>
+        StandardWidgetFeatures.Icon |
+        StandardWidgetFeatures.CustomizableIcon;
+
+    protected override string          DefaultIconType        => IconTypeFontAwesome;
+    protected override FontAwesomeIcon DefaultFontAwesomeIcon => FontAwesomeIcon.Plug;
+
     public override MenuPopup Popup { get; } = new();
 
-    private readonly List<string> _usedPluginIds = [];
+    private readonly Dictionary<string, MenuPopup.Button> _buttons = [];
 
-    /// <inheritdoc/>
-    protected override void Initialize()
+    protected override void OnLoad()
     {
         Popup.OnPopupOpen  += UpdatePluginList;
         Popup.OnPopupClose += ClearPluginList;
@@ -46,19 +57,16 @@ internal sealed partial class PluginListWidget(
         Node.OnRightClick += _ => Framework.Service<IChatSender>().Send("/xlplugins");
     }
 
-    /// <inheritdoc/>
-    protected override void OnDisposed()
+    protected override void OnUnload()
     {
         Popup.OnPopupOpen  -= UpdatePluginList;
         Popup.OnPopupClose -= ClearPluginList;
+
+        _buttons.Clear();
     }
 
-    /// <inheritdoc/>
-    protected override void OnUpdate()
+    protected override void OnDraw()
     {
-        SetIcon(GetConfigValue<FontAwesomeIcon>("Icon"));
-
-        base.OnUpdate();
         Node.Tooltip = GetConfigValue<bool>("ShowTooltip") ? I18N.Translate("Widget.PluginList.Tooltip") : null;
     }
 
@@ -80,14 +88,12 @@ internal sealed partial class PluginListWidget(
             string id = $"Plugin_{Crc32.Get(plugin.InternalName)}";
 
             if (HasConfigVariable($"Enabled{id}") && !GetConfigValue<bool>($"Enabled{id}")) continue;
-            if (Popup.HasButton(id)) continue;
+            if (_buttons.ContainsKey(id)) continue;
 
             usedPluginIds.Add(id);
-
-            Popup.AddButton(
-                id,
-                plugin.Name,
-                onClick: () => {
+            MenuPopup.Button button = new(id) {
+                Label = plugin.Name,
+                OnClick = () => {
                     if ((ImGui.GetIO().KeyShift || ImGui.GetIO().KeyCtrl) && plugin.HasConfigUi) {
                         plugin.OpenConfigUi();
                         return;
@@ -99,29 +105,26 @@ internal sealed partial class PluginListWidget(
                         plugin.OpenConfigUi();
                     }
                 }
-            );
+            };
+
+            Popup.Add(button);
+            _buttons.Add(id, button);
         }
 
-        // Remove buttons for plugins that are no longer installed.
-        foreach (var id in _usedPluginIds) {
-            if (!usedPluginIds.Contains(id)) {
-                Popup.RemoveButton(id);
-            }
+        foreach (var (id, button) in _buttons.ToImmutableArray()) {
+            if (usedPluginIds.Contains(id)) continue;
+         
+            Popup.Remove(button, true);
+            _buttons.Remove(id);
         }
-
-        _usedPluginIds.Clear();
-        _usedPluginIds.AddRange(usedPluginIds);
     }
 
     private void ClearPluginList()
     {
         Framework.DalamudFramework.Run(
             () => {
-                foreach (var id in _usedPluginIds) {
-                    Popup.RemoveButton(id);
-                }
-
-                _usedPluginIds.Clear();
+                Popup.Clear(true);
+                _buttons.Clear();
             }
         );
     }

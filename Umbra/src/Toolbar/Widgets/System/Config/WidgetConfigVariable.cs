@@ -1,26 +1,11 @@
-﻿/* Umbra | (c) 2024 by Una              ____ ___        ___.
- * Licensed under the terms of AGPL-3  |    |   \ _____ \_ |__ _______ _____
- *                                     |    |   //     \ | __ \\_  __ \\__  \
- * https://github.com/una-xiv/umbra    |    |  /|  Y Y  \| \_\ \|  | \/ / __ \_
- *                                     |______//__|_|  /____  /|__|   (____  /
- *     Umbra is free software: you can redistribute  \/     \/             \/
- *     it and/or modify it under the terms of the GNU Affero General Public
- *     License as published by the Free Software Foundation, either version 3
- *     of the License, or (at your option) any later version.
- *
- *     Umbra UI is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *     GNU Affero General Public License for more details.
- */
-
-using System;
+﻿using System;
 using Umbra.Common;
+using Umbra.Windows.Library.VariableEditor;
 
 namespace Umbra.Widgets;
 
-public abstract class WidgetConfigVariable<T>(string id, string name, string? description, T defaultValue)
-    : IWidgetConfigVariable, IUntypedWidgetConfigVariable, IDisposable
+public abstract class WidgetConfigVariable<T>(string id, string name, string? description, T defaultValue, string? group = null)
+    : IWidgetConfigVariable, IUntypedWidgetConfigVariable, IConfigurableWidgetConfigVariable, IDisposable
 {
     public event Action<T>? ValueChanged;
 
@@ -48,6 +33,13 @@ public abstract class WidgetConfigVariable<T>(string id, string name, string? de
     public string Category { get; set; } = string.Empty;
 
     /// <summary>
+    /// The name of the variable group this one belongs to.
+    /// When multiple variables within the same category share the same group
+    /// name, they are rendered in a collapsible group.
+    /// </summary>
+    public string? Group { get; set; } = group;
+    
+    /// <summary>
     /// A description of this variable that is visible in the configuration
     /// interface for the widget this variable belongs to.
     /// </summary>
@@ -58,6 +50,12 @@ public abstract class WidgetConfigVariable<T>(string id, string name, string? de
     /// </summary>
     public T DefaultValue { get; } = defaultValue;
 
+    /// <summary>
+    /// Determines whether this variable should be displayed in the
+    /// configuration window.
+    /// </summary>
+    public Variable.DisplayIfDelegate? DisplayIf { get; set; }
+    
     /// <summary>
     /// The current value of this variable.
     /// </summary>

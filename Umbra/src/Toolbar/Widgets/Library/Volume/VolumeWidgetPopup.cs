@@ -7,17 +7,8 @@ using Una.Drawing;
 
 namespace Umbra.Widgets;
 
-internal sealed partial class VolumeWidgetPopup : WidgetPopup
+internal sealed class VolumeWidgetPopup : WidgetPopup
 {
-    protected override Node Node { get; } = new() {
-        Stylesheet = VolumeWidgetPopupStylesheet,
-        ClassList  = ["popup"],
-        ChildNodes = [
-            new() { ClassList = ["channel-list"] },
-            new() { ClassList = ["options-list"] },
-        ]
-    };
-
     public bool ShowOptions { get; set; }
     public bool ShowBgm     { get; set; } = true;
     public bool ShowSfx     { get; set; } = true;
@@ -32,6 +23,10 @@ internal sealed partial class VolumeWidgetPopup : WidgetPopup
     public FontAwesomeIcon OffIcon  { get; set; } = FontAwesomeIcon.VolumeOff;
     public FontAwesomeIcon MuteIcon { get; set; } = FontAwesomeIcon.VolumeMute;
 
+    private static readonly UdtDocument Document = UmbraDrawing.DocumentFrom("umbra.widgets.popup_volume.xml");
+
+    protected override Node Node { get; } = Document.RootNode!;
+
     private readonly List<AudioChannel> _channels = [];
     private readonly IGameConfig        _gameConfig;
 
@@ -39,14 +34,13 @@ internal sealed partial class VolumeWidgetPopup : WidgetPopup
     {
         _gameConfig = Framework.Service<IGameConfig>();
 
-        CreateChannelWidget("Master", "SoundMaster", "IsSndMaster", "IsSoundAlways");
-        CreateSeparator();
-        CreateChannelWidget("BGM",  "SoundBgm",     "IsSndBgm", "IsSoundBgmAlways");
-        CreateChannelWidget("SFX",  "SoundSe",      "IsSndSe", "IsSoundSeAlways");
-        CreateChannelWidget("VOC",  "SoundVoice",   "IsSndVoice", "IsSoundVoiceAlways");
-        CreateChannelWidget("AMB",  "SoundEnv",     "IsSndEnv", "IsSoundEnvAlways");
-        CreateChannelWidget("SYS",  "SoundSystem",  "IsSndSystem", "IsSoundSystemAlways");
-        CreateChannelWidget("PERF", "SoundPerform", "IsSndPerform", "IsSoundPerformAlways");
+        BindChannelWidget("Master", "SoundMaster", "IsSndMaster", "IsSoundAlways");
+        BindChannelWidget("BGM", "SoundBgm", "IsSndBgm", "IsSoundBgmAlways");
+        BindChannelWidget("SFX", "SoundSe", "IsSndSe", "IsSoundSeAlways");
+        BindChannelWidget("VOC", "SoundVoice", "IsSndVoice", "IsSoundVoiceAlways");
+        BindChannelWidget("AMB", "SoundEnv", "IsSndEnv", "IsSoundEnvAlways");
+        BindChannelWidget("SYS", "SoundSystem", "IsSndSystem", "IsSoundSystemAlways");
+        BindChannelWidget("PERF", "SoundPerform", "IsSndPerform", "IsSoundPerformAlways");
 
         Node optionsList = Node.QuerySelector(".options-list")!;
         optionsList.AppendChild(CreateToggleOption("SoundChocobo"));
@@ -67,22 +61,19 @@ internal sealed partial class VolumeWidgetPopup : WidgetPopup
                 _      => channel.Node.Style.IsVisible
             };
 
-            channel.Node.QuerySelector<VerticalSliderNode>(".channel--slider")!.Step = ValueStep;
+            channel.Node.QuerySelector<VerticalSliderNode>(".slider")!.Step = ValueStep;
 
-            channel.Node.QuerySelector(".channel--value")!.NodeValue =
+            channel.Node.QuerySelector(".value")!.NodeValue =
                 $"{_gameConfig.System.GetUInt(channel.VolumeConfigName)}%";
 
-            channel.Node.QuerySelector(".channel--mute-button")!.NodeValue =
+            channel.Node.QuerySelector(".mute-button")!.NodeValue =
                 GetVolumeIcon(channel.VolumeConfigName, channel.MuteConfigName).ToIconString();
 
-            Node bgBtn = channel.Node.QuerySelector(".channel--bg-button")!;
+            Node bgBtn = channel.Node.QuerySelector(".bg-button")!;
             bool isBg  = _gameConfig.System.GetBool(channel.BgConfigName);
 
             bgBtn.NodeValue = isBg ? FontAwesomeIcon.PlusCircle.ToIconString() : FontAwesomeIcon.Minus.ToIconString();
-
-            bgBtn.Tooltip = isBg
-                ? I18N.Translate("Widget.Volume.Tooltip.Bg.On")
-                : I18N.Translate("Widget.Volume.Tooltip.Bg.Off");
+            bgBtn.Tooltip   = I18N.Translate(isBg ? "Widget.Volume.Tooltip.Bg.On" : "Widget.Volume.Tooltip.Bg.Off");
         }
 
         Node.QuerySelector(".separator")!.Style.IsVisible    = HasVisibleChannels;
@@ -92,7 +83,7 @@ internal sealed partial class VolumeWidgetPopup : WidgetPopup
     protected override void OnOpen()
     {
         foreach (var channel in _channels) {
-            channel.Node.QuerySelector<VerticalSliderNode>(".channel--slider")!.SetValue(
+            channel.Node.QuerySelector<VerticalSliderNode>(".slider")!.SetValue(
                 (int)_gameConfig.System.GetUInt(channel.VolumeConfigName)
             );
         }
@@ -102,45 +93,12 @@ internal sealed partial class VolumeWidgetPopup : WidgetPopup
 
     private bool HasVisibleChannels => ShowBgm || ShowSfx || ShowVoc || ShowAmb || ShowSys || ShowPerf;
 
-    private void CreateChannelWidget(string id, string volumeConfigName, string muteConfigName, string bgConfigName)
+    private void BindChannelWidget(string id, string volumeConfigName, string muteConfigName, string bgConfigName)
     {
-        Node node = new() {
-            ClassList = ["channel"],
-            ChildNodes = {
-                new() {
-                    ClassList = ["channel--name"],
-                    NodeValue = I18N.Translate($"Widget.Volume.Channel.{id}")
-                },
-                new() {
-                    ClassList = ["channel--value"],
-                    NodeValue = "100%"
-                },
-                new VerticalSliderNode {
-                    Id        = id,
-                    ClassList = ["channel--slider"],
-                    MinValue  = 0,
-                    MaxValue  = 100,
-                    Step      = ValueStep,
-                },
-                new() {
-                    ClassList = ["channel--buttons"],
-                    ChildNodes = [
-                        new() {
-                            ClassList = ["channel--mute-button", "channel--ctrl-button"],
-                            NodeValue = FontAwesomeIcon.VolumeMute.ToIconString()
-                        },
-                        new() {
-                            ClassList = ["channel--bg-button", "channel--ctrl-button"],
-                            NodeValue = FontAwesomeIcon.PlusCircle.ToIconString(),
-                            Tooltip   = I18N.Translate("Widget.Volume.Tooltip.Bg.On"),
-                        },
-                    ]
-                }
-            }
-        };
+        Node node = Node.QuerySelector($"#{id}")!;
 
-        Node muteButton = node.QuerySelector(".channel--mute-button")!;
-        Node bgButton   = node.QuerySelector(".channel--bg-button")!;
+        Node muteButton = node.QuerySelector(".mute-button")!;
+        Node bgButton   = node.QuerySelector(".bg-button")!;
 
         muteButton.OnClick += _ => {
             _gameConfig.System.Set(muteConfigName, !_gameConfig.System.GetBool(muteConfigName));
@@ -155,15 +113,13 @@ internal sealed partial class VolumeWidgetPopup : WidgetPopup
             _gameConfig.System.Set(bgConfigName, !_gameConfig.System.GetBool(bgConfigName));
         };
 
-        node.QuerySelector<VerticalSliderNode>(".channel--slider")!.OnValueChanged += value => {
+        node.QuerySelector<VerticalSliderNode>(".slider")!.OnValueChanged += value => {
             _gameConfig.System.Set(volumeConfigName, (uint)value);
 
             if (_gameConfig.System.GetBool(muteConfigName)) {
                 _gameConfig.System.Set(muteConfigName, false);
             }
         };
-
-        Node.QuerySelector(".channel-list")!.AppendChild(node);
 
         _channels.Add(
             new() {
@@ -190,23 +146,6 @@ internal sealed partial class VolumeWidgetPopup : WidgetPopup
         node.OnValueChanged += v => { _gameConfig.System.Set(configName, v); };
 
         return node;
-    }
-
-    private void CreateSeparator()
-    {
-        Node node = new() { ClassList = ["separator"] };
-
-        node.BeforeReflow += _ => {
-            int height = node.ParentNode!.InnerHeight;
-
-            node.Bounds.ContentSize = new(1, height);
-            node.Bounds.PaddingSize = new(1, height);
-            node.Bounds.MarginSize  = new(1, height);
-
-            return true;
-        };
-
-        Node.QuerySelector(".channel-list")!.AppendChild(node);
     }
 
     private FontAwesomeIcon GetVolumeIcon(string volumeConfigName, string muteConfigName)

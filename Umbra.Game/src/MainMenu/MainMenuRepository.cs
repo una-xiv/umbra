@@ -1,25 +1,8 @@
-/* Umbra.Game | (c) 2024 by Una         ____ ___        ___.
- * Licensed under the terms of AGPL-3  |    |   \ _____ \_ |__ _______ _____
- *                                     |    |   //     \ | __ \\_  __ \\__  \
- * https://github.com/una-xiv/umbra    |    |  /|  Y Y  \| \_\ \|  | \/ / __ \_
- *                                     |______//__|_|  /____  /|__|   (____  /
- *     Umbra.Game is free software: you can          \/     \/             \/
- *     redistribute it and/or modify it under the terms of the GNU Affero
- *     General Public License as published by the Free Software Foundation,
- *     either version 3 of the License, or (at your option) any later version.
- *
- *     Umbra.Game is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *     GNU Affero General Public License for more details.
- */
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using Dalamud.Game.Text;
 using Dalamud.Plugin.Services;
-using Dalamud.Utility;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using Lumina.Excel.Sheets;
@@ -33,12 +16,7 @@ internal sealed class MainMenuRepository : IMainMenuRepository
     public Dictionary<MenuCategory, MainMenuCategory> Categories {
         get
         {
-            long now = DateTimeOffset.Now.ToUnixTimeSeconds();
-            if (now - _lastSyncTime > 3) {
-                _lastSyncTime = now;
-                SyncLists();
-            }
-
+            SyncLists();
             return _categories;
         }
     }
@@ -47,8 +25,6 @@ internal sealed class MainMenuRepository : IMainMenuRepository
     private readonly IDataManager                               _dataManager;
     private readonly ITravelDestinationRepository               _travelDestinationRepository;
     private readonly IPlayer                                    _player;
-
-    private long _lastSyncTime = 0;
 
     public MainMenuRepository(
         IDataManager                 dataManager,
@@ -97,7 +73,7 @@ internal sealed class MainMenuRepository : IMainMenuRepository
             );
 
         // Add Dalamud items to the system menu.
-        _categories[MenuCategory.System].AddItem(new(998));
+        // _categories[MenuCategory.System].AddItem(new(998));
 
         _categories[MenuCategory.System]
             .AddItem(

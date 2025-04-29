@@ -1,11 +1,10 @@
-﻿using Newtonsoft.Json;
-using System.Linq;
+﻿using System.Linq;
 using Umbra.Common;
 using Umbra.Widgets.Library.ShortcutPanel.Providers;
 using Umbra.Widgets.Library.ShortcutPanel.Windows;
 using Umbra.Windows;
 
-namespace Umbra.Widgets.Library.DynamicMenu;
+namespace Umbra.Widgets;
 
 internal sealed partial class DynamicMenuPopup
 {

@@ -1,0 +1,129 @@
+﻿<udt>
+    <![CDATA[
+    @import "globals";
+    
+    .layout-with-side-panel {
+        flow: horizontal;
+        auto-size: grow;
+        
+        & > .side-panel {
+            flow: vertical;
+            size: 0 0;
+            auto-size: fit grow;
+            background-color: "Window.Background";
+            scrollbar-track-color: "Window.Background";
+            
+            & > .side-panel-content {
+                flow: vertical;
+                padding: 10 0 10 10;
+            }
+        }
+        
+        & > .main-panel {
+            flow: vertical;
+            auto-size: grow;
+            margin: 10;
+            scrollbar-track-color: "Window.BackgroundLight";
+            background-color: "Window.BackgroundLight";
+            drop-shadow: 0 0 5 5;
+            
+            border-radius: 5;
+            
+            & > .content {
+                flow: vertical;
+                auto-size: grow fit;
+                padding: 10;
+                
+                & > .text { padding: 10; margin: 10; background-color: 0xa0000000; }
+            }
+        }
+        
+        .sidebar {
+            flow: vertical;
+            auto-size: grow;
+            scrollbar-track-color: "Window.Background";
+            
+            & > #sidebar-buttons {
+                anchor: top-left;
+                flow: vertical;
+                size: 300 0;
+                gap: 2;
+            }
+        }
+        
+        .category-group {
+            flow: vertical;
+            auto-size: grow fit;
+            padding: 0 0 16 0;
+            
+            & > .header {
+                auto-size: grow fit;
+                text-align: middle-center;
+                gap: 4;
+                
+                & > .line {
+                    auto-size: grow fit;
+                    anchor: middle-left;
+                    size: 0 1;
+                    background-color: "Window.Border";
+                }
+                
+                & > .text {
+                    anchor: middle-left;
+                    font-size: 13;
+                    color: "Window.TextMuted";
+                    outline-color: "Window.TextOutline";
+                    outline-size: 1;
+                }
+            }
+            
+            & > .body {
+                flow: vertical;
+                auto-size: grow fit;
+                gap: 2;
+                
+                & > .tab-button {
+                    auto-size: grow fit;
+                    padding: 0 10;
+                    size: 0 32;
+                    border-radius: 5;
+                    text-align: middle-left;
+                    color: "Window.Text";
+                    outline-color: "Window.TextOutline";
+                    outline-size: 2;
+                    font: 0;
+                    font-size: 13;
+                    
+                    &:hover {
+                        color: "Window.TextLight";
+                        outline-color: "Window.TextOutline";
+                        outline-size: 2;
+                    }
+                    
+                    &:selected {
+                        background-color: "Window.BackgroundLight";
+                        color: "Window.TextLight";
+                        border-width: 0 0 0 4;
+                        border-color: "Window.AccentColor";
+                        border-inset: 2;
+                        drop-shadow: 0 0 5 5;
+                    }
+                }
+            }
+        }
+    }
+    ]]>
+    
+    <template name="sidebar-layout">
+        <node class="layout-with-side-panel">
+            <node class="side-panel scrollbars" overflow="false">
+                <node class="side-panel-content">
+                    <slot name="side"/>
+                </node>
+            </node>
+            <node class="main-panel scrollbars" overflow="false">
+                <node class="content"><slot/></node>
+            </node>
+        </node>
+    </template>
+</udt>

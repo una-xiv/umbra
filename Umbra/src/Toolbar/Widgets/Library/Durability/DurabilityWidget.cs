@@ -1,20 +1,4 @@
-﻿/* Umbra | (c) 2024 by Una              ____ ___        ___.
- * Licensed under the terms of AGPL-3  |    |   \ _____ \_ |__ _______ _____
- *                                     |    |   //     \ | __ \\_  __ \\__  \
- * https://github.com/una-xiv/umbra    |    |  /|  Y Y  \| \_\ \|  | \/ / __ \_
- *                                     |______//__|_|  /____  /|__|   (____  /
- *     Umbra is free software: you can redistribute  \/     \/             \/
- *     it and/or modify it under the terms of the GNU Affero General Public
- *     License as published by the Free Software Foundation, either version 3
- *     of the License, or (at your option) any later version.
- *
- *     Umbra UI is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *     GNU Affero General Public License for more details.
- */
-
-using Dalamud.Plugin.Services;
+﻿using Dalamud.Plugin.Services;
 using Dalamud.Utility;
 using Lumina.Excel.Sheets;
 using System;
@@ -26,32 +10,43 @@ using Una.Drawing;
 
 namespace Umbra.Widgets;
 
-[ToolbarWidget("Durability", "Widget.Durability.Name", "Widget.Durability.Description")]
-[ToolbarWidgetTags(["durability", "equipment", "gear", "repair", "spiritbond"])]
+[ToolbarWidget(
+    "Durability",
+    "Widget.Durability.Name",
+    "Widget.Durability.Description",
+    ["durability", "equipment", "gear", "repair", "spiritbond"]
+)]
 internal partial class DurabilityWidget(
     WidgetInfo                  info,
     string?                     guid         = null,
     Dictionary<string, object>? configValues = null
-) : DefaultToolbarWidget(info, guid, configValues)
+) : StandardToolbarWidget(info, guid, configValues)
 {
-    /// <inheritdoc/>
     public override MenuPopup Popup { get; } = new();
+
+    protected override StandardWidgetFeatures Features =>
+        StandardWidgetFeatures.Icon |
+        StandardWidgetFeatures.Text |
+        StandardWidgetFeatures.SubText;
 
     private IPlayer      Player      { get; } = Framework.Service<IPlayer>();
     private IDataManager DataManager { get; } = Framework.Service<IDataManager>();
 
-    private static List<uint> _darkMatterItemIds = [5594, 5595, 5596, 5597, 5598, 10386, 17837, 33916];
+    private static readonly List<uint> DarkMatterItemIds = [5594, 5595, 5596, 5597, 5598, 10386, 17837, 33916];
+
+    private readonly MenuPopup.Group _equipmentGroup = new(I18N.Translate("Widget.Durability.Popup.Equipment"));
+    private readonly MenuPopup.Group _actionsGroup   = new(I18N.Translate("Widget.Durability.Popup.Actions"));
 
     /// <inheritdoc/>
-    protected override void Initialize()
+    protected override void OnLoad()
     {
-        Node.AppendChild(BarWrapperNode);
+        BodyNode.AppendChild(BarWrapperNode);
 
-        Popup.AddGroup("Equipment", I18N.Translate("Widget.Durability.Popup.Equipment", 0));
-        Popup.AddGroup("Actions",   I18N.Translate("Widget.Durability.Popup.Actions",   1));
+        Popup.Add(_equipmentGroup);
+        Popup.Add(_actionsGroup);
 
         for (var i = 0; i < 13; i++) {
-            Popup.AddButton($"Slot_{i}", "-", i, groupId: "Equipment");
+            _equipmentGroup.Add(new MenuPopup.Button("") { Id = $"Slot_{i}", SortIndex = i, IsVisible = false });
         }
 
         var           dm = Framework.Service<IDataManager>();
@@ -59,168 +54,117 @@ internal partial class DurabilityWidget(
         GeneralAction sp = dm.GetExcelSheet<GeneralAction>().GetRow(14); // Extract Materia
         GeneralAction am = dm.GetExcelSheet<GeneralAction>().GetRow(13); // Materia Melding
 
-        Popup.AddButton(
-            "Repair",
-            rp.Name.ToDalamudString().ToString(),
-            0,
-            iconId: (uint)rp.Icon,
-            groupId: "Actions",
-            onClick: () => Player.UseGeneralAction(6)
-        );
+        _actionsGroup.Add(new MenuPopup.Button(rp.Name.ExtractText()) {
+            Id        = "Repair",
+            SortIndex = 0,
+            Icon      = (uint)rp.Icon,
+            IsVisible = Player.IsGeneralActionUnlocked(6),
+            OnClick   = () => Player.UseGeneralAction(6)
+        });
 
-        Popup.AddButton(
-            "Extract",
-            sp.Name.ToDalamudString().ToString(),
-            1,
-            iconId: (uint)sp.Icon,
-            groupId: "Actions",
-            onClick: () => Player.UseGeneralAction(14)
-        );
+        _actionsGroup.Add(new MenuPopup.Button(sp.Name.ExtractText()) {
+            Id        = "Extract",
+            SortIndex = 1,
+            Icon      = (uint)sp.Icon,
+            IsVisible = Player.IsGeneralActionUnlocked(14),
+            OnClick   = () => Player.UseGeneralAction(14)
+        });
 
-        Popup.AddButton(
-            "Melding",
-            am.Name.ToDalamudString().ToString(),
-            2,
-            iconId: (uint)sp.Icon,
-            groupId: "Actions",
-            onClick: () => Player.UseGeneralAction(13)
-        );
+        _actionsGroup.Add(new MenuPopup.Button(am.Name.ExtractText()) {
+            Id        = "Melding",
+            SortIndex = 2,
+            Icon      = (uint)am.Icon,
+            IsVisible = Player.IsGeneralActionUnlocked(13),
+            OnClick   = () => Player.UseGeneralAction(13)
+        });
 
         // Use overflow to represent over repaired gear
         DurabilityBarNode.UseOverflow = true;
     }
 
-    /// <inheritdoc/>
-    protected override void OnUpdate()
+    protected override void OnDraw()
     {
-        SetGhost(!GetConfigValue<bool>("Decorate"));
-        SetIconSize(0);
-
         if (GetConfigValue<bool>("HideWhenOkay")
             && Player.Equipment.LowestDurability > GetConfigValue<int>("WarningThreshold")
             && Player.Equipment.HighestSpiritbond < 100) {
-            Node.Style.IsVisible = false;
+            IsVisible = false;
             return;
         }
 
-        Node.Style.IsVisible    = true;
+        IsVisible               = true;
         Popup.UseGrayscaleIcons = false;
 
-        switch (GetConfigValue<string>("IconLocation")) {
-            case "Left":
-                SetLeftIcon(GetIconId());
-                SetRightIcon(null);
-                break;
-            case "Right":
-                SetLeftIcon(null);
-                SetRightIcon(GetIconId());
-                break;
-            case "Hidden":
-                SetLeftIcon(null);
-                SetRightIcon(null);
-                break;
-        }
-
-        switch (GetConfigValue<string>("TextAlign")) {
-            case "Left":
-                SetTextAlignLeft();
-                break;
-            case "Center":
-                SetTextAlignCenter();
-                break;
-            case "Right":
-                SetTextAlignRight();
-                break;
-        }
+        SetGameIconId(GetIconId());
 
         byte displayableDurability = GetDurabilityValue();
         byte displayableSpiritbond = GetSpiritbondValue();
 
-        string tooltipString =
-            $"{I18N.Translate("Widget.Durability.Durability")}: {displayableDurability}%\n{I18N.Translate("Widget.Durability.Spiritbond")}: {displayableSpiritbond}%";
+        string tooltipString = $"{I18N.Translate("Widget.Durability.Durability")}: {displayableDurability}%\n{I18N.Translate("Widget.Durability.Spiritbond")}: {displayableSpiritbond}%";
 
-        switch (GetConfigValue<string>("DisplayMode")) {
-            case "Full":
-                SetTwoLabels(
-                    $"{I18N.Translate("Widget.Durability.Durability")}: {displayableDurability}%",
-                    $"{I18N.Translate("Widget.Durability.Spiritbond")}: {displayableSpiritbond}%"
-                );
-
-                SetBarsVisibility(false);
-                Node.Tooltip = null;
-                break;
+        switch (GetConfigValue<string>("WidgetDisplayMode")) {
             case "Short":
-                SetLabel($"{displayableDurability}% / {displayableSpiritbond}%");
+                SetText($"{displayableDurability}% / {displayableSpiritbond}%");
+                SetSubText(null);
                 SetBarsVisibility(false);
                 Node.Tooltip = null;
                 break;
             case "ShortStacked":
-                SetTwoLabels($"{displayableDurability}%", $"{displayableSpiritbond}%");
+                SetText($"{displayableDurability}%");
+                SetSubText($"{displayableSpiritbond}%");
                 SetBarsVisibility(false);
                 Node.Tooltip = null;
                 break;
             case "DurabilityOnly":
-                SetLabel($"{displayableDurability}%");
+                SetText($"{displayableDurability}%");
+                SetSubText(null);
                 SetBarsVisibility(false);
                 Node.Tooltip = null;
                 break;
             case "SpiritbondOnly":
-                SetLabel($"{displayableSpiritbond}%");
+                SetText($"{displayableSpiritbond}%");
+                SetSubText(null);
                 SetBarsVisibility(false);
                 Node.Tooltip = null;
                 break;
             case "IconOnly":
-                SetLabel(null);
+                SetText(null);
+                SetSubText(null);
                 SetBarsVisibility(false);
                 Node.Tooltip = tooltipString;
                 break;
             case "StackedBars":
-                SetLabel(null);
+                SetText(null);
+                SetSubText(null);
                 SetBarsVisibility(true);
                 UpdateBars(displayableDurability, displayableSpiritbond);
                 UseStackedBars();
                 Node.Tooltip = tooltipString;
                 break;
-            case "SplittedBars":
-                SetLabel(null);
-                SetBarsVisibility(true);
-                UpdateBars(displayableDurability, displayableSpiritbond);
-                UseSplittedBars();
-                Node.Tooltip = tooltipString;
+            default:
+                SetText($"{I18N.Translate("Widget.Durability.Durability")}: {displayableDurability}%");
+                SetSubText($"{I18N.Translate("Widget.Durability.Spiritbond")}: {displayableSpiritbond}%");
+                SetBarsVisibility(false);
+                Node.Tooltip = null;
                 break;
         }
-
-        LeftIconNode.Style.ImageGrayscale  = GetConfigValue<bool>("DesaturateIcon");
-        RightIconNode.Style.ImageGrayscale = GetConfigValue<bool>("DesaturateIcon");
-        LabelNode.Style.TextOffset         = new(0, GetConfigValue<int>("TextYOffset"));
-        TopLabelNode.Style.TextOffset      = new(0, GetConfigValue<int>("TextYOffsetTop"));
-        BottomLabelNode.Style.TextOffset   = new(0, GetConfigValue<int>("TextYOffsetBottom"));
-        LabelNode.Style.FontSize           = GetConfigValue<int>("TextSize");
-        TopLabelNode.Style.FontSize        = GetConfigValue<int>("TextSizeTop");
-        BottomLabelNode.Style.FontSize     = GetConfigValue<int>("TextSizeBottom");
-
-        bool hasText = GetConfigValue<string>("DisplayMode") != "IconOnly";
-        LeftIconNode.Style.Margin  = new(0, 0, 0, hasText ? -2 : 0);
-        RightIconNode.Style.Margin = new(0, hasText ? -2 : 0, 0, 0);
-        Node.Style.Padding         = new(0, hasText ? 6 : 3);
 
         List<EquipmentSlot> slots = [..Player.Equipment.Slots];
         slots.Sort((a, b) => b.Spiritbond.CompareTo(a.Spiritbond));
 
         for (var i = 0; i < 13; i++) {
-            EquipmentSlot eq = slots[i];
+            EquipmentSlot    eq     = slots[i];
+            MenuPopup.Button button = _equipmentGroup.Get<MenuPopup.Button>($"Slot_{i}");
 
-            var slotId1 = $"Slot_{i}";
-            Popup.SetButtonVisibility(slotId1, !eq.IsEmpty);
-            Popup.SetButtonLabel(slotId1, eq.ItemName);
-            Popup.SetButtonIcon(slotId1, eq.IconId);
-            Popup.SetButtonAltLabel(slotId1, $"{eq.Durability}% / {eq.Spiritbond}%");
+            button.IsVisible = !eq.IsEmpty;
+            button.Label     = eq.ItemName;
+            button.Icon      = eq.IconId;
+            button.AltText   = $"{eq.Durability}% / {eq.Spiritbond}%";
         }
 
         if (Popup.IsOpen) {
-            Popup.SetButtonDisabled("Repair",  !UpdateRepairButtonState());
-            Popup.SetButtonDisabled("Extract", !Player.IsGeneralActionUnlocked(14));
-            Popup.SetButtonDisabled("Melding", !Player.IsGeneralActionUnlocked(13));
+            _actionsGroup.Get<MenuPopup.Button>("Repair").IsDisabled  = !UpdateRepairButtonState();
+            _actionsGroup.Get<MenuPopup.Button>("Extract").IsDisabled = !Player.IsGeneralActionUnlocked(14);
+            _actionsGroup.Get<MenuPopup.Button>("Melding").IsDisabled = !Player.IsGeneralActionUnlocked(13);
         }
     }
 
@@ -239,15 +183,17 @@ internal partial class DurabilityWidget(
 
     private bool UpdateRepairButtonState()
     {
+        MenuPopup.Button button = _actionsGroup.Get<MenuPopup.Button>("Repair");
+
         if (!Player.IsGeneralActionUnlocked(6)) {
-            Popup.SetButtonAltLabel("Repair", null);
+            button.AltText = null;
             return false;
         }
 
         uint highestDarkMatterType  = 0;
         int  highestDarkMatterCount = 0;
 
-        foreach (uint itemId in _darkMatterItemIds) {
+        foreach (uint itemId in DarkMatterItemIds) {
             var count = Player.GetItemCount(itemId);
 
             if (count > 0 && itemId > highestDarkMatterType) {
@@ -257,12 +203,12 @@ internal partial class DurabilityWidget(
         }
 
         if (0 == highestDarkMatterType) {
-            Popup.SetButtonAltLabel("Repair", null);
+            button.AltText = null;
             return false;
         }
 
         Item item = DataManager.GetExcelSheet<Item>().GetRow(highestDarkMatterType);
-        Popup.SetButtonAltLabel("Repair", $"{item.Name.ExtractText()} x {highestDarkMatterCount}");
+        button.AltText = $"{item.Name.ExtractText()} x {highestDarkMatterCount}";
 
         return true;
     }
@@ -294,31 +240,18 @@ internal partial class DurabilityWidget(
     private void SetBarsVisibility(bool visible)
     {
         BarWrapperNode.Style.IsVisible = visible;
-
-        if (!visible) {
-            // Reset to avoid text cut off
-            LabelNode.Style.Size = null;
-        }
     }
-
 
     private void UpdateBars(byte durability, byte spiritbond)
     {
-        var width  = GetConfigValue<int>("BarWidth");
-        var height = (int)Math.Ceiling(SafeHeight / 2f) - 3;
+        var width = GetConfigValue<int>("BarWidth");
 
-        // General look and feel of the bars
-        BarWrapperNode.Style.Size    = new(width, SafeHeight);
-        DurabilityBarNode.Style.Size = new(width, height);
-        SpiritbondBarNode.Style.Size = new(width, height);
+        DurabilityBarNode.Style.Size = new(width, 0);
+        SpiritbondBarNode.Style.Size = new(width, 0);
 
         DurabilityBarNode.BarNode.Style.BackgroundColor      = new("Misc.DurabilityBar");
         DurabilityBarNode.OverflowNode.Style.BackgroundColor = new("Window.Text");
         SpiritbondBarNode.BarNode.Style.BackgroundColor      = spiritbond == 100 ? new("Misc.CompleteSpiritbondBar") : new("Misc.SpiritbondBar");
-
-        // Force the space for icon rendering, I don't like this :(
-        LabelNode.Style.IsVisible = true;
-        LabelNode.Style.Size      = new(width, SafeHeight);
 
         DurabilityBarNode.UseBorder = GetConfigValue<bool>("UseBarBorder");
         SpiritbondBarNode.UseBorder = GetConfigValue<bool>("UseBarBorder");
@@ -337,38 +270,10 @@ internal partial class DurabilityWidget(
             SpiritbondBarNode.Direction = ProgressBarNode.FillDirection.LeftToRight;
         }
 
-        DurabilityBarNode.Style.Anchor = Anchor.TopLeft;
-        SpiritbondBarNode.Style.Anchor = Anchor.TopLeft;
+        DurabilityBarNode.Style.Anchor = Anchor.MiddleLeft;
+        SpiritbondBarNode.Style.Anchor = Anchor.MiddleLeft;
 
         DurabilityBarNode.Style.Margin = new EdgeSize(0, 0, 0, 0);
         SpiritbondBarNode.Style.Margin = new EdgeSize(0, 0, 0, 0);
-
-        BarWrapperNode.Style.Margin = new(0, 0, 0, LeftIconNode.IsVisible ? 23 : 0);
-
-    }
-
-    private void UseSplittedBars()
-    {
-        // Dual icon - ignore widget settings
-        SetLeftIcon(GetIconId());
-        SetRightIcon(61564);
-
-        var width = GetConfigValue<int>("BarWidth");
-
-        // Ensure the gap between icons and opposite bars aren't too much
-        LabelNode.Style.Size      = new(width, SafeHeight);
-        BarWrapperNode.Style.Size = new(width, SafeHeight);
-
-        BarWrapperNode.Style.Margin = new(0, 0, 0, 23);
-
-        int margin = SafeHeight / 2;
-        DurabilityBarNode.Style.Margin = new EdgeSize(0, 0, 0, -margin);
-        SpiritbondBarNode.Style.Margin = new EdgeSize(0, 0, 0, margin);
-
-        DurabilityBarNode.Direction = ProgressBarNode.FillDirection.LeftToRight;
-        SpiritbondBarNode.Direction = ProgressBarNode.FillDirection.RightToLeft;
-
-        DurabilityBarNode.Style.Anchor = Anchor.TopLeft;
-        SpiritbondBarNode.Style.Anchor = Anchor.BottomLeft;
     }
 }

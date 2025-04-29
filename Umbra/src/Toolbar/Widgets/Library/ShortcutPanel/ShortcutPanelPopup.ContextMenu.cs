@@ -1,6 +1,4 @@
 ﻿using ImGuiNET;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using Umbra.Common;
 using Umbra.Widgets.Library.ShortcutPanel.Providers;
@@ -75,7 +73,6 @@ internal sealed partial class ShortcutPanelPopup
         Framework.Service<WindowManager>().Present("Picker", new ShortcutPickerWindow(provider),
             window => {
                 if (window.PickedId == null) return;
-                Logger.Info($"Add item: {window.PickedId} at {_selectedCategory}, {_selectedSlotIndex}");
                 AssignShortcut(_selectedCategory, _selectedSlotIndex, window.PickedId);
             });
     }

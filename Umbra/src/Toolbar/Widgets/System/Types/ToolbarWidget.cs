@@ -1,20 +1,4 @@
-﻿/* Umbra | (c) 2024 by Una              ____ ___        ___.
- * Licensed under the terms of AGPL-3  |    |   \ _____ \_ |__ _______ _____
- *                                     |    |   //     \ | __ \\_  __ \\__  \
- * https://github.com/una-xiv/umbra    |    |  /|  Y Y  \| \_\ \|  | \/ / __ \_
- *                                     |______//__|_|  /____  /|__|   (____  /
- *     Umbra is free software: you can redistribute  \/     \/             \/
- *     it and/or modify it under the terms of the GNU Affero General Public
- *     License as published by the Free Software Foundation, either version 3
- *     of the License, or (at your option) any later version.
- *
- *     Umbra UI is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *     GNU Affero General Public License for more details.
- */
-
-using ImGuiNET;
+﻿using ImGuiNET;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -81,10 +65,12 @@ public abstract class ToolbarWidget(
     /// </summary>
     protected static int SafeHeight => Toolbar.Height - 4;
 
+    protected bool IsVisible { get; set; } = true;
+    
     private readonly Dictionary<string, IWidgetConfigVariable> _configVariables = new();
     private readonly Dictionary<string, object>                _configValues    = configValues ?? [];
 
-    private bool _isDisposed;
+    public bool IsDisposed { get; private set; }
 
     public void Setup()
     {
@@ -110,7 +96,17 @@ public abstract class ToolbarWidget(
                 }
 
                 if (cfg is IUntypedWidgetConfigVariable u) {
-                    u.SetValue(value);
+                    if (cfg is IEnumWidgetConfigVariable e) {
+                        try {
+                            Type enumType = e.GetType().GenericTypeArguments[0];
+                            u.SetValue(Enum.ToObject(enumType, value));
+                        } catch {
+                            // Faulty config.
+                            Logger.Error($"Failed to set config value '{key}' to '{value}' in widget '{Info.Name}'.");
+                        }
+                    } else {
+                        u.SetValue(value);
+                    }
                 }
             }
 
@@ -156,9 +152,16 @@ public abstract class ToolbarWidget(
 
     public void Update()
     {
-        Node.Style.IsVisible = IsEnabled;
+        Node.Style.IsVisible = IsEnabled && IsVisible;
         Node.SortIndex       = SortIndex;
 
+        Node.Style.Anchor = Location switch {
+            "Left"   => Anchor.MiddleLeft,
+            "Center" => Anchor.MiddleCenter,
+            "Right"  => Anchor.MiddleRight,
+            _        => Anchor.MiddleCenter,
+        };
+        
         if (IsEnabled) OnUpdate();
     }
 
@@ -183,8 +186,8 @@ public abstract class ToolbarWidget(
     /// <inheritdoc/>
     public void Dispose()
     {
-        if (_isDisposed) return;
-        _isDisposed = true;
+        if (IsDisposed) return;
+        IsDisposed = true;
 
         foreach (var handler in OnConfigValueChanged?.GetInvocationList() ?? []) {
             OnConfigValueChanged -= (Action<IWidgetConfigVariable>)handler;
@@ -278,8 +281,6 @@ public abstract class ToolbarWidget(
 
         c.Value = value;
 
-        Logger.Info($"Set config value '{name}' to '{value}'.");
-
         Framework.Service<WidgetManager>().SaveWidgetState(Id);
         Framework.Service<WidgetManager>().SaveState();
 
@@ -289,8 +290,6 @@ public abstract class ToolbarWidget(
     public void CopyInstanceSettingsToClipboard()
     {
         var config = Convert.ToBase64String(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(_configValues)));
-
-        Logger.Info(JsonConvert.SerializeObject(_configValues));
 
         ImGui.SetClipboardText($"WI|{Info.Id}|{config}");
     }
@@ -343,7 +342,7 @@ public abstract class ToolbarWidget(
     /// <summary>
     /// Opens the settings window for this widget instance.
     /// </summary>
-    protected void OpenSettingsWindow()
+    internal void OpenSettingsWindow()
     {
         Framework.Service<WidgetInstanceEditor>().OpenEditor(this);
     }
@@ -358,6 +357,7 @@ public abstract class ToolbarWidget(
                 true
             ),
             ..GetConfigVariables(),
+            ..Popup?.GetConfigVariables() ?? [],
         ];
     }
 }
