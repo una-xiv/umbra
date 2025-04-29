@@ -1,0 +1,114 @@
+﻿<udt>
+    <node class="gh-installer">
+        <node class="step" id="step-input">
+            <node class="title" value="_L(Settings.PluginsModule.InstallFromRepository.Title)"/>
+            <node class="description" value="_L(Settings.PluginsModule.InstallFromRepository.Description)"/>
+            <node class="input">
+                <string-input-node id="author" label="_L(Settings.PluginsModule.InstallFromRepository.Author)" immediate="true"/>
+                <string-input-node id="repository" label="_L(Settings.PluginsModule.InstallFromRepository.Repository)" immediate="true"/>
+            </node>
+            <node class="buttons">
+                <button-node id="btn-install-from-url" label="_L(Settings.PluginsModule.InstallFromRepository.AddRepository)" style="anchor: middle-right;"/>
+            </node>
+        </node>
+        
+        <node class="step" id="step-fetch">
+            <node class="title" value="_L(Settings.PluginsModule.InstallFromRepository.Fetching)"/>
+        </node>
+
+        <node class="step" id="step-error">
+            <node class="title" value="_L(Settings.PluginsModule.InstallFromRepository.Error.Title)"/>
+            <node class="description" value="_L(Settings.PluginsModule.InstallFromRepository.Error.Description)"/>
+            <node class="buttons">
+                <button-node id="btn-error-cancel" label="_L(Cancel)" style="anchor: middle-right;"/>
+            </node>
+        </node>
+        
+        <node class="step" id="step-confirm">
+            <node class="title" value="_L(Settings.PluginsModule.InstallFromRepository.Confirm.Title)"/>
+            <node class="description" value="_L(Settings.PluginsModule.InstallFromRepository.Confirm.Description)"/>
+            <node class="text-row">
+                <node class="key" value="_L(Settings.PluginsModule.InstallFromRepository.Repository)"/>
+                <node class="value" id="repository-name"/>
+            </node>
+            <node class="text-row">
+                <node class="key" value="_L(Settings.PluginsModule.Plugin.Version)"/>
+                <node class="value" id="release-name"/>
+            </node>
+            <node class="text-row">
+                <node class="key" value="_L(Settings.PluginsModule.InstallFromRepository.Author)"/>
+                <node class="value" id="author-name"/>
+            </node>
+            <node class="buttons">
+                <button-node id="btn-confirm-cancel" label="_L(Cancel)" style="anchor: middle-right;"/>
+                <button-node id="btn-confirm-install" label="_L(Confirm)" style="anchor: middle-right;"/>
+            </node>
+        </node>
+
+    </node>
+    
+    <![CDATA[
+    .gh-installer {
+        auto-size: grow fit;
+        
+        & > .step {
+            flow: vertical;
+            auto-size: grow fit;
+            gap: 8;
+            background-color: "Window.BackgroundLight";
+            border-radius: 6;
+            padding: 10;
+            
+            & > .title {
+                auto-size: grow fit;
+                text-overflow: false;
+                color: "Window.Text";
+                outline-color: "Window.TextOutline";
+                outline-size: 1;
+                font-size: 18;
+            }
+            
+            & > .description {
+                auto-size: grow fit;
+                text-overflow: false;
+                word-wrap: true;
+                color: "Window.Text";
+                outline-color: "Window.TextOutline";
+                outline-size: 1;
+                font-size: 11;
+            }
+            
+            & > .input {
+                auto-size: grow fit;
+                gap: 8;
+            }
+            
+            & > .text-row {
+                auto-size: grow fit;
+                gap: 10;
+                
+                & > .key {
+                    auto-size: grow fit;
+                    font-size: 11;
+                    color: "Window.TextMuted";
+                    outline-color: "Window.TextOutline";
+                    outline-size: 1;
+                }
+                
+                & > .value {
+                    auto-size: grow fit;
+                    font-size: 11;
+                    color: "Window.Text";
+                    outline-color: "Window.TextOutline";
+                    outline-size: 1;
+                }
+            }
+            
+            & > .buttons {
+                auto-size: grow fit;
+                gap: 8;
+            }
+        }
+    }
+    ]]>
+</udt>

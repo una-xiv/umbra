@@ -2,36 +2,37 @@
 using System.IO;
 using System.Reflection;
 using Umbra.Common;
+using Umbra.Plugins.Repository;
 
 namespace Umbra.Plugins;
 
-internal class Plugin(string path) : IDisposable
+internal class Plugin(PluginEntry entry) : IDisposable
 {
-    public FileInfo  File       { get; } = new(path);
-    public Assembly? Assembly   { get; private set; }
-    public string?   LoadError  { get; private set; }
-    public bool      IsDisposed { get; private set; }
+    public PluginEntry Entry      { get; private set; } = entry;
+    public FileInfo?   File       { get; private set; }
+    public Assembly?   Assembly   { get; private set; }
+    public bool        IsDisposed { get; private set; }
 
     private PluginLoadContext? _context;
 
     public void Load()
     {
-        FileInfo file = new(path);
+        File = new(Entry.FilePath);
 
-        if (!file.Exists) {
-            LoadError = $"File not found: {file.FullName}";
+        if (!File.Exists) {
+            Entry.LoadError = $"File not found: {File.FullName}";
             return;
         }
 
         try {
-            _context = new(file.Directory!);
-            Assembly = _context.LoadFromFile(file.FullName);
+            _context = new(File.Directory!);
+            Assembly = _context.LoadFromFile(File.FullName);
 
             Framework.Assemblies.Add(Assembly);
         } catch (Exception e) {
-            LoadError = e.Message;
+            Entry.LoadError = e.Message;
             Dispose();
-            Logger.Error($"Failed to load plugin: {file.FullName}: {e.Message}");
+            Logger.Error($"Failed to load plugin: {File.FullName}: {e.Message}");
         }
     }
 

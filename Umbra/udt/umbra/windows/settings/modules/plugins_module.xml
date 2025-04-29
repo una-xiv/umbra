@@ -23,15 +23,23 @@
                 <node class="install-block">
                     <node class="title" value="_L(Settings.PluginsModule.InstallFromFile.Title)"/>
                     <node class="description" value="_L(Settings.PluginsModule.InstallFromFile.Description)"/>
-                    <button-node id="btn-install-from-file" label="_L(Settings.PluginsModule.InstallFromFile.Browse)"/>
+                    <node class="buttons">
+                        <button-node id="btn-install-from-file" label="_L(Settings.PluginsModule.InstallFromFile.Browse)" style="anchor: middle-right;"/>
+                    </node>
                 </node>
+                <repository-installer-node/>
             </node>
         </node>
     </node>
     
     <template name="plugin">
         <argument name="name"/>
+        <argument name="description"/>
+        <argument name="repository"/>
+        <argument name="author"/>
+        <argument name="version"/>
         <argument name="error"/>
+        <argument name="is_repository_plugin"/>
         <argument name="is_load_error"/>
         <argument name="is_restart_required"/>
         <argument name="is_loaded"/>
@@ -41,10 +49,17 @@
             <node class="icon error" value="FA(ExclamationTriangle)" style="is-visible: ${is_load_error};"/>
             <node class="icon warning" value="FA(ExclamationTriangle)" style="is-visible: ${is_restart_required};"/>
             <node class="info">
-                <node class="name" value="${name}">
-                    <button-node class="btn-remove" label="_L(Delete)" style="anchor: middle-right;"/>
+                <node class="name">
+                    <node class="text" value="${name}"/>
+                    <node class="buttons">
+                        <button-node class="btn-update" label="_L(Settings.PluginsModule.Plugin.CheckForUpdates)" style="anchor: middle-right; is-visible: ${is_repository_plugin};"/>
+                        <button-node class="btn-delete" label="_L(Delete)" style="anchor: middle-right;"/>
+                    </node>
                 </node>
-                <node class="loaded" value="_L(Settings.PluginsModule.Loaded)" style="is-visible: ${is_loaded};"/>
+                <node class="description" value="${description}"/>
+                <node class="kv-row" style="is-visible: ${is_repository_plugin};"><node class="key" value="_L(Settings.PluginsModule.Plugin.Repository)"/><node class="value" value="${repository}"/></node>
+                <node class="kv-row"><node class="key" value="_L(Settings.PluginsModule.Plugin.Version)"/><node class="value" value="${version}"/></node>
+                <node class="kv-row"><node class="key" value="_L(Settings.PluginsModule.Plugin.Author)"/><node class="value" value="${author}"/></node>
                 <node class="error" value="${error}" style="is-visible: ${is_load_error};"/>
                 <node class="restart" value="_L(Settings.PluginsModule.PluginRestartRequired)" style="is-visible: ${is_restart_required};"/>
             </node>
@@ -106,6 +121,10 @@
                                 outline-color: "Window.TextOutline";
                                 outline-size: 1;
                                 
+                                &.loaded {
+                                    color: "Window.Text";
+                                }
+                                
                                 &.error {
                                     color: 0xFF2235FF;
                                 }
@@ -114,15 +133,57 @@
                             & > .info {
                                 flow: vertical;
                                 auto-size: grow fit;
-                                gap: 4;
                                 
                                 & > .name {
                                     auto-size: grow fit;
-                                    text-overflow: false;
+                                    gap: 10;
+                                    
+                                    & > .text {
+                                        auto-size: grow fit;
+                                        text-overflow: false;
+                                        color: "Window.Text";
+                                        outline-color: "Window.TextOutline";
+                                        outline-size: 1;
+                                        font-size: 18;
+                                        text-overflow: false;
+                                        word-wrap: false;
+                                    }
+                                    
+                                    & > .buttons {
+                                        gap: 8;
+                                    }
+                                }
+                                
+                                & > .description {
+                                    auto-size: grow fit;
                                     color: "Window.Text";
                                     outline-color: "Window.TextOutline";
                                     outline-size: 1;
-                                    font-size: 18;
+                                    text-overflow: false;
+                                    word-wrap: true;
+                                    padding: 0 0 16 0;
+                                }
+                                
+                                & > .kv-row {
+                                    auto-size: grow fit;
+                                    gap: 10;
+                                    
+                                    & > .key {
+                                        font-size: 11;
+                                        color: "Window.TextMuted";
+                                        outline-color: "Window.TextOutline";
+                                        outline-size: 1;
+                                        size: 100 0;
+                                    }
+                                    
+                                    & > .value {
+                                        auto-size: grow fit;
+                                        color: "Window.Text";
+                                        outline-color: "Window.TextOutline";
+                                        outline-size: 1;
+                                        text-overflow: false;
+                                        word-wrap: true;
+                                    }
                                 }
                                 
                                 & > .error {
@@ -184,6 +245,15 @@
                         outline-color: "Window.TextOutline";
                         outline-size: 1;
                         font-size: 11;
+                    }
+                    
+                    & > .input {
+                        auto-size: grow fit;
+                        gap: 8;
+                    }
+                    
+                    & > .buttons {
+                        auto-size: grow fit;
                     }
                 }
             }

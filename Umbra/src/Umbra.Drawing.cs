@@ -41,6 +41,7 @@ internal static class UmbraDrawing
         ElementRegistry.Register<GameGlyphInputNode>();
         ElementRegistry.Register<SimpleColorPickerNode>();
         ElementRegistry.Register<SimpleColorThemeEditor>();
+        ElementRegistry.Register<RepositoryInstallerNode>();
     }
 
     public static void Dispose()

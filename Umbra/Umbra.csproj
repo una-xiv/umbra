@@ -37,4 +37,8 @@
         <ProjectReference Include="..\Umbra.Game\Umbra.Game.csproj" />
         <ProjectReference Include="..\drawing\Una.Drawing\Una.Drawing.csproj" />
     </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="System.Reflection.MetadataLoadContext" Version="10.0.0-preview.3.25171.5" />
+    </ItemGroup>
 </Project>

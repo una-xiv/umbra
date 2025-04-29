@@ -1,11 +1,18 @@
 ﻿using Dalamud.Interface.ImGuiFileDialog;
 using ImGuiNET;
+using Lumina.Misc;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Numerics;
+using System.Threading.Tasks;
 using Umbra.Common;
 using Umbra.Plugins;
+using Umbra.Plugins.Repository;
+using Umbra.Windows.Components;
 using Una.Drawing;
 using Color = Una.Drawing.Color;
+using PluginEntry = Umbra.Plugins.Repository.PluginEntry;
 
 namespace Umbra.Windows.Settings.Modules;
 
@@ -22,10 +29,15 @@ public class SettingsWindowPluginsModule : SettingsWindowModule
         } else {
             ShowWarningMessage();
         }
+
+        PluginRepository.EntryAdded   += OnEntryAdded;
+        PluginRepository.EntryRemoved += OnEntryRemoved;
     }
 
     protected override void OnClose()
     {
+        PluginRepository.EntryAdded   -= OnEntryAdded;
+        PluginRepository.EntryRemoved -= OnEntryRemoved;
     }
 
     protected override void OnDraw()
@@ -50,9 +62,7 @@ public class SettingsWindowPluginsModule : SettingsWindowModule
 
         RootNode.QuerySelector("#btn-install-from-file")!.OnClick += _ => ShowOpenFileDialog();
 
-        foreach (var plugin in PluginManager.Plugins) {
-            AddPluginNode(plugin);
-        }
+        foreach (var plugin in PluginRepository.Entries) OnEntryAdded(plugin);
     }
 
     private FileDialogManager? FileDialogManager { get; set; }
@@ -90,11 +100,10 @@ public class SettingsWindowPluginsModule : SettingsWindowModule
         FileDialogManager.OpenFileDialog(
             "Open Umbra Plugin File",
             ".dll",
-            (isOk, fileName) => {
+            (isOk, fileNames) => {
                 if (isOk) {
                     FileDialogManager = null;
-                    var plugin = PluginManager.AddPlugin(fileName[0]);
-                    if (null != plugin) AddPluginNode(plugin);
+                    PluginRepository.AddEntry(PluginEntry.FromFile(fileNames.First()));
                 }
             },
             1,
@@ -102,24 +111,64 @@ public class SettingsWindowPluginsModule : SettingsWindowModule
         );
     }
 
-    private void AddPluginNode(Plugins.Plugin plugin)
+    private void OnEntryAdded(PluginEntry entry)
     {
-        bool isLoadError       = plugin.LoadError != null;
-        bool isRestartRequired = plugin.Assembly == null && plugin.LoadError == null;
+        bool isLoadError       = !string.IsNullOrEmpty(entry.LoadError);
+        bool isRestartRequired = !PluginManager.IsLoaded(entry) && !isLoadError;
 
         Node node = Document.CreateNodeFromTemplate("plugin", new() {
-            { "name", plugin.File.Name },
-            { "error", plugin.LoadError ?? string.Empty },
+            { "name", entry.Name },
+            { "repository", entry.Type == PluginEntry.PluginType.Repository ? $"{entry.RepositoryOwner}/{entry.RepositoryName}" : "" },
+            { "description", entry.Description },
+            { "author", entry.Author },
+            { "version", entry.Version },
+            { "error", entry.LoadError },
+            { "is_repository_plugin", entry.Type == PluginEntry.PluginType.Repository ? "true" : "false" },
             { "is_load_error", isLoadError ? "true" : "false" },
             { "is_restart_required", isRestartRequired ? "true" : "false" },
             { "is_loaded", !isRestartRequired && !isLoadError ? "true" : "false" }
         });
 
-        node.QuerySelector(".btn-remove")!.OnClick += _ => {
-            PluginManager.RemovePlugin(plugin);
-            node.Dispose();
-        };
+        node.Id = $"Plugin_{Crc32.Get(entry.FilePath)}";
+
+        node.QuerySelector(".btn-delete")!.OnClick += _ => PluginRepository.RemoveEntry(entry);
+
+        if (entry.Type == PluginEntry.PluginType.Repository) {
+            ButtonNode updateButton = node.QuerySelector<ButtonNode>(".btn-update")!;
+
+            updateButton.OnClick += async _ => {
+                updateButton.IsDisabled = true;
+
+                var (result, release) = await PluginFetcher.Fetch(entry.RepositoryOwner, entry.RepositoryName);
+
+                if (result == PluginFetcher.FetchResult.NewerVersionAvailable) {
+                    await UpdatePlugin(updateButton, release!.Value, entry);
+                    return;
+                }
+
+                updateButton.IsGhost = true;
+                updateButton.Label   = I18N.Translate("Settings.PluginsModule.Plugin.UpToDate");
+            };
+        }
 
         RootNode.QuerySelector("#plugin-list")!.AppendChild(node);
+    }
+
+    private void OnEntryRemoved(PluginEntry entry)
+    {
+        RootNode.QuerySelector($"#Plugin_{Crc32.Get(entry.FilePath)}")?.Dispose();
+    }
+
+    private async Task UpdatePlugin(ButtonNode updateButton, PluginFetcher.Release release, PluginEntry entry)
+    {
+        updateButton.IsDisabled = true;
+        updateButton.IsGhost    = true;
+        updateButton.Label      = I18N.Translate("Settings.PluginsModule.Plugin.Updating");
+        
+        List<PluginEntry> newEntries = await PluginFetcher.DownloadRelease(entry.RepositoryOwner, entry.RepositoryName, release);
+
+        foreach (var newEntry in newEntries) {
+            PluginRepository.AddUpdatedEntry(newEntry);
+        }
     }
 }

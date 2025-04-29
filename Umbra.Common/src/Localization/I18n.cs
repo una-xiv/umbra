@@ -146,7 +146,7 @@ public static class I18N
             string json = File.ReadAllText(file.FullName);
 
             Dictionary<string, string> dict = JsonConvert.DeserializeObject<Dictionary<string, string>>(json)
-                ?? throw new($"Failed to parse translation file {file.FullName}");
+                                              ?? throw new($"Failed to parse translation file {file.FullName}");
 
             Translations[lang] = [];
 
@@ -163,11 +163,9 @@ public static class I18N
     [WhenFrameworkDisposing]
     internal static void Dispose()
     {
-        // Updated translation files are loaded simply by logging out and back in.
         Translations.Clear();
     }
 
-    [Conditional("DEBUG")]
     private static void ValidateTranslationKeys()
     {
         var en = Translations["en"];

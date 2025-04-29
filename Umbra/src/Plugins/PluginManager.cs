@@ -1,119 +1,71 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using Newtonsoft.Json;
 using Umbra.Common;
-using Framework = Umbra.Common.Framework;
-using Task = System.Threading.Tasks.Task;
+using Umbra.Plugins.Repository;
 
 namespace Umbra.Plugins;
 
 internal static class PluginManager
 {
-    [ConfigVariable("CustomPlugins.Paths")]
-    private static string CustomPluginPathsRaw { get; set; } = string.Empty;
-    
-    [ConfigVariable("CustomPlugins.Enabled")] 
+    [ConfigVariable("CustomPlugins.Enabled")]
     public static bool CustomPluginsEnabled { get; set; } = false;
 
-    public static List<Plugin> Plugins { get; private set; } = [];
+    private static List<Plugin> Plugins { get; } = [];
+    private static bool HasRemovedPlugins { get; set; }
+    private static bool IsDisposing       { get; set; }
 
-    private static Dictionary<string, long> PluginTimestamps  { get; }      = [];
-    private static List<string>             CustomPluginPaths { get; set; } = [];
-    private static bool                     HasRemovedPlugins { get; set; }
-    private static bool                     IsDisposing       { get; set; }
-
-    public static Plugin? AddPlugin(string path, bool store = true)
+    public static bool IsLoaded(PluginEntry entry)
     {
-        FileInfo file = new(path);
-
-        if (Plugins.Any(p => p.File.FullName == file.FullName)) {
-            Logger.Warning($"Another plugin with the same path is already loaded: {file.Name}");
-            return null;
-        }
-
-        var plugin = new Plugin(path);
-        Plugins.Add(plugin);
-
-        if (store) {
-            CustomPluginPaths.Add(path);
-            StoreCustomPluginsPaths();
-        }
-
-        return plugin;
-    }
-
-    public static void RemovePlugin(Plugin plugin)
-    {
-        if (null == plugin.Assembly) {
-            Plugins.Remove(plugin);
-        } else {
-            try {
-                Framework.Assemblies.Remove(plugin.Assembly!);
-                plugin.Dispose();
-            } catch (Exception e) {
-                Logger.Warning($"Failed to dispose plugin: {plugin.File.Name} ({e.Message})");
-            }
-
-            HasRemovedPlugins = true;
-        }
-
-        CustomPluginPaths.Remove(plugin.File.FullName);
-        StoreCustomPluginsPaths();
+        return Plugins.FirstOrDefault(p => p.Entry == entry) != null;
     }
 
     public static bool IsRestartRequired()
     {
-        if (HasRemovedPlugins) return true;
-
-        var restartRequired = false;
-
-        foreach (Plugin plugin in Plugins) {
-            if (string.IsNullOrEmpty(plugin.LoadError) && plugin.Assembly is null) {
-                restartRequired = true;
-                break;
+        // Check against newly added plugins.
+        foreach (var entry in PluginRepository.Entries) {
+            if (Plugins.FirstOrDefault(p => p.Entry == entry) == null) {
+                return true;
             }
         }
 
-        return restartRequired;
+        // Check against removed plugins.
+        if (HasRemovedPlugins) {
+            foreach (var plugin in Plugins) {
+                if (PluginRepository.Entries.FirstOrDefault(e => e == plugin.Entry) == null) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
-    [WhenFrameworkCompiling(executionOrder: int.MinValue)]
+    [WhenFrameworkCompiling(executionOrder: int.MinValue + 1)]
     private static void LoadCustomPlugins()
     {
         // Don't load custom plugins if the user has not agreed to the EULA.
         if (!CustomPluginsEnabled) return;
-        
-        if (string.IsNullOrEmpty(CustomPluginPathsRaw)) return;
-        List<string>? customPluginPaths = JsonConvert.DeserializeObject<List<string>>(CustomPluginPathsRaw);
 
-        if (customPluginPaths == null) return;
-        CustomPluginPaths = customPluginPaths;
-
-        foreach (string pluginPath in CustomPluginPaths) {
-            if (string.IsNullOrEmpty(pluginPath)) continue;
-            var plugin = AddPlugin(pluginPath, false);
-
-            if (null == plugin) continue;
-
+        foreach (PluginEntry entry in PluginRepository.Entries) {
+            var plugin = new Plugin(entry);
+            
             try {
                 plugin.Load();
+                Plugins.Add(plugin);
             } catch (Exception) {
-                Logger.Warning($"Failed to load plugin: {plugin.File.Name} (Incompatible version)");
+                Logger.Warning($"Failed to load plugin {entry.FilePath}: (Incompatible version)");
                 plugin.Dispose();
             }
 
-            if (string.IsNullOrEmpty(plugin.LoadError) && plugin.Assembly != null) {
-                Logger.Info($"Loaded plugin: {plugin.Assembly.FullName}");
-                PluginTimestamps[plugin.File.FullName] = plugin.File.LastWriteTime.Ticks;
+            if (string.IsNullOrEmpty(entry.LoadError) && plugin.Assembly != null) {
+                Logger.Info($"Loaded plugin: {entry.FilePath}");
             } else {
-                Logger.Warning($"Failed to load plugin: {plugin.File.Name} ({plugin.LoadError})");
+                Logger.Warning($"Failed to load plugin: {entry.FilePath} ({entry.LoadError})");
             }
         }
 
         IsDisposing = false;
-        Task.Run(WatchForPluginFileChanges);
     }
 
     [WhenFrameworkDisposing]
@@ -127,45 +79,12 @@ internal static class PluginManager
 
             try {
                 plugin.Dispose();
-                Logger.Info($"Disposed plugin: {plugin.File.Name}");
+                Logger.Info($"Disposed plugin: {plugin.File?.Name}");
             } catch (Exception e) {
-                Logger.Warning($"Failed to dispose plugin: {plugin.File.Name} ({e.Message})");
+                Logger.Warning($"Failed to dispose plugin: {plugin.File?.Name} ({e.Message})");
             }
         }
 
         Plugins.Clear();
-        CustomPluginPaths.Clear();
-        PluginTimestamps.Clear();
-    }
-
-    private static void StoreCustomPluginsPaths()
-    {
-        ConfigManager.Set("CustomPlugins.Paths", JsonConvert.SerializeObject(CustomPluginPaths));
-    }
-
-    private static async void WatchForPluginFileChanges()
-    {
-        if (IsDisposing) return;
-
-        bool requiresRestart = false;
-
-        foreach ((string path, long timestamp) in PluginTimestamps) {
-            FileInfo file = new(path);
-
-            if (file.LastWriteTime.Ticks != timestamp) {
-                Logger.Info($"Plugin file changed: {file.Name}");
-                requiresRestart = true;
-                break;
-            }
-        }
-
-        await Task.Delay(500);
-
-        if (requiresRestart) {
-            await Framework.Restart();
-            return;
-        }
-
-        WatchForPluginFileChanges();
     }
 }
