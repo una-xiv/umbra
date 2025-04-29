@@ -16,13 +16,9 @@
       },
       "System.Reflection.MetadataLoadContext": {
         "type": "Direct",
-        "requested": "[10.0.0-preview.3.25171.5, )",
-        "resolved": "10.0.0-preview.3.25171.5",
-        "contentHash": "vM35z+hAZL51D7nWd112neCi4rswtLIFzRTrxHrGrxipO+dIj7ewxzptlCJ8XmABEbHYdyw7cma0Zc7TqulIbg==",
-        "dependencies": {
-          "System.Collections.Immutable": "10.0.0-preview.3.25171.5",
-          "System.Reflection.Metadata": "10.0.0-preview.3.25171.5"
-        }
+        "requested": "[9.0.4, )",
+        "resolved": "9.0.4",
+        "contentHash": "ygCfi3h1L1f2NCzd8YtTbV6D/+w/pwawzFcAGaN9jevN0/0GvhH1bTAWgZ5qj2tb9hZ/pISv43w8ENe5nkiX0w=="
       },
       "SkiaSharp": {
         "type": "Transitive",
@@ -42,19 +38,6 @@
         "type": "Transitive",
         "resolved": "3.118.0-preview.1.2",
         "contentHash": "pjcuvrYCJ74gPdz+W327JcwJKyy5QVXOfVXxAKnih+n1d8b6A0m41LNqlOMhUzfbpl4TDnqB19KraMWZqiaVjg=="
-      },
-      "System.Collections.Immutable": {
-        "type": "Transitive",
-        "resolved": "10.0.0-preview.3.25171.5",
-        "contentHash": "7EVfTaDkWy2g0uHIAtOzylYwb/T/khQEPUMfgqTxviPjH+9Aqm/Qnrf+nzLzGdgfV8o3UXFgI7iJUM4ZHxH2hQ=="
-      },
-      "System.Reflection.Metadata": {
-        "type": "Transitive",
-        "resolved": "10.0.0-preview.3.25171.5",
-        "contentHash": "+vmMtMSXPQTYqaHoLgWcd39Pwb7yGD4sCewmvVrdNzziRCBxjf6/DK8XCWzELxNsLhOmViZ4LIIr+uPa6K5pRw==",
-        "dependencies": {
-          "System.Collections.Immutable": "10.0.0-preview.3.25171.5"
-        }
       },
       "umbra.common": {
         "type": "Project"
