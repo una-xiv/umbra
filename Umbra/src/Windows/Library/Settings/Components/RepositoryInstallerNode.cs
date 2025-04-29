@@ -30,7 +30,7 @@ public class RepositoryInstallerNode : UdtNode
     private ButtonNode      ConfirmInstallButton => QuerySelector<ButtonNode>("#btn-confirm-install")!;
 
     private string _author = "una-xiv";
-    private string _repo   = "Umbra.SamplePlugin";
+    private string _repo   = "";
 
     private PluginFetcher.Release? _release;
 
