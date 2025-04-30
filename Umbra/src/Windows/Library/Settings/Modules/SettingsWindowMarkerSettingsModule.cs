@@ -185,6 +185,7 @@ public class SettingsWindowMarkerSettingsModule : SettingsWindowModule
                     MinValue    = i.MinValue,
                     MaxValue    = i.MaxValue,
                     Value       = factory.GetConfigValue<int>(i.Id),
+                    LeftMargin  = 36,
                 };
                 
                 integerNode.OnValueChanged += v => factory.SetConfigValue(i.Id, v);

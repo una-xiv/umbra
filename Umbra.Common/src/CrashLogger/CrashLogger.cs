@@ -160,10 +160,13 @@ internal static class CrashLogger
 
         while (true) {
             exceptions.Add(e);
+            Logger.Error(e.Message);
+            Logger.Error(e.StackTrace);
             count++;
 
             if (e.InnerException != null) {
                 e = e.InnerException;
+                Logger.Error("---------------------------------");
 
                 if (count > 10) break;
             } else {
