@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Drawing;
 using Umbra.Common;
+using Color = Una.Drawing.Color;
 
 namespace Umbra.Widgets;
 
@@ -15,7 +17,7 @@ internal sealed partial class CurrenciesWidget
             trackedSelectOptions.Add(currency.Id.ToString(), currency.Name);
             visibilityOptions.Add(new BooleanWidgetConfigVariable(
                 $"EnabledCurrency_{currency.Id}",
-                 currency.Name,
+                currency.Name,
                 null,
                 true
             ) {
@@ -71,6 +73,52 @@ internal sealed partial class CurrenciesWidget
                 I18N.Translate("Widget.Currencies.Config.ShowCap.Description"),
                 true
             ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
+
+            new BooleanWidgetConfigVariable(
+                "UseThresholdColors",
+                I18N.Translate("Widget.Currencies.Config.UseThresholdColors.Name"),
+                I18N.Translate("Widget.Currencies.Config.UseThresholdColors.Description"),
+                false
+            ) {
+                Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance"),
+                Group    = I18N.Translate("Widget.Currencies.Config.ThresholdColors")
+            },
+
+            new IntegerWidgetConfigVariable(
+                "ThresholdPercentage",
+                I18N.Translate("Widget.Currencies.Config.ThresholdPercentage.Name"),
+                I18N.Translate("Widget.Currencies.Config.ThresholdPercentage.Description"),
+                75,
+                0,
+                100
+            ) {
+                Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance"),
+                Group    = I18N.Translate("Widget.Currencies.Config.ThresholdColors"),
+                DisplayIf = () => GetConfigValue<bool>("UseThresholdColors")
+            },
+
+            new ColorWidgetConfigVariable(
+                "ThresholdColor",
+                I18N.Translate("Widget.Currencies.Config.ThresholdColor.Name"),
+                I18N.Translate("Widget.Currencies.Config.ThresholdColor.Description"),
+                0xFF44FFFF
+            ) {
+                Category  = I18N.Translate("Widget.ConfigCategory.MenuAppearance"),
+                Group     = I18N.Translate("Widget.Currencies.Config.ThresholdColors"),
+                DisplayIf = () => GetConfigValue<bool>("UseThresholdColors")
+            },
+
+            new ColorWidgetConfigVariable(
+                "ThresholdCapColor",
+                I18N.Translate("Widget.Currencies.Config.ThresholdCapColor.Name"),
+                I18N.Translate("Widget.Currencies.Config.ThresholdCapColor.Description"),
+                0xFF4444FF
+            ) {
+                Category  = I18N.Translate("Widget.ConfigCategory.MenuAppearance"),
+                Group     = I18N.Translate("Widget.Currencies.Config.ThresholdColors"),
+                DisplayIf = () => GetConfigValue<bool>("UseThresholdColors")
+            },
+
             ..visibilityOptions,
         ];
     }
@@ -78,11 +126,11 @@ internal sealed partial class CurrenciesWidget
     private uint GetTrackedCurrencyId()
     {
         string value = GetConfigValue<string>("TrackedCurrency");
-        
+
         if (string.IsNullOrEmpty(value)) {
             return 0;
         }
-        
+
         return uint.TryParse(value, out var id) ? id : 0;
     }
 
@@ -90,7 +138,7 @@ internal sealed partial class CurrenciesWidget
     {
         uint id = GetTrackedCurrencyId();
         if (id == 0) return null;
-        
+
         return DefaultCurrencies.GetValueOrDefault(id) ?? _customCurrencies.GetValueOrDefault(id);
     }
 }

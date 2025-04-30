@@ -48,6 +48,16 @@ public sealed partial class MenuPopup
             set => Node.QuerySelector(".alt-text")!.NodeValue = value;
         }
 
+        public Color? TextColor {
+            get => Node.QuerySelector(".text")!.Style.Color;
+            set => Node.QuerySelector(".text")!.Style.Color = value;
+        }
+        
+        public Color? AltTextColor {
+            get => Node.QuerySelector(".alt-text")!.Style.Color;
+            set => Node.QuerySelector(".alt-text")!.Style.Color = value;
+        }
+        
         public bool Selected {
             get => Node.ClassList.Contains("selected");
             set => Node.ToggleClass("selected", value);

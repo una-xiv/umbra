@@ -64,6 +64,23 @@ internal sealed partial class CurrenciesWidget
             ItemIdImmortalFlames => Player.GrandCompanyId == 3,
             _                    => true
         };
+
+        if (!GetConfigValue<bool>("UseThresholdColors") || currency.Capacity == 0) {
+            button.AltTextColor = null;
+            return;
+        }
+
+        int  thresholdPercentage = GetConfigValue<int>("ThresholdPercentage");
+        uint warningColor        = GetConfigValue<uint>("ThresholdColor");
+        uint capColor            = GetConfigValue<uint>("ThresholdCapColor");
+
+        if (currency.Count == currency.Capacity) {
+            button.AltTextColor = new(capColor);
+        } else if (thresholdPercentage > 0) {
+            button.AltTextColor = currency.Count >= currency.Capacity * thresholdPercentage / 100 ? new(warningColor) : null;
+        } else {
+            button.AltTextColor = null;
+        }
     }
 
     private string GetCountText(Currency currency, bool showCap)
