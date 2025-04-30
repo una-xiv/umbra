@@ -19,6 +19,7 @@ using Dalamud.IoC;
 using Dalamud.Plugin;
 using Dalamud.Plugin.Services;
 using ImGuiNET;
+using System.Diagnostics;
 using System.Numerics;
 using Umbra.Common;
 using Una.Drawing;
@@ -103,6 +104,15 @@ internal sealed class Plugin : IDalamudPlugin
                 }
                 if (ImGui.MenuItem("Draw Bounding Boxes", string.Empty, Node.DrawDebugInfo)) {
                     Node.DrawDebugInfo = !Node.DrawDebugInfo;
+                }
+                
+                ImGui.Separator();
+                if (ImGui.MenuItem("Open config directory")) {
+                    Process.Start(new ProcessStartInfo {
+                        FileName        = PluginInterface.ConfigDirectory.FullName,
+                        UseShellExecute = true,
+                        Verb            = "open"
+                    });
                 }
 
                 ImGui.Separator();
