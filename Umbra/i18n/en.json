@@ -107,6 +107,11 @@
     "Settings.AppearanceModule.MainAppearance": "Toolbar & Widget appearance",
     "Settings.AppearanceModule.FontConfiguration": "Font Configuration",
     "Settings.AppearanceModule.InstalledThemes": "Installed Themes",
+    "Settings.AppearanceModule.DominantColors.Name": "Dominant Colors",
+    "Settings.AppearanceModule.DominantColors.Windows": "Windows",
+    "Settings.AppearanceModule.DominantColors.Widgets": "Widgets",
+    "Settings.AppearanceModule.DominantColors.Inputs": "Inputs",
+    "Settings.AppearanceModule.DominantColors.AccentColor": "Accent Color",
     "Settings.AppearanceModule.BuiltInMessage.CannotModify": "Built-in themes cannot be modified.",
     "Settings.AppearanceModule.BuildInMessage.CreateToEdit": "Please create a new theme to start editing.",
     "Settings.AppearanceModule.CreateOrImport": "Create or Import",
@@ -1373,7 +1378,7 @@
     "ToolbarProfilesWindow.Notification.ImportedFailed.Title": "Import Failed",
     "ToolbarProfilesWindow.Notification.ImportedFailed.Description": "The profile could not be imported from your clipboard. Please make sure the copied data is valid and try again. Error: {0}",
     "Window.Installer.Title": "Umbra Installer",
-    "Window.Installer.Welcome.Title": "Welcome, {0}!",    
+    "Window.Installer.Welcome.Title": "Welcome, {0}!",
     "Window.Installer.Welcome.Description": "Lets get you set up with Umbra.",
     "Window.Installer.Welcome.Text": "Thank you for choosing Umbra!\n\nA lot has changed under the hood with this version, and we are excited to show you what we have in store for you. If you were already using Umbra, you might need to reconfigure some widget icon and text alignments in order for things to look like the way they were.\n\nPlease take a moment to go through the following steps to get started.",
     "Window.Installer.Prefill.Title": "Toolbar Widget Setup",
@@ -1394,5 +1399,7 @@
     "Window.Installer.Configure.Position.Bottom": "Bottom of the screen",
     "Window.Installer.Finish.Title": "All done, {0}!",
     "Window.Installer.Finish.Description": "You are all set up and ready to go!",
-    "Window.Installer.Finish.Text": "You can open Umbra's Settings window by typing \"/umbra\" in the chat window to customize everything to your hearts desire. If you have any questions or feedback, please feel free to reach out to us on Discord.\n\nThank you for using Umbra!"
+    "Window.Installer.Finish.Text": "You can open Umbra's Settings window by typing \"/umbra\" in the chat window to customize everything to your hearts desire. If you have any questions or feedback, please feel free to reach out to us on Discord.\n\nThank you for using Umbra!",
+    "Window.Installer.Footer.DontShowAgain": "Don't show this dialog again.",
+    "Window.Installer.Footer.Description": "You can always open this window via Umbra's Settings window later."
 }
