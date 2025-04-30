@@ -5,30 +5,30 @@
                 <node class="picker">
                     <simple-color-picker-node id="windows"/>
                 </node>
-                <node class="label" value="Windows"/>
+                <node class="label" value="_L(Settings.AppearanceModule.DominantColors.Windows)"/>
             </node>
             <node class="color">
                 <node class="picker">
                     <simple-color-picker-node id="widgets"/>
                 </node>
-                <node class="label" value="Widgets"/>
+                <node class="label" value="_L(Settings.AppearanceModule.DominantColors.Widgets)"/>
             </node>
             <node class="color">
                 <node class="picker">
                     <simple-color-picker-node id="inputs"/>
                 </node>
-                <node class="label" value="Inputs"/>
+                <node class="label" value="_L(Settings.AppearanceModule.DominantColors.Inputs)"/>
             </node>
             <node class="color">
                 <node class="picker">
                     <simple-color-picker-node id="accent"/>
                 </node>
-                <node class="label" value="Accent Color"/>
+                <node class="label" value="_L(Settings.AppearanceModule.DominantColors.AccentColor)"/>
             </node>
         </node>
-        <node class="text" value="Dominant Colors"/>
+        <node class="text" value="_L(Settings.AppearanceModule.DominantColors.Name)"/>
     </node>
-    
+
     <![CDATA[
     #color-editor-simple {
         flow: vertical;
@@ -40,7 +40,7 @@
         stroke-width: 1;
         stroke-inset: 1;
         border-radius: 6;
-        
+
         & > .text {
             auto-size: grow fit;
             text-align: bottom-center;
@@ -49,17 +49,17 @@
             color: "Window.TextMuted";
             outline-color: "Window.TextOutline";
         }
-        
+
         & > .columns {
             flow: horizontal;
             auto-size: grow fit;
             gap: 12;
-            
+
             & > .color {
                 flow: vertical;
                 auto-size: grow fit;
                 gap: 8;
-                
+
                 & > .picker {
                     auto-size: grow fit;
                     size: 0 80;
@@ -70,7 +70,7 @@
                     border-radius: 6;
                     padding: 6;
                 }
-                
+
                 & > .label {
                     auto-size: grow fit;
                     text-align: middle-center;

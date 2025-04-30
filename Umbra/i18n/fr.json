@@ -1159,6 +1159,11 @@
     "Settings.AppearanceModule.ToolbarAppearance": "Apparence de la barre d'outils",
     "Settings.AppearanceModule.MainAppearance": "Apparence de la barre d'outils & du widget",
     "Settings.AppearanceModule.FontConfiguration": "Configuration de la police",
+    "Settings.AppearanceModule.DominantColors.Name": "Couleurs dominantes",
+    "Settings.AppearanceModule.DominantColors.Windows": "Fenêtres",
+    "Settings.AppearanceModule.DominantColors.Widgets": "Widgets",
+    "Settings.AppearanceModule.DominantColors.Inputs": "Champs de saisie",
+    "Settings.AppearanceModule.DominantColors.AccentColor": "Couleur d'accent",
     "Settings.AppearanceModule.BuildInMessage.CreateToEdit": "Veuillez créer un nouveau thème pour commencer la modification.",
     "Settings.AppearanceModule.CreateOrImport": "Créer ou importer",
     "Settings.AppearanceModule.CreateTheme": "Créer un nouveau thème",
@@ -1394,5 +1399,7 @@
     "Window.Installer.Configure.Position.Bottom": "En bas de l'écran",
     "Window.Installer.Finish.Title": "Tout est prêt, {0} !",
     "Window.Installer.Finish.Description": "Vous êtes prêt à démarrer !",
-    "Window.Installer.Finish.Text": "Vous pouvez ouvrir la fenêtre des paramètres d'Umbra en tapant \"/umbra\" dans la fenêtre de discussion pour tout personnaliser à votre guise. Si vous avez des questions ou des commentaires, n'hésitez pas à nous contacter sur Discord.\n\nMerci d'utiliser Umbra !"
+    "Window.Installer.Finish.Text": "Vous pouvez ouvrir la fenêtre des paramètres d'Umbra en tapant \"/umbra\" dans la fenêtre de discussion pour tout personnaliser à votre guise. Si vous avez des questions ou des commentaires, n'hésitez pas à nous contacter sur Discord.\n\nMerci d'utiliser Umbra !",
+    "Window.Installer.Footer.DontShowAgain": "Ne plus afficher cette boîte de dialogue.",
+    "Window.Installer.Footer.Description": "Vous pouvez toujours rouvrir cette fenêtre via les paramètres d’Umbra."
 }
