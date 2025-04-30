@@ -41,6 +41,10 @@ internal sealed class AuxBarManager : IDisposable
     public void Dispose()
     {
         ConfigManager.CvarChanged -= OnCvarChanged;
+        
+        foreach (var node in AuxBarNodes) {
+            node.Value.Dispose();
+        }
     }
 
     public AuxBarConfig GetConfig(string id)
