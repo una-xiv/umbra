@@ -65,7 +65,7 @@ internal sealed partial class CurrenciesWidget(
 
     private void ProcessCurrency(Currency currency)
     {
-        if (UpdateCurrency(currency)) {
+        if (UpdateCurrency(currency) && currency == GetTrackedCurrency()) {
             IconNode.ToggleClass("updated", true);
         }
 
