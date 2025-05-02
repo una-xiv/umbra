@@ -167,6 +167,8 @@
   "Settings.WidgetsModule.Aux.Name.Name": "補助バー名",
   "Settings.WidgetsModule.Aux.Decorate.Name": "バーを装飾する",
   "Settings.WidgetsModule.Aux.Decorate.Description": "メインツールバーと同様の背景と境界線で補助バーを装飾します。この設定が無効になっている場合、補助バーは透明になります。",
+  "Settings.WidgetsModule.Aux.Vertical.Name": "垂直方向",
+  "Settings.WidgetsModule.Aux.Vertical.Description": "補助バーを垂直方向に表示し、ウィジェットを上から下にレンダリングするかどうか。",
   "Settings.WidgetsModule.Aux.EnableShadow.Name": "シャドウ効果を有効にする",
   "Settings.WidgetsModule.Aux.EnableShadow.Description": "補助バーの周りにソフトシャドウを追加して、より目立たせます。",
   "Settings.WidgetsModule.Aux.RoundedCorners.Name": "角丸を有効にする",

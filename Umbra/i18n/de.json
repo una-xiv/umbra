@@ -167,6 +167,8 @@
   "Settings.WidgetsModule.Aux.Name.Name": "Name der Hilfsleiste",
   "Settings.WidgetsModule.Aux.Decorate.Name": "Leiste dekorieren",
   "Settings.WidgetsModule.Aux.Decorate.Description": "Dekoriert die Hilfsleiste mit einem Hintergrund und einem Rahmen ähnlich der Hauptsymbolleiste. Die Hilfsleiste ist transparent, wenn diese Einstellung deaktiviert ist.",
+  "Settings.WidgetsModule.Aux.Vertical.Name": "Vertikale Ausrichtung",
+  "Settings.WidgetsModule.Aux.Vertical.Description": "Gibt an, ob die Hilfsleiste vertikal ausgerichtet und Widgets von oben nach unten gerendert werden sollen.",
   "Settings.WidgetsModule.Aux.EnableShadow.Name": "Schatteneffekt aktivieren",
   "Settings.WidgetsModule.Aux.EnableShadow.Description": "Fügt einen weichen Schatten um die Hilfsleiste hinzu, um sie hervorzuheben.",
   "Settings.WidgetsModule.Aux.RoundedCorners.Name": "Abgerundete Ecken aktivieren",

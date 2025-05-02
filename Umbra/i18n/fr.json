@@ -1197,6 +1197,8 @@
     "Settings.WidgetsModule.Aux.Name.Name": "Nom de la barre auxiliaire",
     "Settings.WidgetsModule.Aux.Decorate.Name": "Décorer la barre",
     "Settings.WidgetsModule.Aux.Decorate.Description": "Décore la barre auxiliaire avec un arrière-plan et une bordure similaires à la barre d'outils principale. La barre auxiliaire sera transparente si ce paramètre est désactivé.",
+    "Settings.WidgetsModule.Aux.Vertical.Name": "Orientation verticale",
+    "Settings.WidgetsModule.Aux.Vertical.Description": "Indique s'il faut afficher la barre auxiliaire en orientation verticale et rendre les widgets de haut en bas.",
     "Settings.WidgetsModule.Aux.EnableShadow.Name": "Activer l'effet d'ombre",
     "Settings.WidgetsModule.Aux.EnableShadow.Description": "Ajoute une ombre douce autour de la barre auxiliaire pour la faire ressortir davantage.",
     "Settings.WidgetsModule.Aux.RoundedCorners.Name": "Activer les coins arrondis",

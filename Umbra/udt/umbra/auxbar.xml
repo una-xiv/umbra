@@ -15,5 +15,17 @@
             padding: 0 2;
         }
     }
+    
+    #AuxBar.vertical {
+        size: 0;
+        
+        &.toolbar {
+            & > .section.aux-section { padding: 2; }
+        }
+        
+        & > .section.aux-section {
+            flow: vertical;
+        }
+    }
     ]]>
 </udt>

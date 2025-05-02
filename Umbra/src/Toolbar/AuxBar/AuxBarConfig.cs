@@ -27,6 +27,7 @@ public class AuxBarConfig
     public bool   ShowInInstance         { get; set; } = true;
     public bool   ShowInCombat           { get; set; } = true;
     public bool   ShowUnsheathed         { get; set; } = true;
+    public bool   IsVertical             { get; set; }
 
     public void Update(AuxBarConfig other)
     {
@@ -49,5 +50,6 @@ public class AuxBarConfig
         ShowInInstance         = other.ShowInInstance;
         ShowInCombat           = other.ShowInCombat;
         ShowUnsheathed         = other.ShowUnsheathed;
+        IsVertical             = other.IsVertical;
     }
 }

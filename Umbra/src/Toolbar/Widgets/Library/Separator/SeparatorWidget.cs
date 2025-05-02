@@ -42,8 +42,17 @@ internal class SeparatorWidget(
         Node.Style.Size = new(GetConfigValue<int>("Width"), SafeHeight);
         Node line = Node.FindById("Line")!;
 
-        line.Style.Size            = new(GetConfigValue<int>("LineWidth"), GetConfigValue<int>("LineHeight"));
         line.Style.BackgroundColor = new(GetConfigValue<string>("LineColor"));
+
+        if (IsMemberOfVerticalBar) {
+            Node.Style.Size     = new(0, GetConfigValue<int>("Width"));     // Use width for height in vertical context.
+            line.Style.Size     = new(0, GetConfigValue<int>("LineWidth")); // Use width for height in vertical context.
+            line.Style.AutoSize = (AutoSize.Grow, AutoSize.Fit);
+        } else {
+            Node.Style.Size     = new(0, SafeHeight);
+            line.Style.Size     = new(GetConfigValue<int>("LineWidth"), GetConfigValue<int>("LineHeight"));
+            line.Style.AutoSize = null;
+        }
     }
 
     protected override IEnumerable<IWidgetConfigVariable> GetConfigVariables()

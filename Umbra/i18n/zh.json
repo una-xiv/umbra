@@ -167,6 +167,8 @@
   "Settings.WidgetsModule.Aux.Name.Name": "辅助栏名称",
   "Settings.WidgetsModule.Aux.Decorate.Name": "装饰栏",
   "Settings.WidgetsModule.Aux.Decorate.Description": "使用类似于主工具栏的背景和边框来装饰辅助栏。如果禁用此设置，辅助栏将是透明的。",
+  "Settings.WidgetsModule.Aux.Vertical.Name": "垂直方向",
+  "Settings.WidgetsModule.Aux.Vertical.Description": "是否以垂直方向显示辅助栏并从上到下渲染小部件。",
   "Settings.WidgetsModule.Aux.EnableShadow.Name": "启用阴影效果",
   "Settings.WidgetsModule.Aux.EnableShadow.Description": "在辅助栏周围添加柔和的阴影，使其更加突出。",
   "Settings.WidgetsModule.Aux.RoundedCorners.Name": "启用圆角",

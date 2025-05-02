@@ -167,6 +167,8 @@
     "Settings.WidgetsModule.Aux.Name.Name": "Auxiliary Bar Name",
     "Settings.WidgetsModule.Aux.Decorate.Name": "Decorate the bar",
     "Settings.WidgetsModule.Aux.Decorate.Description": "Decorates the auxiliary bar with a background and border similar to the main toolbar. The auxiliary bar will be transparent if this setting is disabled.",
+    "Settings.WidgetsModule.Aux.Vertical.Name": "Vertical orientation",
+    "Settings.WidgetsModule.Aux.Vertical.Description": "Whether to display the auxiliary bar in a vertical orientation and render widgets from top to bottom.",
     "Settings.WidgetsModule.Aux.EnableShadow.Name": "Enable shadow effect",
     "Settings.WidgetsModule.Aux.EnableShadow.Description": "Adds a soft shadow around the auxiliary bar to make it stand out more.",
     "Settings.WidgetsModule.Aux.RoundedCorners.Name": "Enable rounded corners",
