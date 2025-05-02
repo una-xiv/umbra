@@ -33,7 +33,7 @@ internal sealed partial class UnifiedMainMenuPopup
     private void CreateContentNodes()
     {
         ContentsNode.Clear();
-        
+
         foreach (var category in MainMenuRepository.GetCategories()) {
             Node categoryNode = new() {
                 Id        = $"Category_{category.Category.ToString()}",
@@ -73,6 +73,8 @@ internal sealed partial class UnifiedMainMenuPopup
     private Node CreateContentButton(MainMenuItem item, bool isSortable = false)
     {
         Node node = new() { ClassList = ["item"] };
+        
+        node.IsDisabled = item.IsDisabled;
 
         switch (item.Type) {
             case MainMenuItemType.Separator:
@@ -150,7 +152,7 @@ internal sealed partial class UnifiedMainMenuPopup
     private void UpdatePinnedItems()
     {
         PinnedListNode.ToggleClass("top", IsTopAligned);
-        
+
         if (PinnedItems.Count == 0) {
             PinnedListNode.Style.IsVisible = false;
             return;
@@ -175,7 +177,7 @@ internal sealed partial class UnifiedMainMenuPopup
                 }
 
                 node.ToggleClass("pinned", true);
-                
+
                 PinnedListNode.AppendChild(node);
                 continue;
             }
