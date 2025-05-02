@@ -110,6 +110,8 @@ internal sealed partial class UnifiedMainMenuPopup
 
     private void SetNodeIcon(Node node, object? icon, uint? iconColor)
     {
+        node.Style.ImageGrayscale = DesaturateIcons;
+        
         switch (icon) {
             case uint iconId:
                 node.Style.IconId         = iconId;
