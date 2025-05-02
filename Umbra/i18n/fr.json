@@ -677,6 +677,8 @@
     "Widget.GearsetSwitcher.Config.IconType.Option.Green": "Vert (Petit!)",
     "Widget.GearsetSwitcher.Config.ShowRole.Name": "Afficher {0}",
     "Widget.GearsetSwitcher.Config.ShowRole.Description": "Indiquer si les ensembles d'équipements associés à ce rôle doivent être affichés dans la fenêtre contextuelle.",
+    "Widget.GearsetSwitcher.Config.ShowRoleTitle.Name": "Afficher le titre de {0}",
+    "Widget.GearsetSwitcher.Config.ShowRoleTitle.Description": "Indique si le titre de ce rôle doit être affiché dans la popup.",
     "Widget.GearsetSwitcher.Config.RoleLocation.Name": "{0} - Emplacement horizontal du rôle",
     "Widget.GearsetSwitcher.Config.RoleLocation.Description": "L'emplacement des ensembles d'engrenages associés à ce rôle dans la fenêtre contextuelle.",
     "Widget.GearsetSwitcher.Config.RoleLocation.Option.LeftColumn": "Colonne de gauche",

@@ -92,6 +92,15 @@ internal sealed partial class GearsetSwitcherWidget
                 Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance"),
                 Group    = I18N.Translate("Widget.ConfigCategory.GearsetRoleOptions", role)
             },
+            new BooleanWidgetConfigVariable(
+                $"Show{name}Title",
+                I18N.Translate("Widget.GearsetSwitcher.Config.ShowRoleTitle.Name", role),
+                I18N.Translate("Widget.GearsetSwitcher.Config.ShowRoleTitle.Description", role),
+                true
+            ) {
+                Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance"),
+                Group    = I18N.Translate("Widget.ConfigCategory.GearsetRoleOptions", role)
+            },
             new SelectWidgetConfigVariable(
                 $"{name}RoleLocation",
                 I18N.Translate("Widget.GearsetSwitcher.Config.RoleLocation.Name", role),

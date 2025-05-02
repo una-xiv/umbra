@@ -32,21 +32,23 @@ internal sealed partial class GearsetSwitcherPopup
 
     private void UpdateGroupPositions()
     {
-        UpdateGroupPosition(GearsetGroupNodes[GearsetCategory.Tank], _showTankGroup, _tankGroupLocation, _tankGroupSortIndex, _tankGroupMaxChildren);
-        UpdateGroupPosition(GearsetGroupNodes[GearsetCategory.Healer], _showHealerGroup, _healerGroupLocation, _healerGroupSortIndex, _healerGroupMaxChildren);
-        UpdateGroupPosition(GearsetGroupNodes[GearsetCategory.Melee], _showMeleeGroup, _meleeGroupLocation, _meleeGroupSortIndex, _meleeGroupMaxChildren);
-        UpdateGroupPosition(GearsetGroupNodes[GearsetCategory.Ranged], _showRangedGroup, _rangedGroupLocation, _rangedGroupSortIndex, _rangedGroupMaxChildren);
-        UpdateGroupPosition(GearsetGroupNodes[GearsetCategory.Caster], _showCasterGroup, _casterGroupLocation, _casterGroupSortIndex, _casterGroupMaxChildren);
-        UpdateGroupPosition(GearsetGroupNodes[GearsetCategory.Crafter], _showCrafterGroup, _crafterGroupLocation, _crafterGroupSortIndex, _crafterGroupMaxChildren);
-        UpdateGroupPosition(GearsetGroupNodes[GearsetCategory.Gatherer], _showGathererGroup, _gathererGroupLocation, _gathererGroupSortIndex, _gathererGroupMaxChildren);
+        UpdateGroupPosition(GearsetGroupNodes[GearsetCategory.Tank], _showTankGroup, _showTankGroupTitle, _tankGroupLocation, _tankGroupSortIndex, _tankGroupMaxChildren);
+        UpdateGroupPosition(GearsetGroupNodes[GearsetCategory.Healer], _showHealerGroup, _showHealerGroupTitle, _healerGroupLocation, _healerGroupSortIndex, _healerGroupMaxChildren);
+        UpdateGroupPosition(GearsetGroupNodes[GearsetCategory.Melee], _showMeleeGroup, _showMeleeGroupTitle, _meleeGroupLocation, _meleeGroupSortIndex, _meleeGroupMaxChildren);
+        UpdateGroupPosition(GearsetGroupNodes[GearsetCategory.Ranged], _showRangedGroup, _showRangedGroupTitle, _rangedGroupLocation, _rangedGroupSortIndex, _rangedGroupMaxChildren);
+        UpdateGroupPosition(GearsetGroupNodes[GearsetCategory.Caster], _showCasterGroup, _showCasterGroupTitle, _casterGroupLocation, _casterGroupSortIndex, _casterGroupMaxChildren);
+        UpdateGroupPosition(GearsetGroupNodes[GearsetCategory.Crafter], _showCrafterGroup, _showCrafterGroupTitle, _crafterGroupLocation, _crafterGroupSortIndex, _crafterGroupMaxChildren);
+        UpdateGroupPosition(GearsetGroupNodes[GearsetCategory.Gatherer], _showGathererGroup, _showGathererGroupTitle, _gathererGroupLocation, _gathererGroupSortIndex, _gathererGroupMaxChildren);
     }
 
-    private void UpdateGroupPosition(Node groupNode, bool enabled, string columnId, int sortIndex, int maxChildren)
+    private void UpdateGroupPosition(Node groupNode, bool enabled, bool showTitle, string columnId, int sortIndex, int maxChildren)
     {
         groupNode.SortIndex       = sortIndex;
         groupNode.Style.IsVisible = enabled;
 
         Node bodyNode = groupNode.QuerySelector(".body")!;
+        
+        groupNode.QuerySelector(".title")!.Style.IsVisible = showTitle;
 
         if (_enableRoleScrolling) {
             int   count = Math.Min(maxChildren, bodyNode.ChildNodes.Count);

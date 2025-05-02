@@ -894,6 +894,8 @@
     "Widget.GearsetSwitcher.Config.IconType.Option.Green": "Green (Small!)",
     "Widget.GearsetSwitcher.Config.ShowRole.Name": "Show {0}",
     "Widget.GearsetSwitcher.Config.ShowRole.Description": "Whether to show the gearsets associated with this role in the popup.",
+    "Widget.GearsetSwitcher.Config.ShowRoleTitle.Name": "Show {0} title",
+    "Widget.GearsetSwitcher.Config.ShowRoleTitle.Description": "Whether to show the title of this role in the popup.",
     "Widget.GearsetSwitcher.Config.RoleLocation.Name": "{0} - Horizontal role location",
     "Widget.GearsetSwitcher.Config.RoleLocation.Description": "The location of the gearsets associated with this role in the popup.",
     "Widget.GearsetSwitcher.Config.RoleLocation.Option.LeftColumn": "Left column",

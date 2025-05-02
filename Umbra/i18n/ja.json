@@ -894,6 +894,8 @@
   "Widget.GearsetSwitcher.Config.IconType.Option.Green": "緑 (小!)",
   "Widget.GearsetSwitcher.Config.ShowRole.Name": "{0}を表示",
   "Widget.GearsetSwitcher.Config.ShowRole.Description": "このロールに関連付けられたギアセットをポップアップに表示するかどうか。",
+  "Widget.GearsetSwitcher.Config.ShowRoleTitle.Name": "{0}のタイトルを表示",
+  "Widget.GearsetSwitcher.Config.ShowRoleTitle.Description": "このロールのタイトルをポップアップに表示するかどうか。",
   "Widget.GearsetSwitcher.Config.RoleLocation.Name": "{0} - 水平ロール位置",
   "Widget.GearsetSwitcher.Config.RoleLocation.Description": "ポップアップ内でこの役割に関連するギアセットの位置。",
   "Widget.GearsetSwitcher.Config.RoleLocation.Option.LeftColumn": "左の列",

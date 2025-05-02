@@ -894,6 +894,8 @@
   "Widget.GearsetSwitcher.Config.IconType.Option.Green": "绿色 (小!)",
   "Widget.GearsetSwitcher.Config.ShowRole.Name": "显示 {0}",
   "Widget.GearsetSwitcher.Config.ShowRole.Description": "是否在弹出窗口中显示与此职能关联的套装。",
+  "Widget.GearsetSwitcher.Config.ShowRoleTitle.Name": "显示 {0} 标题",
+  "Widget.GearsetSwitcher.Config.ShowRoleTitle.Description": "是否在弹出窗口中显示此角色的标题。",
   "Widget.GearsetSwitcher.Config.RoleLocation.Name": "{0} - 职能在列中的水平位置",
   "Widget.GearsetSwitcher.Config.RoleLocation.Description": "在弹出窗口中显示与此职能关联的套装的位置。",
   "Widget.GearsetSwitcher.Config.RoleLocation.Option.LeftColumn": "左侧列",

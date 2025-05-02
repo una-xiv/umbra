@@ -894,6 +894,8 @@
   "Widget.GearsetSwitcher.Config.IconType.Option.Green": "Grün (Klein!)",
   "Widget.GearsetSwitcher.Config.ShowRole.Name": "Zeige {0}",
   "Widget.GearsetSwitcher.Config.ShowRole.Description": "Ob die mit dieser Rolle verbundenen Ausrüstungssets im Popup angezeigt werden sollen.",
+  "Widget.GearsetSwitcher.Config.ShowRoleTitle.Name": "Afficher le titre de {0}",
+  "Widget.GearsetSwitcher.Config.ShowRoleTitle.Description": "Indique si le titre de ce rôle doit être affiché dans la popup.",
   "Widget.GearsetSwitcher.Config.RoleLocation.Name": "{0} - Horizontale Rollenposition",
   "Widget.GearsetSwitcher.Config.RoleLocation.Description": "Die Position der Ausrüstungssätze, die mit dieser Rolle im Popup verknüpft sind.",
   "Widget.GearsetSwitcher.Config.RoleLocation.Option.LeftColumn": "Linke Spalte",
