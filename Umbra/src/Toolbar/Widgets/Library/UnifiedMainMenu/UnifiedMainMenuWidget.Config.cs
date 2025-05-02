@@ -24,8 +24,8 @@ internal sealed partial class UnifiedMainMenuWidget
             ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
             new BooleanWidgetConfigVariable(
                 "DesaturateIcons",
-                I18N.Translate("Widget.UnifiedMainMenu.Config.DesaturateIcons.Name"),
-                I18N.Translate("Widget.UnifiedMainMenu.Config.DesaturateIcons.Description"),
+                I18N.Translate("Widgets.MenuPopup.Config.DesaturateMenuIcons.Name"),
+                I18N.Translate("Widgets.MenuPopup.Config.DesaturateMenuIcons.Description"),
                 false
             ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
             new IconIdWidgetConfigVariable(
@@ -67,6 +67,14 @@ internal sealed partial class UnifiedMainMenuWidget
                     { "RoleColor", I18N.Translate("Widget.UnifiedMainMenu.Config.BannerColorStyle.Option.RoleColor") },
                     { "None", I18N.Translate("Widget.UnifiedMainMenu.Config.BannerColorStyle.Option.None") },
                 }
+            ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
+            new IntegerWidgetConfigVariable(
+                "VerticalItemSpacing",
+                I18N.Translate("Widgets.MenuPopup.Config.VerticalItemSpacing.Name"),
+                I18N.Translate("Widgets.MenuPopup.Config.VerticalItemSpacing.Description"),
+                2,
+                0,
+                100
             ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
             new StringWidgetConfigVariable(
                 "PinnedItems",

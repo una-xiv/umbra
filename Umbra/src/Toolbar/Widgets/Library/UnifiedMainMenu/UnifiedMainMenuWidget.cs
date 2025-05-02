@@ -24,14 +24,14 @@ internal sealed partial class UnifiedMainMenuWidget(
         StandardWidgetFeatures.Icon |
         StandardWidgetFeatures.CustomizableIcon;
 
-    protected override string DefaultIconType => IconTypeGameIcon;
-    protected override uint  DefaultGameIconId => 14;
+    protected override string DefaultIconType   => IconTypeGameIcon;
+    protected override uint   DefaultGameIconId => 14;
 
     protected override void OnLoad()
     {
         Popup.OnPinnedItemsChanged += OnPinnedItemsChanged;
         Popup.OnPopupOpen          += HydratePinnedItems;
-        
+
         Popup.SetPinnedItems(JsonConvert.DeserializeObject<List<string>>(GetConfigValue<string>("PinnedItems")) ?? []);
     }
 
@@ -49,6 +49,7 @@ internal sealed partial class UnifiedMainMenuWidget(
         Popup.BannerColorStyle    = GetConfigValue<string>("BannerColorStyle");
         Popup.DesaturateIcons     = GetConfigValue<bool>("DesaturateIcons");
         Popup.OpenSubMenusOnHover = GetConfigValue<bool>("OpenSubMenusOnHover");
+        Popup.VerticalItemSpacing = GetConfigValue<int>("VerticalItemSpacing");
 
         SetText(GetConfigValue<string>("Label"));
     }

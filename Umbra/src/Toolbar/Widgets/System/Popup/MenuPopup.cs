@@ -12,6 +12,8 @@ public sealed partial class MenuPopup : WidgetPopup
 
     protected override Node Node { get; }
 
+    private int VerticalItemSpacing { get; set; }
+    
     private readonly UdtDocument _document = UmbraDrawing.DocumentFrom("umbra.widgets._popup_menu.xml");
 
     private readonly Dictionary<Node, IMenuItem> _items = [];
@@ -26,11 +28,18 @@ public sealed partial class MenuPopup : WidgetPopup
         foreach (var button in Node.QuerySelectorAll(".icon")) {
             button.Style.ImageGrayscale = UseGrayscaleIcons;
         }
+
+        Node.Style.Gap = 2 + VerticalItemSpacing;
+        
+        foreach (var group in Node.QuerySelectorAll(".group > .content")) {
+            group.Style.Gap = 2 + VerticalItemSpacing;
+        }
     }
 
     protected override void UpdateConfigVariables(ToolbarWidget widget)
     {
-        UseGrayscaleIcons = widget.GetConfigValue<bool>("DesaturateMenuIcons");
+        UseGrayscaleIcons   = widget.GetConfigValue<bool>("DesaturateMenuIcons");
+        VerticalItemSpacing = widget.GetConfigValue<int>("VerticalItemSpacing");
     }
 
     public override IEnumerable<IWidgetConfigVariable> GetConfigVariables()
@@ -38,9 +47,17 @@ public sealed partial class MenuPopup : WidgetPopup
         return [
             new BooleanWidgetConfigVariable(
                 "DesaturateMenuIcons",
-                I18N.Translate("Widget.CustomMenu.Config.DesaturateMenuIcons.Name"),
-                I18N.Translate("Widget.CustomMenu.Config.DesaturateMenuIcons.Description"),
+                I18N.Translate("Widgets.MenuPopup.Config.DesaturateMenuIcons.Name"),
+                I18N.Translate("Widgets.MenuPopup.Config.DesaturateMenuIcons.Description"),
                 false
+            ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
+            new IntegerWidgetConfigVariable(
+                "VerticalItemSpacing",
+                I18N.Translate("Widgets.MenuPopup.Config.VerticalItemSpacing.Name"),
+                I18N.Translate("Widgets.MenuPopup.Config.VerticalItemSpacing.Description"),
+                0,
+                0,
+                100
             ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
         ];
     }
@@ -50,7 +67,7 @@ public sealed partial class MenuPopup : WidgetPopup
         foreach (var item in _items.Values.ToImmutableArray()) {
             Remove(item, disposeChildren);
         }
-        
+
         _items.Clear();
     }
 
@@ -59,7 +76,7 @@ public sealed partial class MenuPopup : WidgetPopup
         if (!_items.TryAdd(item.Node, item)) return;
 
         Node.AppendChild(item.Node);
-        
+
         if (item is Button) item.Node.OnClick      += OnButtonClicked;
         if (item is Group grp) grp.OnButtonClicked += OnGroupButtonClicked;
     }
@@ -68,7 +85,7 @@ public sealed partial class MenuPopup : WidgetPopup
     {
         if (_items.Remove(item.Node)) {
             item.Node.Remove(dispose);
-            if (item is Button) item.Node.OnClick -= OnButtonClicked;
+            if (item is Button) item.Node.OnClick      -= OnButtonClicked;
             if (item is Group grp) grp.OnButtonClicked -= OnGroupButtonClicked;
         }
     }
