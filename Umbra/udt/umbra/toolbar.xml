@@ -27,11 +27,12 @@
     .toolbar {
         size: 0 32;
         gap: 8;
-        border-color: "Toolbar.Border";
         
         & > .bg {
             anchor: none;
             auto-size: grow;
+            border-color: "Toolbar.Border";
+            padding: 1;
         }
         
         &.shadow {
@@ -85,7 +86,7 @@
             
             &.stretched {
                 & > .bg {
-                    border-width: 0 0 1 0;
+                    border-width: 1 0 0 0;
                     border-radius: 0;
                 }
             }
