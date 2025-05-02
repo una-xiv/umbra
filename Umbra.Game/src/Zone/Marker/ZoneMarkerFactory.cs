@@ -151,7 +151,7 @@ internal sealed class ZoneMarkerFactory(IDataManager dataManager)
         int x = marker.MapMarker.X;
         int y = marker.MapMarker.Y;
 
-        Vector3 worldPosition = new(x / 16, 0, y / 16);
+        Vector3 worldPosition = new(x / 16f, 0, y / 16f);
         Vector2 mapPosition   = MapUtil.WorldToMap(new(worldPosition.X, worldPosition.Z), map);
 
         return new(
@@ -166,7 +166,7 @@ internal sealed class ZoneMarkerFactory(IDataManager dataManager)
 
     public unsafe ZoneMarker FromMapMarkerData(Sheet.Map map, MapMarkerData data)
     {
-        var position = MapUtil.WorldToMap(new(data.X, data.Z), map);
+        var position = MapUtil.WorldToMap(new(data.Position.X, data.Position.Z), map);
         var name     = SanitizeMarkerName(MemoryHelper.ReadSeString(data.TooltipString).ToString());
         var type     = DetermineMarkerType(data.IconId, name);
 
@@ -174,7 +174,7 @@ internal sealed class ZoneMarkerFactory(IDataManager dataManager)
             type,
             name,
             position,
-            new(data.X, data.Y + 2f, data.Z),
+            data.Position with { Y = data.Position.Y + 2f },
             type is ZoneMarkerType.Area or ZoneMarkerType.ObjectiveArea ? 0u : data.IconId,
             data.ObjectiveId,
             data.Radius

@@ -17,6 +17,7 @@
     -->
     
     <node id="Toolbar" class="toolbar bottom">
+        <node class="bg"/>
         <node id="Left" class="section left"/>
         <node id="Center" class="section center"/>
         <node id="Right" class="section right"/>
@@ -28,55 +29,81 @@
         gap: 8;
         border-color: "Toolbar.Border";
         
+        & > .bg {
+            anchor: none;
+            auto-size: grow;
+        }
+        
         &.shadow {
-            drop-shadow: 0 0 12 12;
+            & > .bg { 
+                shadow-size: 32;
+                shadow-inset: 6;
+            }
         }
         
         &.rounded {
-            rounded-corners: all;
-            border-radius: 8;
+            & > .bg {
+                rounded-corners: all;
+                border-radius: 6;
+            }
         }
         
         &.top {
             anchor: top-center;
-            background-gradient: vertical "Toolbar.Background2" "Toolbar.Background1";
-            border-width: 0 1 1 1;
-            rounded-corners: bottom-left bottom-right;
             padding: 0 0 1 0; // Offset for the border.
             
-            &.stretched {
-                border-width: 0 0 1 0;
-                border-radius: 0;
+            & > .bg {
+                background-gradient: vertical "Toolbar.Background2" "Toolbar.Background1";
+                border-width: 0 1 1 1;
+                rounded-corners: bottom-left bottom-right;
             }
             
             &:blur {
-                border-color: "Toolbar.InactiveBorder";
-                background-gradient: vertical "Toolbar.InactiveBackground2" "Toolbar.InactiveBackground1";
+                & > .bg {
+                    border-color: "Toolbar.InactiveBorder";
+                    background-gradient: vertical "Toolbar.InactiveBackground1" "Toolbar.InactiveBackground2";
+                }
+            }
+            
+            &.stretched {
+                & > .bg {
+                    border-width: 0 0 1 0;
+                    border-radius: 0;
+                }
             }
         }
         
         &.bottom {
             anchor: bottom-center;
-            background-gradient: vertical "Toolbar.Background1" "Toolbar.Background2";
-            border-width: 1 1 0 1;
-            rounded-corners: top-left top-right;
             padding: 1 0 0 0; // Offset for the border.
             
+            & > .bg {
+                background-gradient: vertical "Toolbar.Background1" "Toolbar.Background2";
+                border-width: 1 1 0 1;
+                rounded-corners: top-left top-right;
+            }
+            
             &.stretched {
-                border-width: 1 0 0 0;
-                border-radius: 0;
+                & > .bg {
+                    border-width: 0 0 1 0;
+                    border-radius: 0;
+                }
             }
             
             &:blur {
-                border-color: "Toolbar.InactiveBorder";
-                background-gradient: vertical "Toolbar.InactiveBackground1" "Toolbar.InactiveBackground2";
+                & > .bg {
+                    border-color: "Toolbar.InactiveBorder";
+                    background-gradient: vertical "Toolbar.InactiveBackground1" "Toolbar.InactiveBackground2";
+                }
             }
         }
         
         &.floating {
-            background-gradient: vertical "Toolbar.Background1" "Toolbar.Background2";
-            border-width: 1;
-            rounded-corners: all;
+            & > .bg {
+                background-gradient: vertical "Toolbar.Background1" "Toolbar.Background2";
+                border-width: 1;
+                rounded-corners: all;
+            }
         }
         
         & > .section {

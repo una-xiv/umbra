@@ -92,7 +92,7 @@ internal partial class Toolbar
         float height = Height;
 
         _toolbarNode.Style.Size = new(width, height);
-        _toolbarNode.Style.Margin = new() {
+        _toolbarNode.Style.Padding = new() {
             Left  = (int)(ToolbarLeftMargin / Node.ScaleFactor),
             Right = (int)(ToolbarRightMargin / Node.ScaleFactor)
         };
