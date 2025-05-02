@@ -98,8 +98,14 @@ internal sealed partial class CurrenciesWidget(
         string capText  = GetCountText(currency, GetConfigValue<bool>("ShowCapOnWidget"));
         bool   showName = GetConfigValue<bool>("ShowName");
 
-        SetText(showName ? currency.Name : capText);
-        SetSubText(showName ? capText : null);
+        if (IsSubTextEnabled) {
+            SetText(showName ? currency.Name : capText);
+            SetSubText(showName ? capText : null);
+        } else {
+            SetText(showName ? $"{capText} {currency.Name}" : capText);
+            SetSubText(null);
+        }
+
         SetGameIconId(currency.IconId);
 
         if (currency.Capacity > 0) {

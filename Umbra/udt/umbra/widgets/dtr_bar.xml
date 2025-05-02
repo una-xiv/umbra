@@ -4,6 +4,7 @@
     <![CDATA[
     .dtr-bar {
         gap: 8;
+        flow-order: reverse;
         
         & > .dtr-bar-entry {
             background-color: 0;
