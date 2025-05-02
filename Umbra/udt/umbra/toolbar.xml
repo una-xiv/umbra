@@ -111,7 +111,9 @@
             auto-size: fit grow;
             gap: 8;
             padding: 0 8;
-            
+        }
+        
+        &.stretched > .section {
             &.left { anchor: top-left; }
             &.center { anchor: top-center; }
             &.right { anchor: top-right; }
