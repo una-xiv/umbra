@@ -48,6 +48,8 @@ internal sealed partial class UnifiedMainMenuPopup : WidgetPopup
         UpdatePinnedItems();
 
         Node.QuerySelector("#side-panel")!.Style.Gap = 2 + VerticalItemSpacing;
+        PinnedListNode.Style.Gap = 2 + VerticalItemSpacing;
+        
         foreach (var node in Node.QuerySelectorAll(".category")) {
             node.Style.Gap = 2 + VerticalItemSpacing;
         }

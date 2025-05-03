@@ -221,8 +221,6 @@ public abstract class WidgetPopup : IDisposable
             Logger.Error(e.Message);
             Logger.Error(e.StackTrace);
         }
-        
-        ImGui.PopStyleVar(4);
 
         bool keepOpen = !_shouldClose && hasFocus;
 
