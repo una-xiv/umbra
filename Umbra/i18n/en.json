@@ -945,6 +945,8 @@
     "Widget.Teleport.Config.PopupDisplayMode.Option.Extended": "Extended - Show all categories",
     "Widget.Teleport.Config.OpenCategoryOnHover.Name": "Open expansion on hover",
     "Widget.Teleport.Config.OpenCategoryOnHover.Description": "Opens an expansion in the popup menu when your mouse hovers over it, rather than having to click it.",
+    "Widget.Teleport.Config.PopupHeight.Name": "Menu height",
+    "Widget.Teleport.Config.PopupHeight.Description": "The height of the teleport menu in pixels.",
     "Widget.Teleport.Config.ShowNotification.Name": "Show teleport notification",
     "Widget.Teleport.Config.ShowNotification.Description": "Shows a notification on your screen to confirm where you are teleporting to after clicking a teleport destination in the menu.",
     "Widget.Teleport.Config.DefaultOpenedGroupName.Name": "List to open by default",

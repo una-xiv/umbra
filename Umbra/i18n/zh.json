@@ -945,6 +945,8 @@
   "Widget.Teleport.Config.PopupDisplayMode.Option.Extended": "扩展 - 显示所有类别",
   "Widget.Teleport.Config.OpenCategoryOnHover.Name": "悬停时打开扩展",
   "Widget.Teleport.Config.OpenCategoryOnHover.Description": "当你的鼠标悬停在扩展上时，会在弹出菜单中打开扩展，而不需要点击。",
+  "Widget.Teleport.Config.PopupHeight.Name": "菜单高度",
+  "Widget.Teleport.Config.PopupHeight.Description": "传送菜单的高度（以像素为单位）。",
   "Widget.Teleport.Config.ShowNotification.Name": "显示传送通知",
   "Widget.Teleport.Config.ShowNotification.Description": "在您的屏幕上显示通知，以确认单击菜单中的传送目的地后要传送到的位置。",
   "Widget.Teleport.Config.DefaultOpenedGroupName.Name": "默认打开的列表",

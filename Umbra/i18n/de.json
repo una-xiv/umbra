@@ -945,6 +945,8 @@
   "Widget.Teleport.Config.PopupDisplayMode.Option.Extended": "Erweitert - Alle Kategorien anzeigen",
   "Widget.Teleport.Config.OpenCategoryOnHover.Name": "Erweiterung beim Darüberfahren öffnen",
   "Widget.Teleport.Config.OpenCategoryOnHover.Description": "Öffnet eine Erweiterung im Popup-Menü, wenn du mit der Maus darüberfährst, anstatt darauf klicken zu müssen.",
+  "Widget.Teleport.Config.PopupHeight.Name": "Menühöhe",
+  "Widget.Teleport.Config.PopupHeight.Description": "Die Höhe des Teleport-Menüs in Pixeln.",
   "Widget.Teleport.Config.ShowNotification.Name": "Teleport-Benachrichtigung anzeigen",
   "Widget.Teleport.Config.ShowNotification.Description": "Zeigt eine Benachrichtigung auf deinem Bildschirm an, um zu bestätigen, wohin du nach dem Klicken auf ein Teleport-Ziel im Menü teleportierst.",
   "Widget.Teleport.Config.DefaultOpenedGroupName.Name": "Liste, die standardmäßig geöffnet wird",

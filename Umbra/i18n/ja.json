@@ -945,6 +945,8 @@
   "Widget.Teleport.Config.PopupDisplayMode.Option.Extended": "拡張 - すべてのカテゴリを表示",
   "Widget.Teleport.Config.OpenCategoryOnHover.Name": "ホバーで展開を開く",
   "Widget.Teleport.Config.OpenCategoryOnHover.Description": "マウスが上にあるときにクリックする代わりに、ポップアップメニューで展開を開きます。",
+  "Widget.Teleport.Config.PopupHeight.Name": "メニューの高さ",
+  "Widget.Teleport.Config.PopupHeight.Description": "テレポートメニューの高さをピクセル単位で指定します。",
   "Widget.Teleport.Config.ShowNotification.Name": "テレポート通知を表示",
   "Widget.Teleport.Config.ShowNotification.Description": "メニューでテレポート先をクリックした後、どこにテレポートするかを確認するために画面に通知を表示します。",
   "Widget.Teleport.Config.DefaultOpenedGroupName.Name": "デフォルトで開くリスト",
