@@ -16,7 +16,7 @@ public abstract class Window : IWindow
 
     public Vector2 Position    { get; set; }
     public Vector2 Size        { get; set; }
-    public bool    IsClosed    { get; } = false;
+    public bool    IsClosed    { get; private set; }
     public bool    IsMinimized { get; private set; }
     public bool    IsFocused   { get; private set; }
     public bool    IsHovered   { get; private set; }
@@ -38,7 +38,7 @@ public abstract class Window : IWindow
         WindowDocument = UmbraDrawing.DocumentFrom("umbra.windows.window.xml");
         WindowNode     = WindowDocument.RootNode!;
 
-        WindowNode.QuerySelector(".button.close")!.OnMouseUp    += _ => Dispose();
+        WindowNode.QuerySelector(".button.close")!.OnMouseUp    += _ => Close();
         WindowNode.QuerySelector(".button.collapse")!.OnMouseUp += _ => ToggleMinimize();
         WindowNode.QuerySelector(".button.expand")!.OnMouseUp   += _ => ToggleMinimize();
     }
@@ -162,6 +162,7 @@ public abstract class Window : IWindow
     public void Dispose()
     {
         if (_isDisposed) return;
+        IsClosed    = true;
         _isDisposed = true;
         _isOpened   = false;
 

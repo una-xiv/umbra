@@ -163,8 +163,15 @@ public abstract class ToolbarWidget(
             "Right"  => Anchor.MiddleRight,
             _        => Anchor.MiddleCenter,
         };
-        
-        if (IsEnabled) OnUpdate();
+
+        if (!IsEnabled) return;
+
+        try {
+            OnUpdate();
+        } catch (Exception e) {
+            Logger.Error(e.Message);
+            Logger.Error(e.StackTrace);
+        }
     }
 
     /// <summary>

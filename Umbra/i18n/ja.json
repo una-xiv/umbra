@@ -910,6 +910,8 @@
   "Widget.GearsetSwitcher.Config.RoleSortIndex.Description": "ポップアップ内で構成された列内で役割が表示される順序。値が低いほど最初に表示されます。",
   "Widget.GearsetSwitcher.Config.RoleMaxItems.Name": "{0} - 常に表示する最大ギアセット数",
   "Widget.GearsetSwitcher.Config.RoleMaxItems.Description": "この役割のために表示されるギアセットの最大数。リストがスクロールし始める前に表示されます。",
+  "Widget.GearsetSwitcher.Config.ShowGradientBackground.Name": "グラデーション背景を表示",
+  "Widget.GearsetSwitcher.Config.ShowGradientBackground.Description": "現在のロールの色を使用してグラデーション背景を表示するかどうか。",
   "Widget.OnlineStatus.Name": "オンライン状態",
   "Widget.OnlineStatus.Description": "現在のオンライン状態を表示し、変更オプションを提供します。",
   "Widget.OnlineStatus.Tooltip": "右クリックして検索情報ウィンドウを開きます。",

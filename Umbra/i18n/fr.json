@@ -693,6 +693,8 @@
     "Widget.GearsetSwitcher.Config.RoleSortIndex.Description": "L'ordre dans lequel les rôles sont affichés dans la fenêtre contextuelle dans la colonne configurée. Les valeurs inférieures sont affichées en premier.",
     "Widget.GearsetSwitcher.Config.RoleMaxItems.Name": "{0} - Nombre maximum d'ensembles d'engrenages à afficher toujours",
     "Widget.GearsetSwitcher.Config.RoleMaxItems.Description": "Le nombre maximum d'ensembles d'engrenages à afficher pour ce rôle avant que la liste ne commence à défiler.",
+    "Widget.GearsetSwitcher.Config.ShowGradientBackground.Name": "Afficher le fond dégradé",
+    "Widget.GearsetSwitcher.Config.ShowGradientBackground.Description": "Indique si un fond dégradé doit être affiché en utilisant la couleur du rôle actuel.",
     "Widget.OnlineStatus.Name": "État en ligne",
     "Widget.OnlineStatus.Description": "Affiche votre état en ligne actuel et vous donne la possibilité de le changer.",
     "Widget.OnlineStatus.Tooltip": "Cliquez avec le bouton droit pour ouvrir la fenêtre d'informations de recherche.",

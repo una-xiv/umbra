@@ -82,7 +82,7 @@ public class WindowManager(UmbraDelvClipRects delvClipRects) : IDisposable
     private void OnDraw()
     {
         bool hasFocusedWindow = false;
-        
+
         lock (_instances) {
             foreach ((string id, IWindow window) in _instances) {
                 window.Render(id);

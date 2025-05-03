@@ -85,10 +85,11 @@ internal sealed partial class GearsetSwitcherPopup : WidgetPopup
     {
         var jobInfo = Player.GetJobInfo(CurrentGearset.JobId);
 
-        HeaderIconNode.Style.IconId = jobInfo.Icons[_headerIconType];
-        HeaderNameNode.NodeValue    = CurrentGearset.Name;
-        HeaderInfoNode.NodeValue    = GearsetSwitcherInfoDisplayProvider.GetInfoText(GearsetSwitcherInfoDisplayType.JobLevel, CurrentGearset, true);
-        HeaderIlvlNode.NodeValue    = $"{CurrentGearset.ItemLevel}";
+        HeaderIconNode.Style.IconId    = jobInfo.Icons[_headerIconType];
+        HeaderNameNode.NodeValue       = CurrentGearset.Name;
+        HeaderInfoNode.NodeValue       = GearsetSwitcherInfoDisplayProvider.GetInfoText(GearsetSwitcherInfoDisplayType.JobLevel, CurrentGearset, true);
+        HeaderIlvlNode.NodeValue       = $"{CurrentGearset.ItemLevel}";
+        BackgroundNode.Style.IsVisible = _showGradientBackground;
 
         BackgroundNode.ToggleClass("tank", CurrentGearset.Category == GearsetCategory.Tank);
         BackgroundNode.ToggleClass("healer", CurrentGearset.Category == GearsetCategory.Healer);

@@ -910,6 +910,8 @@
   "Widget.GearsetSwitcher.Config.RoleSortIndex.Description": "Die Reihenfolge, in der die Rollen im Popup innerhalb der konfigurierten Spalte angezeigt werden. Kleinere Werte werden zuerst angezeigt.",
   "Widget.GearsetSwitcher.Config.RoleMaxItems.Name": "{0} - Maximale Ausrüstungssätze, die immer angezeigt werden sollen",
   "Widget.GearsetSwitcher.Config.RoleMaxItems.Description": "Die maximale Anzahl von Ausrüstungssätzen, die für diese Rolle angezeigt werden sollen, bevor die Liste zu scrollen beginnt.",
+  "Widget.GearsetSwitcher.Config.ShowGradientBackground.Name": "Farbverlauf-Hintergrund anzeigen",
+  "Widget.GearsetSwitcher.Config.ShowGradientBackground.Description": "Ob ein Farbverlauf-Hintergrund unter Verwendung der aktuellen Rollenfarbe angezeigt werden soll.",
   "Widget.OnlineStatus.Name": "Online-Status",
   "Widget.OnlineStatus.Description": "Zeigt deinen aktuellen Online-Status an und ermöglicht es dir, ihn zu ändern.",
   "Widget.OnlineStatus.Tooltip": "Klicke mit der rechten Maustaste, um das Suchinfofenster zu öffnen.",

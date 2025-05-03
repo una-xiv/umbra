@@ -910,6 +910,8 @@
     "Widget.GearsetSwitcher.Config.RoleSortIndex.Description": "The order in which the roles are displayed in the popup within the configured column. Lower values are displayed first.",
     "Widget.GearsetSwitcher.Config.RoleMaxItems.Name": "{0} - Maximum gearsets to always show",
     "Widget.GearsetSwitcher.Config.RoleMaxItems.Description": "The maximum number of gearsets to show for this role before the list starts to scroll.",
+    "Widget.GearsetSwitcher.Config.ShowGradientBackground.Name": "Show gradient background",
+    "Widget.GearsetSwitcher.Config.ShowGradientBackground.Description": "Whether to show a gradient background using the current role color.",
     "Widget.OnlineStatus.Name": "Online Status",
     "Widget.OnlineStatus.Description": "Shows your current online status and gives you the option to change it.",
     "Widget.OnlineStatus.Tooltip": "Right-click to open the search info window.",

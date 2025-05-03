@@ -67,6 +67,12 @@ internal sealed partial class GearsetSwitcherWidget
                 I18N.Translate("Widget.GearsetSwitcher.Config.EnableRoleScrolling.Description"),
                 false
             ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
+            new BooleanWidgetConfigVariable(
+                "ShowGradientBackground",
+                I18N.Translate("Widget.GearsetSwitcher.Config.ShowGradientBackground.Name"),
+                I18N.Translate("Widget.GearsetSwitcher.Config.ShowGradientBackground.Description"),
+                true
+            ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
             
             ..AddRoleOptionsFor("Tank", "LeftColumn", 0, 3),
             ..AddRoleOptionsFor("Healer", "LeftColumn", 1, 2),

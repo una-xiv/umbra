@@ -910,6 +910,8 @@
   "Widget.GearsetSwitcher.Config.RoleSortIndex.Description": "在配置的列中在弹出窗口中显示职能的顺序。较低的值优先显示。",
   "Widget.GearsetSwitcher.Config.RoleMaxItems.Name": "{0} - 始终显示的最大套装数",
   "Widget.GearsetSwitcher.Config.RoleMaxItems.Description": "在此职能的列表开始滚动之前显示的最大套装数。",
+  "Widget.GearsetSwitcher.Config.ShowGradientBackground.Name": "显示渐变背景",
+  "Widget.GearsetSwitcher.Config.ShowGradientBackground.Description": "是否使用当前角色颜色显示渐变背景。",
   "Widget.OnlineStatus.Name": "在线状态",
   "Widget.OnlineStatus.Description": "显示您当前的在线状态。",
   "Widget.OnlineStatus.Tooltip": "右键单击以打开个人信息窗口",
