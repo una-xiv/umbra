@@ -9,20 +9,29 @@ namespace Umbra.Widgets.Library.UnifiedMainMenu;
 
 internal sealed partial class UnifiedMainMenuPopup
 {
-    private Node SidePanelNode  => Node.QuerySelector("#side-panel")!;
-    private Node ContentsNode   => Node.QuerySelector("#contents")!;
-    private Node PinnedListNode => Node.QuerySelector("#pinned")!;
+    private Node SidePanelNode   => Node.QuerySelector("#side-panel")!;
+    private Node ContentsNode    => Node.QuerySelector("#contents")!;
+    private Node PinnedListNode  => Node.QuerySelector("#pinned")!;
+    private Node PinnedSeparator => Node.QuerySelector("#pinned-separator")!;
 
     private MainMenuItem? SelectedMenuItem { get; set; }
 
     private void CreateSidePanelNodes()
     {
+        Node.Style.Size = new(0, MenuHeight);
+
         SidePanelNode.Clear();
-        SidePanelNode.Style.FlowOrder = IsTopAligned ? FlowOrder.Normal : FlowOrder.Reverse;
+        SidePanelNode.Style.FlowOrder = IsTopAligned
+            ? (ReverseCategoryOrder ? FlowOrder.Reverse : FlowOrder.Normal)
+            : (ReverseCategoryOrder ? FlowOrder.Normal : FlowOrder.Reverse);
 
         foreach (var category in MainMenuRepository.GetCategories()) {
             SidePanelNode.AppendChild(CreateCategoryButton($"Category_{category.Category.ToString()}", category.Name, category.GetIconId()));
         }
+
+        SidePanelNode.AppendChild(new() {
+            Id = "pinned-separator",
+        });
 
         SidePanelNode.AppendChild(new() {
             Id        = "pinned",
@@ -72,8 +81,11 @@ internal sealed partial class UnifiedMainMenuPopup
 
     private Node CreateContentButton(MainMenuItem item, bool isSortable = false)
     {
-        Node node = new() { ClassList = ["item"] };
-        
+        Node node = new() {
+            ClassList = ["item"],
+            SortIndex = item.SortIndex,
+        };
+
         node.IsDisabled = item.IsDisabled;
 
         switch (item.Type) {
@@ -111,7 +123,7 @@ internal sealed partial class UnifiedMainMenuPopup
     private void SetNodeIcon(Node node, object? icon, uint? iconColor)
     {
         node.Style.ImageGrayscale = DesaturateIcons;
-        
+
         switch (icon) {
             case uint iconId:
                 node.Style.IconId         = iconId;
@@ -153,14 +165,14 @@ internal sealed partial class UnifiedMainMenuPopup
 
     private void UpdatePinnedItems()
     {
-        PinnedListNode.ToggleClass("top", IsTopAligned);
-
         if (PinnedItems.Count == 0) {
-            PinnedListNode.Style.IsVisible = false;
+            PinnedListNode.Style.IsVisible  = false;
+            PinnedSeparator.Style.IsVisible = false;
             return;
         }
 
-        PinnedListNode.Style.IsVisible = true;
+        PinnedListNode.Style.IsVisible  = true;
+        PinnedSeparator.Style.IsVisible = true;
 
         int sortIndex = 0;
 

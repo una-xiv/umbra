@@ -77,13 +77,15 @@
         
         & > .body {
             flow: horizontal;
+            auto-size: grow;
             
             & > .side-panel {
                 flow: vertical;
                 background-color: "Widget.PopupBackground.Gradient2";
                 border-color: "Widget.Border";
                 border-width: 1 1 1 0;
-                size: 200 400;
+                auto-size: fit grow;
+                size: 250 0;
                 
                 & > #side-panel {
                     flow: vertical;
@@ -91,20 +93,17 @@
                     padding: 8 4;
                     gap: 2;
                     
+                    #pinned-separator {
+                        auto-size: grow fit;
+                        size: 0 5;
+                        background-color: "Widget.Border";
+                        margin: 2 0;
+                    }
+                    
                     .pinned-list {
                         flow: vertical;
                         auto-size: grow fit;
-                        padding: 0 0 8 0;
-                        margin: 0 0 8 0;
                         gap: 2;
-                        border-color: "Widget.Border";
-                        border-width: 0 0 1 0;
-                        
-                        &.top {
-                            padding: 8 0 0 0;
-                            margin: 8 0 0 0;
-                            border-width: 1 0 0 0;
-                        }
                     }
                     
                     & > .category-button {
@@ -163,7 +162,8 @@
             }
             
             & > .contents {
-                size: 300 400;
+                size: 300 0;
+                auto-size: fit grow;
                 
                 & > #contents {
                     auto-size: grow fit;

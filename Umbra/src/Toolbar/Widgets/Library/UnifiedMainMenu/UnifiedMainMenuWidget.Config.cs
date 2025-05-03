@@ -76,6 +76,20 @@ internal sealed partial class UnifiedMainMenuWidget
                 0,
                 100
             ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
+            new IntegerWidgetConfigVariable(
+                "MenuHeight",
+                I18N.Translate("Widgets.MenuPopup.Config.MenuHeight.Name"),
+                I18N.Translate("Widgets.MenuPopup.Config.MenuHeight.Description"),
+                400,
+                300,
+                1000
+            ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
+            new BooleanWidgetConfigVariable(
+                "ReverseCategories",
+                I18N.Translate("Widgets.MenuPopup.Config.ReverseCategories.Name"),
+                I18N.Translate("Widgets.MenuPopup.Config.ReverseCategories.Description"),
+                false
+            ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
             new StringWidgetConfigVariable(
                 "PinnedItems",
                 "",
