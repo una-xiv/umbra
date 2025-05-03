@@ -10,7 +10,7 @@ internal sealed partial class GearsetSwitcherWidget
     {
         return [
             ..base.GetConfigVariables(),
-            
+
             ..GetWidgetConfigVariables(),
             ..GetPopupConfigVariables(),
         ];
@@ -73,7 +73,28 @@ internal sealed partial class GearsetSwitcherWidget
                 I18N.Translate("Widget.GearsetSwitcher.Config.ShowGradientBackground.Description"),
                 true
             ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
-            
+            new BooleanWidgetConfigVariable(
+                "ShowGradientButtons",
+                I18N.Translate("Widget.GearsetSwitcher.Config.ShowGradientButtons.Name"),
+                I18N.Translate("Widget.GearsetSwitcher.Config.ShowGradientButtons.Description"),
+                true
+            ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
+            new SelectWidgetConfigVariable(
+                "ButtonGradientType",
+                I18N.Translate("Widget.GearsetSwitcher.Config.ButtonGradientType.Name"),
+                I18N.Translate("Widget.GearsetSwitcher.Config.ButtonGradientType.Description"),
+                "TB",
+                new() {
+                    { "TB", I18N.Translate("Widget.GearsetSwitcher.Config.ButtonGradientType.Option.TB") },
+                    { "LR", I18N.Translate("Widget.GearsetSwitcher.Config.ButtonGradientType.Option.LR") },
+                    { "RL", I18N.Translate("Widget.GearsetSwitcher.Config.ButtonGradientType.Option.RL") },
+                    { "BT", I18N.Translate("Widget.GearsetSwitcher.Config.ButtonGradientType.Option.BT") }
+                }
+            ) {
+                Category  = I18N.Translate("Widget.ConfigCategory.MenuAppearance"),
+                DisplayIf = () => HasConfigVariable("ShowGradientButtons") && GetConfigValue<bool>("ShowGradientButtons")
+            },
+
             ..AddRoleOptionsFor("Tank", "LeftColumn", 0, 3),
             ..AddRoleOptionsFor("Healer", "LeftColumn", 1, 2),
             ..AddRoleOptionsFor("Melee", "LeftColumn", 2, 5),
@@ -83,7 +104,7 @@ internal sealed partial class GearsetSwitcherWidget
             ..AddRoleOptionsFor("Crafter", "RightColumn", 1, 7),
         ];
     }
-    
+
     private IEnumerable<IWidgetConfigVariable> AddRoleOptionsFor(string name, string column, int sortIndex, int maxItems)
     {
         string role = I18N.Translate($"Widget.GearsetSwitcher.Role.{name}");

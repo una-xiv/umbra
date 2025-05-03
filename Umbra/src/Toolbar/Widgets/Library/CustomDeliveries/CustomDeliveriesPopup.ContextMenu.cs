@@ -6,7 +6,7 @@ using Una.Drawing;
 
 namespace Umbra.Widgets.Library.CustomDeliveries;
 
-internal sealed partial class CustomDeliveriesPopup : WidgetPopup
+internal sealed partial class CustomDeliveriesPopup
 {
     private void CreateContextMenu()
     {

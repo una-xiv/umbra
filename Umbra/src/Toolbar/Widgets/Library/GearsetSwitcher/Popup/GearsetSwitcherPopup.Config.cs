@@ -12,6 +12,8 @@ internal sealed partial class GearsetSwitcherPopup
     private JobIconType _buttonIconType         = JobIconType.Default;
     private bool        _enableRoleScrolling    = true;
     private bool        _showGradientBackground = true;
+    private bool        _showGradientButtons    = true;
+    private string      _gradientButtonType     = "TB";
 
     private bool _showTankGroup     = true;
     private bool _showHealerGroup   = true;
@@ -60,6 +62,8 @@ internal sealed partial class GearsetSwitcherPopup
         _buttonIconType         = widget.GetConfigValue<JobIconType>("PopupButtonIconType");
         _enableRoleScrolling    = widget.GetConfigValue<bool>("EnableRoleScrolling");
         _showGradientBackground = widget.GetConfigValue<bool>("ShowGradientBackground");
+        _showGradientButtons    = widget.GetConfigValue<bool>("ShowGradientButtons");
+        _gradientButtonType     = widget.GetConfigValue<string>("ButtonGradientType");
 
         // Group-specific settings.
         _showTankGroup            = widget.GetConfigValue<bool>("ShowTank");

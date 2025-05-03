@@ -12,6 +12,7 @@ internal sealed partial class CustomDeliveriesPopup : WidgetPopup
     public Action<int>? OnNpcSelected;
     public int          TrackedNpcId  { get; set; }
     public string       PrimaryAction { get; set; } = "Teleport";
+    public bool         ReverseOrder  { get; set; } = false;
 
     protected override Node Node { get; }
 
@@ -35,7 +36,8 @@ internal sealed partial class CustomDeliveriesPopup : WidgetPopup
         );
 
         Node.QuerySelector(".list")!.Clear();
-        
+        Node.QuerySelector(".list")!.Style.FlowOrder = ReverseOrder ? FlowOrder.Reverse : FlowOrder.Normal;
+
         foreach (var npc in Repository.Npcs.Values) {
             CreateOrUpdateNpcNode(npc);
         }
@@ -59,7 +61,7 @@ internal sealed partial class CustomDeliveriesPopup : WidgetPopup
         foreach (var bonusNode in CreateBonus(npc)) {
             node.QuerySelector(".bonus-icons")!.AppendChild(bonusNode);
         }
-        
+
         node.OnMouseUp += _ => {
             switch (PrimaryAction) {
                 case "Track":
@@ -82,15 +84,15 @@ internal sealed partial class CustomDeliveriesPopup : WidgetPopup
             ContextMenu?.SetEntryDisabled("Untrack", TrackedNpcId != npc.Id);
             ContextMenu?.Present();
         };
-        
+
         Node.QuerySelector(".list")!.AppendChild(node);
     }
-    
+
     private static List<Node> CreateBonus(CustomDeliveryNpc npc)
     {
         return npc.BonusType.Select(t => new Node {
-            ClassList   = ["bonus-icon"], 
-            Style       = new() { UldPartId = t }, 
+            ClassList   = ["bonus-icon"],
+            Style       = new() { UldPartId = t },
             InheritTags = true,
         }).ToList();
     }

@@ -34,7 +34,14 @@ internal sealed class CustomDeliveriesWidget(
     {
         return [
             ..base.GetConfigVariables(),
-
+            
+            new BooleanWidgetConfigVariable(
+                "ReverseOrder",
+                I18N.Translate("Widget.CustomDeliveries.Config.ReverseOrder.Name"),
+                I18N.Translate("Widget.CustomDeliveries.Config.ReverseOrder.Description"),
+                false
+            ),
+            
             new StringWidgetConfigVariable(
                 "ButtonLabel",
                 I18N.Translate("Widget.CustomDeliveries.Config.ButtonLabel.Name"),
