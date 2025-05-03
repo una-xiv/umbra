@@ -186,6 +186,7 @@ internal sealed partial class WidgetManager : IDisposable
             SaveWidgetState(widget.Id);
             if (saveState) SaveState();
         } catch (Exception e) {
+            Logger.Error($"Failed to create instance of {name}");
             Logger.Error(e.Message);
             Logger.Error(e.StackTrace);
         }

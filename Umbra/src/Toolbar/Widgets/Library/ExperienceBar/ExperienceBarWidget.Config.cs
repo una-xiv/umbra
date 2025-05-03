@@ -56,7 +56,7 @@ internal partial class ExperienceBarWidget
                 I18N.Translate("Widget.ExperienceBar.Config.WidgetWidth.Description"),
                 150,
                 30,
-                500
+                3440
             ),
             new IntegerWidgetConfigVariable(
                 "TextSize",
