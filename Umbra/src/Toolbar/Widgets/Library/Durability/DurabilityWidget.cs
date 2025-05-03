@@ -92,7 +92,7 @@ internal partial class DurabilityWidget(
         }
 
         IsVisible               = true;
-        Popup.UseGrayscaleIcons = false;
+        Popup.DesaturateMenuIcons = false;
 
         SetGameIconId(GetIconId());
 

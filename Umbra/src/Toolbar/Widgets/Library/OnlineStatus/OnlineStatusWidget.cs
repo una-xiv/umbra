@@ -16,7 +16,7 @@ internal partial class OnlineStatusWidget(
     Dictionary<string, object>? configValues = null
 ) : StandardToolbarWidget(info, guid, configValues)
 {
-    public override MenuPopup Popup { get; } = new() { UseGrayscaleIcons = false };
+    public override MenuPopup Popup { get; } = new() { DesaturateMenuIcons = false };
 
     protected override StandardWidgetFeatures Features => StandardWidgetFeatures.Icon | StandardWidgetFeatures.Text;
 
@@ -30,7 +30,7 @@ internal partial class OnlineStatusWidget(
         Node.OnRightClick += _ => OpenSearchInfoWindow();
         Node.Tooltip      =  I18N.Translate("Widget.OnlineStatus.Tooltip");
 
-        Popup.UseGrayscaleIcons = false;
+        Popup.DesaturateMenuIcons = false;
 
         _player = Framework.Service<IPlayer>();
     }
