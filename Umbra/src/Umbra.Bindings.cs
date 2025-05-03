@@ -2,15 +2,13 @@
 using Dalamud.Plugin.Services;
 using System;
 using System.Linq;
-using System.Reflection;
 using Umbra.Common;
 using Umbra.Widgets.System;
 using Umbra.Windows;
-using Umbra.Windows.GameIconPicker;
 using Umbra.Windows.Library.Installer;
-// using Umbra.Windows.Oobe;
 using Umbra.Windows.Settings;
 using Una.Drawing;
+// using Umbra.Windows.Oobe;
 
 namespace Umbra;
 
@@ -81,7 +79,6 @@ internal sealed class UmbraBindings : IDisposable
 
         // #if DEBUG
         // _windowManager.Present("UmbraSettings", new SettingsWindow());
-        _windowManager.Present("GameIconPicker", new GameIconPickerWindow());
         // #endif
 
         if (IsFirstTimeStart) {
