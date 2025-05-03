@@ -27,6 +27,18 @@ internal partial class ExperienceBarWidget
                 true
             ),
             new BooleanWidgetConfigVariable(
+                "ShowPreciseExperience",
+                I18N.Translate("Widget.ExperienceBar.Config.ShowPreciseExperience.Name"),
+                I18N.Translate("Widget.ExperienceBar.Config.ShowPreciseExperience.Description"),
+                true
+            ),
+            new BooleanWidgetConfigVariable(
+                "ShortenPreciseExperience",
+                I18N.Translate("Widget.ExperienceBar.Config.ShortenPreciseExperience.Name"),
+                I18N.Translate("Widget.ExperienceBar.Config.ShortenPreciseExperience.Description"),
+                true
+            ),
+            new BooleanWidgetConfigVariable(
                 "ShowLevel",
                 I18N.Translate("Widget.ExperienceBar.Config.ShowLevel.Name"),
                 I18N.Translate("Widget.ExperienceBar.Config.ShowLevel.Description"),
@@ -42,12 +54,6 @@ internal partial class ExperienceBarWidget
                 "ShowLevelSyncIcon",
                 I18N.Translate("Widget.ExperienceBar.Config.ShowLevelSyncIcon.Name"),
                 I18N.Translate("Widget.ExperienceBar.Config.ShowLevelSyncIcon.Description"),
-                true
-            ),
-            new BooleanWidgetConfigVariable(
-                "ShowPreciseExperience",
-                I18N.Translate("Widget.ExperienceBar.Config.ShowPreciseExperience.Name"),
-                I18N.Translate("Widget.ExperienceBar.Config.ShowPreciseExperience.Description"),
                 true
             ),
             new IntegerWidgetConfigVariable(

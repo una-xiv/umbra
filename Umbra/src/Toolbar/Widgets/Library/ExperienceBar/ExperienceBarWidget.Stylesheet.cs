@@ -17,7 +17,6 @@ internal partial class ExperienceBarWidget : ToolbarWidget
                     StrokeWidth     = 1,
                     StrokeInset     = 1,
                     BorderRadius    = 5,
-                    IsAntialiased   = false,
                     Padding         = new(0, 4),
                 }
             ),
@@ -88,8 +87,7 @@ internal partial class ExperienceBarWidget : ToolbarWidget
                 ".bar",
                 new() {
                     Size          = new(50, SafeHeight - 8),
-                    BorderRadius  = 4,
-                    IsAntialiased = false,
+                    BorderRadius  = 3,
                 }
             ),
             new(

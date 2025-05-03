@@ -187,6 +187,22 @@ public static partial class ConfigManager
     }
 
     /// <summary>
+    /// Creates a new profile with the given name based on the current profile.
+    /// This does not activate the new profile.
+    /// </summary>
+    /// <param name="profileName"></param>
+    public static void CreateProfile(string profileName)
+    {
+        var data = new Dictionary<string, object?>();
+
+        foreach (var cvar in Cvars.Values) {
+            data[cvar.Id] = cvar.Value;
+        }
+        
+        WriteFile($"{profileName}.profile.json", data);
+    }
+
+    /// <summary>
     /// Loads the "profiles.json" file from the config directory which contains
     /// profile names associated with player characters. A new profile-db file
     /// is created if it does not already exist.

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Umbra.Common;
 using Umbra.Game;
+using Umbra.Interface;
 using Una.Drawing;
 
 namespace Umbra.Widgets;
@@ -132,9 +133,11 @@ internal partial class ExperienceBarWidget(
 
     private string GetPreciseExperienceString(bool includeRested = true)
     {
-        string currentXpStr = I18N.FormatNumber(Player.CurrentExperience);
-        string neededXpStr  = I18N.FormatNumber(Player.TotalRequiredExperience);
-        string restedXpStr  = I18N.FormatNumber(Player.RestedExperience);
+        bool shorten = GetConfigValue<bool>("ShortenPreciseExperience");
+
+        string currentXpStr = shorten ? Player.CurrentExperience.ToHumanReadable() : I18N.FormatNumber(Player.CurrentExperience);
+        string neededXpStr  = shorten ? Player.TotalRequiredExperience.ToHumanReadable() : I18N.FormatNumber(Player.TotalRequiredExperience);
+        string restedXpStr  = shorten ? Player.TotalRequiredExperience.ToHumanReadable() : I18N.FormatNumber(Player.RestedExperience);
 
         string restedStr = includeRested && Player.RestedExperience > 0
             ? $" - {I18N.Translate("Rested")}: {restedXpStr}"
