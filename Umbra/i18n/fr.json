@@ -1444,6 +1444,7 @@
     "Window.Installer.Finish.Title": "Tout est prêt, {0} !",
     "Window.Installer.Finish.Description": "Vous êtes prêt à démarrer !",
     "Window.Installer.Finish.Text": "Vous pouvez ouvrir la fenêtre des paramètres d'Umbra en tapant \"/umbra\" dans la fenêtre de discussion pour tout personnaliser à votre guise. Si vous avez des questions ou des commentaires, n'hésitez pas à nous contacter sur Discord.\n\nMerci d'utiliser Umbra !",
+    "Window.Installer.Finish.OpenSettings": "Ouvrir la fenêtre des paramètres Umbra après.",
     "Window.Installer.Footer.DontShowAgain": "Ne plus afficher cette boîte de dialogue.",
     "Window.Installer.Footer.Description": "Vous pouvez toujours rouvrir cette fenêtre via les paramètres d’Umbra."
 }

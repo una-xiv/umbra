@@ -1444,6 +1444,7 @@
   "Window.Installer.Finish.Title": "すべて完了しました、{0}さん！",
   "Window.Installer.Finish.Description": "すべての設定が完了し、準備が整いました！",
   "Window.Installer.Finish.Text": "チャットウィンドウで「/umbra」と入力するとUmbraの設定ウィンドウを開き、心ゆくまでカスタマイズできます。ご質問やフィードバックがございましたら、お気軽にDiscordでお問い合わせください。\n\nUmbraをご利用いただきありがとうございます！",
+  "Window.Installer.Finish.OpenSettings": "Umbra 設定ウィンドウをその後開く。",
   "Window.Installer.Footer.DontShowAgain": "このダイアログを再表示しない",
   "Window.Installer.Footer.Description": "このウィンドウは、後でUmbraの設定画面からいつでも開けます。"
 }

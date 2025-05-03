@@ -1444,6 +1444,7 @@
   "Window.Installer.Finish.Title": "全部完成，{0}！",
   "Window.Installer.Finish.Description": "您已全部设置完毕，可以开始使用了！",
   "Window.Installer.Finish.Text": "您可以通过在聊天窗口中输入“/umbra”来打开 Umbra 的设置窗口，随心所欲地进行自定义。如果您有任何问题或反馈，请随时在 Discord 上与我们联系。\n\n感谢您使用 Umbra！",
+  "Window.Installer.Finish.OpenSettings": "之后打开 Umbra 设置窗口。",
   "Window.Installer.Footer.DontShowAgain": "不再显示此对话框。",
   "Window.Installer.Footer.Description": "你可以随时通过 Umbra 的设置窗口重新打开此窗口。"
 }

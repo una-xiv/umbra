@@ -1444,6 +1444,7 @@
   "Window.Installer.Finish.Title": "Alles erledigt, {0}!",
   "Window.Installer.Finish.Description": "Du bist fertig eingerichtet und startklar!",
   "Window.Installer.Finish.Text": "Du kannst das Einstellungsfenster von Umbra öffnen, indem du \"/umbra\" in das Chatfenster eingibst, um alles nach Herzenslust anzupassen. Wenn du Fragen oder Feedback habst, zögere bitte nicht, uns auf Discord zu kontaktieren.\n\nVielen Dank, dass du Umbra verwendest!",
+  "Window.Installer.Finish.OpenSettings": "Das Umbra Einstellungsfenster danach öffnen.",
   "Window.Installer.Footer.DontShowAgain": "Diesen Dialog nicht mehr anzeigen.",
   "Window.Installer.Footer.Description": "Du kannst diesen Dialog später jederzeit über das Einstellungsfenster öffnen."
 }
