@@ -848,6 +848,7 @@
   "Widget.GearsetSwitcher.JobLevel": "St. {0}",
   "Widget.GearsetSwitcher.JobXp": "{0}% EP",
   "Widget.GearsetSwitcher.ItemLevel": "GSt. {0}",
+  "Widget.GearsetSwitcher.RandomJob": "Zufälligen Job auswählen",
   "Widget.GearsetSwitcher.Role.Tank": "Verteidiger",
   "Widget.GearsetSwitcher.Role.Healer": "Heiler",
   "Widget.GearsetSwitcher.Role.Melee": "Nahkampf",

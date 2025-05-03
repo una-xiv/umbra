@@ -848,6 +848,7 @@
   "Widget.GearsetSwitcher.JobLevel": "Lv. {0}",
   "Widget.GearsetSwitcher.JobXp": "{0}% EXP",
   "Widget.GearsetSwitcher.ItemLevel": "ILv. {0}",
+  "Widget.GearsetSwitcher.RandomJob": "ランダムなジョブを選択",
   "Widget.GearsetSwitcher.Role.Tank": "タンク",
   "Widget.GearsetSwitcher.Role.Healer": "ヒーラー",
   "Widget.GearsetSwitcher.Role.Melee": "近接",

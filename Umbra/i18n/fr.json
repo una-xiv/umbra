@@ -631,6 +631,7 @@
     "Widget.GearsetSwitcher.JobLevel": "Niv. {0}",
     "Widget.GearsetSwitcher.JobXp": "{0}% EXP",
     "Widget.GearsetSwitcher.ItemLevel": "Niv. d'objet {0}",
+    "Widget.GearsetSwitcher.RandomJob": "Choisir un job aléatoire",
     "Widget.GearsetSwitcher.Role.Tank": "Tank",
     "Widget.GearsetSwitcher.Role.Healer": "Soigneur",
     "Widget.GearsetSwitcher.Role.Melee": "Mêlée",
