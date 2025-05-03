@@ -6,6 +6,11 @@
             <node class="list" overflow="false"/>
         </node>
         <node class="ui-window-footer footer">
+            <node class="input">
+                <node class="text ui-text-default" value="_L(Window.IconPicker.ManualInput)"/>
+                <integer-input-node id="input-icon-id" min-value="0" style="anchor: middle-left;"/>
+                <node class="preview"/>
+            </node>
             <node class="buttons">
                 <button-node id="cancel" label="_L(Cancel)"/>
                 <button-node id="confirm" label="_L(Apply)"/>
@@ -60,6 +65,25 @@
         
         & > .footer {
             padding: 8;
+            
+            & > .input {
+                size: 250 0;
+                gap: 8;
+                
+                & > .text {
+                    anchor: middle-left;
+                }
+                
+                & > .preview {
+                    anchor: middle-left;
+                    size: 26;
+                    image-inset: 1;
+                    background-color: "Input.Background";
+                    border-color: "Input.Border";
+                    border-width: 1;
+                    border-radius: 5;
+                }
+            }
             
             & > .buttons {
                 anchor: middle-right;

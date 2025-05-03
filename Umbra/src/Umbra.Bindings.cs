@@ -81,6 +81,7 @@ internal sealed class UmbraBindings : IDisposable
 
         // #if DEBUG
         // _windowManager.Present("UmbraSettings", new SettingsWindow());
+        _windowManager.Present("GameIconPicker", new GameIconPickerWindow());
         // #endif
 
         if (IsFirstTimeStart) {

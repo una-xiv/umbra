@@ -1197,6 +1197,7 @@
     "Window.IconPicker.Category.Mounts": "Mounts",
     "Window.IconPicker.Category.Minions": "Minions",
     "Window.IconPicker.Category.Emotes": "Emotes",
+    "Window.IconPicker.ManualInput": "Icon ID",
     "ColorGroup.Window.Name": "Window Colors",
     "ColorGroup.Window.Description": "Colors that are used for the window decorations.",
     "ColorGroup.Input.Name": "Input Controls Colors",

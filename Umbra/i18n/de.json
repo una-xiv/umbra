@@ -1197,6 +1197,7 @@
   "Window.IconPicker.Category.Mounts": "Reittiere",
   "Window.IconPicker.Category.Minions": "Begleiter",
   "Window.IconPicker.Category.Emotes": "Emotes",
+  "Window.IconPicker.ManualInput": "Icon-ID",
   "ColorGroup.Window.Name": "Fensterfarben",
   "ColorGroup.Window.Description": "Farben, die für die Fensterdekoration verwendet werden.",
   "ColorGroup.Input.Name": "Eingabesteuerungen-Farben",

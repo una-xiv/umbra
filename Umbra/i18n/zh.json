@@ -1197,6 +1197,7 @@
   "Window.IconPicker.Category.Mounts": "坐骑",
   "Window.IconPicker.Category.Minions": "宠物",
   "Window.IconPicker.Category.Emotes": "表情动作",
+  "Window.IconPicker.ManualInput": "图标ID",
   "ColorGroup.Window.Name": "窗口颜色",
   "ColorGroup.Window.Description": "用于窗口的颜色。",
   "ColorGroup.Input.Name": "输入控件颜色",

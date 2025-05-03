@@ -975,6 +975,7 @@
     "Window.IconPicker.Category.Mounts": "Montures",
     "Window.IconPicker.Category.Minions": "Familiers",
     "Window.IconPicker.Category.Emotes": "Emotes",
+    "Window.IconPicker.ManualInput": "ID d'icône",
     "ColorGroup.Window.Name": "Couleurs de fenêtre",
     "ColorGroup.Window.Description": "Couleurs utilisées pour les décorations de fenêtre.",
     "ColorGroup.Input.Name": "Couleurs des contrôles de saisie",

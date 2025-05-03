@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Numerics;
 using Umbra.Common;
+using Umbra.Windows.Components;
 using Una.Drawing;
 
 namespace Umbra.Windows.GameIconPicker;
@@ -24,13 +25,19 @@ public partial class GameIconPickerWindow(uint? selectedId = 0) : Window
             SelectedId = null;
             Dispose();
         };
-        
+
         RootNode.QuerySelector("#confirm")!.OnClick += _ => Dispose();
-        
+
+        InputNode.OnValueChanged += id => {
+            ListWrapperNode.QuerySelector<GameIconGridNode>("#IconGrid")!.SelectedId = (uint)id;
+
+            SelectedId = (uint)id;
+        };
+
         foreach (var (label, category) in CategoryLabels) {
             RenderCategoryButton(category, label);
         }
-        
+
         ActivateIconCategory(CategoryLabels.Values.First());
     }
 
@@ -38,7 +45,9 @@ public partial class GameIconPickerWindow(uint? selectedId = 0) : Window
     {
         var grid = ListWrapperNode.QuerySelector<GameIconGridNode>("#IconGrid")!;
 
-        SelectedId = grid.SelectedId;
+        SelectedId               = grid.SelectedId;
+        PreviewNode.Style.IconId = SelectedId ?? 0;
+        InputNode.Value          = (int)(SelectedId ?? 0);
 
         if (grid.ConfirmedId != null) {
             SelectedId = grid.ConfirmedId.Value;
@@ -52,7 +61,7 @@ public partial class GameIconPickerWindow(uint? selectedId = 0) : Window
         node.OnMouseUp += _ => ActivateIconCategory(category);
 
         _categoryButtons[category] = node;
-        
+
         CategoriesNode.AppendChild(node);
     }
 
@@ -63,12 +72,12 @@ public partial class GameIconPickerWindow(uint? selectedId = 0) : Window
 
         List<uint> ids = GetIconIds(Categories[category]);
         ListWrapperNode.AppendChild(new GameIconGridNode(ids, SelectedId ?? 0) { Id = "IconGrid" });
-        
+
         foreach (var (cat, node) in _categoryButtons) {
             node.ToggleClass("selected", cat == category);
         }
     }
-    
+
     private static List<uint> GetIconIds(List<(uint, uint)> idRanges)
     {
         List<uint> ids = [];
@@ -82,6 +91,8 @@ public partial class GameIconPickerWindow(uint? selectedId = 0) : Window
         return ids;
     }
 
-    private Node ListWrapperNode => RootNode.QuerySelector(".list")!;
-    private Node CategoriesNode  => RootNode.QuerySelector(".categories")!;
+    private Node             ListWrapperNode => RootNode.QuerySelector(".list")!;
+    private Node             CategoriesNode  => RootNode.QuerySelector(".categories")!;
+    private IntegerInputNode InputNode       => RootNode.QuerySelector<IntegerInputNode>("#input-icon-id")!;
+    private Node             PreviewNode     => RootNode.QuerySelector(".footer > .input > .preview")!;
 }

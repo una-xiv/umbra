@@ -1197,6 +1197,7 @@
   "Window.IconPicker.Category.Mounts": "マウント",
   "Window.IconPicker.Category.Minions": "ミニオン",
   "Window.IconPicker.Category.Emotes": "エモート",
+  "Window.IconPicker.ManualInput": "アイコンID",
   "ColorGroup.Window.Name": "ウィンドウの色",
   "ColorGroup.Window.Description": "ウィンドウの装飾に使用される色。",
   "ColorGroup.Input.Name": "入力コントロールの色",
