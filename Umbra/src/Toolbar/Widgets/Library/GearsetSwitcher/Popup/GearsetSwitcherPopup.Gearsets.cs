@@ -53,7 +53,11 @@ internal sealed partial class GearsetSwitcherPopup
             node = Document.CreateNodeFromTemplate("gearset", []);
             _nodeToGearset.Add(node, gearset);
             
-            node.OnMouseUp += _ => GearsetRepository.EquipGearset(gearset.Id);
+            node.OnMouseUp += _ => {
+                GearsetRepository.EquipGearset(gearset.Id);
+                Close();
+            };
+            
             node.OnRightClick += _ => {
                 UpdateContextMenuFor(gearset);
                 ContextMenu!.Present();
