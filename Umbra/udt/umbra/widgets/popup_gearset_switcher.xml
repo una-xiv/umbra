@@ -221,6 +221,7 @@
     .gearset {
         auto-size: grow fit;
         padding: 4;
+        margin: 0 2 0 0;
         background-color: 0x45FFFFFF;
         border-radius: 6;
         stroke-color: "Widget.Border";
@@ -267,6 +268,7 @@
             color: "Widget.PopupMenuText";
             outline-color: "Widget.PopupMenuTextOutline";
             outline-size: 1;
+            margin: 0 4 0 0;
         }
 
         & > .progress-bar-wrapper {
@@ -290,6 +292,14 @@
                 }
             }
         }
+        
+        &.tank { stroke-color: "Role.Tank"; }
+        &.healer { stroke-color: "Role.Healer"; }
+        &.melee { stroke-color: "Role.MeleeDps"; }
+        &.caster { stroke-color: "Role.MagicalRangedDps"; }
+        &.ranged { stroke-color: "Role.PhysicalRangedDps"; }
+        &.gatherer { stroke-color: "Role.Gatherer"; }
+        &.crafter { stroke-color: "Role.Crafter"; }
         
         &.active {
             &.tank { background-color: "Role.Tank"; }

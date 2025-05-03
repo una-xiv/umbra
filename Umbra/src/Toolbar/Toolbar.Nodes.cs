@@ -89,10 +89,10 @@ internal partial class Toolbar
         _toolbarNode.ToggleClass("stretched", IsStretched);
 
         float width  = IsStretched ? ImGui.GetMainViewport().WorkSize.X : 0;
-        float height = Height;
+        float height = Height * Node.ScaleFactor;
 
-        _toolbarNode.Style.Size = new(width, height);
-        _toolbarNode.Style.Margin = new() {
+        _toolbarNode.Style.Size = new(width / Node.ScaleFactor, height / Node.ScaleFactor);
+        _toolbarNode.Style.Padding = new() {
             Left  = (int)(ToolbarLeftMargin / Node.ScaleFactor),
             Right = (int)(ToolbarRightMargin / Node.ScaleFactor)
         };

@@ -116,6 +116,7 @@ internal class SettingsWindowToolbarWidgetsModule : SettingsWindowModule
         columnsNode.AppendChild(new WidgetControlColumnNode(config.Id, config.Name));
 
         var ctrlName                  = configNode.QuerySelector<StringInputNode>(".input-name")!;
+        var ctrlVertical              = configNode.QuerySelector<CheckboxNode>(".input-vertical")!;
         var ctrlXPos                  = configNode.QuerySelector<IntegerInputNode>(".input-x-pos")!;
         var ctrlYPos                  = configNode.QuerySelector<IntegerInputNode>(".input-y-pos")!;
         var ctrlAlign                 = configNode.QuerySelector<SelectNode>(".input-x-align")!;
@@ -141,6 +142,7 @@ internal class SettingsWindowToolbarWidgetsModule : SettingsWindowModule
         ctrlYPos.Value                  = config.YPos;
         ctrlAlign.Value                 = config.XAlign;
         ctrlDecorate.Value              = config.Decorate;
+        ctrlVertical.Value              = config.IsVertical;
         ctrlShadow.Value                = config.EnableShadow;
         ctrlRounded.Value               = config.RoundedCorners;
         ctrlSpacing.Value               = config.ItemSpacing;
@@ -171,6 +173,10 @@ internal class SettingsWindowToolbarWidgetsModule : SettingsWindowModule
         };
         ctrlAlign.OnValueChanged += xAlign => {
             config.XAlign = xAlign;
+            AuxBarManager.Persist();
+        };
+        ctrlVertical.OnValueChanged += vertical => {
+            config.IsVertical = vertical;
             AuxBarManager.Persist();
         };
         ctrlDecorate.OnValueChanged += decorate => {

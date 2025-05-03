@@ -29,6 +29,7 @@
                 <integer-input-node class="input-y-pos" label="_L(Settings.WidgetsModule.Aux.YPosition.Name)" description="_L(Settings.WidgetsModule.Aux.YPosition.Description)"/>
                 <select-node class="input-x-align" label="_L(Settings.WidgetsModule.Aux.XAlign.Name)" description="_L(Settings.WidgetsModule.Aux.XAlign.Description)" choices="{['Left', 'Center', 'Right']}"/>
                 <separator label="_L(Settings.WidgetsModule.Aux.Appearance)"/>
+                <checkbox-node class="input-vertical" label="_L(Settings.WidgetsModule.Aux.Vertical.Name)" description="_L(Settings.WidgetsModule.Aux.Vertical.Description)"/>
                 <checkbox-node class="input-decorate" label="_L(Settings.WidgetsModule.Aux.Decorate.Name)" description="_L(Settings.WidgetsModule.Aux.Decorate.Description)"/>
                 <checkbox-node class="input-shadow" label="_L(Settings.WidgetsModule.Aux.EnableShadow.Name)" description="_L(Settings.WidgetsModule.Aux.EnableShadow.Description)"/>
                 <checkbox-node class="input-rounded-corners" label="_L(Settings.WidgetsModule.Aux.RoundedCorners.Name)" description="_L(Settings.WidgetsModule.Aux.RoundedCorners.Description)"/>

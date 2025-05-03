@@ -126,6 +126,26 @@
                     outline-color: "Widget.PopupMenuTextOutlineHover";
                 }
             }
+            
+            &:disabled {
+                opacity: 0.7;
+                
+                & > .icon {
+                    color: "Widget.PopupMenuTextDisabled";
+                    outline-color: "Widget.PopupMenuTextOutlineDisabled";
+                    image-grayscale: true;
+                }
+                
+                & > .text {
+                    color: "Widget.PopupMenuTextDisabled";
+                    outline-color: "Widget.PopupMenuTextOutlineDisabled";
+                }
+                
+                & > .alt-text {
+                    color: "Widget.PopupMenuTextDisabled";
+                    outline-color: "Widget.PopupMenuTextOutlineDisabled";
+                }
+            }
         }
     }
     ]]>

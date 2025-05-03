@@ -71,12 +71,10 @@ internal sealed partial class CurrenciesWidget
         public Group  Group          { get; set; }
     }
 
-    private unsafe bool UpdateCurrency(Currency currency)
+    private unsafe void UpdateCurrency(Currency currency)
     {
         var item = DataManager.GetExcelSheet<Item>().FindRow(currency.Id);
-        if (item == null) return false;
-
-        int prevCount = currency.Count;
+        if (item == null) return;
 
         currency.Count = Player.GetItemCount(currency.Id);
 
@@ -84,8 +82,6 @@ internal sealed partial class CurrenciesWidget
             currency.WeeklyCapacity = InventoryManager.GetLimitedTomestoneWeeklyLimit();
             currency.WeeklyCount    = InventoryManager.Instance()->GetWeeklyAcquiredTomestoneCount();
         }
-
-        return prevCount != currency.Count;
     }
 
     private Currency? CreateCurrencyFromItemId(uint itemId, Group group = Group.None)

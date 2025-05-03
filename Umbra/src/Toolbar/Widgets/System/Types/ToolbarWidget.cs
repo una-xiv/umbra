@@ -117,6 +117,8 @@ public abstract class ToolbarWidget(
 
         Initialize();
 
+        Node.ToggleClass("widget-instance", true);
+        
         if (Popup is null) return;
 
         Node.OnMouseDown += _ => {
@@ -338,6 +340,8 @@ public abstract class ToolbarWidget(
 
         return result;
     }
+    
+    protected bool IsMemberOfVerticalBar => Node.ParentNode?.ParentNode?.ClassList.Contains("vertical") ?? false;
 
     /// <summary>
     /// Opens the settings window for this widget instance.

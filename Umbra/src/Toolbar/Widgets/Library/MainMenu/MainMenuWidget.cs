@@ -110,12 +110,6 @@ internal sealed class MainMenuWidget(
                 I18N.Translate("Widget.MainMenu.Config.ShowItemIcons.Description"),
                 true
             ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
-            new BooleanWidgetConfigVariable(
-                "UseGrayscaleIcons",
-                I18N.Translate("Widget.MainMenu.Config.GrayscaleIcons.Name"),
-                I18N.Translate("Widget.MainMenu.Config.GrayscaleIcons.Description"),
-                true
-            ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
         ];
     }
 

@@ -10,22 +10,20 @@ internal sealed partial class UnifiedMainMenuPopup : WidgetPopup
 {
     public event Action<List<string>>? OnPinnedItemsChanged;
 
-    public int          MenuHeight          { get; set; }
-    public int          CategoriesWidth     { get; set; }         = 200;
-    public int          EntriesWidth        { get; set; }         = 350;
     public uint         AvatarIconId        { get; set; }         = 76985;
     public string       BannerLocation      { get; set; }         = "Auto";
     public string       BannerNameStyle     { get; set; }         = "FirstName";
     public string       BannerColorStyle    { get; set; }         = "AccentColor";
     public bool         DesaturateIcons     { get; set; }         = false;
     public bool         OpenSubMenusOnHover { get; set; }         = false;
+    public int          VerticalItemSpacing { get; set; }         = 0;
     public List<string> PinnedItems         { get; private set; } = [];
 
     protected override Node Node { get; }
 
     private IMainMenuRepository MainMenuRepository { get; } = Framework.Service<IMainMenuRepository>();
     private IPlayer             Player             { get; } = Framework.Service<IPlayer>();
-    
+
     private UdtDocument Document { get; } = UmbraDrawing.DocumentFrom("umbra.widgets.popup_unified_main_menu.xml");
 
     private bool IsTopAligned => BannerLocation switch {
@@ -33,7 +31,7 @@ internal sealed partial class UnifiedMainMenuPopup : WidgetPopup
         "Bottom" => false,
         _        => !Toolbar.IsTopAligned
     };
-    
+
     public UnifiedMainMenuPopup()
     {
         Node = Document.RootNode!;
@@ -45,6 +43,11 @@ internal sealed partial class UnifiedMainMenuPopup : WidgetPopup
         CreateContentNodes();
         CreateContextMenu();
         UpdatePinnedItems();
+
+        Node.QuerySelector("#side-panel")!.Style.Gap = 2 + VerticalItemSpacing;
+        foreach (var node in Node.QuerySelectorAll(".category")) {
+            node.Style.Gap = 2 + VerticalItemSpacing;
+        }
         
         ActivateCategory("Category_Character");
     }
@@ -53,7 +56,7 @@ internal sealed partial class UnifiedMainMenuPopup : WidgetPopup
     {
         PinnedItems = items;
     }
-     
+
     protected override void OnUpdate()
     {
         UpdateHeaderNodes();
@@ -64,7 +67,7 @@ internal sealed partial class UnifiedMainMenuPopup : WidgetPopup
         foreach (var node in SidePanelNode.QuerySelectorAll(".category-button")) {
             node.ToggleClass("selected", node.Id == $"{id}_Button");
         }
-        
+
         foreach (var node in ContentsNode.QuerySelectorAll(".category")) {
             node.Style.IsVisible = node.Id == id;
         }

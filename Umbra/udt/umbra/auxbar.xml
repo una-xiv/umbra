@@ -2,6 +2,7 @@
     <import from="umbra.toolbar.xml"/>
     
     <node id="AuxBar" class="toolbar rounded floating">
+        <node class="bg"/>
         <node id="aux" class="section center aux-section"/>
     </node>
     
@@ -11,7 +12,19 @@
         
         & > .section.aux-section {
             gap: 2;
-            padding: 0;
+            padding: 0 2;
+        }
+    }
+    
+    #AuxBar.vertical {
+        size: 0;
+        
+        &.toolbar {
+            & > .section.aux-section { padding: 2; }
+        }
+        
+        & > .section.aux-section {
+            flow: vertical;
         }
     }
     ]]>

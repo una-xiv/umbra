@@ -186,28 +186,5 @@
             & > .multi-label > .text-bottom { color: "Widget.TextDisabled"; }
         }
     }
-    
-    .ui-widget-standard > .wrapper > .icon.updated {
-        transition-type: linear;
-        transition-duration: 100;
-        transition-remove-class: updated;
-        transition-add-class: updated2;
-        margin: 2;
-    }
-    
-    .ui-widget-standard > .wrapper > .icon.updated2 {
-        transition-type: ease-out-sine;
-        transition-duration: 250;
-        transition-remove-class: updated2;
-        transition-add-class: updated3;
-        margin: -4;
-    }
-    
-    .ui-widget-standard > .wrapper > .icon.updated3 {
-        transition-type: ease-out-sine;
-        transition-duration: 250;
-        transition-remove-class: updated3;
-        margin: 0;
-    }
     ]]>
 </udt>
