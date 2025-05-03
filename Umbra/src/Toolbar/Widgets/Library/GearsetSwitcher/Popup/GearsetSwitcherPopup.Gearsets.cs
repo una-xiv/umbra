@@ -51,9 +51,19 @@ internal sealed partial class GearsetSwitcherPopup
 
         if (null == node) {
             node = Document.CreateNodeFromTemplate("gearset", []);
+            node.ToggleClass("with-gradient", _showGradientButtons);
+            node.ToggleClass("gradient-tb", _gradientButtonType == "TB");
+            node.ToggleClass("gradient-bt", _gradientButtonType == "BT");
+            node.ToggleClass("gradient-lr", _gradientButtonType == "LR");
+            node.ToggleClass("gradient-rl", _gradientButtonType == "RL");
+            
             _nodeToGearset.Add(node, gearset);
             
-            node.OnMouseUp += _ => GearsetRepository.EquipGearset(gearset.Id);
+            node.OnMouseUp += _ => {
+                GearsetRepository.EquipGearset(gearset.Id);
+                Close();
+            };
+            
             node.OnRightClick += _ => {
                 UpdateContextMenuFor(gearset);
                 ContextMenu!.Present();

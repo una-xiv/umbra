@@ -2,8 +2,9 @@
     <import from="umbra.windows.installer.pages._shared.xml"/>
     
     <page title="" description="_L(Window.Installer.Finish.Description)">
-        <content-with-banner size="600 140" icon="121552">
+        <content-with-banner size="540 100" icon="121552">
             <node value="_L(Window.Installer.Finish.Text)" class="text wrapped"/>
+            <checkbox-node class="ctrl-open-settings" label="_L(Window.Installer.Finish.OpenSettings)" value="{true}" style="margin: 0 16 0 0;"/>
         </content-with-banner>
     </page>
 </udt>

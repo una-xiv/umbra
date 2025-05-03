@@ -11,8 +11,10 @@
         </node>
         
         <node class="body">
-            <node class="side-panel" overflow="false">
-                <node id="side-panel"/>
+            <node class="side-panel-wrapper">
+                <node class="side-panel" overflow="false">
+                    <node id="side-panel"/>
+                </node>
             </node>
             <node class="contents" overflow="false">
                 <node id="contents"/>
@@ -77,85 +79,91 @@
         
         & > .body {
             flow: horizontal;
+            auto-size: grow;
             
-            & > .side-panel {
+            & > .side-panel-wrapper {
                 flow: vertical;
-                background-color: "Widget.PopupBackground.Gradient2";
                 border-color: "Widget.Border";
                 border-width: 1 1 1 0;
-                size: 200 400;
+                auto-size: fit grow;
+                size: 250 0;
+                background-color: "Widget.PopupBackground.Gradient2";
                 
-                & > #side-panel {
+                & > .side-panel {
                     flow: vertical;
-                    auto-size: grow fit;
-                    padding: 8 4;
-                    gap: 2;
-                    
-                    .pinned-list {
+                    border-color: "Widget.Border";
+                    border-width: 1 1 1 0;
+                    auto-size: grow;
+                    scrollbar-track-color: "Widget.PopupBackground.Gradient2";
+                        
+                    & > #side-panel {
                         flow: vertical;
                         auto-size: grow fit;
-                        padding: 0 0 8 0;
-                        margin: 0 0 8 0;
+                        padding: 4;
                         gap: 2;
-                        border-color: "Widget.Border";
-                        border-width: 0 0 1 0;
                         
-                        &.top {
-                            padding: 8 0 0 0;
-                            margin: 8 0 0 0;
-                            border-width: 1 0 0 0;
-                        }
-                    }
-                    
-                    & > .category-button {
-                        auto-size: grow fit;
-                        gap: 6;
-                        padding: 2;
-                        margin: 0;
-                        background-color: 0;
-                        border-color: 0;
-                        border-width: 1 0 1 1;
-                        transition-duration: 150;
-                            
-                        & > .icon {
-                            size: 20;
-                            font-size: 14;
-                            text-align: middle-center;
-                            color: "Widget.PopupMenuText";
-                            outline-color: "Widget.PopupMenuTextOutline";
-                            outline-size: 2;
+                        #pinned-separator {
+                            auto-size: grow fit;
+                            size: 0 5;
+                            background-color: "Widget.Border";
+                            margin: 2 0;
                         }
                         
-                        & > .name {
-                            auto-size: grow;
-                            font-size: 13;
-                            color: "Widget.PopupMenuText";
-                            outline-color: "Widget.PopupMenuTextOutline";
-                            outline-size: 2;
-                            text-overflow: false;
-                            word-wrap: false;
+                        .pinned-list {
+                            flow: vertical;
+                            auto-size: grow fit;
+                            gap: 2;
                         }
                         
-                        &:hover {
-                            background-color: "Widget.PopupMenuBackgroundHover";
-                            transition-duration: 1;
-                            
-                            & > .name {
-                                color: "Widget.PopupMenuTextHover";
-                                outline-color: "Widget.PopupMenuTextOutlineHover";
+                        & > .category-button {
+                            auto-size: grow fit;
+                            gap: 6;
+                            padding: 2 4;
+                            margin: 0 6 0 0;
+                            background-color: 0;
+                            border-color: 0;
+                            border-width: 1;
+                            transition-duration: 150;
+                                
+                            & > .icon {
+                                size: 20;
+                                font-size: 14;
+                                text-align: middle-center;
+                                color: "Widget.PopupMenuText";
+                                outline-color: "Widget.PopupMenuTextOutline";
+                                outline-size: 2;
                             }
-                        }
-                        
-                        &.selected {
-                            background-color: "Widget.PopupBackground.Gradient1";
-                            border-color: "Widget.Border";
-                            transition-duration: 1;
-                            margin: 0 -24 0 0;
-                            transition-duration: 100;
-                                                        
+                            
                             & > .name {
-                                color: "Widget.PopupMenuTextHover";
-                                outline-color: "Widget.PopupMenuTextOutlineHover";
+                                auto-size: grow;
+                                font-size: 13;
+                                color: "Widget.PopupMenuText";
+                                outline-color: "Widget.PopupMenuTextOutline";
+                                outline-size: 2;
+                                text-overflow: false;
+                                word-wrap: false;
+                            }
+                            
+                            &:hover {
+                                background-color: "Widget.PopupMenuBackgroundHover";
+                                transition-duration: 1;
+                                
+                                & > .name {
+                                    color: "Widget.PopupMenuTextHover";
+                                    outline-color: "Widget.PopupMenuTextOutlineHover";
+                                }
+                            }
+                            
+                            &.selected {
+                                background-color: "Widget.PopupBackground.Gradient1";
+                                border-color: "Widget.Border";
+                                transition-duration: 1;
+                                transition-duration: 100;
+                                
+                                & > .name {
+                                    color: "Widget.PopupMenuTextHover";
+                                    outline-color: "Widget.PopupMenuTextOutlineHover";
+                                }
                             }
                         }
                     }
@@ -163,7 +171,8 @@
             }
             
             & > .contents {
-                size: 300 400;
+                size: 350 0;
+                auto-size: fit grow;
                 
                 & > #contents {
                     auto-size: grow fit;
@@ -187,9 +196,11 @@
         .item {
             auto-size: grow fit;
             gap: 6;
+            padding: 2 4;
             background-color: "Widget.PopupBackground.Gradient1";
             transition-type: ease-out-sine;
             transition-duration: 150;
+            margin: 0 6 0 0;
             
             &.pinned {
                 background-color: "Widget.PopupBackground.Gradient2";
@@ -197,8 +208,9 @@
             
             & > .icon {
                 anchor: middle-left;
-                size: 22;
+                size: 20;
                 text-align: middle-center;
+                font-size: 16;
             }
             
             & > .text {
@@ -219,6 +231,7 @@
                 color: "Widget.PopupMenuTextMuted";
                 outline-color: "Widget.PopupMenuTextOutline";
                 outline-size: 1;
+                padding: 0 8 0 0;
             }
             
             &:hover {

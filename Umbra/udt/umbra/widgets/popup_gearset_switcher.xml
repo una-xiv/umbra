@@ -32,6 +32,7 @@
     
     <template name="gearset">
         <node class="gearset">
+            <node class="bg"/>
             <node class="icon"/>
             <node class="content">
                 <node class="name" value="Gearset Name Here"/>
@@ -231,6 +232,42 @@
         transition-type: ease-out-sine;
         transition-duration: 500;
         
+        & > .bg {
+            anchor: none;
+            auto-size: grow;
+            border-radius: 4;
+            margin: -2 2 -2 -2; // Escape the padding.
+        }
+        
+        &.tank.with-gradient.gradient-tb > .bg { background-gradient: vertical "Role.Tank" 0; }
+        &.healer.with-gradient.gradient-tb > .bg { background-gradient: vertical "Role.Healer" 0; }
+        &.melee.with-gradient.gradient-tb > .bg { background-gradient: vertical "Role.MeleeDps" 0; }
+        &.caster.with-gradient.gradient-tb > .bg { background-gradient: vertical "Role.MagicalRangedDps" 0; }
+        &.ranged.with-gradient.gradient-tb > .bg { background-gradient: vertical "Role.PhysicalRangedDps" 0; }
+        &.gatherer.with-gradient.gradient-tb > .bg { background-gradient: vertical "Role.Gatherer" 0; }
+        &.crafter.with-gradient.gradient-tb > .bg { background-gradient: vertical "Role.Crafter" 0; }
+        &.tank.with-gradient.gradient-bt > .bg { background-gradient: vertical 0 "Role.Tank"; }
+        &.healer.with-gradient.gradient-bt > .bg { background-gradient: vertical 0 "Role.Healer"; }
+        &.melee.with-gradient.gradient-bt > .bg { background-gradient: vertical 0 "Role.MeleeDps"; }
+        &.caster.with-gradient.gradient-bt > .bg { background-gradient: vertical 0 "Role.MagicalRangedDps"; }
+        &.ranged.with-gradient.gradient-bt > .bg { background-gradient: vertical 0 "Role.PhysicalRangedDps"; }
+        &.gatherer.with-gradient.gradient-bt > .bg { background-gradient: vertical 0 "Role.Gatherer"; }
+        &.crafter.with-gradient.gradient-bt > .bg { background-gradient: vertical 0 "Role.Crafter"; }
+        &.tank.with-gradient.gradient-lr > .bg { background-gradient: horizontal "Role.Tank" 0; }
+        &.healer.with-gradient.gradient-lr > .bg { background-gradient: horizontal "Role.Healer" 0; }
+        &.melee.with-gradient.gradient-lr > .bg { background-gradient: horizontal "Role.MeleeDps" 0; }
+        &.caster.with-gradient.gradient-lr > .bg { background-gradient: horizontal "Role.MagicalRangedDps" 0; }
+        &.ranged.with-gradient.gradient-lr > .bg { background-gradient: horizontal "Role.PhysicalRangedDps" 0; }
+        &.gatherer.with-gradient.gradient-lr > .bg { background-gradient: horizontal "Role.Gatherer" 0; }
+        &.crafter.with-gradient.gradient-lr > .bg { background-gradient: horizontal "Role.Crafter" 0; }
+        &.tank.with-gradient.gradient-rl > .bg { background-gradient: horizontal 0 "Role.Tank"; }
+        &.healer.with-gradient.gradient-rl > .bg { background-gradient: horizontal 0 "Role.Healer"; }
+        &.melee.with-gradient.gradient-rl > .bg { background-gradient: horizontal 0 "Role.MeleeDps"; }
+        &.caster.with-gradient.gradient-rl > .bg { background-gradient: horizontal 0 "Role.MagicalRangedDps"; }
+        &.ranged.with-gradient.gradient-rl > .bg { background-gradient: horizontal 0 "Role.PhysicalRangedDps"; }
+        &.gatherer.with-gradient.gradient-rl > .bg { background-gradient: horizontal 0 "Role.Gatherer"; }
+        &.crafter.with-gradient.gradient-rl > .bg { background-gradient: horizontal 0 "Role.Crafter"; }
+        
         & > .icon {
             anchor: middle-left;
             size: 32;
@@ -274,7 +311,7 @@
         & > .progress-bar-wrapper {
             anchor: none;
             auto-size: grow;
-            margin: 31 0 4 36;
+            margin: 31 8 4 36;
             
             & > .progress {
                 anchor: bottom-left;

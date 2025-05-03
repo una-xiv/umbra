@@ -49,14 +49,15 @@ internal sealed class CompanionManager : ICompanionManager
         UIState* ui = UIState.Instance();
         if (ui == null) return;
 
+        // Test if the player has its first mount unlocked.
+        if (!UIModule.Instance()->IsMainCommandUnlocked(42)) return;
+
         var buddy = ui->Buddy.CompanionInfo;
-        if (buddy.Rank == 0) return;
 
         ExcelSheet<BuddyRank> rankSheet = _dataManager.GetExcelSheet<BuddyRank>();
         if (!rankSheet.HasRow(buddy.Rank)) return;
 
-        var rank = rankSheet.GetRow(buddy.Rank);
-
+        var  rank     = rankSheet.GetRow(buddy.Rank);
         uint objectId = ui->Buddy.CompanionInfo.Companion->EntityId;
 
         IsActive        = objectId > 0 && null != _objectTable.SearchById(objectId);
@@ -83,7 +84,7 @@ internal sealed class CompanionManager : ICompanionManager
     public unsafe bool CanSummon()
     {
         bool isOk = HasGysahlGreens
-            && _player is { IsBoundByInstancedDuty: false, IsOccupied: false, IsCasting: false, IsDead: false };
+                    && _player is { IsBoundByInstancedDuty: false, IsOccupied: false, IsCasting: false, IsDead: false };
 
         ActionManager* am = ActionManager.Instance();
         if (am == null) return isOk;

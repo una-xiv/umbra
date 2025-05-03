@@ -31,7 +31,7 @@ internal partial class TeleportWidgetPopup
         };
 
         contentsWrapper.Overflow   = false;
-        contentsWrapper.Style.Size = new(300, 400);
+        contentsWrapper.Style.Size = new(300, PopupHeight);
 
         CondensedInterfaceNode.AppendChild(contentsWrapper);
         

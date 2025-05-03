@@ -7,6 +7,7 @@ using Umbra.Drawing;
 using Umbra.Windows.Components;
 using Umbra.Windows.Settings.Components;
 using Una.Drawing;
+using Una.Drawing.Clipping;
 
 namespace Umbra;
 
@@ -90,5 +91,12 @@ internal static class UmbraDrawing
         }
 
         throw new InvalidOperationException($"Failed to load embedded texture \"{resourceName}\".");
+    }
+
+    [Service]
+    private class DrawHandler
+    {
+        [OnDraw(Int32.MaxValue)]
+        private void OnDraw() => ClipRectProvider.UpdateRects();
     }
 }

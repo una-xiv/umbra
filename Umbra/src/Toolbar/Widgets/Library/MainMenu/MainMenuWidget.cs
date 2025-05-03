@@ -68,7 +68,7 @@ internal sealed class MainMenuWidget(
 
         SetText(_category.Name);
 
-        Popup.UseGrayscaleIcons = GetConfigValue<bool>("UseGrayscaleIcons");
+        Popup.DesaturateMenuIcons = GetConfigValue<bool>("DesaturateMenuIcons");
 
         if (Popup.IsOpen && _category != null) {
             var showItemIcons = GetConfigValue<bool>("ShowItemIcons");

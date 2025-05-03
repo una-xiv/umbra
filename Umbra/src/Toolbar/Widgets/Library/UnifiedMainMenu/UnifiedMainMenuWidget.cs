@@ -43,13 +43,15 @@ internal sealed partial class UnifiedMainMenuWidget(
 
     protected override void OnDraw()
     {
-        Popup.AvatarIconId        = GetConfigValue<uint>("AvatarIconId");
-        Popup.BannerLocation      = GetConfigValue<string>("BannerLocation");
-        Popup.BannerNameStyle     = GetConfigValue<string>("BannerNameStyle");
-        Popup.BannerColorStyle    = GetConfigValue<string>("BannerColorStyle");
-        Popup.DesaturateIcons     = GetConfigValue<bool>("DesaturateIcons");
-        Popup.OpenSubMenusOnHover = GetConfigValue<bool>("OpenSubMenusOnHover");
-        Popup.VerticalItemSpacing = GetConfigValue<int>("VerticalItemSpacing");
+        Popup.AvatarIconId         = GetConfigValue<uint>("AvatarIconId");
+        Popup.BannerLocation       = GetConfigValue<string>("BannerLocation");
+        Popup.BannerNameStyle      = GetConfigValue<string>("BannerNameStyle");
+        Popup.BannerColorStyle     = GetConfigValue<string>("BannerColorStyle");
+        Popup.DesaturateIcons      = GetConfigValue<bool>("DesaturateIcons");
+        Popup.OpenSubMenusOnHover  = GetConfigValue<bool>("OpenSubMenusOnHover");
+        Popup.VerticalItemSpacing  = GetConfigValue<int>("VerticalItemSpacing");
+        Popup.MenuHeight           = GetConfigValue<int>("MenuHeight");
+        Popup.ReverseCategoryOrder = GetConfigValue<bool>("ReverseCategories");
 
         SetText(GetConfigValue<string>("Label"));
     }

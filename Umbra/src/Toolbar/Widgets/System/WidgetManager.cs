@@ -97,34 +97,6 @@ internal sealed partial class WidgetManager : IDisposable
         _currentActivator = null;
     }
 
-    // /// <summary>
-    // /// Registers a widget type with the given name.
-    // /// </summary>
-    // /// <param name="info">An object containing information about the widget.</param>
-    // /// <typeparam name="TWidgetClass">The type of the widget.</typeparam>
-    // public void RegisterWidget<TWidgetClass>(WidgetInfo info) where TWidgetClass : ToolbarWidget
-    // {
-    //     if (_widgetTypes.ContainsKey(info.Id))
-    //         throw new InvalidOperationException($"A widget with the name '{info.Id}' is already registered.");
-    //
-    //     _widgetTypes[info.Id] = typeof(TWidgetClass);
-    //     _widgetInfos[info.Id] = info;
-    //
-    //     LoadState();
-    // }
-    //
-    // public void UnregisterWidget(string name)
-    // {
-    //     if (!_widgetTypes.ContainsKey(name)) return;
-    //
-    //     _widgetTypes.Remove(name);
-    //     _widgetInfos.Remove(name);
-    //
-    //     foreach (var widget in _instances.Values.Where(w => w.Info.Id == name).ToList()) {
-    //         RemoveWidget(widget.Id, false);
-    //     }
-    // }
-
     /// <summary>
     /// Returns an instance of a widget with the given GUID.
     /// </summary>
@@ -177,41 +149,47 @@ internal sealed partial class WidgetManager : IDisposable
         bool                        saveState    = true
     )
     {
-        if (!_widgetTypes.TryGetValue(name, out var type))
-            throw new InvalidOperationException($"No widget with the name '{name}' is registered.");
+        try {
+            if (!_widgetTypes.TryGetValue(name, out var type))
+                throw new InvalidOperationException($"No widget with the name '{name}' is registered.");
 
-        if (!_widgetInfos.TryGetValue(name, out var info))
-            throw new InvalidOperationException($"No widget info for the widget '{name}' is available.");
+            if (!_widgetInfos.TryGetValue(name, out var info))
+                throw new InvalidOperationException($"No widget info for the widget '{name}' is available.");
 
-        var panel  = Toolbar.GetPanel(location);
-        if (panel == null) {
-            Logger.Error($"Attempted to create a widget in an invalid location '{location}'.");
-            return;
+            var panel = Toolbar.GetPanel(location);
+            if (panel == null) {
+                Logger.Error($"Attempted to create a widget in an invalid location '{location}'.");
+                return;
+            }
+
+            var widget = (ToolbarWidget)Activator.CreateInstance(type, info, guid, configValues)!;
+
+            widget.SortIndex =   sortIndex ?? panel.ChildNodes.Count;
+            widget.Location  =   location;
+            widget.Node.Id   ??= $"UmbraWidget_{Crc32.Get(widget.Id)}";
+
+            widget.Setup();
+            widget.OpenPopup        += OpenPopup;
+            widget.OpenPopupDelayed += OpenPopupIfAnyIsOpen;
+
+            _instances[widget.Id] = widget;
+
+            if (EnableQuickSettingAccess && _subscribedQuickAccessNodes.Add(widget.Node)) {
+                widget.Node.OnRightClick += InvokeInstanceQuickSettings;
+            }
+
+            panel.AppendChild(widget.Node);
+            SolveSortIndices(widget.Location);
+
+            OnWidgetCreated?.Invoke(widget);
+
+            SaveWidgetState(widget.Id);
+            if (saveState) SaveState();
+        } catch (Exception e) {
+            Logger.Error($"Failed to create instance of {name}");
+            Logger.Error(e.Message);
+            Logger.Error(e.StackTrace);
         }
-        
-        var widget = (ToolbarWidget)Activator.CreateInstance(type, info, guid, configValues)!;
-        
-        widget.SortIndex =   sortIndex ?? panel.ChildNodes.Count;
-        widget.Location  =   location;
-        widget.Node.Id   ??= $"UmbraWidget_{Crc32.Get(widget.Id)}";
-
-        widget.Setup();
-        widget.OpenPopup        += OpenPopup;
-        widget.OpenPopupDelayed += OpenPopupIfAnyIsOpen;
-
-        _instances[widget.Id] = widget;
-
-        if (EnableQuickSettingAccess && _subscribedQuickAccessNodes.Add(widget.Node)) {
-            widget.Node.OnRightClick += InvokeInstanceQuickSettings;
-        }
-
-        panel.AppendChild(widget.Node);
-        SolveSortIndices(widget.Location);
-
-        OnWidgetCreated?.Invoke(widget);
-
-        SaveWidgetState(widget.Id);
-        if (saveState) SaveState();
     }
 
     public void RemoveWidget(string guid, bool saveState = true)
@@ -286,33 +264,34 @@ internal sealed partial class WidgetManager : IDisposable
             }
         );
     }
-
-    public void UpdateWidgetSortIndex(string id, int direction, bool allTheWay)
-    {
-        if (!_instances.TryGetValue(id, out var widget)) return;
-
-        if (false == allTheWay) {
-            // Swap the sort index of the widget with the one above or below it.
-            ToolbarWidget? replacementWidget = _instances.Values.FirstOrDefault(
-                w => w.Location == widget.Location && w.SortIndex == widget.SortIndex + direction
-            );
-
-            if (null == replacementWidget) return;
-
-            replacementWidget.SortIndex -= direction;
-            widget.SortIndex            += direction;
-
-            SolveSortIndices(widget.Location);
-            SaveWidgetState(replacementWidget.Id);
-            SaveWidgetState(widget.Id);
-        } else {
-            widget.SortIndex = direction == -1 ? int.MinValue : int.MaxValue;
-            SolveSortIndices(widget.Location);
-            SaveWidgetState(widget.Id);
-        }
-
-        SaveState();
-    }
+    
+    //
+    // public void UpdateWidgetSortIndex(string id, int direction, bool allTheWay)
+    // {
+    //     if (!_instances.TryGetValue(id, out var widget)) return;
+    //
+    //     if (false == allTheWay) {
+    //         // Swap the sort index of the widget with the one above or below it.
+    //         ToolbarWidget? replacementWidget = _instances.Values.FirstOrDefault(
+    //             w => w.Location == widget.Location && w.SortIndex == widget.SortIndex + direction
+    //         );
+    //
+    //         if (null == replacementWidget) return;
+    //
+    //         replacementWidget.SortIndex -= direction;
+    //         widget.SortIndex            += direction;
+    //
+    //         SolveSortIndices(widget.Location);
+    //         SaveWidgetState(replacementWidget.Id);
+    //         SaveWidgetState(widget.Id);
+    //     } else {
+    //         widget.SortIndex = direction == -1 ? int.MinValue : int.MaxValue;
+    //         SolveSortIndices(widget.Location);
+    //         SaveWidgetState(widget.Id);
+    //     }
+    //
+    //     SaveState();
+    // }
 
     /// <summary>
     /// Returns the amount of instances of a widget with the given ID that are

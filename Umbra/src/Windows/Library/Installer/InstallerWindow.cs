@@ -18,7 +18,7 @@ internal sealed class InstallerWindow : Window
 
     private static List<InstallerPage> Pages { get; set; } = [];
 
-    private uint           _currentPageIndex = 0;
+    private uint           _currentPageIndex;
     private InstallerPage? _currentPage;
 
     private ButtonNode PrevButton => RootNode.QuerySelector<ButtonNode>("#btn-prev")!;

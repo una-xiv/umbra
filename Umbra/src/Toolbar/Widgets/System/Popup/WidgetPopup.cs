@@ -76,6 +76,7 @@ public abstract class WidgetPopup : IDisposable
     private float _yOffset;
     private bool  _shouldClose;
     private bool  _isOpen;
+    private bool  _isCrashed;
 
     private readonly ContextMenuManager _contextMenuManager = Framework.Service<ContextMenuManager>();
 
@@ -86,6 +87,45 @@ public abstract class WidgetPopup : IDisposable
 
     public bool Render(ToolbarWidget activator)
     {
+        if (_isCrashed) return false;
+        
+        ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, Vector2.Zero);
+        ImGui.PushStyleVar(ImGuiStyleVar.WindowRounding, 0f);
+        ImGui.PushStyleVar(ImGuiStyleVar.WindowBorderSize, 0f);
+        ImGui.PushStyleVar(ImGuiStyleVar.WindowBorderSize, 0f);
+
+        bool keepOpen = false;
+        
+        try {
+            keepOpen = RenderInternal(activator);
+        } catch (Exception e) {
+            _isCrashed = true;
+            Logger.Error(e.Message);
+            Logger.Error(e.StackTrace);
+        }
+
+        ImGui.PopStyleVar(4);
+
+        return keepOpen;
+    }
+
+    public void Reset()
+    {
+        if (_isOpen) {
+            _isOpen      = false;
+            _shouldClose = false;
+            OnPopupClose?.Invoke();
+            OnClose();
+        }
+
+        _opacity     = 0;
+        _opacityDest = 0;
+        _yOffset     = Toolbar.IsTopAligned ? -32 : 32;
+        _yOffsetDest = 0;
+    }
+
+    private bool RenderInternal(ToolbarWidget activator)
+    {
         UpdateConfigVariables(activator);
         
         if (!CanOpen()) {
@@ -95,7 +135,6 @@ public abstract class WidgetPopup : IDisposable
         var wrapper = _popupNode.QuerySelector(".wrapper")!;
         if (wrapper.ChildNodes.Count == 0) {
             wrapper.AppendChild(Node);
-            wrapper.ComputeBoundingSize();
         }
 
         if (!_isOpen) {
@@ -103,6 +142,7 @@ public abstract class WidgetPopup : IDisposable
             _shouldClose = false;
             OnPopupOpen?.Invoke();
             OnOpen();
+            _popupNode.ComputeBoundingSize();
         }
 
         bool isAuxWidget = activator.Node.ParentNode?.Id?.StartsWith("aux") ?? false;
@@ -145,12 +185,6 @@ public abstract class WidgetPopup : IDisposable
         w.Style.ShadowSize   = WidgetManager.EnableWidgetPopupShadow ? null : new(0);
         w.Style.BorderRadius = WidgetManager.UseRoundedCornersInPopups ? 7 : 0;
 
-        // Draw the popup window.
-        ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, Vector2.Zero);
-        ImGui.PushStyleVar(ImGuiStyleVar.WindowRounding, 0f);
-        ImGui.PushStyleVar(ImGuiStyleVar.WindowBorderSize, 0f);
-        ImGui.PushStyleVar(ImGuiStyleVar.WindowBorderSize, 0f);
-
         if (ForcePopupInMainViewport) {
             // NOTE: This line breaks multi-monitor support, but omitting it
             //       seems to crash the game when the gearset switcher popup
@@ -167,20 +201,26 @@ public abstract class WidgetPopup : IDisposable
             }
         }
 
-        ImGui.SetNextWindowPos(new(Position.X, Position.Y));
-        ImGui.SetNextWindowSize(new(Size.X, Size.Y));
-        ImGui.Begin($"###Popup_{activator.Id.GetHashCode():X}", PopupWindowFlags);
+        bool hasFocus = true;
+        
+        try {
+            ImGui.SetNextWindowPos(new(Position.X, Position.Y));
+            ImGui.SetNextWindowSize(new(Size.X, Size.Y));
+            ImGui.Begin($"###Popup_{activator.Id.GetHashCode():X}", PopupWindowFlags);
 
-        bool hasFocus = ImGui.IsWindowFocused(ImGuiFocusedFlags.RootAndChildWindows);
+            hasFocus = ImGui.IsWindowFocused(ImGuiFocusedFlags.RootAndChildWindows);
 
-        _popupNode.Render(ImGui.GetWindowDrawList(), new(0, _yOffset));
+            _popupNode.Render(ImGui.GetWindowDrawList(), new(0, _yOffset));
 
-        if (ContextMenu is { ShouldRender: true }) {
-            _contextMenuManager.Draw();
+            if (ContextMenu is { ShouldRender: true }) {
+                _contextMenuManager.Draw();
+            }
+
+            ImGui.End();
+        } catch (Exception e) {
+            Logger.Error(e.Message);
+            Logger.Error(e.StackTrace);
         }
-
-        ImGui.End();
-        ImGui.PopStyleVar(4);
 
         bool keepOpen = !_shouldClose && hasFocus;
 
@@ -192,21 +232,6 @@ public abstract class WidgetPopup : IDisposable
         }
 
         return keepOpen;
-    }
-
-    public void Reset()
-    {
-        if (_isOpen) {
-            _isOpen      = false;
-            _shouldClose = false;
-            OnPopupClose?.Invoke();
-            OnClose();
-        }
-
-        _opacity     = 0;
-        _opacityDest = 0;
-        _yOffset     = Toolbar.IsTopAligned ? -32 : 32;
-        _yOffsetDest = 0;
     }
 
     private static bool IsMultiMonitor => ImGui.GetIO().ConfigFlags.HasFlag(ImGuiConfigFlags.ViewportsEnable);

@@ -32,12 +32,22 @@ internal sealed partial class TeleportWidget
                 Category  = I18N.Translate("Widget.ConfigCategory.MenuAppearance"),
                 DisplayIf = () => GetConfigValue<PopupDisplayMode>("PopupDisplayMode") == PopupDisplayMode.Condensed,
             },
-
             new BooleanWidgetConfigVariable(
                 "OpenCategoryOnHover",
                 I18N.Translate("Widget.Teleport.Config.OpenCategoryOnHover.Name"),
                 I18N.Translate("Widget.Teleport.Config.OpenCategoryOnHover.Description"),
                 false
+            ) {
+                Category  = I18N.Translate("Widget.ConfigCategory.MenuAppearance"),
+                DisplayIf = () => GetConfigValue<PopupDisplayMode>("PopupDisplayMode") == PopupDisplayMode.Condensed,
+            },
+            new IntegerWidgetConfigVariable(
+                "PopupHeight",
+                I18N.Translate("Widget.Teleport.Config.PopupHeight.Name"),
+                I18N.Translate("Widget.Teleport.Config.PopupHeight.Description"),
+                400,
+                0,
+                1200
             ) {
                 Category  = I18N.Translate("Widget.ConfigCategory.MenuAppearance"),
                 DisplayIf = () => GetConfigValue<PopupDisplayMode>("PopupDisplayMode") == PopupDisplayMode.Condensed,

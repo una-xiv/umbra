@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Umbra.Common;
 
-internal static class CrashLogger
+public static class CrashLogger
 {
     private static IDalamudPluginInterface _plugin = null!;
 

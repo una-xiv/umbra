@@ -7,13 +7,13 @@ namespace Umbra.Widgets;
 
 public sealed partial class MenuPopup : WidgetPopup
 {
-    public bool IsDisabled        { get; set; }
-    public bool UseGrayscaleIcons { get; set; }
+    public bool IsDisabled          { get; set; }
+    public bool DesaturateMenuIcons { get; set; }
 
     protected override Node Node { get; }
 
     private int VerticalItemSpacing { get; set; }
-    
+
     private readonly UdtDocument _document = UmbraDrawing.DocumentFrom("umbra.widgets._popup_menu.xml");
 
     private readonly Dictionary<Node, IMenuItem> _items = [];
@@ -26,11 +26,11 @@ public sealed partial class MenuPopup : WidgetPopup
     protected override void OnUpdate()
     {
         foreach (var button in Node.QuerySelectorAll(".icon")) {
-            button.Style.ImageGrayscale = UseGrayscaleIcons;
+            button.Style.ImageGrayscale = DesaturateMenuIcons;
         }
 
         Node.Style.Gap = 2 + VerticalItemSpacing;
-        
+
         foreach (var group in Node.QuerySelectorAll(".group > .content")) {
             group.Style.Gap = 2 + VerticalItemSpacing;
         }
@@ -38,8 +38,8 @@ public sealed partial class MenuPopup : WidgetPopup
 
     protected override void UpdateConfigVariables(ToolbarWidget widget)
     {
-        UseGrayscaleIcons   = widget.GetConfigValue<bool>("DesaturateMenuIcons");
-        VerticalItemSpacing = widget.GetConfigValue<int>("VerticalItemSpacing");
+        DesaturateMenuIcons = widget.HasConfigVariable("DesaturateMenuIcons") && widget.GetConfigValue<bool>("DesaturateMenuIcons");
+        VerticalItemSpacing = widget.HasConfigVariable("VerticalItemSpacing") ? widget.GetConfigValue<int>("VerticalItemSpacing") : 0;
     }
 
     public override IEnumerable<IWidgetConfigVariable> GetConfigVariables()

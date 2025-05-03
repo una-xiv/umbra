@@ -27,6 +27,18 @@ internal partial class ExperienceBarWidget
                 true
             ),
             new BooleanWidgetConfigVariable(
+                "ShowPreciseExperience",
+                I18N.Translate("Widget.ExperienceBar.Config.ShowPreciseExperience.Name"),
+                I18N.Translate("Widget.ExperienceBar.Config.ShowPreciseExperience.Description"),
+                true
+            ),
+            new BooleanWidgetConfigVariable(
+                "ShortenPreciseExperience",
+                I18N.Translate("Widget.ExperienceBar.Config.ShortenPreciseExperience.Name"),
+                I18N.Translate("Widget.ExperienceBar.Config.ShortenPreciseExperience.Description"),
+                true
+            ),
+            new BooleanWidgetConfigVariable(
                 "ShowLevel",
                 I18N.Translate("Widget.ExperienceBar.Config.ShowLevel.Name"),
                 I18N.Translate("Widget.ExperienceBar.Config.ShowLevel.Description"),
@@ -44,19 +56,13 @@ internal partial class ExperienceBarWidget
                 I18N.Translate("Widget.ExperienceBar.Config.ShowLevelSyncIcon.Description"),
                 true
             ),
-            new BooleanWidgetConfigVariable(
-                "ShowPreciseExperience",
-                I18N.Translate("Widget.ExperienceBar.Config.ShowPreciseExperience.Name"),
-                I18N.Translate("Widget.ExperienceBar.Config.ShowPreciseExperience.Description"),
-                true
-            ),
             new IntegerWidgetConfigVariable(
                 "WidgetWidth",
                 I18N.Translate("Widget.ExperienceBar.Config.WidgetWidth.Name"),
                 I18N.Translate("Widget.ExperienceBar.Config.WidgetWidth.Description"),
                 150,
                 30,
-                500
+                3440
             ),
             new IntegerWidgetConfigVariable(
                 "TextSize",

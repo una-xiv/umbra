@@ -2,15 +2,13 @@
 using Dalamud.Plugin.Services;
 using System;
 using System.Linq;
-using System.Reflection;
 using Umbra.Common;
 using Umbra.Widgets.System;
 using Umbra.Windows;
-using Umbra.Windows.GameIconPicker;
 using Umbra.Windows.Library.Installer;
-// using Umbra.Windows.Oobe;
 using Umbra.Windows.Settings;
 using Una.Drawing;
+// using Umbra.Windows.Oobe;
 
 namespace Umbra;
 

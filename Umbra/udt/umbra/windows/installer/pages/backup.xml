@@ -1,0 +1,15 @@
+﻿<udt>
+    <import from="umbra.windows.installer.pages._shared.xml"/>
+    
+    <page title="_L(Window.Installer.Backup.Title)" description="_L(Window.Installer.Backup.Description)">
+        <content-with-image icon="61645">
+            <node value="_L(Window.Installer.Backup.Text)" class="text wrapped"/>
+            <checkbox-node 
+                class="ctrl-backup" 
+                label="_L(Window.Installer.Backup.Checkbox.Label)"
+                description="_L(Window.Installer.Backup.Checkbox.Description)"
+                value="{true}"
+            />
+        </content-with-image>
+    </page>
+</udt>

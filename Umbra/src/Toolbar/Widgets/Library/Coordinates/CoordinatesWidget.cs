@@ -25,6 +25,13 @@ internal sealed class CoordinatesWidget(
 
     protected override void OnDraw()
     {
+        if (!ZoneManager.HasCurrentZone) {
+            IsVisible = false;
+            return;
+        }
+
+        IsVisible = true;
+        
         Vector2 coords = ZoneManager.CurrentZone.PlayerCoordinates;
         string  x      = I18N.FormatNumber(coords.X);
         string  y      = I18N.FormatNumber(coords.Y);

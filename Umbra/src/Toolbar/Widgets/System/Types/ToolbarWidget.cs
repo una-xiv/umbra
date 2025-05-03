@@ -101,8 +101,8 @@ public abstract class ToolbarWidget(
                             Type enumType = e.GetType().GenericTypeArguments[0];
                             u.SetValue(Enum.ToObject(enumType, value));
                         } catch {
-                            // Faulty config.
-                            Logger.Error($"Failed to set config value '{key}' to '{value}' in widget '{Info.Name}'.");
+                            keysToRemove.Add(key); // Faulty config.
+                            Logger.Warning($"Failed to set config value '{key}' to '{value}' in widget '{Info.Name}'.");
                         }
                     } else {
                         u.SetValue(value);
@@ -163,8 +163,15 @@ public abstract class ToolbarWidget(
             "Right"  => Anchor.MiddleRight,
             _        => Anchor.MiddleCenter,
         };
-        
-        if (IsEnabled) OnUpdate();
+
+        if (!IsEnabled) return;
+
+        try {
+            OnUpdate();
+        } catch (Exception e) {
+            Logger.Error(e.Message);
+            Logger.Error(e.StackTrace);
+        }
     }
 
     /// <summary>

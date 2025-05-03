@@ -15,6 +15,7 @@
  */
 
 using System;
+using System.Globalization;
 
 namespace Umbra.Interface;
 
@@ -27,9 +28,41 @@ public static class UintExtensions
     {
         var alpha = (byte)(((value >> 24) & 0xFF) * Math.Clamp(a, 0f, 1f));
         var blue  = (byte)((value >> 16) & 0xFF);
-        var green = (byte)((value >> 8)  & 0xFF);
-        var red   = (byte)(value         & 0xFF);
+        var green = (byte)((value >> 8) & 0xFF);
+        var red   = (byte)(value & 0xFF);
 
         return ((uint)alpha << 24) | ((uint)blue << 16) | ((uint)green << 8) | red;
+    }
+
+    /// <summary>
+    /// Converts a large number to a human-readable string (e.g., 1.3M).
+    /// Shortens numbers 10,000 or greater.
+    /// </summary>
+    public static string ToHumanReadable(this uint number)
+    {
+        if (number < 10000) {
+            return number.ToString("N0", CultureInfo.InvariantCulture);
+        }
+
+        var    absoluteNumber = Math.Abs((double)number);
+        string suffix;
+        double scaledNumber;
+
+        if (absoluteNumber >= 1_000_000_000_000) {
+            suffix       = "T";
+            scaledNumber = number / 1_000_000_000_000.0;
+        } else if (absoluteNumber >= 1_000_000_000) {
+            suffix       = "B";
+            scaledNumber = number / 1_000_000_000.0;
+        } else if (absoluteNumber >= 1_000_000) {
+            suffix       = "M";
+            scaledNumber = number / 1_000_000.0;
+        } else {
+            suffix       = "K";
+            scaledNumber = number / 1_000.0;
+        }
+
+        // Format the number to one decimal place and append the suffix
+        return scaledNumber.ToString("N1", CultureInfo.InvariantCulture) + suffix;
     }
 }

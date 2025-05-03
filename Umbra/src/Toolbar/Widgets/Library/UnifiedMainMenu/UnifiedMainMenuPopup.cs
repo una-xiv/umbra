@@ -10,14 +10,17 @@ internal sealed partial class UnifiedMainMenuPopup : WidgetPopup
 {
     public event Action<List<string>>? OnPinnedItemsChanged;
 
-    public uint         AvatarIconId        { get; set; }         = 76985;
-    public string       BannerLocation      { get; set; }         = "Auto";
-    public string       BannerNameStyle     { get; set; }         = "FirstName";
-    public string       BannerColorStyle    { get; set; }         = "AccentColor";
-    public bool         DesaturateIcons     { get; set; }         = false;
-    public bool         OpenSubMenusOnHover { get; set; }         = false;
-    public int          VerticalItemSpacing { get; set; }         = 0;
-    public List<string> PinnedItems         { get; private set; } = [];
+    public uint   AvatarIconId         { get; set; } = 76985;
+    public string BannerLocation       { get; set; } = "Auto";
+    public string BannerNameStyle      { get; set; } = "FirstName";
+    public string BannerColorStyle     { get; set; } = "AccentColor";
+    public bool   DesaturateIcons      { get; set; } = false;
+    public bool   OpenSubMenusOnHover  { get; set; } = false;
+    public int    VerticalItemSpacing  { get; set; } = 0;
+    public int    MenuHeight           { get; set; } = 400;
+    public bool   ReverseCategoryOrder { get; set; } = false;
+
+    public List<string> PinnedItems { get; private set; } = [];
 
     protected override Node Node { get; }
 
@@ -45,10 +48,12 @@ internal sealed partial class UnifiedMainMenuPopup : WidgetPopup
         UpdatePinnedItems();
 
         Node.QuerySelector("#side-panel")!.Style.Gap = 2 + VerticalItemSpacing;
+        PinnedListNode.Style.Gap = 2 + VerticalItemSpacing;
+        
         foreach (var node in Node.QuerySelectorAll(".category")) {
             node.Style.Gap = 2 + VerticalItemSpacing;
         }
-        
+
         ActivateCategory("Category_Character");
     }
 
