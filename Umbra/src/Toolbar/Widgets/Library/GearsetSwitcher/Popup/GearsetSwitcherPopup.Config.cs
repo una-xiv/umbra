@@ -14,6 +14,8 @@ internal sealed partial class GearsetSwitcherPopup
     private bool        _showGradientBackground = true;
     private bool        _showGradientButtons    = true;
     private string      _gradientButtonType     = "TB";
+    private int         _buttonWidth            = 250;
+    private int         _buttonHeight           = 40;
 
     private bool _showTankGroup     = true;
     private bool _showHealerGroup   = true;
@@ -64,6 +66,8 @@ internal sealed partial class GearsetSwitcherPopup
         _showGradientBackground = widget.GetConfigValue<bool>("ShowGradientBackground");
         _showGradientButtons    = widget.GetConfigValue<bool>("ShowGradientButtons");
         _gradientButtonType     = widget.GetConfigValue<string>("ButtonGradientType");
+        _buttonWidth            = widget.GetConfigValue<int>("PopupButtonWidth");
+        _buttonHeight           = widget.GetConfigValue<int>("PopupButtonHeight");
 
         // Group-specific settings.
         _showTankGroup            = widget.GetConfigValue<bool>("ShowTank");

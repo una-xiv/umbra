@@ -49,6 +49,7 @@ internal sealed partial class GearsetSwitcherPopup
         Node bodyNode = groupNode.QuerySelector(".body")!;
         
         groupNode.QuerySelector(".title")!.Style.IsVisible = showTitle;
+        groupNode.QuerySelector(".title")!.Style.Size      = new(0, _buttonHeight + 4);
 
         if (_enableRoleScrolling) {
             int   count = Math.Min(maxChildren, bodyNode.ChildNodes.Count);
@@ -56,7 +57,7 @@ internal sealed partial class GearsetSwitcherPopup
 
             bodyNode.ToggleClass("scrolling", count < bodyNode.ChildNodes.Count);
             bodyNode.Overflow   = false;
-            bodyNode.Style.Size = new Size(0, (40 * count) + (gap * (count - 1)));
+            bodyNode.Style.Size = new Size(0, (_buttonHeight * count) + (gap * (count - 1)));
         } else {
             bodyNode.ToggleClass("scrolling", false);
             bodyNode.Overflow   = true;
@@ -76,6 +77,8 @@ internal sealed partial class GearsetSwitcherPopup
         groupNode.Id                                 = $"GearsetGroup_{category}";
         groupNode.QuerySelector(".title")!.NodeValue = label;
         groupNode.QuerySelector(".body")!.Id         = $"GearsetList_{category}";
+
+        groupNode.QuerySelector(".title")!.Style.Size = new(0, _buttonHeight);
 
         LeftColumnNode.AppendChild(groupNode);
 

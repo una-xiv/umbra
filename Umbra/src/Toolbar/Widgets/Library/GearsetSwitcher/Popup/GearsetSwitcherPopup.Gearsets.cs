@@ -56,14 +56,14 @@ internal sealed partial class GearsetSwitcherPopup
             node.ToggleClass("gradient-bt", _gradientButtonType == "BT");
             node.ToggleClass("gradient-lr", _gradientButtonType == "LR");
             node.ToggleClass("gradient-rl", _gradientButtonType == "RL");
-            
+
             _nodeToGearset.Add(node, gearset);
-            
+
             node.OnMouseUp += _ => {
                 GearsetRepository.EquipGearset(gearset.Id);
                 Close();
             };
-            
+
             node.OnRightClick += _ => {
                 UpdateContextMenuFor(gearset);
                 ContextMenu!.Present();
@@ -73,11 +73,16 @@ internal sealed partial class GearsetSwitcherPopup
         node.Id        = nodeId;
         node.SortIndex = gearset.Id;
 
+        node.Style.Size                         = new(_buttonWidth, _buttonHeight);
+        node.QuerySelector(".icon")!.Style.Size = new(_buttonHeight - 4, _buttonHeight - 4);
+
+        node.QuerySelector(".progress-bar-wrapper")!.Style.Margin = new(_buttonHeight - 8, 8, 4, _buttonHeight - 3);
+        
         node.QuerySelector(".icon")!.Style.IconId    = job.Icons[_buttonIconType];
         node.QuerySelector(".name")!.NodeValue       = gearset.Name;
         node.QuerySelector(".level")!.NodeValue      = GearsetSwitcherInfoDisplayProvider.GetInfoText(GearsetSwitcherInfoDisplayType.JobLevel, gearset, false);
         node.QuerySelector(".item-level")!.NodeValue = $"{gearset.ItemLevel}";
-        
+
         group.QuerySelector(".body")!.AppendChild(node);
     }
 
@@ -85,7 +90,7 @@ internal sealed partial class GearsetSwitcherPopup
     {
         Node? node = Node.QuerySelector($"#Gearset_{gearset.Id}");
         if (node == null) return;
-        
+
         node.Dispose();
         _nodeToGearset.Remove(node);
     }

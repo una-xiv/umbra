@@ -61,6 +61,22 @@ internal sealed partial class GearsetSwitcherWidget
                 I18N.Translate("Widget.GearsetSwitcher.Config.PopupButtonIconType.Description"),
                 JobIconType.Gearset
             ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
+            new IntegerWidgetConfigVariable(
+                "PopupButtonWidth",
+                I18N.Translate("Widget.GearsetSwitcher.Config.ButtonWidth.Name"),
+                I18N.Translate("Widget.GearsetSwitcher.Config.ButtonWidth.Description"),
+                200,
+                100,
+                500
+            ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
+            new IntegerWidgetConfigVariable(
+                "PopupButtonHeight",
+                I18N.Translate("Widget.GearsetSwitcher.Config.ButtonHeight.Name"),
+                I18N.Translate("Widget.GearsetSwitcher.Config.ButtonHeight.Description"),
+                40,
+                20,
+                100
+            ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
             new BooleanWidgetConfigVariable(
                 "EnableRoleScrolling",
                 I18N.Translate("Widget.GearsetSwitcher.Config.EnableRoleScrolling.Name"),

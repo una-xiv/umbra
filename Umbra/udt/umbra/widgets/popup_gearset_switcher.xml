@@ -176,13 +176,11 @@
                 text-overflow: false;
                 word-wrap: false;
             }
-            
-            
         }
         
         & > .body {
-            padding: 0 15;
-            gap: 15;
+            padding: 16 16;
+            gap: 16;
             auto-size: grow;
             
             & > .column {
@@ -278,22 +276,26 @@
             flow: vertical;
             anchor: middle-left;
             auto-size: grow;
-            gap: -4;
+            gap: -3;
             
             & > .name {
                 anchor: middle-left;
+                auto-size: grow fit;
                 font-size: 13;
                 color: "Widget.PopupMenuText";
                 outline-color: "Widget.PopupMenuTextOutline";
-                padding: 0 48 0 0;
+                text-overflow: false;
+                word-wrap: false;
             }
             
             & > .level {
                 anchor: middle-left;
-                font-size: 11;
+                auto-size: grow fit;
+                font-size: 10;
                 color: "Widget.PopupMenuTextMuted";
                 outline-color: "Widget.PopupMenuTextOutline";
-                padding: 0 48 0 0;
+                text-overflow: false;
+                word-wrap: false;
             }
         }
         
