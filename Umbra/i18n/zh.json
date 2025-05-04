@@ -857,6 +857,7 @@
   "Widget.GearsetSwitcher.ItemLevel": "装备等级 {0}",
   "Widget.GearsetSwitcher.EquipRecommendedGear": "装备推荐的装备",
   "Widget.GearsetSwitcher.UpdateGearset": "更新装备配置",
+  "Widget.GearsetSwitcher.CreateGearset": "创建装备方案",
   "Widget.GearsetSwitcher.RandomJob": "选择一个随机职业",
   "Widget.GearsetSwitcher.Role.Tank": "坦克",
   "Widget.GearsetSwitcher.Role.Healer": "治疗",

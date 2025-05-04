@@ -640,6 +640,7 @@
     "Widget.GearsetSwitcher.ItemLevel": "Niv. d'objet {0}",
     "Widget.GearsetSwitcher.EquipRecommendedGear": "Équiper l’équipement recommandé",
     "Widget.GearsetSwitcher.UpdateGearset": "Mettre à jour l’ensemble d’équipement",
+    "Widget.GearsetSwitcher.CreateGearset": "Créer un set d'équipement",
     "Widget.GearsetSwitcher.RandomJob": "Choisir un job aléatoire",
     "Widget.GearsetSwitcher.Role.Tank": "Tank",
     "Widget.GearsetSwitcher.Role.Healer": "Soigneur",

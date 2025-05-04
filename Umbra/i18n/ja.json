@@ -857,6 +857,7 @@
   "Widget.GearsetSwitcher.ItemLevel": "ILv. {0}",
   "Widget.GearsetSwitcher.EquipRecommendedGear": "おすすめ装備を装着",
   "Widget.GearsetSwitcher.UpdateGearset": "装備セットを更新",
+  "Widget.GearsetSwitcher.CreateGearset": "装備セットを作成",
   "Widget.GearsetSwitcher.RandomJob": "ランダムなジョブを選択",
   "Widget.GearsetSwitcher.Role.Tank": "タンク",
   "Widget.GearsetSwitcher.Role.Healer": "ヒーラー",
