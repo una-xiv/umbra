@@ -1,6 +1,7 @@
 ﻿using Dalamud.Game.ClientState.Keys;
 using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Client.Game;
+using Lumina.Extensions;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -36,6 +37,26 @@ internal sealed class AuxBarManager : IDisposable
 
         ConfigManager.CvarChanged += OnCvarChanged;
         OnCvarChanged("AuxBar.Data");
+    }
+
+    public bool NameExists(string name)
+    {
+        return null != AuxBarConfigs.FirstOrDefault(c => c.Name == name);
+    }
+
+    public void ToggleByName(string name, bool? state)
+    {
+        var config = AuxBarConfigs.FirstOrDefault(c => c.Name == name);
+        if (config == null) return;
+        
+        if (state == null) {
+            config.IsEnabled = !config.IsEnabled;
+        } else {
+            config.IsEnabled = state.Value;
+        }
+        
+        AuxBarNodes[config.Id].Update(config);
+        Persist();
     }
 
     public void Dispose()

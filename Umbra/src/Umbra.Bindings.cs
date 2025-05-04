@@ -2,6 +2,7 @@
 using Dalamud.Plugin.Services;
 using System;
 using System.Linq;
+using Umbra.AuxBar;
 using Umbra.Common;
 using Umbra.Widgets.System;
 using Umbra.Windows;
@@ -57,6 +58,14 @@ internal sealed class UmbraBindings : IDisposable
         );
 
         _commandManager.AddHandler(
+            "/umbra-aux",
+            new(HandleUmbraCommand) {
+                HelpMessage = "Shows or hides an auxiliary toolbar. Usage: /umbra-aux <show|hide|toggle> [name].",
+                ShowInHelp  = true,
+            }
+        );
+        
+        _commandManager.AddHandler(
             "/umbra-toggle",
             new(HandleUmbraCommand) {
                 HelpMessage = "Toggles a specific Umbra setting. Usage: /umbra-toggle <setting>. For a list of settings, use /umbra-toggle without arguments.",
@@ -91,6 +100,7 @@ internal sealed class UmbraBindings : IDisposable
         _commandManager.RemoveHandler("/umbra");
         _commandManager.RemoveHandler("/umbra-toggle");
         _commandManager.RemoveHandler("/umbra-toolbar-profile");
+        _commandManager.RemoveHandler("/umbra-aux");
 
         _commandManager = null!;
 
@@ -145,6 +155,26 @@ internal sealed class UmbraBindings : IDisposable
                 }
 
                 _widgetManager.ActivateProfile(profile);
+                break;
+            case "/umbra-aux":
+                _chatGui.Print($"Args: \"{args}\".");
+                var parts  = args.Trim().Split(' ');
+                var cmd = parts.FirstOrDefault();
+                var name = parts.Length > 1 ? string.Join(' ', parts.Skip(1)) : string.Empty;
+                
+                if (cmd != "show" && cmd != "hide" && cmd != "toggle") {
+                    _chatGui.PrintError("Usage: /umbra-aux <show|hide|toggle> [name].");
+                    return;
+                }
+
+                var am = Framework.Service<AuxBarManager>();
+                if (!am.NameExists(name)) {
+                    _chatGui.PrintError($"Invalid auxiliary toolbar name: \"{name}\".");
+                    _chatGui.Print($"Available toolbars: {String.Join(", ", am.All.Select(a => a.Name))}");
+                    return;
+                }
+                
+                am.ToggleByName(name, cmd == "toggle" ? null : cmd == "show");
                 break;
         }
     }
