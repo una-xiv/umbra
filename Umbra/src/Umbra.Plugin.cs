@@ -105,6 +105,9 @@ internal sealed class Plugin : IDalamudPlugin
                 if (ImGui.MenuItem("Draw Bounding Boxes", string.Empty, Node.DrawDebugBoundingBoxes)) {
                     Node.DrawDebugBoundingBoxes = !Node.DrawDebugBoundingBoxes;
                 }
+                if (ImGui.MenuItem("Draw Reflow & Repaint Boxes", string.Empty, Node.DrawDebugPaintAndReflowBoxes)) {
+                    Node.DrawDebugPaintAndReflowBoxes = !Node.DrawDebugPaintAndReflowBoxes;
+                }
                 
                 ImGui.Separator();
                 if (ImGui.MenuItem("Open config directory")) {

@@ -30,6 +30,10 @@
             stroke-color: "Input.BorderHover"; 
         }
         
+        &.disabled {
+            opacity: 0.5;
+        }
+        
         & > .deprecated {
             anchor: middle-left;
             size: 20;

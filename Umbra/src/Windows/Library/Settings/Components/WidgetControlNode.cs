@@ -48,6 +48,7 @@ public class WidgetControlNode : UdtNode
         if (IsDisposed || Widget.IsDisposed) return;
 
         SortIndex = Widget.SortIndex;
+        ToggleClass("disabled", !Widget.IsEnabled);
 
         try {
             _labelNode.NodeValue = Widget.GetInstanceName();
