@@ -49,6 +49,11 @@ internal sealed partial class GearsetSwitcherPopup
         Node    group  = GearsetGroupNodes[gearset.Category];
         JobInfo job    = Player.GetJobInfo(gearset.JobId);
 
+        if (_hidePrefix.Length > 0 && gearset.Name.StartsWith(_hidePrefix)) {
+            node?.Dispose();
+            return;
+        }
+        
         if (null == node) {
             node = Document.CreateNodeFromTemplate("gearset", []);
             node.ToggleClass("with-gradient", _showGradientButtons);

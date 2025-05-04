@@ -930,6 +930,8 @@
   "Widget.GearsetSwitcher.Config.ButtonWidth.Description": "Die Breite der Ausrüstungstasten in Pixeln.",
   "Widget.GearsetSwitcher.Config.ButtonHeight.Name": "Höhe der Ausrüstungstaste",
   "Widget.GearsetSwitcher.Config.ButtonHeight.Description": "Die Höhe der Ausrüstungstasten in Pixeln.",
+  "Widget.GearsetSwitcher.Config.HidePrefixedGearsets.Name": "Ausrüstungssets mit diesem Präfix ausblenden",
+  "Widget.GearsetSwitcher.Config.HidePrefixedGearsets.Description": "Blendet Ausrüstungssets mit diesem Präfix im Popup aus. Dies kann nützlich sein, um die Anzahl der im Popup angezeigten Ausrüstungssets zu minimieren.",
   "Widget.OnlineStatus.Name": "Online-Status",
   "Widget.OnlineStatus.Description": "Zeigt deinen aktuellen Online-Status an und ermöglicht es dir, ihn zu ändern.",
   "Widget.OnlineStatus.Tooltip": "Klicke mit der rechten Maustaste, um das Suchinfofenster zu öffnen.",

@@ -930,6 +930,8 @@
   "Widget.GearsetSwitcher.Config.ButtonWidth.Description": "装備セットボタンのピクセル単位の幅。",
   "Widget.GearsetSwitcher.Config.ButtonHeight.Name": "装備セットボタンの高さ",
   "Widget.GearsetSwitcher.Config.ButtonHeight.Description": "装備セットボタンのピクセル単位の高さ。",
+  "Widget.GearsetSwitcher.Config.HidePrefixedGearsets.Name": "この接頭辞を持つ装備セットを隠す",
+  "Widget.GearsetSwitcher.Config.HidePrefixedGearsets.Description": "ポップアップでこの接頭辞を持つ装備セットを隠します。これは、ポップアップに表示される装備セットの数を最小限に抑えるのに役立ちます。",
   "Widget.OnlineStatus.Name": "オンライン状態",
   "Widget.OnlineStatus.Description": "現在のオンライン状態を表示し、変更オプションを提供します。",
   "Widget.OnlineStatus.Tooltip": "右クリックして検索情報ウィンドウを開きます。",
