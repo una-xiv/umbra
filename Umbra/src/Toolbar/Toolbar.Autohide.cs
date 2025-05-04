@@ -62,18 +62,14 @@ internal partial class Toolbar
     {
         if (!AllowAutoHide) return true;
 
-        float nodeWidth  = _toolbarNode.Width;
+        float nodeWidth  = RightPanel.Bounds.PaddingRect.X2 - LeftPanel.Bounds.PaddingRect.X1;
         float nodeHeight = _toolbarNode.Height;
 
         float y = ToolbarYPosition - (IsTopAligned ? 0 :nodeHeight);
-        float x = (nodeWidth / 2f) + (ToolbarLeftMargin / 2f) + (ToolbarRightMargin / 2f);
+        float x = LeftPanel.Bounds.PaddingRect.X1;
 
-        var bounds = new Rect(ToolbarXPosition - x, y, ToolbarXPosition + x, y + nodeHeight);
+        var bounds = new Rect(x, y, x + nodeWidth, y + nodeHeight);
         bounds.Expand(new(_toolbarNode.Height / 2f, 0));
-
-        // Apply margins.
-        bounds.X1 += ToolbarLeftMargin;
-        bounds.X2 -= ToolbarRightMargin;
 
         // Change the hover area height based on visibility. This requires the user to nearly touch the edge of the
         // screen to show the toolbar, but allows for a larger area to hide it.

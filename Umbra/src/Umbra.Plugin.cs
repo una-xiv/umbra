@@ -102,8 +102,8 @@ internal sealed class Plugin : IDalamudPlugin
                 if (ImGui.MenuItem("Show Node Inspector", string.Empty, DrawingLib.ShowDebugWindow)) {
                     DrawingLib.ShowDebugWindow = !DrawingLib.ShowDebugWindow;
                 }
-                if (ImGui.MenuItem("Draw Bounding Boxes", string.Empty, Node.DrawDebugInfo)) {
-                    Node.DrawDebugInfo = !Node.DrawDebugInfo;
+                if (ImGui.MenuItem("Draw Bounding Boxes", string.Empty, Node.DrawDebugBoundingBoxes)) {
+                    Node.DrawDebugBoundingBoxes = !Node.DrawDebugBoundingBoxes;
                 }
                 
                 ImGui.Separator();
