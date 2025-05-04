@@ -22,7 +22,7 @@ internal sealed partial class CurrenciesWidget
                 true
             ) {
                 Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance"),
-                Group    = "Visible Currencies"
+                Group    = I18N.Translate("Widget.Currencies.Config.Group.VisibleCurrencies")
             });
         }
 

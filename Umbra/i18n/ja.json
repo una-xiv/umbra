@@ -781,6 +781,7 @@
   "Widget.Currencies.Config.ThresholdColor.Description": "通貨の量がしきい値のパーセンテージを超えている場合に使用される色。",
   "Widget.Currencies.Config.ThresholdCapColor.Name": "上限の色",
   "Widget.Currencies.Config.ThresholdCapColor.Description": "通貨の量が上限に達している場合に使用される色。",
+  "Widget.Currencies.Config.Group.VisibleCurrencies": "表示される通貨",
   "Widget.Currencies.Group.TheHunt": "ハント",
   "Widget.Currencies.Group.Tomestones": "トームストーン",
   "Widget.Currencies.Group.PvP": "PvP",

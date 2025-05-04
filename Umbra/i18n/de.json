@@ -781,6 +781,7 @@
   "Widget.Currencies.Config.ThresholdColor.Description": "Die Farbe, die verwendet wird, wenn der Währungsbetrag über dem Schwellenwertprozentsatz liegt.",
   "Widget.Currencies.Config.ThresholdCapColor.Name": "Gedeckelte Farbe",
   "Widget.Currencies.Config.ThresholdCapColor.Description": "Die Farbe, die verwendet wird, wenn der Währungsbetrag gedeckelt ist.",
+  "Widget.Currencies.Config.Group.VisibleCurrencies": "Sichtbare Währungen",
   "Widget.Currencies.Group.TheHunt": "Abzeichen & Trophäen",
   "Widget.Currencies.Group.Tomestones": "Allagische Steine",
   "Widget.Currencies.Group.PvP": "PvP",

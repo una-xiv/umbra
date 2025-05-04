@@ -565,6 +565,7 @@
     "Widget.Currencies.Config.ThresholdColor.Description": "La couleur qui est utilisée lorsque le montant de la devise est supérieur au pourcentage de seuil.",
     "Widget.Currencies.Config.ThresholdCapColor.Name": "Couleur plafonnée",
     "Widget.Currencies.Config.ThresholdCapColor.Description": "La couleur qui est utilisée lorsque le montant de la devise est plafonné.",
+    "Widget.Currencies.Config.Group.VisibleCurrencies": "Devises visibles",
     "Widget.Currencies.Group.TheHunt": "La Chasse",
     "Widget.Currencies.Group.Tomestones": "Mémoquartz",
     "Widget.Currencies.Group.PvP": "PvP",

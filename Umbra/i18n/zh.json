@@ -781,6 +781,7 @@
   "Widget.Currencies.Config.ThresholdColor.Description": "当货币数量高于阈值百分比时使用的颜色。",
   "Widget.Currencies.Config.ThresholdCapColor.Name": "上限颜色",
   "Widget.Currencies.Config.ThresholdCapColor.Description": "当货币数量达到上限时使用的颜色。",
+  "Widget.Currencies.Config.Group.VisibleCurrencies": "可见货币",
   "Widget.Currencies.Group.TheHunt": "狩猎点",
   "Widget.Currencies.Group.Tomestones": "神典石",
   "Widget.Currencies.Group.PvP": "PvP",

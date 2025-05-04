@@ -781,6 +781,7 @@
     "Widget.Currencies.Config.ThresholdColor.Description": "The color that is used when the currency amount is above the threshold percentage.",
     "Widget.Currencies.Config.ThresholdCapColor.Name": "Capped color",
     "Widget.Currencies.Config.ThresholdCapColor.Description": "The color that is used when the currency amount is capped.",
+    "Widget.Currencies.Config.Group.VisibleCurrencies": "Visible Currencies",
     "Widget.Currencies.Group.TheHunt": "The Hunt",
     "Widget.Currencies.Group.Tomestones": "Tomestones",
     "Widget.Currencies.Group.PvP": "PvP",
