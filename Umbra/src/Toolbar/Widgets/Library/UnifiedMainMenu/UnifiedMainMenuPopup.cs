@@ -19,6 +19,7 @@ internal sealed partial class UnifiedMainMenuPopup : WidgetPopup
     public int    VerticalItemSpacing  { get; set; } = 0;
     public int    MenuHeight           { get; set; } = 400;
     public bool   ReverseCategoryOrder { get; set; } = false;
+    public int    PopupFontSize        { get; set; } = 11;
 
     public List<string> PinnedItems { get; private set; } = [];
 
@@ -48,12 +49,12 @@ internal sealed partial class UnifiedMainMenuPopup : WidgetPopup
         UpdatePinnedItems();
 
         Node.QuerySelector("#side-panel")!.Style.Gap = 2 + VerticalItemSpacing;
-        PinnedListNode.Style.Gap = 2 + VerticalItemSpacing;
-        
+        PinnedListNode.Style.Gap                     = 2 + VerticalItemSpacing;
+
         foreach (var node in Node.QuerySelectorAll(".category")) {
             node.Style.Gap = 2 + VerticalItemSpacing;
         }
-
+        
         ActivateCategory("Category_Character");
     }
 
@@ -65,6 +66,10 @@ internal sealed partial class UnifiedMainMenuPopup : WidgetPopup
     protected override void OnUpdate()
     {
         UpdateHeaderNodes();
+
+        foreach (var node in Node.QuerySelectorAll(".text, .alt")) {
+            node.Style.FontSize = PopupFontSize;
+        }
     }
 
     private void ActivateCategory(string id)

@@ -62,7 +62,7 @@ internal sealed partial class UnifiedMainMenuPopup
     private Node CreateCategoryButton(string id, string label, object? icon)
     {
         Node iconNode = new() { ClassList = ["icon"] };
-        Node nameNode = new() { ClassList = ["name"], NodeValue = label };
+        Node nameNode = new() { ClassList = ["text"], NodeValue = label };
         Node node = new() {
             Id         = $"{id}_Button",
             ClassList  = ["category-button"],

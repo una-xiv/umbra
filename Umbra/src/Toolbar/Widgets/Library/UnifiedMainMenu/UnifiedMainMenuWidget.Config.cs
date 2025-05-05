@@ -90,6 +90,14 @@ internal sealed partial class UnifiedMainMenuWidget
                 I18N.Translate("Widgets.MenuPopup.Config.ReverseCategories.Description"),
                 false
             ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
+            new IntegerWidgetConfigVariable(
+                "PopupFontSize",
+                I18N.Translate("Widgets.MenuPopup.Config.ItemFontSize.Name"),
+                I18N.Translate("Widgets.MenuPopup.Config.ItemFontSize.Description"),
+                12,
+                8,
+                24
+            ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
             new StringWidgetConfigVariable(
                 "PinnedItems",
                 "",

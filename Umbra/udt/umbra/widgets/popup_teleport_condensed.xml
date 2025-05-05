@@ -148,8 +148,10 @@
                 gap: 4;
                 transition-type: ease-out-sine;
                 transition-duration: 200;
+                padding: 1 4;
             
                 & > .icon {
+                    anchor: middle-left;
                     size: 16;
                     uld-resource: "ui/uld/Teleport";
                     uld-parts-id: 16;
@@ -157,6 +159,7 @@
                 }
                 
                 & > .text {
+                    anchor: middle-left;
                     auto-size: grow fit;
                     text-overflow: false;
                     word-wrap: false;
@@ -169,6 +172,7 @@
                 }
                 
                 & > .cost {
+                    anchor: middle-left;
                     text-align: middle-right;
                     font-size: 11;
                     color: "Widget.PopupMenuTextMuted";

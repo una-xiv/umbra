@@ -9,6 +9,7 @@ public sealed partial class MenuPopup : WidgetPopup
 {
     public bool IsDisabled          { get; set; }
     public bool DesaturateMenuIcons { get; set; }
+    public int  PopupFontSize       { get; set; } = 12;
 
     protected override Node Node { get; }
 
@@ -34,12 +35,16 @@ public sealed partial class MenuPopup : WidgetPopup
         foreach (var group in Node.QuerySelectorAll(".group > .content")) {
             group.Style.Gap = 2 + VerticalItemSpacing;
         }
+
+        foreach (var node in Node.QuerySelectorAll(".text")) node.Style.FontSize = PopupFontSize;
+        foreach (var node in Node.QuerySelectorAll(".alt-text")) node.Style.FontSize = PopupFontSize - 2;
     }
 
     protected override void UpdateConfigVariables(ToolbarWidget widget)
     {
         DesaturateMenuIcons = widget.HasConfigVariable("DesaturateMenuIcons") && widget.GetConfigValue<bool>("DesaturateMenuIcons");
         VerticalItemSpacing = widget.HasConfigVariable("VerticalItemSpacing") ? widget.GetConfigValue<int>("VerticalItemSpacing") : 0;
+        PopupFontSize       = widget.HasConfigVariable("PopupFontSize") ? widget.GetConfigValue<int>("PopupFontSize") : 12;
     }
 
     public override IEnumerable<IWidgetConfigVariable> GetConfigVariables()
@@ -58,6 +63,14 @@ public sealed partial class MenuPopup : WidgetPopup
                 0,
                 0,
                 100
+            ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
+            new IntegerWidgetConfigVariable(
+                "PopupFontSize",
+                I18N.Translate("Widgets.MenuPopup.Config.ItemFontSize.Name"),
+                I18N.Translate("Widgets.MenuPopup.Config.ItemFontSize.Description"),
+                13,
+                8,
+                24
             ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
         ];
     }

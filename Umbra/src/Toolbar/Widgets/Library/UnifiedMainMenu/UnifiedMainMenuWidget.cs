@@ -52,6 +52,7 @@ internal sealed partial class UnifiedMainMenuWidget(
         Popup.VerticalItemSpacing  = GetConfigValue<int>("VerticalItemSpacing");
         Popup.MenuHeight           = GetConfigValue<int>("MenuHeight");
         Popup.ReverseCategoryOrder = GetConfigValue<bool>("ReverseCategories");
+        Popup.PopupFontSize        = GetConfigValue<int>("PopupFontSize");
 
         SetText(GetConfigValue<string>("Label"));
     }

@@ -119,13 +119,14 @@
                             auto-size: grow fit;
                             gap: 6;
                             padding: 2 4;
-                            margin: 0 6 0 0;
+                            margin: 0 8 0 0;
                             background-color: 0;
                             border-color: 0;
                             border-width: 1;
                             transition-duration: 150;
                                 
                             & > .icon {
+                                anchor: middle-left;
                                 size: 20;
                                 font-size: 14;
                                 text-align: middle-center;
@@ -134,8 +135,9 @@
                                 outline-size: 2;
                             }
                             
-                            & > .name {
-                                auto-size: grow;
+                            & > .text {
+                                anchor: middle-left;
+                                auto-size: grow fit;
                                 font-size: 13;
                                 color: "Widget.PopupMenuText";
                                 outline-color: "Widget.PopupMenuTextOutline";
@@ -148,7 +150,7 @@
                                 background-color: "Widget.PopupMenuBackgroundHover";
                                 transition-duration: 1;
                                 
-                                & > .name {
+                                & > .text {
                                     color: "Widget.PopupMenuTextHover";
                                     outline-color: "Widget.PopupMenuTextOutlineHover";
                                 }
@@ -160,7 +162,7 @@
                                 transition-duration: 1;
                                 transition-duration: 100;
                                 
-                                & > .name {
+                                & > .text {
                                     color: "Widget.PopupMenuTextHover";
                                     outline-color: "Widget.PopupMenuTextOutlineHover";
                                 }
@@ -200,7 +202,7 @@
             background-color: "Widget.PopupBackground.Gradient1";
             transition-type: ease-out-sine;
             transition-duration: 150;
-            margin: 0 6 0 0;
+            margin: 0 8 0 0;
             
             &.pinned {
                 background-color: "Widget.PopupBackground.Gradient2";
@@ -231,7 +233,6 @@
                 color: "Widget.PopupMenuTextMuted";
                 outline-color: "Widget.PopupMenuTextOutline";
                 outline-size: 1;
-                padding: 0 8 0 0;
             }
             
             &:hover {
