@@ -1,4 +1,8 @@
-﻿using System;
+﻿using Dalamud.Plugin.Services;
+using Dalamud.Utility;
+using FFXIVClientStructs.FFXIV.Client.UI;
+using Lumina.Excel.Sheets;
+using System;
 using System.Collections.Generic;
 using Umbra.Common;
 using Umbra.Game;
@@ -8,8 +12,10 @@ namespace Umbra.Widgets.Library.UnifiedMainMenu;
 
 internal sealed partial class UnifiedMainMenuPopup : WidgetPopup
 {
-    private void CreateContextMenu()
+    private unsafe void CreateContextMenu()
     {
+        var dm = Framework.Service<IDataManager>();
+        
         ContextMenu = new(
             [
                 new("MoveUp") {
@@ -29,6 +35,16 @@ internal sealed partial class UnifiedMainMenuPopup : WidgetPopup
                 new("Unpin") {
                     Label   = I18N.Translate("Widget.UnifiedMainMenu.ContextMenu.Unpin"),
                     OnClick = ContextUnpinAction,
+                },
+                new("Logout") {
+                    Label   = dm.GetExcelSheet<MainCommand>().GetRow(23).Name.ExtractText().StripSoftHyphen(),
+                    OnClick = () => UIModule.Instance()->ExecuteMainCommand(23),
+                    IconId  = 27u,
+                },
+                new("Shutdown") {
+                    Label   = dm.GetExcelSheet<MainCommand>().GetRow(24).Name.ExtractText().StripSoftHyphen(),
+                    OnClick = () => UIModule.Instance()->ExecuteMainCommand(24),
+                    IconId  = 26u,
                 },
             ]
         );

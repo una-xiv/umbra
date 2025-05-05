@@ -8,6 +8,10 @@
                 <node class="name"/>
                 <node class="desc" value="This is a description of something."/>
             </node>
+            <node class="buttons" style="anchor: middle-right; gap: 2;">
+                <button-node id="btn-settings" icon="Cog" is-ghost="true"/>
+                <button-node id="btn-shutdown" icon="PowerOff" is-ghost="true"/>
+            </node>
         </node>
         
         <node class="body">
@@ -42,6 +46,7 @@
             }
             
             & > .avatar {
+                anchor: middle-left;
                 padding: 4;
                 background-color: "Input.Background";
                 border-radius: 4;
@@ -50,14 +55,14 @@
                 stroke-inset: 1;
                 
                 & > .icon {
-                    size: 32;
+                    size: 48;
                 }
             }
             
             & > .info {
                 flow: vertical;
                 auto-size: grow fit;
-                size: 0 40;
+                anchor: middle-left;
                 
                 & > .name {
                     anchor: top-left;

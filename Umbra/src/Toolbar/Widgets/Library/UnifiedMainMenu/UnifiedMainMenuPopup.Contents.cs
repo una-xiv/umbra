@@ -91,6 +91,7 @@ internal sealed partial class UnifiedMainMenuPopup
         switch (item.Type) {
             case MainMenuItemType.Separator:
                 node.ToggleClass("separator", true);
+                node.ToggleClass("item", false);
                 break;
             default:
                 node.AppendChild(new() { ClassList = ["icon"] });
@@ -114,6 +115,8 @@ internal sealed partial class UnifiedMainMenuPopup
             ContextMenu?.SetEntryDisabled("MoveDown", isSortable && PinnedItems.IndexOf(item.Id) == PinnedItems.Count - 1);
             ContextMenu?.SetEntryVisible("Pin", !PinnedItems.Contains(item.Id));
             ContextMenu?.SetEntryVisible("Unpin", PinnedItems.Contains(item.Id));
+            ContextMenu?.SetEntryVisible("Logout", false);
+            ContextMenu?.SetEntryVisible("Shutdown", false);
             ContextMenu?.Present();
         };
 

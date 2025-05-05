@@ -1,4 +1,5 @@
 ﻿using FFXIVClientStructs.FFXIV.Client.Game;
+using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using Lumina.Excel.Sheets;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,8 @@ namespace Umbra.Widgets;
 
 internal sealed partial class CurrenciesWidget
 {
-    private Dictionary<uint, Currency> DefaultCurrencies { get; } = [];
+    private                 Dictionary<uint, Currency> DefaultCurrencies { get; } = [];
+    private static readonly Dictionary<uint, int>      GcSealsCap = [];
 
     private const uint ItemIdGil                  = 1;
     private const uint ItemIdMgp                  = 29;
@@ -31,6 +33,10 @@ internal sealed partial class CurrenciesWidget
 
     private void InitializeDefaultItems()
     {
+        foreach (var row in DataManager.GetExcelSheet<GrandCompanyRank>()) {
+            GcSealsCap[row.RowId] = (int)row.MaxSeals;
+        }
+        
         DefaultCurrencies.Clear();
         DefaultCurrencies.Add(ItemIdGil, CreateCurrencyFromItemId(ItemIdGil)!);
         DefaultCurrencies.Add(ItemIdMgp, CreateCurrencyFromItemId(ItemIdMgp)!);
@@ -84,17 +90,25 @@ internal sealed partial class CurrenciesWidget
         }
     }
 
-    private Currency? CreateCurrencyFromItemId(uint itemId, Group group = Group.None)
+    private unsafe Currency? CreateCurrencyFromItemId(uint itemId, Group group = Group.None)
     {
         var item = DataManager.GetExcelSheet<Item>().FindRow(itemId);
         if (item == null) return null;
+
+        uint stackSize = itemId is ItemIdMaelstrom or ItemIdTwinAdder or ItemIdImmortalFlames
+            ? ((Player.GrandCompanyId == 0) ? 0 : (uint)GcSealsCap[PlayerState.Instance()->GetGrandCompanyRank()])
+            : (itemId > 1 ? item.Value.StackSize : 0);
+        
+        if (itemId is ItemIdMaelstrom or ItemIdTwinAdder or ItemIdImmortalFlames) {
+            stackSize = (uint)GcSealsCap[PlayerState.Instance()->GetGrandCompanyRank()];
+        }
 
         Currency currency = new() {
             Id             = item.Value.RowId,
             Name           = item.Value.Name.ToString(),
             IconId         = item.Value.Icon,
             Count          = Player.GetItemCount(item.Value.RowId),
-            Capacity       = itemId > 1 ? item.Value.StackSize : 0,
+            Capacity       = stackSize,
             WeeklyCapacity = 0,
             WeeklyCount    = 0,
             IsTracked      = false,

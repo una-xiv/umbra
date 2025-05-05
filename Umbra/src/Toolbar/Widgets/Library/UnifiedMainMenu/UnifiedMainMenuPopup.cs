@@ -1,7 +1,10 @@
-﻿using System;
+﻿using Dalamud.Interface;
+using System;
 using System.Collections.Generic;
 using Umbra.Common;
 using Umbra.Game;
+using Umbra.Windows;
+using Umbra.Windows.Settings;
 using Una.Drawing;
 
 namespace Umbra.Widgets.Library.UnifiedMainMenu;
@@ -47,15 +50,35 @@ internal sealed partial class UnifiedMainMenuPopup : WidgetPopup
         CreateContentNodes();
         CreateContextMenu();
         UpdatePinnedItems();
-
+        
         Node.QuerySelector("#side-panel")!.Style.Gap = 2 + VerticalItemSpacing;
         PinnedListNode.Style.Gap                     = 2 + VerticalItemSpacing;
 
         foreach (var node in Node.QuerySelectorAll(".category")) {
             node.Style.Gap = 2 + VerticalItemSpacing;
         }
+
+        Node.QuerySelector("#btn-shutdown")!.OnMouseUp += _ => {
+            ContextMenu?.SetEntryVisible("MoveUp", false);
+            ContextMenu?.SetEntryVisible("MoveDown", false);
+            ContextMenu?.SetEntryVisible("Pin", false);
+            ContextMenu?.SetEntryVisible("Unpin", false);
+            ContextMenu?.SetEntryVisible("Logout", true);
+            ContextMenu?.SetEntryVisible("Shutdown", true);
+            ContextMenu?.Present();
+        };
+
+        Node.QuerySelector("#btn-settings")!.OnMouseUp += _ => {
+            Framework.Service<WindowManager>().Present("UmbraSettings", new SettingsWindow());
+            Close();
+        };
         
         ActivateCategory("Category_Character");
+    }
+
+    protected override void OnClose()
+    {
+        ContextMenu?.Dispose();
     }
 
     public void SetPinnedItems(List<string> items)

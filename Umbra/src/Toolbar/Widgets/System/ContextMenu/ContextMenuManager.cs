@@ -34,7 +34,6 @@ internal sealed class ContextMenuManager(UmbraDelvClipRects clipRects) : IDispos
     {
         if (null != _contextMenu) {
             _contextMenu.OnEntryInvoked -= OnEntryInvoked;
-            _contextMenu.Dispose();
             _closeCallback?.Invoke();
         }
 
