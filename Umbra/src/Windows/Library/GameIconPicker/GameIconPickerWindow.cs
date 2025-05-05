@@ -34,11 +34,11 @@ public partial class GameIconPickerWindow(uint? selectedId = 0) : Window
             SelectedId = (uint)id;
         };
 
-        foreach (var (label, category) in CategoryLabels) {
-            RenderCategoryButton(category, label);
+        foreach (var category in Categories.Keys) {
+            RenderCategoryButton(category, I18N.Translate("Window.IconPicker.Category." + category));
         }
 
-        ActivateIconCategory(CategoryLabels.Values.First());
+        ActivateIconCategory(Categories.Keys.First());
     }
 
     protected override void OnDraw()

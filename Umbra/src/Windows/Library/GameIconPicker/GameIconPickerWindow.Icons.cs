@@ -68,17 +68,4 @@ public partial class GameIconPickerWindow
             ]
         },
     };
-
-    private static Dictionary<string, string> CategoryLabels { get; } = new() {
-        { I18N.Translate("Window.IconPicker.Category.General"), "General" },
-        { I18N.Translate("Window.IconPicker.Category.Jobs"), "Jobs" },
-        { I18N.Translate("Window.IconPicker.Category.Quests"), "Quests" },
-        { I18N.Translate("Window.IconPicker.Category.Avatars"), "Avatars" },
-        { I18N.Translate("Window.IconPicker.Category.Emotes"), "Emotes" },
-        { I18N.Translate("Window.IconPicker.Category.Rewards"), "Rewards" },
-        { I18N.Translate("Window.IconPicker.Category.MapMarkers"), "MapMarkers" },
-        { I18N.Translate("Window.IconPicker.Category.Shapes"), "Shapes" },
-        { I18N.Translate("Window.IconPicker.Category.Minions"), "Minions" },
-        { I18N.Translate("Window.IconPicker.Category.Mounts"), "Mounts" },
-    };
 }
