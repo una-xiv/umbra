@@ -27,27 +27,11 @@ internal sealed class VolumeWidgetPopup : WidgetPopup
 
     protected override Node Node { get; } = Document.RootNode!;
 
-    private readonly List<AudioChannel> _channels = [];
-    private readonly IGameConfig        _gameConfig;
-
-    public VolumeWidgetPopup()
-    {
-        _gameConfig = Framework.Service<IGameConfig>();
-
-        BindChannelWidget("Master", "SoundMaster", "IsSndMaster", "IsSoundAlways");
-        BindChannelWidget("BGM", "SoundBgm", "IsSndBgm", "IsSoundBgmAlways");
-        BindChannelWidget("SFX", "SoundSe", "IsSndSe", "IsSoundSeAlways");
-        BindChannelWidget("VOC", "SoundVoice", "IsSndVoice", "IsSoundVoiceAlways");
-        BindChannelWidget("AMB", "SoundEnv", "IsSndEnv", "IsSoundEnvAlways");
-        BindChannelWidget("SYS", "SoundSystem", "IsSndSystem", "IsSoundSystemAlways");
-        BindChannelWidget("PERF", "SoundPerform", "IsSndPerform", "IsSoundPerformAlways");
-
-        Node optionsList = Node.QuerySelector(".options-list")!;
-        optionsList.AppendChild(CreateToggleOption("SoundChocobo"));
-        optionsList.AppendChild(CreateToggleOption("SoundFieldBattle"));
-        optionsList.AppendChild(CreateToggleOption("SoundHousing"));
-    }
-
+    private readonly List<AudioChannel> _channels   = [];
+    private readonly IGameConfig        _gameConfig = Framework.Service<IGameConfig>();
+ 
+    private bool _isBound;
+    
     protected override void OnUpdate()
     {
         foreach (var channel in _channels) {
@@ -82,6 +66,22 @@ internal sealed class VolumeWidgetPopup : WidgetPopup
 
     protected override void OnOpen()
     {
+        if (!_isBound) {
+            _isBound = true;
+            BindChannelWidget("Master", "SoundMaster", "IsSndMaster", "IsSoundAlways");
+            BindChannelWidget("BGM", "SoundBgm", "IsSndBgm", "IsSoundBgmAlways");
+            BindChannelWidget("SFX", "SoundSe", "IsSndSe", "IsSoundSeAlways");
+            BindChannelWidget("VOC", "SoundVoice", "IsSndVoice", "IsSoundVoiceAlways");
+            BindChannelWidget("AMB", "SoundEnv", "IsSndEnv", "IsSoundEnvAlways");
+            BindChannelWidget("SYS", "SoundSystem", "IsSndSystem", "IsSoundSystemAlways");
+            BindChannelWidget("PERF", "SoundPerform", "IsSndPerform", "IsSoundPerformAlways");
+
+            Node optionsList = Node.QuerySelector(".options-list")!;
+            optionsList.AppendChild(CreateToggleOption("SoundChocobo"));
+            optionsList.AppendChild(CreateToggleOption("SoundFieldBattle"));
+            optionsList.AppendChild(CreateToggleOption("SoundHousing"));
+        }
+        
         foreach (var channel in _channels) {
             channel.Node.QuerySelector<VerticalSliderNode>(".slider")!.SetValue(
                 (int)_gameConfig.System.GetUInt(channel.VolumeConfigName)

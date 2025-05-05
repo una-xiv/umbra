@@ -65,6 +65,21 @@ public static class CrashLogger
             _exceptionTxt = CreateErrorString(ex);
         }
     }
+    
+    public static void Guard(string? crashWindowTitle, string? crashWindowMessage, Action action, bool stopScheduler = true)
+    {
+        _crashTitle = crashWindowTitle ?? _defaultCrashTitle;
+        _crashText  = crashWindowMessage ?? _defaultCrashText;
+
+        try {
+            action.Invoke();
+        } catch (Exception ex) {
+            if (stopScheduler) Scheduler.Stop();
+
+            _isCrashed    = true;
+            _exceptionTxt = CreateErrorString(ex);
+        }
+    }
 
     private static void OnDraw()
     {

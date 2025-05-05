@@ -149,7 +149,7 @@ internal sealed partial class WidgetManager : IDisposable
         bool                        saveState    = true
     )
     {
-        try {
+        CrashLogger.Guard($"Failed to create widget: {name}", $"An error occurred while instantiating the widget {name}. This should never happen. Please report this to the #support channel in Umbra's Discord.", () => {
             if (!_widgetTypes.TryGetValue(name, out var type))
                 throw new InvalidOperationException($"No widget with the name '{name}' is registered.");
 
@@ -185,11 +185,7 @@ internal sealed partial class WidgetManager : IDisposable
 
             SaveWidgetState(widget.Id);
             if (saveState) SaveState();
-        } catch (Exception e) {
-            Logger.Error($"Failed to create instance of {name}");
-            Logger.Error(e.Message);
-            Logger.Error(e.StackTrace);
-        }
+        }, false);
     }
 
     public void RemoveWidget(string guid, bool saveState = true)
