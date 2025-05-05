@@ -23,7 +23,7 @@ public partial class GameIconPickerWindow
                 (0, 0),
                 (71001, 71006), (71021, 71025), (71041, 71045), (71061, 70165), (71081, 70185), (71101, 71102),
                 (71121, 71125), (71141, 71145), (71201, 71205), (71221, 71225), (61721, 61723), (61731, 61733),
-                (63875, 63987)
+                (63875, 63892), (63900, 63977), (63979, 63987)
             ]
         }, {
             "Avatars", [
@@ -48,13 +48,13 @@ public partial class GameIconPickerWindow
             "Shapes", [
                 (0, 0),
                 (82091, 82093), (90001, 90004), (90200, 90263), (90401, 90463), (61901, 61918),
-                (230131, 230143), // group pose birthday
-                (230201, 230215), // group pose decoration small
-                (230301, 230317), // group pose decoration large
-                (230401, 230433), // group pose stamp symbol
-                (230701, 230715), // group pose stamp nation
-                (230626, 230641), // Group pose facial motion
-                (180021, 180028), // Ranking Symbols
+                (230131, 230143),                   // group pose birthday
+                (230201, 230215),                   // group pose decoration small
+                (230301, 230317),                   // group pose decoration large
+                (230401, 230433),                   // group pose stamp symbol
+                (230701, 230715),                   // group pose stamp nation
+                (230626, 230629), (230631, 230641), // Group pose facial motion
+                (180021, 180028),                   // Ranking Symbols
             ]
         }, {
             "Minions", [

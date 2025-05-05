@@ -9,7 +9,6 @@ using Umbra.Windows;
 using Umbra.Windows.Library.Installer;
 using Umbra.Windows.Settings;
 using Una.Drawing;
-// using Umbra.Windows.Oobe;
 
 namespace Umbra;
 

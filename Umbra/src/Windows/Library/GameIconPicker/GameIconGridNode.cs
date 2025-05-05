@@ -56,16 +56,7 @@ public class GameIconGridNode : Node
 
     private void DrawIcon(uint iconId)
     {
-        Vector2 pos = ImGui.GetCursorScreenPos();
-
-        if (!TextureProvider.TryGetFromGameIcon(new(iconId), out var texture)) {
-            return;
-        }
-
-        if (!texture.TryGetWrap(out IDalamudTextureWrap? wrap, out Exception? _)) {
-            return;
-        }
-
+        Vector2       pos      = ImGui.GetCursorScreenPos();
         ImDrawListPtr drawList = ImGui.GetWindowDrawList();
 
         Vector2 p1 = pos;
@@ -77,16 +68,23 @@ public class GameIconGridNode : Node
 
         drawList.AddRectFilled(p1, p2, new Color("Input.Background").ToUInt(), 6, ImDrawFlags.RoundCornersAll);
         drawList.AddRect(p1, p2, new Color("Input.Border").ToUInt(), 6, ImDrawFlags.RoundCornersAll, 1);
-        drawList.AddImageRounded(
-            wrap.ImGuiHandle,
-            p3,
-            p4,
-            Vector2.Zero,
-            Vector2.One,
-            0xFFFFFFFF,
-            6,
-            ImDrawFlags.RoundCornersAll
-        );
+
+
+        if (TextureProvider.TryGetFromGameIcon(new(iconId), out var texture) && texture.TryGetWrap(out IDalamudTextureWrap? wrap, out Exception? _)) {
+            drawList.AddImageRounded(
+                wrap.ImGuiHandle,
+                p3,
+                p4,
+                Vector2.Zero,
+                Vector2.One,
+                0xFFFFFFFF,
+                6,
+                ImDrawFlags.RoundCornersAll
+            );
+        } else {
+            drawList.AddRectFilled(p1, p2, 0xA00000FF, 6, ImDrawFlags.RoundCornersAll);
+            drawList.AddText(p1 + new Vector2(4), 0xFFFFFFFF, iconId.ToString());
+        }
 
         if (iconId == SelectedId) {
             drawList.AddRect(p1, p2, 0xFFFFFFFF, 6, ImDrawFlags.RoundCornersAll, 2);

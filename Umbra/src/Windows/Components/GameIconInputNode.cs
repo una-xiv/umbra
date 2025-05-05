@@ -15,7 +15,12 @@ public class GameIconInputNode : BoxedInputNode
             if (_value == value) return;
             _value = value;
             OnValueChanged?.Invoke(value);
-            BoxNode.QuerySelector(".preview")!.Style.IconId = value;
+            if (IsDisposed) return;
+            
+            var boxNode = BoxNode.QuerySelector(".preview");
+            if (boxNode != null) { // May be NULL during plugin unload.
+                boxNode.Style.IconId = value;
+            }
         }
     }
 
