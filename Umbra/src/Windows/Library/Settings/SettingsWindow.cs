@@ -121,7 +121,7 @@ public class SettingsWindow : Window
     private void BindFooterButtonActions()
     {
         RootNode.QuerySelector("#btn-install")!.OnMouseUp += _ => OpenInstallerWindow();
-        RootNode.QuerySelector("#btn-kofi")!.OnMouseUp    += _ => Util.OpenLink("https://ko-fi.com/una-xiv");
+        RootNode.QuerySelector("#btn-kofi")!.OnMouseUp    += _ => Util.OpenLink("https://ko-fi.com/una_xiv");
         RootNode.QuerySelector("#btn-discord")!.OnMouseUp += _ => Util.OpenLink("https://discord.gg/xaEnsuAhmm");
         RootNode.QuerySelector("#btn-close")!.OnMouseUp   += _ => Dispose();
         RootNode.QuerySelector("#btn-restart")!.OnMouseUp +=
