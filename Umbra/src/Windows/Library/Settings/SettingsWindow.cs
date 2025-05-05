@@ -1,4 +1,4 @@
-﻿using Dalamud.Utility;
+using Dalamud.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,7 +27,10 @@ public class SettingsWindow : Window
 
     protected override void OnOpen()
     {
-        RootNode.QuerySelector("#version")!.NodeValue = $"Umbra v{Framework.DalamudPlugin.Manifest.AssemblyVersion.ToString(3)}";
+        var version = Assembly.GetExecutingAssembly().GetName().Version;
+        RootNode.QuerySelector("#version")!.NodeValue = version != null
+            ? $"Umbra v{version.ToString(3)}"
+            : "Umbra";
 
         BindFooterButtonActions();
 
