@@ -976,6 +976,8 @@
     "Widget.Teleport.Config.DefaultOpenedGroupName.Option.Auto": "Open the current expansion list",
     "Widget.Teleport.Config.DefaultOpenedGroupName.Option.Favorites": "Open the favorites list",
     "Widget.Teleport.Config.DefaultOpenedGroupName.Option.Other": "Open the miscellaneous list",
+    "Widget.Teleport.Config.PopupFontSize.Name": "Item font size",
+    "Widget.Teleport.Config.PopupFontSize.Description": "The font size of the items in the teleport menu.",
     "Widget.Volume.Name": "Volume Control",
     "Widget.Volume.Description": "Allows you to control the volume of different audio channels in the game.",
     "Widget.Volume.Channel.Master": "Master",

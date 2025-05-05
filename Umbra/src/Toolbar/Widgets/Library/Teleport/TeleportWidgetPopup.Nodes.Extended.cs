@@ -9,7 +9,7 @@ namespace Umbra.Widgets;
 
 internal partial class TeleportWidgetPopup
 {
-    private Node ExtendedInterfaceNode  => Node.QuerySelector("#extended-ui")!;
+    private Node ExtendedInterfaceNode => Node.QuerySelector("#extended-ui")!;
 
     private Node FavoritesNode { get; set; } = null!;
 
@@ -67,10 +67,10 @@ internal partial class TeleportWidgetPopup
                 default: {
                     var menuItemNode = Document.CreateNodeFromTemplate("extended-teleport");
 
-                    menuItemNode.Id                                = item.Id;
-                    menuItemNode.SortIndex                         = item.SortIndex;
-                    menuItemNode.QuerySelector(".text")!.NodeValue = item.Name;
-                    menuItemNode.QuerySelector(".cost")!.NodeValue = item.ShortKey;
+                    menuItemNode.Id                                     = item.Id;
+                    menuItemNode.SortIndex                              = item.SortIndex;
+                    menuItemNode.QuerySelector(".text")!.NodeValue      = item.Name;
+                    menuItemNode.QuerySelector(".cost")!.NodeValue      = item.ShortKey;
 
                     switch (item.Icon) {
                         case uint iconId:

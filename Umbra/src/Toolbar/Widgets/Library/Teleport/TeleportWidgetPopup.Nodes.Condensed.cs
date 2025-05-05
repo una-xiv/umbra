@@ -34,7 +34,7 @@ internal partial class TeleportWidgetPopup
         contentsWrapper.Style.Size = new(300, PopupHeight);
 
         CondensedInterfaceNode.AppendChild(contentsWrapper);
-        
+
         foreach (var expansion in _expansions.Values) {
             BuildCondensedSidePanelExpansionButton(expansion);
             BuildCondensedExpansionContent(expansion);
@@ -190,11 +190,11 @@ internal partial class TeleportWidgetPopup
                 ActivateExpansion("Favorites");
             }
         };
-        
+
         CondensedSidePanelNode.AppendChild(button);
 
         button.Style.IsVisible = Favorites.Count > 0;
- 
+
         Node expansionNode = new() { ClassList = ["condensed-expansion"] };
 
         expansionNode.Style.IsVisible = false;

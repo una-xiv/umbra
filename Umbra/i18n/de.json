@@ -976,6 +976,8 @@
   "Widget.Teleport.Config.DefaultOpenedGroupName.Option.Auto": "Öffne die Liste der aktuellen Erweiterung",
   "Widget.Teleport.Config.DefaultOpenedGroupName.Option.Favorites": "Öffne die Favoritenliste",
   "Widget.Teleport.Config.DefaultOpenedGroupName.Option.Other": "Öffne die Sonstige-Liste",
+  "Widget.Teleport.Config.PopupFontSize.Name": "Schriftgröße der Einträge",
+  "Widget.Teleport.Config.PopupFontSize.Description": "Die Schriftgröße der Einträge im Teleportationsmenü.",
   "Widget.Volume.Name": "Lautstärkeregelung",
   "Widget.Volume.Description": "Ermöglicht es dir die Lautstärke verschiedener Audio-Kanäle im Spiel zu steuern.",
   "Widget.Volume.Channel.Master": "Master",

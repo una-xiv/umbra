@@ -21,6 +21,10 @@ internal partial class TeleportWidgetPopup
         } else {
             BuildCondensedInterface();
         }
+        
+        foreach (var node in Node.QuerySelectorAll(".text, .cost")) {
+            node.Style.FontSize = PopupFontSize;
+        }
     }
 
     private void BuildFavoritesButton(TeleportDestination destination)

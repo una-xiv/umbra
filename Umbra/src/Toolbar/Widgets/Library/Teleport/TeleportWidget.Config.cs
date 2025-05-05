@@ -59,7 +59,13 @@ internal sealed partial class TeleportWidget
                 I18N.Translate("Widget.Teleport.Config.ShowNotification.Description"),
                 false
             ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
-
+            
+            new IntegerWidgetConfigVariable(
+                "PopupFontSize",
+                I18N.Translate("Widget.Teleport.Config.PopupFontSize.Name"),
+                I18N.Translate("Widget.Teleport.Config.PopupFontSize.Description"),
+                12
+            ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
         ];
     }
 }

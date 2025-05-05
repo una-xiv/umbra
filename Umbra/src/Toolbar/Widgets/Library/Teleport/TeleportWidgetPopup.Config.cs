@@ -10,6 +10,7 @@ internal partial class TeleportWidgetPopup
     private string           DefaultOpenedGroupName { get; set; } = "Auto";
     private bool             OpenCategoryOnHover    { get; set; } = false;
     private int              PopupHeight            { get; set; } = 400;
+    private int              PopupFontSize          { get; set; } = 11;
 
     protected override void UpdateConfigVariables(ToolbarWidget widget)
     {
@@ -18,5 +19,6 @@ internal partial class TeleportWidgetPopup
         DefaultOpenedGroupName = widget.GetConfigValue<string>("DefaultOpenedGroupName");
         OpenCategoryOnHover    = widget.GetConfigValue<bool>("OpenCategoryOnHover");
         PopupHeight            = widget.GetConfigValue<int>("PopupHeight");
+        PopupFontSize          = widget.GetConfigValue<int>("PopupFontSize");
     }
 }
