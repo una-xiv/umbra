@@ -33,7 +33,7 @@ internal sealed partial class GearsetSwitcherPopup
                 continue;
             }
 
-            float barWidth = barNode.Bounds.ContentSize.Width;
+            float barWidth = barNode.Bounds.ContentSize.Width / Node.ScaleFactor;
             float xpPct    = jobInfo.XpPercent;
             float barValue = (xpPct / 100f) * barWidth;
 
@@ -81,7 +81,8 @@ internal sealed partial class GearsetSwitcherPopup
         node.Style.Size                         = new(_buttonWidth, _buttonHeight);
         node.QuerySelector(".icon")!.Style.Size = new(_buttonHeight - 4, _buttonHeight - 4);
 
-        node.QuerySelector(".progress-bar-wrapper")!.Style.Margin = new(_buttonHeight - 8, 8, 4, _buttonHeight - 3);
+        float s = Node.ScaleFactor;
+        node.QuerySelector(".progress-bar-wrapper")!.Style.Margin = new((_buttonHeight - 8) * s, 8 * s, 4 * s,  (_buttonHeight - 3) * s);
         
         node.QuerySelector(".icon")!.Style.IconId    = job.Icons[_buttonIconType];
         node.QuerySelector(".name")!.NodeValue       = gearset.Name;
