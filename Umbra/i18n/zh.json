@@ -737,6 +737,8 @@
   "Widget.MailIndicator.Description": "有未读邮件时显示一个小邮件图标。",
   "Widget.MailIndicator.Config.AlwaysShow.Name": "始终显示",
   "Widget.MailIndicator.Config.AlwaysShow.Description": "即使没有邮件也始终显示邮件指示器。当没有未读邮件时，小组件将以禁用状态显示。",
+  "Widget.MailIndicator.Tooltip.Singular": "您有一条未读消息。访问邮差莫古力查看。",
+  "Widget.MailIndicator.Tooltip.Plural": "您有 {0} 条未读消息。访问邮差莫古力查看。",
   "Widget.Weather.Name": "天气预报",
   "Widget.Weather.Description": "显示当前天气和未来几小时内的天气。",
   "Widget.Weather.Config.MaxForecastEntries.Name": "最大天气预报条目数",
