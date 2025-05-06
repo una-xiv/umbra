@@ -737,6 +737,8 @@
   "Widget.MailIndicator.Description": "Zeigt ein kleines Postfachsymbol an, wenn du ungelesene Post hast.",
   "Widget.MailIndicator.Config.AlwaysShow.Name": "Immer anzeigen",
   "Widget.MailIndicator.Config.AlwaysShow.Description": "Die Post-Anzeige immer anzeigen, auch wenn keine Post vorhanden sind. Das Widget wird sich selbst im deaktivierten Zustand anzeigen, wenn keine ungelesene Post vorhanden ist.",
+  "Widget.MailIndicator.Tooltip.Singular": "Du hast eine ungelesene Nachricht. Besuche einen Mogry-Postboten, um sie zu lesen.",
+  "Widget.MailIndicator.Tooltip.Plural": "Du hast {0} ungelesene Nachrichten. Besuche einen Mogry-Postboten, um sie zu lesen.",
   "Widget.Weather.Name": "Wettervorhersage",
   "Widget.Weather.Description": "Zeigt das aktuelle Wetter und die bevorstehende Wettervorhersage für die nächsten Stunden an.",
   "Widget.Weather.Config.MaxForecastEntries.Name": "Maximale Anzahl an Wettervorhersagen anzeigen",

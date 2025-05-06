@@ -737,6 +737,8 @@
   "Widget.MailIndicator.Description": "未読のメールがあるときに小さなメールアイコンを表示します。",
   "Widget.MailIndicator.Config.AlwaysShow.Name": "常に表示する",
   "Widget.MailIndicator.Config.AlwaysShow.Description": "メールインジケーターを常に表示します。未読のメールがない場合でも、ウィジェットは無効な状態で表示されます。",
+  "Widget.MailIndicator.Tooltip.Singular": "未読のメッセージがあります。デリバリーモーグリを訪れて読んでください。",
+  "Widget.MailIndicator.Tooltip.Plural": "{0} 件の未読メッセージがあります。デリバリーモーグリを訪れて読んでください。",
   "Widget.Weather.Name": "天気予報",
   "Widget.Weather.Description": "現在の天気と次数時間の天気予報を表示します。",
   "Widget.Weather.Config.MaxForecastEntries.Name": "表示する最大の天気予報エントリ数",
