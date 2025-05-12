@@ -87,10 +87,10 @@ internal class AetherCurrentsWorldMarkerFactory(IDataManager dataManager, ISeStr
         PlayerState* ps = PlayerState.Instance();
 
         foreach (var (acId, ac) in _aetherCurrents) {
+            if (ps->IsAetherCurrentUnlocked(acId)) continue;
+            
             string key = $"AC_{_lastMapId}_{acId}";
             activeIds.Add(key);
-
-            if (ps->IsAetherCurrentUnlocked(acId)) continue;
             
             SetMarker(
                 new() {
