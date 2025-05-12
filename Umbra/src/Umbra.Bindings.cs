@@ -156,7 +156,6 @@ internal sealed class UmbraBindings : IDisposable
                 _widgetManager.ActivateProfile(profile);
                 break;
             case "/umbra-aux":
-                _chatGui.Print($"Args: \"{args}\".");
                 var parts  = args.Trim().Split(' ');
                 var cmd = parts.FirstOrDefault();
                 var name = parts.Length > 1 ? string.Join(' ', parts.Skip(1)) : string.Empty;
