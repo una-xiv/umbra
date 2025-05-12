@@ -1,10 +1,7 @@
 ﻿using Dalamud.Game.Text;
-using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Linq;
 using Umbra.Common;
 using Umbra.Game;
-using Umbra.Widgets.Popup;
 using Una.Drawing;
 
 namespace Umbra.Widgets;
@@ -16,8 +13,6 @@ internal partial class TeleportWidgetPopup
     private Node CondensedContentsNode  => CondensedInterfaceNode.QuerySelector(".contents > .list")!;
     private Node FavoritesButton        => CondensedSidePanelNode.QuerySelector("#Favorites_Button")!;
     private Node FavoritesList          => CondensedContentsNode.QuerySelector("#Favorites_Content > .condensed-region > .list")!;
-
-    private Dictionary<string, Node> ExpansionNodes { get; } = [];
 
     private void BuildCondensedInterface()
     {
@@ -31,7 +26,7 @@ internal partial class TeleportWidgetPopup
         };
 
         contentsWrapper.Overflow   = false;
-        contentsWrapper.Style.Size = new(300, PopupHeight);
+        contentsWrapper.Style.Size = new(0, PopupHeight);
 
         CondensedInterfaceNode.AppendChild(contentsWrapper);
 
@@ -85,8 +80,6 @@ internal partial class TeleportWidgetPopup
         node.Id              = $"{expansion.NodeId}_Content";
         node.SortIndex       = expansion.SortIndex;
 
-        ExpansionNodes[expansion.NodeId] = node;
-
         foreach (var region in expansion.Regions.Values) {
             Node regionNode = Document.CreateNodeFromTemplate("condensed-region", new() {
                 { "label", region.Name }
@@ -95,8 +88,9 @@ internal partial class TeleportWidgetPopup
 
             foreach (var map in region.Maps.Values) {
                 foreach (var destination in map.Destinations.Values) {
+                    
                     Node destinationNode = Document.CreateNodeFromTemplate("condensed-teleport", new() {
-                        { "label", destination.Name },
+                        { "label", GetDestinationName(map, destination) },
                         { "cost", $"{SeIconChar.Gil.ToIconChar()} {I18N.FormatNumber(destination.GilCost)}" }
                     });
 
@@ -134,7 +128,6 @@ internal partial class TeleportWidgetPopup
         expansionNode.SortIndex       = int.MaxValue - 1;
 
         CondensedContentsNode.AppendChild(expansionNode);
-        ExpansionNodes["Other"] = expansionNode;
 
         Node regionNode = Document.CreateNodeFromTemplate("condensed-region", new() { { "label", I18N.Translate("Widget.Teleport.Misc") } });
         expansionNode.AppendChild(regionNode);
@@ -202,7 +195,6 @@ internal partial class TeleportWidgetPopup
         expansionNode.SortIndex       = int.MaxValue - 1;
 
         CondensedContentsNode.AppendChild(expansionNode);
-        ExpansionNodes["Favorites"] = expansionNode;
 
         Node regionNode = Document.CreateNodeFromTemplate("condensed-region", new() { { "label", I18N.Translate("Widget.Teleport.Favorites") } });
         expansionNode.AppendChild(regionNode);
@@ -274,5 +266,12 @@ internal partial class TeleportWidgetPopup
         foreach (var node in CondensedSidePanelNode.QuerySelectorAll(".side-panel-button")) {
             node.ToggleClass("selected", node.Id == $"{id}_Button");
         }
+    }
+
+    private string GetDestinationName(TeleportMap region, TeleportDestination destination)
+    {
+        return ShowMapNames && destination.Name != region.Name 
+            ? $"{region.Name} - {destination.Name}"
+            : destination.Name;
     }
 }

@@ -39,9 +39,6 @@ internal sealed class ContextMenuManager(UmbraDelvClipRects clipRects) : IDispos
 
         menu.OnEntryInvoked += OnEntryInvoked;
 
-        // Render once (off-screen) to calculate the bounds of the context menu.
-        menu.Node.Render(ImGui.GetBackgroundDrawList(), new(4096, 2048), true);
-
         _contextMenu   = menu;
         _closeCallback = closeCallback;
         _isOpen        = false;

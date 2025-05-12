@@ -751,6 +751,8 @@
   "Widget.Teleport.Config.OpenCategoryOnHover.Description": "Ouvre une expansion dans le menu contextuel lorsque ta souris la survole, plutôt que de devoir cliquer dessus.",
   "Widget.Teleport.Config.PopupHeight.Name": "Hauteur du menu",
   "Widget.Teleport.Config.PopupHeight.Description": "La hauteur du menu de téléportation en pixels.",
+  "Widget.Teleport.Config.ShowMapNames.Name": "Afficher les noms des cartes",
+  "Widget.Teleport.Config.ShowMapNames.Description": "Affiche les noms des cartes à côté des noms de destination si activé.",
   "Widget.Teleport.Config.ShowNotification.Name": "Afficher la notification de téléportation",
   "Widget.Teleport.Config.ShowNotification.Description": "Affiche une notification sur votre écran pour confirmer votre destination de téléportation après avoir cliqué sur une destination de téléportation dans le menu.",
   "Widget.Teleport.Config.DefaultOpenedGroupName.Name": "Liste à ouvrir par défaut",
