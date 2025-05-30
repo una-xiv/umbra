@@ -1,0 +1,98 @@
+﻿using System.Collections.Generic;
+using System.Numerics;
+
+namespace Umbra.Markers.Library;
+
+internal sealed partial class OccultCoffersMarkerFactory
+{
+    // Coffer positions borrowed from Eureka Linker plugin by Infi, electr0sheep.
+    // https://github.com/Infiziert90/EurekaTrackerAutoPopper
+    // High level bunnies are omitted from the list.
+    private static readonly Dictionary<uint, List<Vector3>> OccultCofferPositions = new() {
+        {
+            1252, [
+                // South Horn
+                new Vector3(67.45271f, 69.477974f, 745.8658f),
+                new Vector3(74.73397f, 110.494316f, -394.1289f),
+                new Vector3(-554.6146f, 99.01769f, -309.1231f),
+                new Vector3(-195.4419f, 110.15342f, -287.8911f),
+                new Vector3(107.0611f, 105.699875f, 146.7059f),
+                new Vector3(393.0191f, 104f, -124.1651f),
+                new Vector3(263.2559f, 100.38499f, 326.6834f),
+                new Vector3(571.5841f, 51.451305f, -813.1642f),
+                new Vector3(-165.2374f, 95.33837f, 437.4505f),
+                new Vector3(-60.72729f, 69.687035f, 828.4997f),
+                new Vector3(341.4413f, 95.99999f, 194.7507f),
+                new Vector3(587.7039f, 78.8956f, -545.8168f),
+                new Vector3(-829.598f, 62.66814f, 66.82948f),
+                new Vector3(80.19762f, 101.27949f, 391.2263f),
+                new Vector3(-382.4396f, 109.30187f, -378.3482f),
+                new Vector3(606.4641f, 108.07402f, 184.8517f),
+                new Vector3(69.70596f, 111.56108f, -239.064f),
+                new Vector3(825.9521f, 70f, 772.4054f),
+                new Vector3(-312.2778f, 103.19944f, -35.25348f),
+                new Vector3(-459.1735f, 93.57443f, 5.054043f),
+                new Vector3(878.1131f, 108.28959f, -91.1057f),
+                new Vector3(393.2685f, 57.545956f, 844.6924f),
+                new Vector3(-836.7586f, 106.999985f, 597.2944f),
+                new Vector3(-734.1434f, 170.99998f, 683.7238f),
+                new Vector3(301.8741f, 103.784424f, 70.59854f),
+                new Vector3(17.60418f, 65.93209f, 674.6207f),
+                new Vector3(-676.6202f, 128.57442f, 1.531581f),
+                new Vector3(-216.372f, 5.4469404f, -510.1361f),
+                new Vector3(-746.1318f, 172.00023f, 828.8809f),
+                new Vector3(-324.2736f, 121f, 203.2017f),
+                new Vector3(-54.69518f, 99.40573f, 405.0261f),
+                new Vector3(440.8355f, 70.3f, 876.4097f),
+                new Vector3(423.3505f, 70.3f, 578.9013f),
+                new Vector3(-333.3444f, 2.9999998f, -861.1722f),
+                new Vector3(-798.7886f, 84.22545f, -4.822005f),
+                new Vector3(-386.437f, 98.60658f, -221.7847f),
+                new Vector3(-313.2906f, 108.10962f, 70.76207f),
+                new Vector3(-836.1612f, 107f, 770.2822f),
+                new Vector3(200.1241f, 56f, 624.2285f),
+                new Vector3(891.2597f, 120f, -20.672f),
+                new Vector3(330.8659f, 6.7168036f, -654.5339f),
+                new Vector3(-38.97946f, 102.073296f, -175.4589f),
+                new Vector3(-603.3457f, 139f, 858.6771f),
+                new Vector3(-188.1745f, 2.999999f, -717.2005f),
+                new Vector3(-645.3027f, 135.69208f, -73.54771f),
+                new Vector3(662.4388f, 120f, 161.1339f),
+                new Vector3(803.6609f, 95.99998f, -354.1809f),
+                new Vector3(-660.5336f, 98f, -216.7666f),
+                new Vector3(684.4223f, 96.10129f, -165.4811f),
+                new Vector3(-713.6796f, 203f, 710.08f),
+                new Vector3(-476.3011f, 101.44228f, -86.69939f),
+                new Vector3(-534.6993f, 2.999998f, -651.6244f),
+                new Vector3(705.2716f, 68.143616f, 358.6714f),
+                new Vector3(224.7233f, 68.7328f, 518.668f),
+                new Vector3(19.73968f, 26.045855f, -420.977f),
+                new Vector3(570.2421f, 64.66201f, 272.1734f),
+                new Vector3(781.2514f, 70f, 560.0701f),
+                new Vector3(-386.5904f, -0.13994062f, -461.0976f),
+                new Vector3(-730.5441f, 107.694275f, -371.4776f),
+                new Vector3(-810.8279f, 114.053925f, -226.8324f),
+                new Vector3(-676.4631f, 5f, -769.7955f),
+                new Vector3(-732.2048f, 139f, 828.8491f),
+                new Vector3(-708.6777f, 171f, 669.5714f),
+                new Vector3(-625.7809f, 171f, 810.8691f),
+                new Vector3(-659.1158f, 12.198493f, -508.7968f),
+                new Vector3(-842.8967f, 75.76903f, -125.0559f),
+                new Vector3(-680.0345f, 201f, 739.9117f),
+                new Vector3(-793.0552f, 5f, -777.3126f),
+                new Vector3(-718.0424f, 5f, -633.8791f),
+                new Vector3(-886.4718f, 107f, 712.4964f),
+                new Vector3(-840.8771f, 107.26465f, -250.273f),
+                new Vector3(-803.5182f, 3f, -602.7497f),
+                new Vector3(-813.9943f, 5f, -663.3634f),
+                new Vector3(-823.9183f, 140.00032f, 677.6934f),
+                new Vector3(-776.6315f, 5f, -486.978f),
+                new Vector3(-868.8489f, 67.5054f, -59.44909f),
+                new Vector3(-708.687f, 141.16982f, -139.3283f),
+                new Vector3(-758.8058f, 127.66496f, -183.164f),
+                new Vector3(-785.997f, 162.39513f, 790.5948f),
+                new Vector3(-796.66f, 114.15647f, -228.9318f),
+            ]
+        }
+    };
+}
