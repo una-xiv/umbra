@@ -7,7 +7,6 @@ internal sealed partial class OccultCoffersMarkerFactory
 {
     // Coffer positions borrowed from Eureka Linker plugin by Infi, electr0sheep.
     // https://github.com/Infiziert90/EurekaTrackerAutoPopper
-    // High level bunnies are omitted from the list.
     private static readonly Dictionary<uint, List<Vector3>> OccultCofferPositions = new() {
         {
             1252, [
