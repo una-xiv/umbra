@@ -33,7 +33,7 @@ internal sealed partial class OccultCoffersMarkerFactory : WorldMarkerFactory
 
     private const uint MagicalElixirItemId = 2003296;
     private const int MinFateRespawn = 530;
-    private const int MaxFateRespawn = 1000;
+    private const int MaxFateRespawn = 1800; // Max respawn time currently set to 30 minutes, since it alternates between both fates and the marker is only tracking one right now.
 
     private long _lastPotFateSpawnTime;
 
