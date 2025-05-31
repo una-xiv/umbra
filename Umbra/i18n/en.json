@@ -80,6 +80,8 @@
   "Markers.MapLink.ShowChocoboPorters.Description": "Shows markers for chocobo porters that are in the current zone.",
   "Markers.MapLink.ShowFerryDocks.Name": "Show ferry docks and airships",
   "Markers.MapLink.ShowFerryDocks.Description": "Shows markers for ferry docks and airships that are in the current zone.",
+  "Markers.Occult.SurveyPoints.Name": "Occult Survey Points",
+  "Markers.Occult.SurveyPoints.Description": "Shows world markers for the occult survey points in the current zone. Note that markers of this type are only drawn when the player is within 100 yalms of the survey point.",
   "Markers.Quest.Name": "Quest Objective Markers",
   "Markers.Quest.Description": "Shows world markers for objectives of active quests in the current zone.",
   "Markers.Quest.ShowMapLinkMarkers.Name": "Show teleport markers",
