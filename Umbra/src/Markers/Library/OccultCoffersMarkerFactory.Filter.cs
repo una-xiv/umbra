@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
@@ -9,7 +9,7 @@ using Umbra.Common;
 
 namespace Umbra.Markers.Library;
 
-internal sealed partial class EurekaCoffersMarkerFactory
+internal sealed partial class OccultCoffersMarkerFactory
 {
     private Dictionary<string, string> GuardTexts { get; } = new() {
         { "en", "You sense something" },
@@ -18,7 +18,7 @@ internal sealed partial class EurekaCoffersMarkerFactory
         { "ja", "財宝の気配を" }
     };
 
-    private Dictionary<string, string> CarrotTexts { get; } = new() {
+    private Dictionary<string, string> PotTexts { get; } = new() {
         {
             "en",
             @"You sense something\s*(?<dist>far(?:,\s*far)?)?(?:\s*immediately)?\s*to the (?<dir>\w+)\."
@@ -96,7 +96,7 @@ internal sealed partial class EurekaCoffersMarkerFactory
         if (!isEnabled) return;
         string lang = I18N.GetCurrentLanguage();
 
-        if (false == CarrotTexts.ContainsKey(lang)) {
+        if (false == PotTexts.ContainsKey(lang)) {
             return;
         }
 
@@ -106,9 +106,9 @@ internal sealed partial class EurekaCoffersMarkerFactory
             return;
         }
 
-        string                     carrotPattern = CarrotTexts[lang];
-        List<string>               distTexts     = DistanceTexts[lang];
-        Dictionary<string, string> dirTexts      = DirectionTexts[lang];
+        string carrotPattern = PotTexts[lang];
+        List<string> distTexts = DistanceTexts[lang];
+        Dictionary<string, string> dirTexts = DirectionTexts[lang];
 
         var result = Regex.Match(msg, carrotPattern, RegexOptions.IgnoreCase);
 
@@ -137,8 +137,8 @@ internal sealed partial class EurekaCoffersMarkerFactory
             maxDistance = 100;
         }
 
-        var playerPos       = _player.Position;
-        var cofferPositions = CofferPositions[_zoneManager.CurrentZone.TerritoryId];
+        var playerPos = _player.Position;
+        var cofferPositions = OccultCofferPositions[_zoneManager.CurrentZone.TerritoryId];
 
         var coffers = cofferPositions
             .Where(
@@ -151,29 +151,29 @@ internal sealed partial class EurekaCoffersMarkerFactory
 
         // Filter out coffers that are not in the given direction.
         if (direction.Equals("south", StringComparison.OrdinalIgnoreCase)) {
-            _detectedCofferPositions = coffers
+            _detectedOccultCofferPositions = coffers
                 .Where(c => c.Z > playerPos.Z && Math.Abs(c.X - playerPos.X) <= Math.Abs(c.Z - playerPos.Z))
                 .ToList();
         } else if (direction.Equals("north", StringComparison.OrdinalIgnoreCase)) {
-            _detectedCofferPositions = coffers
+            _detectedOccultCofferPositions = coffers
                 .Where(c => c.Z < playerPos.Z && Math.Abs(c.X - playerPos.X) <= Math.Abs(c.Z - playerPos.Z))
                 .ToList();
         } else if (direction.Equals("east", StringComparison.OrdinalIgnoreCase)) {
-            _detectedCofferPositions = coffers
+            _detectedOccultCofferPositions = coffers
                 .Where(c => c.X > playerPos.X && Math.Abs(c.X - playerPos.X) >= Math.Abs(c.Z - playerPos.Z))
                 .ToList();
         } else if (direction.Equals("west", StringComparison.OrdinalIgnoreCase)) {
-            _detectedCofferPositions = coffers
+            _detectedOccultCofferPositions = coffers
                 .Where(c => c.X < playerPos.X && Math.Abs(c.X - playerPos.X) >= Math.Abs(c.Z - playerPos.Z))
                 .ToList();
         } else if (direction.Equals("southeast", StringComparison.OrdinalIgnoreCase)) {
-            _detectedCofferPositions = coffers.Where(c => c.Z >= playerPos.Z && c.X >= playerPos.X).ToList();
+            _detectedOccultCofferPositions = coffers.Where(c => c.Z >= playerPos.Z && c.X >= playerPos.X).ToList();
         } else if (direction.Equals("southwest", StringComparison.OrdinalIgnoreCase)) {
-            _detectedCofferPositions = coffers.Where(c => c.Z >= playerPos.Z && c.X <= playerPos.X).ToList();
+            _detectedOccultCofferPositions = coffers.Where(c => c.Z >= playerPos.Z && c.X <= playerPos.X).ToList();
         } else if (direction.Equals("northeast", StringComparison.OrdinalIgnoreCase)) {
-            _detectedCofferPositions = coffers.Where(c => c.Z <= playerPos.Z && c.X >= playerPos.X).ToList();
+            _detectedOccultCofferPositions = coffers.Where(c => c.Z <= playerPos.Z && c.X >= playerPos.X).ToList();
         } else if (direction.Equals("northwest", StringComparison.OrdinalIgnoreCase)) {
-            _detectedCofferPositions = coffers.Where(c => c.Z <= playerPos.Z && c.X <= playerPos.X).ToList();
+            _detectedOccultCofferPositions = coffers.Where(c => c.Z <= playerPos.Z && c.X <= playerPos.X).ToList();
         }
 
         AddMapMarkers();
