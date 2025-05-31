@@ -33,16 +33,22 @@ internal sealed partial class OccultCoffersMarkerFactory : WorldMarkerFactory
 
     private const uint MagicalElixirItemId = 2003296;
     private const int MinFateRespawn = 530;
-    private const int MaxFateRespawn = 1800; // Max respawn time currently set to 30 minutes, since it alternates between both fates and the marker is only tracking one right now.
+    private const int MaxFateRespawn = 1000;
 
     private long _lastPotFateSpawnTime;
 
-    private static readonly Dictionary<uint, Vector3> PotFateSpawnPositions = new() {
-        { 1252, new(200f, 111.7266f, -215f) }, // South Horn - Persistent
+    private static readonly Dictionary<uint, List<Vector3>> PotFateSpawnPositions = new() {
+        { 1252, new List<Vector3> {
+            new(200f, 111.7266f, -215f), // South Horn - Persistent Pots
+            new(-481f, 75f, 528f)        // South Horn - Pleading Pots
+        }}
     };
 
-    private static readonly Dictionary<uint, uint> PotFateIds = new() {
-        { 1252, 1976 }, // South Horn - Persistent
+    private static readonly Dictionary<uint, List<uint>> PotFateIds = new() {
+        { 1252, new List<uint> {
+            1976, // South Horn - Persistent Pots
+            1977  // South Horn - Pleading Pots
+        }}
     };
 
     private readonly IZoneManager _zoneManager;
@@ -137,7 +143,7 @@ internal sealed partial class OccultCoffersMarkerFactory : WorldMarkerFactory
 
     private void GetPotFateSpawnMarker()
     {
-        if (!PotFateSpawnPositions.TryGetValue(_zoneManager.CurrentZone.TerritoryId, out Vector3 position)) {
+        if (!PotFateSpawnPositions.TryGetValue(_zoneManager.CurrentZone.TerritoryId, out List<Vector3> position)) {
             RemoveMarker("PotFate");
             return;
         }
@@ -185,8 +191,8 @@ internal sealed partial class OccultCoffersMarkerFactory : WorldMarkerFactory
 
     private IFate? PotFate()
     {
-        return PotFateIds.TryGetValue(_zoneManager.CurrentZone.TerritoryId, out uint fateId)
-            ? _fateTable.FirstOrDefault(fate => fate.FateId == fateId)
+        return PotFateIds.TryGetValue(_zoneManager.CurrentZone.TerritoryId, out List<uint> fateIds)
+            ? _fateTable.FirstOrDefault(fate => fateIds.Contains(fate.FateId))
             : null;
     }
 
