@@ -93,6 +93,7 @@ internal sealed partial class OccultCoffersMarkerFactory
         XivChatType type, int timestamp, ref SeString sender, ref SeString message, ref bool isHandled
     )
     {
+        if (!isEnabled) return;
         string lang = I18N.GetCurrentLanguage();
 
         if (false == PotTexts.ContainsKey(lang)) {

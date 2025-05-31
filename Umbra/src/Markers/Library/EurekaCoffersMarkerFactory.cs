@@ -57,6 +57,8 @@ internal sealed partial class EurekaCoffersMarkerFactory : WorldMarkerFactory
     private List<Vector3> _detectedCofferPositions = [];
     private bool          _hasPlacedMapMarkers;
 
+    private bool isEnabled;
+
     public EurekaCoffersMarkerFactory(
         IZoneManager zoneManager,
         IChatGui     chatGui,
@@ -82,6 +84,17 @@ internal sealed partial class EurekaCoffersMarkerFactory : WorldMarkerFactory
     [OnTick(interval: 500)]
     public void GetMarkers()
     {
+        bool zoneIsValidForChat = _zoneManager.HasCurrentZone &&
+                                  CofferPositions.ContainsKey(_zoneManager.CurrentZone.TerritoryId);
+
+        bool previouslyEnabledForChat = isEnabled;
+        isEnabled = zoneIsValidForChat;
+
+        if (previouslyEnabledForChat && !isEnabled) {
+            _detectedCofferPositions.Clear();
+            ResetMapMarkers();
+        }
+
         if (false == GetConfigValue<bool>("Enabled")
             || !_zoneManager.HasCurrentZone
             || !CofferPositions.ContainsKey(_zoneManager.CurrentZone.TerritoryId)) {

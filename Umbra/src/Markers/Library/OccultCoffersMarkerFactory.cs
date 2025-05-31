@@ -53,6 +53,8 @@ internal sealed partial class OccultCoffersMarkerFactory : WorldMarkerFactory
     private List<Vector3> _detectedOccultCofferPositions = [];
     private bool _hasPlacedMapMarkers;
 
+    private bool isEnabled;
+
     public OccultCoffersMarkerFactory(
         IZoneManager zoneManager,
         IChatGui chatGui,
@@ -78,6 +80,17 @@ internal sealed partial class OccultCoffersMarkerFactory : WorldMarkerFactory
     [OnTick(interval: 500)]
     public void GetMarkers()
     {
+        bool zoneIsValidForChat = _zoneManager.HasCurrentZone &&
+                                  OccultCofferPositions.ContainsKey(_zoneManager.CurrentZone.TerritoryId);
+
+        bool previouslyEnabledForChat = isEnabled;
+        isEnabled = zoneIsValidForChat;
+
+        if (previouslyEnabledForChat && !isEnabled) {
+            _detectedOccultCofferPositions.Clear();
+            ResetMapMarkers();
+        }
+
         if (false == GetConfigValue<bool>("Enabled")
             || !_zoneManager.HasCurrentZone
             || !OccultCofferPositions.ContainsKey(_zoneManager.CurrentZone.TerritoryId)) {
