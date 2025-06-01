@@ -1,14 +1,14 @@
-﻿using Dalamud.Plugin.Services;
+﻿using FFXIVClientStructs.FFXIV.Client.Game.Event;
+using FFXIVClientStructs.FFXIV.Client.Game.Object;
+using FFXIVClientStructs.FFXIV.Common.Math;
 using System.Collections.Generic;
-using System.Numerics;
 using Umbra.Common;
 using Umbra.Game;
-using ObjectKind = Dalamud.Game.ClientState.Objects.Enums.ObjectKind;
 
 namespace Umbra.Markers.Library;
 
 [Service]
-public class OccultSurveyPointMarkerFactory(IObjectTable objectTable, IZoneManager zoneManager) : WorldMarkerFactory
+public class OccultSurveyPointMarkerFactory(IZoneManager zoneManager) : WorldMarkerFactory
 {
     public override string Id          { get; } = "OccultSurveyPointMarkers";
     public override string Name        { get; } = I18N.Translate("Markers.Occult.SurveyPoints.Name");
@@ -23,7 +23,7 @@ public class OccultSurveyPointMarkerFactory(IObjectTable objectTable, IZoneManag
     }
 
     [OnTick(interval: 500)]
-    private void OnTick()
+    private unsafe void OnTick()
     {
         if (!GetConfigValue<bool>("Enabled") || 
             !zoneManager.HasCurrentZone ||
@@ -40,23 +40,35 @@ public class OccultSurveyPointMarkerFactory(IObjectTable objectTable, IZoneManag
         var fadeAttenuation = GetConfigValue<int>("FadeAttenuation");
         var maxVisDistance  = GetConfigValue<int>("MaxVisibleDistance");
 
-        foreach (var obj in objectTable) {
-            if (obj is { ObjectKind: ObjectKind.EventObj }) {
-                var id = $"OSP_{obj.Position}";
-                usedIds.Add(id);
+        GameObjectManager* mgr = GameObjectManager.Instance();
+        var count = mgr->Objects.GameObjectIdSortedCount;
+        
+        if (count == 0) {
+            RemoveAllMarkers();
+            return;
+        }
 
-                SetMarker(new() {
-                    Key                = id,
-                    MapId              = zoneManager.CurrentZone.Id,
-                    IconId             = 60553,
-                    Position           = obj.Position + new Vector3(0, 1.8f, 0),
-                    Label              = obj.Name.TextValue,
-                    ShowOnCompass      = showDirection,
-                    FadeDistance       = new(fadeDistance, fadeDistance + fadeAttenuation),
-                    MaxVisibleDistance = maxVisDistance,
-                    IsVisible          = true,
-                });
-            }
+        for (var i = 0; i < count; i++) {
+            GameObject* obj = mgr->Objects.GameObjectIdSorted[i].Value;
+            if (obj == null || obj->ObjectKind != ObjectKind.EventObj || !obj->GetIsTargetable()) continue;
+
+            EventHandler* ev = obj->EventHandler;
+            if (ev == null || !ev->UnkString0.ToString().Contains("CtsMkdRoaNotePlace")) continue;
+            
+            var id = $"OSP_{obj->Position}";
+            usedIds.Add(id);
+            
+            SetMarker(new() {
+                Key                = id,
+                MapId              = zoneManager.CurrentZone.Id,
+                IconId             = 60553,
+                Position           = obj->Position + new Vector3(0, 1.8f, 0),
+                Label              = obj->NameString,
+                ShowOnCompass      = showDirection,
+                FadeDistance       = new(fadeDistance, fadeDistance + fadeAttenuation),
+                MaxVisibleDistance = maxVisDistance,
+                IsVisible          = true,
+            });
         }
 
         RemoveMarkersExcept(usedIds);

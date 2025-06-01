@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using Dalamud.Game.ClientState.Fates;
+using Dalamud.Game.Text;
+using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using Umbra.Common;
@@ -13,9 +15,24 @@ namespace Umbra.Markers.Library;
 [Service]
 internal sealed partial class OccultCoffersMarkerFactory : WorldMarkerFactory
 {
-    public override string Id { get; } = "OccultCoffers";
-    public override string Name { get; } = I18N.Translate("Markers.OccultCoffers.Name");
+    public override string Id          { get; } = "OccultCoffers";
+    public override string Name        { get; } = I18N.Translate("Markers.OccultCoffers.Name");
     public override string Description { get; } = I18N.Translate("Markers.OccultCoffers.Description");
+
+    private const uint MagicalElixirItemId = 2003296;
+    private const int  MinFateRespawn      = 530;
+    private const int  MaxFateRespawn      = 1000;
+
+    private readonly IZoneManager _zoneManager;
+    private readonly IChatGui     _chatGui;
+    private readonly IFateTable   _fateTable;
+    private readonly IPlayer      _player;
+
+    private List<Vector3> _detectedOccultCofferPositions = [];
+    private long          _lastPotFateSpawnTime;
+    private uint          _lastPotFateId;
+    private bool          _hasPlacedMapMarkers;
+    private bool          _isListeningForNotifications;
 
     public override List<IMarkerConfigVariable> GetConfigVariables()
     {
@@ -31,47 +48,28 @@ internal sealed partial class OccultCoffersMarkerFactory : WorldMarkerFactory
         ];
     }
 
-    private const uint MagicalElixirItemId = 2003296;
-    private const int MinFateRespawn = 530;
-    private const int MaxFateRespawn = 1000;
 
-    private long _lastPotFateSpawnTime;
-
-    private static readonly Dictionary<uint, List<Vector3>> PotFateSpawnPositions = new() {
-        { 1252, new List<Vector3> {
-            new(200f, 111.7266f, -215f), // South Horn - Persistent Pots
-            new(-481f, 75f, 528f)        // South Horn - Pleading Pots
-        }}
+    private static readonly Dictionary<uint, Dictionary<uint, Vector3>> PotFates = new() {
+        {
+            1252, new() {
+                // South Horn
+                { 1976, new(200f, 111.7266f, -215f) }, // Persistent Pots
+                { 1977, new(-481f, 75f, 528f) },       // Pleading Pots
+            }
+        }
     };
-
-    private static readonly Dictionary<uint, List<uint>> PotFateIds = new() {
-        { 1252, new List<uint> {
-            1976, // South Horn - Persistent Pots
-            1977  // South Horn - Pleading Pots
-        }}
-    };
-
-    private readonly IZoneManager _zoneManager;
-    private readonly IChatGui _chatGui;
-    private readonly IFateTable _fateTable;
-    private readonly IPlayer _player;
-
-    private List<Vector3> _detectedOccultCofferPositions = [];
-    private bool _hasPlacedMapMarkers;
-
-    private bool isEnabled;
 
     public OccultCoffersMarkerFactory(
         IZoneManager zoneManager,
-        IChatGui chatGui,
-        IFateTable fateTable,
-        IPlayer player
+        IChatGui     chatGui,
+        IFateTable   fateTable,
+        IPlayer      player
     )
     {
         _zoneManager = zoneManager;
-        _chatGui = chatGui;
-        _fateTable = fateTable;
-        _player = player;
+        _chatGui     = chatGui;
+        _fateTable   = fateTable;
+        _player      = player;
 
         _chatGui.CheckMessageHandled += OnChatMessage;
     }
@@ -86,26 +84,16 @@ internal sealed partial class OccultCoffersMarkerFactory : WorldMarkerFactory
     [OnTick(interval: 500)]
     public void GetMarkers()
     {
-        bool zoneIsValidForChat = _zoneManager.HasCurrentZone &&
-                                  OccultCofferPositions.ContainsKey(_zoneManager.CurrentZone.TerritoryId);
-
-        bool previouslyEnabledForChat = isEnabled;
-        isEnabled = zoneIsValidForChat;
-
-        if (previouslyEnabledForChat && !isEnabled) {
-            _detectedOccultCofferPositions.Clear();
-            ResetMapMarkers();
-        }
-
         if (false == GetConfigValue<bool>("Enabled")
             || !_zoneManager.HasCurrentZone
             || !OccultCofferPositions.ContainsKey(_zoneManager.CurrentZone.TerritoryId)) {
-            _lastPotFateSpawnTime = 0;
+            _lastPotFateSpawnTime        = 0;
+            _isListeningForNotifications = false;
             RemoveAllMarkers();
             return;
         }
 
-        if (PotFate() is not null) _lastPotFateSpawnTime = DateTimeOffset.Now.ToUnixTimeSeconds();
+        if (GetActivePotFate() is not null) _lastPotFateSpawnTime = DateTimeOffset.Now.ToUnixTimeSeconds();
 
         // If the player doesn't have the Magical Elixir, but is in Occult, show the pot fate spawn marker.
         if (false == _player.HasItemInInventory(MagicalElixirItemId)) {
@@ -113,13 +101,17 @@ internal sealed partial class OccultCoffersMarkerFactory : WorldMarkerFactory
             RemoveAllMarkers();
             GetPotFateSpawnMarker();
             ResetMapMarkers();
+            _isListeningForNotifications = false;
             return;
         }
 
+        // Start listening for occult coffer notifications.
+        _isListeningForNotifications = true;
+
         List<string> activeIds = [];
 
-        var showDirection = GetConfigValue<bool>("ShowOnCompass");
-        var fadeDistance = GetConfigValue<int>("FadeDistance");
+        var showDirection   = GetConfigValue<bool>("ShowOnCompass");
+        var fadeDistance    = GetConfigValue<int>("FadeDistance");
         var fadeAttenuation = GetConfigValue<int>("FadeAttenuation");
 
         foreach (Vector3 position in _detectedOccultCofferPositions) {
@@ -128,12 +120,12 @@ internal sealed partial class OccultCoffersMarkerFactory : WorldMarkerFactory
 
             SetMarker(
                 new() {
-                    Key = id,
-                    MapId = _zoneManager.CurrentZone.Id,
-                    Position = position,
-                    IconId = 60356,
+                    Key           = id,
+                    MapId         = _zoneManager.CurrentZone.Id,
+                    Position      = position,
+                    IconId        = 60356,
                     ShowOnCompass = showDirection,
-                    FadeDistance = new(fadeDistance, fadeDistance + fadeAttenuation),
+                    FadeDistance  = new(fadeDistance, fadeDistance + fadeAttenuation),
                 }
             );
         }
@@ -143,17 +135,23 @@ internal sealed partial class OccultCoffersMarkerFactory : WorldMarkerFactory
 
     private void GetPotFateSpawnMarker()
     {
-        if (!PotFateSpawnPositions.TryGetValue(_zoneManager.CurrentZone.TerritoryId, out List<Vector3> position)) {
+        if (!PotFates.TryGetValue(_zoneManager.CurrentZone.TerritoryId, out var fates)) {
             RemoveMarker("PotFate");
             return;
         }
 
-        string? subLabel = null;
-        IFate? potFate = PotFate();
-        var showDirection = GetConfigValue<bool>("ShowOnCompass");
-        var fadeDistance = GetConfigValue<int>("FadeDistance");
-        var fadeAttenuation = GetConfigValue<int>("FadeAttenuation");
-        var maxVisDistance = GetConfigValue<int>("MaxVisibleDistance");
+        string? subLabel        = null;
+        IFate?  potFate         = GetActivePotFate();
+        var     showDirection   = GetConfigValue<bool>("ShowOnCompass");
+        var     fadeDistance    = GetConfigValue<int>("FadeDistance");
+        var     fadeAttenuation = GetConfigValue<int>("FadeAttenuation");
+        var     maxVisDistance  = GetConfigValue<int>("MaxVisibleDistance");
+
+        if (null == potFate && 0 == _lastPotFateSpawnTime) {
+            // No pot fate is active, and we have no spawn time recorded.
+            RemoveMarker("PotFate");
+            return;
+        }
 
         if (potFate is null && _lastPotFateSpawnTime > 0) {
             long currentTime = DateTimeOffset.Now.ToUnixTimeSeconds();
@@ -171,28 +169,34 @@ internal sealed partial class OccultCoffersMarkerFactory : WorldMarkerFactory
         }
 
         if (potFate is not null) {
-            subLabel = $@"{potFate.Progress}% - {TimeSpan.FromSeconds(potFate.TimeRemaining):mm\:ss} remaining";
+            _lastPotFateId = potFate.FateId;
+            subLabel       = $@"{potFate.Progress}% - {TimeSpan.FromSeconds(potFate.TimeRemaining):mm\:ss} remaining";
         }
+
+        if (_lastPotFateId == 0) return;
+
+        // Track the _other_ pot fate in the zone if the current one is not active.
+        var position = potFate?.Position ?? fates.FirstOrDefault(pos => pos.Value != fates[_lastPotFateId]).Value;
 
         SetMarker(
             new() {
-                Key = "PotFate",
-                Position = position,
-                MapId = _zoneManager.CurrentZone.Id,
-                IconId = 60723,
-                Label = "Pot Fate",
-                SubLabel = subLabel,
-                FadeDistance = new(fadeDistance, fadeDistance + fadeAttenuation),
-                ShowOnCompass = showDirection,
+                Key                = "PotFate",
+                Position           = position,
+                MapId              = _zoneManager.CurrentZone.Id,
+                IconId             = 60723,
+                Label              = "Pot Fate",
+                SubLabel           = subLabel,
+                FadeDistance       = new(fadeDistance, fadeDistance + fadeAttenuation),
+                ShowOnCompass      = showDirection,
                 MaxVisibleDistance = maxVisDistance,
             }
         );
     }
 
-    private IFate? PotFate()
+    private IFate? GetActivePotFate()
     {
-        return PotFateIds.TryGetValue(_zoneManager.CurrentZone.TerritoryId, out List<uint> fateIds)
-            ? _fateTable.FirstOrDefault(fate => fateIds.Contains(fate.FateId))
+        return PotFates.TryGetValue(_zoneManager.CurrentZone.TerritoryId, out var fates)
+            ? _fateTable.FirstOrDefault(fate => fates.ContainsKey(fate.FateId) && fate.TimeRemaining > 0)
             : null;
     }
 
@@ -203,10 +207,9 @@ internal sealed partial class OccultCoffersMarkerFactory : WorldMarkerFactory
             return;
         }
 
-        if (Framework.DalamudPlugin.InstalledPlugins.Any(
-                plugin => plugin is {
+        if (Framework.DalamudPlugin.InstalledPlugins.Any(plugin => plugin is {
                     InternalName: "EurekaTrackerAutoPopper",
-                    IsLoaded: true
+                    IsLoaded    : true
                 }
             )) {
             // Don't show map markers if the Eureka Tracker Auto Popper plugin is loaded.
@@ -240,5 +243,18 @@ internal sealed partial class OccultCoffersMarkerFactory : WorldMarkerFactory
         map->ResetMiniMapMarkers();
 
         _hasPlacedMapMarkers = false;
+    }
+
+    private void OnChatMessage(
+        XivChatType type, int timestamp, ref SeString sender, ref SeString message, ref bool isHandled
+    )
+    {
+        if (!_isListeningForNotifications) return;
+
+        var positions = ChatLocationFilter.FilterPositions(message.TextValue.Trim(), _player.Position, OccultCofferPositions[_zoneManager.CurrentZone.TerritoryId]);
+
+        if (positions != null) _detectedOccultCofferPositions = positions;
+
+        AddMapMarkers();
     }
 }

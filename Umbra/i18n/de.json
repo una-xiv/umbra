@@ -56,6 +56,8 @@
   "Markers.OccultCoffers.Description": "Zeigt Weltmarkierungen für die Topf-Schatzkisten in den Kreszentia-Zonen an, nachdem du das Wunderelixier verwendet hast.",
   "Markers.OccultCoffers.EnableMapMarkers.Name": "Kartenmarkierungen für entdeckte Kisten aktivieren",
   "Markers.OccultCoffers.EnableMapMarkers.Description": "Fügt Kartenmarkierungen für entdeckte Kreszentia Topf-Schatzkisten-Standorte hinzu. Beachte, dass diese Funktion nicht verfügbar ist, wenn das Eureka Linker Plugin ebenfalls installiert und aktiviert ist, da es eine ähnliche Funktionalität bietet.",
+  "Markers.Occult.SurveyPoints.Name": "Okkulte Vermessungspunkte",
+  "Markers.Occult.SurveyPoints.Description": "Zeigt Weltmarker für die okkulten Vermessungspunkte in der aktuellen Zone an. Beachten Sie, dass Marker dieses Typs nur gezeichnet werden, wenn der Spieler sich innerhalb von 100 Yalms des Vermessungspunkts befindet.",
   "Markers.Fate.Name": "FATE-Markierungen",
   "Markers.Fate.Description": "Zeigt Weltmarkierungen für die aktiven FATEs in der aktuellen Zone an.",
   "Markers.Flag.Name": "Flaggenmarkierung",

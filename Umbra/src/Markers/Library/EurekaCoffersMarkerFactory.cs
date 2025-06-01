@@ -57,7 +57,7 @@ internal sealed partial class EurekaCoffersMarkerFactory : WorldMarkerFactory
     private List<Vector3> _detectedCofferPositions = [];
     private bool          _hasPlacedMapMarkers;
 
-    private bool isEnabled;
+    private bool _isListeningForNotifications;
 
     public EurekaCoffersMarkerFactory(
         IZoneManager zoneManager,
@@ -84,21 +84,11 @@ internal sealed partial class EurekaCoffersMarkerFactory : WorldMarkerFactory
     [OnTick(interval: 500)]
     public void GetMarkers()
     {
-        bool zoneIsValidForChat = _zoneManager.HasCurrentZone &&
-                                  CofferPositions.ContainsKey(_zoneManager.CurrentZone.TerritoryId);
-
-        bool previouslyEnabledForChat = isEnabled;
-        isEnabled = zoneIsValidForChat;
-
-        if (previouslyEnabledForChat && !isEnabled) {
-            _detectedCofferPositions.Clear();
-            ResetMapMarkers();
-        }
-
         if (false == GetConfigValue<bool>("Enabled")
             || !_zoneManager.HasCurrentZone
             || !CofferPositions.ContainsKey(_zoneManager.CurrentZone.TerritoryId)) {
             _lastBunnyFateSpawnTime = 0;
+            _isListeningForNotifications              = false;
             RemoveAllMarkers();
             return;
         }
@@ -107,6 +97,7 @@ internal sealed partial class EurekaCoffersMarkerFactory : WorldMarkerFactory
 
         // If the player doesn't have the Lucky Carrot, but is in Eureka, show the bunny fate spawn marker.
         if (false == _player.HasItemInInventory(LuckyCarrotItemId)) {
+            _isListeningForNotifications = false;
             _detectedCofferPositions.Clear();
             RemoveAllMarkers();
             GetBunnyFateSpawnMarker();
@@ -114,6 +105,8 @@ internal sealed partial class EurekaCoffersMarkerFactory : WorldMarkerFactory
             return;
         }
 
+        _isListeningForNotifications = true;
+        
         List<string> activeIds = [];
 
         var showDirection   = GetConfigValue<bool>("ShowOnCompass");
@@ -201,8 +194,7 @@ internal sealed partial class EurekaCoffersMarkerFactory : WorldMarkerFactory
             return;
         }
 
-        if (Framework.DalamudPlugin.InstalledPlugins.Any(
-                plugin => plugin is {
+        if (Framework.DalamudPlugin.InstalledPlugins.Any(plugin => plugin is {
                     InternalName: "eurekaTrackerAutoPopper",
                     IsLoaded    : true
                 }

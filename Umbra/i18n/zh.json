@@ -56,6 +56,8 @@
   "Markers.OccultCoffers.Description": "使用魔法药剂物品后，显示诡月区域中陶罐宝箱的世界标记。",
   "Markers.OccultCoffers.EnableMapMarkers.Name": "为探测到的宝箱启用地图标记",
   "Markers.OccultCoffers.EnableMapMarkers.Description": "为探测到的诡月陶罐宝箱位置添加地图标记。请注意，如果Eureka Linker插件也已安装并启用，则此功能不可用，因为它也提供类似的功能。",
+  "Markers.Occult.SurveyPoints.Name": "神秘测量点",
+  "Markers.Occult.SurveyPoints.Description": "显示当前区域中神秘测量点的世界标记。请注意，只有当玩家位于测量点100亚尔姆范围内时，才会绘制此类标记。",
   "Markers.Fate.Name": "FATE标记",
   "Markers.Fate.Description": "显示当前区域内进行中FATE所在地标记。",
   "Markers.Flag.Name": "标点",
