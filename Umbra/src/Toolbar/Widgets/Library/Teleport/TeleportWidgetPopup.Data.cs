@@ -26,6 +26,9 @@ internal partial class TeleportWidgetPopup
     /// </summary>
     private void HydrateAetherytePoints()
     {
+        _expansions.Clear();
+        _destinations.Clear();
+        
         IZone currentZone   = Framework.Service<IZoneManager>().CurrentZone;
         var   territoryType = DataManager.GetExcelSheet<TerritoryType>().FindRow(currentZone.TerritoryId);
 
