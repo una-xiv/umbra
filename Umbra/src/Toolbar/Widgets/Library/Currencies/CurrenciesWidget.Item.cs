@@ -36,7 +36,7 @@ internal sealed partial class CurrenciesWidget
         foreach (var row in DataManager.GetExcelSheet<GrandCompanyRank>()) {
             GcSealsCap[row.RowId] = (int)row.MaxSeals;
         }
-        
+
         DefaultCurrencies.Clear();
         DefaultCurrencies.Add(ItemIdGil, CreateCurrencyFromItemId(ItemIdGil)!);
         DefaultCurrencies.Add(ItemIdMgp, CreateCurrencyFromItemId(ItemIdMgp)!);
@@ -74,6 +74,7 @@ internal sealed partial class CurrenciesWidget
         public int    WeeklyCapacity { get; set; }
         public int    WeeklyCount    { get; set; }
         public bool   IsTracked      { get; set; }
+        public bool   IsCapped       { get; set; }
         public Group  Group          { get; set; }
     }
 
@@ -87,6 +88,11 @@ internal sealed partial class CurrenciesWidget
         if (IsLimitedTomestone(currency)) {
             currency.WeeklyCapacity = InventoryManager.GetLimitedTomestoneWeeklyLimit();
             currency.WeeklyCount    = InventoryManager.Instance()->GetWeeklyAcquiredTomestoneCount();
+
+            currency.IsCapped = (currency.WeeklyCount >= currency.WeeklyCapacity) ||
+                                (currency.Capacity > 0 && currency.Count >= currency.Capacity);
+        } else {
+            currency.IsCapped = currency.Capacity > 0 && currency.Count >= currency.Capacity;
         }
     }
 
@@ -98,7 +104,7 @@ internal sealed partial class CurrenciesWidget
         uint stackSize = itemId is ItemIdMaelstrom or ItemIdTwinAdder or ItemIdImmortalFlames
             ? ((Player.GrandCompanyId == 0) ? 0 : (uint)GcSealsCap[PlayerState.Instance()->GetGrandCompanyRank()])
             : (itemId > 1 ? item.Value.StackSize : 0);
-        
+
         if (itemId is ItemIdMaelstrom or ItemIdTwinAdder or ItemIdImmortalFlames) {
             stackSize = (uint)GcSealsCap[PlayerState.Instance()->GetGrandCompanyRank()];
         }
@@ -112,6 +118,7 @@ internal sealed partial class CurrenciesWidget
             WeeklyCapacity = 0,
             WeeklyCount    = 0,
             IsTracked      = false,
+            IsCapped       = false,
             Group          = group
         };
 

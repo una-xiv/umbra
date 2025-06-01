@@ -108,12 +108,24 @@ internal sealed partial class CurrenciesWidget(
 
         SetGameIconId(currency.IconId);
 
-        if (currency.Capacity > 0) {
-            SetProgressBarConstraint(0, (int)currency.Capacity);
-            SetProgressBarValue(currency.Count);
+        if (currency.IsCapped) {
+            SetProgressBarConstraint(0, 100);
+            ProgressBarNode.UseOverflow     = true;
+            ProgressBarNode.Value           = 200;
         } else {
-            SetProgressBarConstraint(0, 1);
-            SetProgressBarValue(0);
+            SingleLabelTextNode.Style.Color = null;
+            ProgressBarNode.UseOverflow     = false;
+
+            if (currency.WeeklyCapacity > 0) {
+                SetProgressBarConstraint(0, currency.WeeklyCapacity);
+                SetProgressBarValue(currency.WeeklyCount);
+            } else if (currency.Capacity > 0) {
+                SetProgressBarConstraint(0, (int)currency.Capacity);
+                SetProgressBarValue(currency.Count);
+            } else {
+                SetProgressBarConstraint(0, 1);
+                SetProgressBarValue(0);
+            }
         }
     }
 
