@@ -49,10 +49,12 @@
             border-width: 0 0 1 0;
             
             & > .text {
+                auto-size: grow fit;
                 font-size: 18;
             }
             
             & > .desc {
+                auto-size: grow fit;
                 text-overflow: false;
                 word-wrap: true;
             }
