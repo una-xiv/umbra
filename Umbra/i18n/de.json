@@ -225,6 +225,7 @@
   "Settings.WidgetsModule.AddWidget": "Widget hinzufügen",
   "Settings.WidgetsModule.EditWidget": "Instanzeinstellungen dieses Widgets bearbeiten",
   "Settings.WidgetsModule.CopyWidget": "Erstelle eine Kopie dieses Widgets und seiner Instanzeinstellungen.",
+  "Settings.WidgetsModule.AddFromClipboard": "Ein Widget aus deiner Zwischenablage importieren.",
   "Settings.WidgetsModule.ManageProfiles": "Profile verwalten",
   "Settings.ProfilesModule.Name": "Konfigurationsprofile",
   "Settings.ProfilesModule.Description": "Ein Konfigurationsprofil ermöglicht es, dieselbe Konfiguration über mehrere Charaktere hinweg zu teilen. Beachte, dass alle Einstellungen von Umbra in deiner Konfiguration enthalten sind. Dies umfasst unter anderem: Themes, Symbolleistenprofile und Widget-Einstellungen. Das bedeutet, dass installierte Themes und Symbolleistenprofile in einem Konfigurationsprofil verfügbar sein können, in einem anderen jedoch nicht.",

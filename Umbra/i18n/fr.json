@@ -152,6 +152,7 @@
   "Settings.WidgetsModule.AddWidget": "Ajouter un widget",
   "Settings.WidgetsModule.EditWidget": "Modifier les paramètres d'instance de ce widget",
   "Settings.WidgetsModule.CopyWidget": "Créez une copie de ce widget et de ses paramètres d'instance.",
+  "Settings.WidgetsModule.AddFromClipboard": "Importer un widget depuis votre presse-papiers.",
   "Settings.WidgetsModule.ManageProfiles": "Gérer les profils",
   "Settings.ProfilesModule.Name": "Profils de configuration",
   "Settings.AddWidgetWindow.Title": "Ajouter un widget",
