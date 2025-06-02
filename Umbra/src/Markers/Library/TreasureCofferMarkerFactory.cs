@@ -39,7 +39,7 @@ internal class TreasureCofferMarkerFactory(IObjectTable objectTable, IZoneManage
         IZone        zone    = zoneManager.CurrentZone;
 
         foreach (IGameObject obj in objectTable) {
-            if (!obj.IsValid() || obj.ObjectKind != ObjectKind.Treasure) continue;
+            if (!obj.IsValid() || obj.ObjectKind != ObjectKind.Treasure || !obj.IsTargetable) continue;
 
             string key = $"TC_{zone.Id}_{(int)obj.Position.X}_{(int)obj.Position.Z}_{obj.DataId}";
             usedIds.Add(key);
