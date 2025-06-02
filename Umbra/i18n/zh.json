@@ -225,6 +225,7 @@
   "Settings.WidgetsModule.AddWidget": "添加小组件",
   "Settings.WidgetsModule.EditWidget": "编辑该小组件的设置",
   "Settings.WidgetsModule.CopyWidget": "创建此小部件及其实例设置的副本。",
+  "Settings.WidgetsModule.AddFromClipboard": "从剪贴板导入小部件。",
   "Settings.WidgetsModule.ManageProfiles": "管理个人资料",
   "Settings.ProfilesModule.Name": "配置文件",
   "Settings.ProfilesModule.Description": "配置配置文件允许您在多个角色之间共享相同的配置。请注意，Umbra 的所有设置都包含在您的配置中。这包括但不限于：颜色主题、工具栏配置文件和小部件设置。这意味着已安装的颜色主题和工具栏配置文件可能在一个配置配置文件中可用，但在另一个配置文件中不可用。",
