@@ -26,7 +26,7 @@ internal sealed partial class CollectionItemButtonWidget(
         Node.OnMouseUp += Invoke;
     }
 
-    protected override void OnDraw()
+    protected override void OnConfigurationChanged()
     {
         if (!Items.TryGetValue(GetConfigValue<string>("Item"), out var item)) return;
 

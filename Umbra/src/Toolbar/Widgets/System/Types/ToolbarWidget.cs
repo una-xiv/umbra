@@ -235,6 +235,11 @@ public abstract class ToolbarWidget(
     protected virtual void OnDisposed() { }
 
     /// <summary>
+    /// Invoked when the configuration of this widget has changed.
+    /// </summary>
+    protected virtual void OnConfigurationChanged() { }
+
+    /// <summary>
     /// Initialization method that is called when the widget is created and
     /// initial configuration data has been set.
     /// </summary>
@@ -244,7 +249,7 @@ public abstract class ToolbarWidget(
     /// Invoked on every frame, just before the widget is rendered.
     /// </summary>
     protected abstract void OnUpdate();
-
+    
     /// <summary>
     /// Returns a list of configuration variables for this widget that the user
     /// can modify.
@@ -294,6 +299,7 @@ public abstract class ToolbarWidget(
         Framework.Service<WidgetManager>().SaveState();
 
         OnConfigValueChanged?.Invoke(c);
+        OnConfigurationChanged();
     }
 
     public void CopyInstanceSettingsToClipboard()

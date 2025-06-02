@@ -52,7 +52,7 @@ internal sealed partial class DynamicMenuWidget(
         Popup.OnEntriesChanged  -= OnEntriesChanged;
     }
 
-    protected override void OnDraw()
+    protected override void OnConfigurationChanged()
     {
         Popup.WidgetInstanceId = Id;
         Popup.EditModeEnabled  = GetConfigValue<bool>("EditModeEnabled");
