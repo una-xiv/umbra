@@ -260,34 +260,6 @@ internal sealed partial class WidgetManager : IDisposable
             }
         );
     }
-    
-    //
-    // public void UpdateWidgetSortIndex(string id, int direction, bool allTheWay)
-    // {
-    //     if (!_instances.TryGetValue(id, out var widget)) return;
-    //
-    //     if (false == allTheWay) {
-    //         // Swap the sort index of the widget with the one above or below it.
-    //         ToolbarWidget? replacementWidget = _instances.Values.FirstOrDefault(
-    //             w => w.Location == widget.Location && w.SortIndex == widget.SortIndex + direction
-    //         );
-    //
-    //         if (null == replacementWidget) return;
-    //
-    //         replacementWidget.SortIndex -= direction;
-    //         widget.SortIndex            += direction;
-    //
-    //         SolveSortIndices(widget.Location);
-    //         SaveWidgetState(replacementWidget.Id);
-    //         SaveWidgetState(widget.Id);
-    //     } else {
-    //         widget.SortIndex = direction == -1 ? int.MinValue : int.MaxValue;
-    //         SolveSortIndices(widget.Location);
-    //         SaveWidgetState(widget.Id);
-    //     }
-    //
-    //     SaveState();
-    // }
 
     /// <summary>
     /// Returns the amount of instances of a widget with the given ID that are
@@ -347,7 +319,7 @@ internal sealed partial class WidgetManager : IDisposable
                 SaveState();
                 OnWidgetRelocated?.Invoke(widget, panelId);
             }
-
+            
             widget.Update();
             widget.Node.SortIndex = widget.SortIndex;
         }
