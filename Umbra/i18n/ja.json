@@ -225,6 +225,7 @@
   "Settings.WidgetsModule.AddWidget": "ウィジェットを追加",
   "Settings.WidgetsModule.EditWidget": "このウィジェットのインスタンス設定を編集",
   "Settings.WidgetsModule.CopyWidget": "このウィジェットとそのインスタンス設定のコピーを作成します。",
+  "Settings.WidgetsModule.AddFromClipboard": "クリップボードからウィジェットをインポートします。",
   "Settings.WidgetsModule.ManageProfiles": "プロファイルを管理する",
   "Settings.ProfilesModule.Name": "設定プロファイル",
   "Settings.ProfilesModule.Description": "設定プロファイルを使用すると、複数のキャラクター間で同じ設定を共有できます。Umbraのすべての設定が構成に含まれていることに注意してください。これには、カラーテーマ、ツールバープロファイル、ウィジェット設定などが含まれますが、これらに限定されません。これは、インストールされたカラーテーマとツールバープロファイルが、ある設定プロファイルでは利用可能でも、別のプロファイルでは利用できない可能性があることを意味します。",

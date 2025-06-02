@@ -225,6 +225,7 @@
   "Settings.WidgetsModule.AddWidget": "Add Widget",
   "Settings.WidgetsModule.EditWidget": "Edit instance settings of this widget",
   "Settings.WidgetsModule.CopyWidget": "Create a copy of this widget and its instance settings.",
+  "Settings.WidgetsModule.AddFromClipboard": "Import a widget from your clipboard.",
   "Settings.WidgetsModule.ManageProfiles": "Manage Profiles",
   "Settings.ProfilesModule.Name": "Config Profiles",
   "Settings.ProfilesModule.Description": "A config profile allows you to share the same configuration across multiple characters. Note that all of Umbra's settings are included in your configuration. This includes but is not limited to: Color themes, toolbar profiles and widget settings. This means that installed color themes and toolbar profiles may be available in one config profile, but not in another.",
