@@ -52,7 +52,7 @@ internal sealed partial class DynamicMenuPopup
             Name        = I18N.Translate("Widget.DynamicMenu.CustomItemEditor.Command.Name"),
             Description = I18N.Translate("Widget.DynamicMenu.CustomItemEditor.Command.Description"),
             Value       = entry.Cc ?? "",
-            MaxLength   = 100,
+            MaxLength   = 4096,
         };
 
         List<Variable> variables = [labelVar, altLabelVar, iconVar, iconColorVar, typeVar, commandVar];
