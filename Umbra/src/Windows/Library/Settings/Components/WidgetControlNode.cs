@@ -41,6 +41,7 @@ public class WidgetControlNode : UdtNode
         QuerySelector("#edit-button")!.OnClick   += _ => OnEditButtonClicked();
 
         OnDoubleClick += _ => OnEditButtonClicked();
+        OnMiddleClick += _ => ToggleWidget();
     }
 
     protected override void OnDraw(ImDrawListPtr _)
@@ -55,6 +56,14 @@ public class WidgetControlNode : UdtNode
         } catch {
             _labelNode.NodeValue = Widget.Info.Name;
         }
+    }
+
+    private void ToggleWidget()
+    {
+        if (!Widget.HasConfigVariable("_Enabled")) return;
+        
+        Widget.SetConfigValue("_Enabled", !Widget.GetConfigValue<bool>("_Enabled"));
+        Manager.SaveWidgetState(Widget.Id);
     }
 
     private void OnEditButtonClicked()
