@@ -3,6 +3,7 @@ using Dalamud.Plugin.Services;
 using Dalamud.Utility;
 using Umbra.Common;
 using Umbra.Game;
+using Umbra.Game.Script;
 using Una.Drawing;
 
 namespace Umbra.Widgets;
@@ -23,9 +24,11 @@ internal sealed partial class CustomButtonWidget(
     private IChatSender      ChatSender      { get; } = Framework.Service<IChatSender>();
     private ICommandManager  CommandManager  { get; } = Framework.Service<ICommandManager>();
 
+    private UmbraScript? _labelScript = UmbraScript.Parse("");
+    
     public override string GetInstanceName()
     {
-        return $"{I18N.Translate("Widget.CustomButton.Name")} - {GetConfigValue<string>("Label")}";
+        return $"{I18N.Translate("Widget.CustomButton.Name")} - {_labelScript?.Value}";
     }
 
     protected override uint DefaultGameIconId => 14u;
@@ -34,11 +37,24 @@ internal sealed partial class CustomButtonWidget(
     {
         Node.OnClick += InvokeCommand;
         Node.OnRightClick += InvokeAltCommand;
+        
+        OnConfigurationChanged();
+    }
+
+    protected override void OnUnload()
+    {
+        _labelScript?.Dispose();
+    }
+
+    protected override void OnConfigurationChanged()
+    {
+        _labelScript?.Dispose();
+        _labelScript = UmbraScript.Parse(GetConfigValue<string>("Label"));
     }
 
     protected override void OnDraw()
     {
-        SetText(GetConfigValue<bool>("HideLabel") ? null : GetConfigValue<string?>("Label"));
+        SetText(GetConfigValue<bool>("HideLabel") ? null : _labelScript?.Value);
 
         string tooltipString = GetConfigValue<string>("Tooltip");
         Node.Tooltip = !string.IsNullOrEmpty(tooltipString) ? tooltipString : null;

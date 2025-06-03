@@ -17,7 +17,7 @@ internal class TextNode(Token token) : Node(token)
 
 internal class NumberNode(Token token) : Node(token)
 {
-    public double Value { get; } = double.Parse(token.Text);
+    public string Value { get; } = token.Text;
     
     public override string ToString(int indent = 0)
     {
@@ -47,10 +47,11 @@ internal class FunctionNode(Token token) : Node(token)
 
 internal class ComparisonNode(Token token, Node left, Node right) : Node(token)
 {
-    public Node Left     { get; } = left;
-    public Node Right    { get; } = right;
-    public char Operator { get; } = token.Text[0];
-    
+    public Node      Left     { get; } = left;
+    public Node      Right    { get; } = right;
+    public char      Operator { get; } = token.Text[0];
+    public TokenType Type     { get; } = token.Type;
+
     public override string ToString(int indent = 0)
     {
         return $"[{GetType().Name}]: {Operator}\n" +

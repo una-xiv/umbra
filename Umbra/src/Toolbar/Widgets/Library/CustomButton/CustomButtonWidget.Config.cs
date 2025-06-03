@@ -20,7 +20,7 @@ internal partial class CustomButtonWidget
                 I18N.Translate("Widget.CustomButton.Config.Label.Name"),
                 I18N.Translate("Widget.CustomButton.Config.Label.Description"),
                 "My button",
-                32
+                1024
             ),
             new StringWidgetConfigVariable(
                 "Tooltip",
