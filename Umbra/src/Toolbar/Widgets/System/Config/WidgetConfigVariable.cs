@@ -95,7 +95,7 @@ public abstract class WidgetConfigVariable<T>(string id, string name, string? de
     /// <returns></returns>
     protected abstract T Sanitize(object? value);
 
-    public void Dispose()
+    public virtual void Dispose()
     {
         if (null != UntypedValueChanged) {
             foreach (var delegateHandler in UntypedValueChanged.GetInvocationList()) {

@@ -21,13 +21,16 @@ internal sealed partial class DynamicMenuWidget
                 I18N.Translate("Widget.DynamicMenu.Config.ButtonLabel.Name"),
                 I18N.Translate("Widget.DynamicMenu.Config.ButtonLabel.Description"),
                 "Dynamic Menu",
-                64
+                1024,
+                true
             ),
             new StringWidgetConfigVariable(
                 "ButtonTooltip",
                 I18N.Translate("Widget.DynamicMenu.Config.ButtonTooltip.Name"),
                 I18N.Translate("Widget.DynamicMenu.Config.ButtonTooltip.Description"),
-                ""
+                "",
+                1024,
+                true
             ),
             new IntegerWidgetConfigVariable(
                 "MenuEntryHeight",

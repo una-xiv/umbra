@@ -23,12 +23,10 @@ internal sealed partial class CustomButtonWidget(
 
     private IChatSender      ChatSender      { get; } = Framework.Service<IChatSender>();
     private ICommandManager  CommandManager  { get; } = Framework.Service<ICommandManager>();
-
-    private UmbraScript? _labelScript = UmbraScript.Parse("");
     
     public override string GetInstanceName()
     {
-        return $"{I18N.Translate("Widget.CustomButton.Name")} - {_labelScript?.Value}";
+        return $"{I18N.Translate("Widget.CustomButton.Name")} - {GetConfigValue<string>("Label")}";
     }
 
     protected override uint DefaultGameIconId => 14u;
@@ -41,20 +39,9 @@ internal sealed partial class CustomButtonWidget(
         OnConfigurationChanged();
     }
 
-    protected override void OnUnload()
-    {
-        _labelScript?.Dispose();
-    }
-
-    protected override void OnConfigurationChanged()
-    {
-        _labelScript?.Dispose();
-        _labelScript = UmbraScript.Parse(GetConfigValue<string>("Label"));
-    }
-
     protected override void OnDraw()
     {
-        SetText(GetConfigValue<bool>("HideLabel") ? null : _labelScript?.Value);
+        SetText(GetConfigValue<bool>("HideLabel") ? null : GetConfigValue<string>("Label"));
 
         string tooltipString = GetConfigValue<string>("Tooltip");
         Node.Tooltip = !string.IsNullOrEmpty(tooltipString) ? tooltipString : null;

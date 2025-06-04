@@ -1,0 +1,121 @@
+﻿<udt>
+    <import from="umbra.components.tab_bar.xml"/>
+    
+    <node id="main">
+        <node class="tab-bar">
+            <node class="spacer"/>
+            <node class="button-list">
+                <node class="tab-button" tags="selected" id="tabBtnPlaceholders">
+                    <node class="bg"/>
+                    <node class="text" value="_L(Window.ScriptHelp.Tab.Placeholders)" inherit-tags="true"/>
+                </node>
+                <node class="tab-button" id="tabBtnFunctions">
+                    <node class="bg"/>
+                    <node class="text" value="_L(Window.ScriptHelp.Tab.Functions)" inherit-tags="true"/>
+                </node>
+            </node>
+            <node class="filler"/>
+        </node>
+        
+        <node id="content">
+            <node id="tabPlaceholders" class="tab" overflow="false"/>
+            <node id="tabFunctions" class="tab" overflow="false"/>
+        </node>
+    </node>
+    
+    <template name="placeholder">
+        <argument name="name"/>
+        <argument name="description"/>
+        <argument name="value"/>
+        
+        <node class="placeholder">
+            <button-node icon="Copy"/>
+            <node class="column">
+                <node class="row">
+                    <node class="name" value="${name}" inherit-tags="true"/>
+                    <node class="value" value="${value}" inherit-tags="true"/>
+                </node>
+                <node class="description" value="${description}" inherit-tags="true"/>
+            </node>
+        </node>
+        
+    </template>
+    
+    <![CDATA[
+    #main {
+        flow: vertical;
+        auto-size: grow;
+    }
+    
+    #content {
+        auto-size: grow;
+        padding: 0 8;
+        
+        & > .tab {
+            flow: vertical;
+            auto-size: grow;
+            padding: 8;
+        }
+    }
+    
+    .placeholder {
+        flow: horizontal;
+        auto-size: grow fit;
+        padding: 4;
+        gap: 4;
+        border-color: "Window.Border";
+        border-width: 0 0 1 0;
+        
+        & > .column {
+            flow: vertical;
+            auto-size: grow fit;
+            
+            & > .row {
+                flow: horizontal;
+                gap: 10;
+                auto-size: grow fit;
+                padding: 1 0;
+                
+                & > .name {
+                    anchor: middle-left;
+                    font: 1; // Monospace
+                    font-size: 16;
+                    color: "Window.Text";
+                    outline-color: "Window.TextOutline";
+                    outline-size: 1;
+                    background-color: "Input.Background";
+                    border-radius: 4;
+                    padding: 5;
+                    margin: 1 0;
+                    size: 0 26;
+                }
+                
+                & > .value {
+                    auto-size: grow fit;
+                    text-align: middle-right;
+                    anchor: middle-left;
+                    color: "Window.Text";
+                    outline-color: "Window.TextOutline";
+                    outline-size: 1;
+                    border-radius: 4;
+                    padding: 5;
+                    margin: 1 0;
+                    size: 0 26;
+                }
+            }
+            
+            & > .description {
+                auto-size: grow fit;
+                font-size: 12;
+                color: "Window.TextMuted";
+                outline-color: "Window.TextOutline";
+                outline-size: 1;
+                auto-size: grow fit;
+                word-wrap: false;
+                text-overflow: false;
+                line-height: 0.8;
+            }
+        }
+    }
+    ]]>
+</udt>

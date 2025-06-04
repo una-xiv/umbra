@@ -1,23 +1,23 @@
 ﻿<udt>
     <template name="tab-bar">
         <node class="tab-bar">
-            <node class="spacer"/>
+            <node class="spacer" />
             <node class="button-list">
-                <slot/>
+                <slot />
             </node>
-            <node class="filler"/>
+            <node class="filler" />
         </node>
     </template>
 
     <template name="tab-button">
-        <argument name="name"/>
-        
+        <argument name="name" />
+
         <node class="tab-button">
-            <node class="bg"/>
-            <node class="text" value="${name}" inherit-tags="true"/>
+            <node class="bg" />
+            <node class="text" value="${name}" inherit-tags="true" />
         </node>
     </template>
-    
+
     <![CDATA[
     .tab-bar {
         auto-size: grow fit;

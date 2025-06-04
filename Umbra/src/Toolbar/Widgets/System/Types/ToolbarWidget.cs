@@ -266,6 +266,10 @@ public abstract class ToolbarWidget(
             throw new InvalidOperationException($"Config variable '{name}' is not of type '{typeof(T).Name}'.");
         }
 
+        if (typeof(T) == typeof(string) && cfg is StringWidgetConfigVariable { SupportsScripting: true } str) {
+            return (T)(object)str.EvaluatedValue;
+        }
+
         return c.Value;
     }
 

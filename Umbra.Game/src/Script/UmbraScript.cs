@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Globalization;
 using System.Text;
+using Umbra.Common;
 using Umbra.Game.Script.Filters;
 
 namespace Umbra.Game.Script;
@@ -168,11 +169,11 @@ public sealed class UmbraScript : IDisposable
             return numVal != 0;
         }
 
-        // 3. Fallback: non-empty string is often considered true in some script languages
-        //    However, for stricter behavior, you might only accept "true" or specific numeric values.
-        //    For now, let's be somewhat strict: only true if it parses to bool true or non-zero number.
-        //    If you want non-empty to be true, add: return !string.IsNullOrEmpty(conditionValueStr);
-        return false; // Default to false if not clearly true by above rules
+        return conditionValueStr switch {
+            "true" or "1" or "yes"  => true,
+            "false" or "0" or "no" => false,
+            _              => string.IsNullOrWhiteSpace(conditionValueStr)
+        };
     }
 
     private bool PerformComparison(
@@ -195,7 +196,7 @@ public sealed class UmbraScript : IDisposable
                 _                     => throw new EvaluationException($"Unsupported numeric comparison operator: {compNode.Operator}")
             };
         }
-
+        
         return compNode.Type switch {
             TokenType.GreaterThan => string.Compare(leftStr, rightStr, StringComparison.OrdinalIgnoreCase) > 0,
             TokenType.LessThan    => string.Compare(leftStr, rightStr, StringComparison.OrdinalIgnoreCase) < 0,

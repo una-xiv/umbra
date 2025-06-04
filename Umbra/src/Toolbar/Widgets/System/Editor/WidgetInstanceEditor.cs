@@ -219,12 +219,13 @@ internal sealed class WidgetInstanceEditor : IDisposable
                 }
                 case StringWidgetConfigVariable s: {
                     StringVariable stringVar = new(s.Id) {
-                        Category    = s.Category,
-                        Name        = s.Name,
-                        Description = s.Description,
-                        Group       = s.Group,
-                        Value       = s.Value,
-                        DisplayIf   = s.DisplayIf,
+                        Category          = s.Category,
+                        Name              = s.Name,
+                        Description       = s.Description,
+                        Group             = s.Group,
+                        Value             = s.Value,
+                        DisplayIf         = s.DisplayIf,
+                        SupportsScripting = s.SupportsScripting,
                     };
 
                     stringVar.ValueChanged += v => widget.SetConfigValue(s.Id, v);

@@ -216,6 +216,8 @@ public class VariablesEditorWindow(string title, List<Variable> variables, List<
             variable.Description
         );
 
+        node.SupportsScripting = variable.SupportsScripting;
+        
         node.OnValueChanged   += (v) => variable.Value = v;
         variable.ValueChanged += (v) => variable.Value = v;
 

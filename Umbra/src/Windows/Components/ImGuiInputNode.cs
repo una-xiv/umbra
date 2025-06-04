@@ -1,5 +1,6 @@
 ﻿using ImGuiNET;
 using System;
+using System.Collections.Generic;
 using System.Numerics;
 using Umbra.Common;
 using Una.Drawing;
@@ -36,7 +37,8 @@ public abstract class ImGuiInputNode : Node
 
     private string? _description;
     private bool    _showDescription = UmbraBindings.ShowInputControlDescriptions;
-    
+    private bool    _isFirstDraw     = true;
+
     public ImGuiInputNode()
     {
         ClassList  = ["input"];
@@ -45,28 +47,49 @@ public abstract class ImGuiInputNode : Node
         ChildNodes = [
             new() { ClassList = ["label", "ui-text-default"] },
             new() { ClassList = ["description", "ui-text-muted"] },
-            new() { ClassList = ["box"] },
+            new() {
+                ClassList = ["box-row"],
+                ChildNodes = [
+                    new() { ClassList = ["box"] },
+                    new() {
+                        ClassList  = ["buttons"],
+                        ChildNodes = []
+                    },
+                ],
+            },
         ];
     }
 
+    protected virtual List<Node> GetButtonNodes()
+    {
+        return [];
+    }
+    
     protected abstract void DrawImGuiInput(Rect bounds);
 
     protected override void OnDraw(ImDrawListPtr drawList)
     {
+        if (_isFirstDraw) {
+            _isFirstDraw = false;
+            foreach (var node in GetButtonNodes()) {
+                QuerySelector(".buttons")!.AppendChild(node);
+            }
+        }
+        
         if (_showDescription != UmbraBindings.ShowInputControlDescriptions) {
             _showDescription = UmbraBindings.ShowInputControlDescriptions;
             switch (_showDescription) {
                 case true:
-                    LabelNode.Tooltip = null;
+                    LabelNode.Tooltip         = null;
                     DescriptionNode.NodeValue = _description;
                     break;
                 case false:
-                    LabelNode.Tooltip = _description;
+                    LabelNode.Tooltip         = _description;
                     DescriptionNode.NodeValue = null;
                     break;
             }
         }
-        
+
         bool hasLabel       = LabelNode.NodeValue is not null;
         bool hasDescription = _showDescription && DescriptionNode.NodeValue is not null;
 
@@ -116,9 +139,18 @@ public abstract class ImGuiInputNode : Node
             auto-size: grow fit;
             gap: 1;
             
-            & > .box {
+            & > .box-row {
                 auto-size: grow fit;
-                size: 0 24;
+                gap: 8;
+                
+                & > .box {
+                    auto-size: grow fit;
+                    size: 0 24;
+                }
+                
+                & > .buttons {
+                    size: 0 24;
+                }
             }
             
             & > .label {

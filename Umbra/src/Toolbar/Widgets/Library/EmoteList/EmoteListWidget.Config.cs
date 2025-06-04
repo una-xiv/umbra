@@ -13,7 +13,9 @@ internal sealed partial class EmoteListWidget
                 "Label",
                 I18N.Translate("Widget.EmoteList.Config.Label.Name"),
                 I18N.Translate("Widget.EmoteList.Config.Label.Description"),
-                I18N.Translate("Widget.EmoteList.Config.Label.Default")
+                I18N.Translate("Widget.EmoteList.Config.Label.Default"),
+                1024,
+                true
             ),
             ..GetEmoteListConfigVariables(0),
             ..GetEmoteListConfigVariables(1),
@@ -38,7 +40,9 @@ internal sealed partial class EmoteListWidget
                 $"Category_{listId}_Name",
                 I18N.Translate("Widget.EmoteList.Config.CategoryName.Name", listId + 1),
                 I18N.Translate("Widget.EmoteList.Config.CategoryName.Description"),
-                listId == 0 ? I18N.Translate("Widget.EmoteList.Name") : ""
+                listId == 0 ? I18N.Translate("Widget.EmoteList.Name") : "",
+                1024,
+                true
             ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
         ];
 

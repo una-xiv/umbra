@@ -38,12 +38,12 @@ internal sealed class MainMenuWidget(
     protected override void OnLoad()
     {
         _repository       =  Framework.Service<IMainMenuRepository>();
-        Popup.OnPopupOpen += OnPopup2Opened;
+        Popup.OnPopupOpen += OnPopupOpened;
     }
 
     protected override void OnUnload()
     {
-        Popup.OnPopupOpen -= OnPopup2Opened;
+        Popup.OnPopupOpen -= OnPopupOpened;
 
         if (_category is null) return;
 
@@ -180,7 +180,7 @@ internal sealed class MainMenuWidget(
         _buttons.Remove(item.Id);
     }
 
-    private void OnPopup2Opened()
+    private void OnPopupOpened()
     {
         if (string.IsNullOrEmpty(GetConfigValue<string>("Category"))) return;
         SetCategory(_repository!.GetCategory(Enum.Parse<MenuCategory>(_selectedCategory!)));

@@ -1,6 +1,10 @@
-﻿using ImGuiNET;
+﻿using Dalamud.Interface;
+using ImGuiNET;
 using System;
+using System.Collections.Generic;
+using Umbra.Common;
 using Umbra.Common.Extensions;
+using Umbra.Windows.Library.ScriptHelp;
 using Una.Drawing;
 
 namespace Umbra.Windows.Components;
@@ -22,6 +26,8 @@ public class StringInputNode : ImGuiInputNode
     public uint MaxLength { get; set; }
 
     public bool Immediate { get; set; }
+    
+    public bool SupportsScripting { get; set; }
 
     private string _value;
 
@@ -50,10 +56,22 @@ public class StringInputNode : ImGuiInputNode
         MaxLength = 255;
     }
 
+    protected override List<Node> GetButtonNodes()
+    {
+        if (false == SupportsScripting) return [];
+
+        ButtonNode btn = new("OpenScriptHelpWindow", "", FontAwesomeIcon.Bolt, true, true);
+        btn.OnClick += _ => Framework.Service<WindowManager>().Present("ScriptHelpWindow", new ScriptHelpWindow());
+        
+        return [btn];
+    }
+
     protected override void DrawImGuiInput(Rect bounds)
     {
         ImGui.SetNextItemWidth(bounds.Width);
 
+        
+        
         if (ImGui.InputText($"##{InternalId.Slugify()}", ref _value, MaxLength,
             !Immediate ? ImGuiInputTextFlags.EnterReturnsTrue : ImGuiInputTextFlags.None)) {
             OnValueChanged?.Invoke(_value);

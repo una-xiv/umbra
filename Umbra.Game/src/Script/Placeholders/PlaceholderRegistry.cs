@@ -7,12 +7,14 @@ using Umbra.Common;
 
 namespace Umbra.Game.Script;
 
-internal static class PlaceholderRegistry
+public static class PlaceholderRegistry
 {
     public static event Action<string>? OnValueChanged;
 
-    private static Dictionary<string, string>            PlaceholderValues   { get; } = [];
-    private static Dictionary<string, ScriptPlaceholder> PlaceholderServices { get; } = [];
+    private static Dictionary<string, string>            PlaceholderValues       { get; } = [];
+    private static Dictionary<string, string>            PlaceholderDescriptions { get; } = [];
+    private static Dictionary<string, ScriptPlaceholder> PlaceholderServices     { get; } = [];
+
 
     /// <summary>
     /// Returns true if a placeholder with the given name exists.
@@ -39,6 +41,23 @@ internal static class PlaceholderRegistry
         return value;
     }
 
+    public static List<Tuple<string, string, string>> All {
+        get
+        {
+            List<Tuple<string, string, string>> result = [];
+
+            foreach (var (name, value) in PlaceholderValues) {
+                if (PlaceholderDescriptions.TryGetValue(name, out var description)) {
+                    result.Add(new(name, value, description));
+                } else {
+                    result.Add(new(name, value, string.Empty));
+                }
+            }
+            
+            return result;
+        }
+    }
+
     [WhenFrameworkCompiling(executionOrder: Int32.MaxValue)]
     private static void RegisterPlaceholders()
     {
@@ -57,9 +76,13 @@ internal static class PlaceholderRegistry
                 throw new InvalidOperationException($"Placeholder with name '{p.Name}' is already registered.");
             }
 
-            PlaceholderValues[p.Name] = p.Value;
+            PlaceholderValues[p.Name]       = p.Value;
+            PlaceholderDescriptions[p.Name] = p.Description;
 
-            p.OnValueChanged += value => PlaceholderValues[p.Name] = value;
+            p.OnValueChanged += value => {
+                PlaceholderValues[p.Name] = value;
+                OnValueChanged?.Invoke(p.Name);
+            };
         }
     }
 

@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Reflection;
 using Umbra.Common;
 
 namespace Umbra.Game.Script.Filters;
 
-internal static class FilterFunctionRegistry
+public static class FilterFunctionRegistry
 {
     private static Dictionary<string, MethodInfo> FilterFunctions    { get; } = [];
     private static Dictionary<string, string>     FilterDescriptions { get; } = [];
@@ -36,6 +37,9 @@ internal static class FilterFunctionRegistry
             FilterDescriptions[filterAttribute.Name] = filterAttribute.Description;
         }
     }
+    
+    public static ImmutableDictionary<string, string> All => 
+        FilterDescriptions.ToImmutableDictionary();
 
     public static bool Has(string name) => FilterFunctions.ContainsKey(name);
 
