@@ -1,4 +1,5 @@
-﻿using Umbra.Common;
+﻿using System.Globalization;
+using Umbra.Common;
 
 namespace Umbra.Game.Script;
 
@@ -11,6 +12,8 @@ internal class PlayerPositionYPlaceholder(IZoneManager zoneManager) : ScriptPlac
     [OnTick]
     public void Update()
     {
-        Value = I18N.FormatNumber(zoneManager.CurrentZone.PlayerCoordinates.Y);
+        Value = zoneManager.HasCurrentZone
+            ? zoneManager.CurrentZone.PlayerCoordinates.Y.ToString("N1", CultureInfo.InvariantCulture)
+            : "0";
     }
 }

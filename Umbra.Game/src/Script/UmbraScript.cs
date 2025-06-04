@@ -80,6 +80,8 @@ public sealed class UmbraScript : IDisposable
     /// <returns>The result of the evaluated script.</returns>
     private string Evaluate()
     {
+        IsInvalidated = false;
+        
         StringBuilder resultBuilder = new();
 
         Dictionary<string, string> placeholders = [];
@@ -144,6 +146,7 @@ public sealed class UmbraScript : IDisposable
             case ComparisonNode comp:
                 // Directly evaluating a comparison node yields "true" or "false"
                 bool comparisonBool = PerformComparison(comp, placeholders);
+                Logger.Info($"Result of comparison '{comp.Operator}': {comparisonBool}");
                 return comparisonBool.ToString().ToLowerInvariant();
 
             default:
@@ -170,9 +173,9 @@ public sealed class UmbraScript : IDisposable
         }
 
         return conditionValueStr switch {
-            "true" or "1" or "yes"  => true,
+            "true" or "1" or "yes" => true,
             "false" or "0" or "no" => false,
-            _              => string.IsNullOrWhiteSpace(conditionValueStr)
+            _                      => string.IsNullOrWhiteSpace(conditionValueStr)
         };
     }
 
@@ -196,7 +199,7 @@ public sealed class UmbraScript : IDisposable
                 _                     => throw new EvaluationException($"Unsupported numeric comparison operator: {compNode.Operator}")
             };
         }
-        
+
         return compNode.Type switch {
             TokenType.GreaterThan => string.Compare(leftStr, rightStr, StringComparison.OrdinalIgnoreCase) > 0,
             TokenType.LessThan    => string.Compare(leftStr, rightStr, StringComparison.OrdinalIgnoreCase) < 0,

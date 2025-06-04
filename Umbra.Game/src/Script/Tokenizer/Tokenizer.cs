@@ -179,6 +179,11 @@ internal class Tokenizer
             if (ParseCharacter(TokenType.LessThan, '<')) continue;
             if (ParseCharacter(TokenType.GreaterThan, '>')) continue;
             
+            // If we see another opening bracket, we assume it's a nested placeholder.
+            if (_input[_column] == '[') {
+                if (ParsePlaceholder()) continue;
+            }
+            
             // Invalid character in placeholder.
             Logger.Warning($"Unmatched character '{_input[_column]}' in placeholder at position {_column}.");
             _column++;
