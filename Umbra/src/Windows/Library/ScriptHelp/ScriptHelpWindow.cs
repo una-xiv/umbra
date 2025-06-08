@@ -1,8 +1,10 @@
-﻿using System;
+﻿using ImGuiNET;
+using System;
 using System.Numerics;
 using Umbra.Common;
 using Umbra.Game.Script;
 using Umbra.Game.Script.Filters;
+using Umbra.Windows.Components;
 using Una.Drawing;
 
 namespace Umbra.Windows.Library.ScriptHelp;
@@ -20,6 +22,7 @@ public class ScriptHelpWindow : Window
     {
         RootNode.QuerySelector("#tabBtnPlaceholders")!.OnClick += _ => ActivateTab("Placeholders");
         RootNode.QuerySelector("#tabBtnFunctions")!.OnClick    += _ => ActivateTab("Functions");
+        RootNode.QuerySelector("#tabBtnExamples")!.OnClick     += _ => ActivateTab("Examples");
 
         ActivateTab("Placeholders");
 
@@ -49,6 +52,10 @@ public class ScriptHelpWindow : Window
             { "description", description }
         });
 
+        tpl.QuerySelector<ButtonNode>(".copy-button")!.OnClick += _ => {
+            ImGui.SetClipboardText($"[{name}]");
+        };
+        
         RootNode.QuerySelector("#tabPlaceholders")!.AppendChild(tpl);
     }
 
@@ -59,6 +66,10 @@ public class ScriptHelpWindow : Window
             { "value", "" },
             { "description", description }
         });
+        
+        tpl.QuerySelector<ButtonNode>(".copy-button")!.OnClick += _ => {
+            ImGui.SetClipboardText(name);
+        };
 
         RootNode.QuerySelector("#tabFunctions")!.AppendChild(tpl);
     }

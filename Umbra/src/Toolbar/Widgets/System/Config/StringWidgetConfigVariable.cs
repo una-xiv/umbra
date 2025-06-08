@@ -34,9 +34,13 @@ public class StringWidgetConfigVariable(
             if (!SupportsScripting) return Value;
             
             if (_script is null || _scriptValue != Value) {
-                _script?.Dispose();
-                _script      = UmbraScript.Parse(Value);
-                _scriptValue = Value;
+                try {
+                    _script?.Dispose();
+                    _script      = UmbraScript.Parse(Value);
+                    _scriptValue = Value;
+                } catch {
+                    return Value;
+                }
             }
             
             return _script.Value;

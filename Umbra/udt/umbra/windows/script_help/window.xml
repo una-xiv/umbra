@@ -13,6 +13,10 @@
                     <node class="bg"/>
                     <node class="text" value="_L(Window.ScriptHelp.Tab.Functions)" inherit-tags="true"/>
                 </node>
+                <node class="tab-button" id="tabBtnExamples">
+                    <node class="bg"/>
+                    <node class="text" value="_L(Window.ScriptHelp.Tab.Examples)" inherit-tags="true"/>
+                </node>
             </node>
             <node class="filler"/>
         </node>
@@ -20,6 +24,24 @@
         <node id="content">
             <node id="tabPlaceholders" class="tab" overflow="false"/>
             <node id="tabFunctions" class="tab" overflow="false"/>
+            <node id="tabExamples" class="tab" overflow="false">
+                <node class="example">
+                    <node class="title" value="_L(Window.ScriptHelp.Tab.Examples.Placeholders.Title)"/>
+                    <node class="description" value="_L(Window.ScriptHelp.Tab.Examples.Placeholders.Description)"/>
+                </node>
+                <node class="example">
+                    <node class="title" value="_L(Window.ScriptHelp.Tab.Examples.Functions.Title)"/>
+                    <node class="description" value="_L(Window.ScriptHelp.Tab.Examples.Functions.Description)"/>
+                </node>
+                <node class="example">
+                    <node class="title" value="_L(Window.ScriptHelp.Tab.Examples.Conditionals.Title)"/>
+                    <node class="description" value="_L(Window.ScriptHelp.Tab.Examples.Conditionals.Description)"/>
+                </node>
+                <node class="example">
+                    <node class="title" value="_L(Window.ScriptHelp.Tab.Examples.Concatenation.Title)"/>
+                    <node class="description" value="_L(Window.ScriptHelp.Tab.Examples.Concatenation.Description)"/>
+                </node>
+            </node>
         </node>
     </node>
     
@@ -29,7 +51,7 @@
         <argument name="value"/>
         
         <node class="placeholder">
-            <button-node icon="Copy"/>
+            <button-node icon="Copy" class="copy-button"/>
             <node class="column">
                 <node class="row">
                     <node class="name" value="${name}" inherit-tags="true"/>
@@ -115,6 +137,32 @@
                 text-overflow: false;
                 line-height: 0.8;
             }
+        }
+    }
+    
+    .example {
+        flow: vertical;
+        auto-size: grow fit;
+        padding: 8;
+        gap: 8;
+        margin: 0 0 16 0;
+        
+        & > .title {
+            auto-size: grow fit;
+            font-size: 18;
+            color: "Window.Text";
+            outline-color: "Window.TextOutline";
+            outline-size: 1;
+        }
+        
+        & > .description {
+            auto-size: grow fit;
+            font-size: 13;
+            color: "Window.Text";
+            outline-color: "Window.TextOutline";
+            outline-size: 1;
+            word-wrap: true;
+            text-overflow: false;
         }
     }
     ]]>
