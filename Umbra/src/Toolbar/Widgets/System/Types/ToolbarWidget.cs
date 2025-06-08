@@ -140,6 +140,8 @@ public abstract class ToolbarWidget(
             if (Node.IsDisabled || PopupActivationMethod != "Hover") return;
             OpenPopup?.Invoke(this, Popup);
         };
+        
+        OnConfigurationChanged();
     }
 
     /// <summary>
