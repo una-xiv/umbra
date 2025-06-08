@@ -88,14 +88,14 @@ public abstract class WidgetPopup : IDisposable
     public bool Render(ToolbarWidget activator)
     {
         if (_isCrashed) return false;
-        
+
         ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, Vector2.Zero);
         ImGui.PushStyleVar(ImGuiStyleVar.WindowRounding, 0f);
         ImGui.PushStyleVar(ImGuiStyleVar.WindowBorderSize, 0f);
         ImGui.PushStyleVar(ImGuiStyleVar.WindowBorderSize, 0f);
 
         bool keepOpen = false;
-        
+
         try {
             keepOpen = RenderInternal(activator);
         } catch (Exception e) {
@@ -127,7 +127,7 @@ public abstract class WidgetPopup : IDisposable
     private bool RenderInternal(ToolbarWidget activator)
     {
         UpdateConfigVariables(activator);
-        
+
         if (!CanOpen()) {
             return false;
         }
@@ -178,10 +178,10 @@ public abstract class WidgetPopup : IDisposable
 
         if (_opacity > 0.9) _opacity = 1;
 
-        _popupNode.Style.Opacity      = _opacity;
-        
+        _popupNode.Style.Opacity = _opacity;
+
         var w = _popupNode.QuerySelector(".wrapper")!;
-        
+
         w.Style.ShadowSize   = WidgetManager.EnableWidgetPopupShadow ? null : new(0);
         w.Style.BorderRadius = WidgetManager.UseRoundedCornersInPopups ? 7 : 0;
 
@@ -202,7 +202,7 @@ public abstract class WidgetPopup : IDisposable
         }
 
         bool hasFocus = true;
-        
+
         try {
             ImGui.SetNextWindowPos(new(Position.X, Position.Y));
             ImGui.SetNextWindowSize(new(Size.X, Size.Y));
@@ -240,9 +240,10 @@ public abstract class WidgetPopup : IDisposable
     {
         Rect toolbarBoundingBox = activator.Node.ParentNode!.ParentNode!.Bounds.MarginRect;
 
-        float popupX = GetXOffsetsOf(activator, size);
+        bool  isDownward = IsPopupOpenDownward(activator);
+        float popupX     = GetXOffsetsOf(activator, size);
 
-        float popupY = IsPopupOpenDownward(activator)
+        float popupY = isDownward
             ? toolbarBoundingBox.Y2 - 1
             : (toolbarBoundingBox.Y1 + 1) - size.Y;
 
@@ -253,6 +254,12 @@ public abstract class WidgetPopup : IDisposable
             popupX = viewportPos.X + 8;
         } else if (popupX + size.X > viewportPos.X + viewportSize.X) {
             popupX = viewportPos.X + (viewportSize.X - size.X - 8);
+        }
+
+        if (activator.Node.ParentNode!.ParentNode!.ClassList.Contains("vertical")) {
+            popupY = isDownward
+                ? activator.Node.Bounds.MarginRect.Y2
+                : activator.Node.Bounds.MarginRect.Y1 - size.Y;
         }
 
         return new(popupX, popupY);
@@ -293,14 +300,17 @@ public abstract class WidgetPopup : IDisposable
     private static Vector2 GetPopupPositionCentered(ToolbarWidget activator, Vector2 size)
     {
         float actX    = activator.Node.Bounds.MarginRect.X1 + (activator.Node.OuterWidth / 2);
+        Rect  aBounds = activator.Node.Bounds.MarginRect;
         Rect  tBounds = activator.Node.ParentNode!.ParentNode!.Bounds.MarginRect;
 
+        bool  isVertical  = activator.Node.ParentNode!.ParentNode!.ClassList.Contains("vertical");
+        bool  isDownward  = IsPopupOpenDownward(activator);
         float windowX     = actX - (size.X / 2);
-        float windowY     = IsPopupOpenDownward(activator) ? tBounds.Y2 - 1 : tBounds.Y1 + 1;
+        float windowY     = isVertical ? (isDownward ? aBounds.Y2 : aBounds.Y1) : (isDownward ? tBounds.Y2 - 1 : tBounds.Y1 + 1);
         float screenWidth = ImGui.GetMainViewport().WorkSize.X;
         float screenPosX  = ImGui.GetMainViewport().WorkPos.X;
 
-        if (!IsPopupOpenDownward(activator)) {
+        if (!isDownward) {
             windowY -= size.Y;
         }
 
