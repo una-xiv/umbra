@@ -118,7 +118,6 @@ public static class CrashLogger
         ImGui.TextWrapped(_exceptionTxt);
         ImGui.EndChild();
 
-
         if (ImGui.Button("Copy error text")) {
             ImGui.SetClipboardText(_exceptionTxt);
         }
@@ -128,6 +127,15 @@ public static class CrashLogger
             Util.OpenLink("https://discord.gg/xaEnsuAhmm");
         }
 
+        if (ConfigManager.Get<bool>("CustomPlugins.Enabled")) {
+            ImGui.SameLine();
+            ImGui.Dummy(new Vector2(16, 0));
+            ImGui.SameLine();
+            if (ImGui.Button("Disable custom plugins")) {            
+                ConfigManager.Set("CustomPlugins.Enabled", false);
+            }
+        }
+        
         const string closeStr = "Close this dialog";
         ImGui.SameLine(ImGui.GetContentRegionAvail().X - ImGui.CalcTextSize(closeStr).X - 4);
 
@@ -139,7 +147,7 @@ public static class CrashLogger
         ImGui.End();
 
         ImGui.PopStyleVar(3);
-        ImGui.PopStyleColor(4);
+        ImGui.PopStyleColor(6);
     }
 
     private static ImGuiWindowFlags CrashWindowFlags =>
