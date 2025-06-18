@@ -23,9 +23,7 @@ internal sealed class VolumeWidgetPopup : WidgetPopup
     public FontAwesomeIcon OffIcon  { get; set; } = FontAwesomeIcon.VolumeOff;
     public FontAwesomeIcon MuteIcon { get; set; } = FontAwesomeIcon.VolumeMute;
 
-    private static readonly UdtDocument Document = UmbraDrawing.DocumentFrom("umbra.widgets.popup_volume.xml");
-
-    protected override Node Node { get; } = Document.RootNode!;
+    protected override Node Node { get; } = UmbraDrawing.DocumentFrom("umbra.widgets.popup_volume.xml").RootNode!;
 
     private readonly List<AudioChannel> _channels   = [];
     private readonly IGameConfig        _gameConfig = Framework.Service<IGameConfig>();

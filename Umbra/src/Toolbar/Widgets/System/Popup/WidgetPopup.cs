@@ -36,6 +36,7 @@ public abstract class WidgetPopup : IDisposable
     {
         OnDisposed();
 
+        Node.Dispose();
         ContextMenu?.Dispose();
         _popupNode.Dispose();
 
