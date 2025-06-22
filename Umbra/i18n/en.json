@@ -870,6 +870,7 @@
   "Widget.GearsetSwitcher.UpdateGearset": "Update gearset",
   "Widget.GearsetSwitcher.CreateGearset": "Create gearset",
   "Widget.GearsetSwitcher.RandomJob": "Pick a random job",
+  "Widget.GearsetSwitcher.RandomJobDisabled": "Please switch to a combat class",
   "Widget.GearsetSwitcher.Role.Tank": "Tank",
   "Widget.GearsetSwitcher.Role.Healer": "Healer",
   "Widget.GearsetSwitcher.Role.Melee": "Melee",

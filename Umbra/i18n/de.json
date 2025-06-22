@@ -870,6 +870,7 @@
   "Widget.GearsetSwitcher.UpdateGearset": "Ausrüstungsset aktualisieren",
   "Widget.GearsetSwitcher.CreateGearset": "Ausrüstungsset erstellen",
   "Widget.GearsetSwitcher.RandomJob": "Zufälligen Job auswählen",
+  "Widget.GearsetSwitcher.RandomJobDisabled": "Bitte wähle eine Kampfklasse",
   "Widget.GearsetSwitcher.Role.Tank": "Verteidiger",
   "Widget.GearsetSwitcher.Role.Healer": "Heiler",
   "Widget.GearsetSwitcher.Role.Melee": "Nahkampf",
