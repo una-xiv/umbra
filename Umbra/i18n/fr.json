@@ -653,6 +653,7 @@
   "Widget.GearsetSwitcher.UpdateGearset": "Mettre à jour l’ensemble d’équipement",
   "Widget.GearsetSwitcher.CreateGearset": "Créer un set d'équipement",
   "Widget.GearsetSwitcher.RandomJob": "Choisir un job aléatoire",
+  "Widget.GearsetSwitcher.RandomJobDisabled": "Veuillez sélectionner une classe de combat",
   "Widget.GearsetSwitcher.Role.Tank": "Tank",
   "Widget.GearsetSwitcher.Role.Healer": "Soigneur",
   "Widget.GearsetSwitcher.Role.Melee": "Mêlée",

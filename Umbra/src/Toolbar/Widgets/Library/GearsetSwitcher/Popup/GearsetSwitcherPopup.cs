@@ -1,4 +1,7 @@
 ﻿using FFXIVClientStructs.FFXIV.Client.UI.Agent;
+using System;
+using System.ComponentModel;
+using System.Diagnostics;
 using Umbra.Common;
 using Umbra.Game;
 using Una.Drawing;
@@ -80,16 +83,30 @@ internal sealed partial class GearsetSwitcherPopup : WidgetPopup
     private Node HeaderInfoNode => Node.QuerySelector("#header-info")!;
     private Node HeaderIlvlNode => Node.QuerySelector("#header-ilvl")!;
     private Node BackgroundNode => Node.QuerySelector(".background")!;
+    private Node RandomJobNode => Node.QuerySelector("#RandomJob")!;
 
     private void UpdateHeaderNodes()
     {
         var jobInfo = Player.GetJobInfo(CurrentGearset.JobId);
 
-        HeaderIconNode.Style.IconId    = jobInfo.Icons[_headerIconType];
-        HeaderNameNode.NodeValue       = CurrentGearset.Name;
-        HeaderInfoNode.NodeValue       = GearsetSwitcherInfoDisplayProvider.GetInfoText(GearsetSwitcherInfoDisplayType.JobLevel, CurrentGearset, true);
-        HeaderIlvlNode.NodeValue       = $"{CurrentGearset.ItemLevel}";
+        HeaderIconNode.Style.IconId = jobInfo.Icons[_headerIconType];
+        HeaderNameNode.NodeValue = CurrentGearset.Name;
+        HeaderInfoNode.NodeValue = GearsetSwitcherInfoDisplayProvider.GetInfoText(GearsetSwitcherInfoDisplayType.JobLevel, CurrentGearset, true);
+        HeaderIlvlNode.NodeValue = $"{CurrentGearset.ItemLevel}";
         BackgroundNode.Style.IsVisible = _showGradientBackground;
+
+        switch (CurrentGearset.Category) {
+            case GearsetCategory.None:
+            case GearsetCategory.Crafter:
+            case GearsetCategory.Gatherer:
+                RandomJobNode.Style.Opacity = 0.3f;
+                RandomJobNode.Tooltip = I18N.Translate("Widget.GearsetSwitcher.RandomJobDisabled");
+                break;
+            default:
+                RandomJobNode.Style.Opacity = 1f;
+                RandomJobNode.Tooltip = I18N.Translate("Widget.GearsetSwitcher.RandomJob");
+                break;
+        }
 
         BackgroundNode.ToggleClass("tank", CurrentGearset.Category == GearsetCategory.Tank);
         BackgroundNode.ToggleClass("healer", CurrentGearset.Category == GearsetCategory.Healer);
