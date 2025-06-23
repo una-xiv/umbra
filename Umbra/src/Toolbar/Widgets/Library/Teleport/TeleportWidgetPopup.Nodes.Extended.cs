@@ -85,7 +85,7 @@ internal partial class TeleportWidgetPopup
                     }
 
                     menuItemNode.SortIndex =  item.SortIndex;
-                    menuItemNode.OnClick   += _ => item.Invoke();
+                    menuItemNode.OnClick   += _ => { item.Invoke(); Close(); };
 
                     miscNode.QuerySelector(".list")!.AppendChild(menuItemNode);
                     break;
