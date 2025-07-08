@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using Umbra.Common;
 using Umbra.Game;
 
+using TreasureObject = FFXIVClientStructs.FFXIV.Client.Game.Object.Treasure;
+
 namespace Umbra.Markers.Library;
 
 [Service]
@@ -40,6 +42,10 @@ internal class TreasureCofferMarkerFactory(IObjectTable objectTable, IZoneManage
 
         foreach (IGameObject obj in objectTable) {
             if (!obj.IsValid() || obj.ObjectKind != ObjectKind.Treasure || !obj.IsTargetable) continue;
+            unsafe {
+                var treasureObject = (TreasureObject*)obj.Address;
+                if (treasureObject->Flags.HasFlag(TreasureObject.TreasureFlags.FadedOut)) continue;
+            }
 
             string key = $"TC_{zone.Id}_{(int)obj.Position.X}_{(int)obj.Position.Z}_{obj.DataId}";
             usedIds.Add(key);
