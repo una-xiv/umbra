@@ -1162,6 +1162,8 @@
   "Widget.FpsConfig.Button.Fps30": "30 FPS",
   "Widget.FpsConfig.Button.LimitBg": "ゲームがバックグラウンドにあるときにFPSを制限する",
   "Widget.FpsConfig.Button.LimitAfk": "AFK中にFPSを制限する",
+  "Widget.PhantomJobs.Title": "ファントムジョブ",
+  "Widget.PhantomJobs.Description": "オカルトクレセントエリアのファントムジョブに素早くアクセスできます。",
   "Widget.SanctuaryIndicator.Name": "サンクチュアリ インジケーター",
   "Widget.SanctuaryIndicator.Description": "サンクチュアリにいるときにインジケーターを表示します。",
   "Widget.ShortcutPanel.Name": "ショートカットパネル",

@@ -940,6 +940,8 @@
   "Widget.FpsConfig.Button.Fps30": "30 FPS",
   "Widget.FpsConfig.Button.LimitBg": "Limiter les FPS quand le jeu est en arrière-plan",
   "Widget.FpsConfig.Button.LimitAfk": "Limiter les FPS quand vous êtes AFK",
+  "Widget.PhantomJobs.Title": "Tâches fantômes",
+  "Widget.PhantomJobs.Description": "Permet un accès rapide à vos tâches fantômes pour la zone du Croissant occulte.",
   "Widget.SanctuaryIndicator.Name": "Indicateur de Sanctuaire",
   "Widget.SanctuaryIndicator.Description": "Affiche un indicateur lorsque tu es dans un sanctuaire.",
   "Widget.ShortcutPanel.Name": "Panneau de raccourcis",

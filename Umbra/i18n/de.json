@@ -1162,6 +1162,8 @@
   "Widget.FpsConfig.Button.Fps30": "30 FPS",
   "Widget.FpsConfig.Button.LimitBg": "FPS begrenzen, wenn das Spiel im Hintergrund ist",
   "Widget.FpsConfig.Button.LimitAfk": "FPS begrenzen, wenn Sie AFK sind",
+  "Widget.PhantomJobs.Title": "Phantom-Jobs",
+  "Widget.PhantomJobs.Description": "Ermöglicht den schnellen Zugriff auf Ihre Phantom-Jobs für das Gebiet des Okkulten Sichels.",
   "Widget.SanctuaryIndicator.Name": "Schutzgebietsanzeige",
   "Widget.SanctuaryIndicator.Description": "Zeigt eine Anzeige, wenn du in einem Schutzgebiet bist.",
   "Widget.ShortcutPanel.Name": "Verknüpfungsfeld",

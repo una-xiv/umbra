@@ -551,7 +551,7 @@ public abstract class StandardToolbarWidget(
     protected virtual int             DefaultMultiLabelTextSizeTop       => 12;
     protected virtual int             DefaultMultiLabelTextSizeBottom    => 9;
     protected virtual int             DefaultMultiLabelTextYOffsetTop    => 1;
-    protected virtual int             DefaultMultiLabelTextYOffsetBottom => 1;
+    protected virtual int             DefaultMultiLabelTextYOffsetBottom => -1;
     protected virtual bool            DefaultUseCustomTextColor          => false;
     protected virtual bool            DefaultShowProgressBar             => true;
 

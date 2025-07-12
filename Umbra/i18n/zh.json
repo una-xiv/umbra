@@ -1162,6 +1162,8 @@
   "Widget.FpsConfig.Button.Fps30": "30 FPS",
   "Widget.FpsConfig.Button.LimitBg": "当游戏在后台时限制 FPS",
   "Widget.FpsConfig.Button.LimitAfk": "当您 AFK 时限制 FPS",
+  "Widget.PhantomJobs.Title": "幻影工作",
+  "Widget.PhantomJobs.Description": "允许快速访问您的幻影工作以了解神秘新月区域。",
   "Widget.SanctuaryIndicator.Name": "休息区指示器",
   "Widget.SanctuaryIndicator.Description": "当你在休息区时显示一个指示器。",
   "Widget.ShortcutPanel.Name": "快捷面板",
