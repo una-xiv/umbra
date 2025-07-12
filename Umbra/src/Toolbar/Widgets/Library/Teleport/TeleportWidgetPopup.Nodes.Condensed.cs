@@ -19,14 +19,14 @@ internal partial class TeleportWidgetPopup
         CondensedInterfaceNode.Clear();
         CondensedInterfaceNode.AppendChild(new() { ClassList = ["side-panel", Toolbar.IsTopAligned ? "top" : "bottom"] });
         CondensedSidePanelNode.AppendChild(new() { ClassList = ["side-panel-spacer"], SortIndex = int.MinValue });
-
+        
         Node contentsWrapper = new() {
             ClassList  = ["contents"],
             ChildNodes = [new() { ClassList = ["list"] }],
         };
 
         contentsWrapper.Overflow   = false;
-        contentsWrapper.Style.Size = new(0, PopupHeight);
+        contentsWrapper.Style.Size = new(FixedPopupWidth && CustomPopupWidth >= 250 ? CustomPopupWidth : 0, PopupHeight);
 
         CondensedInterfaceNode.AppendChild(contentsWrapper);
 

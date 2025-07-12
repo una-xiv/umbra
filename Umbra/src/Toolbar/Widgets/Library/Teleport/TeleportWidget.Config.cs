@@ -54,6 +54,29 @@ internal sealed partial class TeleportWidget
             },
             
             new BooleanWidgetConfigVariable(
+                "FixedPopupWidth",
+                I18N.Translate("Widget.Teleport.Config.FixedPopupWidth.Name"),
+                I18N.Translate("Widget.Teleport.Config.FixedPopupWidth.Description"),
+                false
+            ) {
+                Category  = I18N.Translate("Widget.ConfigCategory.MenuAppearance"),
+                DisplayIf = () => GetConfigValue<PopupDisplayMode>("PopupDisplayMode") == PopupDisplayMode.Condensed,
+            },
+            
+            new IntegerWidgetConfigVariable(
+                "CustomPopupWidth",
+                I18N.Translate("Widget.Teleport.Config.CustomPopupWidth.Name"),
+                I18N.Translate("Widget.Teleport.Config.CustomPopupWidth.Description"),
+                300,
+                250,
+                1200
+            ) {
+                Category  = I18N.Translate("Widget.ConfigCategory.MenuAppearance"),
+                DisplayIf = () => GetConfigValue<bool>("FixedPopupWidth")
+                    && GetConfigValue<PopupDisplayMode>("PopupDisplayMode") == PopupDisplayMode.Condensed,
+            },
+            
+            new BooleanWidgetConfigVariable(
                 "ShowMapNames",
                 I18N.Translate("Widget.Teleport.Config.ShowMapNames.Name"),
                 I18N.Translate("Widget.Teleport.Config.ShowMapNames.Description"),
