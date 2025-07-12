@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using Dalamud.Interface;
 using Dalamud.Plugin.Services;
+using System;
+using System.Diagnostics;
 using Umbra.Common;
 
 namespace Umbra.Widgets;
@@ -52,7 +54,19 @@ internal sealed partial class VolumeWidget(
 
     private void ToggleMute()
     {
-        _gameConfig.System.Set("IsSndMaster", !_gameConfig.System.GetBool("IsSndMaster"));
+        string channelName = GetConfigValue<string>("RightClickBehavior") switch 
+        {
+            "Master" => "IsSndMaster",
+            "BGM"    => "IsSndBgm",
+            "SFX"    => "IsSndSe",
+            "VOC"    => "IsSndVoice",
+            "AMB"    => "IsSndEnv",
+            "SYS"    => "IsSndSystem",
+            "PERF"   => "IsSndPerform",
+            _        => throw new InvalidOperationException("Invalid volume channel selected.")
+        };
+        
+        _gameConfig.System.Set(channelName, !_gameConfig.System.GetBool(channelName));
     }
 
     private FontAwesomeIcon GetVolumeIcon(string volumeConfigName, string muteConfigName)
