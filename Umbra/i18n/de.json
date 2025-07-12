@@ -1005,6 +1005,8 @@
   "Widget.Volume.Option.SoundFieldBattle": "Normale Musik während des Kampfes abspielen",
   "Widget.Volume.Option.SoundHousing": "Stadtstaatmusik in Wohngebieten abspielen",
   "Widget.Volume.Option.SoundHousing.Description": "Erfordert, dass du den Bereich erneut betrittst, um wirksam zu werden.",
+  "Widget.Volume.Config.RightClickBehavior.Name": "Diesen Kanal bei Rechtsklick stummschalten/Stummschaltung aufheben",
+  "Widget.Volume.Config.RightClickBehavior.Description": "Legen Sie fest, welcher Kanal stummgeschaltet bzw. die Stummschaltung aufgehoben wird, wenn Sie mit der rechten Maustaste auf die Lautstärkeregelung klicken. Dies kann nützlich sein, um einen bestimmten Kanal schnell stummzuschalten, ohne das Popup-Menü öffnen zu müssen.",
   "Widget.Volume.Config.ShowOptions.Name": "Zusätzliche Soundoptionen anzeigen",
   "Widget.Volume.Config.ShowOptions.Description": "Zeigt zusätzliche Soundoptionen im Popup-Menü an, um spezifische Einstellungen im Zusammenhang mit Musik zu steuern.",
   "Widget.Volume.Config.ShowBgm.Name": "Hintergrundmusik anzeigen",

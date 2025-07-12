@@ -1005,6 +1005,8 @@
   "Widget.Volume.Option.SoundFieldBattle": "戦闘中に通常の音楽を再生する",
   "Widget.Volume.Option.SoundHousing": "住宅地域で都市の音楽を再生する",
   "Widget.Volume.Option.SoundHousing.Description": "効果を得るには、再びそのエリアに入る必要があります。",
+  "Widget.Volume.Config.RightClickBehavior.Name": "右クリックでこのチャンネルをミュート/ミュート解除",
+  "Widget.Volume.Config.RightClickBehavior.Description": "音量コントロールボタンを右クリックしたときにミュート/ミュート解除するチャンネルを指定します。これにより、ポップアップメニューを開かずに特定のチャンネルをすばやくミュートできて便利です。",
   "Widget.Volume.Config.ShowOptions.Name": "追加の音声オプションを表示",
   "Widget.Volume.Config.ShowOptions.Description": "ポップアップメニューに追加の音声オプションを表示し、音楽に関連する特定の設定を制御します。",
   "Widget.Volume.Config.ShowBgm.Name": "BGMを表示",

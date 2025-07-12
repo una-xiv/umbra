@@ -1005,6 +1005,8 @@
   "Widget.Volume.Option.SoundFieldBattle": "在野外战斗时播放战斗音乐",
   "Widget.Volume.Option.SoundHousing": "将住宅区背景音乐换为主城背景音乐",
   "Widget.Volume.Option.SoundHousing.Description": "需要重进住宅区才能生效",
+  "Widget.Volume.Config.RightClickBehavior.Name": "右键单击时静音/取消静音此声道",
+  "Widget.Volume.Config.RightClickBehavior.Description": "指定右键单击音量控制按钮时，哪个声道会静音/取消静音。这在需要快速将特定声道静音而无需打开弹出菜单时非常有用。",
   "Widget.Volume.Config.ShowOptions.Name": "显示更多声音设置",
   "Widget.Volume.Config.ShowOptions.Description": "在弹出菜单中显示额外的声音选项。",
   "Widget.Volume.Config.ShowBgm.Name": "显示背景音量滑条",

@@ -783,6 +783,8 @@
   "Widget.Volume.Option.SoundFieldBattle": "Jouer de la musique normale pendant les combats",
   "Widget.Volume.Option.SoundHousing": "Jouer de la musique de cité-état dans les zones résidentielles",
   "Widget.Volume.Option.SoundHousing.Description": "Nécessite que vous réentriez dans la zone pour prendre effet.",
+  "Widget.Volume.Config.RightClickBehavior.Name": "Couper/rétablir le son de ce canal sur un clic droit",
+  "Widget.Volume.Config.RightClickBehavior.Description": "Spécifiez quel canal est mis en sourdine/rétabli lorsque vous cliquez avec le bouton droit sur le bouton de contrôle du volume. Cela peut être utile pour couper rapidement le son d'un canal spécifique sans avoir à ouvrir le menu contextuel.",
   "Widget.Volume.Config.ShowOptions.Name": "Afficher des options sonores supplémentaires",
   "Widget.Volume.Config.ShowOptions.Description": "Affiche des options sonores supplémentaires dans le menu contextuel pour contrôler des paramètres spécifiques liés à la musique.",
   "Widget.Volume.Config.ShowBgm.Name": "Afficher la musique de fond",
