@@ -331,8 +331,6 @@
   "CVAR.General.UseGameMouseCursor.Description": "是否使用游戏的鼠标光标代替操作系统的默认光标。请注意，这是一个全局设置，会影响其他Dalamud插件。如果另一个插件已经更改了此设置，在这里更改可能不会生效。",
   "CVAR.General.ShowInputControlDescriptions.Name": "显示输入字段描述",
   "CVAR.General.ShowInputControlDescriptions.Description": "是否显示输入字段的描述。禁用此功能会改为在输入字段名称上添加工具提示。",
-  "CVAR.General.UseThreadedStyleComputation.Name": "使用多线程渲染",
-  "CVAR.General.UseThreadedStyleComputation.Description": "是否使用多线程计算工具栏和小组件的样式。这将提高性能，但在某些情况下可能不稳定，导致某些元素渲染不准确。如果您遇到任何图形问题，请保持此设置禁用。",
   "CVAR.General.EnableHitchWarnings.Name": "启用控制台中的Umbra卡顿警告",
   "CVAR.General.EnableHitchWarnings.Description": "[调试工具] 是否在Umbra导致轻微游戏卡顿时输出警告记录。这可以帮助您识别性能问题。",
   "CVAR.General.TickHitchThresholdMs.Name": "以毫秒为单位的Tick挂起阈值",

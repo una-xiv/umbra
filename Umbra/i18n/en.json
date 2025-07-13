@@ -331,8 +331,6 @@
   "CVAR.General.UseGameMouseCursor.Description": "Whether to use the game's mouse cursor instead of the OS default cursor. Note that this is a global setting that affects other Dalamud plugins as well. If another plugin already changes this setting, changing it here may have no effect.",
   "CVAR.General.ShowInputControlDescriptions.Name": "Show input field descriptions",
   "CVAR.General.ShowInputControlDescriptions.Description": "Whether to show the descriptions of input fields. Disabling this feature adds tooltips to input field names instead.",
-  "CVAR.General.UseThreadedStyleComputation.Name": "Use threaded style computation",
-  "CVAR.General.UseThreadedStyleComputation.Description": "Whether to use multithreading to compute the style of the toolbar and widgets. This will benefit performance, but may be unstable in some situations, causing some elements to render inaccurately. Keep this setting disabled if you experience any graphical issues.",
   "CVAR.General.EnableHitchWarnings.Name": "Enable Umbra-specific hitch warnings in the console",
   "CVAR.General.EnableHitchWarnings.Description": "[DEBUG TOOL] Whether to log warnings to the console when Umbra causes slight game hitches. This can help you identify performance issues.",
   "CVAR.General.TickHitchThresholdMs.Name": "Tick hitch threshold in milliseconds",

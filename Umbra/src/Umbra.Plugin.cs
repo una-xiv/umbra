@@ -44,6 +44,7 @@ internal sealed class Plugin : IDalamudPlugin
         plugin.Inject(this);
 
         UmbraDrawing.Initialize(plugin);
+        Node.UseThreadedStyleComputation = true;
 
         RegisterServices();
 

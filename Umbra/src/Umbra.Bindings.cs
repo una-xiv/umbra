@@ -21,9 +21,6 @@ internal sealed class UmbraBindings : IDisposable
     [ConfigVariable("General.UiScale", "General", null, 50, 250)]
     public static int UiScale { get; set; } = 100;
 
-    [ConfigVariable("General.UseThreadedStyleComputation", "General")]
-    public static bool UseThreadedStyleComputation { get; set; } = true;
-
     [ConfigVariable("General.UseGameMouseCursor", "General")]
     public static bool UseGameMouseCursor { get; set; } = false;
 
@@ -116,7 +113,6 @@ internal sealed class UmbraBindings : IDisposable
     private void OnTick()
     {
         Node.ScaleFactor = (float)Math.Round(Math.Clamp(UiScale / 100f, 0.5f, 3.0f), 2);
-        Node.UseThreadedStyleComputation = UseThreadedStyleComputation;
 
         Framework.DalamudPlugin.UiBuilder.OverrideGameCursor = !UseGameMouseCursor;
     }

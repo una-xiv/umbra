@@ -26,6 +26,10 @@ public class AuxBarNode : UdtNode
 
     protected override void OnDraw(ImDrawListPtr _)
     {
+        Style.Size = _isVertical 
+            ? new (0, 0) 
+            : new(0, Toolbar.Height);
+        
         foreach (var widget in QuerySelectorAll(".widget-instance")) {
             widget.Style.AutoSize = _isVertical ? (AutoSize.Grow, AutoSize.Fit) : null;
         }

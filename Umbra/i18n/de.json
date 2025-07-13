@@ -331,8 +331,6 @@
   "CVAR.General.UseGameMouseCursor.Description": "Ob der Mauszeiger des Spiels statt des Standardcursors des Betriebssystems verwendet wird. Beachte, dass dies eine globale Einstellung ist, die auch andere Dalamud-Plugins beeinflusst. Wenn ein anderes Plugin diese Einstellung bereits geändert hat, kann eine Änderung hier möglicherweise keine Wirkung haben.",
   "CVAR.General.ShowInputControlDescriptions.Name": "Beschreibungen der Eingabefelder anzeigen",
   "CVAR.General.ShowInputControlDescriptions.Description": "Ob die Beschreibungen der Eingabefelder angezeigt werden sollen. Das Deaktivieren dieser Funktion fügt stattdessen Tooltips zu den Namen der Eingabefelder hinzu.",
-  "CVAR.General.UseThreadedStyleComputation.Name": "Threaded-Style-Berechnung verwenden",
-  "CVAR.General.UseThreadedStyleComputation.Description": "Ob Multithreading zur Berechnung des Stils der Werkzeugleiste und Widgets verwendet werden soll. Dies wird die Leistung verbessern, kann aber in einigen Situationen instabil sein und dazu führen, dass einige Elemente ungenau dargestellt werden. Lasse diese Einstellung deaktiviert, wenn grafische Probleme auftreten.",
   "CVAR.General.EnableHitchWarnings.Name": "Aktiviere umbra-spezifische Hitch-Warnungen in der Konsole",
   "CVAR.General.EnableHitchWarnings.Description": "[DEBUG-WERKZEUG] Ob Warnungen in der Konsole protokolliert werden, wenn Umbra leichte Spielunterbrechungen verursacht. Dies kann helfen Leistungsprobleme zu identifizieren.",
   "CVAR.General.TickHitchThresholdMs.Name": "Tick-Hitch-Schwelle in Millisekunden",

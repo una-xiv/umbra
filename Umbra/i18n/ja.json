@@ -331,8 +331,6 @@
   "CVAR.General.UseGameMouseCursor.Description": "OSのデフォルトカーソルの代わりにゲームのマウスカーソルを使用するかどうか。この設定は他のDalamudプラグインにも影響するグローバルな設定です。他のプラグインが既にこの設定を変更している場合、ここでの変更が反映されないことがあります。",
   "CVAR.General.ShowInputControlDescriptions.Name": "入力フィールドの説明を表示",
   "CVAR.General.ShowInputControlDescriptions.Description": "入力フィールドの説明を表示するかどうか。この機能を無効にすると、代わりに入力フィールド名にツールチップが追加されます。",
-  "CVAR.General.UseThreadedStyleComputation.Name": "スレッド化されたスタイル計算を使用する",
-  "CVAR.General.UseThreadedStyleComputation.Description": "ツールバーやウィジェットのスタイルを計算するためにマルチスレッドを使用するかどうか。これによりパフォーマンスが向上しますが、一部の状況では不安定になり、一部の要素が不正確にレンダリングされる可能性があります。グラフィックの問題が発生した場合は、この設定を無効にしておいてください。",
   "CVAR.General.EnableHitchWarnings.Name": "コンソールでUmbra固有のヒッチ警告を有効にする",
   "CVAR.General.EnableHitchWarnings.Description": "[デバッグツール] Umbraがわずかなゲームヒッチを引き起こしたときに、警告をコンソールに記録するかどうか。これにより、パフォーマンスの問題を特定するのに役立ちます。",
   "CVAR.General.TickHitchThresholdMs.Name": "ミリ秒単位のティックヒッチ閾値",
