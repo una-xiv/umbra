@@ -97,7 +97,8 @@ public static class Framework
 
     public static async Task RunDelayed(double timeoutMilliseconds, Action callback)
     {
-        if (callback == null) throw new ArgumentNullException(nameof(callback));
+        ArgumentNullException.ThrowIfNull(callback);
+        
         if (timeoutMilliseconds < 0) throw new ArgumentOutOfRangeException(nameof(timeoutMilliseconds), "Delay must be non-negative.");
 
         await Task.Delay(TimeSpan.FromMilliseconds(timeoutMilliseconds));

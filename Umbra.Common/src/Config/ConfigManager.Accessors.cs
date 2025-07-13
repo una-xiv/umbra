@@ -75,7 +75,7 @@ public static partial class ConfigManager
 
         if (persist) {
             _debounceTimer?.Dispose();
-            _debounceTimer = new (Persist, null, 1000, Timeout.Infinite);
+            _debounceTimer = new (Persist, null, 100, Timeout.Infinite);
         }
     }
 
