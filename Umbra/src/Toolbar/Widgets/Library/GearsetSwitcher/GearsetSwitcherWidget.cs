@@ -61,10 +61,11 @@ internal sealed partial class GearsetSwitcherWidget(
     {
         JobInfo     job  = Player.GetJobInfo(gearset.JobId);
         JobIconType type = GetConfigValue<JobIconType>("WidgetButtonIconType");
-        
+        string customLabel = GetConfigValue<string>("CustomLabel");
+
         SetGameIconId(job.Icons[type]);
         SetProgressBarValue(job.XpPercent);
-        SetText(gearset.Name);
+        SetText(customLabel != string.Empty ? customLabel : gearset.Name);
         SetSubText(GearsetSwitcherInfoDisplayProvider.GetInfoText(
             GetConfigValue<GearsetSwitcherInfoDisplayType>(gearset.IsMaxLevel ? "InfoTypeMaxLevel" : "InfoType"),
             gearset,

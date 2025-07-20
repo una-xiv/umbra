@@ -883,6 +883,8 @@
   "Widget.GearsetSwitcher.ContextMenu.MoveDown": "下移",
   "Widget.GearsetSwitcher.ContextMenu.Rename": "重命名装备套装",
   "Widget.GearsetSwitcher.ContextMenu.Delete": "删除装备套装",
+  "Widget.GearsetSwitcher.Config.CustomLabel.Name": "自定义标签",
+  "Widget.GearsetSwitcher.Config.CustomLabel.Description": "如果不为空，则输入的文本将用作标签，而不是齿轮组名称。",
   "Widget.GearsetSwitcher.Config.InfoType.Name": "信息类型（未达到最高等级时）",
   "Widget.GearsetSwitcher.Config.InfoType.Description": "在职业未达到最高等级时，作为子标签显示在小部件上的信息类型。",
   "Widget.GearsetSwitcher.Config.InfoTypeMaxLevel.Name": "信息类型（最高等级职业）",
