@@ -883,6 +883,8 @@
   "Widget.GearsetSwitcher.ContextMenu.MoveDown": "Nach unten verschieben",
   "Widget.GearsetSwitcher.ContextMenu.Rename": "Ausrüstungsset umbenennen",
   "Widget.GearsetSwitcher.ContextMenu.Delete": "Ausrüstungsset löschen",
+  "Widget.GearsetSwitcher.Config.CustomLabel.Name": "Benutzerdefiniertes Etikett",
+  "Widget.GearsetSwitcher.Config.CustomLabel.Description": "Wenn nicht leer, wird der eingegebene Text als Etikett anstelle des Ausrüstungssets verwendet.",
   "Widget.GearsetSwitcher.Config.InfoType.Name": "Infotyp (während nicht Max-Level)",
   "Widget.GearsetSwitcher.Config.InfoType.Description": "Die Art der Information, die als Unteretikett auf dem Widget angezeigt werden soll, während der Job nicht auf Max-Level ist.",
   "Widget.GearsetSwitcher.Config.InfoTypeMaxLevel.Name": "Infotyp (für Max-Level-Jobs)",

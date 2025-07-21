@@ -666,6 +666,8 @@
   "Widget.GearsetSwitcher.ContextMenu.MoveDown": "Déplacer vers le bas",
   "Widget.GearsetSwitcher.ContextMenu.Rename": "Renommer l'ensemble d'équipement",
   "Widget.GearsetSwitcher.ContextMenu.Delete": "Supprimer l'ensemble d'équipement",
+  "Widget.GearsetSwitcher.Config.CustomLabel.Name": "Libellé personnalisé",
+  "Widget.GearsetSwitcher.Config.CustomLabel.Description": "Si non vide, le texte saisi sera utilisé comme libellé au lieu du nom de l'ensemble d'équipement.",
   "Widget.GearsetSwitcher.Config.InfoType.Name": "Type d'info (pas au niveau maximum)",
   "Widget.GearsetSwitcher.Config.InfoType.Description": "Le type d'information qui doit être affiché comme sous-étiquette sur le widget lorsque le job n'est pas au niveau maximum.",
   "Widget.GearsetSwitcher.Config.InfoTypeMaxLevel.Name": "Type d'info (pour les jobs au niveau maximum)",

@@ -19,6 +19,14 @@ internal sealed partial class GearsetSwitcherWidget
     private IEnumerable<IWidgetConfigVariable> GetWidgetConfigVariables()
     {
         return [
+            new StringWidgetConfigVariable(
+                "CustomLabel",
+                I18N.Translate("Widget.GearsetSwitcher.Config.CustomLabel.Name"),
+                I18N.Translate("Widget.GearsetSwitcher.Config.CustomLabel.Description"),
+                "",
+                1024,
+                true
+            ),
             new EnumWidgetConfigVariable<JobIconType>(
                 "WidgetButtonIconType",
                 I18N.Translate("Widget.GearsetSwitcher.Config.WidgetButtonIconType.Name"),
