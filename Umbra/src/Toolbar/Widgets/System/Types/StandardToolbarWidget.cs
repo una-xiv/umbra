@@ -232,6 +232,11 @@ public abstract class StandardToolbarWidget(
         MultiLabelTextBottomNode.Style.OutlineColor = outlineColor;
     }
 
+    protected void SetTooltip(string text)
+    {
+        Node.Tooltip = text;
+    }
+
     protected void SetGameIconId(uint iconId)
     {
         IconNode.Style.IconId         = iconId;

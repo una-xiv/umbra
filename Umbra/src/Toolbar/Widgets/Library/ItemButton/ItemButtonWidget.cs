@@ -55,17 +55,21 @@ internal sealed partial class ItemButtonWidget(
         IsVisible = !GetConfigValue<bool>("HideIfNotOwned")
                     || Player.HasItemInInventory(ItemId, 1, GetItemUsage());
 
-        bool showLabel = GetConfigValue<bool>("ShowLabel") && ItemName is not null;
-        bool showCount = GetConfigValue<bool>("ShowCount");
-        int  owned     = Player.GetItemCount(itemId, GetItemUsage());
+        bool showLabel    = GetConfigValue<bool>("ShowLabel") && ItemName is not null;
+        bool showCount    = GetConfigValue<bool>("ShowCount");
+        bool showIconOnly = GetConfigValue<string>("DisplayMode") == DisplayModeIconOnly;
+        int owned         = Player.GetItemCount(itemId, GetItemUsage());
 
-        string name  = showLabel ? ItemName ?? "" : "";
-        string count = showCount ? $"{owned}" : "";
-        string label = showLabel && showCount ? $"{ItemName} x {owned}" : name + count;
+        string name    = showLabel ? ItemName ?? "" : "";
+        string count   = showCount ? $"{owned}" : "";
+        string text    = $"{ItemName} x {owned}";
+        string label   = showLabel && showCount ? text : name + count;
+        string tooltip = showIconOnly || !showLabel || !showCount ? text : "";
 
         SetText(label);
         SetDisabled(!CanUseItem());
         SetGameIconId(IconId ?? 14);
+        SetTooltip(tooltip);
     }
 
     private void UseItem(Node _)
