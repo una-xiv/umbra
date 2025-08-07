@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Umbra.Markers;
+﻿namespace Umbra.Markers;
 
 public interface IUntypedMarkerConfigVariable
 {

@@ -1,7 +1,4 @@
-﻿using Dalamud.Interface;
-using FFXIVClientStructs.FFXIV.Client.UI.Agent;
-using System.Collections.Generic;
-using Umbra.Common;
+﻿using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 
 namespace Umbra.Widgets.Library.DutyRecorderIndicator;
 

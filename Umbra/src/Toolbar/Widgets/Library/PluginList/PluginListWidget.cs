@@ -14,15 +14,10 @@
  *     GNU Affero General Public License for more details.
  */
 
-using Dalamud.Interface;
 using Dalamud.Plugin;
-using ImGuiNET;
+
 using Lumina.Misc;
-using System;
-using System.Collections.Generic;
 using System.Collections.Immutable;
-using Umbra.Common;
-using Umbra.Game;
 
 namespace Umbra.Widgets;
 

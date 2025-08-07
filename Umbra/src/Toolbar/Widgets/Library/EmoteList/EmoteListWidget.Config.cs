@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using Umbra.Common;
-
-namespace Umbra.Widgets.Library.EmoteList;
+﻿namespace Umbra.Widgets.Library.EmoteList;
 
 internal sealed partial class EmoteListWidget
 {

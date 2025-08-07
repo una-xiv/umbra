@@ -1,10 +1,6 @@
 ﻿using FFXIVClientStructs.FFXIV.Component.GUI;
 using Lumina.Excel.Sheets;
-using System;
-using System.Linq;
-using Umbra.Common;
 using Umbra.Game.Societies;
-using Una.Drawing;
 
 namespace Umbra.Widgets.Library.Societies;
 

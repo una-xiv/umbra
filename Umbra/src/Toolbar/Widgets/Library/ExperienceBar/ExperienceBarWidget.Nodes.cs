@@ -1,6 +1,4 @@
 ﻿using Dalamud.Game.Text;
-using Dalamud.Interface;
-using Una.Drawing;
 
 namespace Umbra.Widgets;
 

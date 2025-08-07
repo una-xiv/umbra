@@ -1,11 +1,4 @@
-﻿using Dalamud.Plugin.Services;
-using FFXIVClientStructs.FFXIV.Client.Game;
-using Lumina.Excel.Sheets;
-using System;
-using System.Collections.Generic;
-using Umbra.Common;
-
-namespace Umbra.Game.Retainer;
+﻿namespace Umbra.Game.Retainer;
 
 [Service]
 internal unsafe class RetainerRepository(

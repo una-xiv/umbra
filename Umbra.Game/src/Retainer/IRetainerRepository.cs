@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Umbra.Game.Retainer;
+﻿namespace Umbra.Game.Retainer;
 
 public interface IRetainerRepository
 {

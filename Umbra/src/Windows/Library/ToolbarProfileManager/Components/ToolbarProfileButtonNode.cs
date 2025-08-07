@@ -1,5 +1,4 @@
-﻿using ImGuiNET;
-using Umbra.Common;
+﻿
 using Umbra.Widgets.System;
 using Umbra.Windows.Dialogs;
 using Umbra.Windows.Settings.Modules;

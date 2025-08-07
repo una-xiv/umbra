@@ -1,7 +1,4 @@
-﻿using Umbra.Common;
-using Umbra.Game;
-using Umbra.Windows.Components;
-using Umbra.Windows.Settings;
+﻿using Umbra.Windows.Settings;
 
 namespace Umbra.Windows.Library.Installer;
 

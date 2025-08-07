@@ -1,7 +1,4 @@
-﻿using System;
-using Umbra.Common;
-
-namespace Umbra.Markers;
+﻿namespace Umbra.Markers;
 
 public abstract class MarkerConfigVariable<T>(string id, string name, string? description, T defaultValue)
     : IMarkerConfigVariable, IUntypedMarkerConfigVariable, IDisposable

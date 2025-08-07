@@ -1,9 +1,5 @@
-﻿using ImGuiNET;
-using System;
-using System.Numerics;
-using Umbra.Common;
+﻿
 using Umbra.Common.Extensions;
-using Una.Drawing;
 
 namespace Umbra.Windows.Components;
 
@@ -63,9 +59,9 @@ public class ColorInputPopupNode : Node
                                     | ImGuiColorEditFlags.NoSidePreview
                                     | ImGuiColorEditFlags.NoSmallPreview
                                     | ImGuiColorEditFlags.NoTooltip
-                                    | ImGuiColorEditFlags.InputRGB;
+                                    | ImGuiColorEditFlags.InputRgb;
 
-        flags &= ~ImGuiColorEditFlags.DisplayHSV;
+        flags &= ~ImGuiColorEditFlags.DisplayHsv;
         flags &= ~ImGuiColorEditFlags.DisplayHex;
 
         ImGui.SetNextItemWidth(250);

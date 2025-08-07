@@ -1,6 +1,3 @@
-using Lumina.Excel.Sheets;
-using System.Collections.Generic;
-
 namespace Umbra.Game;
 
 public class JobInfo(ClassJob cj)

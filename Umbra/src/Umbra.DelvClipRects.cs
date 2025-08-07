@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Numerics;
-using Umbra.Common;
-
-namespace Umbra;
+﻿namespace Umbra;
 
 /// <summary>
 /// Manages a shared clip region collection for DelvUI that ensures that DelvUI

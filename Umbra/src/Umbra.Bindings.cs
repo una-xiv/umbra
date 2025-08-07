@@ -1,14 +1,9 @@
 ﻿using Dalamud.Game.Text.SeStringHandling;
-using Dalamud.Plugin.Services;
-using System;
-using System.Linq;
 using Umbra.AuxBar;
-using Umbra.Common;
 using Umbra.Widgets.System;
 using Umbra.Windows;
 using Umbra.Windows.Library.Installer;
 using Umbra.Windows.Settings;
-using Una.Drawing;
 
 namespace Umbra;
 

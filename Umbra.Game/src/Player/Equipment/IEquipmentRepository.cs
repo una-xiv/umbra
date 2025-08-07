@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Umbra.Game;
+﻿namespace Umbra.Game;
 
 public interface IEquipmentRepository
 {

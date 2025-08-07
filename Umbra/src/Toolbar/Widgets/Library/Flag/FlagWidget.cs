@@ -1,10 +1,5 @@
-﻿using Dalamud.Plugin.Services;
-using FFXIVClientStructs.FFXIV.Client.Game.UI;
+﻿using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
-using System;
-using System.Collections.Generic;
-using Umbra.Common;
-using Umbra.Game;
 
 namespace Umbra.Widgets;
 
@@ -48,7 +43,7 @@ internal sealed unsafe partial class FlagWidget(
 
     protected override void OnDraw()
     {
-        if (!AgentMap.Instance()->IsFlagMarkerSet) {
+        if (AgentMap.Instance()->FlagMarkerCount == 0) {
             IsVisible = false;
             return;
         }
@@ -58,9 +53,9 @@ internal sealed unsafe partial class FlagWidget(
         SetDisabled(Player is { IsBoundByDuty: false, CanUseTeleportAction: false });
         UpdateWidgetInfoState();
 
-        FlagMapMarker* marker = &AgentMap.Instance()->FlagMapMarker;
+        FlagMapMarker marker = AgentMap.Instance()->FlagMapMarkers[0];
 
-        SetGameIconId(marker->MapMarker.IconId);
+        SetGameIconId(marker.MapMarker.IconId);
         SetText($"{_zoneName}{(_aetheryteName is null ? "" : $" <{_flagCoords}>")}");
         SetSubText(_aetheryteName ?? $"<{_flagCoords}>");
     }
@@ -97,7 +92,7 @@ internal sealed unsafe partial class FlagWidget(
     private static void OnRightClick()
     {
         if (!IsFlagMarkerSet()) return;
-        AgentMap.Instance()->IsFlagMarkerSet = false;
+        AgentMap.Instance()->FlagMarkerCount = 0;
     }
 
     private void Broadcast()

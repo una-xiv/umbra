@@ -1,12 +1,6 @@
-﻿using Dalamud.Plugin.Services;
-using Dalamud.Utility;
+﻿using Dalamud.Utility;
 using FFXIVClientStructs.FFXIV.Client.UI;
 using Lumina.Excel.Sheets;
-using System;
-using System.Collections.Generic;
-using Umbra.Common;
-using Umbra.Game;
-using Una.Drawing;
 
 namespace Umbra.Widgets.Library.UnifiedMainMenu;
 

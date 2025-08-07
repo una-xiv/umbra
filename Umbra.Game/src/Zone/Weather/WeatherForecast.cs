@@ -1,5 +1,3 @@
-using System;
-
 namespace Umbra.Game;
 
 public class WeatherForecast(DateTime time, string timeString, string name, uint iconId)

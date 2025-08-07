@@ -1,14 +1,8 @@
 ﻿using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.Interface.Textures.TextureWraps;
 using Dalamud.Interface.Utility;
-using ImGuiNET;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
+
 using System.Threading.Tasks;
-using Umbra.Common;
-using Una.Drawing;
 using Una.Drawing.Texture;
 
 namespace Umbra.Windows.FaIconPicker;
@@ -119,7 +113,7 @@ public class BitmapIconGridNode : Node
             Vector2 s1     = new(center.X - (size.X / 2), center.Y - (size.Y / 2));
             Vector2 s2     = new(center.X + (size.X / 2), center.Y + (size.Y / 2));
 
-            drawList.AddImage(wrap.ImGuiHandle, s1, s2);
+            drawList.AddImage(wrap.Handle, s1, s2);
         }
 
         if (icon == Selected) {

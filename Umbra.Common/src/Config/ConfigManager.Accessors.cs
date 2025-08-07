@@ -14,9 +14,7 @@
  *     GNU Affero General Public License for more details.
  */
 
-using System;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace Umbra.Common;
 

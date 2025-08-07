@@ -1,8 +1,4 @@
-﻿using System;
-using Umbra.Common;
-using Una.Drawing;
-
-namespace Umbra.Widgets;
+﻿namespace Umbra.Widgets;
 
 public sealed class ContextMenuEntry(string? id) : IDisposable
 {

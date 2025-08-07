@@ -1,6 +1,4 @@
-﻿using Umbra.Common;
-
-namespace Umbra;
+﻿namespace Umbra;
 
 internal partial class Toolbar
 {

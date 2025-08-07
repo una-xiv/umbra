@@ -1,7 +1,4 @@
 ﻿using Dalamud.Game.ClientState.Conditions;
-using Dalamud.Plugin.Services;
-using Umbra.Common;
-using Umbra.Game;
 
 namespace Umbra;
 

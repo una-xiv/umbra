@@ -1,6 +1,4 @@
-﻿using Umbra.Common;
-
-namespace Umbra.Game;
+﻿namespace Umbra.Game;
 
 public enum JobIconType : byte
 {

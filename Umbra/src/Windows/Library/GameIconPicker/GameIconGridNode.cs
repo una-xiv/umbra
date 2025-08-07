@@ -1,12 +1,6 @@
 ﻿using Dalamud.Interface.Textures.TextureWraps;
 using Dalamud.Interface.Utility;
-using Dalamud.Plugin.Services;
-using ImGuiNET;
-using System;
-using System.Collections.Generic;
-using System.Numerics;
-using Umbra.Common;
-using Una.Drawing;
+
 
 namespace Umbra.Windows.GameIconPicker;
 
@@ -72,7 +66,7 @@ public class GameIconGridNode : Node
 
         if (TextureProvider.TryGetFromGameIcon(new(iconId), out var texture) && texture.TryGetWrap(out IDalamudTextureWrap? wrap, out Exception? _)) {
             drawList.AddImageRounded(
-                wrap.ImGuiHandle,
+                wrap.Handle,
                 p3,
                 p4,
                 Vector2.Zero,

@@ -14,10 +14,6 @@
  *     GNU Affero General Public License for more details.
  */
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
 namespace Umbra.Common;
 
 [AttributeUsage(AttributeTargets.Property)]

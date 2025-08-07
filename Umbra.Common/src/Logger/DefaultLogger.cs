@@ -14,10 +14,8 @@
  *     GNU Affero General Public License for more details.
  */
 
-using System;
 using System.Diagnostics;
 using Dalamud.Game.Text.SeStringHandling;
-using Dalamud.Plugin.Services;
 
 namespace Umbra.Common;
 

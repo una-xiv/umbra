@@ -1,5 +1,4 @@
 ﻿using FFXIVClientStructs.FFXIV.Component.GUI;
-using Umbra.Common;
 
 namespace Umbra.Widgets;
 
@@ -17,7 +16,7 @@ internal unsafe partial class DtrBarWidget
 
     private void SetNativeServerInfoBarVisibility(bool isVisible)
     {
-        var dtrBar = (AtkUnitBase*) _gameGui!.GetAddonByName("_DTR");
+        var dtrBar = (AtkUnitBase*) _gameGui!.GetAddonByName("_DTR").Address;
         if (dtrBar != null && dtrBar->IsVisible != isVisible) {
             dtrBar->IsVisible = isVisible;
         }

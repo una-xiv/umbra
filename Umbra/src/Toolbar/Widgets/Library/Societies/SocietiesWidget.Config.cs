@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using Umbra.Common;
-
-namespace Umbra.Widgets.Library.Societies;
+﻿namespace Umbra.Widgets.Library.Societies;
 
 internal sealed partial class SocietiesWidget
 {

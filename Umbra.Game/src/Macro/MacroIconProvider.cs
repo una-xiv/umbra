@@ -1,10 +1,9 @@
-﻿using Dalamud.Plugin.Services;
-using Dalamud.Utility.Signatures;
+﻿using Dalamud.Utility.Signatures;
 using FFXIVClientStructs.FFXIV.Client.UI;
 using FFXIVClientStructs.FFXIV.Client.UI.Misc;
 using FFXIVClientStructs.FFXIV.Client.UI.Shell;
-using Lumina.Excel.Sheets;
-using Umbra.Common;
+using Action = Lumina.Excel.Sheets.Action;
+using FieldMarker = Lumina.Excel.Sheets.FieldMarker;
 
 namespace Umbra.Game.Macro;
 

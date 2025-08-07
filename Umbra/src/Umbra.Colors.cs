@@ -14,16 +14,11 @@
  *     GNU Affero General Public License for more details.
  */
 
-using System;
-using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
-using System.Linq;
 using System.Text;
 using System.Timers;
 using Newtonsoft.Json;
-using Umbra.Common;
-using Una.Drawing;
 
 namespace Umbra;
 

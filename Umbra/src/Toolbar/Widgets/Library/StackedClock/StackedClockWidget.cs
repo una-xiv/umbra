@@ -1,8 +1,5 @@
 ﻿using Dalamud.Game.Text;
-using System;
-using System.Collections.Generic;
 using System.Globalization;
-using Umbra.Common;
 
 namespace Umbra.Widgets.Library.StackedClock;
 

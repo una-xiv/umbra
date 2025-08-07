@@ -1,5 +1,4 @@
 ﻿using Dalamud.Plugin;
-using System.Collections.Generic;
 
 namespace Umbra.Widgets;
 

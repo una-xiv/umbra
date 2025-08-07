@@ -1,9 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Numerics;
-using Umbra.Common;
-using Umbra.Game;
-
-namespace Umbra.Widgets;
+﻿namespace Umbra.Widgets;
 
 [ToolbarWidget(
     "Coordinates",

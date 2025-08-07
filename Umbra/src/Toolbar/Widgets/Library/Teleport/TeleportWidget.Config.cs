@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using Umbra.Common;
-using Umbra.Widgets.Popup;
+﻿using Umbra.Widgets.Popup;
 
 namespace Umbra.Widgets;
 

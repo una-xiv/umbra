@@ -1,7 +1,4 @@
-﻿using Dalamud.Interface;
-using System;
-
-namespace Umbra.Widgets;
+﻿namespace Umbra.Widgets;
 
 public class FaIconWidgetConfigVariable(string id, string name, string? description, FontAwesomeIcon defaultValue)
     : WidgetConfigVariable<FontAwesomeIcon>(id, name, description, defaultValue)

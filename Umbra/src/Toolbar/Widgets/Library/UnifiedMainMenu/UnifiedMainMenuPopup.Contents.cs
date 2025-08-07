@@ -1,9 +1,5 @@
 ﻿using Dalamud.Game.Text;
 using Dalamud.Game.Text.SeStringHandling;
-using Dalamud.Interface;
-using Umbra.Common;
-using Umbra.Game;
-using Una.Drawing;
 
 namespace Umbra.Widgets.Library.UnifiedMainMenu;
 

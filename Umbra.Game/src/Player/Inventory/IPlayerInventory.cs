@@ -5,7 +5,7 @@ public interface IPlayerInventory
     /// <summary>
     /// Returns the amount of occupied inventory space for the given inventory type.
     /// </summary>
-    public uint GetOccupiedInventorySpace(PlayerInventoryType type);
+    public int GetOccupiedInventorySpace(PlayerInventoryType type);
 
     /// <summary>
     /// Returns the total amount of inventory space for the given inventory type.
@@ -15,5 +15,5 @@ public interface IPlayerInventory
     /// the moment. This is especially the case for saddlebags when the player
     /// does not have access to them.
     /// </remarks>
-    public uint GetTotalInventorySpace(PlayerInventoryType type);
+    public int GetTotalInventorySpace(PlayerInventoryType type);
 }

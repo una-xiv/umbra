@@ -1,11 +1,6 @@
-﻿using Dalamud.Interface;
-using ImGuiNET;
-using System;
-using System.Collections.Generic;
-using Umbra.Common;
+﻿
 using Umbra.Common.Extensions;
 using Umbra.Windows.Library.ScriptHelp;
-using Una.Drawing;
 
 namespace Umbra.Windows.Components;
 
@@ -23,7 +18,7 @@ public class StringInputNode : ImGuiInputNode
         }
     }
 
-    public uint MaxLength { get; set; }
+    public int MaxLength { get; set; }
 
     public bool Immediate { get; set; }
     
@@ -34,7 +29,7 @@ public class StringInputNode : ImGuiInputNode
     public StringInputNode(
         string  id,
         string  value,
-        uint    maxLength,
+        int    maxLength,
         string? label       = null,
         string? description = null,
         int     leftMargin  = 36,

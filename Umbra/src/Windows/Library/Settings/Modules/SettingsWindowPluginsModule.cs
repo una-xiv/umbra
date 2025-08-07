@@ -1,16 +1,9 @@
 ﻿using Dalamud.Interface.ImGuiFileDialog;
-using ImGuiNET;
+
 using Lumina.Misc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
 using System.Threading.Tasks;
-using Umbra.Common;
 using Umbra.Plugins;
 using Umbra.Plugins.Repository;
-using Umbra.Windows.Components;
-using Una.Drawing;
 using Color = Una.Drawing.Color;
 using PluginEntry = Umbra.Plugins.Repository.PluginEntry;
 

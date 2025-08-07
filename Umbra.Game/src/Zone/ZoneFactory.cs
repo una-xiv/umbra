@@ -1,8 +1,4 @@
-using System;
-using System.Collections.Generic;
-using Dalamud.Plugin.Services;
-using Lumina.Excel.Sheets;
-using Umbra.Common;
+using Map = Lumina.Excel.Sheets.Map;
 
 namespace Umbra.Game;
 

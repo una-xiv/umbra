@@ -1,9 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Umbra.Common;
-using Umbra.Game;
-
-namespace Umbra.Markers.Library;
+﻿namespace Umbra.Markers.Library;
 
 [Service]
 public sealed class MapLinkMarkerFactory(IZoneManager zoneManager) : WorldMarkerFactory

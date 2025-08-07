@@ -1,6 +1,4 @@
-﻿using Umbra.Common;
-
-namespace Umbra.Game.Script;
+﻿namespace Umbra.Game.Script;
 
 [Service]
 internal class ZoneDistrictPlaceholder(IZoneManager zoneManager) : ScriptPlaceholder(

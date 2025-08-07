@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Numerics;
-
-namespace Umbra.Markers.Library;
+﻿namespace Umbra.Markers.Library;
 
 internal sealed partial class OccultCoffersMarkerFactory
 {

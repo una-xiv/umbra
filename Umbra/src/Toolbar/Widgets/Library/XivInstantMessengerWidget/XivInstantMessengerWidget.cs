@@ -1,10 +1,4 @@
-﻿using Dalamud.Plugin.Services;
-using System;
-using System.Collections.Generic;
-using Umbra.Common;
-using Una.Drawing;
-
-namespace Umbra.Widgets.Library.XIVInstantMessengerWidget;
+﻿namespace Umbra.Widgets.Library.XIVInstantMessengerWidget;
 
 [InteropToolbarWidget(
     "XIVInstantMessengerWidget",

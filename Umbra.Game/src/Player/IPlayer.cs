@@ -14,8 +14,6 @@
  *     GNU Affero General Public License for more details.
  */
 
-using FFXIVClientStructs.FFXIV.Client.Game;
-using System.Collections.Generic;
 using System.Numerics;
 using Umbra.Game.Inventory;
 using Umbra.Game.Societies;

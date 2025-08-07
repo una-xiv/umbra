@@ -1,9 +1,6 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using Dalamud.Plugin.Services;
+﻿using System.IO;
 using Dalamud.Utility;
 using Lumina.Data.Files;
-using Umbra.Common;
 
 namespace Umbra.Widgets;
 

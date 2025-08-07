@@ -1,10 +1,4 @@
-﻿using System.Collections.Generic;
-using Dalamud.Plugin.Services;
-using Umbra.Common;
-using Umbra.Game;
-using Una.Drawing;
-
-namespace Umbra.Widgets;
+﻿namespace Umbra.Widgets;
 
 [ToolbarWidget(
     "DtrBar",

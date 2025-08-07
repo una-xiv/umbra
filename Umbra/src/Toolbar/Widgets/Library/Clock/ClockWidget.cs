@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using Dalamud.Game.Text;
+﻿using Dalamud.Game.Text;
 using Dalamud.Utility;
-using Umbra.Common;
-using Una.Drawing;
 
 namespace Umbra.Widgets;
 

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Umbra.Windows.Library.VariableEditor;
+﻿namespace Umbra.Windows.Library.VariableEditor;
 
 public sealed class StringSelectVariable(string id) : Variable(id), IDisposable
 {

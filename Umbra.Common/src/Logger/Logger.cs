@@ -14,7 +14,6 @@
  *     GNU Affero General Public License for more details.
  */
 
-using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace Umbra.Common;

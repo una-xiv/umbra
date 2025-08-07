@@ -1,6 +1,4 @@
-﻿using ImGuiNET;
-using System.Linq;
-using Umbra.Common;
+﻿
 using Umbra.Widgets.Library.ShortcutPanel.Providers;
 using Umbra.Widgets.Library.ShortcutPanel.Windows;
 using Umbra.Windows;

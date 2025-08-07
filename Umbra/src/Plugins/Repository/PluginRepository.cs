@@ -1,8 +1,4 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using Umbra.Common;
 
 namespace Umbra.Plugins.Repository;
 

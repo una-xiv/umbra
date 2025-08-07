@@ -1,9 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Umbra.Common;
-using Umbra.Game;
-using Umbra.Widgets.Popup;
-using Una.Drawing;
+﻿using Umbra.Widgets.Popup;
 
 namespace Umbra.Widgets;
 

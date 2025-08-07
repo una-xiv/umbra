@@ -1,6 +1,4 @@
-﻿using Una.Drawing;
-
-namespace Umbra.Widgets.Library.Societies;
+﻿namespace Umbra.Widgets.Library.Societies;
 
 internal sealed partial class SocietiesWidgetPopup
 {

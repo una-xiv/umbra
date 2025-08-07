@@ -1,8 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
-using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using FFXIVClientStructs.FFXIV.Client.UI.Info;
-using Umbra.Common;
 
 namespace Umbra.Widgets;
 

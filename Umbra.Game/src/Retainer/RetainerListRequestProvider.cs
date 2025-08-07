@@ -1,7 +1,4 @@
-﻿using Dalamud.Plugin.Services;
-using Dalamud.Utility.Signatures;
-using FFXIVClientStructs.FFXIV.Client.Game;
-using Umbra.Common;
+﻿using Dalamud.Utility.Signatures;
 
 namespace Umbra.Game.Retainer;
 

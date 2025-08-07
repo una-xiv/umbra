@@ -1,6 +1,4 @@
 ﻿using Dalamud.Plugin.Ipc;
-using System.Collections.Generic;
-using Umbra.Common;
 
 namespace Umbra.Widgets.Library.XIVInstantMessengerWidget;
 

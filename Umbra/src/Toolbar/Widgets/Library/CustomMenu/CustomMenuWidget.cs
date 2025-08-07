@@ -1,9 +1,5 @@
-﻿using Dalamud.Plugin.Services;
-using Dalamud.Utility;
-using System.Collections.Generic;
+﻿using Dalamud.Utility;
 using System.Globalization;
-using Umbra.Common;
-using Umbra.Game;
 
 namespace Umbra.Widgets;
 

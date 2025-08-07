@@ -1,10 +1,5 @@
 ﻿using Dalamud.Game.ClientState.Objects.Enums;
 using Dalamud.Game.ClientState.Objects.Types;
-using Dalamud.Plugin.Services;
-using System.Collections.Generic;
-using Umbra.Common;
-using Umbra.Game;
-
 using TreasureObject = FFXIVClientStructs.FFXIV.Client.Game.Object.Treasure;
 
 namespace Umbra.Markers.Library;

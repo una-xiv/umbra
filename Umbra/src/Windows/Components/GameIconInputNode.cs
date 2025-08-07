@@ -1,6 +1,4 @@
-﻿using System;
-using Umbra.Common;
-using Umbra.Windows.GameIconPicker;
+﻿using Umbra.Windows.GameIconPicker;
 
 namespace Umbra.Windows.Components;
 

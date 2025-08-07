@@ -1,9 +1,5 @@
-﻿using ImGuiNET;
-using System;
-using System.Numerics;
-using Umbra.Common;
+﻿
 using Umbra.Common.Extensions;
-using Una.Drawing;
 
 namespace Umbra.Windows.Components;
 

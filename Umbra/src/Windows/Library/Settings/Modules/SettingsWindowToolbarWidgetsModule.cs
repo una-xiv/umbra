@@ -1,9 +1,6 @@
 ﻿using Umbra.AuxBar;
-using Umbra.Common;
-using Umbra.Windows.Components;
 using Umbra.Windows.Library.ToolbarProfileManager;
 using Umbra.Windows.Settings.Components;
-using Una.Drawing;
 
 namespace Umbra.Windows.Settings.Modules;
 

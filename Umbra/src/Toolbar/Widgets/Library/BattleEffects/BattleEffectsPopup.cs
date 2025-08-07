@@ -1,10 +1,4 @@
-﻿using System.Collections.Generic;
-using Dalamud.Plugin.Services;
-using Umbra.Common;
-using Umbra.Windows.Components;
-using Una.Drawing;
-
-namespace Umbra.Widgets;
+﻿namespace Umbra.Widgets;
 
 internal partial class BattleEffectsPopup : WidgetPopup
 {

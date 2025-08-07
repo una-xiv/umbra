@@ -1,12 +1,7 @@
 ﻿using Dalamud.Interface.ImGuiNotification;
-using Dalamud.Plugin.Services;
-using ImGuiNET;
+
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
 using System.Text;
-using Umbra.Common;
-using Umbra.Game;
 
 namespace Umbra.Widgets.System;
 

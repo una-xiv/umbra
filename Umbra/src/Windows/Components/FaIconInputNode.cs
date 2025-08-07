@@ -1,10 +1,6 @@
-﻿using Dalamud.Interface;
-using System;
-using ImGuiNET;
-using Umbra.Common;
+﻿
 using Umbra.Windows.FaIconPicker;
 // using Umbra.Windows.Library.IconPicker;
-using Una.Drawing;
 using Una.Drawing.Templating.StyleParser;
 
 namespace Umbra.Windows.Components;

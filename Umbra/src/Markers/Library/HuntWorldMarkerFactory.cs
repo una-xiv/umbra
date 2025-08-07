@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Dalamud.Plugin.Services;
-using FFXIVClientStructs.FFXIV.Client.Game.Character;
+﻿using FFXIVClientStructs.FFXIV.Client.Game.Character;
 using Lumina.Excel.Sheets;
-using Umbra.Common;
-using Umbra.Game;
 
 namespace Umbra.Markers.Library;
 

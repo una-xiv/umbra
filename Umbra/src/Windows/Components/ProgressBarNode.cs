@@ -1,8 +1,4 @@
-﻿using System;
-using Umbra.Common;
-using Una.Drawing;
-
-namespace Umbra.Windows.Components;
+﻿namespace Umbra.Windows.Components;
 
 public class ProgressBarNode : Node
 {

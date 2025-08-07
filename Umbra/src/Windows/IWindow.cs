@@ -1,7 +1,4 @@
-﻿using System;
-using System.Numerics;
-
-namespace Umbra.Windows;
+﻿namespace Umbra.Windows;
 
 public interface IWindow : IDisposable
 {

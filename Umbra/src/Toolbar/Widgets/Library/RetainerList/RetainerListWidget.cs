@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using Umbra.Common;
-using Umbra.Game;
-
-namespace Umbra.Widgets.Library.RetainerList;
+﻿namespace Umbra.Widgets.Library.RetainerList;
 
 [ToolbarWidget("RetainerList", "Widget.RetainerList.Name", "Widget.RetainerList.Description", ["retainer", "sales", "marketboard", "ventures"])]
 internal sealed partial class RetainerListWidget(

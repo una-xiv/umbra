@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Umbra.Common;
+﻿namespace Umbra.Common;
 
 /// <summary>
 /// Denotes a field in an enum that should be translated.

@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Umbra.Common;
-
-namespace Umbra.Widgets.Library.ShortcutPanel.Providers;
+﻿namespace Umbra.Widgets.Library.ShortcutPanel.Providers;
 
 [Service]
 internal sealed class ShortcutProviderRepository

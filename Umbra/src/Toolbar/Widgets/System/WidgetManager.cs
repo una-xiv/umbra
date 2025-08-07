@@ -1,12 +1,6 @@
-﻿using ImGuiNET;
+﻿
 using Lumina.Misc;
-using System;
-using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Linq;
-using Umbra.Common;
-using Umbra.Game;
-using Una.Drawing;
 
 namespace Umbra.Widgets.System;
 

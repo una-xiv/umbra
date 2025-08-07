@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Umbra.Game.CustomDeliveries;
+﻿namespace Umbra.Game.CustomDeliveries;
 
 public interface ICustomDeliveriesRepository
 {

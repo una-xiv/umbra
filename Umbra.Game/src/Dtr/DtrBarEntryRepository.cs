@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Dalamud.Plugin.Services;
-using Umbra.Common;
-
-namespace Umbra.Game;
+﻿namespace Umbra.Game;
 
 [Service]
 public class DtrBarEntryRepository(IDtrBar dtrBar) : IDtrBarEntryRepository

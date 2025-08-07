@@ -1,7 +1,4 @@
-﻿using Dalamud.Interface;
-using FFXIVClientStructs.FFXIV.Client.Game.Control;
-using System.Collections.Generic;
-using Umbra.Common;
+﻿using FFXIVClientStructs.FFXIV.Client.Game.Control;
 
 namespace Umbra.Widgets;
 

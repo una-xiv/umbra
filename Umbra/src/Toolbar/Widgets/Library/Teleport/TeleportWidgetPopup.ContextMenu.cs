@@ -1,8 +1,5 @@
-using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
-using Umbra.Common;
-using Umbra.Game;
 
 namespace Umbra.Widgets;
 

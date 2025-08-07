@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Umbra.Widgets.Library.ShortcutPanel.Providers;
+﻿namespace Umbra.Widgets.Library.ShortcutPanel.Providers;
 
 public abstract class AbstractShortcutProvider
 {

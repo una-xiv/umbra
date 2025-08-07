@@ -1,11 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using Dalamud.Game.ClientState.Aetherytes;
+﻿using Dalamud.Game.ClientState.Aetherytes;
 using Dalamud.Utility;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
-using Umbra.Common;
-using Umbra.Game;
 
 namespace Umbra.Widgets;
 
@@ -23,7 +18,7 @@ internal unsafe partial class FlagWidget
     {
         AgentMap* agentMap = AgentMap.Instance();
 
-        return null != agentMap && agentMap->IsFlagMarkerSet;
+        return null != agentMap && agentMap->FlagMarkerCount != 0;
     }
 
     private void UpdateWidgetInfoState()
@@ -35,18 +30,18 @@ internal unsafe partial class FlagWidget
         if (map == null) return;
 
         var cacheKey =
-            $"{ZoneManager.CurrentZone.Id}_{map->FlagMapMarker.MapId}_{map->FlagMapMarker.XFloat}_{map->FlagMapMarker.YFloat}";
+            $"{ZoneManager.CurrentZone.Id}_{map->FlagMapMarkers[0].MapId}_{map->FlagMapMarkers[0].XFloat}_{map->FlagMapMarkers[0].YFloat}";
 
         if (_aetheryteKey == cacheKey) return;
 
-        IZone   zone = ZoneManager.GetZone(map->FlagMapMarker.MapId);
-        Vector2 pos  = MapUtil.WorldToMap(new(map->FlagMapMarker.XFloat, map->FlagMapMarker.YFloat), zone.MapSheet);
+        IZone   zone = ZoneManager.GetZone(map->FlagMapMarkers[0].MapId);
+        Vector2 pos  = MapUtil.WorldToMap(new(map->FlagMapMarkers[0].XFloat, map->FlagMapMarkers[0].YFloat), zone.MapSheet);
 
         _aetheryteKey = cacheKey;
         _zoneName     = $"{zone.Name}";
         _flagCoords   = $"{I18N.FormatNumber(pos.X)}, {I18N.FormatNumber(pos.Y)}";
 
-        var flagPos2D = new Vector2(map->FlagMapMarker.XFloat, map->FlagMapMarker.YFloat);
+        var flagPos2D = new Vector2(map->FlagMapMarkers[0].XFloat, map->FlagMapMarkers[0].YFloat);
 
         // Find all Aetheryte markers in the current zone.
         List<ZoneMarker> aetherytes = zone

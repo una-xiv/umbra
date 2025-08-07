@@ -1,11 +1,4 @@
-﻿using System.Collections.Generic;
-using Dalamud.Interface;
-using Dalamud.Plugin.Services;
-using Umbra.Common;
-using Umbra.Windows.Components;
-using Una.Drawing;
-
-namespace Umbra.Widgets;
+﻿namespace Umbra.Widgets;
 
 internal sealed class VolumeWidgetPopup : WidgetPopup
 {

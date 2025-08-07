@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Umbra.Common;
-using Umbra.Game;
-using Una.Drawing;
-
-namespace Umbra.Widgets.Popup;
+﻿namespace Umbra.Widgets.Popup;
 
 internal sealed partial class GearsetSwitcherPopup
 {

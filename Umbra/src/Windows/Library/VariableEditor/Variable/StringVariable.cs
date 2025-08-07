@@ -1,10 +1,8 @@
-﻿using System;
-
-namespace Umbra.Windows.Library.VariableEditor;
+﻿namespace Umbra.Windows.Library.VariableEditor;
 
 public sealed class StringVariable(string id) : Variable(id), IDisposable
 {
-    public uint MaxLength         { get; set; } = 255;
+    public int MaxLength         { get; set; } = 255;
     public bool SupportsScripting { get; set; } = false;
 
     public string Value {

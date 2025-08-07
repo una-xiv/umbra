@@ -1,6 +1,4 @@
-﻿using Umbra.Common;
-
-namespace Umbra.Widgets.Popup;
+﻿namespace Umbra.Widgets.Popup;
 
 public enum PopupDisplayMode
 {

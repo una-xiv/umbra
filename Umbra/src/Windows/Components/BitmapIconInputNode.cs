@@ -1,8 +1,6 @@
 ﻿using Dalamud.Game.Text;
 using Dalamud.Game.Text.SeStringHandling;
-using ImGuiNET;
-using System;
-using Umbra.Common;
+
 using Umbra.Windows.FaIconPicker;
 using Umbra.Windows.GameGlyphPicker;
 

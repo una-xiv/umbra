@@ -1,6 +1,4 @@
-﻿using Una.Drawing;
-
-namespace Umbra.Widgets;
+﻿namespace Umbra.Widgets;
 
 internal partial class TeleportWidgetPopup : WidgetPopup
 {

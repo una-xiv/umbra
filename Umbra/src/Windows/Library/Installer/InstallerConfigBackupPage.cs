@@ -1,7 +1,4 @@
-﻿using Umbra.Common;
-using Umbra.Windows.Components;
-
-namespace Umbra.Windows.Library.Installer;
+﻿namespace Umbra.Windows.Library.Installer;
 
 internal class InstallerConfigBackupPage : InstallerPage
 {

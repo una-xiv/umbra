@@ -1,9 +1,4 @@
-﻿using Dalamud.Interface;
-using System.Collections.Generic;
-using Umbra.Common;
-using Umbra.Game;
-
-namespace Umbra.Widgets.Library.SanctuaryIndicator;
+﻿namespace Umbra.Widgets.Library.SanctuaryIndicator;
 
 [ToolbarWidget(
     "SanctuaryIndicator",

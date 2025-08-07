@@ -1,8 +1,4 @@
-﻿using Dalamud.Interface;
-using Dalamud.Plugin.Services;
-using System.Collections.Generic;
-using Umbra.Common;
-using Umbra.Widgets;
+﻿using Umbra.Widgets;
 
 namespace Umbra.Widget.Library.FpsConfig;
 

@@ -1,5 +1,3 @@
-﻿using System;
-
-namespace Umbra.Game.Script;
+﻿namespace Umbra.Game.Script;
 
 public class EvaluationException(string message) : ScriptException(message);

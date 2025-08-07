@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using Dalamud.Interface;
-using Umbra.Common;
-using Umbra.Markers.System;
+﻿using Umbra.Markers.System;
 
 namespace Umbra.Widgets;
 

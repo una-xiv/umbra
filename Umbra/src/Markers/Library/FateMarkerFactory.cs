@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Numerics;
-using Dalamud.Game.Text;
+﻿using Dalamud.Game.Text;
 using Dalamud.Memory;
 using FFXIVClientStructs.FFXIV.Client.Game.Fate;
-using Umbra.Common;
-using Umbra.Game;
 
 namespace Umbra.Markers.Library;
 

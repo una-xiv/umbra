@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using Umbra.Common;
-
-namespace Umbra.Widgets.Library.UnifiedMainMenu;
+﻿namespace Umbra.Widgets.Library.UnifiedMainMenu;
 
 internal sealed partial class UnifiedMainMenuWidget
 {

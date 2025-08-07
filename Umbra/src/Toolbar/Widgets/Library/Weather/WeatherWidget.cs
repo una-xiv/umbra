@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using Umbra.Common;
-using Umbra.Game;
-
-namespace Umbra.Widgets;
+﻿namespace Umbra.Widgets;
 
 [ToolbarWidget(
     "Weather",

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Umbra.Windows.Library.VariableEditor;
+﻿namespace Umbra.Windows.Library.VariableEditor;
 
 public sealed class BooleanVariable(string id) : Variable(id), IDisposable
 {

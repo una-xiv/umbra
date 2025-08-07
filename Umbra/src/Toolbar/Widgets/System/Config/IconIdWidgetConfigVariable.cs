@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Umbra.Widgets;
+﻿namespace Umbra.Widgets;
 
 public class IconIdWidgetConfigVariable(string id, string name, string? description, uint defaultValue)
     : WidgetConfigVariable<uint>(id, name, description, defaultValue)

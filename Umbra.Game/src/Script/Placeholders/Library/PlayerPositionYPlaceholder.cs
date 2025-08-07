@@ -1,5 +1,4 @@
 ﻿using System.Globalization;
-using Umbra.Common;
 
 namespace Umbra.Game.Script;
 

@@ -1,8 +1,5 @@
-using System.Numerics;
 using System.Runtime.CompilerServices;
 using FFXIVClientStructs.FFXIV.Common.Component.BGCollision;
-using Umbra.Common;
-using Umbra.Game;
 
 namespace Umbra.Markers.System;
 

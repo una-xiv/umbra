@@ -1,9 +1,6 @@
 ﻿using Dalamud.Game.Text;
 using System.Collections.Immutable;
-using Umbra.Common;
-using Umbra.Game;
 using Umbra.Widgets.Popup;
-using Una.Drawing;
 
 namespace Umbra.Widgets;
 

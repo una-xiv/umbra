@@ -1,11 +1,4 @@
-﻿using ImGuiNET;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using Umbra.Common;
-using Umbra.Game;
-using Una.Drawing;
+﻿
 using Una.Drawing.Clipping;
 
 namespace Umbra.Markers.System.Renderer;

@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using FFXIVClientStructs.STD;
 
 namespace Umbra.Game;

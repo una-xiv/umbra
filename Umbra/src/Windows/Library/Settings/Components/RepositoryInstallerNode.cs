@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Umbra.Common;
+﻿using System.Threading.Tasks;
 using Umbra.Plugins.Repository;
-using Umbra.Windows.Components;
-using Una.Drawing;
 
 namespace Umbra.Windows.Settings.Components;
 

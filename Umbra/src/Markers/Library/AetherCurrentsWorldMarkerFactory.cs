@@ -1,16 +1,10 @@
 ﻿using Dalamud.Game.ClientState.Objects.Types;
-using Dalamud.Plugin.Services;
 using Dalamud.Utility;
 using FFXIVClientStructs.FFXIV.Client.Game.Event;
 using FFXIVClientStructs.FFXIV.Client.Game.Object;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using Lumina.Excel.Sheets;
 using Lumina.Extensions;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using Umbra.Common;
-using Umbra.Game;
 using ObjectKind = Dalamud.Game.ClientState.Objects.Enums.ObjectKind;
 
 namespace Umbra.Markers.Library;

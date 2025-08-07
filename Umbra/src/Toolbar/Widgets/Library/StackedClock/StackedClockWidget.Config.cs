@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using Umbra.Common;
-using NotImplementedException = System.NotImplementedException;
+﻿using NotImplementedException = System.NotImplementedException;
 
 namespace Umbra.Widgets.Library.StackedClock;
 

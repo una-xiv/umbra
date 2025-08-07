@@ -1,8 +1,5 @@
-﻿using Dalamud.Plugin.Services;
-using FFXIVClientStructs.FFXIV.Client.Game.InstanceContent;
+﻿using FFXIVClientStructs.FFXIV.Client.Game.InstanceContent;
 using Lumina.Excel.Sheets;
-using System.Collections.Generic;
-using Umbra.Common;
 
 namespace Umbra.Widgets.Library.PhantomJobs;
 

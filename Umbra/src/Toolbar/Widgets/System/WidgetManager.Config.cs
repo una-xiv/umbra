@@ -1,14 +1,9 @@
-﻿using Dalamud.Plugin.Services;
-using Lumina.Excel.Sheets;
-using System;
-using System.Collections.Generic;
+﻿using Lumina.Excel.Sheets;
 using System.IO;
 using System.IO.Compression;
-using System.Linq;
 using System.Text;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
-using Umbra.Common;
 
 namespace Umbra.Widgets.System;
 

@@ -1,8 +1,6 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
-using Umbra.Common;
 using Umbra.Plugins.Repository;
 
 namespace Umbra.Plugins;

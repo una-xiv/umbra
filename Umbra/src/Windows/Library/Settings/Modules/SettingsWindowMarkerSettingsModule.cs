@@ -1,12 +1,6 @@
 ﻿using Microsoft.Win32;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using Umbra.Common;
 using Umbra.Markers;
 using Umbra.Markers.System;
-using Umbra.Windows.Components;
-using Una.Drawing;
 
 namespace Umbra.Windows.Settings.Modules;
 

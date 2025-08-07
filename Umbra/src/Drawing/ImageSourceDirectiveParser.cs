@@ -1,6 +1,4 @@
-﻿using Una.Drawing;
-
-namespace Umbra.Drawing;
+﻿namespace Umbra.Drawing;
 
 public class ImageSourceDirectiveParser : IUdtDirectiveParser
 {

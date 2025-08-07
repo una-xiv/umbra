@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Umbra.Widgets;
+﻿namespace Umbra.Widgets;
 
 [AttributeUsage(AttributeTargets.Class)]
 public class ToolbarWidgetAttribute(string id, string name, string description, string[]? searchTags = null) : Attribute

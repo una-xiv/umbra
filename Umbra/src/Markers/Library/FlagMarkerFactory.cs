@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using FFXIVClientStructs.FFXIV.Client.UI.Agent;
-using Umbra.Common;
-using Umbra.Game;
+﻿using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 
 namespace Umbra.Markers.Library;
 
@@ -34,21 +30,21 @@ internal class FlagMarkerFactory : WorldMarkerFactory
 
         AgentMap* agentMap = AgentMap.Instance();
 
-        if (!enabled || agentMap is null || !agentMap->IsFlagMarkerSet) {
+        if (!enabled || agentMap is null || agentMap->FlagMarkerCount == 0) {
             RemoveAllMarkers();
             return;
         }
 
         var fadeDist       = GetConfigValue<int>("FadeDistance");
         var maxVisDistance = GetConfigValue<int>("MaxVisibleDistance");
-        var key            = $"FlagMarker_{agentMap->FlagMapMarker.MapId}";
+        var key            = $"FlagMarker_{agentMap->FlagMapMarkers[0].MapId}";
 
         SetMarker(
             new() {
                 Key                = key,
-                IconId             = agentMap->FlagMapMarker.MapMarker.IconId,
-                MapId              = agentMap->FlagMapMarker.MapId,
-                Position           = new(agentMap->FlagMapMarker.XFloat, 0, agentMap->FlagMapMarker.YFloat),
+                IconId             = agentMap->FlagMapMarkers[0].MapMarker.IconId,
+                MapId              = agentMap->FlagMapMarkers[0].MapId,
+                Position           = new(agentMap->FlagMapMarkers[0].XFloat, 0, agentMap->FlagMapMarkers[0].YFloat),
                 FadeDistance       = new(fadeDist, fadeDist + Math.Max(1, GetConfigValue<int>("FadeAttenuation"))),
                 ShowOnCompass      = GetConfigValue<bool>("ShowOnCompass"),
                 MaxVisibleDistance = maxVisDistance,

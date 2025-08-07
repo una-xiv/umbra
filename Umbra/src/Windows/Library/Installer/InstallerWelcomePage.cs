@@ -1,7 +1,4 @@
-﻿using Umbra.Common;
-using Umbra.Game;
-
-namespace Umbra.Windows.Library.Installer;
+﻿namespace Umbra.Windows.Library.Installer;
 
 internal sealed class InstallerWelcomePage(IPlayer player) : InstallerPage
 {

@@ -1,11 +1,6 @@
 ﻿using Dalamud.Plugin;
 using Dalamud.Utility;
-using ImGuiNET;
-using System;
-using System.Collections.Generic;
-using System.Numerics;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Umbra.Common;
 

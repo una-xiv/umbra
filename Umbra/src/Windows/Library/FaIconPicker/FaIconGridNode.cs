@@ -1,13 +1,6 @@
-﻿using Dalamud.Interface;
-using Dalamud.Interface.Utility;
-using ImGuiNET;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
+﻿using Dalamud.Interface.Utility;
+
 using System.Threading.Tasks;
-using Umbra.Common;
-using Una.Drawing;
 
 namespace Umbra.Windows.FaIconPicker;
 

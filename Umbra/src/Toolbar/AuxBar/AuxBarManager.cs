@@ -1,18 +1,11 @@
 ﻿using Dalamud.Game.ClientState.Keys;
-using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using Lumina.Extensions;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Linq;
-using Umbra.Common;
-using Umbra.Game;
 using Umbra.Widgets.System;
 using Umbra.Windows;
 using Umbra.Windows.Dialogs;
-using Una.Drawing;
 
 namespace Umbra.AuxBar;
 

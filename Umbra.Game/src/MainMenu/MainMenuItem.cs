@@ -1,11 +1,9 @@
-using System;
 using Dalamud.Memory;
 using Dalamud.Utility;
-using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.UI;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using Lumina.Misc;
-using Umbra.Common;
+using Action = System.Action;
 
 namespace Umbra.Game;
 
