@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Umbra.Common;
-using Umbra.Game;
-using Umbra.Interface;
-using Una.Drawing;
+﻿using Umbra.Interface;
 
 namespace Umbra.Widgets;
 

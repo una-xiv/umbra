@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 namespace Umbra.Game;
 
 public interface IMainMenuRepository

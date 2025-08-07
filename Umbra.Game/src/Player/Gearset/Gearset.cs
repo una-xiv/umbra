@@ -1,6 +1,5 @@
-using System;
-using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using FFXIVClientStructs.FFXIV.Client.UI.Misc;
+using Action = System.Action;
 
 namespace Umbra.Game;
 

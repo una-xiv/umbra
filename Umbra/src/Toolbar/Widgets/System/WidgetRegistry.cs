@@ -1,9 +1,5 @@
 ﻿using Dalamud.Plugin;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using Umbra.Common;
 
 namespace Umbra.Widgets.System;
 

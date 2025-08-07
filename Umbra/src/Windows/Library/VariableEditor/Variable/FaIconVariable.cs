@@ -1,7 +1,4 @@
-﻿using Dalamud.Interface;
-using System;
-
-namespace Umbra.Windows.Library.VariableEditor;
+﻿namespace Umbra.Windows.Library.VariableEditor;
 
 public sealed class FaIconVariable(string id) : Variable(id), IDisposable
 {

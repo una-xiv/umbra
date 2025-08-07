@@ -1,8 +1,4 @@
-﻿using System;
-using System.Numerics;
-using Umbra.Common;
-
-namespace Umbra.Markers.System;
+﻿namespace Umbra.Markers.System;
 
 public record WorldMarker
 {

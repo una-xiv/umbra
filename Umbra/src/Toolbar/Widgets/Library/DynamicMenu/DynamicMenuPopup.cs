@@ -1,12 +1,5 @@
-﻿using Dalamud.Plugin.Services;
-using Dalamud.Utility;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using Umbra.Common;
-using Umbra.Game;
+﻿using Dalamud.Utility;
 using Umbra.Widgets.Library.ShortcutPanel.Providers;
-using Una.Drawing;
 
 namespace Umbra.Widgets;
 

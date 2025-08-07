@@ -14,12 +14,8 @@
  *     GNU Affero General Public License for more details.
  */
 
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using SkiaSharp;
-using Umbra.Common;
-using Una.Drawing;
 
 namespace Umbra;
 

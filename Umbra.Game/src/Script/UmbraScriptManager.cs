@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using Umbra.Common;
-
-namespace Umbra.Game.Script;
+﻿namespace Umbra.Game.Script;
 
 [Service]
 public class UmbraScriptManager

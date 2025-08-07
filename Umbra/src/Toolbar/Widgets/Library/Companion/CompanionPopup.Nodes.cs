@@ -1,8 +1,4 @@
 ﻿using Lumina.Excel.Sheets;
-using System.Linq;
-using Umbra.Common;
-using Umbra.Game;
-using Una.Drawing;
 
 namespace Umbra.Widgets;
 

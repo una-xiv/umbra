@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using Umbra.Common;
-using Framework = FFXIVClientStructs.FFXIV.Client.System.Framework.Framework;
+﻿using Framework = FFXIVClientStructs.FFXIV.Client.System.Framework.Framework;
 
 namespace Umbra.Widgets;
 

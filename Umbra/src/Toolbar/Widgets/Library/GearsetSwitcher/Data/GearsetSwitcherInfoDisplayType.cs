@@ -1,6 +1,4 @@
-﻿using Umbra.Common;
-
-namespace Umbra.Widgets;
+﻿namespace Umbra.Widgets;
 
 public enum GearsetSwitcherInfoDisplayType
 {

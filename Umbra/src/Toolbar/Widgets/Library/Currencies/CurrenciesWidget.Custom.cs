@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Umbra.Widgets;
+﻿namespace Umbra.Widgets;
 
 internal sealed partial class CurrenciesWidget
 {

@@ -1,14 +1,8 @@
 ﻿using Dalamud.Game.ClientState.Conditions;
-using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using Lumina.Excel.Sheets;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using Umbra.Common;
-using Umbra.Game;
 
 namespace Umbra.Widgets.Library.ShortcutPanel.Providers;
 

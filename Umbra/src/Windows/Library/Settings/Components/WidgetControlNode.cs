@@ -1,10 +1,8 @@
 ﻿using Dalamud.Game.Text.SeStringHandling;
-using ImGuiNET;
-using Umbra.Common;
+
 using Umbra.Widgets;
 using Umbra.Widgets.System;
 using Umbra.Windows.Dialogs;
-using Una.Drawing;
 
 namespace Umbra.Windows.Settings.Components;
 

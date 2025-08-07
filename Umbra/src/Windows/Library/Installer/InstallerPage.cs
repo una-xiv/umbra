@@ -1,6 +1,4 @@
-﻿using Una.Drawing;
-
-namespace Umbra.Windows.Library.Installer;
+﻿namespace Umbra.Windows.Library.Installer;
 
 internal abstract class InstallerPage
 {

@@ -1,7 +1,4 @@
 ﻿using FFXIVClientStructs.FFXIV.Client.Game.UI;
-using System.Collections.Generic;
-using Umbra.Common;
-using Umbra.Game;
 
 namespace Umbra.Markers.Library;
 

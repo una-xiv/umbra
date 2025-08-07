@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Umbra.Common;
-
-namespace Umbra.Windows;
+﻿namespace Umbra.Windows;
 
 [Service]
 public class WindowManager(UmbraDelvClipRects delvClipRects) : IDisposable

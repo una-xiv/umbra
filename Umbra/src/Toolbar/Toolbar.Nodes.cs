@@ -16,14 +16,8 @@
 
 using Dalamud.Game.ClientState.Keys;
 using FFXIVClientStructs.FFXIV.Client.Game;
-using ImGuiNET;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using Umbra.Common;
+
 using Umbra.Widgets.System;
-using Una.Drawing;
 
 namespace Umbra;
 

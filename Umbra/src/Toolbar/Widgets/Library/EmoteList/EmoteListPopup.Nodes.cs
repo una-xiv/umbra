@@ -1,9 +1,4 @@
-﻿using System.Linq;
-using Umbra.Common;
-using Umbra.Windows.Components;
-using Una.Drawing;
-
-namespace Umbra.Widgets.Library.EmoteList;
+﻿namespace Umbra.Widgets.Library.EmoteList;
 
 internal sealed partial class EmoteListPopup
 {

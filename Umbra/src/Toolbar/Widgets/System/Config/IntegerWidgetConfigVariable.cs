@@ -1,7 +1,4 @@
-﻿using System;
-using Umbra.Common;
-
-namespace Umbra.Widgets;
+﻿namespace Umbra.Widgets;
 
 public class IntegerWidgetConfigVariable(
     string  id,

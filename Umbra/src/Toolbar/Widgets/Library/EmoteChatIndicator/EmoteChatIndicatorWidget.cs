@@ -1,9 +1,4 @@
-﻿using Dalamud.Interface;
-using Dalamud.Plugin.Services;
-using System.Collections.Generic;
-using Umbra.Common;
-
-namespace Umbra.Widgets.Library.EmoteChatIndicator;
+﻿namespace Umbra.Widgets.Library.EmoteChatIndicator;
 
 [ToolbarWidget(
     "EmoteChatIndicator",

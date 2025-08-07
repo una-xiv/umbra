@@ -1,10 +1,4 @@
-﻿using Dalamud.Plugin.Services;
-using System;
-using Umbra.Common;
-using Umbra.Game;
-using Una.Drawing;
-
-namespace Umbra.Widgets;
+﻿namespace Umbra.Widgets;
 
 internal sealed partial class CompanionPopup : WidgetPopup
 {

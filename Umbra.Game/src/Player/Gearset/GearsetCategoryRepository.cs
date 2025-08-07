@@ -1,9 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
-using Dalamud.Plugin.Services;
-using Lumina.Excel.Sheets;
-using Umbra.Common;
-
 namespace Umbra.Game;
 
 [Service]

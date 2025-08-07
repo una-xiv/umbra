@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using Umbra.Common;
-
-namespace Umbra.Widgets;
+﻿namespace Umbra.Widgets;
 
 public class SelectWidgetConfigVariable(
     string  id,

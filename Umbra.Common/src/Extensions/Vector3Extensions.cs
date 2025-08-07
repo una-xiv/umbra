@@ -14,8 +14,6 @@
  *     GNU Affero General Public License for more details.
  */
 
-using System.Numerics;
-
 namespace Umbra.Common;
 
 public static class Vector3Extensions

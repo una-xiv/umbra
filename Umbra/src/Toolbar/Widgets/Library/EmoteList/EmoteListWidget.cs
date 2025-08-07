@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Text.Json;
-using Umbra.Common;
-using Umbra.Game;
+﻿using System.Text.Json;
 using NotImplementedException = System.NotImplementedException;
 
 namespace Umbra.Widgets.Library.EmoteList;

@@ -1,7 +1,4 @@
-﻿using System;
-using Umbra.Common;
-
-namespace Umbra.Markers;
+﻿namespace Umbra.Markers;
 
 public class IntegerMarkerConfigVariable(
     string  id,

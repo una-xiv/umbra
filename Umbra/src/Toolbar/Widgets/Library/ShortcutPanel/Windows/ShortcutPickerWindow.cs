@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Umbra.Widgets.Library.ShortcutPanel.Providers;
+﻿using Umbra.Widgets.Library.ShortcutPanel.Providers;
 
 namespace Umbra.Widgets.Library.ShortcutPanel.Windows;
 

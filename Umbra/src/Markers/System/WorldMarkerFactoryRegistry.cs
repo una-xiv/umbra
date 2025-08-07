@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.IO.Compression;
 using System.Text;
 using Newtonsoft.Json;
-using Umbra.Common;
 
 namespace Umbra.Markers.System;
 

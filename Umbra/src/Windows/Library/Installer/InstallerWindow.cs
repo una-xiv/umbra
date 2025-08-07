@@ -1,10 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Reflection;
-using Umbra.Common;
-using Umbra.Windows.Components;
-using Una.Drawing;
+﻿using System.Reflection;
 
 namespace Umbra.Windows.Library.Installer;
 

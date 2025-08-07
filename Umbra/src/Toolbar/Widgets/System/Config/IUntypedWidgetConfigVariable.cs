@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Umbra.Widgets;
+﻿namespace Umbra.Widgets;
 
 public interface IUntypedWidgetConfigVariable
 {

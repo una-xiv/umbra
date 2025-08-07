@@ -1,7 +1,4 @@
-﻿using Umbra.Common;
-using Umbra.Game;
-
-namespace Umbra.Markers.System;
+﻿namespace Umbra.Markers.System;
 
 [Service]
 internal class StreamSphereOverride(IPlayer player)

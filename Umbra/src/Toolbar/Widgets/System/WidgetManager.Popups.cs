@@ -1,7 +1,4 @@
-﻿using System;
-using Umbra.Common;
-
-namespace Umbra.Widgets.System;
+﻿namespace Umbra.Widgets.System;
 
 internal partial class WidgetManager
 {

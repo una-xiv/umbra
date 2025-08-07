@@ -1,6 +1,6 @@
-﻿using System;
-using Dalamud.Game.Gui.Dtr;
+﻿using Dalamud.Game.Gui.Dtr;
 using Dalamud.Game.Text.SeStringHandling;
+using Action = System.Action;
 
 namespace Umbra.Game;
 
@@ -13,7 +13,10 @@ public class DtrBarEntry(IReadOnlyDtrBarEntry entry, int sortIndex)
     public bool      IsVisible     { get; private set; } = entry is { Shown: true, UserHidden: false };
     public bool      IsInteractive { get; private set; } = entry.HasClickAction;
 
-    private readonly Action? _onClick = () => entry.TriggerClickAction();
+    private readonly Action? _onClick = () => {
+        if (!entry.HasClickAction) return;
+        // TODO: Implement this again when Dalamud has the method for it
+    };
 
     internal void Update(IReadOnlyDtrBarEntry entry, int sortIndex)
     {

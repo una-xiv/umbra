@@ -14,13 +14,9 @@
  *     GNU Affero General private License for more details.
  */
 
-using System;
-using System.Linq;
-using System.Reflection;
 using Dalamud.Game;
 using Dalamud.Game.ClientState.Objects;
 using Dalamud.IoC;
-using Dalamud.Plugin.Services;
 
 // ReSharper disable UnusedMember.Local
 
@@ -59,8 +55,6 @@ internal sealed class DalamudServices
     [PluginService] private IGameInteropProvider GameInteropProvider { get; init; } = null!;
 
     [PluginService] private IGameLifecycle GameLifecycle { get; init; } = null!;
-
-    [PluginService] private IGameNetwork GameNetwork { get; init; } = null!;
 
     [PluginService] private IJobGauges JobGauges { get; init; } = null!;
 

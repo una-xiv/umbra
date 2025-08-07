@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Umbra.Common;
-using Umbra.Game;
-using NotImplementedException = System.NotImplementedException;
+﻿using NotImplementedException = System.NotImplementedException;
 
 namespace Umbra.Markers.Library;
 

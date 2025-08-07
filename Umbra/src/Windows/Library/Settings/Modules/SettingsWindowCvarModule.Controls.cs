@@ -1,9 +1,4 @@
-﻿using Dalamud.Interface;
-using Umbra.Common;
-using Umbra.Windows.Components;
-using Una.Drawing;
-
-namespace Umbra.Windows.Settings.Modules;
+﻿namespace Umbra.Windows.Settings.Modules;
 
 internal partial class SettingsWindowCvarModule
 {

@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using Umbra.Common;
-using Umbra.Game;
-using Umbra.Game.Inventory;
+﻿using Umbra.Game.Inventory;
 
 namespace Umbra.Widgets.Library.InventorySpace;
 
@@ -41,8 +38,8 @@ internal partial class InventorySpaceWidget(
             _                  => PlayerInventoryType.Inventory
         };
 
-        uint usedSpace    = Player.Inventory.GetOccupiedInventorySpace(source);
-        uint totalSpace   = Player.Inventory.GetTotalInventorySpace(source);
+        int usedSpace    = Player.Inventory.GetOccupiedInventorySpace(source);
+        int totalSpace   = Player.Inventory.GetTotalInventorySpace(source);
 
         if (totalSpace == 0) {
             // Inventory is not loaded or unavailable in current content.
@@ -52,7 +49,7 @@ internal partial class InventorySpaceWidget(
 
         IsVisible = true;
 
-        uint u = GetConfigValue<bool>("ShowRemaining") ? totalSpace - usedSpace : usedSpace;
+        int u = GetConfigValue<bool>("ShowRemaining") ? totalSpace - usedSpace : usedSpace;
 
         SetProgressBarConstraint(0, (int)totalSpace);
         SetProgressBarValue((int)u);
@@ -60,7 +57,7 @@ internal partial class InventorySpaceWidget(
         SetGameIconId(GetIconId(source, totalSpace - usedSpace));
     }
 
-    private uint GetIconId(PlayerInventoryType type, uint freeSpace)
+    private uint GetIconId(PlayerInventoryType type, int freeSpace)
     {
         if (freeSpace <= GetConfigValue<int>("CriticalThreshold")) {
             return 60074; // Critical

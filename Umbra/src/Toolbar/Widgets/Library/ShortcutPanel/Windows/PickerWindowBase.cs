@@ -1,9 +1,4 @@
-﻿using System;
-using System.Numerics;
-using Umbra.Common;
-using Umbra.Windows;
-using Umbra.Windows.Components;
-using Una.Drawing;
+﻿using Umbra.Windows;
 
 namespace Umbra.Widgets.Library.ShortcutPanel.Windows;
 

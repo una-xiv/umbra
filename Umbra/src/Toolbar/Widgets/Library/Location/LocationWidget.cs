@@ -1,9 +1,5 @@
 ﻿using Dalamud.Game.Text;
 using FFXIVClientStructs.FFXIV.Client.UI;
-using System.Collections.Generic;
-using System.Numerics;
-using Umbra.Common;
-using Umbra.Game;
 
 namespace Umbra.Widgets;
 

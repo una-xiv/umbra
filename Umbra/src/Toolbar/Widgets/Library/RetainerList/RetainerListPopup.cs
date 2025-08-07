@@ -1,12 +1,7 @@
 ﻿using Dalamud.Game.Text;
 using Lumina.Misc;
-using System;
-using System.Collections.Generic;
 using System.Globalization;
-using Umbra.Common;
-using Umbra.Game;
 using Umbra.Game.Retainer;
-using Una.Drawing;
 
 namespace Umbra.Widgets.Library.RetainerList;
 

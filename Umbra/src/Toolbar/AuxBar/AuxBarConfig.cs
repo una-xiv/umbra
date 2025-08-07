@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Umbra.AuxBar;
+﻿namespace Umbra.AuxBar;
 
 [Serializable]
 public class AuxBarConfig

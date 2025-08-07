@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Umbra.Widgets;
+﻿namespace Umbra.Widgets;
 
 /// <summary>
 /// Registers the annotated class as toolbar widget type that has a dependency

@@ -14,9 +14,7 @@
  *     GNU Affero General Public License for more details.
  */
 
-using System;
-using ImGuiNET;
-using Una.Drawing;
+
 
 namespace Umbra.Windows.Components;
 

@@ -1,6 +1,5 @@
 using FFXIVClientStructs.FFXIV.Client.System.String;
 using FFXIVClientStructs.FFXIV.Client.UI;
-using Umbra.Common;
 
 namespace Umbra.Game;
 

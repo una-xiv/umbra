@@ -1,8 +1,4 @@
-﻿using System;
-using Umbra.Common;
-using Una.Drawing;
-
-namespace Umbra.Widgets.Library.ShortcutPanel.Windows;
+﻿namespace Umbra.Widgets.Library.ShortcutPanel.Windows;
 
 internal abstract partial class PickerWindowBase
 {

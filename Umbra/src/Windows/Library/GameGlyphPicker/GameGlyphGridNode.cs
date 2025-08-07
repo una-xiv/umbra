@@ -1,12 +1,7 @@
 ﻿using Dalamud.Game.Text;
 using Dalamud.Interface.Utility;
-using ImGuiNET;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
+
 using System.Threading.Tasks;
-using Una.Drawing;
 
 namespace Umbra.Windows.GameGlyphPicker;
 

@@ -1,10 +1,5 @@
-using System.Collections.Generic;
-using System.Linq;
 using Dalamud.Game.ClientState.Aetherytes;
-using Dalamud.Plugin.Services;
 using Lumina.Excel.Sheets;
-using Umbra.Common;
-using Umbra.Game;
 using TerritoryType = Lumina.Excel.Sheets.TerritoryType;
 
 namespace Umbra.Widgets;

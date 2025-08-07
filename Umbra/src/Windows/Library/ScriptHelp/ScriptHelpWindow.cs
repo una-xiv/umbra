@@ -1,11 +1,6 @@
-﻿using ImGuiNET;
-using System;
-using System.Numerics;
-using Umbra.Common;
+﻿
 using Umbra.Game.Script;
 using Umbra.Game.Script.Filters;
-using Umbra.Windows.Components;
-using Una.Drawing;
 
 namespace Umbra.Windows.Library.ScriptHelp;
 

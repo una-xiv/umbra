@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using Umbra.Common;
-
-namespace Umbra.Widgets.Library.RetainerList;
+﻿namespace Umbra.Widgets.Library.RetainerList;
 
 internal partial class RetainerListWidget
 {

@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using Dalamud.Interface;
-
-namespace Umbra.Widgets;
+﻿namespace Umbra.Widgets;
 
 [ToolbarWidget(
     "BattleEffects", 

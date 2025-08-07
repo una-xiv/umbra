@@ -17,12 +17,8 @@
 using System.Reflection;
 using Dalamud.IoC;
 using Dalamud.Plugin;
-using Dalamud.Plugin.Services;
-using ImGuiNET;
+
 using System.Diagnostics;
-using System.Numerics;
-using Umbra.Common;
-using Una.Drawing;
 using Logger = Umbra.Common.Logger;
 
 namespace Umbra;

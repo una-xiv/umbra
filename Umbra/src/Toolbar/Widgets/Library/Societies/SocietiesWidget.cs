@@ -1,9 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Umbra.Common;
-using Umbra.Game;
-using Umbra.Game.Societies;
-using Una.Drawing;
+﻿using Umbra.Game.Societies;
 
 namespace Umbra.Widgets.Library.Societies;
 

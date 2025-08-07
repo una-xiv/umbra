@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using Una.Drawing;
-
-namespace Umbra.Widgets;
+﻿namespace Umbra.Widgets;
 
 [ToolbarWidget(
     "Compass",

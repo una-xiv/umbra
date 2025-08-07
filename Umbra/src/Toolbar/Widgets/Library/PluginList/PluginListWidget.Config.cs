@@ -14,12 +14,8 @@
  *     GNU Affero General Public License for more details.
  */
 
-using Dalamud.Interface;
 using Dalamud.Plugin;
 using Lumina.Misc;
-using System.Collections.Generic;
-using System.Linq;
-using Umbra.Common;
 
 namespace Umbra.Widgets;
 

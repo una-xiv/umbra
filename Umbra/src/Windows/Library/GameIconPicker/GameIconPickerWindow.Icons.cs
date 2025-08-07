@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using Umbra.Common;
-
-namespace Umbra.Windows.GameIconPicker;
+﻿namespace Umbra.Windows.GameIconPicker;
 
 public partial class GameIconPickerWindow
 {

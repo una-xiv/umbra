@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Umbra.Game.Retainer;
+﻿namespace Umbra.Game.Retainer;
 
 public readonly struct Retainer
 {

@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using Umbra.Common;
-
-namespace Umbra.Widgets.Library.DynamicMenu;
+﻿namespace Umbra.Widgets.Library.DynamicMenu;
 
 internal sealed partial class DynamicMenuWidget
 {

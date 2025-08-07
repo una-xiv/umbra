@@ -1,29 +1,24 @@
-﻿using FFXIVClientStructs.FFXIV.Client.Game;
-using FFXIVClientStructs.FFXIV.Client.Game.UI;
-using FFXIVClientStructs.FFXIV.Client.UI;
+﻿using FFXIVClientStructs.FFXIV.Client.UI;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
-using System.Collections.Generic;
-using System.Linq;
-using Umbra.Common;
 
 namespace Umbra.Game.Inventory;
 
 [Service]
 internal class PlayerInventory : IPlayerInventory
 {
-    public uint GetOccupiedInventorySpace(PlayerInventoryType type)
+    public int GetOccupiedInventorySpace(PlayerInventoryType type)
     {
         return GetInventoryTypes(type)
-            .Aggregate<InventoryType, uint>(0, (current, iType) => current + GetUsedSizeOf(iType));
+            .Aggregate(0, (current, iType) => current + GetUsedSizeOf(iType));
     }
 
-    public uint GetTotalInventorySpace(PlayerInventoryType type)
+    public int GetTotalInventorySpace(PlayerInventoryType type)
     {
         return GetInventoryTypes(type)
-            .Aggregate<InventoryType, uint>(0, (current, iType) => current + GetTotalSizeOf(iType));
+            .Aggregate(0, (current, iType) => current + GetTotalSizeOf(iType));
     }
 
-    private static unsafe uint GetUsedSizeOf(InventoryType type)
+    private static unsafe int GetUsedSizeOf(InventoryType type)
     {
         try {
             InventoryManager*   im  = InventoryManager.Instance();
@@ -31,7 +26,7 @@ internal class PlayerInventory : IPlayerInventory
 
             if (!inv->IsLoaded || inv->Size == 0) return 0;
 
-            uint usedSpace = 0;
+            int usedSpace = 0;
 
             for (var i = 0; i <= inv->Size; i++) {
                 var slot = inv->GetInventorySlot(i);
@@ -48,7 +43,7 @@ internal class PlayerInventory : IPlayerInventory
         }
     }
 
-    private static unsafe uint GetTotalSizeOf(InventoryType type)
+    private static unsafe int GetTotalSizeOf(InventoryType type)
     {
         try {
             InventoryManager*   im  = InventoryManager.Instance();

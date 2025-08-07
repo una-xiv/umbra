@@ -1,7 +1,4 @@
-using System;
-using System.Numerics;
-using ImGuiNET;
-using Una.Drawing;
+
 
 namespace Umbra.Markers.System;
 
@@ -19,7 +16,7 @@ internal static class ImDrawListPtrExtensions
     /// <param name="opacity">The opacity of the image.</param>
     public static void AddImageRotated(
         this ImDrawListPtr drawList,
-        IntPtr             image,
+        ImTextureID        image,
         float              rotation,
         Vector2            position,
         Vector2?           size    = null,

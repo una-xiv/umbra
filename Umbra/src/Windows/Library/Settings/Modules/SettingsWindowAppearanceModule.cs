@@ -1,14 +1,7 @@
-﻿using Dalamud.Interface;
-using Dalamud.Interface.ImGuiNotification;
-using Dalamud.Plugin.Services;
-using ImGuiNET;
+﻿using Dalamud.Interface.ImGuiNotification;
+
 using Lumina.Misc;
-using System;
-using System.Collections.Generic;
-using Umbra.Common;
-using Umbra.Windows.Components;
 using Umbra.Windows.Dialogs;
-using Una.Drawing;
 
 namespace Umbra.Windows.Settings.Modules;
 

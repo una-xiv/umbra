@@ -1,12 +1,7 @@
-﻿using Dalamud.Plugin.Services;
-using FFXIVClientStructs.FFXIV.Client.Game.UI;
+﻿using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using Lumina.Excel.Sheets;
-using System.Collections.Generic;
-using System.Linq;
-using Umbra.Common;
-using Una.Drawing;
 
 namespace Umbra.Widgets;
 
@@ -29,7 +24,7 @@ internal partial class CollectionItemButtonWidget
     private unsafe bool IsItemUnlocked(CollectionItem item)
     {
         PlayerState* ps = PlayerState.Instance();
-        if (ps == null || ps->IsLoaded == 0) return false;
+        if (ps == null || !ps->IsLoaded) return false;
 
         return ps->IsMcGuffinUnlocked(item.Id);
     }

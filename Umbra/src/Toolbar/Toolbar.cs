@@ -1,7 +1,4 @@
-﻿using System;
-using Umbra.AuxBar;
-using Umbra.Common;
-using Umbra.Game;
+﻿using Umbra.AuxBar;
 
 namespace Umbra;
 

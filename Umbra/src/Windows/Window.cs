@@ -1,8 +1,4 @@
-﻿using ImGuiNET;
-using System;
-using System.Numerics;
-using Umbra.Common;
-using Una.Drawing;
+﻿
 using Una.Drawing.Clipping;
 
 namespace Umbra.Windows;

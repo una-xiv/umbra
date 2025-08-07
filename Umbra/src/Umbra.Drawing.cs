@@ -1,12 +1,7 @@
 ﻿using Dalamud.Plugin;
-using System;
-using System.Linq;
 using System.Reflection;
-using Umbra.Common;
 using Umbra.Drawing;
-using Umbra.Windows.Components;
 using Umbra.Windows.Settings.Components;
-using Una.Drawing;
 using Una.Drawing.Clipping;
 
 namespace Umbra;

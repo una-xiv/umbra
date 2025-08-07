@@ -1,10 +1,4 @@
-﻿using ImGuiNET;
-using System;
-using System.Collections.Generic;
-using System.Numerics;
-using Umbra.Common;
-using Umbra.Game;
-using Una.Drawing;
+﻿
 
 namespace Umbra.Widgets;
 

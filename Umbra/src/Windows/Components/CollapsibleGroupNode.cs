@@ -1,7 +1,4 @@
-﻿using Dalamud.Interface;
-using Una.Drawing;
-
-namespace Umbra.Windows.Components;
+﻿namespace Umbra.Windows.Components;
 
 public class CollapsibleGroupNode : UdtNode
 {

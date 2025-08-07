@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
+﻿using System.Collections.Immutable;
 using System.Globalization;
 using System.Text;
-using Umbra.Common;
 using Umbra.Game.Script.Filters;
 
 namespace Umbra.Game.Script;

@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using Umbra.Common;
-using Umbra.Game;
-
-namespace Umbra.Markers.System.Renderer;
+﻿namespace Umbra.Markers.System.Renderer;
 
 [Service]
 internal class WorldMarkerRenderer : IDisposable

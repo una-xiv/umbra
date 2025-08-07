@@ -1,10 +1,6 @@
 ﻿using FFXIVClientStructs.FFXIV.Client.UI.Agent;
-using System;
 using System.ComponentModel;
 using System.Diagnostics;
-using Umbra.Common;
-using Umbra.Game;
-using Una.Drawing;
 
 namespace Umbra.Widgets.Popup;
 

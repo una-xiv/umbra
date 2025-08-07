@@ -1,6 +1,4 @@
-﻿using Una.Drawing;
-
-namespace Umbra.Widgets.Library.RetainerList;
+﻿namespace Umbra.Widgets.Library.RetainerList;
 
 internal partial class RetainerListPopup
 {

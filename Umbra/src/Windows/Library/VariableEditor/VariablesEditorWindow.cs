@@ -1,11 +1,4 @@
 ﻿using Lumina.Misc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using Umbra.Common;
-using Umbra.Windows.Components;
-using Una.Drawing;
 
 namespace Umbra.Windows.Library.VariableEditor;
 

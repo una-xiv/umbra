@@ -1,12 +1,5 @@
-﻿using Dalamud.Plugin.Services;
-using Dalamud.Utility;
+﻿using Dalamud.Utility;
 using Lumina.Excel.Sheets;
-using System;
-using System.Collections.Generic;
-using Umbra.Common;
-using Umbra.Game;
-using Umbra.Windows.Components;
-using Una.Drawing;
 
 namespace Umbra.Widgets;
 

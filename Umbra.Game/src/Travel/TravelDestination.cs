@@ -1,10 +1,7 @@
 ﻿using Dalamud.Game.ClientState.Aetherytes;
 using Dalamud.Memory;
-using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Client.UI;
 using FFXIVClientStructs.FFXIV.Client.UI.Misc;
-using System.Collections.Generic;
-using Umbra.Common;
 
 namespace Umbra.Game;
 

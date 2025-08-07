@@ -14,11 +14,7 @@
  *     GNU Affero General Public License for more details.
  */
 
-using System.Collections.Generic;
-using System.IO;
 using Newtonsoft.Json;
-using System;
-using System.Diagnostics;
 using System.Globalization;
 
 namespace Umbra.Common;

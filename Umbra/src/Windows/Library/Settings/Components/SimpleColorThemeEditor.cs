@@ -1,9 +1,4 @@
-﻿using System;
-using Umbra.Common;
-using Umbra.Windows.Components;
-using Una.Drawing;
-
-namespace Umbra.Windows.Settings.Components;
+﻿namespace Umbra.Windows.Settings.Components;
 
 public class SimpleColorThemeEditor : UdtNode
 {

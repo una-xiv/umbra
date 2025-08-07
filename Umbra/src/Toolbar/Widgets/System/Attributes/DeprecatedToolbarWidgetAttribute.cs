@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Umbra.Widgets;
+﻿namespace Umbra.Widgets;
 
 [AttributeUsage(AttributeTargets.Class)]
 public class DeprecatedToolbarWidgetAttribute(string? alternativeWidgetName = null) : Attribute

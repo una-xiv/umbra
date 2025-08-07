@@ -1,14 +1,9 @@
-﻿using Dalamud.Interface;
-using ImGuiNET;
-using System;
+﻿
 using System.Collections.Immutable;
-using System.Linq;
-using Umbra.Common;
 using Umbra.Widgets;
 using Umbra.Widgets.System;
 using Umbra.Windows.Dialogs;
 using Umbra.Windows.Library.WidgetBrowser;
-using Una.Drawing;
 
 namespace Umbra.Windows.Settings.Components;
 

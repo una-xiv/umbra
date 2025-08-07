@@ -1,10 +1,5 @@
-﻿using Dalamud.Plugin.Services;
-using Lumina.Excel.Sheets;
-using System.Collections.Generic;
+﻿using Lumina.Excel.Sheets;
 using System.Globalization;
-using System.Linq;
-using Umbra.Common;
-using Umbra.Game;
 
 namespace Umbra.Widgets.Library.ShortcutPanel.Providers;
 

@@ -1,6 +1,5 @@
 using Lumina.Text;
 using Lumina.Text.ReadOnly;
-using System;
 
 namespace Umbra.Common.Extensions;
 

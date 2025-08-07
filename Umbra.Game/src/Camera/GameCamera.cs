@@ -1,8 +1,6 @@
 ﻿using System.Numerics;
 using FFXIVClientStructs.FFXIV.Client.Graphics.Scene;
-using ImGuiNET;
-using System;
-using Umbra.Common;
+using Camera = FFXIVClientStructs.FFXIV.Client.Graphics.Scene.Camera;
 
 namespace Umbra.Game;
 

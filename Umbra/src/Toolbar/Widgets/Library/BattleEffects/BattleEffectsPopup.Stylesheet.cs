@@ -14,8 +14,6 @@
  *     GNU Affero General Public License for more details.
  */
 
-using Una.Drawing;
-
 namespace Umbra.Widgets;
 
 internal partial class BattleEffectsPopup

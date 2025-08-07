@@ -1,13 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Dalamud.Game.Text;
-using Dalamud.Plugin.Services;
 using Dalamud.Utility;
-using FFXIVClientStructs.FFXIV.Client.Game;
-using FFXIVClientStructs.FFXIV.Client.Game.UI;
-using Lumina.Excel.Sheets;
-using Umbra.Common;
 
 namespace Umbra.Game;
 

@@ -16,19 +16,11 @@
 
 using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Game.ClientState.Objects.Enums;
-using Dalamud.Plugin.Services;
 using Dalamud.Utility;
-using FFXIVClientStructs.FFXIV.Client.Game;
-using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using FFXIVClientStructs.FFXIV.Client.UI.Info;
 using FFXIVClientStructs.FFXIV.Component.GUI;
-using Lumina.Excel.Sheets;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Numerics;
-using Umbra.Common;
 using Umbra.Game.Inventory;
 using Umbra.Game.Societies;
 
@@ -315,7 +307,7 @@ internal sealed class Player : IPlayer
             || _condition[ConditionFlag.Casting87];
 
         IsInCombat = _condition[ConditionFlag.InCombat];
-        IsMounted  = _condition[ConditionFlag.Mounted] || _condition[ConditionFlag.Mounted2];
+        IsMounted  = _condition[ConditionFlag.Mounted] || _condition[ConditionFlag.RidingPillion];
 
         IsOccupied = _condition[ConditionFlag.BetweenAreas]
             || _condition[ConditionFlag.BetweenAreas51]

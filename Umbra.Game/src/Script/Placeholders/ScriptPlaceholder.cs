@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Umbra.Game.Script;
+﻿namespace Umbra.Game.Script;
 
 abstract class ScriptPlaceholder(string name, string description) : IDisposable
 {

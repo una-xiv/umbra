@@ -1,10 +1,4 @@
-﻿using Dalamud.Plugin.Services;
-using System.Collections.Generic;
-using System.Numerics;
-using Umbra.Common;
-using Umbra.Game;
-
-namespace Umbra.Markers.Library;
+﻿namespace Umbra.Markers.Library;
 
 [Service]
 internal class PartyMemberWorldMarkerFactory(IPlayer player, IPartyList partyList, IZoneManager zoneManager)

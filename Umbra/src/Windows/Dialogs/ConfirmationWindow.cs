@@ -1,6 +1,4 @@
-﻿using ImGuiNET;
-using System.Numerics;
-using Umbra.Windows.Components;
+﻿
 
 namespace Umbra.Windows.Dialogs;
 

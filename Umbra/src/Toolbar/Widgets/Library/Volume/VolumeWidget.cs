@@ -1,9 +1,4 @@
-﻿using System.Collections.Generic;
-using Dalamud.Interface;
-using Dalamud.Plugin.Services;
-using System;
-using System.Diagnostics;
-using Umbra.Common;
+﻿using System.Diagnostics;
 
 namespace Umbra.Widgets;
 

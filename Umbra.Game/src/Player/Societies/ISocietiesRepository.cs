@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Umbra.Game.Societies;
+﻿namespace Umbra.Game.Societies;
 
 public interface ISocietiesRepository
 {

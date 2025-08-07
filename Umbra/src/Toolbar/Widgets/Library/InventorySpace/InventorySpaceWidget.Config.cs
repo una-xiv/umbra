@@ -14,9 +14,6 @@
  *     GNU Affero General Public License for more details.
  */
 
-using System.Collections.Generic;
-using Umbra.Common;
-
 namespace Umbra.Widgets.Library.InventorySpace;
 
 internal partial class InventorySpaceWidget

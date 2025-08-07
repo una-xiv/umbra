@@ -1,11 +1,6 @@
 using FFXIVClientStructs.FFXIV.Client.Graphics.Kernel;
-using System.Numerics;
-using ImGuiNET;
-using System;
-using System.Collections.Generic;
-using Umbra.Common;
+
 using Umbra.Widgets.System;
-using Una.Drawing;
 
 namespace Umbra.Widgets;
 

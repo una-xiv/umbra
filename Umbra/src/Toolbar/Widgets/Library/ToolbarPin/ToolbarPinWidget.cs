@@ -1,8 +1,4 @@
-﻿using Dalamud.Interface;
-using System.Collections.Generic;
-using Umbra.Common;
-
-namespace Umbra.Widgets;
+﻿namespace Umbra.Widgets;
 
 [ToolbarWidget(
     "ToolbarPin", 

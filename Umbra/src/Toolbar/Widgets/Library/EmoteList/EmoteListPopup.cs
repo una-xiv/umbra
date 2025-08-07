@@ -1,15 +1,8 @@
-﻿using Dalamud.Plugin.Services;
-using Lumina.Excel;
+﻿using Lumina.Excel;
 using Lumina.Excel.Sheets;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using Umbra.Common;
-using Umbra.Game;
 using Umbra.Widgets.Library.ShortcutPanel.Providers;
 using Umbra.Widgets.Library.ShortcutPanel.Windows;
 using Umbra.Windows;
-using Una.Drawing;
 
 namespace Umbra.Widgets.Library.EmoteList;
 

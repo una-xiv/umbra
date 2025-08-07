@@ -1,7 +1,5 @@
 ﻿using Dalamud.Game.Text;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
-using Umbra.Common;
-using Umbra.Game;
 
 namespace Umbra.Widgets;
 
@@ -24,7 +22,7 @@ internal static class GearsetSwitcherInfoDisplayProvider
 
         if (showSyncedLevel) {
             PlayerState* ps = PlayerState.Instance();
-            isSynced = ps != null && ps->IsLevelSynced == 1 && ps->SyncedLevel != jobLevel;
+            isSynced = ps != null && ps->IsLevelSynced && ps->SyncedLevel != jobLevel;
 
             if (isSynced) {
                 jobLevelStr =

@@ -1,9 +1,5 @@
 ﻿using FFXIVClientStructs.FFXIV.Client.UI.Misc;
 using FFXIVClientStructs.FFXIV.Client.UI.Shell;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using Umbra.Common;
 using Umbra.Game.Macro;
 
 namespace Umbra.Widgets.Library.ShortcutPanel.Providers;

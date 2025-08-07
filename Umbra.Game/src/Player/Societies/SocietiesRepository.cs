@@ -14,14 +14,7 @@
  *     GNU Affero General Public License for more details.
  */
 
-using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Application.Network.WorkDefinitions;
-using FFXIVClientStructs.FFXIV.Client.Game;
-using FFXIVClientStructs.FFXIV.Client.Game.UI;
-using Lumina.Excel.Sheets;
-using System;
-using System.Collections.Generic;
-using Umbra.Common;
 
 namespace Umbra.Game.Societies;
 
@@ -76,11 +69,9 @@ internal sealed class SocietiesRepository : ISocietiesRepository, IDisposable
                         byte maxRank, string rankName) =
                     GetTribe((byte)(i));
 
-                string name = tribe.Name.ExtractText();
-
                 Societies[tribe.RowId] = new() {
                     Id             = tribe.RowId,
-                    Name           = name[0].ToString().ToUpper() + name[1..],
+                    Name           = tribe.Name.ToNameString(),
                     Rank           = rank,
                     MaxRank        = maxRank,
                     RankName       = rankName,

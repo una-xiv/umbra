@@ -1,9 +1,4 @@
-﻿using Dalamud.Interface;
-using System.Numerics;
-using Umbra.Common;
-using Umbra.Windows.Components;
-
-namespace Umbra.Windows.FaIconPicker;
+﻿namespace Umbra.Windows.FaIconPicker;
 
 public class FaIconPickerWindow : Window
 {

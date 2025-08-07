@@ -1,12 +1,6 @@
 using Dalamud.Utility;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
 using System.Reflection;
-using Umbra.Common;
 using Umbra.Windows.Library.Installer;
-using Una.Drawing;
 
 namespace Umbra.Windows.Settings;
 

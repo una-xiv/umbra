@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using Umbra.Common;
-
-namespace Umbra.Widgets.Library.ShortcutPanel;
+﻿namespace Umbra.Widgets.Library.ShortcutPanel;
 
 internal sealed partial class ShortcutPanelWidget
 {

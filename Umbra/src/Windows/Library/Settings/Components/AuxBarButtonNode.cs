@@ -1,6 +1,5 @@
-﻿using ImGuiNET;
+﻿
 using Umbra.AuxBar;
-using Umbra.Common;
 
 namespace Umbra.Windows.Settings.Components;
 

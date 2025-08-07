@@ -1,9 +1,8 @@
 ﻿using FFXIVClientStructs.FFXIV.Client.Game.Event;
 using FFXIVClientStructs.FFXIV.Client.Game.Object;
 using FFXIVClientStructs.FFXIV.Common.Math;
-using System.Collections.Generic;
-using Umbra.Common;
-using Umbra.Game;
+using EventHandler = FFXIVClientStructs.FFXIV.Client.Game.Event.EventHandler;
+using Vector3 = FFXIVClientStructs.FFXIV.Common.Math.Vector3;
 
 namespace Umbra.Markers.Library;
 

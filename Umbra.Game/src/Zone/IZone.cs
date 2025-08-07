@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Numerics;
-using Lumina.Excel.Sheets;
+﻿using System.Numerics;
+using Map = Lumina.Excel.Sheets.Map;
 
 namespace Umbra.Game;
 

@@ -1,11 +1,5 @@
 ﻿using Dalamud.Game.Text.SeStringHandling;
-using Dalamud.Plugin.Services;
-using System;
-using System.Linq;
-using Umbra.Common;
-using Umbra.Game;
 using Umbra.Game.Societies;
-using Una.Drawing;
 
 namespace Umbra.Widgets.Library.Societies;
 

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Umbra.Windows.Library.VariableEditor;
+﻿namespace Umbra.Windows.Library.VariableEditor;
 
 public sealed class EnumVariable<T>(string id) : Variable(id), IEnumVariable, IDisposable where T : struct, Enum
 {

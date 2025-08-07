@@ -14,8 +14,6 @@
  *     GNU Affero General Public License for more details.
  */
 
-using System;
-
 namespace Umbra.Common.Services;
 
 public delegate object ServiceFactoryDelegate(Type type, params object[] args);

@@ -1,5 +1,4 @@
 ﻿using Dalamud.Game.Text.SeStringHandling;
-using System;
 
 namespace Umbra.Widgets;
 

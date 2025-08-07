@@ -1,16 +1,8 @@
 ﻿using Dalamud.Game.Text.SeStringHandling;
-using Dalamud.Interface;
-using ImGuiNET;
+
 using Lumina.Misc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using Umbra.Common;
 using Umbra.Widgets;
 using Umbra.Widgets.System;
-using Umbra.Windows.Components;
-using Una.Drawing;
 
 namespace Umbra.Windows.Library.WidgetBrowser;
 

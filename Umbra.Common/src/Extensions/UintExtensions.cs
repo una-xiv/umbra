@@ -14,7 +14,6 @@
  *     GNU Affero General Public License for more details.
  */
 
-using System;
 using System.Globalization;
 
 namespace Umbra.Interface;

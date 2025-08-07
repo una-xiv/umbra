@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-
 namespace Umbra.Game;
 
 public sealed class MainMenuCategory(MenuCategory category, string name)

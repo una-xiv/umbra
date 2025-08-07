@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using Umbra.Common;
-
-namespace Umbra.Markers;
+﻿namespace Umbra.Markers;
 
 public class SelectMarkerConfigVariable(
     string                     id,

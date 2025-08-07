@@ -1,6 +1,4 @@
-﻿using System;
-using Umbra.Common;
-using Umbra.Windows.Library.VariableEditor;
+﻿using Umbra.Windows.Library.VariableEditor;
 
 namespace Umbra.Widgets;
 

@@ -1,7 +1,4 @@
-﻿using Umbra.Windows.Components;
-using Una.Drawing;
-
-namespace Umbra.Widgets;
+﻿namespace Umbra.Widgets;
 
 internal partial class DurabilityWidget
 {

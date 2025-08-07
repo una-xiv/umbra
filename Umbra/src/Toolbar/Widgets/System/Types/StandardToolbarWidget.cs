@@ -1,11 +1,5 @@
 ﻿using Dalamud.Game.Text;
 using Dalamud.Game.Text.SeStringHandling;
-using Dalamud.Interface;
-using System;
-using System.Collections.Generic;
-using Umbra.Common;
-using Umbra.Windows.Components;
-using Una.Drawing;
 
 namespace Umbra.Widgets;
 

@@ -15,8 +15,6 @@
  */
 
 using FFXIVClientStructs.FFXIV.Client.UI;
-using System;
-using Umbra.Common;
 using Umbra.Widgets;
 using Umbra.Widgets.System;
 using Umbra.Windows;

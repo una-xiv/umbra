@@ -1,7 +1,5 @@
 ﻿using Dalamud.Game.Text;
-using ImGuiNET;
-using System;
-using Umbra.Common;
+
 using Umbra.Windows.GameGlyphPicker;
 
 namespace Umbra.Windows.Components;

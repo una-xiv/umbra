@@ -1,7 +1,4 @@
 ﻿using Dalamud.Game.Text.SeStringHandling;
-using System.Numerics;
-using Umbra.Common;
-using Umbra.Windows.Components;
 
 namespace Umbra.Windows.FaIconPicker;
 
