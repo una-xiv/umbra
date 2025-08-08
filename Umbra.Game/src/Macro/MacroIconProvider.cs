@@ -14,7 +14,7 @@ internal sealed unsafe class MacroIconProvider : IMacroIconProvider
 {
     // Resolves the proper icon for a macro when using the "/macroicon" or
     // "/micon" command inside the macro text. Courtesy of Haselnussbomber.
-    [Signature("E8 ?? ?? ?? ?? 0F B6 BE ?? ?? ?? ?? 8B 9E")]
+    [Signature("E8 ?? ?? ?? ?? 84 C0 74 ?? 0F B6 74 24")]
     private ResolveMacroIconDelegate? _resolveMacroIcon;
 
     private delegate byte ResolveMacroIconDelegate(
