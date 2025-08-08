@@ -111,8 +111,6 @@ public abstract class StandardToolbarWidget(
                 }
             }
 
-            IconNode.Style.IsVisible = HasIcon();
-
             SetIconColor(new(GetConfigValue<uint>(CvarNameIconColor)));
             SetIconDesaturated(GetConfigValue<bool>(CvarNameDesaturateIcon));
             SetIconSize(GetConfigValue<int>(CvarNameIconSize));
@@ -146,8 +144,8 @@ public abstract class StandardToolbarWidget(
 
         if (HasIconAndTextFeature()) {
             string displayMode = GetConfigValue<string>(CvarNameDisplayMode);
-            Node.ToggleClass("text-only", displayMode == "TextOnly");
-            Node.ToggleClass("icon-only", displayMode == "IconOnly");
+            Node.ToggleClass("text-only", displayMode == DisplayModeTextOnly);
+            Node.ToggleClass("icon-only", displayMode == DisplayModeIconOnly);
         }
 
         int padding = GetConfigValue<int>(CvarNameHorizontalPadding);
