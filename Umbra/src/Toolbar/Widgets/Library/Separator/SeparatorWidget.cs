@@ -31,13 +31,19 @@ internal class SeparatorWidget(
         ]
     };
 
-    protected override void Initialize() { }
+    protected override void Initialize()
+    {
+    }
 
     protected override void OnUpdate()
     {
+    }
+
+    protected override void OnConfigurationChanged()
+    {
         Node.Style.Size = new(GetConfigValue<int>("Width"), SafeHeight);
         Node line = Node.FindById("Line")!;
-
+        
         line.Style.BackgroundColor = new(GetConfigValue<string>("LineColor"));
 
         if (IsMemberOfVerticalBar) {

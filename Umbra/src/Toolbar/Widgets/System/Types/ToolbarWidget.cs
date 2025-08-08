@@ -110,6 +110,7 @@ public abstract class ToolbarWidget(
             }
         }
 
+        OnConfigurationChanged();
         Initialize();
 
         Node.ToggleClass("widget-instance", true);
@@ -135,8 +136,6 @@ public abstract class ToolbarWidget(
             if (Node.IsDisabled || PopupActivationMethod != "Hover") return;
             OpenPopup?.Invoke(this, Popup);
         };
-        
-        OnConfigurationChanged();
     }
 
     /// <summary>
@@ -338,6 +337,8 @@ public abstract class ToolbarWidget(
 
         Framework.Service<WidgetManager>().SaveWidgetState(Id);
         Framework.Service<WidgetManager>().SaveState();
+        
+        OnConfigurationChanged();
     }
 
     /// <summary>
