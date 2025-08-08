@@ -70,6 +70,7 @@ internal sealed partial class GearsetSwitcherPopup : WidgetPopup
         UpdateHeaderNodes();
         UpdateGroupPositions();
         UpdateGearsetButtons();
+        UpdateColumns();
     }
 
     #region Header
@@ -136,4 +137,30 @@ internal sealed partial class GearsetSwitcherPopup : WidgetPopup
     }
 
     #endregion
+
+    private void UpdateColumns()
+    {
+        UpdateColumnVisibility(LeftColumnNode);
+        UpdateColumnVisibility(MiddleColumnNode);
+        UpdateColumnVisibility(RightColumnNode);
+    }
+
+    private void UpdateColumnVisibility(Node columnNode)
+    {
+        bool isColumnVisible = false;
+
+        foreach (var node in GearsetGroupNodes.Values) {
+            if (node.ParentNode != columnNode) continue;
+            
+            if (node.QuerySelector(".body")!.ChildNodes.Count == 0) {
+                node.Style.IsVisible = false;
+                continue;
+            }
+
+            node.Style.IsVisible = true;
+            isColumnVisible = true;
+        }
+
+        columnNode.Style.IsVisible = isColumnVisible;
+    }
 }

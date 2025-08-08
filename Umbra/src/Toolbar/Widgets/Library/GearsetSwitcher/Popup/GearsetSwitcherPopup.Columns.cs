@@ -73,9 +73,9 @@ internal sealed partial class GearsetSwitcherPopup
         groupNode.QuerySelector(".body")!.Id         = $"GearsetList_{category}";
 
         groupNode.QuerySelector(".title")!.Style.Size = new(0, _buttonHeight);
-
+        groupNode.Style.IsVisible                     = true;
+        
         LeftColumnNode.AppendChild(groupNode);
-
         GearsetGroupNodes.Add(category, groupNode);
     }
 }

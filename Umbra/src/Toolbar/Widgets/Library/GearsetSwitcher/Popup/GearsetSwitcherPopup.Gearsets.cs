@@ -47,6 +47,7 @@ internal sealed partial class GearsetSwitcherPopup
 
         if (_hidePrefix.Length > 0 && gearset.Name.StartsWith(_hidePrefix)) {
             node?.Dispose();
+            UpdateColumns();
             return;
         }
         
@@ -86,6 +87,7 @@ internal sealed partial class GearsetSwitcherPopup
         node.QuerySelector(".item-level")!.NodeValue = $"{gearset.ItemLevel}";
 
         group.QuerySelector(".body")!.AppendChild(node);
+        UpdateColumns();
     }
 
     private void OnGearsetRemoved(Gearset gearset)
@@ -95,6 +97,7 @@ internal sealed partial class GearsetSwitcherPopup
 
         node.Dispose();
         _nodeToGearset.Remove(node);
+        UpdateColumns();
     }
 
     private void OnGearsetEquipped(Gearset gearset)
