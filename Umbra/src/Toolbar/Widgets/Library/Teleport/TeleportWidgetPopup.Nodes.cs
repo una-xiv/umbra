@@ -8,6 +8,10 @@ internal partial class TeleportWidgetPopup
     {
         ExtendedInterfaceNode.Style.IsVisible  = DisplayMode == PopupDisplayMode.Extended;
         CondensedInterfaceNode.Style.IsVisible = DisplayMode == PopupDisplayMode.Condensed;
+
+        if (DisplayMode == PopupDisplayMode.Condensed) {
+            CondensedInterfaceNode.Style.FlowOrder = ReverseCondensedElements ? FlowOrder.Reverse : FlowOrder.Normal;
+        }
     }
 
     private void BuildInterfaces()

@@ -105,6 +105,7 @@ internal partial class TeleportWidgetPopup
 
         Favorites.RemoveAt(index);
         Favorites.Insert(newIndex, id);
+        
         PersistFavorites();
         UpdateFavoriteSortIndices();
     }

@@ -1,4 +1,5 @@
 ﻿using Lumina.Excel.Sheets;
+using Umbra.Widgets.Popup;
 
 namespace Umbra.Widgets;
 
@@ -24,7 +25,7 @@ internal sealed partial class TeleportWidget(
     protected override string DefaultIconType   => IconTypeGameIcon;
     protected override uint   DefaultGameIconId => 60453;
 
-    private IPlayer Player { get; set; } = Framework.Service<IPlayer>();
+    private IPlayer Player { get; } = Framework.Service<IPlayer>();
 
     private string TeleportName { get; set; } = null!;
 
@@ -34,11 +35,13 @@ internal sealed partial class TeleportWidget(
         var teleportAction = Framework.Service<IDataManager>().GetExcelSheet<GeneralAction>().GetRow(7);
         TeleportName = teleportAction.Name.ToString();
 
+        Node.OnClick += OpenPopupMenu;
         Node.OnRightClick += OpenTeleportWindow;
     }
 
     protected override void OnUnload()
     {
+        Node.OnClick -= OpenPopupMenu;
         Node.OnRightClick -= OpenTeleportWindow;
     }
 
@@ -48,16 +51,21 @@ internal sealed partial class TeleportWidget(
         SetText(TeleportName);
     }
 
-    private string GetExpansionMenuPosition()
+    private ExpansionListPosition GetExpansionMenuPosition()
     {
-        return GetConfigValue<string>("ExpansionListPosition") switch {
-            "Auto"  => Node.ParentNode!.Id == "Right" ? "Right" : "Left",
-            "Left"  => "Left",
-            "Right" => "Right",
-            _       => "Top"
+        return GetConfigValue<ExpansionListPosition>("ExpansionListPosition") switch {
+            ExpansionListPosition.Auto  => Node.ParentNode!.Id == "Right" ? ExpansionListPosition.Right : ExpansionListPosition.Left,
+            ExpansionListPosition.Left  => ExpansionListPosition.Left,
+            ExpansionListPosition.Right => ExpansionListPosition.Right,
+            _                           => ExpansionListPosition.Left
         };
     }
 
+    private void OpenPopupMenu(Node _)
+    {
+        Popup.ReverseCondensedElements = GetExpansionMenuPosition() == ExpansionListPosition.Right;
+    }
+    
     private void OpenTeleportWindow(Node _)
     {
         Player.UseGeneralAction(7);

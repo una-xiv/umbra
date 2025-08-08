@@ -15,7 +15,15 @@ internal sealed partial class TeleportWidget
                 I18N.Translate("Widget.Teleport.Config.PopupDisplayMode.Description"),
                 PopupDisplayMode.Condensed
             ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
-            
+            new EnumWidgetConfigVariable<ExpansionListPosition>(
+                "ExpansionListPosition",
+                I18N.Translate("Widget.Teleport.Config.ExpansionListPosition.Name"),
+                I18N.Translate("Widget.Teleport.Config.ExpansionListPosition.Description"),
+                ExpansionListPosition.Auto
+            ) {
+                Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance"),
+                DisplayIf = () => GetConfigValue<PopupDisplayMode>("PopupDisplayMode") == PopupDisplayMode.Condensed,
+            },
             new SelectWidgetConfigVariable(
                 "DefaultOpenedGroupName",
                 I18N.Translate("Widget.Teleport.Config.DefaultOpenedGroupName.Name"),
