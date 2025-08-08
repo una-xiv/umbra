@@ -15,7 +15,12 @@ public class DtrBarEntry(IReadOnlyDtrBarEntry entry, int sortIndex)
 
     private readonly Action? _onClick = () => {
         if (!entry.HasClickAction) return;
-        // TODO: Implement this again when Dalamud has the method for it
+        entry.OnClick?.Invoke(new DtrInteractionEvent {
+            ClickType = MouseClickType.Left,
+            ModifierKeys = ClickModifierKeys.None,
+            ScrollDirection = MouseScrollDirection.None,
+            Position = ImGui.GetMousePos()
+        });
     };
 
     internal void Update(IReadOnlyDtrBarEntry entry, int sortIndex)
