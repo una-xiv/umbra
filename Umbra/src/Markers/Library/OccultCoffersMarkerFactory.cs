@@ -1,4 +1,4 @@
-﻿using Dalamud.Game.ClientState.Fates;
+using Dalamud.Game.ClientState.Fates;
 using Dalamud.Game.Text;
 using Dalamud.Game.Text.SeStringHandling;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
@@ -40,7 +40,6 @@ internal sealed partial class OccultCoffersMarkerFactory : WorldMarkerFactory
         ];
     }
 
-
     private static readonly Dictionary<uint, Dictionary<uint, Vector3>> PotFates = new() {
         {
             1252, new() {
@@ -69,7 +68,6 @@ internal sealed partial class OccultCoffersMarkerFactory : WorldMarkerFactory
     public override void Dispose()
     {
         _chatGui.CheckMessageHandled -= OnChatMessage;
-
         base.Dispose();
     }
 
@@ -85,7 +83,14 @@ internal sealed partial class OccultCoffersMarkerFactory : WorldMarkerFactory
             return;
         }
 
-        if (GetActivePotFate() is not null) _lastPotFateSpawnTime = DateTimeOffset.Now.ToUnixTimeSeconds();
+        // Only record spawn time on transition from no FATE to active FATE
+        var activePotFate = GetActivePotFate();
+        if (activePotFate is not null) {
+            if (_lastPotFateId != activePotFate.FateId) {
+                _lastPotFateId = activePotFate.FateId;
+                _lastPotFateSpawnTime = DateTimeOffset.Now.ToUnixTimeSeconds();
+            }
+        }
 
         // If the player doesn't have the Magical Elixir, but is in Occult, show the pot fate spawn marker.
         if (false == _player.HasItemInInventory(MagicalElixirItemId)) {
@@ -163,7 +168,7 @@ internal sealed partial class OccultCoffersMarkerFactory : WorldMarkerFactory
             subLabel       = $@"{potFate.Progress}% - {TimeSpan.FromSeconds(potFate.TimeRemaining):mm\:ss} remaining";
         }
 
-        if (_lastPotFateId == 0) return;
+        if (_lastPotFateId == 0 && potFate is null) return;
 
         // Track the _other_ pot fate in the zone if the current one is not active.
         var position = potFate?.Position ?? fates.FirstOrDefault(pos => pos.Value != fates[_lastPotFateId]).Value;
