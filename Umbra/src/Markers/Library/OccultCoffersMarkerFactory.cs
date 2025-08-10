@@ -13,8 +13,7 @@ internal sealed partial class OccultCoffersMarkerFactory : WorldMarkerFactory
     public override string Description { get; } = I18N.Translate("Markers.OccultCoffers.Description");
 
     private const uint MagicalElixirItemId = 2003296;
-    private const int  MinFateRespawn      = 530;
-    private const int  MaxFateRespawn      = 1000;
+    private const int  PotFateRespawn      = 1800;
 
     private readonly IZoneManager _zoneManager;
     private readonly IChatGui     _chatGui;
@@ -149,13 +148,11 @@ internal sealed partial class OccultCoffersMarkerFactory : WorldMarkerFactory
         if (potFate is null && _lastPotFateSpawnTime > 0) {
             long currentTime = DateTimeOffset.Now.ToUnixTimeSeconds();
 
-            var minRespawnTime = TimeSpan.FromSeconds(_lastPotFateSpawnTime + MinFateRespawn - currentTime);
-            var maxRespawnTime = TimeSpan.FromSeconds(_lastPotFateSpawnTime + MaxFateRespawn - currentTime);
+            var potRespawnTime = TimeSpan.FromSeconds(_lastPotFateSpawnTime + PotFateRespawn - currentTime);
 
-            if (minRespawnTime.TotalSeconds > 0) {
-                var min = minRespawnTime.ToString(minRespawnTime.TotalSeconds > 59 ? @"%m\ \m\i\n" : @"%s\ \s\e\c");
-                var max = maxRespawnTime.ToString(maxRespawnTime.TotalSeconds > 59 ? @"%m\ \m\i\n" : @"%s\ \s\e\c");
-                subLabel = $"Respawn between {min} and {max}";
+            if (potRespawnTime.TotalSeconds > 0) {
+                var min = potRespawnTime.ToString(potRespawnTime.TotalSeconds > 59 ? @"%m\ \m\i\n" : @"%s\ \s\e\c");
+                subLabel = $"Respawn in {min}";
             } else {
                 subLabel = "Respawning soon";
             }
