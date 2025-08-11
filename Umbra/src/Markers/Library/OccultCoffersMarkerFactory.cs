@@ -1,4 +1,4 @@
-﻿using Dalamud.Game.ClientState.Fates;
+using Dalamud.Game.ClientState.Fates;
 using Dalamud.Game.Text;
 using Dalamud.Game.Text.SeStringHandling;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
@@ -13,8 +13,7 @@ internal sealed partial class OccultCoffersMarkerFactory : WorldMarkerFactory
     public override string Description { get; } = I18N.Translate("Markers.OccultCoffers.Description");
 
     private const uint MagicalElixirItemId = 2003296;
-    private const int  MinFateRespawn      = 530;
-    private const int  MaxFateRespawn      = 1000;
+    private const int  PotFateRespawn      = 1800;
 
     private readonly IZoneManager _zoneManager;
     private readonly IChatGui     _chatGui;
@@ -40,7 +39,6 @@ internal sealed partial class OccultCoffersMarkerFactory : WorldMarkerFactory
             ..DefaultFadeConfigVariables,
         ];
     }
-
 
     private static readonly Dictionary<uint, Dictionary<uint, Vector3>> PotFates = new() {
         {
@@ -70,7 +68,6 @@ internal sealed partial class OccultCoffersMarkerFactory : WorldMarkerFactory
     public override void Dispose()
     {
         _chatGui.CheckMessageHandled -= OnChatMessage;
-
         base.Dispose();
     }
 
@@ -86,7 +83,14 @@ internal sealed partial class OccultCoffersMarkerFactory : WorldMarkerFactory
             return;
         }
 
-        if (GetActivePotFate() is not null) _lastPotFateSpawnTime = DateTimeOffset.Now.ToUnixTimeSeconds();
+        // Only record spawn time on transition from no FATE to active FATE
+        var activePotFate = GetActivePotFate();
+        if (activePotFate is not null) {
+            if (_lastPotFateId != activePotFate.FateId) {
+                _lastPotFateId = activePotFate.FateId;
+                _lastPotFateSpawnTime = DateTimeOffset.Now.ToUnixTimeSeconds();
+            }
+        }
 
         // If the player doesn't have the Magical Elixir, but is in Occult, show the pot fate spawn marker.
         if (false == _player.HasItemInInventory(MagicalElixirItemId)) {
@@ -149,13 +153,11 @@ internal sealed partial class OccultCoffersMarkerFactory : WorldMarkerFactory
         if (potFate is null && _lastPotFateSpawnTime > 0) {
             long currentTime = DateTimeOffset.Now.ToUnixTimeSeconds();
 
-            var minRespawnTime = TimeSpan.FromSeconds(_lastPotFateSpawnTime + MinFateRespawn - currentTime);
-            var maxRespawnTime = TimeSpan.FromSeconds(_lastPotFateSpawnTime + MaxFateRespawn - currentTime);
+            var potRespawnTime = TimeSpan.FromSeconds(_lastPotFateSpawnTime + PotFateRespawn - currentTime);
 
-            if (minRespawnTime.TotalSeconds > 0) {
-                var min = minRespawnTime.ToString(minRespawnTime.TotalSeconds > 59 ? @"%m\ \m\i\n" : @"%s\ \s\e\c");
-                var max = maxRespawnTime.ToString(maxRespawnTime.TotalSeconds > 59 ? @"%m\ \m\i\n" : @"%s\ \s\e\c");
-                subLabel = $"Respawn between {min} and {max}";
+            if (potRespawnTime.TotalSeconds > 0) {
+                var min = potRespawnTime.ToString(potRespawnTime.TotalSeconds > 59 ? @"%m\ \m\i\n" : @"%s\ \s\e\c");
+                subLabel = $"Respawn in {min}";
             } else {
                 subLabel = "Respawning soon";
             }
@@ -166,7 +168,7 @@ internal sealed partial class OccultCoffersMarkerFactory : WorldMarkerFactory
             subLabel       = $@"{potFate.Progress}% - {TimeSpan.FromSeconds(potFate.TimeRemaining):mm\:ss} remaining";
         }
 
-        if (_lastPotFateId == 0) return;
+        if (_lastPotFateId == 0 && potFate is null) return;
 
         // Track the _other_ pot fate in the zone if the current one is not active.
         var position = potFate?.Position ?? fates.FirstOrDefault(pos => pos.Value != fates[_lastPotFateId]).Value;
