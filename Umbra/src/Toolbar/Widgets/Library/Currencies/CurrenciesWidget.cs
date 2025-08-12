@@ -108,7 +108,6 @@ internal sealed partial class CurrenciesWidget(
             ProgressBarNode.UseOverflow     = true;
             ProgressBarNode.Value           = 200;
         } else {
-            SingleLabelTextNode.Style.Color = null;
             ProgressBarNode.UseOverflow     = false;
 
             if (currency.WeeklyCapacity > 0) {
