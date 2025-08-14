@@ -42,7 +42,7 @@ internal partial class Toolbar
             auxBarNode.ToggleClass("right-aligned", config.XAlign == "Right");
             auxBarNode.ToggleClass("center-aligned", config.XAlign == "Center");
             auxBarNode.ToggleClass("top-aligned", config.YAlign == "Top");
-            auxBarNode.ToggleClass("middle-aligned", config.YAlign == "Middle");
+            auxBarNode.ToggleClass("middle-aligned", config.YAlign == "Center");
             auxBarNode.ToggleClass("bottom-aligned", config.YAlign == "Bottom");
 
             Vector2 workPos = ImGui.GetMainViewport().WorkPos;
@@ -56,7 +56,7 @@ internal partial class Toolbar
             };
 
             float yPos = config.YAlign switch {
-                "Middle" => (workPos.Y + workSize.Y - (workSize.Y/2f) - (auxBarNode.Bounds.MarginSize.Height / 2f)) + config.YPos,
+                "Center" => (workPos.Y + workSize.Y - (workSize.Y/2f) - (auxBarNode.Bounds.MarginSize.Height / 2f)) + config.YPos,
                 "Top"    => config.YPos,
                 "Bottom" => (int)(workPos.Y + workSize.Y - config.YPos - auxBarNode.Bounds.MarginSize.Height),
                 _        => config.YPos,
