@@ -116,7 +116,8 @@ internal class SettingsWindowToolbarWidgetsModule : SettingsWindowModule
         var ctrlVertical              = configNode.QuerySelector<CheckboxNode>(".input-vertical")!;
         var ctrlXPos                  = configNode.QuerySelector<IntegerInputNode>(".input-x-pos")!;
         var ctrlYPos                  = configNode.QuerySelector<IntegerInputNode>(".input-y-pos")!;
-        var ctrlAlign                 = configNode.QuerySelector<SelectNode>(".input-x-align")!;
+        var ctrlXAlign                = configNode.QuerySelector<SelectNode>(".input-x-align")!;
+        var ctrlYAlign                = configNode.QuerySelector<SelectNode>(".input-y-align")!;
         var ctrlDecorate              = configNode.QuerySelector<CheckboxNode>(".input-decorate")!;
         var ctrlShadow                = configNode.QuerySelector<CheckboxNode>(".input-shadow")!;
         var ctrlRounded               = configNode.QuerySelector<CheckboxNode>(".input-rounded-corners")!;
@@ -137,7 +138,8 @@ internal class SettingsWindowToolbarWidgetsModule : SettingsWindowModule
         ctrlName.Value                  = config.Name;
         ctrlXPos.Value                  = config.XPos;
         ctrlYPos.Value                  = config.YPos;
-        ctrlAlign.Value                 = config.XAlign;
+        ctrlXAlign.Value                = config.XAlign;
+        ctrlYAlign.Value                = config.YAlign;
         ctrlDecorate.Value              = config.Decorate;
         ctrlVertical.Value              = config.IsVertical;
         ctrlShadow.Value                = config.EnableShadow;
@@ -168,8 +170,12 @@ internal class SettingsWindowToolbarWidgetsModule : SettingsWindowModule
             config.YPos = yPos;
             AuxBarManager.Persist();
         };
-        ctrlAlign.OnValueChanged += xAlign => {
+        ctrlXAlign.OnValueChanged += xAlign => {
             config.XAlign = xAlign;
+            AuxBarManager.Persist();
+        };
+        ctrlYAlign.OnValueChanged += yAlign => {
+            config.YAlign = yAlign;
             AuxBarManager.Persist();
         };
         ctrlVertical.OnValueChanged += vertical => {
