@@ -81,6 +81,7 @@ internal sealed class AuxBarManager : IDisposable
             XPos                   = Toolbar.AuxBarXPos,
             YPos                   = Toolbar.AuxBarYPos,
             XAlign                 = Toolbar.AuxBarXAlign,
+            YAlign                 = Toolbar.AuxBarYAlign,
             IsEnabled              = Toolbar.AuxBarEnabled,
             Decorate               = Toolbar.AuxBarDecorate,
             EnableShadow           = Toolbar.AuxEnableShadow,

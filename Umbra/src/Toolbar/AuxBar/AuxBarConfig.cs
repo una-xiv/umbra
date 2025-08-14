@@ -12,6 +12,7 @@ public class AuxBarConfig
     public int    XPos                   { get; set; } = 50;
     public int    YPos                   { get; set; } = 50;
     public string XAlign                 { get; set; } = "Center";
+    public string YAlign                 { get; set; } = "Top";
     public bool   EnableShadow           { get; set; } = true;
     public bool   HideInCutscenes        { get; set; } = true;
     public bool   HideInPvP              { get; set; }
@@ -35,6 +36,7 @@ public class AuxBarConfig
         XPos                   = other.XPos;
         YPos                   = other.YPos;
         XAlign                 = other.XAlign;
+        YAlign                 = other.YAlign;
         EnableShadow           = other.EnableShadow;
         HideInCutscenes        = other.HideInCutscenes;
         HideInPvP              = other.HideInPvP;

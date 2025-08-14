@@ -41,19 +41,30 @@ internal partial class Toolbar
             auxBarNode.ToggleClass("left-aligned", config.XAlign == "Left");
             auxBarNode.ToggleClass("right-aligned", config.XAlign == "Right");
             auxBarNode.ToggleClass("center-aligned", config.XAlign == "Center");
+            auxBarNode.ToggleClass("top-aligned", config.YAlign == "Top");
+            auxBarNode.ToggleClass("middle-aligned", config.YAlign == "Middle");
+            auxBarNode.ToggleClass("bottom-aligned", config.YAlign == "Bottom");
 
             Vector2 workPos = ImGui.GetMainViewport().WorkPos;
+            Vector2 workSize = ImGui.GetMainViewport().WorkSize;
 
             float xPos = config.XAlign switch {
                 "Center" => (ToolbarXPosition - (auxBarNode.Bounds.MarginSize.Width / 2f)) + config.XPos,
                 "Left"   => config.XPos,
-                "Right"  => (int)(ImGui.GetMainViewport().WorkPos.X + ImGui.GetMainViewport().WorkSize.X - config.XPos - auxBarNode.Bounds.MarginSize.Width),
+                "Right"  => (int)(workPos.X + workSize.X - config.XPos - auxBarNode.Bounds.MarginSize.Width),
                 _        => config.XPos,
+            };
+
+            float yPos = config.YAlign switch {
+                "Middle" => (workPos.Y + workSize.Y - (workSize.Y/2f) - (auxBarNode.Bounds.MarginSize.Height / 2f)) + config.YPos,
+                "Top"    => config.YPos,
+                "Bottom" => (int)(workPos.Y + workSize.Y - config.YPos - auxBarNode.Bounds.MarginSize.Height),
+                _        => config.YPos,
             };
             
             auxBarNode.Render(
                 ImGui.GetBackgroundDrawList(ImGui.GetMainViewport()),
-                new(xPos, (int)workPos.Y + config.YPos)
+                new(xPos, yPos)
             );
         }
     }

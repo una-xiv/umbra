@@ -63,6 +63,9 @@ internal partial class Toolbar
 
     [ConfigVariable("Toolbar.AuxBar.XAlign", options: ["Left", "Center", "Right"])]
     public static string AuxBarXAlign { get; set; } = "Center";
+    
+    [ConfigVariable("Toolbar.AuxBar.YAlign", options: ["Top", "Middle", "Bottom"])]
+    public static string AuxBarYAlign { get; set; } = "Top";
 
     [ConfigVariable("Toolbar.AuxBar.EnableShadow")]
     public static bool AuxEnableShadow { get; set; } = true;
