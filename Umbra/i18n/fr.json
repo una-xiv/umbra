@@ -698,6 +698,7 @@
   "Widget.GearsetSwitcher.Config.IconType.Option.Purple": "Violet (Petit!)",
   "Widget.GearsetSwitcher.Config.IconType.Option.Blue": "Bleu (Petit!)",
   "Widget.GearsetSwitcher.Config.IconType.Option.Green": "Vert (Petit!)",
+  "Widget.GearsetSwitcher.Config.IconType.Option.PixelSprites": "Sprites pixelisés (Petit!)",
   "Widget.GearsetSwitcher.Config.ShowRole.Name": "Afficher {0}",
   "Widget.GearsetSwitcher.Config.ShowRole.Description": "Indiquer si les ensembles d'équipements associés à ce rôle doivent être affichés dans la fenêtre contextuelle.",
   "Widget.GearsetSwitcher.Config.ShowRoleTitle.Name": "Afficher le titre de {0}",

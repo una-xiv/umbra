@@ -915,6 +915,7 @@
   "Widget.GearsetSwitcher.Config.IconType.Option.Purple": "紫色 (小!)",
   "Widget.GearsetSwitcher.Config.IconType.Option.Blue": "蓝色 (小!)",
   "Widget.GearsetSwitcher.Config.IconType.Option.Green": "绿色 (小!)",
+   "Widget.GearsetSwitcher.Config.IconType.Option.PixelSprites": "像素精灵 (小!)",
   "Widget.GearsetSwitcher.Config.ShowRole.Name": "显示 {0}",
   "Widget.GearsetSwitcher.Config.ShowRole.Description": "是否在弹出窗口中显示与此职能关联的套装。",
   "Widget.GearsetSwitcher.Config.ShowRoleTitle.Name": "显示 {0} 标题",

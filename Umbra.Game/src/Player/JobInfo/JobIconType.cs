@@ -37,4 +37,7 @@ public enum JobIconType : byte
 
     [TranslationKey("Widget.GearsetSwitcher.Config.IconType.Option.Green")]
     Green = 11,
+
+    [TranslationKey("Widget.GearsetSwitcher.Config.IconType.Option.PixelSprites")]
+    PixelSprites = 12,
 }

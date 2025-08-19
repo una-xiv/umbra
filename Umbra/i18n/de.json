@@ -915,6 +915,7 @@
   "Widget.GearsetSwitcher.Config.IconType.Option.Purple": "Lila (Klein!)",
   "Widget.GearsetSwitcher.Config.IconType.Option.Blue": "Blau (Klein!)",
   "Widget.GearsetSwitcher.Config.IconType.Option.Green": "Grün (Klein!)",
+  "Widget.GearsetSwitcher.Config.IconType.Option.PixelSprites": "Pixel Sprites (Klein!)",
   "Widget.GearsetSwitcher.Config.ShowRole.Name": "Zeige {0}",
   "Widget.GearsetSwitcher.Config.ShowRole.Description": "Ob die mit dieser Rolle verbundenen Ausrüstungssets im Popup angezeigt werden sollen.",
   "Widget.GearsetSwitcher.Config.ShowRoleTitle.Name": "Zeige den Titel {0}",
