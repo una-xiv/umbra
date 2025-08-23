@@ -194,6 +194,8 @@
   "Settings.WidgetsModule.Aux.XPosition.Description": "Die horizontale Position der Hilfsleiste vom Bildschirmrand in Pixeln.",
   "Settings.WidgetsModule.Aux.YPosition.Name": "Vertikale Position",
   "Settings.WidgetsModule.Aux.YPosition.Description": "Die vertikale Position der Hilfsleiste vom Bildschirmrand in Pixeln.",
+  "Settings.WidgetsModule.Aux.Width.Name": "Breite",
+  "Settings.WidgetsModule.Aux.Width.Description": "Die Breite der Hilfsleiste. Diese Option wird ignoriert, wenn die Hilfsleiste vertikal angezeigt wird. Wenn die Breite auf 0 gesetzt wird, passt sich die Hilfsleiste automatisch ihrem Inhalt an.",
   "Settings.WidgetsModule.Aux.HideInCutscenes.Name": "In Zwischensequenzen ausblenden",
   "Settings.WidgetsModule.Aux.HideInCutscenes.Description": "Blendet die Hilfsleiste während Zwischensequenzen aus. Diese Option hat Vorrang vor den nachstehenden Einstellungen für die bedingte Sichtbarkeit.",
   "Settings.WidgetsModule.Aux.HideInPvP.Name": "In PvP-Inhalten ausblenden",

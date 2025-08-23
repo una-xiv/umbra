@@ -194,6 +194,8 @@
   "Settings.WidgetsModule.Aux.XPosition.Description": "The horizontal position of the auxiliary bar from the screen edge in pixels.",
   "Settings.WidgetsModule.Aux.YPosition.Name": "Vertical position",
   "Settings.WidgetsModule.Aux.YPosition.Description": "The vertical position of the auxiliary bar from the screen edge in pixels.",
+  "Settings.WidgetsModule.Aux.Width.Name": "Width",
+  "Settings.WidgetsModule.Aux.Width.Description": "The width of the auxiliary bar. This option is ignored if the auxiliary bar is displayed vertically. Setting the width to 0 will automatically resize the auxiliary bar depending on its content.",
   "Settings.WidgetsModule.Aux.HideInCutscenes.Name": "Hide in cutscenes",
   "Settings.WidgetsModule.Aux.HideInCutscenes.Description": "Hides the auxiliary bar during cutscenes. This option takes precedence over the conditional visibility settings below.",
   "Settings.WidgetsModule.Aux.HideInPvP.Name": "Hide in PvP duties",
