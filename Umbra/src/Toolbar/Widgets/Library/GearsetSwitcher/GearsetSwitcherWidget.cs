@@ -60,7 +60,22 @@ internal sealed partial class GearsetSwitcherWidget(
         JobIconType type = GetConfigValue<JobIconType>("WidgetButtonIconType");
         string customLabel = GetConfigValue<string>("CustomLabel");
 
-        SetGameIconId(job.Icons[type]);
+        switch (type) {
+            case JobIconType.PixelSprites:
+                switch (gearset.Category) {
+                    case GearsetCategory.Crafter:
+                    case GearsetCategory.Gatherer:
+                        SetUldIcon(job.GetUldIcon(type), "ui/uld/WKSScoreList", 2);
+                        break;
+                    default:
+                        SetUldIcon(job.GetUldIcon(type), "ui/uld/DeepDungeonScoreList", 3);
+                        break;
+                }
+                break;
+            default:
+                SetGameIconId(job.Icons[type]);
+                break;
+        }
         SetProgressBarValue(job.XpPercent);
         SetText(customLabel != string.Empty ? customLabel : gearset.Name);
         SetSubText(GearsetSwitcherInfoDisplayProvider.GetInfoText(

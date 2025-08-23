@@ -22,14 +22,14 @@
             <node class="column" id="RightColumn"/>
         </node>
     </node>
-    
+
     <template name="gearset-group">
         <node class="gearset-group">
             <node class="title" value="Gearset Group Name Here"/>
             <node class="body"/>
         </node>
     </template>
-    
+
     <template name="gearset">
         <node class="gearset">
             <node class="bg"/>
@@ -46,17 +46,17 @@
             </node>
         </node>
     </template>
-    
+
     <![CDATA[
     .popup {
         flow: vertical;
-        
+
         & > .background {
             anchor: none;
             flow: vertical;
             auto-size: grow;
             margin: 3;
-            
+
             & > .top {
                 size: 0 100;
                 auto-size: grow fit;
@@ -65,7 +65,7 @@
                 transition-type: ease-out-sine;
                 transition-duration: 500;
             }
-            
+
             & > .bottom {
                 auto-size: grow;
                 background-gradient: vertical 0x804488FF 0;
@@ -73,42 +73,42 @@
                 transition-type: ease-in-sine;
                 transition-duration: 500;
             }
-            
-            &.tank { 
+
+            &.tank {
                 & > .top { background-gradient: vertical 0 "Role.Tank"; }
                 & > .bottom { background-gradient: vertical "Role.Tank" 0; }
             }
-            &.healer { 
+            &.healer {
                 & > .top { background-gradient: vertical 0 "Role.Healer"; }
                 & > .bottom { background-gradient: vertical "Role.Healer" 0; }
             }
-            &.melee { 
+            &.melee {
                 & > .top { background-gradient: vertical 0 "Role.MeleeDps"; }
                 & > .bottom { background-gradient: vertical "Role.MeleeDps" 0; }
             }
-            &.caster { 
+            &.caster {
                 & > .top { background-gradient: vertical 0 "Role.MagicalRangedDps"; }
                 & > .bottom { background-gradient: vertical "Role.MagicalRangedDps" 0; }
             }
-            &.ranged { 
+            &.ranged {
                 & > .top { background-gradient: vertical 0 "Role.PhysicalRangedDps"; }
                 & > .bottom { background-gradient: vertical "Role.PhysicalRangedDps" 0; }
             }
-            &.gatherer { 
+            &.gatherer {
                 & > .top { background-gradient: vertical 0 "Role.Gatherer"; }
                 & > .bottom { background-gradient: vertical "Role.Gatherer" 0; }
             }
-            &.crafter { 
+            &.crafter {
                 & > .top { background-gradient: vertical 0 "Role.Crafter"; }
                 & > .bottom { background-gradient: vertical "Role.Crafter" 0; }
             }
         }
-        
+
         & > .header {
             gap: 15;
             padding: 15 15 0 15;
             auto-size: grow fit;
-            
+
             & > .icon {
                 size: 74;
                 background-color: 0x45FFFFFF;
@@ -116,14 +116,13 @@
                 stroke-width: 1;
                 border-radius: 8;
                 image-inset: 4;
-                icon-id: 62101;
             }
-            
+
             & > .content {
                 flow: vertical;
                 auto-size: grow fit;
                 gap: -4;
-                
+
                 & > .title {
                     auto-size: grow fit;
                     font-size: 18;
@@ -133,7 +132,7 @@
                     text-overflow: false;
                     word-wrap: false;
                 }
-                
+
                 & > .info {
                     auto-size: grow fit;
                     font-size: 11;
@@ -143,21 +142,21 @@
                     text-overflow: false;
                     word-wrap: false;
                 }
-                
+
                 & > .buttons {
                     auto-size: grow fit;
                     gap: 4;
                     padding: 10 0 0 0;
-                    
+
                     & > .uld {
                         size: 32;
                         uld-resource: "ui/uld/Character";
                         image-grayscale: true;
-                        
+
                         &:hover {
                             image-grayscale: false;
                         }
-                        
+
                         &:disabled {
                             image-grayscale: true;
                             opacity: 0.5;
@@ -165,7 +164,7 @@
                     }
                 }
             }
-            
+
             & > .item-level {
                 size: 0 64;
                 font-size: 38;
@@ -177,24 +176,24 @@
                 word-wrap: false;
             }
         }
-        
+
         & > .body {
             padding: 16 16;
             gap: 16;
             auto-size: grow;
-            
+
             & > .column {
                 flow: vertical;
                 auto-size: grow fit;
             }
         }
     }
-    
+
     .gearset-group {
         flow: vertical;
         auto-size: grow fit;
         padding: 0 0 8 0;
-        
+
         & > .title {
             auto-size: grow fit;
             text-align: middle-center;
@@ -204,19 +203,19 @@
             outline-size: 2;
             size: 0 40;
         }
-        
+
         & > .body {
             flow: vertical;
             auto-size: grow fit;
             gap: 6;
-            
+
             &.scrolling {
                 padding: 0 12 0 0;
                 scrollbar-track-color: 0;
             }
         }
     }
-    
+
     .gearset {
         auto-size: grow fit;
         padding: 4;
@@ -229,14 +228,14 @@
         size: 0 40;
         transition-type: ease-out-sine;
         transition-duration: 500;
-        
+
         & > .bg {
             anchor: none;
             auto-size: grow;
             border-radius: 4;
             margin: -2 2 -2 -2; // Escape the padding.
         }
-        
+
         &.tank.with-gradient.gradient-tb > .bg { background-gradient: vertical "Role.Tank" 0; }
         &.healer.with-gradient.gradient-tb > .bg { background-gradient: vertical "Role.Healer" 0; }
         &.melee.with-gradient.gradient-tb > .bg { background-gradient: vertical "Role.MeleeDps" 0; }
@@ -265,19 +264,18 @@
         &.ranged.with-gradient.gradient-rl > .bg { background-gradient: horizontal 0 "Role.PhysicalRangedDps"; }
         &.gatherer.with-gradient.gradient-rl > .bg { background-gradient: horizontal 0 "Role.Gatherer"; }
         &.crafter.with-gradient.gradient-rl > .bg { background-gradient: horizontal 0 "Role.Crafter"; }
-        
+
         & > .icon {
             anchor: middle-left;
             size: 32;
-            icon-id: 62101;
         }
-        
+
         & > .content {
             flow: vertical;
             anchor: middle-left;
             auto-size: grow;
             gap: -3;
-            
+
             & > .name {
                 anchor: middle-left;
                 auto-size: grow fit;
@@ -287,7 +285,7 @@
                 text-overflow: false;
                 word-wrap: false;
             }
-            
+
             & > .level {
                 anchor: middle-left;
                 auto-size: grow fit;
@@ -298,7 +296,7 @@
                 word-wrap: false;
             }
         }
-        
+
         & > .item-level {
             anchor: middle-left;
             size: 0 32;
@@ -314,7 +312,7 @@
             anchor: none;
             auto-size: grow;
             margin: 31 8 4 36;
-            
+
             & > .progress {
                 anchor: bottom-left;
                 auto-size: grow fit;
@@ -322,7 +320,7 @@
                 background-color: 0x70000000;
                 border-radius: 2;
                 padding: 1;
-                
+
                 & > .bar {
                     auto-size: fit grow;
                     size: 50 0;
@@ -331,7 +329,7 @@
                 }
             }
         }
-        
+
         &.tank { stroke-color: "Role.Tank"; }
         &.healer { stroke-color: "Role.Healer"; }
         &.melee { stroke-color: "Role.MeleeDps"; }
@@ -339,7 +337,7 @@
         &.ranged { stroke-color: "Role.PhysicalRangedDps"; }
         &.gatherer { stroke-color: "Role.Gatherer"; }
         &.crafter { stroke-color: "Role.Crafter"; }
-        
+
         &.active {
             &.tank { background-color: "Role.Tank"; }
             &.healer { background-color: "Role.Healer"; }
@@ -349,12 +347,12 @@
             &.gatherer { background-color: "Role.Gatherer"; }
             &.crafter { background-color: "Role.Crafter"; }
         }
-        
+
         &:hover {
             stroke-color: "Window.AccentColor";
             transition-duration: 50;
         }
-        
+
         &.capped > .content > .level {
             color: "Misc.MaxLevelIndicator";
         }

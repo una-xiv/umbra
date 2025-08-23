@@ -917,6 +917,7 @@
   "Widget.GearsetSwitcher.Config.IconType.Option.Purple": "Purple (Small!)",
   "Widget.GearsetSwitcher.Config.IconType.Option.Blue": "Blue (Small!)",
   "Widget.GearsetSwitcher.Config.IconType.Option.Green": "Green (Small!)",
+  "Widget.GearsetSwitcher.Config.IconType.Option.PixelSprites": "Pixel Sprites (Small!)",
   "Widget.GearsetSwitcher.Config.ShowRole.Name": "Show {0}",
   "Widget.GearsetSwitcher.Config.ShowRole.Description": "Whether to show the gearsets associated with this role in the popup.",
   "Widget.GearsetSwitcher.Config.ShowRoleTitle.Name": "Show {0} title",

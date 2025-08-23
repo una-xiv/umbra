@@ -917,6 +917,7 @@
   "Widget.GearsetSwitcher.Config.IconType.Option.Purple": "紫 (小!)",
   "Widget.GearsetSwitcher.Config.IconType.Option.Blue": "青 (小!)",
   "Widget.GearsetSwitcher.Config.IconType.Option.Green": "緑 (小!)",
+  "Widget.GearsetSwitcher.Config.IconType.Option.PixelSprites": "ピクセルスプライト (小!)",
   "Widget.GearsetSwitcher.Config.ShowRole.Name": "{0}を表示",
   "Widget.GearsetSwitcher.Config.ShowRole.Description": "このロールに関連付けられたギアセットをポップアップに表示するかどうか。",
   "Widget.GearsetSwitcher.Config.ShowRoleTitle.Name": "{0}のタイトルを表示",

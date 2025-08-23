@@ -95,6 +95,11 @@ public class JobInfo(ClassJob cj)
         };
     }
 
+    public int GetUldIcon(JobIconType _)
+    {
+        return GetPixelatedIcon(cj.RowId);
+    }
+
     private static uint CrestIconConvert(uint jobId, ushort offset)
     {
         uint o = offset * 500u;
@@ -194,6 +199,56 @@ public class JobInfo(ClassJob cj)
             41 => 62421u, // Viper
             42 => 62422u, // Pictomancer
             _  => 62301u  // Unknown
+        };
+    }
+
+    public static int GetPixelatedIcon(uint jobId)
+    {
+        return jobId switch
+        {
+            1  => 0, // Gladiator
+            2  => 1, // Pugilist
+            3  => 2, // Marauder
+            4  => 3, // Lancer
+            5  => 4, // Archer
+            6  => 6, // Conjurer
+            7  => 7, // Thaumaturge
+            8  => 0, // Carpenter
+            9  => 1, // Blacksmith
+            10 => 2, // Armorer
+            11 => 3, // Goldsmith
+            12 => 4, // Leatherworker
+            13 => 5, // Weaver
+            14 => 6, // Alchemist
+            15 => 7, // Culinarian
+            16 => 8, // Miner
+            17 => 9, // Botanist
+            18 => 10, // Fisher
+            19 => 0, // Paladin
+            20 => 1, // Monk
+            21 => 2, // Warrior
+            22 => 3, // Dragoon
+            23 => 5, // Bard
+            24 => 6, // White Mage
+            25 => 7, // Black Mage
+            26 => 8, // Arcanist
+            27 => 9, // Summoner
+            28 => 10, // Scholar
+            29 => 11, // Rogue
+            30 => 11, // Ninja
+            31 => 12, // Machinist
+            32 => 13, // Dark Knight
+            33 => 14, // Astrologian
+            34 => 16, // Samurai
+            35 => 17, // Red Mage
+            36 => 18, // Blue Mage
+            37 => 19, // Gunbreaker
+            38 => 20, // Dancer
+            39 => 21, // Reaper
+            40 => 22, // Sage
+            41 => 23, // Viper
+            42 => 24, // Pictomancer
+            _  => 0  // Unknown
         };
     }
 }

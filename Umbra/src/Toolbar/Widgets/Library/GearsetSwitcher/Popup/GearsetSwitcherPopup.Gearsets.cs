@@ -50,7 +50,7 @@ internal sealed partial class GearsetSwitcherPopup
             UpdateColumns();
             return;
         }
-        
+
         if (null == node) {
             node = Document.CreateNodeFromTemplate("gearset", []);
             node.ToggleClass("with-gradient", _showGradientButtons);
@@ -80,8 +80,8 @@ internal sealed partial class GearsetSwitcherPopup
 
         float s = Node.ScaleFactor;
         node.QuerySelector(".progress-bar-wrapper")!.Style.Margin = new((_buttonHeight - 8) * s, 8 * s, 4 * s,  (_buttonHeight - 3) * s);
-        
-        node.QuerySelector(".icon")!.Style.IconId    = job.Icons[_buttonIconType];
+
+        SetIcon(node.QuerySelector(".icon")!, _buttonIconType, gearset);
         node.QuerySelector(".name")!.NodeValue       = gearset.Name;
         node.QuerySelector(".level")!.NodeValue      = GearsetSwitcherInfoDisplayProvider.GetInfoText(GearsetSwitcherInfoDisplayType.JobLevel, gearset, false);
         node.QuerySelector(".item-level")!.NodeValue = $"{gearset.ItemLevel}";

@@ -231,42 +231,41 @@ public abstract class StandardToolbarWidget(
 
     protected void SetGameIconId(uint iconId)
     {
-        IconNode.Style.IconId         = iconId;
-        IconNode.NodeValue            = "";
-        IconNode.Style.BitmapFontIcon = null;
-        IconNode.ToggleClass("fa-icon", false);
-        IconNode.ToggleClass("glyph-icon", false);
+        ClearIcon();
+        IconNode.Style.IconId = iconId;
+        IconNode.NodeValue    = "";
         IconNode.ToggleClass("game-icon", true);
     }
 
     protected void SetFontAwesomeIcon(FontAwesomeIcon icon)
     {
-        IconNode.NodeValue            = icon.ToIconString();
-        IconNode.Style.IconId         = null;
-        IconNode.Style.BitmapFontIcon = null;
-        IconNode.ToggleClass("game-icon", false);
-        IconNode.ToggleClass("glyph-icon", false);
+        ClearIcon();
+        IconNode.NodeValue = icon.ToIconString();
         IconNode.ToggleClass("fa-icon", true);
     }
 
     protected void SetGameGlyphIcon(SeIconChar iconChar)
     {
-        IconNode.NodeValue            = iconChar.ToIconString();
-        IconNode.Style.IconId         = null;
-        IconNode.Style.BitmapFontIcon = null;
-        IconNode.ToggleClass("game-icon", false);
-        IconNode.ToggleClass("fa-icon", false);
+        ClearIcon();
+        IconNode.NodeValue = iconChar.ToIconString();
         IconNode.ToggleClass("glyph-icon", true);
     }
 
     protected void SetGfdIcon(BitmapFontIcon icon)
     {
-        IconNode.Style.IconId         = null;
+        ClearIcon();
         IconNode.NodeValue            = "";
         IconNode.Style.BitmapFontIcon = icon;
-        IconNode.ToggleClass("fa-icon", false);
-        IconNode.ToggleClass("glyph-icon", false);
         IconNode.ToggleClass("game-icon", true);
+    }
+
+    protected void SetUldIcon(int uldPartId, string uldResource, int uldPartsId)
+    {
+        ClearIcon();
+        IconNode.Style.UldPartId   = uldPartId;
+        IconNode.Style.UldResource = uldResource;
+        IconNode.Style.UldPartsId  = uldPartsId;
+        IconNode.ToggleClass("uld", true);
     }
 
     protected void ClearIcon()
@@ -274,9 +273,13 @@ public abstract class StandardToolbarWidget(
         IconNode.NodeValue            = null;
         IconNode.Style.IconId         = null;
         IconNode.Style.BitmapFontIcon = null;
+        IconNode.Style.UldPartId      = null;
+        IconNode.Style.UldResource    = null;
+        IconNode.Style.UldPartsId     = null;
         IconNode.ToggleClass("fa-icon", false);
         IconNode.ToggleClass("glyph-icon", false);
         IconNode.ToggleClass("game-icon", false);
+        IconNode.ToggleClass("uld", false);
     }
 
     protected void SetIconColor(Color color)
@@ -358,9 +361,11 @@ public abstract class StandardToolbarWidget(
     private bool HasProgressBarFeature() => Features.HasFlag(StandardWidgetFeatures.ProgressBar);
     private bool HasIconAndTextFeature() => HasIconFeature() && (IsSingleLabelFeature() || IsMultiLabelFeature());
 
-    private bool HasIcon() => IconNode.NodeValue != null || IconNode.Style.IconId > 0 || IconNode.Style.BitmapFontIcon != null;
+    private bool HasIcon() => IconNode.NodeValue != null || IconNode.Style.IconId > 0 || IconNode.Style.BitmapFontIcon != null || HasUldIcon();
 
     private bool HasIconAndText() => HasIcon() && HasText();
+
+    private bool HasUldIcon() => IconNode.Style.UldPartId != null && IconNode.Style.UldPartsId != null && IconNode.Style.UldResource != null;
 
     private bool HasMainText() =>
         (IsSingleLabelFeature() && !string.IsNullOrWhiteSpace(SingleLabelTextNode.NodeValue?.ToString())) ||

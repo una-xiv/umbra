@@ -84,9 +84,7 @@ internal sealed partial class GearsetSwitcherPopup : WidgetPopup
 
     private void UpdateHeaderNodes()
     {
-        var jobInfo = Player.GetJobInfo(CurrentGearset.JobId);
-
-        HeaderIconNode.Style.IconId = jobInfo.Icons[_headerIconType];
+        SetIcon(HeaderIconNode, _headerIconType, CurrentGearset);
         HeaderNameNode.NodeValue = CurrentGearset.Name;
         HeaderInfoNode.NodeValue = GearsetSwitcherInfoDisplayProvider.GetInfoText(GearsetSwitcherInfoDisplayType.JobLevel, CurrentGearset, true);
         HeaderIlvlNode.NodeValue = $"{CurrentGearset.ItemLevel}";
@@ -136,6 +134,37 @@ internal sealed partial class GearsetSwitcherPopup : WidgetPopup
         }
     }
 
+    private void SetIcon(Node node, JobIconType jobIconType, Gearset gearset)
+    {
+        var jobInfo = Player.GetJobInfo(gearset.JobId);
+
+        switch (jobIconType) {
+            case JobIconType.PixelSprites:
+                node.Style.IconId = null;
+                node.ToggleClass("uld", true);
+                node.Style.UldPartId = jobInfo.GetUldIcon(jobIconType);
+                switch (gearset.Category) {
+                    case GearsetCategory.Crafter:
+                    case GearsetCategory.Gatherer:
+                        node.Style.UldResource = "ui/uld/WKSScoreList";
+                        node.Style.UldPartsId = 2;
+                        break;
+                    default:
+                        node.Style.UldResource = "ui/uld/DeepDungeonScoreList";
+                        node.Style.UldPartsId = 3;
+                        break;
+                }
+                break;
+            default:
+                node.ToggleClass("uld", false);
+                node.Style.IconId = jobInfo.Icons[jobIconType];
+                node.Style.UldResource = null;
+                node.Style.UldPartsId = null;
+                node.Style.UldPartId = null;
+                break;
+        }
+    }
+
     #endregion
 
     private void UpdateColumns()
@@ -151,7 +180,7 @@ internal sealed partial class GearsetSwitcherPopup : WidgetPopup
 
         foreach (var node in GearsetGroupNodes.Values) {
             if (node.ParentNode != columnNode) continue;
-            
+
             if (node.QuerySelector(".body")!.ChildNodes.Count == 0) {
                 node.Style.IsVisible = false;
                 continue;
