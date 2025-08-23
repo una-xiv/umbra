@@ -26,10 +26,11 @@ internal partial class BattleEffectsPopup : WidgetPopup
         base.OnOpen();
 
         foreach (ControlNode cn in _nodes.Values) {
-            var value = (int)_gameConfig.UiConfig.GetUInt(cn.Id);
+            var rawValue = (int)_gameConfig.UiConfig.GetUInt(cn.Id);
+            var value    = cn.Formatter?.Invoke(rawValue) ?? rawValue;
 
-            cn.SliderNode.Value    = cn.Formatter?.Invoke(value) ?? value;
-            cn.ValueNode.NodeValue = cn.ValueNames[cn.SliderNode.Value];
+            cn.SliderNode.Value    = value;
+            cn.ValueNode.NodeValue = I18N.Translate($"Widget.BattleEffects.ValueName.{cn.ValueNames[rawValue]}");
         }
     }
 
