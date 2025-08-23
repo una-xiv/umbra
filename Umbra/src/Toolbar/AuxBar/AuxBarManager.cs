@@ -246,6 +246,7 @@ internal sealed class AuxBarManager : IDisposable
         if (config.ShowUnsheathed && player.IsWeaponDrawn) return true;
         if (config.ShowInGPose && GameMain.IsInGPose()) return true;
 
+        // TODO: Only test for HasOpenPopup if the originating widget is in this aux bar.
         return Framework.Service<WidgetManager>().HasOpenPopup;
     }
 }

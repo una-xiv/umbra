@@ -48,6 +48,8 @@ internal partial class Toolbar
             Vector2 workPos = ImGui.GetMainViewport().WorkPos;
             Vector2 workSize = ImGui.GetMainViewport().WorkSize;
 
+            auxBarNode.ComputeBoundingSize();
+            
             float xPos = config.XAlign switch {
                 "Center" => (ToolbarXPosition - (auxBarNode.Bounds.MarginSize.Width / 2f)) + config.XPos,
                 "Left"   => config.XPos,
