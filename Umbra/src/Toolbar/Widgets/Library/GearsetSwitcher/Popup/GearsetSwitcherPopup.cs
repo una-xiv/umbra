@@ -80,14 +80,14 @@ internal sealed partial class GearsetSwitcherPopup : WidgetPopup
     private Node HeaderInfoNode => Node.QuerySelector("#header-info")!;
     private Node HeaderIlvlNode => Node.QuerySelector("#header-ilvl")!;
     private Node BackgroundNode => Node.QuerySelector(".background")!;
-    private Node RandomJobNode => Node.QuerySelector("#RandomJob")!;
+    private Node RandomJobNode  => Node.QuerySelector("#RandomJob")!;
 
     private void UpdateHeaderNodes()
     {
         SetIcon(HeaderIconNode, _headerIconType, CurrentGearset);
-        HeaderNameNode.NodeValue = CurrentGearset.Name;
-        HeaderInfoNode.NodeValue = GearsetSwitcherInfoDisplayProvider.GetInfoText(GearsetSwitcherInfoDisplayType.JobLevel, CurrentGearset, true);
-        HeaderIlvlNode.NodeValue = $"{CurrentGearset.ItemLevel}";
+        HeaderNameNode.NodeValue       = CurrentGearset.Name;
+        HeaderInfoNode.NodeValue       = GearsetSwitcherInfoDisplayProvider.GetInfoText(GearsetSwitcherInfoDisplayType.JobLevel, CurrentGearset, true);
+        HeaderIlvlNode.NodeValue       = $"{CurrentGearset.ItemLevel}";
         BackgroundNode.Style.IsVisible = _showGradientBackground;
 
         switch (CurrentGearset.Category) {
@@ -95,11 +95,11 @@ internal sealed partial class GearsetSwitcherPopup : WidgetPopup
             case GearsetCategory.Crafter:
             case GearsetCategory.Gatherer:
                 RandomJobNode.Style.Opacity = 0.3f;
-                RandomJobNode.Tooltip = I18N.Translate("Widget.GearsetSwitcher.RandomJobDisabled");
+                RandomJobNode.Tooltip       = I18N.Translate("Widget.GearsetSwitcher.RandomJobDisabled");
                 break;
             default:
                 RandomJobNode.Style.Opacity = 1f;
-                RandomJobNode.Tooltip = I18N.Translate("Widget.GearsetSwitcher.RandomJob");
+                RandomJobNode.Tooltip       = I18N.Translate("Widget.GearsetSwitcher.RandomJob");
                 break;
         }
 
@@ -147,20 +147,21 @@ internal sealed partial class GearsetSwitcherPopup : WidgetPopup
                     case GearsetCategory.Crafter:
                     case GearsetCategory.Gatherer:
                         node.Style.UldResource = "ui/uld/WKSScoreList";
-                        node.Style.UldPartsId = 2;
+                        node.Style.UldPartsId  = 2;
                         break;
                     default:
                         node.Style.UldResource = "ui/uld/DeepDungeonScoreList";
-                        node.Style.UldPartsId = 3;
+                        node.Style.UldPartsId  = 3;
                         break;
                 }
+
                 break;
             default:
                 node.ToggleClass("uld", false);
-                node.Style.IconId = jobInfo.Icons[jobIconType];
+                node.Style.IconId      = jobInfo.Icons[jobIconType];
                 node.Style.UldResource = null;
-                node.Style.UldPartsId = null;
-                node.Style.UldPartId = null;
+                node.Style.UldPartsId  = null;
+                node.Style.UldPartId   = null;
                 break;
         }
     }
@@ -186,8 +187,17 @@ internal sealed partial class GearsetSwitcherPopup : WidgetPopup
                 continue;
             }
 
-            node.Style.IsVisible = true;
             isColumnVisible = true;
+            node.Style.IsVisible = node.Id switch {
+                "GearsetGroup_Tank"     => _showTankGroup,
+                "GearsetGroup_Healer"   => _showHealerGroup,
+                "GearsetGroup_Melee"    => _showMeleeGroup,
+                "GearsetGroup_Ranged"   => _showRangedGroup,
+                "GearsetGroup_Caster"   => _showCasterGroup,
+                "GearsetGroup_Crafter"  => _showCrafterGroup,
+                "GearsetGroup_Gatherer" => _showGathererGroup,
+                _                       => isColumnVisible
+            };
         }
 
         columnNode.Style.IsVisible = isColumnVisible;
