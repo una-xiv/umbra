@@ -110,6 +110,16 @@ internal sealed partial class GearsetSwitcherPopup : WidgetPopup
         BackgroundNode.ToggleClass("caster", CurrentGearset.Category == GearsetCategory.Caster);
         BackgroundNode.ToggleClass("crafter", CurrentGearset.Category == GearsetCategory.Crafter);
         BackgroundNode.ToggleClass("gatherer", CurrentGearset.Category == GearsetCategory.Gatherer);
+
+        bool canEquipRandomJob = GearsetRepository.CanEquipRandomJob();
+        Node randomJobNode     = Node.QuerySelector("#RandomJob")!;
+
+        randomJobNode.IsDisabled    = !canEquipRandomJob;
+        randomJobNode.Style.Opacity = canEquipRandomJob ? 1.0f : 0.5f;
+
+        randomJobNode.Tooltip = canEquipRandomJob
+            ? I18N.Translate("Widget.GearsetSwitcher.RandomJob")
+            : I18N.Translate("Widget.GearsetSwitcher.RandomJobDisabled");
     }
 
     private unsafe void OnHeaderButtonClicked(Node node)

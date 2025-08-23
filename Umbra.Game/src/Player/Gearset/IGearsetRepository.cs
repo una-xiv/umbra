@@ -79,6 +79,11 @@ public interface IGearsetRepository
     /// Equips a random DoW/DoM job and returns the gearset.
     /// </summary>
     public Gearset? EquipRandomJob();
+    
+    /// <summary>
+    /// Returns true if a random DoW/DoM job can be equipped.
+    /// </summary>
+    public bool CanEquipRandomJob();
 
     /// <summary>
     /// Updates the currently equipped gearset.

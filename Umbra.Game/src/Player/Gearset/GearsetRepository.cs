@@ -15,7 +15,7 @@ internal sealed class GearsetRepository : IGearsetRepository, IDisposable
 
     public Gearset? CurrentGearset { get; private set; }
 
-    private readonly Dictionary<ushort, Gearset> _gearsets = [];
+    private readonly Dictionary<ushort, Gearset> _gearsets      = [];
     private readonly Dictionary<ushort, Gearset> _validGearsets = [];
 
     private readonly Hook<RaptureGearsetModule.Delegates.LinkGlamourPlate> _linkGlamourPlateHook;
@@ -23,9 +23,9 @@ internal sealed class GearsetRepository : IGearsetRepository, IDisposable
     private readonly IPlayer _player;
 
     public unsafe GearsetRepository(
-        IGameInteropProvider interopProvider,
+        IGameInteropProvider       interopProvider,
         IGearsetCategoryRepository categoryRepository,
-        IPlayer player
+        IPlayer                    player
     )
     {
         _player = player;
@@ -53,7 +53,7 @@ internal sealed class GearsetRepository : IGearsetRepository, IDisposable
                 if (CurrentGearset == gearset) {
                     CurrentGearset = null;
                 }
-                
+
                 _validGearsets.Remove(gearset.Id);
                 OnGearsetRemoved?.Invoke(gearset);
             };
@@ -65,7 +65,7 @@ internal sealed class GearsetRepository : IGearsetRepository, IDisposable
     public unsafe void OpenPortraitEditorForGearset(Gearset gs)
     {
         var entries = RaptureGearsetModule.Instance()->Entries;
-        var index = 0;
+        var index   = 0;
 
         foreach (var entry in entries) {
             if (entry.ClassJob == 0) continue;
@@ -168,10 +168,10 @@ internal sealed class GearsetRepository : IGearsetRepository, IDisposable
     public ushort? FindPrevIdInCategory(Gearset gearset)
     {
         return _validGearsets
-            .Values
-            .Where(g => g.Category == gearset.Category && g.Id < gearset.Id)
-            .MaxBy(g => g.Id)
-            ?.Id;
+              .Values
+              .Where(g => g.Category == gearset.Category && g.Id < gearset.Id)
+              .MaxBy(g => g.Id)
+             ?.Id;
     }
 
     /// <summary>
@@ -182,10 +182,10 @@ internal sealed class GearsetRepository : IGearsetRepository, IDisposable
     public ushort? FindNextIdInCategory(Gearset gearset)
     {
         return _validGearsets
-            .Values
-            .Where(g => g.Category == gearset.Category && g.Id > gearset.Id)
-            .MinBy(g => g.Id)
-            ?.Id;
+              .Values
+              .Where(g => g.Category == gearset.Category && g.Id > gearset.Id)
+              .MinBy(g => g.Id)
+             ?.Id;
     }
 
     public unsafe void DuplicateEquippedGearset()
@@ -221,7 +221,7 @@ internal sealed class GearsetRepository : IGearsetRepository, IDisposable
 
         var result = stackalloc AtkValue[1];
         var values = stackalloc AtkValue[2];
-        values[0].SetInt(2); // case
+        values[0].SetInt(2);          // case
         values[1].SetInt(gearset.Id); // gearsetIndex
         AgentGearSet.Instance()->ReceiveEvent(result, values, 2, 0);
     }
@@ -242,45 +242,18 @@ internal sealed class GearsetRepository : IGearsetRepository, IDisposable
 
     public Gearset? EquipRandomJob()
     {
-        // Find the highest level job in category tank/healer/dps.
-        var highestLevelJob = _gearsets
-            .Values
-            .Where(g => g is {
-                IsValid: true,
-                IsCurrent: true,
-                Category: GearsetCategory.Tank
-                or GearsetCategory.Healer
-                or GearsetCategory.Melee
-                or GearsetCategory.Ranged
-                or GearsetCategory.Caster
-            })
-            .MaxBy(g => g.JobLevel);
-
-        if (highestLevelJob == null) return null;
-
-        // Grab a list of all jobs with the same level.
-        var sameLevelJobs = _gearsets
-            .Values
-            .Where(g => g is {
-                IsValid: true,
-                IsCurrent: false,
-                Category: GearsetCategory.Tank
-                or GearsetCategory.Healer
-                or GearsetCategory.Melee
-                or GearsetCategory.Ranged
-                or GearsetCategory.Caster
-            } && g.JobLevel == highestLevelJob.JobLevel)
-            .ToList();
-
+        var sameLevelJobs = GetSameLevelGearsets();
         if (sameLevelJobs.Count == 0) return null;
 
-        // Pick a random job from the list.
         var randomJob = sameLevelJobs[Random.Shared.Next(0, sameLevelJobs.Count)];
-
-        // Equip the random job.
         EquipGearset(randomJob.Id);
 
         return randomJob;
+    }
+
+    public bool CanEquipRandomJob()
+    {
+        return GetSameLevelGearsets().Count > 0;
     }
 
     [OnTick(interval: 250)]
@@ -306,11 +279,41 @@ internal sealed class GearsetRepository : IGearsetRepository, IDisposable
         }
     }
 
+    private List<Gearset> GetSameLevelGearsets()
+    {
+        var highestLevelJob = _gearsets
+                             .Values
+                             .Where(g => g is {
+                                  IsValid  : true,
+                                  IsCurrent: true,
+                                  Category: GearsetCategory.Tank
+                                  or GearsetCategory.Healer
+                                  or GearsetCategory.Melee
+                                  or GearsetCategory.Ranged
+                                  or GearsetCategory.Caster
+                              })
+                             .MaxBy(g => g.JobLevel);
+
+        if (highestLevelJob == null) return [];
+
+        // Grab a list of all jobs with the same level.
+        return _gearsets
+              .Values
+              .Where(g => g is {
+                   IsValid  : true,
+                   IsCurrent: false,
+                   Category: GearsetCategory.Tank
+                   or GearsetCategory.Healer
+                   or GearsetCategory.Melee
+                   or GearsetCategory.Ranged
+                   or GearsetCategory.Caster
+               } && g.JobLevel == highestLevelJob.JobLevel)
+              .ToList();
+    }
+
     private unsafe void ReassignGearset(Gearset gearset, int newId)
     {
         ushort oldId = gearset.Id;
-
-        Logger.Debug($"Attempting to reassign gearset #{oldId} to #{newId}...");
 
         if (newId is < 0 or > 99) {
             Logger.Warning($"Cannot reassign gearset #{oldId} to #{newId}. The new ID exceeds the bounds of 0~99.");
@@ -318,7 +321,7 @@ internal sealed class GearsetRepository : IGearsetRepository, IDisposable
         }
 
         RaptureGearsetModule* gsm = RaptureGearsetModule.Instance();
-        RaptureHotbarModule* hbm = RaptureHotbarModule.Instance();
+        RaptureHotbarModule*  hbm = RaptureHotbarModule.Instance();
 
         if (null == gsm || null == hbm) return;
 

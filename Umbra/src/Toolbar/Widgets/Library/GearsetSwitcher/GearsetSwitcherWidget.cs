@@ -56,6 +56,8 @@ internal sealed partial class GearsetSwitcherWidget(
 
     private void SetWidgetGearsetState(Gearset gearset)
     {
+        SetDisabled(false);
+        
         JobInfo     job  = Player.GetJobInfo(gearset.JobId);
         JobIconType type = GetConfigValue<JobIconType>("WidgetButtonIconType");
         string customLabel = GetConfigValue<string>("CustomLabel");
