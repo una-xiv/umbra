@@ -50,6 +50,10 @@ internal sealed class GearsetRepository : IGearsetRepository, IDisposable
             gearset.OnChanged += () => { OnGearsetChanged?.Invoke(gearset); };
 
             gearset.OnRemoved += () => {
+                if (CurrentGearset == gearset) {
+                    CurrentGearset = null;
+                }
+                
                 _validGearsets.Remove(gearset.Id);
                 OnGearsetRemoved?.Invoke(gearset);
             };

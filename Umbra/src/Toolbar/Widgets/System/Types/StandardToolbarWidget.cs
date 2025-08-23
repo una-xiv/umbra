@@ -276,7 +276,7 @@ public abstract class StandardToolbarWidget(
 
     protected void SetGfdIcon(BitmapFontIcon icon)
     {
-        IconNode.NodeValue            = null;
+        IconNode.NodeValue            = "";
         IconNode.Style.IconId         = null;
         IconNode.Style.BitmapFontIcon = icon;
         IconNode.Style.UldPartId      = null;
