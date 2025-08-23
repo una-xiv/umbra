@@ -45,6 +45,9 @@
                     </node>
                 </node>
                 <node class="row">
+                    <node class="warning" value="_L(Settings.ProfilesModule.ShareWarning)"/>
+                </node>
+                <node class="row">
                     <button-node
                             id="btn-delete"
                             label="_L(Settings.ProfilesModule.Btn.Delete.Name)"
@@ -147,6 +150,22 @@
                 & > .row {
                     auto-size: grow fit;
                     gap: 16;
+                    
+                    & > .warning {
+                        auto-size: grow fit;
+                        text-overflow: false;
+                        word-wrap: true;
+                        color: 0xFFFFFFFF;
+                        outline-color: 0xFF000000;
+                        outline-size: 2;
+                        background-color: 0xFF2289AF;
+                        border-color: 0xFF00FFFF;
+                        border-width: 1;
+                        border-radius: 5;
+                        padding: 10;
+                        font-size: 16;
+                        text-align: middle-center;
+                    }
                     
                     & > .button {
                         anchor: top-center;
