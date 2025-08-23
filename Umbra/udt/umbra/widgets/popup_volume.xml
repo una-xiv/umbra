@@ -1,5 +1,21 @@
 ﻿<udt>
     <node class="popup">
+        <node class="preset-bar">
+            <node class="presets">
+                <node class="preset inactive" id="preset-1"><node class="icon" style="icon-id: 66162;"/></node>
+                <node class="preset inactive" id="preset-2"><node class="icon" style="icon-id: 66163;"/></node>
+                <node class="preset inactive" id="preset-3"><node class="icon" style="icon-id: 66164;"/></node>
+                <node class="preset inactive" id="preset-4"><node class="icon" style="icon-id: 66165;"/></node>
+                <node class="preset inactive" id="preset-5"><node class="icon" style="icon-id: 66166;"/></node>
+            </node>
+            <node class="preset-info">
+                <node class="preset-name" value="N/A"/>
+                <node class="controls">
+                    <button-node id="btn-rename-preset" label="Rename" icon="Pen" is-small="true" is-ghost="false"/>
+                </node>
+            </node>
+        </node>
+        
         <node class="channel-list">
             <channel id="Master"/>
             <node class="separator"/>
@@ -32,6 +48,68 @@
         flow: vertical;
         padding: 8;
         gap: 8;
+        
+        & > .preset-bar {
+            flow: horizontal;
+            auto-size: grow fit;
+            gap: 8;
+            
+            & > .presets {
+                flow: horizontal;
+                gap: 4;
+                auto-size: grow fit;
+                
+                & > .preset {
+                    anchor: middle-left;
+                    size: 42 42;
+                    border-color: "Widget.PopupBorder";
+                    border-width: 1;
+                    background-color: "Input.Background";
+                    padding: 2;
+                    border-radius: 5;
+                    
+                    & > .icon {
+                        size: 38;
+                        border-radius: 4;
+                        icon-id: 180023;
+                    }
+                    
+                    &.inactive {
+                        opacity: 0.5;
+                        & > .icon {
+                            image-grayscale: true;
+                        }
+                    }
+                    
+                    &:hover {
+                        opacity: 0.9;
+                        background-color: "Input.BackgroundHover";
+                        border-color: "Input.BorderHover";
+                    }
+                }
+            }
+            
+            & > .preset-info {
+                flow: vertical;
+                gap: 1;
+                
+                & > .preset-name {
+                    anchor: middle-right;
+                    auto-size: grow fit;
+                    font-size: 13;
+                    text-align: middle-right;
+                    color: "Widget.PopupMenuText";
+                    outline-color: "Widget.PopupMenuTextOutline";
+                    outline-size: 1;
+                    text-overflow: false;
+                    word-wrap: false;
+                }
+                
+                & > .controls {
+                    anchor: middle-right;
+                }
+            }
+        }
         
         & > .channel-list {
             gap: 8;

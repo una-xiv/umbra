@@ -1,6 +1,6 @@
 ﻿namespace Umbra.Widgets;
 
-internal sealed class VolumeWidgetPopup : WidgetPopup
+internal sealed partial class VolumeWidgetPopup : WidgetPopup
 {
     public bool ShowOptions { get; set; }
     public bool ShowBgm     { get; set; } = true;
@@ -20,9 +20,9 @@ internal sealed class VolumeWidgetPopup : WidgetPopup
 
     private readonly List<AudioChannel> _channels   = [];
     private readonly IGameConfig        _gameConfig = Framework.Service<IGameConfig>();
- 
+
     private bool _isBound;
-    
+
     protected override void OnUpdate()
     {
         foreach (var channel in _channels) {
@@ -49,10 +49,26 @@ internal sealed class VolumeWidgetPopup : WidgetPopup
 
             bgBtn.NodeValue = isBg ? FontAwesomeIcon.PlusCircle.ToIconString() : FontAwesomeIcon.Minus.ToIconString();
             bgBtn.Tooltip   = I18N.Translate(isBg ? "Widget.Volume.Tooltip.Bg.On" : "Widget.Volume.Tooltip.Bg.Off");
+
+            if (string.Empty == _currentPresetId) {
+                Node.QuerySelector(".preset-info")!.Style.IsVisible = false;
+                return;
+            }
+
+            Node.QuerySelector(".preset-info")!.Style.IsVisible = true;
+            if (_presets.TryGetValue(_currentPresetId, out var preset)) {
+                Node.QuerySelector(".preset-name")!.NodeValue = preset.Name;
+            }
         }
 
         Node.QuerySelector(".separator")!.Style.IsVisible    = HasVisibleChannels;
         Node.QuerySelector(".options-list")!.Style.IsVisible = ShowOptions;
+
+        if (ShowOptions) {
+            Node.QuerySelector<CheckboxNode>("#SoundChocobo")!.Value     = _gameConfig.System.GetBool("SoundChocobo");
+            Node.QuerySelector<CheckboxNode>("#SoundFieldBattle")!.Value = _gameConfig.System.GetBool("SoundFieldBattle");
+            Node.QuerySelector<CheckboxNode>("#SoundHousing")!.Value     = _gameConfig.System.GetBool("SoundHousing");
+        }
     }
 
     protected override void OnOpen()
@@ -71,8 +87,14 @@ internal sealed class VolumeWidgetPopup : WidgetPopup
             optionsList.AppendChild(CreateToggleOption("SoundChocobo"));
             optionsList.AppendChild(CreateToggleOption("SoundFieldBattle"));
             optionsList.AppendChild(CreateToggleOption("SoundHousing"));
+
+            Node.QuerySelector("#btn-rename-preset")!.OnClick += ShowRenamePresetPopup;
+
+            foreach (var preset in Node.QuerySelectorAll(".preset")) {
+                preset.OnClick += node => SetActivePreset(node.Id!);
+            }
         }
-        
+
         foreach (var channel in _channels) {
             channel.Node.QuerySelector<VerticalSliderNode>(".slider")!.SetValue(
                 (int)_gameConfig.System.GetUInt(channel.VolumeConfigName)
@@ -93,22 +115,28 @@ internal sealed class VolumeWidgetPopup : WidgetPopup
 
         muteButton.OnClick += _ => {
             _gameConfig.System.Set(muteConfigName, !_gameConfig.System.GetBool(muteConfigName));
+            SetPresetMute(muteConfigName, _gameConfig.System.GetBool(muteConfigName));
         };
         muteButton.OnRightClick += _ => {
             _gameConfig.System.Set(muteConfigName, !_gameConfig.System.GetBool(muteConfigName));
+            SetPresetMute(muteConfigName, _gameConfig.System.GetBool(muteConfigName));
         };
         bgButton.OnClick += _ => {
             _gameConfig.System.Set(bgConfigName, !_gameConfig.System.GetBool(bgConfigName));
+            SetPresetBg(bgConfigName, _gameConfig.System.GetBool(bgConfigName));
         };
         bgButton.OnRightClick += _ => {
             _gameConfig.System.Set(bgConfigName, !_gameConfig.System.GetBool(bgConfigName));
+            SetPresetBg(bgConfigName, _gameConfig.System.GetBool(bgConfigName));
         };
 
         node.QuerySelector<VerticalSliderNode>(".slider")!.OnValueChanged += value => {
             _gameConfig.System.Set(volumeConfigName, (uint)value);
+            SetPresetVolume(volumeConfigName, value);
 
             if (_gameConfig.System.GetBool(muteConfigName)) {
                 _gameConfig.System.Set(muteConfigName, false);
+                SetPresetMute(muteConfigName, false);
             }
         };
 
@@ -134,7 +162,10 @@ internal sealed class VolumeWidgetPopup : WidgetPopup
                 : null
         );
 
-        node.OnValueChanged += v => { _gameConfig.System.Set(configName, v); };
+        node.OnValueChanged += v => {
+            _gameConfig.System.Set(configName, v);
+            SetPresetConfig(configName, v);
+        };
 
         return node;
     }

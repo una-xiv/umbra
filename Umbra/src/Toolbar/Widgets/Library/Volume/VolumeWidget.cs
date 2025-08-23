@@ -49,25 +49,25 @@ internal sealed partial class VolumeWidget(
 
     private void ToggleMute()
     {
-        string channelName = getMuteConfigName();
+        string channelName = GetMuteConfigName();
 
         _gameConfig.System.Set(channelName, !_gameConfig.System.GetBool(channelName));
     }
 
     private FontAwesomeIcon GetVolumeIcon()
     {
-        if (_gameConfig.System.GetBool(getMuteConfigName())) {
+        if (_gameConfig.System.GetBool(GetMuteConfigName())) {
             return GetConfigValue<FontAwesomeIcon>("MuteIcon");
         }
 
-        return _gameConfig.System.GetUInt(getVolumeConfigName()) switch {
+        return _gameConfig.System.GetUInt(GetVolumeConfigName()) switch {
             0    => GetConfigValue<FontAwesomeIcon>("OffIcon"),
             < 50 => GetConfigValue<FontAwesomeIcon>("DownIcon"),
             _    => GetConfigValue<FontAwesomeIcon>("UpIcon")
         };
     }
 
-    private string getMuteConfigName()
+    private string GetMuteConfigName()
     {
         return GetConfigValue<string>("RightClickBehavior") switch {
             "Master" => "IsSndMaster",
@@ -81,7 +81,7 @@ internal sealed partial class VolumeWidget(
         };
     }
 
-    private string getVolumeConfigName()
+    private string GetVolumeConfigName()
     {
         return GetConfigValue<string>("RightClickBehavior") switch {
             "Master" => "SoundMaster",
