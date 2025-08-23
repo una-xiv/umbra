@@ -19,6 +19,7 @@ public class FloatInputNode : ImGuiInputNode
 
     public float MinValue { get; set; }
     public float MaxValue { get; set; }
+    public bool Draggable { get; set; } = false;
 
     private float _value;
 
@@ -51,8 +52,15 @@ public class FloatInputNode : ImGuiInputNode
     {
         ImGui.SetNextItemWidth(bounds.Width);
 
-        if (ImGui.InputFloat($"##{InternalId.Slugify()}", ref _value, 0.1f, 1.0f, "%.2f")) {
-            _value = Math.Clamp(_value, MinValue, MaxValue);
+        if (Draggable) {
+            if (ImGui.DragFloat($"##{InternalId.Slugify()}", ref _value, 0.1f, MinValue, MaxValue, "%.2f")) {
+                _value = Math.Clamp(_value, MinValue, MaxValue);
+                OnValueChanged?.Invoke(_value);
+            }   
+        } else {
+            if (ImGui.InputFloat($"##{InternalId.Slugify()}", ref _value, 0.1f, 10.0f, "%.2f")) {
+                _value = Math.Clamp(_value, MinValue, MaxValue);
+            }
         }
 
         if (ImGui.IsItemDeactivatedAfterEdit()) {

@@ -25,8 +25,8 @@
             <node class="list">
                 <string-input-node class="input-name" label="_L(Settings.WidgetsModule.Aux.Name.Name)"/>
                 <separator label="_L(Settings.WidgetsModule.Aux.Positioning)"/>
-                <integer-input-node class="input-x-pos" label="_L(Settings.WidgetsModule.Aux.XPosition.Name)" description="_L(Settings.WidgetsModule.Aux.XPosition.Description)"/>
-                <integer-input-node class="input-y-pos" label="_L(Settings.WidgetsModule.Aux.YPosition.Name)" description="_L(Settings.WidgetsModule.Aux.YPosition.Description)"/>
+                <integer-input-node class="input-x-pos" label="_L(Settings.WidgetsModule.Aux.XPosition.Name)" description="_L(Settings.WidgetsModule.Aux.XPosition.Description)" draggable="{true}"/>
+                <integer-input-node class="input-y-pos" label="_L(Settings.WidgetsModule.Aux.YPosition.Name)" description="_L(Settings.WidgetsModule.Aux.YPosition.Description)" draggable="{true}"/>
                 <select-node class="input-x-align" label="_L(Settings.WidgetsModule.Aux.XAlign.Name)" description="_L(Settings.WidgetsModule.Aux.XAlign.Description)" choices="{['Left', 'Center', 'Right']}"/>
                 <select-node class="input-y-align" label="_L(Settings.WidgetsModule.Aux.YAlign.Name)" description="_L(Settings.WidgetsModule.Aux.YAlign.Description)" choices="{['Top', 'Center', 'Bottom']}"/>
                 <separator label="_L(Settings.WidgetsModule.Aux.Appearance)"/>
