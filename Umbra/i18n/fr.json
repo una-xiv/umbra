@@ -294,6 +294,8 @@
   "Widget.Accessibility.Config.VisualAlertsTransparency": "Transparence de l'alerte visuelle",
   "Widget.Accessibility.Config.ColorFilter": "Activer le filtre de couleur",
   "Widget.Accessibility.Config.ColorFilterRange": "Plage du filtre de couleur",
+  "Widget.Alarm.Name": "Alarmes",
+  "Widget.Alarm.Description": "Fournit un accès rapide aux alarmes définies par l'utilisateur.",
   "Widget.BattleEffects.Name": "Configurateur d'effets de combat",
   "Widget.BattleEffects.Description": "Vous offre des options pour modifier rapidement l'intensité des effets de combat, ainsi que les tailles des animaux de compagnie des invocateurs.",
   "Widget.BattleEffects.SummonerPetSize": "Taille de l'animal de compagnie de l'invocateur",

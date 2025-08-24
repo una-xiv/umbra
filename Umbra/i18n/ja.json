@@ -513,6 +513,8 @@
   "Widget.Accessibility.Config.VisualAlertsTransparency": "視覚アラートの透明度",
   "Widget.Accessibility.Config.ColorFilter": "カラーフィルターを有効にする",
   "Widget.Accessibility.Config.ColorFilterRange": "カラーフィルター範囲",
+  "Widget.Alarm.Name": "アラーム",
+  "Widget.Alarm.Description": "カスタム定義されたアラームに素早くアクセスできます。",
   "Widget.BattleEffects.Name": "バトルエフェクト設定",
   "Widget.BattleEffects.Description": "バトルエフェクトの強度や召喚者のペットのサイズを素早く変更するオプションを提供します。",
   "Widget.BattleEffects.SummonerPetSize": "召喚者のペットサイズ",

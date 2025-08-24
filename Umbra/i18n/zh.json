@@ -513,6 +513,8 @@
   "Widget.Accessibility.Config.VisualAlertsTransparency": "视觉警报透明度",
   "Widget.Accessibility.Config.ColorFilter": "启用色彩过滤器",
   "Widget.Accessibility.Config.ColorFilterRange": "色彩过滤范围",
+  "Widget.Alarm.Name": "警报",
+  "Widget.Alarm.Description": "提供对自定义警报的快速访问。",
   "Widget.BattleEffects.Name": "战斗特效配置器",
   "Widget.BattleEffects.Description": "快速更改战斗特效强度和召唤师召唤兽大小。",
   "Widget.BattleEffects.SummonerPetSize": "召唤师召唤兽大小",

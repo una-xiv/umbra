@@ -513,6 +513,8 @@
   "Widget.Accessibility.Config.VisualAlertsTransparency": "Visual alert transparency",
   "Widget.Accessibility.Config.ColorFilter": "Enable color filter",
   "Widget.Accessibility.Config.ColorFilterRange": "Color Filter Range",
+  "Widget.Alarm.Name": "Alarms",
+  "Widget.Alarm.Description": "Provides quick access to custom defined alarms.",
   "Widget.BattleEffects.Name": "Battle Effects Configurator",
   "Widget.BattleEffects.Description": "Provides you with options to quickly change the intensity of battle effects, as well as pet sizes of summoners.",
   "Widget.BattleEffects.SummonerPetSize": "Summoner Pet Size",

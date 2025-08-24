@@ -513,6 +513,8 @@
   "Widget.Accessibility.Config.VisualAlertsTransparency": "Transparenz der visualisierten Töne",
   "Widget.Accessibility.Config.ColorFilter": "Farbkorrektur aktivieren",
   "Widget.Accessibility.Config.ColorFilterRange": "Stärke der Farbkorrektur",
+  "Widget.Alarm.Name": "Alarme",
+  "Widget.Alarm.Description": "Bietet schnellen Zugriff auf benutzerdefinierte Alarme.",
   "Widget.BattleEffects.Name": "Kampfeffekte-Konfigurator",
   "Widget.BattleEffects.Description": "Bietet dir Optionen, um schnell die Intensität der Kampfeffekte sowie die Größe von Beschwörungen zu ändern.",
   "Widget.BattleEffects.SummonerPetSize": "Beschwörer-Tiergröße",
