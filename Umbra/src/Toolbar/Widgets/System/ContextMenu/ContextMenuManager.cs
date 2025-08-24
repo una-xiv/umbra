@@ -59,15 +59,11 @@ internal sealed class ContextMenuManager(UmbraDelvClipRects clipRects) : IDispos
         
         if (!_isOpen) {
             ImGui.OpenPopup(_contextMenu.Id);
-            // Poor man’s layout pass, since ComputeBoundingSize does not work
-            // for this specific use-case for some reason...
-            _contextMenu.Node.Style.IsVisible = false;
-            _contextMenu.Node.Render(ImGui.GetBackgroundDrawList(), new(0, 0));
-            _contextMenu.Node.Style.IsVisible = true;
+            _contextMenu.Node.ComputeBoundingSize();
             _isOpen = true;
         }
         
-        Rect boundingBox = _contextMenu.Node.Bounds.MarginRect;
+        Size boundingBox = _contextMenu.Node.Bounds.MarginSize;
         ImGui.SetNextWindowSize(new(boundingBox.Width + 32, boundingBox.Height + 32));
 
         ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding,    Vector2.Zero);
