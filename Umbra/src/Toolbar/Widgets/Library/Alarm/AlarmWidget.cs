@@ -1,4 +1,5 @@
-﻿using Dalamud.Game.Text.SeStringHandling;
+﻿using Dalamud.Game.Text;
+using Dalamud.Game.Text.SeStringHandling;
 
 namespace Umbra.Widgets.Library.Alarm;
 
@@ -18,8 +19,11 @@ public sealed class AlarmWidget(
         StandardWidgetFeatures.Icon |
         StandardWidgetFeatures.CustomizableIcon;
 
-    protected override string         DefaultIconType   => IconTypeBitmapIcon;
-    protected override BitmapFontIcon DefaultBitmapIcon => BitmapFontIcon.Alarm;
+    protected override string          DefaultIconType        => IconTypeBitmapIcon;
+    protected override BitmapFontIcon  DefaultBitmapIcon      => BitmapFontIcon.Alarm;
+    protected override FontAwesomeIcon DefaultFontAwesomeIcon => FontAwesomeIcon.Bell;
+    protected override SeIconChar      DefaultGlyphIcon       => SeIconChar.Clock;
+    protected override uint            DefaultGameIconId      => 66317u;
 
     protected override void OnLoad()
     {
