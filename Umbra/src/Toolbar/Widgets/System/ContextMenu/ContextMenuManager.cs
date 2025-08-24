@@ -34,7 +34,8 @@ internal sealed class ContextMenuManager(UmbraDelvClipRects clipRects) : IDispos
         }
 
         menu.OnEntryInvoked += OnEntryInvoked;
-
+        menu.Node.ComputeBoundingSize();
+        
         _contextMenu   = menu;
         _closeCallback = closeCallback;
         _isOpen        = false;
@@ -55,7 +56,17 @@ internal sealed class ContextMenuManager(UmbraDelvClipRects clipRects) : IDispos
             clipRects.RemoveClipRect("Umbra.ContextMenu");
             return;
         }
-
+        
+        if (!_isOpen) {
+            ImGui.OpenPopup(_contextMenu.Id);
+            // Poor man’s layout pass, since ComputeBoundingSize does not work
+            // for this specific use-case for some reason...
+            _contextMenu.Node.Style.IsVisible = false;
+            _contextMenu.Node.Render(ImGui.GetBackgroundDrawList(), new(0, 0));
+            _contextMenu.Node.Style.IsVisible = true;
+            _isOpen = true;
+        }
+        
         Rect boundingBox = _contextMenu.Node.Bounds.MarginRect;
         ImGui.SetNextWindowSize(new(boundingBox.Width + 32, boundingBox.Height + 32));
 
@@ -68,8 +79,6 @@ internal sealed class ContextMenuManager(UmbraDelvClipRects clipRects) : IDispos
         ImGui.PushStyleColor(ImGuiCol.PopupBg, 0);
 
         if (ImGui.BeginPopup(_contextMenu.Id, ImGuiWindowFlags.NoMove | ImGuiWindowFlags.NoResize | ImGuiWindowFlags.NoCollapse | ImGuiWindowFlags.NoSavedSettings)) {
-            // Vector2 cursorPos = ImGui.GetCursorScreenPos();
-            // Vector2 position    = new(cursorPos.X + 16, cursorPos.Y + 16);
             Vector2 position = new(16, 16);
 
             _contextMenu.Node.Render(ImGui.GetWindowDrawList(), position);
@@ -87,12 +96,6 @@ internal sealed class ContextMenuManager(UmbraDelvClipRects clipRects) : IDispos
             _closeCallback?.Invoke();
             _contextMenu = null;
             return;
-        }
-
-        if (!_isOpen) {
-            _contextMenu.Node.Reflow();
-            ImGui.OpenPopup(_contextMenu.Id);
-            _isOpen = true;
         }
 
         ImGui.PopStyleColor(2);
