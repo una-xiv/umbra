@@ -16,6 +16,18 @@ internal sealed partial class UnifiedMainMenuWidget
                 true
             ),
             new BooleanWidgetConfigVariable(
+                "EnableRightClickToRunCommand",
+                I18N.Translate("Widget.UnifiedMainMenu.Config.EnableRightClickToRunCommand.Name"),
+                I18N.Translate("Widget.UnifiedMainMenu.Config.EnableRightClickToRunCommand.Description"),
+                true
+            ),
+            new StringWidgetConfigVariable(
+                "RightClickCommand",
+                I18N.Translate("Widget.UnifiedMainMenu.Config.RightClickCommand.Name"),
+                I18N.Translate("Widget.UnifiedMainMenu.Config.RightClickCommand.Description"),
+                "/umbra"
+            ) { DisplayIf = () => GetConfigValue<bool>("EnableRightClickToRunCommand") },
+            new BooleanWidgetConfigVariable(
                 "OpenSubMenusOnHover",
                 I18N.Translate("Widget.UnifiedMainMenu.Config.OpenSubMenusOnHover.Name"),
                 I18N.Translate("Widget.UnifiedMainMenu.Config.OpenSubMenusOnHover.Description"),
