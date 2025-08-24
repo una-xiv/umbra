@@ -18,6 +18,14 @@ internal sealed class CoordinatesWidget(
 
     private IZoneManager ZoneManager { get; } = Framework.Service<IZoneManager>();
 
+    protected override void OnLoad()
+    {
+        Node.OnRightClick += _ => {
+            Vector2 coords = ZoneManager.CurrentZone.PlayerCoordinates;
+            ImGui.SetClipboardText($"{coords.X:F1}, {coords.Y:F1}");
+        };
+    }
+
     protected override void OnDraw()
     {
         if (!ZoneManager.HasCurrentZone) {
