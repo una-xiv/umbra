@@ -903,6 +903,8 @@
   "Widget.GearsetSwitcher.Config.WidgetButtonIconType.Description": "ツールバーウィジェットボタンに表示されるアイコンの種類。",
   "Widget.GearsetSwitcher.Config.EnableRoleScrolling.Name": "役割コンテナの高さを制限しスクロールを有効にする",
   "Widget.GearsetSwitcher.Config.EnableRoleScrolling.Description": "ポップアップ内の役割コンテナの高さを制限し、表示する装備セットが多すぎる場合にスクロールを有効にします。以下のオプションで役割ごとに表示される装備セットの最大数をカスタマイズできます。",
+  "Widget.GearsetSwitcher.Config.ShowHeader.Name": "ポップアップヘッダーを表示",
+  "Widget.GearsetSwitcher.Config.ShowHeader.Description": "現在装備しているギアセット名や、特定の機能に素早くアクセスできる様々なボタンを含むヘッダーをポップアップの上部に表示するかどうか。",
   "Widget.GearsetSwitcher.Config.PopupHeaderIconType.Name": "ポップアップヘッダーのアイコンの種類",
   "Widget.GearsetSwitcher.Config.PopupHeaderIconType.Description": "ポップアップヘッダーに表示されるアイコンの種類。",
   "Widget.GearsetSwitcher.Config.PopupButtonIconType.Name": "ポップアップボタンのアイコンの種類",

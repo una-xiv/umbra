@@ -683,6 +683,8 @@
   "Widget.GearsetSwitcher.Config.WidgetButtonIconType.Description": "Le type d'icône à afficher sur le bouton du widget de la barre d'outils.",
   "Widget.GearsetSwitcher.Config.EnableRoleScrolling.Name": "Limiter la hauteur des conteneurs de rôle et activer le défilement",
   "Widget.GearsetSwitcher.Config.EnableRoleScrolling.Description": "Limite la hauteur des conteneurs de rôle dans la fenêtre contextuelle et permet le défilement lorsqu'il y a trop d'ensembles d'équipements à afficher. Vous pouvez personnaliser le nombre maximal d'ensembles d'équipements visibles par rôle dans les options ci-dessous.",
+  "Widget.GearsetSwitcher.Config.ShowHeader.Name": "Afficher l'en-tête de la fenêtre contextuelle",
+  "Widget.GearsetSwitcher.Config.ShowHeader.Description": "Indique s'il faut afficher un en-tête en haut de la fenêtre contextuelle avec le nom de l'ensemble d'équipement actuellement équipé et divers boutons pour accéder rapidement à certaines fonctionnalités.",
   "Widget.GearsetSwitcher.Config.PopupHeaderIconType.Name": "Type d'icône de l'en-tête de la fenêtre contextuelle",
   "Widget.GearsetSwitcher.Config.PopupHeaderIconType.Description": "Le type d'icône à afficher dans l'en-tête de la fenêtre contextuelle.",
   "Widget.GearsetSwitcher.Config.PopupButtonIconType.Name": "Type d'icône du bouton de la fenêtre contextuelle",

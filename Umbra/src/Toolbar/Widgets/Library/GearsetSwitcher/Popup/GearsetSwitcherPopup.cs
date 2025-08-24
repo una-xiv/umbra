@@ -32,7 +32,9 @@ internal sealed partial class GearsetSwitcherPopup : WidgetPopup
 
     protected override void OnOpen()
     {
-        CurrentGearset = GearsetRepository.CurrentGearset!;
+        HeaderNode.Style.IsVisible = _showHeader;
+        CurrentGearset             = GearsetRepository.CurrentGearset!;
+        
         UpdateGroupPositions();
 
         GearsetRepository.OnGearsetCreated  += OnGearsetCreatedOrUpdated;
@@ -75,6 +77,7 @@ internal sealed partial class GearsetSwitcherPopup : WidgetPopup
 
     #region Header
 
+    private Node HeaderNode => Node.QuerySelector(".header")!;
     private Node HeaderIconNode => Node.QuerySelector("#header-icon")!;
     private Node HeaderNameNode => Node.QuerySelector("#header-name")!;
     private Node HeaderInfoNode => Node.QuerySelector("#header-info")!;

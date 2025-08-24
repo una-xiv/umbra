@@ -53,12 +53,21 @@ internal sealed partial class GearsetSwitcherWidget
     private IEnumerable<IWidgetConfigVariable> GetPopupConfigVariables()
     {
         return [
+            new BooleanWidgetConfigVariable(
+                "ShowHeader",
+                I18N.Translate("Widget.GearsetSwitcher.Config.ShowHeader.Name"),
+                I18N.Translate("Widget.GearsetSwitcher.Config.ShowHeader.Description"),
+                true
+            ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
             new EnumWidgetConfigVariable<JobIconType>(
                 "PopupHeaderIconType",
                 I18N.Translate("Widget.GearsetSwitcher.Config.PopupHeaderIconType.Name"),
                 I18N.Translate("Widget.GearsetSwitcher.Config.PopupHeaderIconType.Description"),
                 JobIconType.Glowing
-            ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
+            ) {
+                Category  = I18N.Translate("Widget.ConfigCategory.MenuAppearance"),
+                DisplayIf = () => GetConfigValue<bool>("ShowHeader"),
+            },
             new EnumWidgetConfigVariable<JobIconType>(
                 "PopupButtonIconType",
                 I18N.Translate("Widget.GearsetSwitcher.Config.PopupButtonIconType.Name"),

@@ -903,6 +903,8 @@
   "Widget.GearsetSwitcher.Config.WidgetButtonIconType.Description": "The type of icon that should be displayed on the toolbar widget button.",
   "Widget.GearsetSwitcher.Config.EnableRoleScrolling.Name": "Limit role container heights and enable scrolling",
   "Widget.GearsetSwitcher.Config.EnableRoleScrolling.Description": "Limits the height of the role containers in the popup and enables scrolling when there are too many gearsets to display. You can customize the maximum amount of visible gearsets per role in the options below.",
+  "Widget.GearsetSwitcher.Config.ShowHeader.Name": "Show popup header",
+  "Widget.GearsetSwitcher.Config.ShowHeader.Description": "Whether to show a header at the top of the popup with the name of the currently equipped gearset and various buttons to quickly access certain features.",
   "Widget.GearsetSwitcher.Config.PopupHeaderIconType.Name": "Popup header icon type",
   "Widget.GearsetSwitcher.Config.PopupHeaderIconType.Description": "The type of icon that should be displayed in the popup header.",
   "Widget.GearsetSwitcher.Config.PopupButtonIconType.Name": "Popup button icon type",

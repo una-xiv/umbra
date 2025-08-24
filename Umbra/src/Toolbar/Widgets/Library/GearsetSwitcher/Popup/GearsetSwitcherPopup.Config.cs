@@ -4,6 +4,7 @@ namespace Umbra.Widgets.Popup;
 
 internal sealed partial class GearsetSwitcherPopup
 {
+    private bool        _showHeader             = true;
     private JobIconType _headerIconType         = JobIconType.Default;
     private JobIconType _buttonIconType         = JobIconType.Default;
     private bool        _enableRoleScrolling    = true;
@@ -57,6 +58,7 @@ internal sealed partial class GearsetSwitcherPopup
     protected override void UpdateConfigVariables(ToolbarWidget widget)
     {
         // Popup general settings.
+        _showHeader             = widget.GetConfigValue<bool>("ShowHeader");
         _headerIconType         = widget.GetConfigValue<JobIconType>("PopupHeaderIconType");
         _buttonIconType         = widget.GetConfigValue<JobIconType>("PopupButtonIconType");
         _enableRoleScrolling    = widget.GetConfigValue<bool>("EnableRoleScrolling");
