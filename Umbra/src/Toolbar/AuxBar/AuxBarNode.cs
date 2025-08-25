@@ -5,6 +5,7 @@ namespace Umbra.AuxBar;
 public class AuxBarNode : UdtNode
 {
     private bool _isVertical;
+    private int _width;
     
     public AuxBarNode(AuxBarConfig config) : base("umbra.auxbar.xml")
     {
@@ -20,16 +21,20 @@ public class AuxBarNode : UdtNode
         ToggleClass("vertical", _isVertical = config.IsVertical);
 
         QuerySelector(".section")!.Style.Gap = config.ItemSpacing;
+        
+        _width = config.Width;
     }
 
     protected override void OnDraw(ImDrawListPtr _)
     {
         Style.Size = _isVertical 
             ? new (0, 0) 
-            : new(0, Toolbar.Height);
+            : new(_width, Toolbar.Height);
         
         foreach (var widget in QuerySelectorAll(".widget-instance")) {
-            widget.Style.AutoSize = _isVertical ? (AutoSize.Grow, AutoSize.Fit) : null;
+            if (_isVertical) {
+                widget.Style.AutoSize = (AutoSize.Grow, AutoSize.Fit);
+            }
         }
     }
 

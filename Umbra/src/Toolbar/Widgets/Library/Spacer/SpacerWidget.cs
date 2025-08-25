@@ -10,39 +10,18 @@ internal class SpacerWidget(
     WidgetInfo                  info,
     string?                     guid         = null,
     Dictionary<string, object>? configValues = null
-) : ToolbarWidget(info, guid, configValues)
+) : StandardToolbarWidget(info, guid, configValues)
 {
     public override WidgetPopup? Popup => null;
 
-    public override Node Node { get; } = new() {
-        ClassList = ["toolbar-widget-spacer"],
-        Style = new() {
-            Anchor = Anchor.MiddleLeft,
-            Size   = new(2, SafeHeight),
-        },
-    };
-
-    protected override void Initialize()
-    {
-    }
-
-    protected override void OnUpdate()
+    protected override StandardWidgetFeatures Features          => StandardWidgetFeatures.CustomizableSize;
+    protected override bool                   DefaultDecorate   => false;
+    protected override string                 DefaultSizingMode => "Fixed";
+    protected override int                    DefaultWidth      => 10;
+    
+    protected override void OnDraw()
     {
         Node.IsDisabled = true;
-        Node.Style.Size = new(GetConfigValue<int>("Width"), SafeHeight);
     }
 
-    protected override IEnumerable<IWidgetConfigVariable> GetConfigVariables()
-    {
-        return [
-            new IntegerWidgetConfigVariable(
-                "Width",
-                I18N.Translate("Widget.Spacer.Config.Width.Name"),
-                I18N.Translate("Widget.Spacer.Config.Width.Description"),
-                10,
-                0,
-                2000
-            )
-        ];
-    }
 }

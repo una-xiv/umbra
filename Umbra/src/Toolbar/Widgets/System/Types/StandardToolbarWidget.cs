@@ -48,7 +48,33 @@ public abstract class StandardToolbarWidget(
         _isUpdating = true;
 
         Node.ToggleClass("decorated", GetConfigValue<bool>(CvarNameDecorate));
-        Node.Style.Size = new(0, SafeHeight);
+
+        bool isVertical = Node.RootNode.ClassList.Contains("vertical");
+
+        if (IsSizeCustomizable()) {
+            switch (CvarSizingMode()) {
+                case "Grow":
+                    Node.Style.Size = new(0, SafeHeight);
+                    if (!isVertical) {
+                        Node.Style.AutoSize = (AutoSize.Grow, AutoSize.Grow);
+                    }
+                    break;
+                case "Fixed":
+                    Node.Style.Size = new(CvarWidth(), SafeHeight);
+                    break;
+                default: // Default is Fit
+                    Node.Style.Size = new(0, SafeHeight);
+                    if (!isVertical) {
+                        Node.Style.AutoSize = (AutoSize.Fit, AutoSize.Grow);
+                    }
+                    break;
+            }
+        } else {
+            Node.Style.Size = new(0, SafeHeight);
+            if (!isVertical) {
+                Node.Style.AutoSize = null;
+            }
+        }
 
         if (HasIconAndText()) {
             Node.ToggleClass("reverse", GetConfigValue<string>(CvarNameIconLocation) == "Right");
@@ -391,6 +417,7 @@ public abstract class StandardToolbarWidget(
     private bool IsSingleLabelFeature()  => Features.HasFlag(StandardWidgetFeatures.Text);
     private bool IsMultiLabelFeature()   => Features.HasFlag(StandardWidgetFeatures.SubText);
     private bool IsIconCustomizable()    => Features.HasFlag(StandardWidgetFeatures.CustomizableIcon);
+    private bool IsSizeCustomizable()    => Features.HasFlag(StandardWidgetFeatures.CustomizableSize);
     private bool HasTextFeature()        => IsSingleLabelFeature() || IsMultiLabelFeature();
     private bool HasBothLabelTypes()     => IsSingleLabelFeature() && IsMultiLabelFeature();
     private bool HasIconFeature()        => Features.HasFlag(StandardWidgetFeatures.Icon);
@@ -425,6 +452,13 @@ public abstract class StandardToolbarWidget(
         }
 
         variables.Add(ConfigVariableHorizontalPadding());
+
+        if (IsSizeCustomizable()) {
+            variables.AddRange([
+                ConfigVariableSizingMode(),
+                ConfigVariableWidth(),
+            ]);
+        }
 
         if (HasIconFeature()) {
             if (Features.HasFlag(StandardWidgetFeatures.CustomizableIcon)) {
@@ -508,6 +542,8 @@ public abstract class StandardToolbarWidget(
     private const string CvarNameDecorate                       = "Decorate";
     private const string CvarNameDesaturateIcon                 = "DesaturateIcon";
     private const string CvarNameDisplayMode                    = "DisplayMode";
+    private const string CvarNameSizingMode                     = "SizingMode";
+    private const string CvarNameWidth                          = "Width";
     private const string CvarNameIconType                       = "IconType";
     private const string CvarNameGameIconId                     = "GameIconId";
     private const string CvarNameFontAwesomeIcon                = "FaIcon";
@@ -542,6 +578,8 @@ public abstract class StandardToolbarWidget(
     protected bool            CvarDecorate()                    => GetConfigValue<bool>(CvarNameDecorate);
     protected bool            CvarDesaturateIcon()              => GetConfigValue<bool>(CvarNameDesaturateIcon);
     protected string          CvarDisplayMode()                 => GetConfigValue<string>(CvarNameDisplayMode);
+    protected string          CvarSizingMode()                  => GetConfigValue<string>(CvarNameSizingMode);
+    protected int             CvarWidth()                       => GetConfigValue<int>(CvarNameWidth);
     protected string          CvarIconType()                    => GetConfigValue<string>(CvarNameIconType);
     protected uint            CvarGameIconId()                  => GetConfigValue<uint>(CvarNameGameIconId);
     protected FontAwesomeIcon CvarFontAwesomeIcon()             => GetConfigValue<FontAwesomeIcon>(CvarNameFontAwesomeIcon);
@@ -571,6 +609,8 @@ public abstract class StandardToolbarWidget(
     protected virtual bool            DefaultDecorate                    => true;
     protected virtual bool            DefaultDesaturateIcon              => false;
     protected virtual string          DefaultDisplayMode                 => DisplayModeTextAndIcon;
+    protected virtual string          DefaultSizingMode                  => "Fit";
+    protected virtual int             DefaultWidth                       => 0;
     protected virtual string          DefaultIconType                    => IconTypeGameIcon;
     protected virtual uint            DefaultGameIconId                  => 113;
     protected virtual FontAwesomeIcon DefaultFontAwesomeIcon             => FontAwesomeIcon.Home;
@@ -630,6 +670,32 @@ public abstract class StandardToolbarWidget(
             { DisplayModeIconOnly, I18N.Translate("Widgets.Standard.Config.DisplayMode.Option.IconOnly") }
         }
     ) { Category = I18N.Translate("Widgets.Standard.Config.Category.General") };
+    
+    private SelectWidgetConfigVariable ConfigVariableSizingMode() => new(
+        CvarNameSizingMode,
+        I18N.Translate("Widgets.Standard.Config.SizingMode.Name"),
+        I18N.Translate("Widgets.Standard.Config.SizingMode.Description"),
+        DefaultSizingMode,
+        new() {
+            { "Fit", I18N.Translate("Widgets.Standard.Config.SizingMode.Option.Fit") },
+            { "Grow", I18N.Translate("Widgets.Standard.Config.SizingMode.Option.Grow") },
+            { "Fixed", I18N.Translate("Widgets.Standard.Config.SizingMode.Option.Fixed") },
+        }
+    ) {
+        Category  = I18N.Translate("Widgets.Standard.Config.Category.General"),
+        DisplayIf = IsSizeCustomizable
+    };
+
+    private IntegerWidgetConfigVariable ConfigVariableWidth() => new(
+        CvarNameWidth,
+        I18N.Translate("Widgets.Standard.Config.Width.Name"),
+        I18N.Translate("Widgets.Standard.Config.Width.Description"),
+        DefaultWidth,
+        0
+    ) {
+        Category  = I18N.Translate("Widgets.Standard.Config.Category.General"),
+        DisplayIf = () => IsSizeCustomizable() && GetConfigValue<string>(CvarNameSizingMode) == "Fixed",
+    };
 
     private BooleanWidgetConfigVariable ConfigVariableShowSubText() => new(
         CvarNameShowSubText,
@@ -1009,4 +1075,11 @@ public enum StandardWidgetFeatures : byte
     /// the bar. Setting the progress to 0 will hide the bar.
     /// </summary>
     ProgressBar = 16,
+    
+    /// <summary>
+    /// Adds options for fine-tuning the widget sizing allowing to choose
+    /// between a fixed width, fit content or growing to fill the parent
+    /// element free space.
+    /// </summary>
+    CustomizableSize = 32,
 }

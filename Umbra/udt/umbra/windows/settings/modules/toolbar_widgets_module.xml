@@ -35,6 +35,7 @@
                 <checkbox-node class="input-shadow" label="_L(Settings.WidgetsModule.Aux.EnableShadow.Name)" description="_L(Settings.WidgetsModule.Aux.EnableShadow.Description)"/>
                 <checkbox-node class="input-rounded-corners" label="_L(Settings.WidgetsModule.Aux.RoundedCorners.Name)" description="_L(Settings.WidgetsModule.Aux.RoundedCorners.Description)"/>
                 <integer-input-node class="input-item-spacing" label="_L(Settings.WidgetsModule.Aux.ItemSpacing.Name)" description="_L(Settings.WidgetsModule.Aux.ItemSpacing.Description)"/>
+                <integer-input-node class="input-width" label="_L(Settings.WidgetsModule.Aux.Width.Name)" description="_L(Settings.WidgetsModule.Aux.Width.Description)" draggable="{true}"/>
                 <separator label="_L(Settings.WidgetsModule.Aux.Visibility)"/>
                 <checkbox-node class="input-hide-in-cutscenes" label="_L(Settings.WidgetsModule.Aux.HideInCutscenes.Name)" description="_L(Settings.WidgetsModule.Aux.HideInCutscenes.Description)"/>
                 <checkbox-node class="input-hide-in-pvp" label="_L(Settings.WidgetsModule.Aux.HideInPvP.Name)" description="_L(Settings.WidgetsModule.Aux.HideInPvP.Description)"/>

@@ -11,6 +11,7 @@ public class AuxBarConfig
     public int    ItemSpacing            { get; set; } = 2;
     public int    XPos                   { get; set; } = 50;
     public int    YPos                   { get; set; } = 50;
+    public int    Width                  { get; set; } = 0;
     public string XAlign                 { get; set; } = "Center";
     public string YAlign                 { get; set; } = "Top";
     public bool   EnableShadow           { get; set; } = true;
@@ -35,6 +36,7 @@ public class AuxBarConfig
         Decorate               = other.Decorate;
         XPos                   = other.XPos;
         YPos                   = other.YPos;
+        Width                  = other.Width;
         XAlign                 = other.XAlign;
         YAlign                 = other.YAlign;
         EnableShadow           = other.EnableShadow;
