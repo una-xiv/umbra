@@ -19,7 +19,7 @@ using System.Globalization;
 
 namespace Umbra.Common;
 
-public static class I18N
+public static partial class I18N
 {
     [ConfigVariable(
         "General.LanguageOverride",

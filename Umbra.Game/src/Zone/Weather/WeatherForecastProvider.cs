@@ -67,36 +67,6 @@ internal unsafe class WeatherForecastProvider
 
     private static string FormatForecastTime(DateTime forecastTime)
     {
-        TimeSpan timeDifference = forecastTime - DateTime.UtcNow;
-        double   totalMinutes   = timeDifference.TotalMinutes;
-
-        switch (totalMinutes) {
-            case <= 0.01:
-                return I18N.Translate("WeatherForecast.Now");
-            case < 1:
-                return $"{I18N.Translate("WeatherForecast.LessThan")} {I18N.Translate("WeatherForecast.AMinute")}";
-            case < 2:
-                return $"{I18N.Translate("WeatherForecast.AMinute")}";
-            case < 60:
-                return $"{I18N.Translate("WeatherForecast.XMinutes", (int)totalMinutes)}";
-        }
-
-        var hours            = (int)(totalMinutes / 60);
-        var remainingMinutes = (int)(totalMinutes % 60);
-
-        if (remainingMinutes == 0)
-            return hours == 1
-                ? I18N.Translate("WeatherForecast.AnHour")
-                : I18N.Translate("WeatherForecast.XHours", hours);
-
-        string hoursStr = hours == 1
-            ? I18N.Translate("WeatherForecast.AnHour")
-            : I18N.Translate("WeatherForecast.XHours", hours);
-
-        string minutesStr = remainingMinutes == 1
-            ? I18N.Translate("WeatherForecast.AMinute")
-            : I18N.Translate("WeatherForecast.XMinutes", remainingMinutes);
-
-        return $"{hoursStr} {I18N.Translate("WeatherForecast.And")} {minutesStr}";
+        return I18N.FormatTimeAgo(forecastTime - DateTime.UtcNow);
     }
 }

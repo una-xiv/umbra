@@ -39,18 +39,28 @@ internal class WeatherWidget(
         if (null == currentWeather) return;
 
         Popup.MaxEntries = (uint)GetConfigValue<int>("MaxForecastEntries");
+        Popup.TimeFormat = GetConfigValue<I18N.TimeAgoFormat>("TimeFormat");
 
         BodyNode.QuerySelector(".body")!.Style.Padding = new() { Left = GetConfigValue<int>("Spacing") };
 
-        SetText(currentWeather.Name);
-        SetSubText(currentWeather.TimeString);
         SetGameIconId(currentWeather.IconId);
+        SetText(currentWeather.Name);
+        SetSubText(zone.WeatherForecast.Count == 1
+            ? currentWeather.TimeString
+            : I18N.FormatTimeAgo(currentWeather.TimeSpan, Popup.TimeFormat)
+        );
     }
 
     protected override IEnumerable<IWidgetConfigVariable> GetConfigVariables()
     {
         return [
             ..base.GetConfigVariables(),
+            new EnumWidgetConfigVariable<I18N.TimeAgoFormat>(
+                "TimeFormat",
+                I18N.Translate("Widget.Weather.Config.TimeFormat.Name"),
+                I18N.Translate("Widget.Weather.Config.TimeFormat.Description"),
+                I18N.TimeAgoFormat.Long
+            ),
             new IntegerWidgetConfigVariable(
                 "Spacing",
                 I18N.Translate("Widget.Weather.Config.Spacing.Name"),
