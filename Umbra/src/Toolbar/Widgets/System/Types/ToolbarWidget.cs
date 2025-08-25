@@ -69,47 +69,7 @@ public abstract class ToolbarWidget(
 
     public void Setup()
     {
-        foreach (var cfg in GetConfigVariablesInternal()) {
-            _configVariables[cfg.Id] = cfg;
-
-            if (cfg is IUntypedWidgetConfigVariable u) {
-                if (false == _configValues.ContainsKey(cfg.Id)) {
-                    _configValues[cfg.Id] = u.GetDefaultValue()!;
-                }
-
-                u.UntypedValueChanged += value => _configValues[cfg.Id] = value;
-            }
-        }
-
-        if (_configValues.Count > 0) {
-            List<string> keysToRemove = [];
-
-            foreach ((string key, object value) in _configValues) {
-                if (!_configVariables.TryGetValue(key, out IWidgetConfigVariable? cfg)) {
-                    keysToRemove.Add(key);
-                    continue;
-                }
-
-                if (cfg is IUntypedWidgetConfigVariable u) {
-                    if (cfg is IEnumWidgetConfigVariable e) {
-                        try {
-                            Type enumType = e.GetType().GenericTypeArguments[0];
-                            u.SetValue(Enum.ToObject(enumType, value));
-                        } catch {
-                            keysToRemove.Add(key); // Faulty config.
-                            Logger.Warning($"Failed to set config value '{key}' to '{value}' in widget '{Info.Name}'.");
-                        }
-                    } else {
-                        u.SetValue(value);
-                    }
-                }
-            }
-
-            foreach (string key in keysToRemove) {
-                _configValues.Remove(key);
-            }
-        }
-
+        UpdateConfigVariables();
         OnConfigurationChanged();
         Initialize();
 
@@ -341,6 +301,50 @@ public abstract class ToolbarWidget(
         OnConfigurationChanged();
     }
 
+    protected void UpdateConfigVariables()
+    {
+        foreach (var cfg in GetConfigVariablesInternal()) {
+            _configVariables[cfg.Id] = cfg;
+
+            if (cfg is IUntypedWidgetConfigVariable u) {
+                if (false == _configValues.ContainsKey(cfg.Id)) {
+                    _configValues[cfg.Id] = u.GetDefaultValue()!;
+                }
+
+                u.UntypedValueChanged += value => _configValues[cfg.Id] = value;
+            }
+        }
+
+        if (_configValues.Count > 0) {
+            List<string> keysToRemove = [];
+
+            foreach ((string key, object value) in _configValues) {
+                if (!_configVariables.TryGetValue(key, out IWidgetConfigVariable? cfg)) {
+                    keysToRemove.Add(key);
+                    continue;
+                }
+
+                if (cfg is IUntypedWidgetConfigVariable u) {
+                    if (cfg is IEnumWidgetConfigVariable e) {
+                        try {
+                            Type enumType = e.GetType().GenericTypeArguments[0];
+                            u.SetValue(Enum.ToObject(enumType, value));
+                        } catch {
+                            keysToRemove.Add(key); // Faulty config.
+                            Logger.Warning($"Failed to set config value '{key}' to '{value}' in widget '{Info.Name}'.");
+                        }
+                    } else {
+                        u.SetValue(value);
+                    }
+                }
+            }
+
+            foreach (string key in keysToRemove) {
+                _configValues.Remove(key);
+            }
+        }
+    }
+    
     /// <summary>
     /// Returns a dictionary of color options for the user to select from in a
     /// configuration variable.
