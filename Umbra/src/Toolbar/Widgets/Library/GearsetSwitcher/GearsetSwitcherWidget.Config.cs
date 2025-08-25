@@ -90,17 +90,27 @@ internal sealed partial class GearsetSwitcherWidget
                 20,
                 100
             ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
+            new SelectWidgetConfigVariable(
+                "FilterLogic",
+                I18N.Translate("Widget.GearsetSwitcher.Config.FilterLogic.Name"),
+                I18N.Translate("Widget.GearsetSwitcher.Config.FilterLogic.Description"),
+                "Hide",
+                new() {
+                    { "Hide", I18N.Translate("Widget.GearsetSwitcher.Config.FilterLogic.Option.Hide") },
+                    { "Show", I18N.Translate("Widget.GearsetSwitcher.Config.FilterLogic.Option.Show") }
+                }
+            ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
             new StringWidgetConfigVariable(
                 "HidePrefix",
-                I18N.Translate("Widget.GearsetSwitcher.Config.HidePrefixedGearsets.Name"),
-                I18N.Translate("Widget.GearsetSwitcher.Config.HidePrefixedGearsets.Description"),
+                I18N.Translate("Widget.GearsetSwitcher.Config.GearsetFilterInput.Name"),
+                I18N.Translate("Widget.GearsetSwitcher.Config.GearsetFilterInput.Description"),
                 string.Empty,
                 32
             ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
             new BooleanWidgetConfigVariable(
-                "InverseHidePrefixLogic",
-                I18N.Translate("Widget.GearsetSwitcher.Config.InverseHidePrefixLogic.Name"),
-                I18N.Translate("Widget.GearsetSwitcher.Config.InverseHidePrefixLogic.Description"),
+                "HidePrefixFromNames",
+                I18N.Translate("Widget.GearsetSwitcher.Config.HidePrefixFromNames.Name"),
+                I18N.Translate("Widget.GearsetSwitcher.Config.HidePrefixFromNames.Description"),
                 false
             ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
             new BooleanWidgetConfigVariable(

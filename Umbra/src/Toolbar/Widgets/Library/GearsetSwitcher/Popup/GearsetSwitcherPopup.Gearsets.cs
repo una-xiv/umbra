@@ -2,6 +2,8 @@
 
 internal sealed partial class GearsetSwitcherPopup
 {
+    public List<string> PrefixList { get; internal set; } = [];
+
     private readonly Dictionary<Node, Gearset> _nodeToGearset = [];
 
     private void UpdateGearsetButtons()
@@ -41,15 +43,29 @@ internal sealed partial class GearsetSwitcherPopup
         Node?  node   = Node.QuerySelector($"#{nodeId}");
         Node   group  = GearsetGroupNodes[gearset.Category];
 
-        if (_hidePrefix.Length > 0 &&
-            (
-                (gearset.Name.StartsWith(_hidePrefix) && !_inverseHidePrefixLogic) ||
-                (!gearset.Name.StartsWith(_hidePrefix) && _inverseHidePrefixLogic)
-            )
-        ) {
-            node?.Dispose();
-            UpdateColumns();
-            return;
+        if (!_inverseHidePrefixLogic) {
+            foreach (var prefix in PrefixList) {
+                if (gearset.Name.StartsWith(prefix)) {
+                    node?.Dispose();
+                    UpdateColumns();
+                    return;
+                }
+            }
+        } else {
+            bool gsMatchesPrefix = false;
+            
+            foreach (var prefix in PrefixList) {
+                if (gearset.Name.StartsWith(prefix)) {
+                    gsMatchesPrefix = true;
+                    break;
+                }
+            }
+            
+            if (!gsMatchesPrefix) {
+                node?.Dispose();
+                UpdateColumns();
+                return;
+            }
         }
 
         if (null == node) {
@@ -83,12 +99,27 @@ internal sealed partial class GearsetSwitcherPopup
         node.QuerySelector(".progress-bar-wrapper")!.Style.Margin = new((_buttonHeight - 8) * s, 8 * s, 4 * s, (_buttonHeight - 3) * s);
 
         SetIcon(node.QuerySelector(".icon")!, _buttonIconType, gearset);
-        node.QuerySelector(".name")!.NodeValue       = gearset.Name;
+
+        node.QuerySelector(".name")!.NodeValue       = GetGearsetName(gearset);
         node.QuerySelector(".level")!.NodeValue      = GearsetSwitcherInfoDisplayProvider.GetInfoText(GearsetSwitcherInfoDisplayType.JobLevel, gearset, false);
         node.QuerySelector(".item-level")!.NodeValue = $"{gearset.ItemLevel}";
 
         group.QuerySelector(".body")!.AppendChild(node);
         UpdateColumns();
+    }
+    
+    private string GetGearsetName(Gearset gearset)
+    {
+        bool hidePrefixFromNames = _hidePrefixFromNames;
+        if (!hidePrefixFromNames) return gearset.Name;
+
+        foreach (string prefix in PrefixList) {
+            if (gearset.Name.StartsWith(prefix)) {
+                return gearset.Name[prefix.Length..].TrimStart();
+            }
+        }
+
+        return gearset.Name;
     }
 
     private void OnGearsetRemoved(Gearset gearset)

@@ -13,8 +13,8 @@ internal sealed partial class GearsetSwitcherPopup
     private string      _gradientButtonType     = "TB";
     private int         _buttonWidth            = 250;
     private int         _buttonHeight           = 40;
-    private string      _hidePrefix             = string.Empty;
-    private bool        _inverseHidePrefixLogic = false;
+    private bool        _inverseHidePrefixLogic;
+    private bool        _hidePrefixFromNames;
 
     private bool _showTankGroup     = true;
     private bool _showHealerGroup   = true;
@@ -68,9 +68,9 @@ internal sealed partial class GearsetSwitcherPopup
         _gradientButtonType     = widget.GetConfigValue<string>("ButtonGradientType");
         _buttonWidth            = widget.GetConfigValue<int>("PopupButtonWidth");
         _buttonHeight           = widget.GetConfigValue<int>("PopupButtonHeight");
-        _hidePrefix             = widget.GetConfigValue<string>("HidePrefix");
-        _inverseHidePrefixLogic = widget.GetConfigValue<bool>("InverseHidePrefixLogic");
-
+        _inverseHidePrefixLogic = widget.GetConfigValue<string>("FilterLogic") == "Show";
+        _hidePrefixFromNames    = widget.GetConfigValue<bool>("HidePrefixFromNames");
+        
         // Group-specific settings.
         _showTankGroup            = widget.GetConfigValue<bool>("ShowTank");
         _showHealerGroup          = widget.GetConfigValue<bool>("ShowHealer");

@@ -23,8 +23,9 @@ internal sealed partial class GearsetSwitcherWidget(
         StandardWidgetFeatures.SubText |
         StandardWidgetFeatures.ProgressBar;
 
-    private IPlayer            Player            { get; } = Framework.Service<IPlayer>();
-    private IGearsetRepository GearsetRepository { get; } = Framework.Service<IGearsetRepository>();
+    private IPlayer            Player            { get; }      = Framework.Service<IPlayer>();
+    private IGearsetRepository GearsetRepository { get; }      = Framework.Service<IGearsetRepository>();
+    private List<string>       Prefixes          { get; set; } = [];
 
     protected override void OnLoad()
     {
@@ -47,6 +48,14 @@ internal sealed partial class GearsetSwitcherWidget(
     {
     }
 
+    protected override void OnConfigurationChanged()
+    {
+        string hidePrefix = GetConfigValue<string>("HidePrefix");
+
+        Prefixes         = hidePrefix.Split(',').Select(p => p.Trim()).Where(p => p.Length > 0).ToList();
+        Popup.PrefixList = Prefixes;
+    }
+
     private void SetWidgetNoGearsetState()
     {
         SetGfdIcon(BitmapFontIcon.Warning);
@@ -57,10 +66,9 @@ internal sealed partial class GearsetSwitcherWidget(
     private void SetWidgetGearsetState(Gearset gearset)
     {
         SetDisabled(false);
-        
+
         JobInfo     job  = Player.GetJobInfo(gearset.JobId);
         JobIconType type = GetConfigValue<JobIconType>("WidgetButtonIconType");
-        string customLabel = GetConfigValue<string>("CustomLabel");
 
         switch (type) {
             case JobIconType.PixelSprites:
@@ -73,17 +81,36 @@ internal sealed partial class GearsetSwitcherWidget(
                         SetUldIcon(job.GetUldIcon(type), "ui/uld/DeepDungeonScoreList", 3);
                         break;
                 }
+
                 break;
             default:
                 SetGameIconId(job.Icons[type]);
                 break;
         }
+
         SetProgressBarValue(job.XpPercent);
-        SetText(customLabel != string.Empty ? customLabel : gearset.Name);
+        SetText(GetGearsetName(gearset));
         SetSubText(GearsetSwitcherInfoDisplayProvider.GetInfoText(
             GetConfigValue<GearsetSwitcherInfoDisplayType>(gearset.IsMaxLevel ? "InfoTypeMaxLevel" : "InfoType"),
             gearset,
             GetConfigValue<bool>("ShowSyncedLevelInInfo")
         ));
+    }
+
+    private string GetGearsetName(Gearset gearset)
+    {
+        string customLabel = GetConfigValue<string>("CustomLabel").Trim();
+        if (customLabel != string.Empty) return customLabel;
+
+        bool hidePrefixFromNames = GetConfigValue<bool>("HidePrefixFromNames");
+        if (!hidePrefixFromNames) return gearset.Name;
+
+        foreach (string prefix in Prefixes) {
+            if (gearset.Name.StartsWith(prefix)) {
+                return gearset.Name[prefix.Length..].TrimStart();
+            }
+        }
+
+        return gearset.Name;
     }
 }

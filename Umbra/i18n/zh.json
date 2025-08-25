@@ -955,6 +955,8 @@
   "Widget.GearsetSwitcher.Config.HidePrefixedGearsets.Description": "在弹出窗口中隐藏带有此前缀的装备集。这有助于最大程度地减少弹出窗口中显示的装备集数量。",
   "Widget.GearsetSwitcher.Config.InverseHidePrefixLogic.Name": "显示带前缀的装备集而不是隐藏它们",
   "Widget.GearsetSwitcher.Config.InverseHidePrefixLogic.Description": "反转隐藏前缀设置的逻辑，仅显示带有指定前缀的装备集而不是隐藏它们。",
+  "Widget.GearsetSwitcher.Config.HidePrefixFromNames.Name": "从装备集名称中隐藏已配置的前缀",
+  "Widget.GearsetSwitcher.Config.HidePrefixFromNames.Description": "在弹出窗口中从装备集名称中隐藏已配置的前缀，以减少视觉混乱。这仅在反向隐藏前缀逻辑启用时有效。",
   "Widget.OnlineStatus.Name": "在线状态",
   "Widget.OnlineStatus.Description": "显示您当前的在线状态。",
   "Widget.OnlineStatus.Tooltip": "右键单击以打开个人信息窗口",
