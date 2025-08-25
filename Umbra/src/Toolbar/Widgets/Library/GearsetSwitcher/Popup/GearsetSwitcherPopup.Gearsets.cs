@@ -43,28 +43,30 @@ internal sealed partial class GearsetSwitcherPopup
         Node?  node   = Node.QuerySelector($"#{nodeId}");
         Node   group  = GearsetGroupNodes[gearset.Category];
 
-        if (!_inverseHidePrefixLogic) {
-            foreach (var prefix in PrefixList) {
-                if (gearset.Name.StartsWith(prefix)) {
+        if (PrefixList.Count > 0) {
+            if (!_inverseHidePrefixLogic) {
+                foreach (var prefix in PrefixList) {
+                    if (gearset.Name.StartsWith(prefix)) {
+                        node?.Dispose();
+                        UpdateColumns();
+                        return;
+                    }
+                }
+            } else {
+                bool gsMatchesPrefix = false;
+
+                foreach (var prefix in PrefixList) {
+                    if (gearset.Name.StartsWith(prefix)) {
+                        gsMatchesPrefix = true;
+                        break;
+                    }
+                }
+
+                if (!gsMatchesPrefix) {
                     node?.Dispose();
                     UpdateColumns();
                     return;
                 }
-            }
-        } else {
-            bool gsMatchesPrefix = false;
-            
-            foreach (var prefix in PrefixList) {
-                if (gearset.Name.StartsWith(prefix)) {
-                    gsMatchesPrefix = true;
-                    break;
-                }
-            }
-            
-            if (!gsMatchesPrefix) {
-                node?.Dispose();
-                UpdateColumns();
-                return;
             }
         }
 
