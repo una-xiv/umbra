@@ -953,6 +953,8 @@
   "Widget.GearsetSwitcher.Config.ButtonHeight.Description": "装备集按钮的像素高度。",
   "Widget.GearsetSwitcher.Config.HidePrefixedGearsets.Name": "隐藏带有此前缀的装备集",
   "Widget.GearsetSwitcher.Config.HidePrefixedGearsets.Description": "在弹出窗口中隐藏带有此前缀的装备集。这有助于最大程度地减少弹出窗口中显示的装备集数量。",
+  "Widget.GearsetSwitcher.Config.InverseHidePrefixLogic.Name": "显示带前缀的装备集而不是隐藏它们",
+  "Widget.GearsetSwitcher.Config.InverseHidePrefixLogic.Description": "反转隐藏前缀设置的逻辑，仅显示带有指定前缀的装备集而不是隐藏它们。",
   "Widget.OnlineStatus.Name": "在线状态",
   "Widget.OnlineStatus.Description": "显示您当前的在线状态。",
   "Widget.OnlineStatus.Tooltip": "右键单击以打开个人信息窗口",

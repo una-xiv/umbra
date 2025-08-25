@@ -1,7 +1,4 @@
-﻿using FFXIVClientStructs.FFXIV.Client.Game.UI;
-using FFXIVClientStructs.FFXIV.Client.UI.Agent;
-
-namespace Umbra.Widgets.Popup;
+﻿namespace Umbra.Widgets.Popup;
 
 internal sealed partial class GearsetSwitcherPopup
 {
@@ -40,12 +37,16 @@ internal sealed partial class GearsetSwitcherPopup
 
     private void OnGearsetCreatedOrUpdated(Gearset gearset)
     {
-        string  nodeId = $"Gearset_{gearset.Id}";
-        Node?   node   = Node.QuerySelector($"#{nodeId}");
-        Node    group  = GearsetGroupNodes[gearset.Category];
-        JobInfo job    = Player.GetJobInfo(gearset.JobId);
+        string nodeId = $"Gearset_{gearset.Id}";
+        Node?  node   = Node.QuerySelector($"#{nodeId}");
+        Node   group  = GearsetGroupNodes[gearset.Category];
 
-        if (_hidePrefix.Length > 0 && gearset.Name.StartsWith(_hidePrefix)) {
+        if (_hidePrefix.Length > 0 &&
+            (
+                (gearset.Name.StartsWith(_hidePrefix) && !_inverseHidePrefixLogic) ||
+                (!gearset.Name.StartsWith(_hidePrefix) && _inverseHidePrefixLogic)
+            )
+        ) {
             node?.Dispose();
             UpdateColumns();
             return;
@@ -79,7 +80,7 @@ internal sealed partial class GearsetSwitcherPopup
         node.QuerySelector(".icon")!.Style.Size = new(_buttonHeight - 4, _buttonHeight - 4);
 
         float s = Node.ScaleFactor;
-        node.QuerySelector(".progress-bar-wrapper")!.Style.Margin = new((_buttonHeight - 8) * s, 8 * s, 4 * s,  (_buttonHeight - 3) * s);
+        node.QuerySelector(".progress-bar-wrapper")!.Style.Margin = new((_buttonHeight - 8) * s, 8 * s, 4 * s, (_buttonHeight - 3) * s);
 
         SetIcon(node.QuerySelector(".icon")!, _buttonIconType, gearset);
         node.QuerySelector(".name")!.NodeValue       = gearset.Name;

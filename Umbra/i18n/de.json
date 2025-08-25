@@ -953,6 +953,8 @@
   "Widget.GearsetSwitcher.Config.ButtonHeight.Description": "Die Höhe der Ausrüstungstasten in Pixeln.",
   "Widget.GearsetSwitcher.Config.HidePrefixedGearsets.Name": "Ausrüstungssets mit diesem Präfix ausblenden",
   "Widget.GearsetSwitcher.Config.HidePrefixedGearsets.Description": "Blendet Ausrüstungssets mit diesem Präfix im Popup aus. Dies kann nützlich sein, um die Anzahl der im Popup angezeigten Ausrüstungssets zu minimieren.",
+  "Widget.GearsetSwitcher.Config.InverseHidePrefixLogic.Name": "Vorgefixte Ausrüstungssets anzeigen, anstatt sie auszublenden",
+  "Widget.GearsetSwitcher.Config.InverseHidePrefixLogic.Description": "Kehrt die Logik der Einstellung zum Ausblenden des Präfixes um, um nur Ausrüstungssets mit dem angegebenen Präfix anzuzeigen, anstatt sie auszublenden.",
   "Widget.OnlineStatus.Name": "Online-Status",
   "Widget.OnlineStatus.Description": "Zeigt deinen aktuellen Online-Status an und ermöglicht es dir, ihn zu ändern.",
   "Widget.OnlineStatus.Tooltip": "Klicke mit der rechten Maustaste, um das Suchinfofenster zu öffnen.",

@@ -953,6 +953,8 @@
   "Widget.GearsetSwitcher.Config.ButtonHeight.Description": "The height of the gearset buttons in pixels.",
   "Widget.GearsetSwitcher.Config.HidePrefixedGearsets.Name": "Hide gearsets with this prefix",
   "Widget.GearsetSwitcher.Config.HidePrefixedGearsets.Description": "Hides gearsets with this prefix in the popup. This can be useful to minimize the amount of gearsets that are displayed in the popup.",
+  "Widget.GearsetSwitcher.Config.InverseHidePrefixLogic.Name": "Show prefixed gearsets instead of hiding them",
+  "Widget.GearsetSwitcher.Config.InverseHidePrefixLogic.Description": "Inverts the logic of the hide prefix setting to show only gearsets with the specified prefix instead of hiding them.",
   "Widget.OnlineStatus.Name": "Online Status",
   "Widget.OnlineStatus.Description": "Shows your current online status and gives you the option to change it.",
   "Widget.OnlineStatus.Tooltip": "Right-click to open the search info window.",

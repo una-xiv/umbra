@@ -98,6 +98,12 @@ internal sealed partial class GearsetSwitcherWidget
                 32
             ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
             new BooleanWidgetConfigVariable(
+                "InverseHidePrefixLogic",
+                I18N.Translate("Widget.GearsetSwitcher.Config.InverseHidePrefixLogic.Name"),
+                I18N.Translate("Widget.GearsetSwitcher.Config.InverseHidePrefixLogic.Description"),
+                false
+            ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
+            new BooleanWidgetConfigVariable(
                 "EnableRoleScrolling",
                 I18N.Translate("Widget.GearsetSwitcher.Config.EnableRoleScrolling.Name"),
                 I18N.Translate("Widget.GearsetSwitcher.Config.EnableRoleScrolling.Description"),
