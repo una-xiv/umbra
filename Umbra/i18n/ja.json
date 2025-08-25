@@ -43,6 +43,7 @@
   "Housing.Apartment": "アパート",
   "Housing.Room": "部屋",
   "Housing.Lobby": "ロビー",
+  "Markers.AetherCurrents.Name": "エーテルカレント",
   "Markers.AetherCurrents.Description": "現在のゾーン内の近くのエーテルカレントのためのワールドマーカーを表示します。",
   "Markers.PartyMembers.Name": "パーティーメンバー",
   "Markers.PartyMembers.Description": "同じマップ内で遠くにいるパーティーメンバーのためのワールドマーカーを表示します。",
