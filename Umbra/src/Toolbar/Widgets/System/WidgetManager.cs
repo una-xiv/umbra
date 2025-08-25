@@ -1,6 +1,7 @@
 ﻿
 using Lumina.Misc;
 using System.Collections.Immutable;
+using Umbra.AuxBar;
 
 namespace Umbra.Widgets.System;
 
@@ -152,13 +153,25 @@ internal sealed partial class WidgetManager : IDisposable
 
             var panel = Toolbar.GetPanel(location);
             if (panel == null) {
-                Logger.Error($"Attempted to create a widget in an invalid location '{location}'.");
-                return;
+                if (! location.StartsWith("aux")) {
+                    Logger.Error($"Attempted to create a widget in an invalid location '{location}'.");
+                    return;
+                }
+                
+                // Create the aux bar if it doesn't exist yet.
+                var aux = Framework.Service<AuxBarManager>().CreateBar();
+                panel = Toolbar.GetPanel(aux.Id);
+
+                if (panel == null) {
+                    // This should never happen.
+                    Logger.Error($"Attempted to create a widget in an invalid aux bar location '{location}', but the aux bar could not be created.");
+                    return;
+                }
             }
 
             var widget = (ToolbarWidget)Activator.CreateInstance(type, info, guid, configValues)!;
 
-            widget.SortIndex =   sortIndex ?? panel.ChildNodes.Count;
+            widget.SortIndex =   sortIndex ?? panel!.ChildNodes.Count;
             widget.Location  =   location;
             widget.Node.Id   ??= $"UmbraWidget_{Crc32.Get(widget.Id)}";
 
