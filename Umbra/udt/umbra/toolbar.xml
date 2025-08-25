@@ -108,7 +108,7 @@
         }
         
         & > .section {
-            auto-size: grow;
+            auto-size: fit grow;
             gap: 8;
             padding: 0 8;
         }

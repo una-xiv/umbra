@@ -21,7 +21,5 @@ internal class SpacerWidget(
     
     protected override void OnDraw()
     {
-        Node.IsDisabled = true;
     }
-
 }

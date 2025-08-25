@@ -16,7 +16,6 @@
 
 using Dalamud.Game.ClientState.Keys;
 using FFXIVClientStructs.FFXIV.Client.Game;
-
 using Umbra.Widgets.System;
 
 namespace Umbra;
@@ -24,13 +23,13 @@ namespace Umbra;
 internal partial class Toolbar
 {
     private readonly Node _toolbarNode = UmbraDrawing.DocumentFrom("umbra.toolbar.xml").RootNode!;
-    
+
     public Node? GetPanel(string id) =>
         id.StartsWith("aux")
             ? auxBars.FindOrMigrate(id)
             : _toolbarNode.FindById(id)
               ?? throw new InvalidOperationException($"Panel '{id}' not found.");
-    
+
     public Node LeftPanel   => GetPanel("Left")!;
     public Node CenterPanel => GetPanel("Center")!;
     public Node RightPanel  => GetPanel("Right")!;
@@ -45,11 +44,11 @@ internal partial class Toolbar
             auxBarNode.ToggleClass("middle-aligned", config.YAlign == "Center");
             auxBarNode.ToggleClass("bottom-aligned", config.YAlign == "Bottom");
 
-            Vector2 workPos = ImGui.GetMainViewport().WorkPos;
+            Vector2 workPos  = ImGui.GetMainViewport().WorkPos;
             Vector2 workSize = ImGui.GetMainViewport().WorkSize;
 
             auxBarNode.ComputeBoundingSize();
-            
+
             float xPos = config.XAlign switch {
                 "Center" => (ToolbarXPosition - (auxBarNode.Bounds.MarginSize.Width / 2f)) + config.XPos,
                 "Left"   => config.XPos,
@@ -58,12 +57,12 @@ internal partial class Toolbar
             };
 
             float yPos = config.YAlign switch {
-                "Center" => (workPos.Y + workSize.Y - (workSize.Y/2f) - (auxBarNode.Bounds.MarginSize.Height / 2f)) + config.YPos,
+                "Center" => (workPos.Y + workSize.Y - (workSize.Y / 2f) - (auxBarNode.Bounds.MarginSize.Height / 2f)) + config.YPos,
                 "Top"    => config.YPos,
                 "Bottom" => (int)(workPos.Y + workSize.Y - config.YPos - auxBarNode.Bounds.MarginSize.Height),
                 _        => config.YPos,
             };
-            
+
             auxBarNode.Render(
                 ImGui.GetBackgroundDrawList(ImGui.GetMainViewport()),
                 new(xPos, yPos)
@@ -82,6 +81,22 @@ internal partial class Toolbar
         CenterPanel.Style.Gap      = ItemSpacing;
         RightPanel.Style.Gap       = ItemSpacing;
 
+        LeftPanel.ComputeBoundingSize();
+        CenterPanel.ComputeBoundingSize();
+        RightPanel.ComputeBoundingSize();
+
+        LeftPanel.Style.Size   = new();
+        CenterPanel.Style.Size = new();
+        RightPanel.Style.Size  = new();
+
+        float centerX1 = (ToolbarXPosition - (CenterPanel.Bounds.MarginSize.Width / 2f));
+        float centerX2 = (ToolbarXPosition + (CenterPanel.Bounds.MarginSize.Width / 2f));
+
+        LeftPanel.Style.Size.Width  = (int)centerX1 - 1;
+        LeftPanel.Style.AutoSize    = (AutoSize.Fit, AutoSize.Grow);
+        RightPanel.Style.Size.Width = (int)(ImGui.GetMainViewport().WorkSize.X - centerX2) - 1;
+        RightPanel.Style.AutoSize   = (AutoSize.Fit, AutoSize.Grow);
+
         _toolbarNode.Render(
             ImGui.GetBackgroundDrawList(ImGui.GetMainViewport()),
             new(ToolbarXPosition, (int)(ToolbarYPosition + _autoHideYOffset))
@@ -95,7 +110,7 @@ internal partial class Toolbar
     {
         _toolbarNode.ToggleClass("stretched", IsStretched);
 
-        float width  = IsStretched ? ImGui.GetMainViewport().WorkSize.X : 0;
+        float width = IsStretched ? ImGui.GetMainViewport().WorkSize.X : 0;
 
         _toolbarNode.Style.Size = new(width / Node.ScaleFactor, Height);
         _toolbarNode.Style.Padding = new() {
