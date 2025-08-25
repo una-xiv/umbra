@@ -738,7 +738,7 @@
   "Widget.GearsetSwitcher.Config.GearsetFilterInput.Name": "Masquer les ensembles d'équipement avec ce préfixe",
   "Widget.GearsetSwitcher.Config.GearsetFilterInput.Description": "Masque les ensembles d'équipement avec ce préfixe dans la fenêtre contextuelle. Cela peut être utile pour minimiser le nombre d'ensembles d'équipement affichés dans la fenêtre contextuelle.",
   "Widget.GearsetSwitcher.Config.HidePrefixFromNames.Name": "Masquer le préfixe configuré des noms d'ensembles d'équipement",
-  "Widget.GearsetSwitcher.Config.HidePrefixFromNames.Description": "Masque le préfixe configuré des noms d'ensembles d'équipement dans la fenêtre contextuelle pour réduire l'encombrement visuel. Cela ne fonctionne que si la logique inverse de masquage de préfixe est activée.",
+  "Widget.GearsetSwitcher.Config.HidePrefixFromNames.Description": "Masque le préfixe configuré des noms d'ensembles d'équipement dans la fenêtre contextuelle pour réduire l'encombrement visuel.",
   "Widget.OnlineStatus.Name": "État en ligne",
   "Widget.OnlineStatus.Description": "Affiche votre état en ligne actuel et vous donne la possibilité de le changer.",
   "Widget.OnlineStatus.Tooltip": "Cliquez avec le bouton droit pour ouvrir la fenêtre d'informations de recherche.",

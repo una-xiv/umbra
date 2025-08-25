@@ -958,7 +958,7 @@
   "Widget.GearsetSwitcher.Config.GearsetFilterInput.Name": "この接頭辞を持つ装備セットを隠す",
   "Widget.GearsetSwitcher.Config.GearsetFilterInput.Description": "ポップアップでこの接頭辞を持つ装備セットを隠します。これは、ポップアップに表示される装備セットの数を最小限に抑えるのに役立ちます。",
   "Widget.GearsetSwitcher.Config.HidePrefixFromNames.Name": "設定された接頭辞を装備セット名から隠す",
-  "Widget.GearsetSwitcher.Config.HidePrefixFromNames.Description": "ポップアップ内の装備セット名から設定された接頭辞を隠し、視覚的な煩雑さを軽減します。これは、逆の接頭辞非表示ロジックが有効な場合にのみ機能します。",
+  "Widget.GearsetSwitcher.Config.HidePrefixFromNames.Description": "ポップアップ内の装備セット名から設定された接頭辞を隠し、視覚的な煩雑さを軽減します。",
   "Widget.OnlineStatus.Name": "オンライン状態",
   "Widget.OnlineStatus.Description": "現在のオンライン状態を表示し、変更オプションを提供します。",
   "Widget.OnlineStatus.Tooltip": "右クリックして検索情報ウィンドウを開きます。",
