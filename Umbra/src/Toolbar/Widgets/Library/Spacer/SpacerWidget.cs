@@ -15,6 +15,7 @@ internal class SpacerWidget(
     public override WidgetPopup? Popup => null;
 
     protected override StandardWidgetFeatures Features          => StandardWidgetFeatures.CustomizableSize;
+    protected override bool                   DefaultDecorate   => false;
     protected override string                 DefaultSizingMode => "Fixed";
     protected override int                    DefaultWidth      => 10;
     
