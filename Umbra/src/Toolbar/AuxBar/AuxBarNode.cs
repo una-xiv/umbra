@@ -32,7 +32,9 @@ public class AuxBarNode : UdtNode
             : new(_width, Toolbar.Height);
         
         foreach (var widget in QuerySelectorAll(".widget-instance")) {
-            widget.Style.AutoSize = _isVertical ? (AutoSize.Grow, AutoSize.Fit) : null;
+            if (_isVertical) {
+                widget.Style.AutoSize = (AutoSize.Grow, AutoSize.Fit);
+            }
         }
     }
 

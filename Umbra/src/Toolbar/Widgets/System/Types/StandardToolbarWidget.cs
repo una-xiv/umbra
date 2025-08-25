@@ -48,19 +48,32 @@ public abstract class StandardToolbarWidget(
         _isUpdating = true;
 
         Node.ToggleClass("decorated", GetConfigValue<bool>(CvarNameDecorate));
-        Node.Style.Size = new(0, SafeHeight);
-        
+
+        bool isVertical = Node.RootNode.ClassList.Contains("vertical");
+
         if (IsSizeCustomizable()) {
             switch (CvarSizingMode()) {
-                    case "Grow":
-                        Node.Style.AutoSize = new(AutoSize.Grow, AutoSize.Fit);
-                        break;
-                    case "Fixed":
-                        Node.Style.Size = new(CvarWidth(), SafeHeight);
-                        break;
+                case "Grow":
+                    Node.Style.Size = new(0, SafeHeight);
+                    if (!isVertical) {
+                        Node.Style.AutoSize = (AutoSize.Grow, AutoSize.Grow);
+                    }
+                    break;
+                case "Fixed":
+                    Node.Style.Size = new(CvarWidth(), SafeHeight);
+                    break;
+                default: // Default is Fit
+                    Node.Style.Size = new(0, SafeHeight);
+                    if (!isVertical) {
+                        Node.Style.AutoSize = (AutoSize.Fit, AutoSize.Grow);
+                    }
+                    break;
             }
         } else {
             Node.Style.Size = new(0, SafeHeight);
+            if (!isVertical) {
+                Node.Style.AutoSize = null;
+            }
         }
 
         if (HasIconAndText()) {
