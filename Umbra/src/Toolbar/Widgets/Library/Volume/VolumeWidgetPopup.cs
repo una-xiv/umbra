@@ -52,12 +52,11 @@ internal sealed partial class VolumeWidgetPopup : WidgetPopup
 
             if (string.Empty == _currentPresetId) {
                 Node.QuerySelector(".preset-info")!.Style.IsVisible = false;
-                return;
-            }
-
-            Node.QuerySelector(".preset-info")!.Style.IsVisible = true;
-            if (_presets.TryGetValue(_currentPresetId, out var preset)) {
-                Node.QuerySelector(".preset-name")!.NodeValue = preset.Name;
+            } else {
+                Node.QuerySelector(".preset-info")!.Style.IsVisible = true;
+                if (_presets.TryGetValue(_currentPresetId, out var preset)) {
+                    Node.QuerySelector(".preset-name")!.NodeValue = preset.Name;
+                }
             }
         }
 
