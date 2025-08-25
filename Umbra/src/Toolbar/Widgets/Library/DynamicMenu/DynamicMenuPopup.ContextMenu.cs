@@ -73,6 +73,8 @@ internal sealed partial class DynamicMenuPopup
                             OpenSeparatorEditor();
                         } else if (item.Pt == null) {
                             OpenCustomItemEditor();
+                        } else if (item.Pt is "SM" or "IM") {
+                            OpenMacroItemEditor();
                         }
                     },
                 },
@@ -113,7 +115,7 @@ internal sealed partial class DynamicMenuPopup
 
         if (itemIndex != null) {
             var entry = Entries[itemIndex.Value];
-            ContextMenu!.SetEntryDisabled("Configure", entry.Pt != null);
+            ContextMenu!.SetEntryDisabled("Configure", entry.Pt is not (null or "SM" or "IM"));
             ContextMenu!.SetEntryDisabled("MoveUp",    !CanMoveItemUp(Entries[itemIndex.Value]));
             ContextMenu!.SetEntryDisabled("MoveDown",  !CanMoveItemDown(Entries[itemIndex.Value]));
         }

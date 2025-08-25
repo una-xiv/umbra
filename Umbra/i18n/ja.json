@@ -830,6 +830,7 @@
   "Widget.DynamicMenu.ContextMenu.Remove": "削除",
   "Widget.DynamicMenu.ContextMenu.EnableEditMode": "編集モードを有効にする",
   "Widget.DynamicMenu.ContextMenu.DisableEditMode": "編集モードを無効にする",
+  "Widget.DynamicMenu.MacroItemEditor.Title": "マクロアイテムを編集",
   "Widget.DynamicMenu.CustomItemEditor.Title": "カスタムアイテムを編集",
   "Widget.DynamicMenu.CustomItemEditor.Label.Name": "名前",
   "Widget.DynamicMenu.CustomItemEditor.Label.Description": "ダイナミックメニューに表示されるカスタムアイテムの名前。",

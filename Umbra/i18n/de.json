@@ -830,6 +830,7 @@
   "Widget.DynamicMenu.ContextMenu.Remove": "Entfernen",
   "Widget.DynamicMenu.ContextMenu.EnableEditMode": "Bearbeitungsmodus aktivieren",
   "Widget.DynamicMenu.ContextMenu.DisableEditMode": "Bearbeitungsmodus deaktivieren",
+  "Widget.DynamicMenu.MacroItemEditor.Title": "Makroelement bearbeiten",
   "Widget.DynamicMenu.CustomItemEditor.Title": "Eigenes Element bearbeiten",
   "Widget.DynamicMenu.CustomItemEditor.Label.Name": "Name",
   "Widget.DynamicMenu.CustomItemEditor.Label.Description": "Der Name des eigenen Elements, der im dynamischen Menü angezeigt wird.",

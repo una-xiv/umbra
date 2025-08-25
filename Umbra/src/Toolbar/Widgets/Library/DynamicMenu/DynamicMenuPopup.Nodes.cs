@@ -82,7 +82,7 @@ internal sealed partial class DynamicMenuPopup
             textNode.ToggleClass("disabled", shortcut.Value.IsDisabled);
             iconNode.ToggleClass("disabled", shortcut.Value.IsDisabled);
 
-            iconNode.Style.IconId  = shortcut.Value.IconId;
+            iconNode.Style.IconId  = entry.Ci is > 0 ? entry.Ci : shortcut.Value.IconId;
             icon2Node.Style.IconId = shortcut.Value.SubIconId;
             countNode.NodeValue    = shortcut.Value.Count is > 1 ? I18N.FormatNumber(shortcut.Value.Count.Value) : null;
             textNode.NodeValue     = shortcut.Value.Name;

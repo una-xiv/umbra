@@ -830,6 +830,7 @@
   "Widget.DynamicMenu.ContextMenu.Remove": "Remove",
   "Widget.DynamicMenu.ContextMenu.EnableEditMode": "Enable edit mode",
   "Widget.DynamicMenu.ContextMenu.DisableEditMode": "Disable edit mode",
+  "Widget.DynamicMenu.MacroItemEditor.Title": "Edit Macro Item",
   "Widget.DynamicMenu.CustomItemEditor.Title": "Edit Custom Item",
   "Widget.DynamicMenu.CustomItemEditor.Label.Name": "Name",
   "Widget.DynamicMenu.CustomItemEditor.Label.Description": "The name of the custom item that is displayed in the dynamic menu.",

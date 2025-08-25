@@ -86,26 +86,12 @@ internal sealed partial class PluginListWidget(
             if (_buttons.ContainsKey(id)) continue;
 
             usedPluginIds.Add(id);
-            MenuPopup.Button button = new(id) {
-                Label = plugin.Name,
-                OnClick = () => {
-                    if ((ImGui.GetIO().KeyShift || ImGui.GetIO().KeyCtrl) && plugin.HasConfigUi) {
-                        plugin.OpenConfigUi();
-                        return;
-                    }
-
-                    if (plugin.HasMainUi) {
-                        plugin.OpenMainUi();
-                    } else {
-                        plugin.OpenConfigUi();
-                    }
-                }
-            };
+            MenuPopup.Button button = CreatePluginEntry(id, plugin);
 
             Popup.Add(button);
             _buttons.Add(id, button);
         }
-
+ 
         foreach (var (id, button) in _buttons.ToImmutableArray()) {
             if (usedPluginIds.Contains(id)) continue;
          
@@ -122,5 +108,32 @@ internal sealed partial class PluginListWidget(
                 _buttons.Clear();
             }
         );
+    }
+
+    private MenuPopup.Button CreatePluginEntry(string id, IExposedPlugin plugin)
+    {
+        MenuPopup.Button button = new(id) {
+            Label = plugin.Name,
+            OnClick = () => {
+                if ((ImGui.GetIO().KeyShift || ImGui.GetIO().KeyCtrl) && plugin.HasConfigUi) {
+                    plugin.OpenConfigUi();
+                    return;
+                }
+
+                if (plugin.HasMainUi) {
+                    plugin.OpenMainUi();
+                } else {
+                    plugin.OpenConfigUi();
+                }
+            }
+        };
+
+        if (plugin is { HasMainUi: true, HasConfigUi: true }) {
+            var configButton = new ButtonNode($"{id}_config", null, FontAwesomeIcon.Cog, isGhost: true, isSmall: true);
+            configButton.OnClick += _ => plugin.OpenConfigUi();
+            button.Node.QuerySelector(".alt-text")!.AppendChild(configButton);
+        }
+
+        return button;
     }
 }

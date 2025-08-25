@@ -830,6 +830,7 @@
   "Widget.DynamicMenu.ContextMenu.Remove": "移除",
   "Widget.DynamicMenu.ContextMenu.EnableEditMode": "启用编辑模式",
   "Widget.DynamicMenu.ContextMenu.DisableEditMode": "禁用编辑模式",
+  "Widget.DynamicMenu.MacroItemEditor.Title": "编辑宏项目",
   "Widget.DynamicMenu.CustomItemEditor.Title": "编辑自定义项目",
   "Widget.DynamicMenu.CustomItemEditor.Label.Name": "名称",
   "Widget.DynamicMenu.CustomItemEditor.Label.Description": "显示在动态菜单中的自定义项目的名称。",
