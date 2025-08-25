@@ -51,15 +51,16 @@ public abstract class StandardToolbarWidget(
 
         bool isVertical = Node.RootNode.ClassList.Contains("vertical");
 
-        if (IsSizeCustomizable()) {
+        // if (IsSizeCustomizable()) {
             switch (CvarSizingMode()) {
-                case "Grow":
+                case SizingModeGrow:
                     Node.Style.Size = new(0, SafeHeight);
                     if (!isVertical) {
                         Node.Style.AutoSize = (AutoSize.Grow, AutoSize.Grow);
                     }
+
                     break;
-                case "Fixed":
+                case SizingModeFixed:
                     Node.Style.Size = new(CvarWidth(), SafeHeight);
                     break;
                 default: // Default is Fit
@@ -67,14 +68,15 @@ public abstract class StandardToolbarWidget(
                     if (!isVertical) {
                         Node.Style.AutoSize = (AutoSize.Fit, AutoSize.Grow);
                     }
+
                     break;
             }
-        } else {
-            Node.Style.Size = new(0, SafeHeight);
-            if (!isVertical) {
-                Node.Style.AutoSize = null;
-            }
-        }
+        // } else {
+            // Node.Style.Size = new(0, SafeHeight);
+            // if (!isVertical) {
+                // Node.Style.AutoSize = null;
+            // }
+        // }
 
         if (HasIconAndText()) {
             Node.ToggleClass("reverse", GetConfigValue<string>(CvarNameIconLocation) == "Right");
@@ -263,7 +265,7 @@ public abstract class StandardToolbarWidget(
         IconNode.Style.UldPartId      = null;
         IconNode.Style.UldPartsId     = null;
         IconNode.Style.UldResource    = null;
-        
+
         IconNode.ToggleClass("fa-icon", false);
         IconNode.ToggleClass("glyph-icon", false);
         IconNode.ToggleClass("game-icon", true);
@@ -278,7 +280,7 @@ public abstract class StandardToolbarWidget(
         IconNode.Style.UldPartId      = null;
         IconNode.Style.UldPartsId     = null;
         IconNode.Style.UldResource    = null;
-        
+
         IconNode.ToggleClass("fa-icon", true);
         IconNode.ToggleClass("glyph-icon", false);
         IconNode.ToggleClass("game-icon", false);
@@ -293,7 +295,7 @@ public abstract class StandardToolbarWidget(
         IconNode.Style.UldPartId      = null;
         IconNode.Style.UldPartsId     = null;
         IconNode.Style.UldResource    = null;
-        
+
         IconNode.ToggleClass("fa-icon", false);
         IconNode.ToggleClass("glyph-icon", true);
         IconNode.ToggleClass("game-icon", false);
@@ -308,7 +310,7 @@ public abstract class StandardToolbarWidget(
         IconNode.Style.UldPartId      = null;
         IconNode.Style.UldPartsId     = null;
         IconNode.Style.UldResource    = null;
-        
+
         IconNode.ToggleClass("fa-icon", false);
         IconNode.ToggleClass("glyph-icon", false);
         IconNode.ToggleClass("game-icon", true);
@@ -323,7 +325,7 @@ public abstract class StandardToolbarWidget(
         IconNode.Style.UldPartId      = uldPartId;
         IconNode.Style.UldResource    = uldResource;
         IconNode.Style.UldPartsId     = uldPartsId;
-        
+
         IconNode.ToggleClass("fa-icon", false);
         IconNode.ToggleClass("glyph-icon", false);
         IconNode.ToggleClass("game-icon", true);
@@ -405,6 +407,9 @@ public abstract class StandardToolbarWidget(
     protected const string DisplayModeTextAndIcon = "TextAndIcon";
     protected const string DisplayModeTextOnly    = "TextOnly";
     protected const string DisplayModeIconOnly    = "IconOnly";
+    protected const string SizingModeFit          = "Fit";
+    protected const string SizingModeGrow         = "Grow";
+    protected const string SizingModeFixed        = "Fixed";
 
     protected bool   ProgressBarVisibility            = true;
     protected Color? ProgressBarColorOverride         = null;
@@ -453,12 +458,10 @@ public abstract class StandardToolbarWidget(
 
         variables.Add(ConfigVariableHorizontalPadding());
 
-        if (IsSizeCustomizable()) {
-            variables.AddRange([
-                ConfigVariableSizingMode(),
-                ConfigVariableWidth(),
-            ]);
-        }
+        variables.AddRange([
+            ConfigVariableSizingMode(),
+            ConfigVariableWidth(),
+        ]);
 
         if (HasIconFeature()) {
             if (Features.HasFlag(StandardWidgetFeatures.CustomizableIcon)) {
@@ -609,7 +612,7 @@ public abstract class StandardToolbarWidget(
     protected virtual bool            DefaultDecorate                    => true;
     protected virtual bool            DefaultDesaturateIcon              => false;
     protected virtual string          DefaultDisplayMode                 => DisplayModeTextAndIcon;
-    protected virtual string          DefaultSizingMode                  => "Fit";
+    protected virtual string          DefaultSizingMode                  => SizingModeFit;
     protected virtual int             DefaultWidth                       => 0;
     protected virtual string          DefaultIconType                    => IconTypeGameIcon;
     protected virtual uint            DefaultGameIconId                  => 113;
@@ -670,16 +673,16 @@ public abstract class StandardToolbarWidget(
             { DisplayModeIconOnly, I18N.Translate("Widgets.Standard.Config.DisplayMode.Option.IconOnly") }
         }
     ) { Category = I18N.Translate("Widgets.Standard.Config.Category.General") };
-    
+
     private SelectWidgetConfigVariable ConfigVariableSizingMode() => new(
         CvarNameSizingMode,
         I18N.Translate("Widgets.Standard.Config.SizingMode.Name"),
         I18N.Translate("Widgets.Standard.Config.SizingMode.Description"),
         DefaultSizingMode,
         new() {
-            { "Fit", I18N.Translate("Widgets.Standard.Config.SizingMode.Option.Fit") },
-            { "Grow", I18N.Translate("Widgets.Standard.Config.SizingMode.Option.Grow") },
-            { "Fixed", I18N.Translate("Widgets.Standard.Config.SizingMode.Option.Fixed") },
+            { SizingModeFit, I18N.Translate("Widgets.Standard.Config.SizingMode.Option.Fit") },
+            { SizingModeGrow, I18N.Translate("Widgets.Standard.Config.SizingMode.Option.Grow") },
+            { SizingModeFixed, I18N.Translate("Widgets.Standard.Config.SizingMode.Option.Fixed") },
         }
     ) {
         Category  = I18N.Translate("Widgets.Standard.Config.Category.General"),
@@ -954,7 +957,7 @@ public abstract class StandardToolbarWidget(
         Color.GetNamedColor("Widget.TextMuted")
     ) {
         Category = I18N.Translate("Widgets.Standard.Config.Category.Text"),
-        Group     = I18N.Translate("Widgets.Standard.Config.Group.TextColor"),
+        Group    = I18N.Translate("Widgets.Standard.Config.Group.TextColor"),
         DisplayIf = () => IsMultiLabelFeature()
                           && GetConfigValue<bool>(CvarNameUseCustomTextColor)
                           && GetConfigValue<bool>(CvarNameShowSubText),
@@ -967,7 +970,7 @@ public abstract class StandardToolbarWidget(
         Color.GetNamedColor("Widget.TextOutline")
     ) {
         Category = I18N.Translate("Widgets.Standard.Config.Category.Text"),
-        Group     = I18N.Translate("Widgets.Standard.Config.Group.TextColor"),
+        Group    = I18N.Translate("Widgets.Standard.Config.Group.TextColor"),
         DisplayIf = () => IsMultiLabelFeature()
                           && GetConfigValue<bool>(CvarNameUseCustomTextColor)
                           && GetConfigValue<bool>(CvarNameShowSubText),
@@ -1071,11 +1074,12 @@ public enum StandardWidgetFeatures : byte
 
     /// <summary>
     /// Shows a progress bar as an underlay element of the widget. Using the
-    /// <see cref="SetProgress"/> method allows you to set the progress of
-    /// the bar. Setting the progress to 0 will hide the bar.
+    /// <see cref="StandardToolbarWidget.SetProgressBarValue"/> method allows
+    /// you to set the progress of the bar. Setting the progress to 0 will hide
+    /// the bar.
     /// </summary>
     ProgressBar = 16,
-    
+
     /// <summary>
     /// Adds options for fine-tuning the widget sizing allowing to choose
     /// between a fixed width, fit content or growing to fill the parent

@@ -20,6 +20,9 @@ internal sealed partial class VolumeWidget(
     protected override StandardWidgetFeatures Features =>
         StandardWidgetFeatures.Icon;
 
+    protected override string DefaultSizingMode => SizingModeFixed;
+    protected override int    DefaultWidth      => 32;
+
     private readonly IGameConfig _gameConfig = Framework.Service<IGameConfig>();
 
     protected override void OnLoad()
