@@ -162,6 +162,8 @@ internal sealed partial class WidgetManager : IDisposable
             widget.Location  =   location;
             widget.Node.Id   ??= $"UmbraWidget_{Crc32.Get(widget.Id)}";
 
+            widget.Node.Attach("Widget", widget);
+            
             widget.Setup();
             widget.OpenPopup        += OpenPopup;
             widget.OpenPopupDelayed += OpenPopupIfAnyIsOpen;

@@ -37,6 +37,7 @@ internal class SeparatorWidget(
 
     protected override void OnUpdate()
     {
+        OnConfigurationChanged();
     }
 
     protected override void OnConfigurationChanged()

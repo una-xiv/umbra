@@ -1,4 +1,4 @@
-﻿
+﻿using Umbra.Widgets;
 
 namespace Umbra.AuxBar;
 
@@ -34,6 +34,8 @@ public class AuxBarNode : UdtNode
         foreach (var widget in QuerySelectorAll(".widget-instance")) {
             if (_isVertical) {
                 widget.Style.AutoSize = (AutoSize.Grow, AutoSize.Fit);
+            } else if (widget.GetAttachment<ToolbarWidget>("Widget") is not StandardToolbarWidget) {
+                widget.Style.AutoSize = null;
             }
         }
     }

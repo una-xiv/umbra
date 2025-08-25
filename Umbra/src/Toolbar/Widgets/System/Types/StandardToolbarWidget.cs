@@ -49,34 +49,27 @@ public abstract class StandardToolbarWidget(
 
         Node.ToggleClass("decorated", GetConfigValue<bool>(CvarNameDecorate));
 
-        bool isVertical = Node.RootNode.ClassList.Contains("vertical");
+        bool isVertical = IsMemberOfVerticalBar;
 
-        // if (IsSizeCustomizable()) {
-            switch (CvarSizingMode()) {
-                case SizingModeGrow:
-                    Node.Style.Size = new(0, SafeHeight);
-                    if (!isVertical) {
-                        Node.Style.AutoSize = (AutoSize.Grow, AutoSize.Grow);
-                    }
+        switch (CvarSizingMode()) {
+            case SizingModeGrow:
+                Node.Style.Size = new(0, SafeHeight);
+                if (!isVertical) {
+                    Node.Style.AutoSize = (AutoSize.Grow, AutoSize.Grow);
+                }
+                break;
+            case SizingModeFixed:
+                Node.Style.AutoSize = (AutoSize.Fit, AutoSize.Grow);
+                Node.Style.Size     = new(CvarWidth(), SafeHeight);
+                break;
+            default: // Default is Fit
+                Node.Style.Size = new(0, SafeHeight);
+                if (!isVertical) {
+                    Node.Style.AutoSize = (AutoSize.Fit, AutoSize.Grow);
+                }
 
-                    break;
-                case SizingModeFixed:
-                    Node.Style.Size = new(CvarWidth(), SafeHeight);
-                    break;
-                default: // Default is Fit
-                    Node.Style.Size = new(0, SafeHeight);
-                    if (!isVertical) {
-                        Node.Style.AutoSize = (AutoSize.Fit, AutoSize.Grow);
-                    }
-
-                    break;
-            }
-        // } else {
-            // Node.Style.Size = new(0, SafeHeight);
-            // if (!isVertical) {
-                // Node.Style.AutoSize = null;
-            // }
-        // }
+                break;
+        }
 
         if (HasIconAndText()) {
             Node.ToggleClass("reverse", GetConfigValue<string>(CvarNameIconLocation) == "Right");
