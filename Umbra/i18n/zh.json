@@ -196,6 +196,8 @@
   "Settings.WidgetsModule.Aux.YPosition.Description": "辅助栏距离屏幕边缘的垂直位置（像素）。",
   "Settings.WidgetsModule.Aux.Width.Name": "宽度",
   "Settings.WidgetsModule.Aux.Width.Description": "辅助栏的宽度。如果辅助栏垂直显示，则忽略此选项。将宽度设置为0时，辅助栏会根据其内容自动调整大小。",
+  "Settings.WidgetsModule.Aux.WidgetContentAlignment.Name": "内容对齐",
+  "Settings.WidgetsModule.Aux.WidgetContentAlignment.Description": "使用垂直布局时，此选项将定义辅助栏小部件的对齐方式。",
   "Settings.WidgetsModule.Aux.HideInCutscenes.Name": "在过场动画中隐藏",
   "Settings.WidgetsModule.Aux.HideInCutscenes.Description": "在过场动画期间隐藏辅助栏。此选项优先于下面的条件可见性设置。",
   "Settings.WidgetsModule.Aux.HideInPvP.Name": "在PvP任务中隐藏",

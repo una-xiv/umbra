@@ -1330,6 +1330,8 @@
   "Settings.WidgetsModule.Aux.YPosition.Description": "La position verticale de la barre auxiliaire par rapport au bord de l'écran en pixels.",
   "Settings.WidgetsModule.Aux.Width.Name": "Largeur",
   "Settings.WidgetsModule.Aux.Width.Description": "La largeur de la barre auxiliaire. Cette option est ignorée si la barre auxiliaire est affichée verticalement. Définir la largeur sur 0 redimensionnera automatiquement la barre auxiliaire en fonction de son contenu.",
+  "Settings.WidgetsModule.Aux.WidgetContentAlignment.Name": "Alignement du contenu",
+  "Settings.WidgetsModule.Aux.WidgetContentAlignment.Description": "Lors de l'utilisation de la disposition verticale, cette option définit l'alignement des widgets de la barre auxiliaire.",
   "Settings.WidgetsModule.Aux.HideInCutscenes.Name": "Masquer dans les cinématiques",
   "Settings.WidgetsModule.Aux.HideInCutscenes.Description": "Masque la barre auxiliaire pendant les cinématiques. Cette option prévaut sur les paramètres de visibilité conditionnelle ci-dessous.",
   "Settings.WidgetsModule.Aux.HideInPvP.Name": "Masquer dans les missions PvP",

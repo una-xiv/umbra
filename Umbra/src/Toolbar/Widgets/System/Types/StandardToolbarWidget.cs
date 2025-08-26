@@ -59,8 +59,13 @@ public abstract class StandardToolbarWidget(
                 }
                 break;
             case SizingModeFixed:
-                Node.Style.AutoSize = (AutoSize.Fit, AutoSize.Grow);
-                Node.Style.Size     = new(CvarWidth(), SafeHeight);
+                if (!isVertical) {
+                    Node.Style.Size     = new(CvarWidth(), SafeHeight);
+                    Node.Style.AutoSize = (AutoSize.Fit, AutoSize.Grow);
+                } else {
+                    Node.Style.Size = new(0, SafeHeight);
+                }
+
                 break;
             default: // Default is Fit
                 Node.Style.Size = new(0, SafeHeight);
@@ -391,6 +396,17 @@ public abstract class StandardToolbarWidget(
     protected void SetProgressBarValue(int value)
     {
         ProgressBarNode.Value = Math.Clamp(value, ProgressBarNode.Minimum, ProgressBarNode.Maximum);
+    }
+
+    /// <summary>
+    /// Sets the anchor of this widget content, allowing to choose on
+    /// which side the content will be displayed when the parent toolbar
+    /// is displayed vertically.
+    /// </summary>
+    /// <param name="anchor">The anchor to use</param>
+    public void SetWidgetAnchor(Anchor anchor)
+    {
+        BodyNode.Style.Anchor = anchor;
     }
 
     protected const string IconTypeGameIcon       = "Game";
