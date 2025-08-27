@@ -164,24 +164,28 @@ internal sealed class MainMenuRepository : IMainMenuRepository
 
             if (entry is not null && !_player.HasItemInInventory(itemId)) {
                 category.RemoveItem(entry);
-            } else if (entry is null && _player.HasItemInInventory(itemId)) {
+            } else if (_player.HasItemInInventory(itemId)) {
                 string shortKeyText = string.Empty;
 
                 if (isConsumable) {
-                    shortKeyText += $"({_player.GetItemCount(itemId)})";
+                    shortKeyText += $"({_player.GetItemCount(itemId)}) ";
                 }
 
-                shortKeyText += " " + _player.GetActionCooldownString(ActionType.Item, itemId);
+                shortKeyText += _player.GetActionCooldownString(ActionType.Item, itemId);
 
-                category.AddItem(
-                    new(item.Value.Name.ExtractText(), sortIndex, () => _player.UseInventoryItem(itemId)) {
-                        MetadataKey    = metadataKey,
-                        ItemGroupId    = "Travel",
-                        ItemGroupLabel = "Destinations",
-                        Icon           = (uint)_dataManager.GetExcelSheet<Item>().GetRow(itemId).Icon,
-                        ShortKey       = shortKeyText.Trim(),
-                    }
-                );
+                if (entry is null) {
+                    category.AddItem(
+                        new(item.Value.Name.ExtractText(), sortIndex, () => _player.UseInventoryItem(itemId)) {
+                            MetadataKey = metadataKey,
+                            ItemGroupId = "Travel",
+                            ItemGroupLabel = "Destinations",
+                            Icon = (uint)_dataManager.GetExcelSheet<Item>().GetRow(itemId).Icon,
+                            ShortKey = shortKeyText.Trim(),
+                        }
+                    );
+                } else {
+                    entry.ShortKey = shortKeyText.Trim();
+                }
             }
         }
     }
