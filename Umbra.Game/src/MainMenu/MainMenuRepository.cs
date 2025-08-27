@@ -147,6 +147,7 @@ internal sealed class MainMenuRepository : IMainMenuRepository
         AddUsableTeleportItemToCategory(category, 28064, 904, "Firmament");
         AddUsableTeleportItemToCategory(category, 41708, 905, "GoldSaucer");
         AddUsableTeleportItemToCategory(category, 30362, 906, "VesperBay");
+        AddUsableTeleportItemToCategory(category, 49121, 907, "CosmicExploration");
 
         SyncTravelDestinationMenuEntries(category, favorites, "Favorite", 925);
         SyncTravelDestinationMenuEntries(category, housing,   "Housing",  950);
