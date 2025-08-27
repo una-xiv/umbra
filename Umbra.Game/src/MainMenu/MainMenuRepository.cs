@@ -141,20 +141,20 @@ internal sealed class MainMenuRepository : IMainMenuRepository
         var housing   = _travelDestinationRepository.Destinations.Where(d => d.IsHousing).ToList();
 
         AddUsableTeleportItemToCategory(category, 8575,  900, "EternityRing");
-        AddUsableTeleportItemToCategory(category, 21069, 901, "GC_TheMaelstrom");
-        AddUsableTeleportItemToCategory(category, 21070, 902, "GC_TheOrderOfTheTwinAdder");
-        AddUsableTeleportItemToCategory(category, 21071, 903, "GC_TheImmortalFlames");
-        AddUsableTeleportItemToCategory(category, 28064, 904, "Firmament");
-        AddUsableTeleportItemToCategory(category, 41708, 905, "GoldSaucer");
-        AddUsableTeleportItemToCategory(category, 30362, 906, "VesperBay");
-        AddUsableTeleportItemToCategory(category, 49121, 907, "CosmicExploration");
+        AddUsableTeleportItemToCategory(category, 21069, 901, "GC_TheMaelstrom", true);
+        AddUsableTeleportItemToCategory(category, 21070, 902, "GC_TheOrderOfTheTwinAdder", true);
+        AddUsableTeleportItemToCategory(category, 21071, 903, "GC_TheImmortalFlames", true);
+        AddUsableTeleportItemToCategory(category, 28064, 904, "Firmament", true);
+        AddUsableTeleportItemToCategory(category, 41708, 905, "GoldSaucer", true);
+        AddUsableTeleportItemToCategory(category, 30362, 906, "VesperBay", true);
+        AddUsableTeleportItemToCategory(category, 49121, 907, "CosmicExploration", true);
 
         SyncTravelDestinationMenuEntries(category, favorites, "Favorite", 925);
         SyncTravelDestinationMenuEntries(category, housing,   "Housing",  950);
     }
 
     private void AddUsableTeleportItemToCategory(
-        MainMenuCategory category, uint itemId, short sortIndex, string metadataKey
+        MainMenuCategory category, uint itemId, short sortIndex, string metadataKey, bool isConsumable = false
     )
     {
         var item = _dataManager.GetExcelSheet<Item>().FindRow(itemId);
@@ -165,13 +165,21 @@ internal sealed class MainMenuRepository : IMainMenuRepository
             if (entry is not null && !_player.HasItemInInventory(itemId)) {
                 category.RemoveItem(entry);
             } else if (entry is null && _player.HasItemInInventory(itemId)) {
+                string shortKeyText = string.Empty;
+
+                if (isConsumable) {
+                    shortKeyText += $"({_player.GetItemCount(itemId)})";
+                }
+
+                shortKeyText += " " + _player.GetActionCooldownString(ActionType.Item, itemId);
+
                 category.AddItem(
                     new(item.Value.Name.ExtractText(), sortIndex, () => _player.UseInventoryItem(itemId)) {
                         MetadataKey    = metadataKey,
                         ItemGroupId    = "Travel",
                         ItemGroupLabel = "Destinations",
                         Icon           = (uint)_dataManager.GetExcelSheet<Item>().GetRow(itemId).Icon,
-                        ShortKey       = _player.GetActionCooldownString(ActionType.Item, itemId),
+                        ShortKey       = shortKeyText.Trim(),
                     }
                 );
             }
