@@ -9,6 +9,7 @@ internal sealed partial class VolumeWidgetPopup : WidgetPopup
     public bool ShowAmb     { get; set; } = true;
     public bool ShowSys     { get; set; } = true;
     public bool ShowPerf    { get; set; } = true;
+    public bool ShowPresets { get; set; } = true;
     public int  ValueStep   { get; set; } = 1;
 
     public FontAwesomeIcon UpIcon   { get; set; } = FontAwesomeIcon.VolumeUp;
@@ -68,6 +69,8 @@ internal sealed partial class VolumeWidgetPopup : WidgetPopup
             Node.QuerySelector<CheckboxNode>("#SoundFieldBattle")!.Value = _gameConfig.System.GetBool("SoundFieldBattle");
             Node.QuerySelector<CheckboxNode>("#SoundHousing")!.Value     = _gameConfig.System.GetBool("SoundHousing");
         }
+
+        Node.QuerySelector(".preset-bar")!.Style.IsVisible = ShowPresets;
     }
 
     protected override void OnOpen()

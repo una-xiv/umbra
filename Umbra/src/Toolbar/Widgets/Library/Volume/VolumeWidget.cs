@@ -43,6 +43,7 @@ internal sealed partial class VolumeWidget(
         Popup.ShowAmb     = GetConfigValue<bool>("ShowAmb");
         Popup.ShowSys     = GetConfigValue<bool>("ShowSys");
         Popup.ShowPerf    = GetConfigValue<bool>("ShowPerf");
+        Popup.ShowPresets = GetConfigValue<bool>("ShowPresets");
         Popup.ValueStep   = GetConfigValue<int>("ValueStep");
         Popup.UpIcon      = GetConfigValue<FontAwesomeIcon>("UpIcon");
         Popup.DownIcon    = GetConfigValue<FontAwesomeIcon>("DownIcon");

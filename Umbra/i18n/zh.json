@@ -1065,6 +1065,8 @@
   "Widget.Volume.Config.ShowSys.Description": "在弹出菜单中显示系统声音音量控制。",
   "Widget.Volume.Config.ShowPerf.Name": "显示演奏音量滑条",
   "Widget.Volume.Config.ShowPerf.Description": "在弹出菜单中显示乐器演奏音量控制。",
+  "Widget.Volume.Config.ShowPresets.Name": "显示音量预设",
+  "Widget.Volume.Config.ShowPresets.Description": "在弹出菜单中显示音量预设选择器。",
   "Widget.Volume.Config.ValueStep.Name": "音量值步长",
   "Widget.Volume.Config.ValueStep.Description": "使用音量控制滑块时应增加或减少的音量量。",
   "Widget.Volume.Config.MuteIcon.Name": "静音图标",
