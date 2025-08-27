@@ -4,9 +4,8 @@ namespace Umbra.AuxBar;
 
 public class AuxBarNode : UdtNode
 {
-    private bool   _isVertical;
-    private int    _width;
-    private string _widgetContentAlignment;
+    private bool _isVertical;
+    private int  _width;
 
     public AuxBarNode(AuxBarConfig config) : base("umbra.auxbar.xml")
     {
@@ -23,8 +22,11 @@ public class AuxBarNode : UdtNode
 
         QuerySelector(".section")!.Style.Gap = config.ItemSpacing;
 
-        _width                  = config.Width;
-        _widgetContentAlignment = config.WidgetContentAlignment;
+        _width = config.Width;
+
+        ToggleClass("align-content-left", config.WidgetContentAlignment == "Left");
+        ToggleClass("align-content-center", config.WidgetContentAlignment == "Center");
+        ToggleClass("align-content-right", config.WidgetContentAlignment == "Right");
     }
 
     protected override void OnDraw(ImDrawListPtr _)
@@ -33,20 +35,10 @@ public class AuxBarNode : UdtNode
             ? new(0, 0)
             : new(_width, Toolbar.Height);
 
-        Anchor anchor = _widgetContentAlignment switch {
-            "Left"  => Anchor.MiddleLeft,
-            "Right" => Anchor.MiddleRight,
-            _       => Anchor.MiddleCenter,
-        };
-
         foreach (var widget in QuerySelectorAll(".widget-instance")) {
-            if (widget.GetAttachment<ToolbarWidget>("Widget") is StandardToolbarWidget instance) {
-                if (_isVertical) {
-                    widget.Style.AutoSize = (AutoSize.Grow, AutoSize.Fit);
-                }
-
-                instance.SetWidgetAnchor(anchor);
-            } else {
+            if (_isVertical) {
+                widget.Style.AutoSize = (AutoSize.Grow, AutoSize.Fit);
+            } else if (widget.GetAttachment<ToolbarWidget>("Widget") is not StandardToolbarWidget) {
                 widget.Style.AutoSize = null;
             }
         }

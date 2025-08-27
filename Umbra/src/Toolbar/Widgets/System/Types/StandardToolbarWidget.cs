@@ -50,6 +50,7 @@ public abstract class StandardToolbarWidget(
         Node.ToggleClass("decorated", GetConfigValue<bool>(CvarNameDecorate));
 
         bool isVertical = IsMemberOfVerticalBar;
+        Node? barNode    = GetBarNode;
 
         switch (CvarSizingMode()) {
             case SizingModeGrow:
@@ -74,6 +75,16 @@ public abstract class StandardToolbarWidget(
                 }
 
                 break;
+        }
+
+        if (barNode != null) {
+            if (barNode.ClassList.Contains("align-content-left")) {
+                BodyNode.Style.Anchor = Anchor.MiddleLeft;
+            } else if (barNode.ClassList.Contains("align-content-right")) {
+                BodyNode.Style.Anchor = Anchor.MiddleRight;
+            } else {
+                BodyNode.Style.Anchor = Anchor.MiddleCenter;
+            }
         }
 
         if (HasIconAndText()) {
@@ -396,17 +407,6 @@ public abstract class StandardToolbarWidget(
     protected void SetProgressBarValue(int value)
     {
         ProgressBarNode.Value = Math.Clamp(value, ProgressBarNode.Minimum, ProgressBarNode.Maximum);
-    }
-
-    /// <summary>
-    /// Sets the anchor of this widget content, allowing to choose on
-    /// which side the content will be displayed when the parent toolbar
-    /// is displayed vertically.
-    /// </summary>
-    /// <param name="anchor">The anchor to use</param>
-    public void SetWidgetAnchor(Anchor anchor)
-    {
-        BodyNode.Style.Anchor = anchor;
     }
 
     protected const string IconTypeGameIcon       = "Game";
