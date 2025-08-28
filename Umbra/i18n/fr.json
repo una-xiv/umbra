@@ -826,6 +826,8 @@
   "Widget.Volume.Config.ShowSys.Description": "Affiche le contrôle du volume des sons système dans le menu contextuel.",
   "Widget.Volume.Config.ShowPerf.Name": "Afficher le volume de la performance de barde",
   "Widget.Volume.Config.ShowPerf.Description": "Affiche le contrôle du volume de la performance de barde dans le menu contextuel.",
+  "Widget.Volume.Config.ShowPresets.Name": "Afficher les préréglages de volume",
+  "Widget.Volume.Config.ShowPresets.Description": "Affiche le sélecteur de préréglages de volume dans le menu contextuel.",
   "Widget.Volume.Config.ValueStep.Name": "Pas de valeur de volume",
   "Widget.Volume.Config.ValueStep.Description": "La quantité par laquelle le volume doit être augmenté ou diminué lors de l'utilisation du curseur de contrôle du volume.",
   "Widget.Volume.Config.MuteIcon.Name": "Icône Muet",

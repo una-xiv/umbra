@@ -1065,6 +1065,8 @@
   "Widget.Volume.Config.ShowSys.Description": "Shows the system sounds volume control in the popup menu.",
   "Widget.Volume.Config.ShowPerf.Name": "Show Bard Performance Volume",
   "Widget.Volume.Config.ShowPerf.Description": "Shows the bard performance volume control in the popup menu.",
+  "Widget.Volume.Config.ShowPresets.Name": "Show Volume presets",
+  "Widget.Volume.Config.ShowPresets.Description": "Shows volume presets selector in the popup menu.",
   "Widget.Volume.Config.ValueStep.Name": "Volume value step",
   "Widget.Volume.Config.ValueStep.Description": "The amount by which the volume should be increased or decreased when using the volume control slider.",
   "Widget.Volume.Config.MuteIcon.Name": "Mute icon",

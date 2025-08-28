@@ -1065,6 +1065,8 @@
   "Widget.Volume.Config.ShowSys.Description": "Zeigt die Lautstärkeregelung für Systemklänge im Popup-Menü an.",
   "Widget.Volume.Config.ShowPerf.Name": "Lautstärke der Bardenkompositionen anzeigen",
   "Widget.Volume.Config.ShowPerf.Description": "Zeigt die Lautstärkeregelung für Bardenkompositionenen im Popup-Menü an.",
+  "Widget.Volume.Config.ShowPresets.Name": "Lautstärke-Presets anzeigen",
+  "Widget.Volume.Config.ShowPresets.Description": "Zeigt den Lautstärke-Preset-Auswähler im Popup-Menü an.",
   "Widget.Volume.Config.ValueStep.Name": "Lautstärkewert-Schritt",
   "Widget.Volume.Config.ValueStep.Description": "Die Menge, um die die Lautstärke erhöht oder verringert werden soll, wenn der Lautstärkeregler verwendet wird.",
   "Widget.Volume.Config.MuteIcon.Name": "Stummsymbol",
