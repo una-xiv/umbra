@@ -1032,7 +1032,7 @@
   "Widget.Teleport.Config.ShowMapNames.Name": "Show map names",
   "Widget.Teleport.Config.ShowMapNames.Description": "Shows names of the maps next to the destination names if enabled.",
   "Widget.Teleport.Config.ShowTeleportCost.Name": "Show teleportation cost",
-  "Widget.Teleport.Config.ShowTeleportCost.Description": "Shows the teleportation cost next to the destination name. This setting also includes item count and cooldown.",
+  "Widget.Teleport.Config.ShowTeleportCost.Description": "Shows the teleportation cost next to the destination name. This setting also includes item count and cooldown. (No, this does not make teleportation free of charge)",
   "Widget.Teleport.Config.ShowNotification.Name": "Show teleport notification",
   "Widget.Teleport.Config.ShowNotification.Description": "Shows a notification on your screen to confirm where you are teleporting to after clicking a teleport destination in the menu.",
   "Widget.Teleport.Config.DefaultOpenedGroupName.Name": "List to open by default",
