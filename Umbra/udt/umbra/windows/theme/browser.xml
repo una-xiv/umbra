@@ -1,0 +1,128 @@
+﻿<udt>
+    <node id="main">
+        <node class="header">
+            <node class="left-side">
+                <search-input id="search-author" label="_L(Window.ThemeBrowser.Author)" width="150" auto-size="fit grow"/>
+                <search-input id="search-name" label="_L(Window.ThemeBrowser.Name)" auto-size="grow"/>
+            </node>
+            <node class="right-side">
+                <button-node id="btn-search" label="_L(Window.ThemeBrowser.Search)"/>
+            </node>
+        </node>
+        <node class="body">
+            <node class="sidebar" overflow="false">
+                <node class="content" id="theme-list"/>
+            </node>
+            <node class="preview" id="preview-container"/>
+        </node>
+        <node class="footer">
+            <node class="pager">
+                <node class="label ui-text-default" value="_L(Window.ThemeBrowser.Page)"/>
+                <select-node id="pager-select" style="size: 64 0;"/>
+                <button-node id="pager-prev" icon="ArrowLeft" tooltip="_L(Window.ThemeBrowser.PreviousPage)"/>
+                <button-node id="pager-next" icon="ArrowRight" tooltip="_L(Window.ThemeBrowser.NextPage)"/>
+            </node>
+            <node class="buttons">
+                <button-node id="btn-close" label="_L(Close)" is-ghost="true"/>
+                <button-node id="btn-undo" label="_L(Undo)" is-disabled="true"/>
+                <button-node id="btn-apply" label="_L(Apply)" is-disabled="true"/>
+            </node>
+        </node>
+    </node>
+    
+    <template name="search-input">
+        <argument name="id"/>
+        <argument name="label"/>
+        <argument name="auto-size"/>
+        <argument name="width" default="0"/>
+
+        <node class="input" style="auto-size: ${auto-size}; size: ${width} 0;">
+            <node class="label ui-text-default" value="${label}"/>
+            <node class="input-wrapper">
+                <string-input-node id="${id}"/>
+            </node>
+        </node>
+    </template>
+    
+    <![CDATA[
+    @import "globals";
+    
+    #main {
+        flow: vertical;
+        auto-size: grow;
+    
+        & > .header {
+            flow: horizontal;
+            auto-size: grow fit;
+            border-width: 0 0 1 0;
+            border-color: "Window.Border";
+            background-color: "Window.BackgroundLight";
+            gap: 16;
+            padding: 4 8;
+            
+            & > .left-side {
+                auto-size: grow;
+                gap: 8;
+                
+                & > .input {
+                    anchor: middle-left;
+                    gap: 6;
+                 
+                    & > .label {
+                        anchor: middle-left;
+                        text-offset: 0 -1;
+                    }
+
+                    & > .input-wrapper {
+                        anchor: middle-left;
+                        auto-size: grow;
+                    }
+                }
+            }
+        }
+        
+        & > .body {
+            flow: horizontal;
+            auto-size: grow;
+            
+            & > .sidebar {
+                size: 300 0;
+                auto-size: fit grow;
+                border-width: 0 1 0 0;
+                border-color: "Window.Border";
+                scrollbar-track-color: "Window.Background";
+                
+                & > .content {
+                    flow: vertical;
+                    auto-size: grow fit;
+                    padding: 8 12 8 8;
+                    gap: 8;
+                }
+            }
+            
+            & > .preview {
+                auto-size: grow;
+                padding: 8;
+            }
+        }
+        
+        & > .footer {
+            auto-size: grow fit;
+            padding: 10 15;
+            background-color: "Window.BackgroundLight";
+            border-width: 1 0 0 0;
+            border-color: "Window.Border";
+            
+            & > .pager {
+                anchor: middle-left;
+                gap: 10;
+            }
+            
+            & > .buttons {
+                anchor: middle-right;
+                gap: 10;
+            }
+        }
+    }
+    ]]>
+</udt>

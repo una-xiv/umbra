@@ -167,6 +167,9 @@ internal sealed partial class WidgetManager : IDisposable
                     Logger.Error($"Attempted to create a widget in an invalid aux bar location '{location}', but the aux bar could not be created.");
                     return;
                 }
+
+                // Forcefully update the location to use the correct aux bar ID.
+                location = panel.Id!;
             }
 
             var widget = (ToolbarWidget)Activator.CreateInstance(type, info, guid, configValues)!;

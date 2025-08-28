@@ -1,7 +1,7 @@
 ﻿using Dalamud.Interface.ImGuiNotification;
-
 using Lumina.Misc;
 using Umbra.Windows.Dialogs;
+using Umbra.Windows.Library.Theme;
 
 namespace Umbra.Windows.Settings.Modules;
 
@@ -69,6 +69,7 @@ public class SettingsWindowAppearanceModule : SettingsWindowModule
 
         var createButton = RootNode.QuerySelector<ButtonNode>("#btn-create")!;
         var importButton = RootNode.QuerySelector<ButtonNode>("#btn-import")!;
+        var browseButton = RootNode.QuerySelector<ButtonNode>("#btn-browse")!;
 
         createButton.OnClick += _ => {
             Framework.Service<WindowManager>().Present<PromptWindow>("CreateColorProfile", new(
@@ -101,6 +102,10 @@ public class SettingsWindowAppearanceModule : SettingsWindowModule
                 default:
                     throw new ArgumentException();
             }
+        };
+
+        browseButton.OnClick += _ => {
+            Framework.Service<WindowManager>().Present<ThemeBrowserWindow>("ThemeBrowserWindow", new());
         };
     }
 
@@ -168,6 +173,9 @@ public class SettingsWindowAppearanceModule : SettingsWindowModule
 
     private void OnColorProfileChanged(string name)
     {
+        RootNode.QuerySelector("#color-theme-name")!.NodeValue = UmbraColors.GetCurrentProfileName();
+        RootNode.QuerySelector("#btn-publish")!.Style.IsVisible = !UmbraColors.IsBuiltInProfile(name);
+        
         foreach (var btn in RootNode.QuerySelectorAll("#color-theme-list .color-profile-button")) {
             var iconNode = btn.QuerySelector(".icon")!;
             iconNode.Style.Opacity = GetNodeIdForColorTheme(UmbraColors.GetCurrentProfileName()) == btn.Id ? 1.0f : 0f;
@@ -244,6 +252,11 @@ public class SettingsWindowAppearanceModule : SettingsWindowModule
         Node leftColumnNode = new() { ClassList = ["col"] };
         Node rightColumnNode = new() { ClassList = ["col"] };
 
+        RootNode.QuerySelector("#color-theme-name")!.NodeValue = UmbraColors.GetCurrentProfileName();
+        Node publishButton = RootNode.QuerySelector("#btn-publish")!;
+
+        publishButton.OnClick += _ => Framework.Service<WindowManager>().Present<ThemePublishWindow>("PublishColorProfile", new());
+
         colorPickersNode.AppendChild(rowNode);
         rowNode.AppendChild(leftColumnNode);
         rowNode.AppendChild(rightColumnNode);
@@ -286,6 +299,11 @@ public class SettingsWindowAppearanceModule : SettingsWindowModule
             bodyNode.AppendChild(pickerNode);
             _colorPickers[name] = pickerNode;
         }
+    }
+
+    private void BindThemeBrowser()
+    {
+        
     }
     
     private void ShowNotification(bool success, string label)

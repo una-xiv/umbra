@@ -1,0 +1,101 @@
+﻿<udt>
+    <node id="main">
+        <node class="header">
+            <node class="icon" value="FA(Upload)" />
+            <node class="title" id="header-title" value="Theme Name" />
+        </node>
+        <node class="body">
+            <node id="step-intro" class="step visible">
+                <node class="text" value="_L(Settings.AppearanceModule.PublishTheme.Intro)" />
+            </node>
+            <node id="step-preparing" class="step">
+                <node class="text" value="_L(Settings.AppearanceModule.PublishTheme.Preparing)" />
+            </node>
+            <node id="step-failed" class="step">
+                <node class="text" value="_L(Settings.AppearanceModule.PublishTheme.Failed)" />
+            </node>
+            <node id="step-site" class="step">
+                <node class="text" value="_L(Settings.AppearanceModule.PublishTheme.Site)" />
+            </node>
+        </node>
+        <node class="footer">
+            <node class="buttons">
+                <button-node id="btn-cancel" label="_L(Cancel)" is-ghost="true" />
+                <button-node id="btn-publish" label="_L(Settings.AppearanceModule.PublishTheme)" />
+            </node>
+        </node>
+    </node>
+
+    <![CDATA[
+    #main {
+        flow: vertical;
+        auto-size: grow;
+    
+        & > .header {
+            flow: horizontal;
+            auto-size: grow fit;
+            padding: 15;
+            border-width: 0 0 1 0;
+            border-color: "Window.Border";
+            background-color: "Window.BackgroundLight";
+            gap: 16;
+            
+            & > .icon {
+                font: 2;
+                font-size: 32;
+                color: "Window.Text";
+                outline-color: "Window.TextOutline";
+                outline-size: 1;
+            }
+            
+            & > .title {
+                auto-size: grow fit;
+                font-size: 24;
+                color: "Window.Text";
+                outline-color: "Window.TextOutline";
+                outline-size: 1;
+                word-wrap: false;
+            }
+        }
+        
+        & > .body {
+            flow: vertical;
+            auto-size: grow;
+            gap: 10;
+
+            & > .step {
+                auto-size: grow;
+                flow: vertical;
+                is-visible: false;
+
+                &.visible {
+                    is-visible: true;
+                }
+
+                & > .text {
+                    padding: 15;
+                    auto-size: grow fit;
+                    font-size: 13;
+                    color: "Window.Text";
+                    outline-color: "Window.TextOutline";
+                    outline-size: 1;
+                    word-wrap: true;
+                }
+            }
+        }
+        
+        & > .footer {
+            flow: horizontal;
+            auto-size: grow fit;
+            padding: 10 15;
+            border-width: 1 0 0 0;
+            border-color: "Window.Border";
+            
+            & > .buttons {
+                anchor: middle-right;
+                gap: 10;
+            }
+        }
+    }
+    ]]>
+</udt>

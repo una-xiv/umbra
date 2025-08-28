@@ -3,6 +3,7 @@ using Umbra.AuxBar;
 using Umbra.Widgets.System;
 using Umbra.Windows;
 using Umbra.Windows.Library.Installer;
+using Umbra.Windows.Library.Theme;
 using Umbra.Windows.Settings;
 
 namespace Umbra;
@@ -80,6 +81,8 @@ internal sealed class UmbraBindings : IDisposable
         // #if DEBUG
         // _windowManager.Present("UmbraSettings", new SettingsWindow());
         // #endif
+        
+        Framework.Service<WindowManager>().Present<ThemeBrowserWindow>("ThemeBrowserWindow", new());
 
         if (IsFirstTimeStart) {
             _windowManager.Present("Installer", new InstallerWindow());

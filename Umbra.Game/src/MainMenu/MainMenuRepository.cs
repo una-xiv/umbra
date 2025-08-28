@@ -153,7 +153,7 @@ internal sealed class MainMenuRepository : IMainMenuRepository
     }
 
     private void AddUsableTeleportItemToCategory(
-        MainMenuCategory category, uint itemId, short sortIndex, string metadataKey
+        MainMenuCategory category, uint itemId, short sortIndex, string metadataKey, bool isConsumable = false
     )
     {
         var item = _dataManager.GetExcelSheet<Item>().FindRow(itemId);
@@ -164,13 +164,21 @@ internal sealed class MainMenuRepository : IMainMenuRepository
             if (entry is not null && !_player.HasItemInInventory(itemId)) {
                 category.RemoveItem(entry);
             } else if (entry is null && _player.HasItemInInventory(itemId)) {
+                string shortKeyText = string.Empty;
+                
+                if (isConsumable) {
+                    shortKeyText += $"({_player.GetItemCount(itemId)})";
+                }
+                
+                shortKeyText += " " + _player.GetActionCooldownString(ActionType.Item, itemId);
+                
                 category.AddItem(
                     new(item.Value.Name.ExtractText(), sortIndex, () => _player.UseInventoryItem(itemId)) {
                         MetadataKey    = metadataKey,
                         ItemGroupId    = "Travel",
                         ItemGroupLabel = "Destinations",
                         Icon           = (uint)_dataManager.GetExcelSheet<Item>().GetRow(itemId).Icon,
-                        ShortKey       = _player.GetActionCooldownString(ActionType.Item, itemId),
+                        ShortKey       = shortKeyText,
                     }
                 );
             }

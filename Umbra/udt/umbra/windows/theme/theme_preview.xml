@@ -1,0 +1,185 @@
+﻿<udt>
+    <node id="preview">
+        <node class="preview-bg"/>
+        
+        <node class="theme-title">
+            <node class="name" value="My awesome theme with a very long name yes."/>
+            <node class="author" value="by Una"/>
+        </node>
+        
+        <node class="toolbar">
+            <node class="bg"/>
+            <node class="section left">
+                <node class="widget decorated interactive" value="_L(Window.ThemeBrowser.ExampleWidget)"/>
+                <node class="widget decorated" value="_L(Window.ThemeBrowser.ExampleWidget)" is-disabled="true"/>
+            </node>
+            <node class="section right">
+                <node class="widget interactive" value="_L(Window.ThemeBrowser.ExampleWidget)"/>
+            </node>
+        </node>
+        
+        <node class="popup">
+            <node class="bg"/>
+            <node class="content" value="_L(Window.ThemeBrowser.ExamplePopup)"/>
+        </node>
+        
+        <node class="window">
+            <node class="titlebar">
+                <node class="titlebar-text" value="Window"/>
+            </node>
+            <node class="body">
+                <node class="panel">
+                    <node class="window-text" value="Window Text"/>
+                </node>
+            </node>
+        </node>
+    </node>
+    
+    <![CDATA[
+    #preview {
+        flow: vertical;
+        auto-size: grow;
+        border-radius: 4;
+        border-color: "Window.Border";
+        border-width: 1;
+        
+        & > .preview-bg {
+            anchor: top-center;
+            auto-size: grow;
+            icon-id: 152432;
+            image-blur: 6 6;
+            opacity: 0.5;    
+        }
+        
+        & > .window {
+            anchor: top-left;
+            flow: vertical;
+            margin: 20 0 0 20;
+            size: 320 200;
+            border-width: 1;
+            border-radius: 8;
+            rounded-corners: all;
+            
+            & > .titlebar {
+                auto-size: grow fit;
+                size: 0 32;
+                border-width: 0 0 1 0;
+                border-radius: 8;
+                rounded-corners: top-left top-right;
+                margin: 1 1 0 1;
+                
+                & > .titlebar-text {
+                    anchor: middle-left;
+                    auto-size: grow;
+                    padding: 0 10;
+                    font-size: 14;
+                    text-align: middle-left;
+                }
+            }
+            
+            & > .body {
+                flow: vertical;
+                auto-size: grow;
+                padding: 10;
+                
+                & > .panel {
+                    auto-size: grow;
+                    padding: 10;
+                    border-radius: 8;
+                }
+            }
+        }
+        
+        & > .theme-title {
+            auto-size: grow fit;
+            anchor: top-right;
+            flow: vertical;
+            padding: 10;
+            
+            & > .name {
+                auto-size: grow fit;
+                font-size: 24;
+                text-align: top-right;
+            }
+            & > .author {
+                auto-size: grow fit;
+                font-size: 12;
+                text-align: top-right;
+            }
+        }
+        
+        & > .toolbar {
+            anchor: bottom-left;
+            auto-size: grow fit;
+            size: 0 32;
+            border-width: 1 0 0 0;
+            border-radius: 4;
+            rounded-corners: bottom-left bottom-right;
+            
+            & > .bg {
+                anchor: none;
+                auto-size: grow;
+                shadow-size: 32;
+                shadow-inset: 6;
+                margin: 1 0 0 0;
+                rounded-corners: bottom-left bottom-right;
+            }
+            
+            & > .section {
+                gap: 6;
+                auto-size: fit grow;
+                padding: 0 6;
+                
+                & > .widget {
+                    size: 0 28;
+                    padding: 0 6;
+                    text-align: middle-center;
+                    text-offset: 0 -1;
+                    
+                    &.decorated {
+                        border-width: 1;
+                        border-inset: 1;
+                        border-radius: 4;
+                    }
+                }
+                
+                &.left {
+                    anchor: middle-left;
+                    & > .widget { anchor: middle-left; }
+                }
+                
+                &.right {
+                    anchor: middle-right;
+                    & > .widget { anchor: middle-right; }
+                }
+            }
+        }
+        
+        & > .popup {
+            anchor: bottom-right;
+            margin: 0 8 31 0;
+            border-radius: 8;
+            border-width: 1 1 0 1 ;
+            rounded-corners: top-left top-right;
+            size: 150 150;
+            
+            & > .bg {
+                anchor: none;
+                auto-size: grow;
+                margin: 2 2 0 2;
+                border-radius: 6;
+                rounded-corners: top-left top-right;
+            }
+            
+            & > .content {
+                padding: 10;
+                size: 130 130;
+                text-align: middle-center;
+                word-wrap: false;
+                text-overflow: false;
+            }
+        }
+    }
+    
+    ]]>
+</udt>

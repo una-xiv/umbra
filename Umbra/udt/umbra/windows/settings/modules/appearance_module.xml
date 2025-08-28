@@ -27,6 +27,7 @@
                     <node class="body">
                         <button-node id="btn-create" is-ghost="true" label="_L(Settings.AppearanceModule.CreateTheme)" icon="Plus"/>
                         <button-node id="btn-import" is-ghost="true" label="_L(Settings.AppearanceModule.ImportTheme)" icon="FileImport"/>
+                        <button-node id="btn-browse" is-ghost="true" label="_L(Settings.AppearanceModule.BrowseThemes)" icon="Download"/>
                     </node>
                 </node>
             </node>
@@ -49,6 +50,12 @@
                 <font-row id="font-markers" label="_L(Settings.AppearanceModule.Fonts.WorldMarkers.Name)" description="_L(Settings.AppearanceModule.Fonts.WorldMarkers.Description)"/>
             </node>
             <node class="tab" id="color-profile-editor">
+                <node class="color-editor-header">
+                    <node class="title" id="color-theme-name" value="Color Theme"/>
+                    <node class="buttons">
+                        <button-node id="btn-publish" label="_L(Settings.AppearanceModule.PublishTheme)" icon="Upload"/>
+                    </node>
+                </node>
                 <node class="color-editor-body">
                     <simple-color-theme-editor/>
                     <node class="color-pickers" id="color-pickers"/>
@@ -115,6 +122,27 @@
 
             &.active {
                 is-visible: true;
+            }
+            
+            .color-editor-header {
+                flow: horizontal;
+                auto-size: grow fit;
+                size: 0 40;
+                border-width: 0 0 1 0;
+                border-color: "Window.Border";
+                
+                & > .title {
+                    anchor: middle-left;
+                    auto-size: grow fit;
+                    font-size: 18;
+                    color: "Window.Text";
+                    outline-color: "Window.TextOutline";
+                    outline-size: 1;
+                }
+                
+                & > .buttons {
+                    anchor: middle-right;
+                }
             }
 
             .color-editor-body {
@@ -261,6 +289,35 @@
             & > .buttons {
                 opacity: 1;
                 transition-duration: 1;
+            }
+        }
+    }
+    
+    #theme-browser {
+        .header {
+            auto-size: grow fit;
+            padding: 0 0 4 0;
+            border-width: 0 0 1 0;
+            border-color: "Window.Border";
+            gap: 8;
+            
+            & > .input {
+                auto-size: grow fit;
+                gap: 4;
+             
+                & > .ui-text-default {
+                    anchor: middle-center;
+                }
+             
+                & > .wrapper {
+                    anchor: middle-center;
+                    auto-size: grow fit;
+                }
+                
+                & > .buttons-wrapper {
+                    anchor: middle-center;
+                    auto-size: grow fit;
+                }
             }
         }
     }

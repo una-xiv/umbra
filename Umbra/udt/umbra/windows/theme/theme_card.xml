@@ -1,0 +1,88 @@
+﻿<udt>
+    <node class="theme-card">
+        <node class="window">
+            <node class="titlebar"/>
+            <node class="body">
+                <node class="name titlebar-text" value="My awesome theme with a very long name yes."/>
+                <node class="sub-text-container">
+                    <node class="sub-text author window-text" value="by Una"/>
+                    <node class="sub-text muted window-text info" value="Umbra 3.1.4 - 31/11/2025"/>
+                </node>
+            </node>
+        </node>
+    </node>
+
+    <![CDATA[
+    .theme-card {
+        flow: vertical;
+        auto-size: grow fit;
+        border-radius: 8;
+        border-width: 1;
+        border-inset: 2;
+        stroke-width: 1;
+        
+        &:hover {
+            stroke-color: "Input.BorderHover";
+            background-color: "Input.BackgroundHover";
+        }
+        
+        &.selected {
+            stroke-color: "Window.AccentColor";
+        }
+        
+        .window {
+            auto-size: grow fit;
+            padding: 5;
+            border-radius: 8;
+            
+            & > .titlebar {
+                anchor: none;
+                auto-size: grow fit;
+                size: 0 20;
+                margin: -3;
+                border-radius: 7;
+            }
+            
+            & > .body {
+                flow: vertical;
+                auto-size: grow fit;
+                padding: 0 0 0 5;
+                
+                .name {
+                    auto-size: grow fit;
+                    font: 0;
+                    font-size: 14;
+                    word-wrap: false;
+                    text-overflow: true;
+                    max-width: 250;
+                }
+                
+                .sub-text {
+                    font: 0;
+                    font-size: 11;
+                }
+                
+                .sub-text-container {
+                    auto-size: grow fit;
+                    margin: 8 0 2 0;
+                    
+                    & > .name {
+                        auto-size: grow fit;
+                        text-align: middle-left;
+                    }
+                    
+                    & > .info {
+                        auto-size: grow fit;
+                        text-align: middle-right;
+                    }
+                }
+            }
+            
+            & > .right {
+                auto-size: fit grow;
+                gap: 8;
+            }
+        }
+    }
+    ]]>
+</udt>

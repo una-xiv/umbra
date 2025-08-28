@@ -31,8 +31,12 @@ internal class UmbraColors
 
     [ConfigVariable("ColorProfileData")] private static string ColorProfileData { get; set; } = "";
     [ConfigVariable("ColorProfileName")] private static string ColorProfileName { get; set; } = "Umbra (built-in)";
+    [ConfigVariable("DownloadedColorProfiles")] private static string DownloadedColorProfilesData { get; set; } = "[]";
+    
+    public static List<DownloadedProfile> DownloadedColorProfiles { get; private set; } = [];
+    
     private static Dictionary<string, Dictionary<string, uint>> ColorProfiles { get; set; } = [];
-    private static Timer? _debounceTimer;
+    private static Timer?                                       _debounceTimer;
 
     private static Dictionary<string, string> BuiltInProfiles { get; } = new() {
         {
@@ -60,6 +64,7 @@ internal class UmbraColors
 
         if (ColorProfileData != "") RestoreColorProfiles();
         AddBuiltInColorProfiles();
+        RefreshDownloadedProfiles();
 
         if (!ColorProfiles.ContainsKey(ColorProfileName)) {
             Apply("Umbra (built-in)");
@@ -414,5 +419,28 @@ internal class UmbraColors
         foreach ((string name, string data) in BuiltInProfiles) {
             Import(data, true, name, false);
         }
+    }
+
+    private static void RefreshDownloadedProfiles()
+    {
+        try {
+            var data = JsonConvert.DeserializeObject<List<DownloadedProfile>>(DownloadedColorProfilesData);
+            if (data is null) {
+                ConfigManager.Set("DownloadedColorProfiles", "[]");
+                return;
+            }
+            
+            DownloadedColorProfiles = data;
+        } catch {
+            ConfigManager.Set("DownloadedColorProfiles", "[]");
+            Logger.Error("Failed to restore downloaded color profiles. Your profile data may be corrupted.");
+        }
+    }
+    
+    public class DownloadedProfile
+    {
+        public string                   Name   { get; set; } = "";
+        public string                   Author { get; set; } = "";
+        public Dictionary<string, uint> Data   { get; set; } = [];
     }
 }
