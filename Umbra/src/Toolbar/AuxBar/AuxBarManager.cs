@@ -119,10 +119,10 @@ internal sealed class AuxBarManager : IDisposable
            .Where(node => node.Item1.WidgetCount > 0)
            .ToList();
 
-    public AuxBarConfig CreateBar()
+    public AuxBarConfig CreateBar(string id)
     {
         var config = new AuxBarConfig {
-            Id   = $"aux{AuxBarConfigs.Count}",
+            Id   = id,
             Name = $"Aux Bar #{AuxBarConfigs.Count + 1}",
         };
 
@@ -131,6 +131,11 @@ internal sealed class AuxBarManager : IDisposable
         Persist();
 
         return config;
+    }
+    
+    public AuxBarConfig CreateBar()
+    {
+        return CreateBar($"aux{Guid.NewGuid():N}");
     }
 
     public void DeleteBar(string id, bool confirm = true, bool persist = true)

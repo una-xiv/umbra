@@ -159,7 +159,7 @@ internal sealed partial class WidgetManager : IDisposable
                 }
                 
                 // Create the aux bar if it doesn't exist yet.
-                var aux = Framework.Service<AuxBarManager>().CreateBar();
+                var aux = Framework.Service<AuxBarManager>().CreateBar(location);
                 panel = Toolbar.GetPanel(aux.Id);
 
                 if (panel == null) {
