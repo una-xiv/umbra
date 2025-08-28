@@ -50,6 +50,7 @@ public abstract class StandardToolbarWidget(
         Node.ToggleClass("decorated", GetConfigValue<bool>(CvarNameDecorate));
 
         bool isVertical = IsMemberOfVerticalBar;
+        Node? barNode    = GetBarNode;
 
         switch (CvarSizingMode()) {
             case SizingModeGrow:
@@ -59,8 +60,13 @@ public abstract class StandardToolbarWidget(
                 }
                 break;
             case SizingModeFixed:
-                Node.Style.AutoSize = (AutoSize.Fit, AutoSize.Grow);
-                Node.Style.Size     = new(CvarWidth(), SafeHeight);
+                if (!isVertical) {
+                    Node.Style.Size     = new(CvarWidth(), SafeHeight);
+                    Node.Style.AutoSize = (AutoSize.Fit, AutoSize.Grow);
+                } else {
+                    Node.Style.Size = new(0, SafeHeight);
+                }
+
                 break;
             default: // Default is Fit
                 Node.Style.Size = new(0, SafeHeight);
@@ -69,6 +75,16 @@ public abstract class StandardToolbarWidget(
                 }
 
                 break;
+        }
+
+        if (barNode != null) {
+            if (barNode.ClassList.Contains("align-content-left")) {
+                BodyNode.Style.Anchor = Anchor.MiddleLeft;
+            } else if (barNode.ClassList.Contains("align-content-right")) {
+                BodyNode.Style.Anchor = Anchor.MiddleRight;
+            } else {
+                BodyNode.Style.Anchor = Anchor.MiddleCenter;
+            }
         }
 
         if (HasIconAndText()) {

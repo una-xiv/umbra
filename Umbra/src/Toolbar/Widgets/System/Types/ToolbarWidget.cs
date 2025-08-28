@@ -1,5 +1,4 @@
-﻿
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System.Text;
 using Umbra.Widgets.System;
 
@@ -61,7 +60,7 @@ public abstract class ToolbarWidget(
     protected static int SafeHeight => Toolbar.Height - 4;
 
     protected bool IsVisible { get; set; } = true;
-    
+
     private readonly Dictionary<string, IWidgetConfigVariable> _configVariables = new();
     private readonly Dictionary<string, object>                _configValues    = configValues ?? [];
 
@@ -74,7 +73,7 @@ public abstract class ToolbarWidget(
         Initialize();
 
         Node.ToggleClass("widget-instance", true);
-        
+
         if (Popup is null) return;
 
         Node.OnMouseDown += _ => {
@@ -119,6 +118,16 @@ public abstract class ToolbarWidget(
             "Right"  => Anchor.MiddleRight,
             _        => Anchor.MiddleCenter,
         };
+
+        var barNode = GetBarNode;
+
+        if (barNode != null) {
+            if (barNode.ClassList.Contains("align-content-left")) {
+                Node.Style.Anchor = Anchor.MiddleLeft;
+            } else if (barNode.ClassList.Contains("align-content-right")) {
+                Node.Style.Anchor = Anchor.MiddleRight;
+            }
+        }
 
         if (!IsEnabled) return;
 
@@ -205,7 +214,7 @@ public abstract class ToolbarWidget(
     /// Invoked on every frame, just before the widget is rendered.
     /// </summary>
     protected abstract void OnUpdate();
-    
+
     /// <summary>
     /// Returns a list of configuration variables for this widget that the user
     /// can modify.
@@ -297,7 +306,7 @@ public abstract class ToolbarWidget(
 
         Framework.Service<WidgetManager>().SaveWidgetState(Id);
         Framework.Service<WidgetManager>().SaveState();
-        
+
         OnConfigurationChanged();
     }
 
@@ -344,7 +353,7 @@ public abstract class ToolbarWidget(
             }
         }
     }
-    
+
     /// <summary>
     /// Returns a dictionary of color options for the user to select from in a
     /// configuration variable.
@@ -359,8 +368,12 @@ public abstract class ToolbarWidget(
 
         return result;
     }
-    
-    protected bool IsMemberOfVerticalBar => Node.ParentNode?.ParentNode?.ClassList.Contains("vertical") ?? false;
+
+    protected Node? GetBarNode             => Node.ParentNode?.ParentNode;
+    protected bool  IsMemberOfVerticalBar  => GetBarNode?.ClassList.Contains("vertical") ?? false;
+    protected bool  IsContentLeftAligned   => GetBarNode?.ClassList.Contains("align-content-left") ?? false;
+    protected bool  IsContentCenterAligned => GetBarNode?.ClassList.Contains("align-content-center") ?? false;
+    protected bool  IsContentRightAligned  => GetBarNode?.ClassList.Contains("align-content-right") ?? false;
 
     /// <summary>
     /// Opens the settings window for this widget instance.

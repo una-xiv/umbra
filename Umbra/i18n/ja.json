@@ -196,6 +196,8 @@
   "Settings.WidgetsModule.Aux.YPosition.Description": "補助バーの画面端からの垂直位置（ピクセル単位）。",
   "Settings.WidgetsModule.Aux.Width.Name": "幅",
   "Settings.WidgetsModule.Aux.Width.Description": "補助バーの幅。このオプションは補助バーが縦に表示されている場合は無視されます。幅を0に設定すると、補助バーは内容に応じて自動的にサイズ変更されます。",
+  "Settings.WidgetsModule.Aux.WidgetContentAlignment.Name": "コンテンツの配置",
+  "Settings.WidgetsModule.Aux.WidgetContentAlignment.Description": "縦型レイアウトを使用する場合、このオプションで補助バーウィジェットの配置を定義します。",
   "Settings.WidgetsModule.Aux.HideInCutscenes.Name": "カットシーンで非表示",
   "Settings.WidgetsModule.Aux.HideInCutscenes.Description": "カットシーン中に補助バーを非表示にします。このオプションは、以下の条件付き表示設定よりも優先されます。",
   "Settings.WidgetsModule.Aux.HideInPvP.Name": "PvPコンテンツで非表示",

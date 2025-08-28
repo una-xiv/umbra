@@ -84,7 +84,7 @@ internal partial class Toolbar
         LeftPanel.Style.Size   = new();
         CenterPanel.Style.Size = new();
         RightPanel.Style.Size  = new();
-        
+
         if (_toolbarNode.ClassList.Contains("stretched")) {
             LeftPanel.ComputeBoundingSize();
             CenterPanel.ComputeBoundingSize();
@@ -92,15 +92,15 @@ internal partial class Toolbar
 
             float centerX1 = (ToolbarXPosition - (CenterPanel.Bounds.MarginSize.Width / 2f));
             float centerX2 = (ToolbarXPosition + (CenterPanel.Bounds.MarginSize.Width / 2f));
-        
+
             LeftPanel.Style.Size.Width  = (int)centerX1 - 1;
             LeftPanel.Style.AutoSize    = (AutoSize.Fit, AutoSize.Grow);
             RightPanel.Style.Size.Width = (int)(ImGui.GetMainViewport().WorkSize.X - centerX2) - 1;
             RightPanel.Style.AutoSize   = (AutoSize.Fit, AutoSize.Grow);
         } else {
-            LeftPanel.Style.AutoSize    = (AutoSize.Fit, AutoSize.Grow);
-            CenterPanel.Style.AutoSize    = (AutoSize.Fit, AutoSize.Grow);
-            RightPanel.Style.AutoSize    = (AutoSize.Fit, AutoSize.Grow);
+            LeftPanel.Style.AutoSize   = (AutoSize.Fit, AutoSize.Grow);
+            CenterPanel.Style.AutoSize = (AutoSize.Fit, AutoSize.Grow);
+            RightPanel.Style.AutoSize  = (AutoSize.Fit, AutoSize.Grow);
         }
 
         _toolbarNode.Render(
