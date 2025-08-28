@@ -21,7 +21,7 @@ internal sealed partial class TeleportWidget
                 I18N.Translate("Widget.Teleport.Config.ExpansionListPosition.Description"),
                 ExpansionListPosition.Auto
             ) {
-                Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance"),
+                Category  = I18N.Translate("Widget.ConfigCategory.MenuAppearance"),
                 DisplayIf = () => GetConfigValue<PopupDisplayMode>("PopupDisplayMode") == PopupDisplayMode.Condensed,
             },
             new SelectWidgetConfigVariable(
@@ -58,7 +58,7 @@ internal sealed partial class TeleportWidget
                 Category  = I18N.Translate("Widget.ConfigCategory.MenuAppearance"),
                 DisplayIf = () => GetConfigValue<PopupDisplayMode>("PopupDisplayMode") == PopupDisplayMode.Condensed,
             },
-            
+
             new BooleanWidgetConfigVariable(
                 "FixedPopupWidth",
                 I18N.Translate("Widget.Teleport.Config.FixedPopupWidth.Name"),
@@ -68,7 +68,7 @@ internal sealed partial class TeleportWidget
                 Category  = I18N.Translate("Widget.ConfigCategory.MenuAppearance"),
                 DisplayIf = () => GetConfigValue<PopupDisplayMode>("PopupDisplayMode") == PopupDisplayMode.Condensed,
             },
-            
+
             new IntegerWidgetConfigVariable(
                 "CustomPopupWidth",
                 I18N.Translate("Widget.Teleport.Config.CustomPopupWidth.Name"),
@@ -77,11 +77,11 @@ internal sealed partial class TeleportWidget
                 250,
                 1200
             ) {
-                Category  = I18N.Translate("Widget.ConfigCategory.MenuAppearance"),
+                Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance"),
                 DisplayIf = () => GetConfigValue<bool>("FixedPopupWidth")
-                    && GetConfigValue<PopupDisplayMode>("PopupDisplayMode") == PopupDisplayMode.Condensed,
+                                  && GetConfigValue<PopupDisplayMode>("PopupDisplayMode") == PopupDisplayMode.Condensed,
             },
-            
+
             new BooleanWidgetConfigVariable(
                 "ShowMapNames",
                 I18N.Translate("Widget.Teleport.Config.ShowMapNames.Name"),
@@ -91,14 +91,23 @@ internal sealed partial class TeleportWidget
                 Category  = I18N.Translate("Widget.ConfigCategory.MenuAppearance"),
                 DisplayIf = () => GetConfigValue<PopupDisplayMode>("PopupDisplayMode") == PopupDisplayMode.Condensed,
             },
-            
+
+            new BooleanWidgetConfigVariable(
+                "ShowTeleportCost",
+                I18N.Translate("Widget.Teleport.Config.ShowTeleportCost.Name"),
+                I18N.Translate("Widget.Teleport.Config.ShowTeleportCost.Description"),
+                true
+            ) {
+                Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance"),
+            },
+
             new BooleanWidgetConfigVariable(
                 "ShowNotification",
                 I18N.Translate("Widget.Teleport.Config.ShowNotification.Name"),
                 I18N.Translate("Widget.Teleport.Config.ShowNotification.Description"),
                 false
             ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
-            
+
             new IntegerWidgetConfigVariable(
                 "PopupFontSize",
                 I18N.Translate("Widgets.MenuPopup.Config.ItemFontSize.Name"),

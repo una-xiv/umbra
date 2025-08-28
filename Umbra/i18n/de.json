@@ -1031,6 +1031,8 @@
   "Widget.Teleport.Config.PopupHeight.Description": "Die Höhe des Teleport-Menüs in Pixeln.",
   "Widget.Teleport.Config.ShowMapNames.Name": "Kartennamen anzeigen",
   "Widget.Teleport.Config.ShowMapNames.Description": "Zeigt bei Aktivierung die Namen der Karten neben den Zielnamen an.",
+  "Widget.Teleport.Config.ShowTeleportCost.Name": "Teleportationskosten anzeigen",
+  "Widget.Teleport.Config.ShowTeleportCost.Description": "Zeigt die Teleportationskosten neben dem Zielnamen an. Diese Einstellung umfasst auch die Anzahl der Gegenstände und die Abklingzeit. (Nein, dies macht die Teleportation nicht kostenlos)",
   "Widget.Teleport.Config.ShowNotification.Name": "Teleport-Benachrichtigung anzeigen",
   "Widget.Teleport.Config.ShowNotification.Description": "Zeigt eine Benachrichtigung auf deinem Bildschirm an, um zu bestätigen, wohin du nach dem Klicken auf ein Teleport-Ziel im Menü teleportierst.",
   "Widget.Teleport.Config.DefaultOpenedGroupName.Name": "Liste, die standardmäßig geöffnet wird",

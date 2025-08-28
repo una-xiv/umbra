@@ -13,6 +13,7 @@ internal partial class TeleportWidgetPopup
     private int              PopupHeight            { get; set; } = 400;
     private int              PopupFontSize          { get; set; } = 11;
     private bool             ShowMapNames           { get; set; } = true;
+    private bool             ShowTeleportCost       { get; set; } = true;
 
     protected override void UpdateConfigVariables(ToolbarWidget widget)
     {
@@ -25,5 +26,6 @@ internal partial class TeleportWidgetPopup
         PopupHeight            = widget.GetConfigValue<int>("PopupHeight");
         PopupFontSize          = widget.GetConfigValue<int>("PopupFontSize");
         ShowMapNames           = widget.GetConfigValue<bool>("ShowMapNames");
+        ShowTeleportCost       = widget.GetConfigValue<bool>("ShowTeleportCost");
     }
 }
