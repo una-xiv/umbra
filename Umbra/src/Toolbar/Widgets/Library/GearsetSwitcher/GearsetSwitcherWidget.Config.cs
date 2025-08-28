@@ -9,6 +9,7 @@ internal sealed partial class GearsetSwitcherWidget
 
             ..GetWidgetConfigVariables(),
             ..GetPopupConfigVariables(),
+            ConfigVariableProgressBarUseRoleColors(),
         ];
     }
 
@@ -220,4 +221,14 @@ internal sealed partial class GearsetSwitcherWidget
             },
         ];
     }
+
+    private BooleanWidgetConfigVariable ConfigVariableProgressBarUseRoleColors() => new(
+        "ProgressBarUseRoleColors",
+        I18N.Translate("Widget.GearsetSwitcher.Config.ProgressbarUseRoleColors.Name"),
+        I18N.Translate("Widget.GearsetSwitcher.Config.ProgressbarUseRoleColors.Description"),
+        false
+    ) {
+        Category = I18N.Translate("Widgets.Standard.Config.Category.ProgressBar"),
+        DisplayIf = () => GetConfigValue<bool>("UseCustomProgressBarColor") == false,
+    };
 }

@@ -981,6 +981,8 @@
   "Widget.GearsetSwitcher.Config.GearsetFilterInput.Description": "在弹出窗口中隐藏带有此前缀的装备集。这有助于最大程度地减少弹出窗口中显示的装备集数量。",
   "Widget.GearsetSwitcher.Config.HidePrefixFromNames.Name": "从装备集名称中隐藏已配置的前缀",
   "Widget.GearsetSwitcher.Config.HidePrefixFromNames.Description": "在弹出窗口中从装备集名称中隐藏已配置的前缀，以减少视觉混乱。",
+  "Widget.GearsetSwitcher.Config.ProgressbarUseRoleColors.Name": "使用角色颜色作为进度条颜色",
+  "Widget.GearsetSwitcher.Config.ProgressbarUseRoleColors.Description": "是否将进度条的颜色设置为当前职业的角色颜色。",
   "Widget.OnlineStatus.Name": "在线状态",
   "Widget.OnlineStatus.Description": "显示您当前的在线状态。",
   "Widget.OnlineStatus.Tooltip": "右键单击以打开个人信息窗口",
