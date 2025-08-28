@@ -70,6 +70,8 @@ internal sealed partial class GearsetSwitcherWidget(
         JobInfo     job  = Player.GetJobInfo(gearset.JobId);
         JobIconType type = GetConfigValue<JobIconType>("WidgetButtonIconType");
 
+        ProgressBarColorOverride = GetConfigValue<bool>("ProgressBarUseRoleColors") ? GetRoleColorByGearsetCategory(gearset.Category) : null;
+
         switch (type) {
             case JobIconType.PixelSprites:
                 switch (gearset.Category) {
@@ -97,6 +99,19 @@ internal sealed partial class GearsetSwitcherWidget(
         ));
     }
 
+    private Color GetRoleColorByGearsetCategory(GearsetCategory category) {
+        return category switch
+        {
+            GearsetCategory.Tank     => new("Role.Tank"),
+            GearsetCategory.Healer   => new("Role.Healer"),
+            GearsetCategory.Melee    => new("Role.MeleeDps"),
+            GearsetCategory.Ranged   => new("Role.PhysicalRangedDps"),
+            GearsetCategory.Caster   => new("Role.MagicalRangedDps"),
+            GearsetCategory.Crafter  => new("Role.Crafter"),
+            GearsetCategory.Gatherer => new("Role.Gatherer"),
+            _                        => new("Widget.ProgressBar"),
+        };
+    }
     private string GetGearsetName(Gearset gearset)
     {
         string customLabel = GetConfigValue<string>("CustomLabel").Trim();

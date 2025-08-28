@@ -979,6 +979,8 @@
   "Widget.GearsetSwitcher.Config.GearsetFilterInput.Description": "Filters gearsets with this prefix in the popup. This can be useful to minimize the amount of gearsets that are displayed in the popup. Specify multiple prefixes by separating them with a comma (e.g. \"[PVP], [RP]\"). The filter ignores leading/trailing whitespace.",
   "Widget.GearsetSwitcher.Config.HidePrefixFromNames.Name": "Hide the configured prefix from gearset names",
   "Widget.GearsetSwitcher.Config.HidePrefixFromNames.Description": "Hides the configured prefix from gearset names to reduce visual clutter.",
+  "Widget.GearsetSwitcher.Config.ProgressbarUseRoleColors.Name": "Use role colors for progress bars",
+  "Widget.GearsetSwitcher.Config.ProgressbarUseRoleColors.Description": "Whether to use the role color of the currently equipped job for the experience progress bar.",
   "Widget.OnlineStatus.Name": "Online Status",
   "Widget.OnlineStatus.Description": "Shows your current online status and gives you the option to change it.",
   "Widget.OnlineStatus.Tooltip": "Right-click to open the search info window.",
