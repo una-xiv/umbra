@@ -12,6 +12,10 @@ internal partial class TeleportWidgetPopup
         if (DisplayMode == PopupDisplayMode.Condensed) {
             CondensedInterfaceNode.Style.FlowOrder = ReverseCondensedElements ? FlowOrder.Reverse : FlowOrder.Normal;
         }
+        
+        foreach (var node in (DisplayMode == PopupDisplayMode.Extended ? ExtendedInterfaceNode : CondensedInterfaceNode).QuerySelectorAll(".list .cost")) {
+            node.Style.IsVisible = ShowTeleportCost;
+        }
     }
 
     private void BuildInterfaces()

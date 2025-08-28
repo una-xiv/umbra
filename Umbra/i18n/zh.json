@@ -1031,6 +1031,8 @@
   "Widget.Teleport.Config.PopupHeight.Description": "传送菜单的高度（以像素为单位）。",
   "Widget.Teleport.Config.ShowMapNames.Name": "显示地图名称",
   "Widget.Teleport.Config.ShowMapNames.Description": "如果启用，在目的地名称旁边显示地图名称。",
+  "Widget.Teleport.Config.ShowTeleportCost.Name": "显示传送费用",
+  "Widget.Teleport.Config.ShowTeleportCost.Description": "在目的地名称旁显示传送费用。此设置还包括物品数量和冷却时间。",
   "Widget.Teleport.Config.ShowNotification.Name": "显示传送通知",
   "Widget.Teleport.Config.ShowNotification.Description": "在您的屏幕上显示通知，以确认单击菜单中的传送目的地后要传送到的位置。",
   "Widget.Teleport.Config.DefaultOpenedGroupName.Name": "默认打开的列表",

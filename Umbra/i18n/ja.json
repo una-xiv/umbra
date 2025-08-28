@@ -1031,6 +1031,8 @@
   "Widget.Teleport.Config.PopupHeight.Description": "テレポートメニューの高さをピクセル単位で指定します。",
   "Widget.Teleport.Config.ShowMapNames.Name": "マップ名を表示",
   "Widget.Teleport.Config.ShowMapNames.Description": "有効にすると、目的地の名前の横にマップ名を表示します。",
+  "Widget.Teleport.Config.ShowTeleportCost.Name": "テレポート費用を表示",
+  "Widget.Teleport.Config.ShowTeleportCost.Description": "目的地名の横にテレポート費用を表示します。この設定にはアイテム数とクールダウンも含まれます。",
   "Widget.Teleport.Config.ShowNotification.Name": "テレポート通知を表示",
   "Widget.Teleport.Config.ShowNotification.Description": "メニューでテレポート先をクリックした後、どこにテレポートするかを確認するために画面に通知を表示します。",
   "Widget.Teleport.Config.DefaultOpenedGroupName.Name": "デフォルトで開くリスト",
