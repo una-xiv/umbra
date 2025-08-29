@@ -160,6 +160,8 @@ internal static class MigrationManager
     {
         Type baseType = typeof(ConfigMigration);
 
+        Migrations.Clear();
+        
         foreach (var type in Framework.Assemblies
                                       .SelectMany(asm => asm.GetTypes())
                                       .Where(type => type is { IsClass: true, IsAbstract: false } && baseType.IsAssignableFrom(type))
