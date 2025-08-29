@@ -48,6 +48,8 @@
     </template>
 
     <![CDATA[
+    @import "globals";
+
     .popup {
         flow: vertical;
 
@@ -210,8 +212,7 @@
             gap: 6;
 
             &.scrolling {
-                padding: 0 12 0 0;
-                scrollbar-track-color: 0;
+                padding: 0 24 0 0;
             }
         }
     }
