@@ -15,6 +15,7 @@
  */
 
 using Dalamud.Plugin;
+using Umbra.Common.Migration;
 
 namespace Umbra.Common;
 
@@ -47,10 +48,13 @@ public static class Framework
         DalamudFramework = dalamudFramework;
         LocalCharacterId = charId;
 
-        // Always make sure config is loaded first.
-        ConfigManager.Initialize();
-
         await CrashLogger.Guard("Umbra failed to start", async () => {
+            // Run migrations before loading the configuration.
+            await MigrationManager.Run();
+        
+            // Always make sure config is loaded first.
+            ConfigManager.Initialize();
+            
             foreach (var initializer in GetMethodInfoListWith<WhenFrameworkAsyncCompilingAttribute>()) {
                 await (Task)initializer.Invoke(null, null)!;
             }
