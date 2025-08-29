@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using Umbra.Common.Migration.Patcher;
 
 namespace Umbra.Common.Migration;
 
@@ -13,7 +14,7 @@ public class MigrationContext
     /// </summary>
     public uint LastMigratedVersion { get; }
 
-    public ConfigPatcher Profile { get; }
+    public ObjectPatcher Profile { get; }
     
     public MigrationContext(FileInfo configFile)
     {
@@ -25,14 +26,14 @@ public class MigrationContext
                 json = reader.ReadToEnd();
             }
             
-            Profile = new ConfigPatcher(json);
+            Profile = new ObjectPatcher(json);
             
             LastMigratedVersion = Profile.IsNumber("LastMigratedVersion") 
                 ? Profile.GetValue<uint>("LastMigratedVersion") 
                 : 0;
         } catch {
             LastMigratedVersion = 0;
-            Profile             = new ConfigPatcher("{}");
+            Profile             = new ObjectPatcher("{}");
         }
     }
 
@@ -42,6 +43,6 @@ public class MigrationContext
     /// </summary>
     public void Commit()
     {
-        File.WriteAllText(ConfigFile.FullName, Profile.ToJsonString());
+        File.WriteAllText(ConfigFile.FullName, Profile.ToJsonString(true));
     }
 }

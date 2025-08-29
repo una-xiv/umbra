@@ -1,4 +1,7 @@
-﻿namespace Umbra.Common.Migration;
+﻿using System.IO.Compression;
+using System.Text;
+
+namespace Umbra.Common.Migration;
 
 public abstract class ConfigMigration(int version)
 {
@@ -23,20 +26,85 @@ public abstract class ConfigMigration(int version)
     
     public void Run(MigrationContext context)
     {
-        Logger.Info($" -> Applying migration \"{GetType().Name}\" (v{Version}) to profile '{context.ConfigFile.Name}'");
+        Log($"Applying migration [{Version}] to profile '{context.ConfigFile.Name}'");
         
         Migrate(context);
-
+        
+        context.Profile.Set("LastMigratedVersion", (uint)Version);
+        
         if (DryRun) {
             if (PrintOutputToConsole) {
-                Logger.Info($"DryRun result of {context.ConfigFile.Name}:");
-                Logger.Info(context.Profile.ToJsonString());
+                Log($"DryRun result of {context.ConfigFile.Name}:");
+                Log(context.Profile.ToJsonString(true));
             }
 
             return;
         }
 
-        context.Profile.Set("LastMigratedVersion", (uint)Version);
         context.Commit();
+    }
+    
+    protected void Log(string message)
+    {
+        Logger.Info($"[Migration][{GetType().Name}] {message}");
+    }
+    
+    protected void LogWarning(string message)
+    {
+        Logger.Warning($"[Migration][{GetType().Name}] {message}");
+    }
+    
+    protected void LogError(string message)
+    {
+        Logger.Error($"[Migration][{GetType().Name}] {message}");
+    }
+
+    /// <summary>
+    /// Encodes the given text using DEFLATE compression and Base64 encoding.
+    /// </summary>
+    /// <param name="text">The input text to encode.</param>
+    /// <param name="prefix">An optional prefix to prepend to the resulting output.</param>
+    /// <returns>The Base64 encoded and DEFLATE compressed text.</returns>
+    protected static string Deflate64(string text, string? prefix = null)
+    {
+        byte[]    bytes  = Encoding.UTF8.GetBytes(text);
+        using var output = new MemoryStream();
+
+        using (var deflateStream = new DeflateStream(output, CompressionLevel.SmallestSize)) {
+            deflateStream.Write(bytes, 0, bytes.Length);
+        }
+
+        bytes = output.ToArray();
+
+        string result = Convert.ToBase64String(bytes);
+        
+        return !string.IsNullOrEmpty(prefix) ? prefix + result : result;
+    }
+
+    /// <summary>
+    /// Decodes the given Base64 encoded and DEFLATE compressed text back to its original form.
+    /// </summary>
+    /// <param name="text">The Base64 encoded and DEFLATE compressed input text to decode.</param>
+    /// <param name="prefix">An optional prefix of the given text.</param>
+    /// <returns>The original decoded text.</returns>
+    protected static string? Inflate64(string text, string? prefix = null)
+    {
+        if (! string.IsNullOrEmpty(prefix)) {
+            if (!text.StartsWith(prefix)) {
+                return null;
+            }
+            
+            text = text[prefix.Length..];
+        }
+        
+        byte[]    bytes  = Convert.FromBase64String(text);
+        using var input  = new MemoryStream(bytes);
+        using var output = new MemoryStream();
+
+        using (var deflateStream = new DeflateStream(input, CompressionMode.Decompress)) {
+            deflateStream.CopyTo(output);
+        }
+
+        return Encoding.UTF8.GetString(output.ToArray());
     }
 }
