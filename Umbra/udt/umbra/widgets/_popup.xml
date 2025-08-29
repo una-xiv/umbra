@@ -3,6 +3,8 @@
         <node class="wrapper"/>
     </node>
     <![CDATA[
+    @import "globals";
+
     .box { padding: 10; }
     
     .popup {

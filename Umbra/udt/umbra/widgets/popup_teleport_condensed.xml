@@ -93,7 +93,6 @@
             auto-size: grow;
             padding: 0 8;
             margin: 1 8 1 0;
-            scrollbar-track-color: 0;
             
             & > .list {
                 auto-size: grow fit;

@@ -43,7 +43,7 @@ public class BitmapIconGridNode : Node
     {
         Selected  = selected;
         NodeValue = " ";
-        ClassList = ["fa-icon-grid"];
+        ClassList = ["fa-icon-grid", "scrollbars"];
 
         FilterIconListInternal();
     }

@@ -14,7 +14,7 @@
         <node id="plugins">
             <node class="left-side">
                 <node class="section-title" value="_L(Settings.PluginsModule.InstalledPlugins)"/>
-                <node class="plugin-list" overflow="false">
+                <node class="plugin-list scrollbars" overflow="false">
                     <node id="plugin-list"/>
                 </node>
             </node>
@@ -97,7 +97,6 @@
                 & > .plugin-list {
                     flow: vertical;
                     auto-size: grow;
-                    scrollbar-track-color: 0;
                     
                     & > #plugin-list {
                         flow: vertical;

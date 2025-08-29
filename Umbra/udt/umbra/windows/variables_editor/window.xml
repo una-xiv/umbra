@@ -3,7 +3,7 @@
     
     <node id="main">
         <tab-bar/>
-        <node class="body" overflow="false">
+        <node class="body scrollbars" overflow="false">
             <node id="variables"/>
         </node>
         <node class="footer ui-window-footer">
@@ -36,7 +36,6 @@
         & > .body {
             auto-size: grow;
             background-color: "Window.Background";
-            scrollbar-track-color: "Window.Background";
             
             & > #variables {
                 flow: vertical;

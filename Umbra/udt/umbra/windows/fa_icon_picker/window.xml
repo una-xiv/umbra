@@ -6,7 +6,7 @@
                 <string-input-node id="search" immediate="true"/>
             </node>
         </node>
-        <node class="body"/>
+        <node class="body scrollbars"/>
         <node class="footer">
             <node class="buttons">
                 <button-node class="button" id="cancel" label="_L(Cancel)"/>
@@ -16,6 +16,8 @@
     </node>
     
     <![CDATA[
+    @import "globals";
+
     .fa-icon-picker-window {
         flow: vertical;
         auto-size: grow grow;    
@@ -60,10 +62,6 @@
                 gap: 10;    
             }
         }
-    }
-    
-    .fa-icon-grid {
-        scrollbar-track-color: "Window.Background";
     }
     ]]>
 </udt>
