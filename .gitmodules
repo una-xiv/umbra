@@ -1,3 +1,3 @@
 [submodule "drawing"]
 	path = drawing
-	url = https://github.com/una-xiv/drawing.git
+	url = git@github.com:alexpado/umbra-drawing.git

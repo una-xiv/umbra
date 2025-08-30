@@ -1273,6 +1273,8 @@
   "Color.Misc.CompleteSpiritbondBar.Description": "Couleur utilisée pour la barre de taux de symbiose lorsqu'elle atteint 100%.",
   "Color.Misc.MaxLevelIndicator.Name": "Indicateur de niveau maximum",
   "Color.Misc.MaxLevelIndicator.Description": "Couleur utilisée pour indiquer le niveau de poste maximum.",
+  "Color.Misc.TooltipBackground.Name": "Arrière-plan de l’infobulle",
+  "Color.Misc.TooltipBackground.Description": "Couleur utilisée comme arrière-plan pour les info-bulles lors du survol des éléments.",
   "ToolbarProfilesWindow.Title": "Profils de barre d'outils",
   "ToolbarProfilesWindow.UseJobAssociatedProfiles.Name": "Utiliser des profils basés sur le travail",
   "ToolbarProfilesWindow.UseJobAssociatedProfiles.Description": "Changer automatiquement de profil en fonction de votre travail actuel. Activer cette option remplacera le sélecteur de profil actif et utilisera à la place des profils spécifiques au travail.",
