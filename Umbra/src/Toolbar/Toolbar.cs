@@ -8,14 +8,16 @@ internal sealed partial class Toolbar(AuxBarManager auxBars, IPlayer player, Umb
     [OnDraw(executionOrder: int.MaxValue)]
     private void DrawToolbar()
     {
+        if (!visibility.IsToolbarVisible()) return;
+
         UpdateToolbarWidth();
         UpdateToolbarNodeClassList();
         UpdateToolbarAutoHideOffset();
 
-        if (Enabled && visibility.IsToolbarVisible()) {
+        if (Enabled) {
             RenderToolbarNode();
         }
-        
+
         RenderAuxBarNodes();
     }
 
