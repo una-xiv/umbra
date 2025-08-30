@@ -13,20 +13,22 @@
                 <button-node id="btn-shutdown" icon="PowerOff" is-ghost="true"/>
             </node>
         </node>
-        
+
         <node class="body">
             <node class="side-panel-wrapper">
-                <node class="side-panel" overflow="false">
+                <node class="side-panel scrollbars" overflow="false">
                     <node id="side-panel"/>
                 </node>
             </node>
-            <node class="contents" overflow="false">
+            <node class="contents scrollbars" overflow="false">
                 <node id="contents"/>
             </node>
         </node>
     </node>
     
     <![CDATA[
+    @import "globals";
+
     .popup {
         flow: vertical;
         margin: 2;
@@ -99,7 +101,6 @@
                     border-color: "Widget.Border";
                     border-width: 1 1 1 0;
                     auto-size: grow;
-                    scrollbar-track-color: "Widget.PopupBackground.Gradient2";
                         
                     & > #side-panel {
                         flow: vertical;
@@ -274,5 +275,5 @@
             }
         }
     }
-    ]]>
-</udt>
+    
+]]></udt>

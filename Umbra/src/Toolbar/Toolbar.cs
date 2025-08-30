@@ -8,6 +8,10 @@ internal sealed partial class Toolbar(AuxBarManager auxBars, IPlayer player, Umb
     [OnDraw(executionOrder: int.MaxValue)]
     private void DrawToolbar()
     {
+
+        Node.TooltipBackgroundColor = Color.GetNamedColor("Misc.TooltipBackground");
+        Node.TooltipTextColor       = Color.GetNamedColor("Window.TextMuted");
+
         UpdateToolbarWidth();
         UpdateToolbarNodeClassList();
         UpdateToolbarAutoHideOffset();
@@ -15,7 +19,7 @@ internal sealed partial class Toolbar(AuxBarManager auxBars, IPlayer player, Umb
         if (Enabled && visibility.IsToolbarVisible()) {
             RenderToolbarNode();
         }
-        
+
         RenderAuxBarNodes();
     }
 
