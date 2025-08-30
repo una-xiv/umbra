@@ -97,7 +97,7 @@ internal partial class WidgetManager
         }
 
         // Migrate the default configuration over to the profile data if needed.
-        if (ActiveProfile == "Default" && string.IsNullOrEmpty(_widgetProfiles[ActiveProfile])) {
+        if (ActiveProfile == "Default" && (!_widgetProfiles.ContainsKey(ActiveProfile) || string.IsNullOrEmpty(_widgetProfiles[ActiveProfile]))) {
             _widgetProfiles[ActiveProfile] = WidgetConfigData;
             SaveProfileData();
         }
