@@ -8,8 +8,6 @@
     
     <![CDATA[
     .toolbar {
-        padding: 0 4;
-        
         & > .section.aux-section {
             gap: 2;
             padding: 0 2;
