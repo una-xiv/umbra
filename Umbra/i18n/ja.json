@@ -1514,6 +1514,8 @@
   "Color.Misc.CompleteSpiritbondBar.Description": "スピリットボンドバーが100％に達したときに使用される色。",
   "Color.Misc.MaxLevelIndicator.Name": "最大レベルインジケーター",
   "Color.Misc.MaxLevelIndicator.Description": "最大ジョブレベルを示すために使用される色。",
+  "Color.Misc.TooltipBackground.Name": "ツールチップの背景",
+  "Color.Misc.TooltipBackground.Description": "要素にカーソルを合わせたときに表示されるツールチップの背景として使用される色。",
   "ToolbarProfilesWindow.Title": "ツールバープロファイル",
   "ToolbarProfilesWindow.UseJobAssociatedProfiles.Name": "ジョブベースのプロファイルを使用する",
   "ToolbarProfilesWindow.UseJobAssociatedProfiles.Description": "現在のジョブに基づいてプロファイルを自動的に切り替えます。このオプションを有効にすると、アクティブなプロファイルセレクタが上書きされ、代わりにジョブ固有のプロファイルが使用されます。",
