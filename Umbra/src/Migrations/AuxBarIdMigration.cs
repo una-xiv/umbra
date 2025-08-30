@@ -30,6 +30,11 @@ public partial class AuxBarIdMigration() : ConfigMigration(1)
             ObjectPatcher profiles = context.Profile.GetObjectFromJson("Toolbar.WidgetProfiles");
 
             foreach (var profileName in profiles.Keys) {
+                // Hotfix - Somehow users have empty profiles in their config.
+                if (!profiles.IsString(profileName) || string.IsNullOrEmpty(profiles.GetValue<string>(profileName))) {
+                    continue;
+                }
+
                 Log($"Migrating widgets from profile \"{profileName}\"...");
                 ObjectPatcher widgetsDict = profiles.GetObjectDeflate64(profileName);
                 MigrateProfile(widgetsDict);
@@ -54,22 +59,22 @@ public partial class AuxBarIdMigration() : ConfigMigration(1)
         auxBarsArray.ForEachObject((bar, index) => {
             string currentId = bar.GetValue<string>("Id")!;
             auxBarLookupTable[currentId] = bar;
-            
+
             // Only process legacy aux bars with legacy IDs.
-            if (! LegacyAuxIdRegex().IsMatch(currentId)) return;
-            
+            if (!LegacyAuxIdRegex().IsMatch(currentId)) return;
+
             // Remove the bar if there are no widgets assigned to it.
             if (!_globalAuxIdMap.TryGetValue(currentId, out var newId)) {
                 auxBarIndicesToRemove.Add(index);
                 Log($"Removing Aux Bar '{bar.GetValue<string>("Name")}' with legacy ID '{currentId}' as it has no assigned widgets.");
                 return;
             }
-            
+
             // Update the ID.
             bar.Set("Id", newId);
             Log($" - Migrated Aux Bar '{bar.GetValue<string>("Name")}' from legacy ID '{currentId}' to '{newId}'.");
         });
-        
+
         // Remove any aux bars that are no longer needed.
         if (auxBarIndicesToRemove.Count > 0) {
             foreach (var index in auxBarIndicesToRemove.OrderByDescending(i => i)) {
@@ -96,7 +101,7 @@ public partial class AuxBarIdMigration() : ConfigMigration(1)
             newIndex++;
             yPos += 50;
         }
-        
+
         // Save the updated aux bar array back to the profile.
         profile.SetArrayAsJson("AuxBar.Data", auxBarsArray);
     }
