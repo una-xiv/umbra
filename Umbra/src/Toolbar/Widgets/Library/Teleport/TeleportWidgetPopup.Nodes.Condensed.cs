@@ -17,7 +17,7 @@ internal partial class TeleportWidgetPopup
         CondensedSidePanelNode.AppendChild(new() { ClassList = ["side-panel-spacer"], SortIndex = int.MinValue });
         
         Node contentsWrapper = new() {
-            ClassList  = ["contents"],
+            ClassList  = ["contents", "scrollbars"],
             ChildNodes = [new() { ClassList = ["list"] }],
         };
 

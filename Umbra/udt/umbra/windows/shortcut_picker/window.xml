@@ -6,10 +6,12 @@
                 <string-input-node id="Search" max-length="128" immediate="true"/>
             </node>
         </node>
-        <node id="ItemList" overflow="false"/>
+        <node id="ItemList" class="scrollbars" overflow="false"/>
     </node>
 
     <![CDATA[
+    @import "globals";
+
     #main {
         auto-size: grow;
         flow: vertical;

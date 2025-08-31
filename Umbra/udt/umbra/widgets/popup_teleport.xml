@@ -11,6 +11,8 @@
     </node>
     
     <![CDATA[
+    @import "globals";
+
     #condensed-ui {
         is-visible: false;
     }

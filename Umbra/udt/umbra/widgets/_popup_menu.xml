@@ -2,6 +2,8 @@
     <node class="popup"/>
     
     <![CDATA[
+    @import "globals";
+
     .popup {
         flow: vertical;
         gap: 2;

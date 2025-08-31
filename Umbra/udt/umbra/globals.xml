@@ -1,6 +1,7 @@
 ﻿<udt>
     <![CDATA[
     .scrollbars {
+        scrollbar-track-color: "Window.ScrollbarTrack";
         scrollbar-thumb-color: "Window.ScrollbarThumb";
         scrollbar-thumb-hover-color: "Window.ScrollbarThumbHover";
         scrollbar-thumb-active-color: "Window.ScrollbarThumbActive";

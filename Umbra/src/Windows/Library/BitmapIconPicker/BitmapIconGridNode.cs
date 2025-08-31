@@ -43,7 +43,7 @@ public class BitmapIconGridNode : Node
     {
         Selected  = selected;
         NodeValue = " ";
-        ClassList = ["fa-icon-grid"];
+        ClassList = ["fa-icon-grid", "scrollbars"];
 
         FilterIconListInternal();
     }
@@ -66,6 +66,10 @@ public class BitmapIconGridNode : Node
         ImGui.PushStyleVar(ImGuiStyleVar.FramePadding, new Vector2(0, 0));
         ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, new Vector2(0, 0));
         ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(8 * ScaleFactor));
+        ImGui.PushStyleColor(ImGuiCol.ScrollbarBg, Color.GetNamedColor("Window.ScrollbarTrack"));
+        ImGui.PushStyleColor(ImGuiCol.ScrollbarGrab, Color.GetNamedColor("Window.ScrollbarThumb"));
+        ImGui.PushStyleColor(ImGuiCol.ScrollbarGrabHovered, Color.GetNamedColor("Window.ScrollbarThumbHover"));
+        ImGui.PushStyleColor(ImGuiCol.ScrollbarGrabActive, Color.GetNamedColor("Window.ScrollbarThumbActive"));
         ImGui.SetCursorScreenPos(pos);
 
         if (ImGui.BeginChild("BitmapIconPickerIconGrid", size.ToVector2(), false, ImGuiWindowFlags.NoMove)) {
@@ -74,6 +78,7 @@ public class BitmapIconGridNode : Node
 
         ImGui.EndChild();
         ImGui.PopStyleVar(3);
+        ImGui.PopStyleColor(4);
     }
 
     private void FilterIconList()

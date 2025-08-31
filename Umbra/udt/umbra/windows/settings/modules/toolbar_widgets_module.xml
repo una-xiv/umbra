@@ -3,7 +3,7 @@
     
     <node id="main">
         <node class="list-panel">
-            <node class="list" overflow="false">
+            <node class="list scrollbars" overflow="false">
                 <node id="bar-list"/>
             </node>
             <node class="footer">
@@ -21,7 +21,7 @@
     </node>
     
     <template name="aux-config">
-        <node class="config" overflow="false">
+        <node class="config scrollbars" overflow="false">
             <node class="list">
                 <string-input-node class="input-name" label="_L(Settings.WidgetsModule.Aux.Name.Name)"/>
                 <separator label="_L(Settings.WidgetsModule.Aux.Positioning)"/>
@@ -80,7 +80,6 @@
                 flow: vertical;
                 auto-size: grow;
                 gap: 8;
-                scrollbar-track-color: 0;
                 
                 & > #bar-list {
                     flow: vertical;
@@ -166,7 +165,6 @@
                     auto-size: grow;
                     flow: vertical;
                     background-color: "Window.Background";
-                    scrollbar-track-color: 0;
                     stroke-color: "Input.Background";
                     stroke-width: 1;
                     border-radius: 5;

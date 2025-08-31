@@ -1,7 +1,7 @@
 ﻿<udt>
     <node class="column">
         <node class="header" value="${label}"/>
-        <node class="widgets"
+        <node class="widgets scrollbars"
               overflow="false"
               sortable="true"
               sortable-group-id="widgets-column"
@@ -41,7 +41,6 @@
         & > .widgets {
             flow: vertical;
             auto-size: grow;
-            scrollbar-track-color: 0;
             padding: 8;
             gap: 8;
             stroke-width: 1;

@@ -48,7 +48,6 @@
                 background-color: "Widget.PopupBackground.Gradient2";
                 border-radius: 7;
                 rounded-corners: top-right bottom-right;
-                drop-shadow: 0 0 8 8;
             }
             
             & > .header {

@@ -402,6 +402,8 @@ internal class UmbraColors
         Color.AssignByName("Misc.SpiritbondBar",                  0xFFb98e4c);
         Color.AssignByName("Misc.CompleteSpiritbondBar",          0xFFD0D0D0);
         Color.AssignByName("Misc.MaxLevelIndicator",              0xFF62A5F5);
+        Color.AssignByName("Misc.TooltipBackground",              0xFF353535);
+        Color.AssignByName("Misc.TooltipText",                    0xFFCACACA);
     }
 
     private static void OnConfigProfileChanged(string _)
