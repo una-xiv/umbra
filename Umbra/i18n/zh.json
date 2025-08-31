@@ -1516,6 +1516,8 @@
   "Color.Misc.MaxLevelIndicator.Description": "用于指示最大工作等级的颜色。",
   "Color.Misc.TooltipBackground.Name": "工具提示背景",
   "Color.Misc.TooltipBackground.Description": "当鼠标悬停在元素上时用作工具提示背景的颜色。",
+  "Color.Misc.TooltipText.Name": "工具提示文本颜色",
+  "Color.Misc.TooltipText.Description": "当鼠标悬停在元素上时，用作工具提示文本颜色的颜色。",
   "ToolbarProfilesWindow.Title": "工具栏配置",
   "ToolbarProfilesWindow.UseJobAssociatedProfiles.Name": "使用基于工作岗位的配置",
   "ToolbarProfilesWindow.UseJobAssociatedProfiles.Description": "根据您当前的工作岗位自动切换配置。启用此选项将覆盖活动配置选择器，并使用特定工作岗位的配置。",

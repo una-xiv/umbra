@@ -1516,6 +1516,8 @@
   "Color.Misc.MaxLevelIndicator.Description": "Color used to indicate the maximum job level.",
   "Color.Misc.TooltipBackground.Name": "Tooltip Background",
   "Color.Misc.TooltipBackground.Description": "Color used as background for tooltips when hovering elements.",
+  "Color.Misc.TooltipText.Name": "Tooltip Text Color",
+  "Color.Misc.TooltipText.Description": "Color used as text color for tooltips when hovering elements.",
   "ToolbarProfilesWindow.Title": "Toolbar Profiles",
   "ToolbarProfilesWindow.UseJobAssociatedProfiles.Name": "Use job-based profiles",
   "ToolbarProfilesWindow.UseJobAssociatedProfiles.Description": "Automatically switch profiles based on your current job. Enabling this option will override the active profile selector and instead use job-specific profiles.",

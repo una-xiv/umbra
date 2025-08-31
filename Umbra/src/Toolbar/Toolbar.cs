@@ -11,7 +11,7 @@ internal sealed partial class Toolbar(AuxBarManager auxBars, IPlayer player, Umb
         if (!visibility.IsToolbarVisible()) return;
 
         Node.TooltipBackgroundColor = Color.GetNamedColor("Misc.TooltipBackground");
-        Node.TooltipTextColor       = Color.GetNamedColor("Window.TextMuted");
+        Node.TooltipTextColor       = Color.GetNamedColor("Misc.TooltipText");
 
         UpdateToolbarWidth();
         UpdateToolbarNodeClassList();
