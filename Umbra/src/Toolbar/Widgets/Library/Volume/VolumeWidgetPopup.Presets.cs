@@ -15,7 +15,7 @@ internal sealed partial class VolumeWidgetPopup
     {
         return [
             new StringWidgetConfigVariable("StoredPresets", "", null, "{}", 4096) { IsHidden = true },
-            new StringWidgetConfigVariable("CurrentPresetId", "", null, "") { IsHidden = true },
+            new StringWidgetConfigVariable("CurrentPresetId", "", null, "") { IsHidden       = true },
         ];
     }
 
@@ -23,7 +23,7 @@ internal sealed partial class VolumeWidgetPopup
     {
         if (_parentWidget == null) {
             _parentWidget = widget;
-            
+
             string presetDataStr = widget.GetConfigValue<string>("StoredPresets");
 
             try {
@@ -34,13 +34,48 @@ internal sealed partial class VolumeWidgetPopup
             } catch {
                 CreateDefaultPresets();
             }
-            
+
             string id = widget.GetConfigValue<string>("CurrentPresetId");
-        
+
             if (string.Empty != id) {
                 SetActivePreset(id, false);
             }
         }
+    }
+
+    private void ForcePresetSync()
+    {
+        if (string.IsNullOrEmpty(_currentPresetId)) return;
+        if (!_presets.TryGetValue(_currentPresetId, out var currentPreset)) return;
+
+        var shouldFlush = false;
+
+        foreach (var channel in _channels) {
+            shouldFlush |= EnsurePresetSync(currentPreset.Mutes, channel.MuteConfigName, _gameConfig.System.GetBool);
+            shouldFlush |= EnsurePresetSync(currentPreset.Bgs, channel.BgConfigName, _gameConfig.System.GetBool);
+            shouldFlush |= EnsurePresetSync(currentPreset.Volumes, channel.VolumeConfigName, name => (int)_gameConfig.System.GetUInt(name));
+        }
+        
+        foreach (var config in currentPreset.Configs) {
+            shouldFlush |= EnsurePresetSync(currentPreset.Configs, config.Key, _gameConfig.System.GetBool);
+        }
+
+        if (shouldFlush) FlushPresets();
+    }
+
+    private static bool EnsurePresetSync<T>(IDictionary<string, T> dict, string key, Func<string, T> getValue)
+    {
+        var value = getValue(key);
+
+        if (!dict.TryGetValue(key, out var current)) {
+            dict[key] = value;
+            return true;
+        }
+
+        if (EqualityComparer<T>.Default.Equals(current, value)) return false;
+
+        dict[key] = value;
+        return true;
     }
 
     private void SetActivePreset(string id, bool persist = true)
@@ -48,7 +83,7 @@ internal sealed partial class VolumeWidgetPopup
         if (id != string.Empty && id == _currentPresetId) {
             id = "";
         }
-        
+
         foreach (var presetButton in Node.QuerySelectorAll(".preset")) {
             presetButton.ToggleClass("inactive", presetButton.Id != id);
         }
@@ -63,11 +98,11 @@ internal sealed partial class VolumeWidgetPopup
             Node.QuerySelector(".preset-info")!.Style.IsVisible = false;
             return;
         }
-        
+
         if (_presets.TryGetValue(id, out var preset)) {
             Node.QuerySelector(".preset-info")!.Style.IsVisible = true;
             Node.QuerySelector(".preset-name")!.NodeValue       = preset.Name;
-            
+
             foreach (var channel in _channels) {
                 if (preset.Volumes.TryGetValue(channel.VolumeConfigName, out var vol)) {
                     _gameConfig.System.Set(channel.VolumeConfigName, (uint)vol);
@@ -82,7 +117,7 @@ internal sealed partial class VolumeWidgetPopup
                     _gameConfig.System.Set(channel.BgConfigName, bg);
                 }
             }
-            
+
             foreach (var (configName, value) in preset.Configs) {
                 _gameConfig.System.Set(configName, value);
             }
@@ -100,7 +135,7 @@ internal sealed partial class VolumeWidgetPopup
         if (!_presets.TryGetValue(_currentPresetId, out var preset)) {
             return;
         }
-        
+
         Framework.Service<WindowManager>().Present("RenameVolumePreset", new PromptWindow(
             I18N.Translate("Widget.RenamePreset.Title"),
             I18N.Translate("Widget.RenamePreset.Description"),
@@ -117,7 +152,7 @@ internal sealed partial class VolumeWidgetPopup
             }
         });
     }
-    
+
     private void CreateDefaultPresets()
     {
         _presets = [];
@@ -229,7 +264,7 @@ internal sealed partial class VolumeWidgetPopup
             { "IsSoundSystemAlways", false },
             { "IsSoundPerformAlways", false },
         };
-        
+
         public Dictionary<string, bool> Configs { get; set; } = new() {
             { "SoundChocobo", false },
             { "SoundFieldBattle", false },

@@ -102,6 +102,8 @@ internal sealed partial class VolumeWidgetPopup : WidgetPopup
                 (int)_gameConfig.System.GetUInt(channel.VolumeConfigName)
             );
         }
+        
+        ForcePresetSync();
     }
 
     protected override void OnClose() { }
