@@ -19,7 +19,7 @@ public partial class AuxBarIdMigration() : ConfigMigration(1)
 
     protected override void Migrate(MigrationContext context)
     {
-        if (context.Profile.IsString("Toolbar.WidgetData")) {
+        if (context.Profile.IsString("Toolbar.WidgetData") && !string.IsNullOrEmpty(context.Profile.GetValue<string>("Toolbar.WidgetData"))) {
             Log("Migrating active profile widgets...");
             ObjectPatcher widgetsDict = context.Profile.GetObjectDeflate64("Toolbar.WidgetData");
             MigrateProfile(widgetsDict);
