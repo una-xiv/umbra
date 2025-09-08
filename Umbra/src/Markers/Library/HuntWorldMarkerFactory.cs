@@ -30,6 +30,11 @@ internal class HuntWorldMarkerFactory(IDataManager dataManager, IZoneManager zon
             ..DefaultFadeConfigVariables,
         ];
     }
+    
+    protected override void OnZoneChanged(IZone zone)
+    {
+        RemoveAllMarkers();
+    }
 
     [OnTick(interval: 100)]
     private unsafe void OnUpdate()
