@@ -44,6 +44,7 @@ internal sealed class SocietiesRepository : ISocietiesRepository, IDisposable
         { 17, 175 }, // Loporrits - Bestways Burrow
         { 18, 238 }, // Pelupelu - Dock Poga
         { 19, 206 }, // Mamool Ja - Mamook
+        { 20, 201 }, // Yok Huy - Worlar's Echo
     };
 
     private IDataManager DataManager { get; }
