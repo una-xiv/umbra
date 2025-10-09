@@ -36,7 +36,7 @@ internal class TreasureCofferMarkerFactory(IObjectTable objectTable, IZoneManage
         IZone        zone    = zoneManager.CurrentZone;
 
         foreach (IGameObject obj in objectTable) {
-            if (!obj.IsValid() || obj.ObjectKind != ObjectKind.Treasure || !obj.IsTargetable) continue;
+            if (!obj.IsValid() || (obj.ObjectKind != ObjectKind.Treasure && (obj.ObjectKind != ObjectKind.EventObj || obj.BaseId is not (2007357 or 2007358))) || !obj.IsTargetable) continue;
             unsafe {
                 var treasureObject = (TreasureObject*)obj.Address;
                 if (treasureObject->Flags.HasFlag(TreasureObject.TreasureFlags.FadedOut)) continue;
@@ -62,3 +62,4 @@ internal class TreasureCofferMarkerFactory(IObjectTable objectTable, IZoneManage
         RemoveMarkersExcept(usedIds);
     }
 }
+
