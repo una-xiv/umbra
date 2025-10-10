@@ -62,5 +62,3 @@ internal class TreasureCofferMarkerFactory(IObjectTable objectTable, IZoneManage
         RemoveMarkersExcept(usedIds);
     }
 }
-
-
