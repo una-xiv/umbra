@@ -71,6 +71,12 @@ internal partial class DtrSingleWidget(
         SetTooltip(DtrBarEntry.Tooltip?.TextValue);
     }
 
+    public override string GetInstanceName()
+    {
+        string title = GetConfigValue<string>("SelectedEntry");
+        return title.Length > 1 ? $"{base.GetInstanceName()} - {title}" : base.GetInstanceName();
+    }
+
     private void OnLeftClick(Node _)
     {
         if (DtrBarEntry is { HasClickAction: true }) {
