@@ -657,7 +657,7 @@ public abstract class StandardToolbarWidget(
         I18N.Translate("Widgets.Standard.Config.HorizontalPadding.Name"),
         I18N.Translate("Widgets.Standard.Config.HorizontalPadding.Description"),
         0,
-        0,
+        -500,
         500
     ) { Category = I18N.Translate("Widgets.Standard.Config.Category.General") };
 
