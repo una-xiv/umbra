@@ -74,7 +74,7 @@ internal partial class DtrSingleWidget(
     public override string GetInstanceName()
     {
         string title = GetConfigValue<string>("SelectedEntry");
-        return title.Length > 1 ? $"{base.GetInstanceName()} - {title}" : base.GetInstanceName();
+        return title.Length > 0 ? $"{base.GetInstanceName()} - {title}" : base.GetInstanceName();
     }
 
     private void OnLeftClick(Node _)
