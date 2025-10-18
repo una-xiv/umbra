@@ -847,6 +847,8 @@
   "Widget.DynamicMenu.ContextMenu.AddSeparator": "Add a separator",
   "Widget.DynamicMenu.ContextMenu.MoveUp": "Move Up",
   "Widget.DynamicMenu.ContextMenu.MoveDown": "Move Down",
+  "Widget.DynamicMenu.ContextMenu.MoveToTop": "Move To Top",
+  "Widget.DynamicMenu.ContextMenu.MoveToBottom": "Move To Bottom",
   "Widget.DynamicMenu.ContextMenu.Configure": "Configure",
   "Widget.DynamicMenu.ContextMenu.Remove": "Remove",
   "Widget.DynamicMenu.ContextMenu.EnableEditMode": "Enable edit mode",

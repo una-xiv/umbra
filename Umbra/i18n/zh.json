@@ -847,6 +847,8 @@
   "Widget.DynamicMenu.ContextMenu.AddSeparator": "添加分隔符",
   "Widget.DynamicMenu.ContextMenu.MoveUp": "向上移动",
   "Widget.DynamicMenu.ContextMenu.MoveDown": "向下移动",
+  "Widget.DynamicMenu.ContextMenu.MoveToTop": "移到顶部",
+  "Widget.DynamicMenu.ContextMenu.MoveToBottom": "移到底部",
   "Widget.DynamicMenu.ContextMenu.Configure": "配置",
   "Widget.DynamicMenu.ContextMenu.Remove": "移除",
   "Widget.DynamicMenu.ContextMenu.EnableEditMode": "启用编辑模式",

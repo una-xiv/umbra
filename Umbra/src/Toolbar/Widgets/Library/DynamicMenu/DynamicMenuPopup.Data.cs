@@ -16,28 +16,38 @@ internal sealed partial class DynamicMenuPopup
         OnEntriesChanged?.Invoke();
     }
 
-    private void MoveItemUp(DynamicMenuEntry entry)
+    private void MoveItemToIndex(DynamicMenuEntry entry, Func<int, int> indexMapper)
     {
         var index = Entries.IndexOf(entry);
-        if (index == 0) return;
+        if (index == -1) return;
+        var targetIndex = indexMapper(index);
+        if (targetIndex < 0 || targetIndex >= Entries.Count) return;
 
         Entries.RemoveAt(index);
-        Entries.Insert(index - 1, entry);
+        Entries.Insert(targetIndex, entry);
 
         Framework.DalamudFramework.Run(RebuildMenu);
         OnEntriesChanged?.Invoke();
     }
 
+    private void MoveItemToTop(DynamicMenuEntry entry)
+    {
+        MoveItemToIndex(entry, _ => 0);
+    }
+    
+    private void MoveItemToBottom(DynamicMenuEntry entry)
+    {
+        MoveItemToIndex(entry, _ => Entries.Count - 1);
+    }
+
+    private void MoveItemUp(DynamicMenuEntry entry)
+    {
+        MoveItemToIndex(entry, idx => idx - 1);
+    }
+
     private void MoveItemDown(DynamicMenuEntry entry)
     {
-        var index = Entries.IndexOf(entry);
-        if (index == Entries.Count - 1) return;
-
-        Entries.RemoveAt(index);
-        Entries.Insert(index + 1, entry);
-
-        Framework.DalamudFramework.Run(RebuildMenu);
-        OnEntriesChanged?.Invoke();
+        MoveItemToIndex(entry, idx => idx + 1);
     }
 
     private void RemoveItem(DynamicMenuEntry entry)
