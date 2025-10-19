@@ -42,7 +42,7 @@ internal class TreasureCofferMarkerFactory(IObjectTable objectTable, IZoneManage
                 if (treasureObject->Flags.HasFlag(TreasureObject.TreasureFlags.FadedOut)) continue;
             }
 
-            string key = $"TC_{zone.Id}_{(int)obj.Position.X}_{(int)obj.Position.Z}_{obj.DataId}";
+            string key = $"TC_{zone.Id}_{(int)obj.Position.X}_{(int)obj.Position.Z}_{obj.BaseId}";
             usedIds.Add(key);
 
             SetMarker(
