@@ -16,6 +16,9 @@ internal class EmoteChatIndicatorWidget(
 
     private IGameConfig GameConfig { get; } = Framework.Service<IGameConfig>();
 
+    protected override string DefaultSizingMode => SizingModeFixed;
+    protected override int    DefaultWidth      => 32;
+
     protected override IEnumerable<IWidgetConfigVariable> GetConfigVariables()
     {
         return [
