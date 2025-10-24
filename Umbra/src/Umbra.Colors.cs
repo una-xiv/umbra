@@ -194,7 +194,7 @@ internal class UmbraColors
             PersistColorProfiles();
 
             OnColorProfileAdded?.Invoke(name);
-            
+
             if (apply) Apply(name);
 
             return ImportResult.Success;
@@ -227,7 +227,7 @@ internal class UmbraColors
         if (isNew) {
             OnColorProfileAdded?.Invoke(name);
         }
-        
+
         if (ColorProfileName != name) Apply(name);
 
         if (_debounceTimer is not null) {
@@ -246,7 +246,7 @@ internal class UmbraColors
 
         ColorProfiles.Remove(name);
         PersistColorProfiles();
-        
+
         OnColorProfileRemoved?.Invoke(name);
 
         if (ColorProfileName == name) Apply("Umbra (built-in)");

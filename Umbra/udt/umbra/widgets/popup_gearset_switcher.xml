@@ -350,7 +350,7 @@
         }
 
         &:hover {
-            stroke-color: "Window.AccentColor";
+            stroke-color: "Input.BorderHover";
             transition-duration: 50;
         }
 
