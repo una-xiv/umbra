@@ -5,11 +5,11 @@
         </node>
         <node class="list"/>
     </node>
-    
+
     <template name="npc">
         <argument name="name"/>
         <argument name="icon"/>
-        
+
         <node class="npc">
             <node class="avatar">
                 <node class="icon" style="icon-id: ${icon};"/>
@@ -27,18 +27,18 @@
             <node class="bonus-icons"/>
         </node>
     </template>
-    
+
     <![CDATA[
     .popup {
         flow: vertical;
         margin: 2;
-        
+
         & > .header {
             auto-size: grow fit;
             padding: 4;
             border-color: "Widget.Border";
             border-width: 0 0 1 0;
-                
+
             & > .text {
                 auto-size: grow fit;
                 font-size: 10;
@@ -48,7 +48,7 @@
                 text-align: middle-center;
             }
         }
-        
+
         & > .list {
             flow: vertical;
             auto-size: grow fit;
@@ -56,7 +56,7 @@
             gap: 8;
         }
     }
-    
+
     .npc {
         gap: 8;
         auto-size: grow fit;
@@ -68,12 +68,12 @@
         transition-type: ease-out-sine;
         transition-duration: 150;
         border-radius: 5;
-        
+
         &:hover {
             transition-duration: 1;
-            stroke-color: "Window.AccentColor";
+            background-color: "Widget.PopupMenuBackgroundHover";
         }
-        
+
         & > .avatar {
             anchor: middle-left;
             padding: 3;
@@ -83,7 +83,7 @@
             stroke-width: 1;
             stroke-radius: 3;
             border-radius: 5;
-            
+
             & > .icon {
                 size: 28 32;
                 color: "Widget.PopupMenuTextMuted";
@@ -93,50 +93,50 @@
                 image-offset: -14 -12;
             }
         }
-        
+
         & > .info {
             anchor: middle-left;
             flow: vertical;
             auto-size: grow fit;
             gap: 4;
-            
+
             & > .name {
                 font-size: 13;
                 color: "Widget.PopupMenuText";
                 outline-color: "Widget.PopupMenuTextOutline";
                 outline-size: 1;
             }
-            
+
             & > .hearts {
                 gap: 4;
-                
+
                 & > .heart {
                     font: 2; // FontAwesome.
                     color: "Widget.PopupMenuTextMuted";
                     outline-color: "Widget.PopupMenuTextOutline";
                     outline-size: 1;
                     font-size: 13;
-                    
-                    &.filled { 
+
+                    &.filled {
                         opacity: 1;
-                        color: "Window.AccentColor";
+                        color: "Misc.CustomDeliveriesFilledHeart";
                         outline-color: 0;
                     }
-                    
-                    &.empty { 
+
+                    &.empty {
                         color: 0;
-                        outline-color: "Widget.PopupMenuText";
+                        outline-color: "Misc.CustomDeliveriesEmptyHeart";
                         outline-size: 2;
                         opacity: 0.3;
                     }
                 }
             }
         }
-        
+
         & > .bonus-icons {
             anchor: middle-left;
             gap: 4;
-            
+
             & > .bonus-icon {
                 size: 32 24;
                 uld-resource: "ui/uld/ContentsInfoSatisfaction";
