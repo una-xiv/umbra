@@ -8,6 +8,7 @@ public class JobInfo(ClassJob cj)
     public short  Level        { get; set; }
     public byte   XpPercent    { get; set; }
     public bool   IsMaxLevel   { get; set; }
+    public bool   IsMeister    { get; set; } = false;
 
     public JobCategory Category { get; } = cj.ClassJobCategory.RowId switch
     {

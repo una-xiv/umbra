@@ -56,6 +56,8 @@ internal sealed partial class GearsetSwitcherPopup
     private int _crafterGroupMaxChildren  = 3;
     private int _gathererGroupMaxChildren = 5;
 
+    private bool _showCrafterMeister = true;
+
     protected override void UpdateConfigVariables(ToolbarWidget widget)
     {
         // Popup general settings.
@@ -70,7 +72,7 @@ internal sealed partial class GearsetSwitcherPopup
         _buttonHeight           = widget.GetConfigValue<int>("PopupButtonHeight");
         _inverseHidePrefixLogic = widget.GetConfigValue<string>("FilterLogic") == "Show";
         _hidePrefixFromNames    = widget.GetConfigValue<bool>("HidePrefixFromNames");
-        
+
         // Group-specific settings.
         _showTankGroup            = widget.GetConfigValue<bool>("ShowTank");
         _showHealerGroup          = widget.GetConfigValue<bool>("ShowHealer");
@@ -107,5 +109,7 @@ internal sealed partial class GearsetSwitcherPopup
         _casterGroupMaxChildren   = widget.GetConfigValue<int>("MagicalRangedMaxItems");
         _crafterGroupMaxChildren  = widget.GetConfigValue<int>("CrafterMaxItems");
         _gathererGroupMaxChildren = widget.GetConfigValue<int>("GathererMaxItems");
+
+        _showCrafterMeister       = widget.GetConfigValue<bool>("ShowCrafterMeister");
     }
 }

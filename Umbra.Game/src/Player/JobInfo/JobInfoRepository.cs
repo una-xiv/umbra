@@ -44,7 +44,8 @@ internal sealed class JobInfoRepository : IDisposable
         {
             if (_expArrayId[jobInfo.Id] == -1) continue;
 
-            jobInfo.Level = ps->ClassJobLevels[_expArrayId[jobInfo.Id]];
+            jobInfo.Level     = ps->ClassJobLevels[_expArrayId[jobInfo.Id]];
+            jobInfo.IsMeister = ps->IsMeisterFlag(jobInfo.Id);
 
             // Blue Mage hack.
             if (jobInfo is { Id: 36, Level: 80 })
