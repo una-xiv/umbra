@@ -847,6 +847,8 @@
   "Widget.DynamicMenu.ContextMenu.AddSeparator": "Trennzeichen hinzufügen",
   "Widget.DynamicMenu.ContextMenu.MoveUp": "Nach oben verschieben",
   "Widget.DynamicMenu.ContextMenu.MoveDown": "Nach unten verschieben",
+  "Widget.DynamicMenu.ContextMenu.MoveToTop": "Nach oben verschieben",
+  "Widget.DynamicMenu.ContextMenu.MoveToBottom": "Nach unten verschieben",
   "Widget.DynamicMenu.ContextMenu.Configure": "Konfigurieren",
   "Widget.DynamicMenu.ContextMenu.Remove": "Entfernen",
   "Widget.DynamicMenu.ContextMenu.EnableEditMode": "Bearbeitungsmodus aktivieren",

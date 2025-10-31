@@ -847,6 +847,8 @@
   "Widget.DynamicMenu.ContextMenu.AddSeparator": "セパレーターを追加",
   "Widget.DynamicMenu.ContextMenu.MoveUp": "上に移動",
   "Widget.DynamicMenu.ContextMenu.MoveDown": "下に移動",
+  "Widget.DynamicMenu.ContextMenu.MoveToTop": "一番上に移動",
+  "Widget.DynamicMenu.ContextMenu.MoveToBottom": "一番下に移動",
   "Widget.DynamicMenu.ContextMenu.Configure": "設定",
   "Widget.DynamicMenu.ContextMenu.Remove": "削除",
   "Widget.DynamicMenu.ContextMenu.EnableEditMode": "編集モードを有効にする",

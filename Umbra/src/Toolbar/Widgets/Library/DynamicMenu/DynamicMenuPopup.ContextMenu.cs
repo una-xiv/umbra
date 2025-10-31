@@ -78,6 +78,10 @@ internal sealed partial class DynamicMenuPopup
                         }
                     },
                 },
+                new("MoveToTop") {
+                    Label   = I18N.Translate("Widget.DynamicMenu.ContextMenu.MoveToTop"),
+                    OnClick = () => MoveItemToTop(Entries[_selectedItemIndex!.Value]),
+                },
                 new("MoveUp") {
                     Label   = I18N.Translate("Widget.DynamicMenu.ContextMenu.MoveUp"),
                     OnClick = () => MoveItemUp(Entries[_selectedItemIndex!.Value]),
@@ -85,6 +89,10 @@ internal sealed partial class DynamicMenuPopup
                 new("MoveDown") {
                     Label   = I18N.Translate("Widget.DynamicMenu.ContextMenu.MoveDown"),
                     OnClick = () => MoveItemDown(Entries[_selectedItemIndex!.Value]),
+                },
+                new("MoveToBottom") {
+                    Label   = I18N.Translate("Widget.DynamicMenu.ContextMenu.MoveToBottom"),
+                    OnClick = () => MoveItemToBottom(Entries[_selectedItemIndex!.Value]),
                 },
                 new("Remove") {
                     Label   = I18N.Translate("Widget.DynamicMenu.ContextMenu.Remove"),
@@ -116,8 +124,10 @@ internal sealed partial class DynamicMenuPopup
         if (itemIndex != null) {
             var entry = Entries[itemIndex.Value];
             ContextMenu!.SetEntryDisabled("Configure", entry.Pt is not (null or "SM" or "IM"));
+            ContextMenu!.SetEntryDisabled("MoveToTop",    !CanMoveItemUp(Entries[itemIndex.Value]));
             ContextMenu!.SetEntryDisabled("MoveUp",    !CanMoveItemUp(Entries[itemIndex.Value]));
             ContextMenu!.SetEntryDisabled("MoveDown",  !CanMoveItemDown(Entries[itemIndex.Value]));
+            ContextMenu!.SetEntryDisabled("MoveToBottom",  !CanMoveItemDown(Entries[itemIndex.Value]));
         }
 
         ContextMenu!.Present();
