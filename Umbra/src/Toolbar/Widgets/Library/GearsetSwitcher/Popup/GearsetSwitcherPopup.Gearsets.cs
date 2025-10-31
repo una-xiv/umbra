@@ -10,8 +10,9 @@ internal sealed partial class GearsetSwitcherPopup
     {
         foreach (var gsNode in Node.QuerySelectorAll(".gearset")) {
             if (!(_nodeToGearset.TryGetValue(gsNode, out var gearset)) || !gearset.IsValid) continue;
-            var jobInfo = Player.GetJobInfo(gearset.JobId);
-            var barNode = gsNode.QuerySelector(".progress")!;
+            var jobInfo  = Player.GetJobInfo(gearset.JobId);
+            var barNode  = gsNode.QuerySelector(".progress")!;
+            var nameNode = gsNode.QuerySelector(".name")!;
 
             gsNode.ToggleClass("capped", jobInfo.IsMaxLevel);
             gsNode.ToggleClass("active", CurrentGearset?.Id == gearset.Id);
@@ -23,6 +24,9 @@ internal sealed partial class GearsetSwitcherPopup
             gsNode.ToggleClass("crafter", gearset.Category == GearsetCategory.Crafter);
             gsNode.ToggleClass("gatherer", gearset.Category == GearsetCategory.Gatherer);
 
+            if (_showCrafterMeister && jobInfo.IsMeister) {
+                nameNode.Style.Color = new(Color.GetNamedColor("Misc.CrafterMeisterColor"));
+            }
             if (gearset.IsMaxLevel) {
                 barNode.Style.IsVisible = false;
                 continue;
@@ -109,7 +113,7 @@ internal sealed partial class GearsetSwitcherPopup
         group.QuerySelector(".body")!.AppendChild(node);
         UpdateColumns();
     }
-    
+
     private string GetGearsetName(Gearset gearset)
     {
         bool hidePrefixFromNames = _hidePrefixFromNames;

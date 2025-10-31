@@ -10,6 +10,7 @@ internal sealed partial class GearsetSwitcherWidget
             ..GetWidgetConfigVariables(),
             ..GetPopupConfigVariables(),
             ConfigVariableProgressBarUseRoleColors(),
+            ConfigVariableShowCrafterMeister(),
         ];
     }
 
@@ -230,5 +231,15 @@ internal sealed partial class GearsetSwitcherWidget
     ) {
         Category = I18N.Translate("Widgets.Standard.Config.Category.ProgressBar"),
         DisplayIf = () => GetConfigValue<bool>("UseCustomProgressBarColor") == false,
+    };
+
+    private BooleanWidgetConfigVariable ConfigVariableShowCrafterMeister() => new(
+        "ShowCrafterMeister",
+        I18N.Translate("Widget.GearsetSwitcher.Config.ShowCrafterMeister.Name"),
+        I18N.Translate("Widget.GearsetSwitcher.Config.ShowCrafterMeister.Description"),
+        true
+    ) {
+        Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance"),
+        Group = I18N.Translate("Widget.ConfigCategory.GearsetRoleOptions", I18N.Translate("Widget.GearsetSwitcher.Role.Crafter")),
     };
 }

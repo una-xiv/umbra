@@ -194,7 +194,7 @@ internal class UmbraColors
             PersistColorProfiles();
 
             OnColorProfileAdded?.Invoke(name);
-            
+
             if (apply) Apply(name);
 
             return ImportResult.Success;
@@ -227,7 +227,7 @@ internal class UmbraColors
         if (isNew) {
             OnColorProfileAdded?.Invoke(name);
         }
-        
+
         if (ColorProfileName != name) Apply(name);
 
         if (_debounceTimer is not null) {
@@ -246,7 +246,7 @@ internal class UmbraColors
 
         ColorProfiles.Remove(name);
         PersistColorProfiles();
-        
+
         OnColorProfileRemoved?.Invoke(name);
 
         if (ColorProfileName == name) Apply("Umbra (built-in)");
@@ -404,6 +404,7 @@ internal class UmbraColors
         Color.AssignByName("Misc.MaxLevelIndicator",              0xFF62A5F5);
         Color.AssignByName("Misc.TooltipBackground",              0xFF353535);
         Color.AssignByName("Misc.TooltipText",                    0xFFCACACA);
+        Color.AssignByName("Misc.CrafterMeisterColor",            0xFFFF81AA);
     }
 
     private static void OnConfigProfileChanged(string _)
