@@ -1,8 +1,4 @@
-﻿using Dalamud.Game.ClientState.Objects.Types;
-using Dalamud.Utility;
-using FFXIVClientStructs.FFXIV.Client.Game.Event;
-using FFXIVClientStructs.FFXIV.Client.Game.Object;
-using FFXIVClientStructs.FFXIV.Client.Game.UI;
+﻿using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using Lumina.Excel.Sheets;
 using Lumina.Extensions;
 using ObjectKind = Dalamud.Game.ClientState.Objects.Enums.ObjectKind;
@@ -10,9 +6,7 @@ using ObjectKind = Dalamud.Game.ClientState.Objects.Enums.ObjectKind;
 namespace Umbra.Markers.Library;
 
 [Service]
-#pragma warning disable SeStringEvaluator
 internal class AetherCurrentsWorldMarkerFactory(IDataManager dataManager, ISeStringEvaluator seStringEvaluator, IZoneManager zoneManager) : WorldMarkerFactory
-#pragma warning restore SeStringEvaluator
 {
     /// <inheritdoc/>
     public override string Id { get; } = "AetherCurrents";
@@ -41,16 +35,12 @@ internal class AetherCurrentsWorldMarkerFactory(IDataManager dataManager, ISeStr
         foreach (var list in dataManager.GetExcelSheet<AetherCurrentCompFlgSet>().Where(c => c.Territory.RowId == zone.TerritoryId)) {
             foreach (var ac in list.AetherCurrents) {
                 if (!ac.IsValid || ac.Value.Quest.IsValid) continue;
-
-                var eObj = dataManager.GetExcelSheet<EObj>().FirstOrNull(e => e.Data == ac.RowId);
-                if (eObj == null) continue;
-
-                var level = dataManager.GetExcelSheet<Level>().FirstOrNull(l => l.Object.RowId == eObj.Value.RowId);
-                if (level == null) continue;
+                if (!dataManager.GetExcelSheet<EObj>().TryGetFirst(e => e.Data == ac.RowId, out var eObj)) continue;
+                if (!dataManager.GetExcelSheet<Level>().TryGetFirst(l => l.Object.RowId == eObj.RowId, out var level)) continue;
 
                 _aetherCurrents.Add(ac.RowId, new(
-                    seStringEvaluator.EvaluateFromAddon(2025, [ObjectKind.EventObj.GetObjStrId(eObj.Value.RowId)]).ExtractText().StripSoftHyphen(), 
-                    new(level.Value.X, level.Value.Y, level.Value.Z)
+                    seStringEvaluator.EvaluateObjStr(ObjectKind.EventObj, eObj.RowId), 
+                    new(level.X, level.Y, level.Z)
                 ));
             }
         }

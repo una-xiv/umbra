@@ -22,8 +22,6 @@ using Dalamud.IoC;
 
 namespace Umbra.Common;
 
-#pragma warning disable SeStringEvaluator
-
 internal sealed class DalamudServices
 {
     [PluginService] private IPluginLog Log { get; init; } = null!;

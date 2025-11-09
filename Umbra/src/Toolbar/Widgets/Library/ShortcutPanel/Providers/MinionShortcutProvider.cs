@@ -1,13 +1,10 @@
-﻿using Dalamud.Game;
-using Dalamud.Game.ClientState.Objects.Enums;
+﻿using Dalamud.Game.ClientState.Objects.Enums;
 using Dalamud.Utility;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using Lumina.Excel.Sheets;
 
 namespace Umbra.Widgets.Library.ShortcutPanel.Providers;
-
-#pragma warning disable SeStringEvaluator
 
 [Service]
 internal sealed class MinionShortcutProvider(IDataManager dataManager, ISeStringEvaluator evaluator) : AbstractShortcutProvider
