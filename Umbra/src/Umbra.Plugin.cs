@@ -28,6 +28,7 @@ internal sealed class Plugin : IDalamudPlugin
     public static string Name => "Umbra";
 
     [PluginService] private IClientState ClientState      { get; set; } = null!;
+    [PluginService] private IPlayerState PlayerState      { get; set; } = null!;
     [PluginService] private IFramework   DalamudFramework { get; set; } = null!;
     [PluginService] private IPluginLog   PluginLog        { get; set; } = null!;
     [PluginService] private IChatGui     ChatGui          { get; set; } = null!;
@@ -67,7 +68,7 @@ internal sealed class Plugin : IDalamudPlugin
     private void OnLogin()
     {
         Framework
-           .Compile(DalamudFramework, PluginInterface, ClientState.LocalContentId)
+           .Compile(DalamudFramework, PluginInterface, PlayerState.ContentId)
            .ContinueWith(task => {
                     if (task.IsFaulted) {
                         Logger.Error(
@@ -105,7 +106,7 @@ internal sealed class Plugin : IDalamudPlugin
                 if (ImGui.MenuItem("Draw Reflow & Repaint Boxes", string.Empty, Node.DrawDebugPaintAndReflowBoxes)) {
                     Node.DrawDebugPaintAndReflowBoxes = !Node.DrawDebugPaintAndReflowBoxes;
                 }
-                
+
                 ImGui.Separator();
                 if (ImGui.MenuItem("Open config directory")) {
                     Process.Start(new ProcessStartInfo {

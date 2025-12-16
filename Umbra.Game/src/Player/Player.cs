@@ -32,7 +32,7 @@ internal sealed class Player : IPlayer
     /// <summary>
     /// The name of the player.
     /// </summary>
-    public string Name => _clientState.LocalPlayer?.Name.TextValue ?? "Unnamed Player";
+    public string Name => _objectTable.LocalPlayer?.Name.TextValue ?? "Unnamed Player";
 
     /// <summary>
     /// The current online status ID.
@@ -249,6 +249,7 @@ internal sealed class Player : IPlayer
     public IPlayerInventory Inventory { get; }
 
     private readonly IClientState        _clientState;
+    private readonly IObjectTable        _objectTable;
     private readonly ICondition          _condition;
     private readonly IDataManager        _dataManager;
     private readonly IPartyList          _partyList;
@@ -259,6 +260,7 @@ internal sealed class Player : IPlayer
 
     public Player(
         IClientState         clientState,
+        IObjectTable         objectTable,
         ICondition           condition,
         IDataManager         dataManager,
         IEquipmentRepository equipmentRepository,
@@ -269,6 +271,7 @@ internal sealed class Player : IPlayer
     )
     {
         _clientState         = clientState;
+        _objectTable         = objectTable;
         _condition           = condition;
         _dataManager         = dataManager;
         _partyList           = partyList;
@@ -284,25 +287,25 @@ internal sealed class Player : IPlayer
     [OnTick]
     public unsafe void OnTick()
     {
-        if (null == _clientState.LocalPlayer || !_clientState.LocalPlayer.IsValid()) return;
+        if (null == _objectTable.LocalPlayer || !_objectTable.LocalPlayer.IsValid()) return;
 
         AgentDeepDungeonStatus* dds = AgentDeepDungeonStatus.Instance();
 
-        OnlineStatusId = _clientState.LocalPlayer.OnlineStatus.RowId; // Was .Id
-        IsMoving       = Vector3.Distance(Position, _clientState.LocalPlayer.Position) > 0.01f;
-        Position       = _clientState.LocalPlayer.Position;
-        Rotation       = _clientState.LocalPlayer.Rotation;
-        IsDead         = _clientState.LocalPlayer.IsDead;
+        OnlineStatusId = _objectTable.LocalPlayer.OnlineStatus.RowId; // Was .Id
+        IsMoving       = Vector3.Distance(Position, _objectTable.LocalPlayer.Position) > 0.01f;
+        Position       = _objectTable.LocalPlayer.Position;
+        Rotation       = _objectTable.LocalPlayer.Rotation;
+        IsDead         = _objectTable.LocalPlayer.IsDead;
         IsInPvP        = _clientState.IsPvPExcludingDen;
         IsInParty      = _partyList.Length > 0;
         IsInSanctuary  = TerritoryInfo.Instance()->InSanctuary;
-        JobId          = (byte)_clientState.LocalPlayer.ClassJob.RowId; // Was .Id
+        JobId          = (byte)_objectTable.LocalPlayer.ClassJob.RowId; // Was .Id
 
         if (dds != null && dds->IsAgentActive()) {
             JobId = (byte)dds->Data->ClassJobId;
         }
 
-        IsCasting = _clientState.LocalPlayer.IsCasting
+        IsCasting = _objectTable.LocalPlayer.IsCasting
             || _condition[ConditionFlag.Casting]
             || _condition[ConditionFlag.Casting87];
 
@@ -324,7 +327,7 @@ internal sealed class Player : IPlayer
         IsJumping = _condition[ConditionFlag.Jumping] || _condition[ConditionFlag.Jumping61];
         IsDiving  = _condition[ConditionFlag.Diving];
 
-        IsWeaponDrawn = _clientState.LocalPlayer.StatusFlags.HasFlag(StatusFlags.WeaponOut);
+        IsWeaponDrawn = _objectTable.LocalPlayer.StatusFlags.HasFlag(StatusFlags.WeaponOut);
 
         IsBoundByDuty = _condition[ConditionFlag.BoundByDuty]
             || _condition[ConditionFlag.BoundByDuty56]
@@ -345,10 +348,10 @@ internal sealed class Player : IPlayer
 
         // Unknown57 is the transient state the player is in after casting and before being actually mounted.
         CanUseTeleportAction  = ActionManager.Instance()->GetActionStatus(ActionType.Action, 5) == 0;
-        HomeWorldName         = _clientState.LocalPlayer.HomeWorld.Value.Name.ExtractText();
-        CurrentWorldName      = _clientState.LocalPlayer.CurrentWorld.Value.Name.ExtractText();
-        HomeDataCenterName    = _clientState.LocalPlayer.HomeWorld.Value.DataCenter.Value.Name.ExtractText();
-        CurrentDataCenterName = _clientState.LocalPlayer.CurrentWorld.Value.DataCenter.Value.Name.ExtractText();
+        HomeWorldName         = _objectTable.LocalPlayer.HomeWorld.Value.Name.ExtractText();
+        CurrentWorldName      = _objectTable.LocalPlayer.CurrentWorld.Value.Name.ExtractText();
+        HomeDataCenterName    = _objectTable.LocalPlayer.HomeWorld.Value.DataCenter.Value.Name.ExtractText();
+        CurrentDataCenterName = _objectTable.LocalPlayer.CurrentWorld.Value.DataCenter.Value.Name.ExtractText();
 
         var ps = PlayerState.Instance();
 

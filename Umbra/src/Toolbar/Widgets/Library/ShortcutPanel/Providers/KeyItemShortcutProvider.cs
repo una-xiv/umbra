@@ -67,7 +67,7 @@ internal sealed class KeyItemShortcutProvider(IDataManager dataManager) : Abstra
 
         ActionManager* am = ActionManager.Instance();
 
-        if (am->GetActionStatus(ActionType.KeyItem, id) == 0) am->UseAction(ActionType.KeyItem, id);
+        if (am->GetActionStatus(ActionType.EventItem, id) == 0) am->UseAction(ActionType.EventItem, id);
     }
 
     private unsafe List<EventItem> GetEventItemsFromInventory()

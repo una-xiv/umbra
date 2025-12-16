@@ -3,7 +3,7 @@ using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 namespace Umbra.Game;
 
 [Service]
-internal sealed class ZoneManager(ZoneFactory factory, IClientState clientState) : IZoneManager, IDisposable
+internal sealed class ZoneManager(ZoneFactory factory, IClientState clientState, IObjectTable objectTable) : IZoneManager, IDisposable
 {
     public event Action<IZone>? ZoneChanged;
 
@@ -41,7 +41,7 @@ internal sealed class ZoneManager(ZoneFactory factory, IClientState clientState)
         }
 
         // Don't do anything if the local player isn't available.
-        if (clientState.LocalPlayer == null) return;
+        if (objectTable.LocalPlayer == null) return;
 
         if (null == _zone || _zone.Id != clientState.MapId) {
             _zone = factory.GetZone(clientState.MapId);
