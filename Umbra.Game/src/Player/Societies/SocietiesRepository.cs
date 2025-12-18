@@ -1,4 +1,4 @@
-﻿/* Umbra.Game | (c) 2024 by Una         ____ ___        ___.
+/* Umbra.Game | (c) 2024 by Una         ____ ___        ___.
  * Licensed under the terms of AGPL-3  |    |   \ _____ \_ |__ _______ _____
  *                                     |    |   //     \ | __ \\_  __ \\__  \
  * https://github.com/una-xiv/umbra    |    |  /|  Y Y  \| \_\ \|  | \/ / __ \_
@@ -119,8 +119,8 @@ internal sealed class SocietiesRepository : ISocietiesRepository, IDisposable
         ushort              neededRep  = rankRow.RequiredReputation;
 
         if (tribeRow.Expansion.RowId != 0
-            && tribeRow.Unknown1 != 0
-            && QuestManager.IsQuestComplete(tribeRow.Unknown1)) {
+            && tribeRow.IntersocietalQuest.IsValid
+            && QuestManager.IsQuestComplete(tribeRow.IntersocietalQuest.RowId)) {
             rank++;
             rankName  = rankRow.Name.ExtractText();
             neededRep = 0;

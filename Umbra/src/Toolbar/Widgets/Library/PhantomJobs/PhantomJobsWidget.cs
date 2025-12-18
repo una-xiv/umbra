@@ -1,4 +1,4 @@
-﻿using FFXIVClientStructs.FFXIV.Client.Game.InstanceContent;
+using FFXIVClientStructs.FFXIV.Client.Game.InstanceContent;
 using Lumina.Excel.Sheets;
 
 namespace Umbra.Widgets.Library.PhantomJobs;
@@ -50,7 +50,7 @@ public class PhantomJobsWidget(
     protected override void OnLoad()
     {
         foreach (var job in Framework.Service<IDataManager>().GetExcelSheet<MKDSupportJob>()) {
-            var phJob  = new PhantomJob((byte)job.RowId, job.Unknown1.ExtractText(), job.RowId + 82271u);
+            var phJob  = new PhantomJob((byte)job.RowId, job.NameShort.ExtractText(), job.RowId + 82271u);
             var button = new MenuPopup.Button(phJob.Name) { Icon = phJob.IconId };
 
             button.OnClick += () => {
