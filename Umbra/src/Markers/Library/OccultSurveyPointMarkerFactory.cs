@@ -1,4 +1,4 @@
-﻿using FFXIVClientStructs.FFXIV.Client.Game.Event;
+using FFXIVClientStructs.FFXIV.Client.Game.Event;
 using FFXIVClientStructs.FFXIV.Client.Game.Object;
 using FFXIVClientStructs.FFXIV.Common.Math;
 using EventHandler = FFXIVClientStructs.FFXIV.Client.Game.Event.EventHandler;
@@ -51,8 +51,8 @@ public class OccultSurveyPointMarkerFactory(IZoneManager zoneManager) : WorldMar
             GameObject* obj = mgr->Objects.GameObjectIdSorted[i].Value;
             if (obj == null || obj->ObjectKind != ObjectKind.EventObj || !obj->GetIsTargetable()) continue;
 
-            EventHandler* ev = obj->EventHandler;
-            if (ev == null || !ev->UnkString0.ToString().Contains("CtsMkdRoaNotePlace")) continue;
+            CustomTalkEventHandler* ev = (CustomTalkEventHandler*)obj->EventHandler;
+            if (ev == null || ev->Info.EventId.ContentId != EventHandlerContent.CustomTalk || !ev->LuaClass.EqualToString("CtsMkdRoaNotePlace")) continue;
             
             var id = $"OSP_{obj->Position}";
             usedIds.Add(id);
