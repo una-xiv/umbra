@@ -1,4 +1,4 @@
-﻿using FFXIVClientStructs.FFXIV.Client.Game.UI;
+using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using Lumina.Excel.Sheets;
 using Lumina.Extensions;
 using ObjectKind = Dalamud.Game.ClientState.Objects.Enums.ObjectKind;
@@ -35,7 +35,7 @@ internal class AetherCurrentsWorldMarkerFactory(IDataManager dataManager, ISeStr
         foreach (var list in dataManager.GetExcelSheet<AetherCurrentCompFlgSet>().Where(c => c.Territory.RowId == zone.TerritoryId)) {
             foreach (var ac in list.AetherCurrents) {
                 if (!ac.IsValid || ac.Value.Quest.IsValid) continue;
-                if (!dataManager.GetExcelSheet<EObj>().TryGetFirst(e => e.Data == ac.RowId, out var eObj)) continue;
+                if (!dataManager.GetExcelSheet<EObj>().TryGetFirst(e => e.Data.RowId == ac.RowId, out var eObj)) continue;
                 if (!dataManager.GetExcelSheet<Level>().TryGetFirst(l => l.Object.RowId == eObj.RowId, out var level)) continue;
 
                 _aetherCurrents.Add(ac.RowId, new(
