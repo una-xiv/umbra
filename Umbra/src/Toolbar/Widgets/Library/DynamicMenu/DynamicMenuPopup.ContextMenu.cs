@@ -117,8 +117,10 @@ internal sealed partial class DynamicMenuPopup
         ContextMenu!.SetEntryVisible("DisableEditMode", EditModeEnabled);
         ContextMenu!.SetEntryVisible("EnableEditMode",  !EditModeEnabled);
         ContextMenu!.SetEntryVisible("Configure",       itemIndex != null);
+        ContextMenu!.SetEntryVisible("MoveToTop",       itemIndex != null);
         ContextMenu!.SetEntryVisible("MoveUp",          itemIndex != null);
         ContextMenu!.SetEntryVisible("MoveDown",        itemIndex != null);
+        ContextMenu!.SetEntryVisible("MoveToBottom",    itemIndex != null);
         ContextMenu!.SetEntryVisible("Remove",          itemIndex != null);
 
         if (itemIndex != null) {
