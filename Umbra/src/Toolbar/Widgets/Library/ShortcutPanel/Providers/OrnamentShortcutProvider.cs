@@ -30,6 +30,7 @@ internal sealed class OrnamentShortcutProvider(IDataManager dataManager) : Abstr
             var name = ornament.Singular.ExtractText();
             name = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(name);
 
+            if (string.IsNullOrEmpty(name)) continue;
             if (!string.IsNullOrEmpty(searchFilter) && !name.Contains(searchFilter, StringComparison.OrdinalIgnoreCase))
                 continue;
 
