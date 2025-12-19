@@ -27,6 +27,10 @@ internal sealed class EmoteShortcutProvider(IDataManager dataManager) : Abstract
             if (emote.TextCommand.ValueNullable == null) continue;
             if (!UIState.Instance()->IsEmoteUnlocked((ushort)emote.RowId)) continue;
 
+            // Skip the following emotes, they are the old versions that are no longer available but
+            // still in the sheets and "unlocked" for some reason.
+            if (emote.RowId is 218 or 219) continue;
+
             var name = emote.Name.ExtractText();
 
             if (string.IsNullOrEmpty(name)) continue;
