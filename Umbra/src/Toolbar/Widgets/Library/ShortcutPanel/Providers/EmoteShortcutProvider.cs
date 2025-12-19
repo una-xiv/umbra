@@ -28,6 +28,8 @@ internal sealed class EmoteShortcutProvider(IDataManager dataManager) : Abstract
             if (!UIState.Instance()->IsEmoteUnlocked((ushort)emote.RowId)) continue;
 
             var name = emote.Name.ExtractText();
+
+            if (string.IsNullOrEmpty(name)) continue;
             if (!string.IsNullOrEmpty(searchFilter) && !name.Contains(searchFilter, StringComparison.OrdinalIgnoreCase)) continue;
 
             shortcuts.Add(
