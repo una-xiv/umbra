@@ -1,6 +1,7 @@
 ﻿using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using FFXIVClientStructs.FFXIV.Component.GUI;
+using Lumina.Excel;
 using Lumina.Excel.Sheets;
 using Umbra.Widgets;
 
@@ -137,16 +138,18 @@ public class MsqWidget(
     {
         if (_currentQuest == null) return Tuple.Create(0, 0);
 
-        IDataManager dataManager = Framework.Service<IDataManager>();
-        ExVersion    expansion   = _currentQuest.Value.Expansion.Value;
-        bool         thisExOnly  = GetConfigValue<bool>("CurrentExpansionOnly");
+        IDataManager      dataManager = Framework.Service<IDataManager>();
+        RowRef<ExVersion> expansion   = _currentQuest.Value.Expansion;
+        bool              thisExOnly  = GetConfigValue<bool>("CurrentExpansionOnly");
 
         int total     = 0;
         int completed = 0;
 
         foreach (var st in dataManager.GetExcelSheet<ScenarioTree>()) {
             var quest = dataManager.GetExcelSheet<Quest>().GetRow(st.RowId);
-            if (thisExOnly && quest.Expansion.RowId != expansion.RowId) continue;
+
+            // expansion.IsValid is a check for patch days when the data is not available yet.
+            if (thisExOnly && expansion.IsValid && quest.Expansion.RowId != expansion.Value.RowId) continue;
 
             total++;
 
@@ -155,6 +158,6 @@ public class MsqWidget(
             }
         }
 
-        return Tuple.Create(completed + 1, total);
+        return Tuple.Create(completed, total);
     }
 }
