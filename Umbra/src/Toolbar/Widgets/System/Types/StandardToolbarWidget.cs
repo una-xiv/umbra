@@ -195,7 +195,8 @@ public abstract class StandardToolbarWidget(
         if (!HasProgressBarFeature() || !GetConfigValue<bool>(CvarNameShowProgressBar)) {
             ProgressBarNode.Style.IsVisible = false;
         } else {
-            ProgressBarNode.Style.IsVisible = GetConfigValue<bool>(CvarNameShowProgressBar) && ProgressBarVisibility;
+            bool hasValidNumericalBounds = ProgressBarNode.Minimum < ProgressBarNode.Maximum;
+            ProgressBarNode.Style.IsVisible = hasValidNumericalBounds && GetConfigValue<bool>(CvarNameShowProgressBar) && ProgressBarVisibility;
             ProgressBarNode.Direction = GetConfigValue<string>(CvarNameProgressBarFillDirection) switch {
                 "LeftToRight" => ProgressBarNode.FillDirection.LeftToRight,
                 "RightToLeft" => ProgressBarNode.FillDirection.RightToLeft,
