@@ -3,21 +3,20 @@ using System.Reflection;
 using System.Runtime.Loader;
 using Dalamud.Plugin;
 
-
 namespace Umbra.Plugins;
 
 internal class PluginLoadContext(DirectoryInfo directoryInfo) : AssemblyLoadContext(true)
 {
     private static Dictionary<string, Assembly> KnownAssemblies { get; } = new() {
-        ["Umbra"]              = typeof(Plugin).Assembly,
-        ["Umbra.Common"]       = typeof(Framework).Assembly,
-        ["Umbra.Game"]         = typeof(IPlayer).Assembly,
-        ["Una.Drawing"]        = typeof(Node).Assembly,
-        ["Dalamud"]            = typeof(IDalamudPluginInterface).Assembly,
-        ["Lumina"]             = typeof(Lumina.GameData).Assembly,
-        ["Lumina.Excel"]       = typeof(Lumina.Excel.Sheets.Action).Assembly,
-        ["ImGuiNET"]           = typeof(ImGui).Assembly,
-        ["FFXIVClientStructs"] = typeof(FFXIVClientStructs.FFXIV.Client.System.Framework.Framework).Assembly,
+        ["Umbra"]                  = typeof(Plugin).Assembly,
+        ["Umbra.Common"]           = typeof(Framework).Assembly,
+        ["Umbra.Game"]             = typeof(IPlayer).Assembly,
+        ["Una.Drawing"]            = typeof(Node).Assembly,
+        ["Dalamud"]                = typeof(IDalamudPluginInterface).Assembly,
+        ["Lumina"]                 = typeof(Lumina.GameData).Assembly,
+        ["Lumina.Excel"]           = typeof(Lumina.Excel.Sheets.Action).Assembly,
+        ["Dalamud.Bindings.ImGui"] = typeof(ImGui).Assembly,
+        ["FFXIVClientStructs"]     = typeof(FFXIVClientStructs.FFXIV.Client.System.Framework.Framework).Assembly,
     };
 
     internal Assembly LoadFromFile(string filePath)
