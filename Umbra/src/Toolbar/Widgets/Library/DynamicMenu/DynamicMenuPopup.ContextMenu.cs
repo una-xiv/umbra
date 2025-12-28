@@ -45,6 +45,13 @@ internal sealed partial class DynamicMenuPopup
                         AddEntry(entry, _selectedItemIndex);
                     },
                 },
+                new("AddCategory") {
+                    Label = I18N.Translate("Widget.DynamicMenu.ContextMenu.AddCategory"),
+                    OnClick = () => {
+                        DynamicMenuEntry entry = new() { Cg = true };
+                        AddEntry(entry, _selectedItemIndex);
+                    },
+                },
                 new("-"),
                 new("EnableEditMode") {
                     Label = I18N.Translate("Widget.DynamicMenu.ContextMenu.EnableEditMode"),
@@ -69,7 +76,9 @@ internal sealed partial class DynamicMenuPopup
                         if (_selectedItemIndex == null) return;
                         var item = Entries[_selectedItemIndex.Value];
 
-                        if (item.Cl == "-") {
+                        if (IsCategoryEntry(item)) {
+                            OpenCategoryEditor();
+                        } else if (item.Cl == "-") {
                             OpenSeparatorEditor();
                         } else if (item.Pt == null) {
                             OpenCustomItemEditor();
@@ -111,28 +120,39 @@ internal sealed partial class DynamicMenuPopup
             ContextMenu!.SetEntryVisible(provider.ShortcutType, EditModeEnabled);
         }
 
-        ContextMenu!.SetEntryVisible("AddCustomItem",   EditModeEnabled);
-        ContextMenu!.SetEntryVisible("AddSeparator",    EditModeEnabled);
-        ContextMenu!.SetEntryVisible("-",               EditModeEnabled);
-        ContextMenu!.SetEntryVisible("DisableEditMode", EditModeEnabled);
-        ContextMenu!.SetEntryVisible("EnableEditMode",  !EditModeEnabled);
-        ContextMenu!.SetEntryVisible("Configure",       itemIndex != null);
-        ContextMenu!.SetEntryVisible("MoveToTop",       itemIndex != null);
-        ContextMenu!.SetEntryVisible("MoveUp",          itemIndex != null);
-        ContextMenu!.SetEntryVisible("MoveDown",        itemIndex != null);
-        ContextMenu!.SetEntryVisible("MoveToBottom",    itemIndex != null);
-        ContextMenu!.SetEntryVisible("Remove",          itemIndex != null);
+        ContextMenu!.SetEntryVisible("AddCustomItem",           EditModeEnabled);
+        ContextMenu!.SetEntryVisible("AddSeparator",            EditModeEnabled);
+        ContextMenu!.SetEntryVisible("AddCategory",             EditModeEnabled);
+        ContextMenu!.SetEntryVisible("-",                       EditModeEnabled);
+        ContextMenu!.SetEntryVisible("DisableEditMode",         EditModeEnabled);
+        ContextMenu!.SetEntryVisible("EnableEditMode",          !EditModeEnabled);
+        ContextMenu!.SetEntryVisible("Configure",               itemIndex != null);
+        ContextMenu!.SetEntryVisible("MoveToTop",               itemIndex != null);
+        ContextMenu!.SetEntryVisible("MoveUp",                  itemIndex != null);
+        ContextMenu!.SetEntryVisible("MoveDown",                itemIndex != null);
+        ContextMenu!.SetEntryVisible("MoveToBottom",            itemIndex != null);
+        ContextMenu!.SetEntryVisible("Remove",                  itemIndex != null);
 
         if (itemIndex != null) {
             var entry = Entries[itemIndex.Value];
-            ContextMenu!.SetEntryDisabled("Configure", entry.Pt is not (null or "SM" or "IM"));
-            ContextMenu!.SetEntryDisabled("MoveToTop",    !CanMoveItemUp(Entries[itemIndex.Value]));
-            ContextMenu!.SetEntryDisabled("MoveUp",    !CanMoveItemUp(Entries[itemIndex.Value]));
-            ContextMenu!.SetEntryDisabled("MoveDown",  !CanMoveItemDown(Entries[itemIndex.Value]));
-            ContextMenu!.SetEntryDisabled("MoveToBottom",  !CanMoveItemDown(Entries[itemIndex.Value]));
+            ContextMenu!.SetEntryDisabled("Configure",          entry.Pt is not (null or "SM" or "IM"));
+            ContextMenu!.SetEntryDisabled("MoveToTop",          !CanMoveItemUp(Entries[itemIndex.Value]));
+            ContextMenu!.SetEntryDisabled("MoveUp",             !CanMoveItemUp(Entries[itemIndex.Value]));
+            ContextMenu!.SetEntryDisabled("MoveDown",           !CanMoveItemDown(Entries[itemIndex.Value]));
+            ContextMenu!.SetEntryDisabled("MoveToBottom",       !CanMoveItemDown(Entries[itemIndex.Value]));
+
+            if (IsCategoryEntry(entry)) {
+                foreach (var provider in Providers.GetAllProviders()) {
+                    ContextMenu!.SetEntryVisible(provider.ShortcutType, false);
+                }
+                ContextMenu!.SetEntryVisible("-",               false);
+                ContextMenu!.SetEntryVisible("AddCustomItem",   false);
+                ContextMenu!.SetEntryVisible("AddSeparator",    false);
+                ContextMenu!.SetEntryVisible("AddCategory",     false);
+            }
         }
 
-        ContextMenu!.Present();
+            ContextMenu!.Present();
     }
 
     private void OpenPickerWindow(AbstractShortcutProvider provider)

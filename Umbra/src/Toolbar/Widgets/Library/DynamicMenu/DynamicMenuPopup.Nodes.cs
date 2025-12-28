@@ -9,7 +9,46 @@ internal sealed partial class DynamicMenuPopup
         int itemIndex = Entries.IndexOf(entry);
         if (itemIndex == -1) return null;
 
-        if (entry.Ct == null && entry.Cl == "-") {
+        if (IsCategoryEntry(entry)) {
+            bool isExpanded = ExpandedCategoryEntry == entry;
+
+            Node category = new() {
+                ClassList = ["category"],
+                ChildNodes = [
+                    new() {
+                        ClassList = ["triangle"],
+                        NodeValue = isExpanded ? "▼" : "▶",
+                    }
+                ]
+            };
+
+            if (!string.IsNullOrEmpty(entry.Sl)) {
+                category.AppendChild(
+                    new() {
+                        ClassList = ["category-text"],
+                        NodeValue = entry.Sl,
+                    }
+                );
+            }
+
+            category.AppendChild(new() { ClassList = ["line"] });
+
+            Node categoryBase = new() {
+                ClassList = ["item", "category"],
+                SortIndex = itemIndex,
+                ChildNodes = [category],
+            };
+
+            categoryBase.OnMouseUp += _ => {
+                ExpandedCategoryEntry = isExpanded ? null : entry;
+                RebuildMenu();
+            };
+
+            categoryBase.OnRightClick += _ => OpenContextMenu(itemIndex);
+            return categoryBase;
+        }
+
+        if (IsSeparatorEntry(entry)) {
             Node separator = new() { 
                 ClassList = ["separator"],
                 ChildNodes = [new() { ClassList = ["line"] }]
