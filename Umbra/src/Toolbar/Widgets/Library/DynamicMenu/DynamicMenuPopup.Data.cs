@@ -357,6 +357,11 @@ internal sealed partial class DynamicMenuPopup
     [Serializable]
     public class DynamicMenuEntry
     {
+        /**
+        * Whether the entry is a category header.
+        */
+        public bool Cg { get; set; }
+
         /// <summary>
         /// The item label.
         /// Applicable to custom items only.

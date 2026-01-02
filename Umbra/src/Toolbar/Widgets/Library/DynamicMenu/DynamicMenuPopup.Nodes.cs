@@ -9,39 +9,46 @@ internal sealed partial class DynamicMenuPopup
         int itemIndex = Entries.IndexOf(entry);
         if (itemIndex == -1) return null;
 
-        if (IsCategory(entry)) {
-            string label = string.IsNullOrWhiteSpace(entry.Cl)
-                ? I18N.Translate("Widget.DynamicMenu.Category.DefaultLabel")
-                : entry.Cl;
+        if (IsCategoryEntry(entry)) {
+            bool isExpanded = ExpandedCategoryEntry == entry;
 
-            Node categoryNode = new() {
+            Node category = new() {
                 ClassList = ["category"],
                 ChildNodes = [
                     new() {
-                        ClassList = ["category-toggle"],
-                        NodeValue = entry.Ce ? "▼" : "▶",
-                    },
-                    new() {
-                        ClassList = ["category-label"],
-                        NodeValue = label,
-                    },
-                    new() { ClassList = ["category-line"] },
-                ],
+                        ClassList = ["triangle"],
+                        NodeValue = isExpanded ? "▼" : "▶",
+                    }
+                ]
             };
+
+            if (!string.IsNullOrEmpty(entry.Sl)) {
+                category.AppendChild(
+                    new() {
+                        ClassList = ["category-text"],
+                        NodeValue = entry.Sl,
+                    }
+                );
+            }
+
+            category.AppendChild(new() { ClassList = ["line"] });
 
             Node categoryBase = new() {
                 ClassList = ["item", "category"],
                 SortIndex = itemIndex,
-                ChildNodes = [categoryNode],
+                ChildNodes = [category],
             };
 
-            categoryBase.OnMouseUp += _ => ToggleCategoryExpanded(entry);
-            categoryBase.OnRightClick += _ => OpenContextMenu(itemIndex);
+            categoryBase.OnMouseUp += _ => {
+                ExpandedCategoryEntry = isExpanded ? null : entry;
+                RebuildMenu();
+            };
 
+            categoryBase.OnRightClick += _ => OpenContextMenu(itemIndex);
             return categoryBase;
         }
 
-        if (IsSeparator(entry)) {
+        if (IsSeparatorEntry(entry)) {
             Node separator = new() { 
                 ClassList = ["separator"],
                 ChildNodes = [new() { ClassList = ["line"] }]

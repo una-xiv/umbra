@@ -13,7 +13,7 @@ internal sealed partial class DynamicMenuPopup
         StringVariable labelVar = new("Label") {
             Name = I18N.Translate("Widget.DynamicMenu.CategoryEditor.Label.Name"),
             Description = I18N.Translate("Widget.DynamicMenu.CategoryEditor.Label.Description"),
-            Value = entry.Cl ?? "",
+            Value = entry.Sl ?? "",
             MaxLength = 100,
         };
 
@@ -21,12 +21,12 @@ internal sealed partial class DynamicMenuPopup
         VariablesEditorWindow window = new(I18N.Translate("Widget.DynamicMenu.CategoryEditor.Title"), variables, []);
 
         Framework
-            .Service<WindowManager>()
-            .Present(
+           .Service<WindowManager>()
+           .Present(
                 "CategoryEditor",
                 window,
                 _ => {
-                    entry.Cl = labelVar.Value;
+                    entry.Sl = labelVar.Value;
                     RebuildMenu();
                     OnEntriesChanged?.Invoke();
                 }
