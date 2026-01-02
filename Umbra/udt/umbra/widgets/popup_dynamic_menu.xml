@@ -159,9 +159,5 @@
             padding: 0 8 0 0;
         }
     }
-
-    .item.category-child {
-        margin: 0 4 0 32;
-    }
     ]]>
 </udt>

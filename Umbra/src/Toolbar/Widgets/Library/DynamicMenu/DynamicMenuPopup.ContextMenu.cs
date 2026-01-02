@@ -1,8 +1,6 @@
-﻿using Lumina.Data;
-using Umbra.Widgets.Library.ShortcutPanel.Providers;
+﻿using Umbra.Widgets.Library.ShortcutPanel.Providers;
 using Umbra.Widgets.Library.ShortcutPanel.Windows;
 using Umbra.Windows;
-using Umbra.Windows.Library.VariableEditor;
 
 namespace Umbra.Widgets;
 
@@ -44,13 +42,6 @@ internal sealed partial class DynamicMenuPopup
                     Label = I18N.Translate("Widget.DynamicMenu.ContextMenu.AddSeparator"),
                     OnClick = () => {
                         DynamicMenuEntry entry = new() { Cl = "-" };
-                        AddEntry(entry, _selectedItemIndex);
-                    },
-                },
-                new("AddCategory") {
-                    Label = I18N.Translate("Widget.DynamicMenu.ContextMenu.AddCategory"),
-                    OnClick = () => {
-                        DynamicMenuEntry entry = CreateCategoryEntry();
                         AddEntry(entry, _selectedItemIndex);
                     },
                 },
@@ -112,14 +103,6 @@ internal sealed partial class DynamicMenuPopup
                     Label   = I18N.Translate("Widget.DynamicMenu.ContextMenu.MoveToBottom"),
                     OnClick = () => MoveItemToBottom(Entries[_selectedItemIndex!.Value]),
                 },
-                new("MoveToCategory") {
-                    Label   = I18N.Translate("Widget.DynamicMenu.ContextMenu.MoveToCategory"),
-                    OnClick = () => OpenMoveToCategoryWindow(),
-                },
-                new("RemoveFromCategory") {
-                    Label   = I18N.Translate("Widget.DynamicMenu.ContextMenu.RemoveFromCategory"),
-                    OnClick = () => RemoveItemFromCategory(Entries[_selectedItemIndex!.Value]),
-                },
                 new("Remove") {
                     Label   = I18N.Translate("Widget.DynamicMenu.ContextMenu.Remove"),
                     OnClick = () => RemoveItem(Entries[_selectedItemIndex!.Value]),
@@ -132,14 +115,9 @@ internal sealed partial class DynamicMenuPopup
     private void OpenContextMenu(int? itemIndex = null)
     {
         _selectedItemIndex = itemIndex;
-        bool isEntrySelected = itemIndex != null;
-        DynamicMenuEntry? entry = isEntrySelected ? Entries[itemIndex!.Value] : null;
-        bool isCategory = entry != null && IsCategory(entry);
-        bool isSeparator = entry != null && IsSeparator(entry);
-        bool isItemInCategory = entry != null && IsInCategory(entry);
 
         foreach (var provider in Providers.GetAllProviders()) {
-            ContextMenu!.SetEntryVisible(provider.ShortcutType, EditModeEnabled && !isCategory);
+            ContextMenu!.SetEntryVisible(provider.ShortcutType, EditModeEnabled);
         }
 
         ContextMenu!.SetEntryVisible("AddCustomItem",           EditModeEnabled);
@@ -195,52 +173,6 @@ internal sealed partial class DynamicMenuPopup
                     };
 
                     AddEntry(entry, _selectedItemIndex);
-                }
-            );
-    }
-
-    private void OpenMoveToCategoryWindow()
-    {
-        if (_selectedItemIndex == null) return;
-        var entry = Entries[_selectedItemIndex.Value];
-        if (IsCategory(entry) || IsSeparator(entry)) return;
-
-        var categories = Entries.Where(IsCategory).ToList();
-        StringSelectVariable categoryVar = new("Category") {
-            Name = I18N.Translate("Widget.DynamicMenu.MoveToCategory.Label"),
-            Description = I18N.Translate("Widget.DynamicMenu.MoveToCategory.Description"),
-            Value = categories.FirstOrDefault()?.Ck ?? "CreateNew",
-            Choices = categories
-                .Where(category => !string.IsNullOrWhiteSpace(category.Ck))
-                .ToDictionary(
-                    category => category.Ck!,
-                    category => string.IsNullOrWhiteSpace(category.Cl)
-                        ? I18N.Translate("Widget.DynamicMenu.Category.DefaultLabel")
-                        : category.Cl!
-                ),
-        };
-
-        categoryVar.Choices.Add("CreateNew", I18N.Translate("Widget.DynamicMenu.MoveToCategory.CreateNew"));
-
-        List<Variable> variables = [categoryVar];
-        VariablesEditorWindow window = new(I18N.Translate("Widget.DynamicMenu.MoveToCategory.Title"), variables, []);
-
-        Framework
-            .Service<WindowManager>()
-            .Present(
-                "MoveToCategory",
-                window,
-                _ => {
-                    if (categoryVar.Value == "CreateNew") {
-                        var newCategory = CreateCategoryEntry();
-                        InsertCategoryNearEntry(newCategory, entry);
-                        MoveItemToCategory(entry, newCategory);
-                        return;
-                    }
-
-                    var categoryEntry = categories.FirstOrDefault(category => category.Ck == categoryVar.Value);
-                    if (categoryEntry == null) return;
-                    MoveItemToCategory(entry, categoryEntry);
                 }
             );
     }
