@@ -76,13 +76,6 @@ internal sealed partial class DynamicMenuPopup
             return separatorBase;
         }
 
-        if (IsInCategory(entry)) {
-            var parentCategory = GetParentCategory(entry);
-            if (parentCategory != null && !parentCategory.Ce) {
-                return null;
-            }
-        }
-
         Node textNode    = new() { ClassList = ["text"], InheritTags       = true };
         Node iconNode    = new() { ClassList = ["icon"], InheritTags       = true };
         Node icon2Node   = new() { ClassList = ["icon-sub"], InheritTags   = true };
@@ -117,10 +110,6 @@ internal sealed partial class DynamicMenuPopup
                 altTextNode,
             ]
         };
-
-        if (IsInCategory(entry)) {
-            node.ClassList.Add("category-child");
-        }
 
         if (entry is { Pt: not null, Pi: not null }) {
             AbstractShortcutProvider? provider = Providers.GetProvider(entry.Pt);
