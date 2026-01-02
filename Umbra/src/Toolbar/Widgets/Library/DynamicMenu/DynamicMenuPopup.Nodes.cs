@@ -9,46 +9,39 @@ internal sealed partial class DynamicMenuPopup
         int itemIndex = Entries.IndexOf(entry);
         if (itemIndex == -1) return null;
 
-        if (IsCategoryEntry(entry)) {
-            bool isExpanded = ExpandedCategoryEntry == entry;
+        if (IsCategory(entry)) {
+            string label = string.IsNullOrWhiteSpace(entry.Cl)
+                ? I18N.Translate("Widget.DynamicMenu.Category.DefaultLabel")
+                : entry.Cl;
 
-            Node category = new() {
+            Node categoryNode = new() {
                 ClassList = ["category"],
                 ChildNodes = [
                     new() {
-                        ClassList = ["triangle"],
-                        NodeValue = isExpanded ? "▼" : "▶",
-                    }
-                ]
-            };
-
-            if (!string.IsNullOrEmpty(entry.Sl)) {
-                category.AppendChild(
+                        ClassList = ["category-toggle"],
+                        NodeValue = entry.Ce ? "▼" : "▶",
+                    },
                     new() {
-                        ClassList = ["category-text"],
-                        NodeValue = entry.Sl,
-                    }
-                );
-            }
-
-            category.AppendChild(new() { ClassList = ["line"] });
+                        ClassList = ["category-label"],
+                        NodeValue = label,
+                    },
+                    new() { ClassList = ["category-line"] },
+                ],
+            };
 
             Node categoryBase = new() {
                 ClassList = ["item", "category"],
                 SortIndex = itemIndex,
-                ChildNodes = [category],
+                ChildNodes = [categoryNode],
             };
 
-            categoryBase.OnMouseUp += _ => {
-                ExpandedCategoryEntry = isExpanded ? null : entry;
-                RebuildMenu();
-            };
-
+            categoryBase.OnMouseUp += _ => ToggleCategoryExpanded(entry);
             categoryBase.OnRightClick += _ => OpenContextMenu(itemIndex);
+
             return categoryBase;
         }
 
-        if (IsSeparatorEntry(entry)) {
+        if (IsSeparator(entry)) {
             Node separator = new() { 
                 ClassList = ["separator"],
                 ChildNodes = [new() { ClassList = ["line"] }]
@@ -74,6 +67,13 @@ internal sealed partial class DynamicMenuPopup
 
             separatorBase.OnRightClick += _ => OpenContextMenu(itemIndex);
             return separatorBase;
+        }
+
+        if (IsInCategory(entry)) {
+            var parentCategory = GetParentCategory(entry);
+            if (parentCategory != null && !parentCategory.Ce) {
+                return null;
+            }
         }
 
         Node textNode    = new() { ClassList = ["text"], InheritTags       = true };
@@ -110,6 +110,10 @@ internal sealed partial class DynamicMenuPopup
                 altTextNode,
             ]
         };
+
+        if (IsInCategory(entry)) {
+            node.ClassList.Add("category-child");
+        }
 
         if (entry is { Pt: not null, Pi: not null }) {
             AbstractShortcutProvider? provider = Providers.GetProvider(entry.Pt);

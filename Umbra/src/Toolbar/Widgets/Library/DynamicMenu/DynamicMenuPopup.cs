@@ -19,8 +19,6 @@ internal sealed partial class DynamicMenuPopup : WidgetPopup
 
     protected override Node Node { get; }
 
-    private DynamicMenuEntry? ExpandedCategoryEntry { get; set; }
-
     private UdtDocument Document { get; } = UmbraDrawing.DocumentFrom("umbra.widgets.popup_dynamic_menu.xml");
     
     private ShortcutProviderRepository Providers      { get; } = Framework.Service<ShortcutProviderRepository>();
@@ -57,26 +55,7 @@ internal sealed partial class DynamicMenuPopup : WidgetPopup
     {
         ClearMenu();
 
-        if (ExpandedCategoryEntry != null && !Entries.Contains(ExpandedCategoryEntry)) {
-            ExpandedCategoryEntry = null;
-        }
-
-        DynamicMenuEntry? activeCategory = null;
-        bool isCategoryExpanded = false;
-
         foreach (var entry in Entries) {
-            if (IsCategoryEntry(entry)) {
-                activeCategory = entry;
-                isCategoryExpanded = ExpandedCategoryEntry == entry;
-            } else if (IsSeparatorEntry(entry)) {
-                activeCategory = null;
-                isCategoryExpanded = false;
-            }
-
-            if (activeCategory != null && !isCategoryExpanded && !IsCategoryEntry(entry)) {
-                continue;
-            }
-
             Node? node = CreateEntryNode(entry);
             if (node == null) continue;
 
@@ -122,14 +101,5 @@ internal sealed partial class DynamicMenuPopup : WidgetPopup
                 Logger.Warning($"Invalid custom entry type: {entry.Ct} for command: {cmd}");
                 break;
         }
-    }
-    private static bool IsCategoryEntry(DynamicMenuEntry entry)
-    {
-        return entry.Cg;
-    }
-
-    private static bool IsSeparatorEntry(DynamicMenuEntry entry)
-    {
-        return entry is { Ct: null, Cl: "-" } && !entry.Cg;
     }
 }
