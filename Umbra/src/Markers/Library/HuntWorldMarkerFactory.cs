@@ -87,7 +87,7 @@ internal class HuntWorldMarkerFactory(IDataManager dataManager, IZoneManager zon
                     Position           = new(p.X, p.Y + bc->Effects.CurrentFloatHeight, p.Z),
                     IconId             = GetMarkerIcon(nm.Value.Rank, bc->Character.IsHostile),
                     Label              = $"{rank} {name}",
-                    SubLabel           = bc->Character.InCombat ? I18N.Translate("Markers.Hunt.SubLabel.InCombat") : null,
+                    SubLabel           = bc->Character.InCombat ? I18N.Translate("Markers.SubLabel.InCombat") : null,
                     FadeDistance       = new(fadeDist, fadeDist + fadeAttn),
                     ShowOnCompass      = GetConfigValue<bool>("ShowOnCompass"),
                     MaxVisibleDistance = maxVisDistance,
@@ -106,7 +106,7 @@ internal class HuntWorldMarkerFactory(IDataManager dataManager, IZoneManager zon
 
                 bool inCombat = c->InCombat;
                 var (current, needed) = GetMarkBillKills(c);
-                string name = c->NameString + (needed > 0 ? $" ({current}/{needed})" : string.Empty);
+                string name = (needed > 0 ? $"[{current}/{needed}] " : string.Empty) + c->NameString;
 
                 var p = c->Position;
                 var id = $"MHT_{c->EntityId}";
@@ -120,7 +120,7 @@ internal class HuntWorldMarkerFactory(IDataManager dataManager, IZoneManager zon
                         Position           = new(p.X, p.Y + c->Effects.CurrentFloatHeight, p.Z),
                         IconId             = 60004,
                         Label              = name,
-                        SubLabel           = c->InCombat ? I18N.Translate("Markers.Hunt.SubLabel.InCombat") : null,
+                        SubLabel           = c->InCombat ? I18N.Translate("Markers.SubLabel.InCombat") : null,
                         FadeDistance       = new(fadeDist, fadeDist + fadeAttn),
                         ShowOnCompass      = GetConfigValue<bool>("ShowOnCompass"),
                         MaxVisibleDistance = maxVisDistance,
