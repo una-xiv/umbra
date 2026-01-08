@@ -66,7 +66,7 @@ internal class RelicWorldMarkerFactory : WorldMarkerFactory
         foreach (var chara in cm->BattleCharas) {
             Character* c = (Character*)chara.Value;
 
-            if (c == null || 0 == c->BaseId) continue;
+            if (c == null || 0 == c->BaseId || c->IsDead()) continue;
             if (IsMonsterNoteTarget.Invoke(relicNote, c) == 0) continue;
 
             bool inCombat = c->InCombat;
