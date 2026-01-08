@@ -86,14 +86,20 @@ internal sealed partial class DynamicMenuPopup
 
     private void AddEntry(DynamicMenuEntry entry, int? itemIndex = null)
     {
+        if (itemIndex != null && !IsCategory(entry) && string.IsNullOrWhiteSpace(entry.Cp)) {
+            var referenceEntry = Entries.ElementAtOrDefault(itemIndex.Value);
+            if (referenceEntry != null && IsInCategory(referenceEntry)) {
+                entry.Cp = referenceEntry.Cp;
+            }
+        }
+
         if (itemIndex == null) {
             Entries.Add(entry);
         } else {
             Entries.Insert(itemIndex.Value, entry);
         }
 
-        Framework.DalamudFramework.Run(RebuildMenu);
-        OnEntriesChanged?.Invoke();
+        NotifyEntriesChanged();
     }
 
     private void MoveEntryBlock(DynamicMenuEntry entry, int insertIndex)
@@ -121,8 +127,7 @@ internal sealed partial class DynamicMenuPopup
 
         Entries.InsertRange(insertIndex, block);
 
-        Framework.DalamudFramework.Run(RebuildMenu);
-        OnEntriesChanged?.Invoke();
+        NotifyEntriesChanged();
     }
 
     private void MoveItemToTop(DynamicMenuEntry entry)
@@ -242,8 +247,7 @@ internal sealed partial class DynamicMenuPopup
         int insertIndex = Entries.IndexOf(categoryEntry) + 1;
         Entries.InsertRange(insertIndex, categoryItems);
 
-        Framework.DalamudFramework.Run(RebuildMenu);
-        OnEntriesChanged?.Invoke();
+        NotifyEntriesChanged();
     }
 
     private void RemoveItem(DynamicMenuEntry entry)
@@ -258,15 +262,13 @@ internal sealed partial class DynamicMenuPopup
                 }
             }
 
-            Framework.DalamudFramework.Run(RebuildMenu);
-            OnEntriesChanged?.Invoke();
+            NotifyEntriesChanged();
             return;
         }
 
         Entries.Remove(entry);
 
-        Framework.DalamudFramework.Run(RebuildMenu);
-        OnEntriesChanged?.Invoke();
+        NotifyEntriesChanged();
     }
 
     private bool CanMoveItemUp(DynamicMenuEntry entry)
@@ -305,8 +307,7 @@ internal sealed partial class DynamicMenuPopup
             entry.Ce = false;
         }
 
-        Framework.DalamudFramework.Run(RebuildMenu);
-        OnEntriesChanged?.Invoke();
+        NotifyEntriesChanged();
     }
 
     private void MoveItemToCategory(DynamicMenuEntry entry, DynamicMenuEntry categoryEntry)
@@ -327,8 +328,7 @@ internal sealed partial class DynamicMenuPopup
             NormalizeCategoryItems(previousCategory);
         }
 
-        Framework.DalamudFramework.Run(RebuildMenu);
-        OnEntriesChanged?.Invoke();
+        NotifyEntriesChanged();
     }
 
     private void RemoveItemFromCategory(DynamicMenuEntry entry)
@@ -349,8 +349,7 @@ internal sealed partial class DynamicMenuPopup
             NormalizeCategoryItems(categoryId);
         }
 
-        Framework.DalamudFramework.Run(RebuildMenu);
-        OnEntriesChanged?.Invoke();
+        NotifyEntriesChanged();
     }
 
     // Contains short property names to reduce the size of the JSON data.

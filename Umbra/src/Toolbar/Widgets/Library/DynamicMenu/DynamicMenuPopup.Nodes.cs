@@ -96,7 +96,7 @@ internal sealed partial class DynamicMenuPopup
 
         Node node = new() {
             ClassList = ["item"],
-            SortIndex = Entries.IndexOf(entry),
+            SortIndex = itemIndex,
             Style     = new() { Size = new(0, EntryHeight) },
             ChildNodes = [
                 new() {

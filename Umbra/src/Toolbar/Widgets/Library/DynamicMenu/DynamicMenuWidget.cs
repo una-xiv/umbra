@@ -55,6 +55,7 @@ internal sealed partial class DynamicMenuWidget(
         Popup.EditModeEnabled  = GetConfigValue<bool>("EditModeEnabled");
         Popup.EntryHeight      = GetConfigValue<int>("MenuEntryHeight");
         Popup.EntryFontSize    = GetConfigValue<int>("MenuFontSize");
+        Popup.AltEntryFontSize = GetConfigValue<int>("MenuAltFontSize");
         Popup.ShowSubIcons     = GetConfigValue<bool>("ShowSubIcons");
         Popup.ShowItemCount    = GetConfigValue<bool>("ShowItemCount");
 

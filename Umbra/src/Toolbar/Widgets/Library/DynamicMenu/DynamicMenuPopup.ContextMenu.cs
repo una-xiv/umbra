@@ -136,8 +136,8 @@ internal sealed partial class DynamicMenuPopup
         }
 
         ContextMenu!.SetEntryVisible("AddCustomItem",       EditModeEnabled && !isCategory);
-        ContextMenu!.SetEntryVisible("AddSeparator",        EditModeEnabled && !isCategory);
-        ContextMenu!.SetEntryVisible("AddCategory",         EditModeEnabled && !isCategory);
+        ContextMenu!.SetEntryVisible("AddSeparator",        EditModeEnabled && !isCategory && !isItemInCategory);
+        ContextMenu!.SetEntryVisible("AddCategory",         EditModeEnabled && !isCategory && !isItemInCategory);
         ContextMenu!.SetEntryVisible("-",                   EditModeEnabled && !isCategory);
         ContextMenu!.SetEntryVisible("DisableEditMode",     EditModeEnabled);
         ContextMenu!.SetEntryVisible("EnableEditMode",      !EditModeEnabled);
