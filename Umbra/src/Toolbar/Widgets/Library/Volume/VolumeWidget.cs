@@ -18,9 +18,10 @@ internal sealed partial class VolumeWidget(
     public override VolumeWidgetPopup Popup { get; } = new();
 
     protected override StandardWidgetFeatures Features =>
-        StandardWidgetFeatures.Icon;
+        StandardWidgetFeatures.Icon |
+        StandardWidgetFeatures.Text;
 
-    protected override string DefaultSizingMode => SizingModeFixed;
+    protected override string DefaultSizingMode => SizingModeFit;
     protected override int    DefaultWidth      => 32;
 
     private readonly IGameConfig _gameConfig = Framework.Service<IGameConfig>();
@@ -28,6 +29,7 @@ internal sealed partial class VolumeWidget(
     protected override void OnLoad()
     {
         SetFontAwesomeIcon(FontAwesomeIcon.VolumeUp);
+        SetText("Volume");
 
         Node.OnRightClick += _ => ToggleMute();
     }
