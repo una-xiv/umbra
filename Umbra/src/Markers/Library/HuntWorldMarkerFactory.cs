@@ -1,4 +1,5 @@
-﻿using FFXIVClientStructs.FFXIV.Client.Game.Character;
+using FFXIVClientStructs.FFXIV.Client.Game.Character;
+using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using Lumina.Excel.Sheets;
 
 namespace Umbra.Markers.Library;
@@ -23,6 +24,7 @@ internal class HuntWorldMarkerFactory(IDataManager dataManager, IZoneManager zon
     {
         return [
             ..DefaultStateConfigVariables,
+            new BooleanMarkerConfigVariable("ShowBillMobs",  I18N.Translate("Markers.Hunt.ShowBillMobs"),  null, false),
             new BooleanMarkerConfigVariable("ShowB",  I18N.Translate("Markers.Hunt.ShowB"),  null, false),
             new BooleanMarkerConfigVariable("ShowA",  I18N.Translate("Markers.Hunt.ShowA"),  null, true),
             new BooleanMarkerConfigVariable("ShowS",  I18N.Translate("Markers.Hunt.ShowS"),  null, true),
@@ -85,12 +87,46 @@ internal class HuntWorldMarkerFactory(IDataManager dataManager, IZoneManager zon
                     Position           = new(p.X, p.Y + bc->Effects.CurrentFloatHeight, p.Z),
                     IconId             = GetMarkerIcon(nm.Value.Rank, bc->Character.IsHostile),
                     Label              = $"{rank} {name}",
-                    SubLabel           = bc->Character.InCombat ? " (In Combat)" : null,
+                    SubLabel           = bc->Character.InCombat ? I18N.Translate("Markers.Hunt.SubLabel.InCombat") : null,
                     FadeDistance       = new(fadeDist, fadeDist + fadeAttn),
                     ShowOnCompass      = GetConfigValue<bool>("ShowOnCompass"),
                     MaxVisibleDistance = maxVisDistance,
                 }
             );
+        }
+
+        if (GetConfigValue<bool>("ShowBillMobs")) {
+            ref var mobHunt = ref UIState.Instance()->MobHunt;
+
+            foreach (var chara in cm->BattleCharas) {
+                Character* c = (Character*)chara.Value;
+
+                if (c == null || 0 == c->BaseId) continue;
+                if (!mobHunt.IsHuntTarget(c)) continue;
+
+                bool inCombat = c->InCombat;
+                var (current, needed) = GetMarkBillKills(c);
+                string name = c->NameString + (needed > 0 ? $" ({current}/{needed})" : string.Empty);
+
+                var p = c->Position;
+                var id = $"MHT_{c->EntityId}";
+
+                activeIds.Add(id);
+
+                SetMarker(
+                    new() {
+                        Key                = id,
+                        MapId              = zoneManager.CurrentZone.Id,
+                        Position           = new(p.X, p.Y + c->Effects.CurrentFloatHeight, p.Z),
+                        IconId             = 60004,
+                        Label              = name,
+                        SubLabel           = c->InCombat ? I18N.Translate("Markers.Hunt.SubLabel.InCombat") : null,
+                        FadeDistance       = new(fadeDist, fadeDist + fadeAttn),
+                        ShowOnCompass      = GetConfigValue<bool>("ShowOnCompass"),
+                        MaxVisibleDistance = maxVisDistance,
+                    }
+                );
+            }
         }
 
         RemoveMarkersExcept(activeIds);
@@ -119,5 +155,30 @@ internal class HuntWorldMarkerFactory(IDataManager dataManager, IZoneManager zon
         uint iconOffset  = (uint)Math.Min(rank + 3, 4);
 
         return startOffset + iconOffset;
+    }
+
+    private unsafe (int current, int needed) GetMarkBillKills(Character* c)
+    {
+        ref var mobHunt = ref UIState.Instance()->MobHunt;
+        var nameId = c->NameId;
+
+        for (byte markIndex = 0; markIndex < mobHunt.AvailableMarkId.Length; markIndex++) {
+            var huntOrderRowId = mobHunt.GetObtainedHuntOrderRowId(markIndex);
+
+            if (!dataManager.GetSubrowExcelSheet<MobHuntOrder>().TryGetRow((uint)huntOrderRowId, out var orders))
+                continue;
+            
+            foreach (var (mobIndex, order) in orders.Index()) {
+                if (order.Target.Value.Name.RowId != nameId)
+                    continue;
+
+                var current = mobHunt.GetKillCount(markIndex, (byte)mobIndex);
+                var needed = order.NeededKills;
+
+                return (current, order.NeededKills);
+            }
+        }
+
+        return (0, 0);
     }
 }
