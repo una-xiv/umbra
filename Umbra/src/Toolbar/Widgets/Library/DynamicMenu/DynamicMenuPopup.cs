@@ -63,7 +63,7 @@ internal sealed partial class DynamicMenuPopup : WidgetPopup
         }
     }
 
-    private void NotifyEntriesChanged(bool useFrameworkThread = true)
+    private void NotifyEntriesChanged(bool useFrameworkThread = false)
     {
         if (useFrameworkThread) {
             Framework.DalamudFramework.Run(RebuildMenu);

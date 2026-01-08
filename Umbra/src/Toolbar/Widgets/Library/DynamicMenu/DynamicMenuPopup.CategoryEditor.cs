@@ -27,7 +27,7 @@ internal sealed partial class DynamicMenuPopup
                 window,
                 _ => {
                     entry.Cl = labelVar.Value;
-                    NotifyEntriesChanged();
+                    NotifyEntriesChanged(true);
                 }
             );
     }

@@ -99,7 +99,7 @@ internal sealed partial class DynamicMenuPopup
             Entries.Insert(itemIndex.Value, entry);
         }
 
-        NotifyEntriesChanged();
+        NotifyEntriesChanged(true);;
     }
 
     private void MoveEntryBlock(DynamicMenuEntry entry, int insertIndex)
@@ -127,7 +127,7 @@ internal sealed partial class DynamicMenuPopup
 
         Entries.InsertRange(insertIndex, block);
 
-        NotifyEntriesChanged();
+        NotifyEntriesChanged(true);;
     }
 
     private void MoveItemToTop(DynamicMenuEntry entry)
@@ -247,7 +247,7 @@ internal sealed partial class DynamicMenuPopup
         int insertIndex = Entries.IndexOf(categoryEntry) + 1;
         Entries.InsertRange(insertIndex, categoryItems);
 
-        NotifyEntriesChanged();
+        NotifyEntriesChanged(true);;
     }
 
     private void RemoveItem(DynamicMenuEntry entry)
@@ -262,13 +262,13 @@ internal sealed partial class DynamicMenuPopup
                 }
             }
 
-            NotifyEntriesChanged();
+            NotifyEntriesChanged(true);;
             return;
         }
 
         Entries.Remove(entry);
 
-        NotifyEntriesChanged();
+        NotifyEntriesChanged(true);;
     }
 
     private bool CanMoveItemUp(DynamicMenuEntry entry)
@@ -307,7 +307,7 @@ internal sealed partial class DynamicMenuPopup
             entry.Ce = false;
         }
 
-        NotifyEntriesChanged();
+        NotifyEntriesChanged(true);;
     }
 
     private void MoveItemToCategory(DynamicMenuEntry entry, DynamicMenuEntry categoryEntry)
@@ -328,7 +328,7 @@ internal sealed partial class DynamicMenuPopup
             NormalizeCategoryItems(previousCategory);
         }
 
-        NotifyEntriesChanged();
+        NotifyEntriesChanged(true);;
     }
 
     private void RemoveItemFromCategory(DynamicMenuEntry entry)
@@ -349,7 +349,7 @@ internal sealed partial class DynamicMenuPopup
             NormalizeCategoryItems(categoryId);
         }
 
-        NotifyEntriesChanged();
+        NotifyEntriesChanged(true);;
     }
 
     // Contains short property names to reduce the size of the JSON data.

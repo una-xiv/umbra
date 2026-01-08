@@ -69,7 +69,7 @@ internal sealed partial class DynamicMenuPopup
                     entry.Cj = iconColorVar.Value;
                     entry.Ct = typeVar.Value;
                     entry.Cc = commandVar.Value;
-                    NotifyEntriesChanged();
+                    NotifyEntriesChanged(true);
                 }
             );
     }
