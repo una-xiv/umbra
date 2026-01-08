@@ -106,7 +106,7 @@ internal class HuntWorldMarkerFactory(IDataManager dataManager, IZoneManager zon
 
                 bool inCombat = c->InCombat;
                 var (current, needed) = GetMarkBillKills(c);
-                string name = c->NameString + (needed > 0 ? $" ({current}/{needed})" : string.Empty);
+                string name = (needed > 0 ? $"[{current}/{needed}] " : string.Empty) + c->NameString;
 
                 var p = c->Position;
                 var id = $"MHT_{c->EntityId}";
