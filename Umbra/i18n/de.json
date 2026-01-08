@@ -81,7 +81,7 @@
   "Markers.Hunt.ShowA": "A-Rang-Mobs anzeigen",
   "Markers.Hunt.ShowS": "S-Rang-Mobs anzeigen",
   "Markers.Hunt.ShowSS": "SS-Rang-Mobs anzeigen",
-  "Markers.Hunt.SubLabel.InCombat": "(Im Kampf)",
+  "Markers.SubLabel.InCombat": "(Im Kampf)",
   "Markers.MapLink.Name": "Angrenzende Bereichsmarkierungen",
   "Markers.MapLink.Description": "Zeigt Markierungen für angrenzende und instanzierte Bereiche an.",
   "Markers.MapLink.ShowAreaBoundaries.Name": "Zeige Gebietsgrenzen",

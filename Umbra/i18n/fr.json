@@ -81,7 +81,7 @@
   "Markers.Hunt.ShowA": "Afficher les mobs de rang A",
   "Markers.Hunt.ShowS": "Afficher les mobs de rang S",
   "Markers.Hunt.ShowSS": "Afficher les mobs de rang SS",
-  "Markers.Hunt.SubLabel.InCombat": "(En combat)",
+  "Markers.SubLabel.InCombat": "(En combat)",
   "Markers.MapLink.Name": "Marqueurs de zones adjacentes",
   "Markers.MapLink.Description": "Affiche des marqueurs pour les zones adjacentes et instanciées.",
   "Markers.MapLink.ShowAreaBoundaries.Name": "Afficher les frontières de zone",

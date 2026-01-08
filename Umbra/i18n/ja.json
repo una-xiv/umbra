@@ -81,7 +81,7 @@
   "Markers.Hunt.ShowA": "Aランクモブを表示",
   "Markers.Hunt.ShowS": "Sランクモブを表示",
   "Markers.Hunt.ShowSS": "SSランクモブを表示",
-  "Markers.Hunt.SubLabel.InCombat": "（戦闘中）",
+  "Markers.SubLabel.InCombat": "（戦闘中）",
   "Markers.MapLink.Name": "隣接エリアのマーカー",
   "Markers.MapLink.Description": "隣接エリアやインスタンスエリアの場所を示すマーカーを表示します。",
   "Markers.MapLink.ShowAreaBoundaries.Name": "エリア境界を表示",

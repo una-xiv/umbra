@@ -81,7 +81,7 @@
   "Markers.Hunt.ShowA": "Show A-rank mobs",
   "Markers.Hunt.ShowS": "Show S-rank mobs",
   "Markers.Hunt.ShowSS": "Show SS-rank mobs",
-  "Markers.Hunt.SubLabel.InCombat": "(In Combat)",
+  "Markers.SubLabel.InCombat": "(In Combat)",
   "Markers.MapLink.Name": "Adjacent Area Markers",
   "Markers.MapLink.Description": "Shows markers for locations to adjacent and instanced areas.",
   "Markers.MapLink.ShowAreaBoundaries.Name": "Show area boundaries",
