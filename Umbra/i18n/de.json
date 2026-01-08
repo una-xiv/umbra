@@ -70,6 +70,8 @@
   "Markers.Fate.Description": "Zeigt Weltmarkierungen für die aktiven FATEs in der aktuellen Zone an.",
   "Markers.Flag.Name": "Flaggenmarkierung",
   "Markers.Flag.Description": "Zeigt eine Weltmarkierung für die platzierte Flagge in der aktuellen Zone an.",
+  "Markers.Relic.Name": "Reliktbuch-Zielmarkierungen",
+  "Markers.Relic.Description": "Zeigt Weltmarkierungen für Gegner an, die für dein aktives Reliktbuch benötigt werden.",
   "Markers.GatheringNodes.Name": "Sammelstellen-Markierungen",
   "Markers.GatheringNodes.Description": "Zeigt Weltmarkierungen für die aktiven Sammelstellen um dich herum an.",
   "Markers.GatheringNodes.ShowContents.Name": "Knoteninhalt anzeigen",
