@@ -58,7 +58,7 @@ internal class HuntWorldMarkerFactory(IDataManager dataManager, IZoneManager zon
         foreach (var chara in cm->BattleCharas) {
             BattleChara* bc = chara.Value;
 
-            if (bc == null || 0 == bc->BaseId) continue;
+            if (bc == null || 0 == bc->BaseId || bc->IsDead()) continue;
 
             var nm = GetNotoriousMonster(bc->BaseId);
             if (nm == null) continue;
@@ -101,7 +101,7 @@ internal class HuntWorldMarkerFactory(IDataManager dataManager, IZoneManager zon
             foreach (var chara in cm->BattleCharas) {
                 Character* c = (Character*)chara.Value;
 
-                if (c == null || 0 == c->BaseId) continue;
+                if (c == null || 0 == c->BaseId || c->IsDead()) continue;
                 if (!mobHunt.IsHuntTarget(c)) continue;
 
                 bool inCombat = c->InCombat;
