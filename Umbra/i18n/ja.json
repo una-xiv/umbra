@@ -1053,6 +1053,7 @@
   "Widget.Teleport.Config.DefaultOpenedGroupName.Option.Other": "その他のリストを開く",
   "Widget.Volume.Name": "音量コントロール",
   "Widget.Volume.Description": "ゲーム内の異なるオーディオチャンネルの音量を制御できます。",
+  "Widget.Volume.Label": "音量",
   "Widget.Volume.Channel.Master": "マスター",
   "Widget.Volume.Channel.BGM": "BGM",
   "Widget.Volume.Channel.SFX": "SFX",

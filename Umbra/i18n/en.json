@@ -1053,6 +1053,7 @@
   "Widget.Teleport.Config.DefaultOpenedGroupName.Option.Other": "Open the miscellaneous list",
   "Widget.Volume.Name": "Volume Control",
   "Widget.Volume.Description": "Allows you to control the volume of different audio channels in the game.",
+  "Widget.Volume.Label": "Volume",
   "Widget.Volume.Channel.Master": "Master",
   "Widget.Volume.Channel.BGM": "BGM",
   "Widget.Volume.Channel.SFX": "SFX",

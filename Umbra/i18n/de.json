@@ -1053,6 +1053,7 @@
   "Widget.Teleport.Config.DefaultOpenedGroupName.Option.Other": "Öffne die Sonstige-Liste",
   "Widget.Volume.Name": "Lautstärkeregelung",
   "Widget.Volume.Description": "Ermöglicht es dir die Lautstärke verschiedener Audio-Kanäle im Spiel zu steuern.",
+  "Widget.Volume.Label": "Lautstärke",
   "Widget.Volume.Channel.Master": "Master",
   "Widget.Volume.Channel.BGM": "BGM",
   "Widget.Volume.Channel.SFX": "SFX",
