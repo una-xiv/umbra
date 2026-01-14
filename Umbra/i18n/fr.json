@@ -1064,6 +1064,7 @@
   "Widget.Teleport.Config.DefaultOpenedGroupName.Option.Other": "Ouvrir la liste de destionations diverses",
   "Widget.Volume.Name": "Contrôle du volume",
   "Widget.Volume.Description": "Vous permet de contrôler le volume des différents canaux audio dans le jeu.",
+  "Widget.Volume.Label": "Volume",
   "Widget.Volume.Channel.Master": "Principal",
   "Widget.Volume.Channel.BGM": "BGM",
   "Widget.Volume.Channel.SFX": "SFX",

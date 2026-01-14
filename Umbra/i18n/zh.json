@@ -1064,6 +1064,7 @@
   "Widget.Teleport.Config.DefaultOpenedGroupName.Option.Other": "打开杂项列表",
   "Widget.Volume.Name": "音量控制",
   "Widget.Volume.Description": "控制游戏中不同来源声音的音量",
+  "Widget.Volume.Label": "音量",
   "Widget.Volume.Channel.Master": "整体",
   "Widget.Volume.Channel.BGM": "背景",
   "Widget.Volume.Channel.SFX": "音效",
