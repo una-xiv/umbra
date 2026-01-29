@@ -9,7 +9,39 @@ internal sealed partial class DynamicMenuPopup
         int itemIndex = Entries.IndexOf(entry);
         if (itemIndex == -1) return null;
 
-        if (entry.Ct == null && entry.Cl == "-") {
+        if (IsCategory(entry)) {
+            string label = string.IsNullOrWhiteSpace(entry.Cl)
+                ? I18N.Translate("Widget.DynamicMenu.Category.DefaultLabel")
+                : entry.Cl;
+
+            Node categoryNode = new() {
+                ClassList = ["category"],
+                ChildNodes = [
+                    new() {
+                        ClassList = ["category-toggle"],
+                        NodeValue = entry.Ce ? "▼" : "▶",
+                    },
+                    new() {
+                        ClassList = ["category-label"],
+                        NodeValue = label,
+                    },
+                    new() { ClassList = ["category-line"] },
+                ],
+            };
+
+            Node categoryBase = new() {
+                ClassList = ["item", "category"],
+                SortIndex = itemIndex,
+                ChildNodes = [categoryNode],
+            };
+
+            categoryBase.OnMouseUp += _ => ToggleCategoryExpanded(entry);
+            categoryBase.OnRightClick += _ => OpenContextMenu(itemIndex);
+
+            return categoryBase;
+        }
+
+        if (IsSeparator(entry)) {
             Node separator = new() { 
                 ClassList = ["separator"],
                 ChildNodes = [new() { ClassList = ["line"] }]
@@ -37,6 +69,13 @@ internal sealed partial class DynamicMenuPopup
             return separatorBase;
         }
 
+        if (IsInCategory(entry)) {
+            var parentCategory = GetParentCategory(entry);
+            if (parentCategory != null && !parentCategory.Ce) {
+                return null;
+            }
+        }
+
         Node textNode    = new() { ClassList = ["text"], InheritTags       = true };
         Node iconNode    = new() { ClassList = ["icon"], InheritTags       = true };
         Node icon2Node   = new() { ClassList = ["icon-sub"], InheritTags   = true };
@@ -57,7 +96,7 @@ internal sealed partial class DynamicMenuPopup
 
         Node node = new() {
             ClassList = ["item"],
-            SortIndex = Entries.IndexOf(entry),
+            SortIndex = itemIndex,
             Style     = new() { Size = new(0, EntryHeight) },
             ChildNodes = [
                 new() {
@@ -71,6 +110,10 @@ internal sealed partial class DynamicMenuPopup
                 altTextNode,
             ]
         };
+
+        if (IsInCategory(entry)) {
+            node.ClassList.Add("category-child");
+        }
 
         if (entry is { Pt: not null, Pi: not null }) {
             AbstractShortcutProvider? provider = Providers.GetProvider(entry.Pt);
