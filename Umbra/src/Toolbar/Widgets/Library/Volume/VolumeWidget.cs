@@ -39,12 +39,7 @@ internal sealed partial class VolumeWidget(
         // Set icon size to 32x32 regardless of widget size. This
         //   prevents the widget from resizing when the icon changes.
         Node iconNode = Node.QuerySelector(".icon")!;
-
-        if (GetConfigValue<string>("DisplayMode") == "IconOnly") {
-            iconNode.Style.Size = new(0, 0);
-        } else {
-            iconNode.Style.Size = new(32, 32);
-        }
+        iconNode.Style.Size = new(32, 32);
 
         SetFontAwesomeIcon(GetVolumeIcon());
 
