@@ -207,10 +207,38 @@ public sealed partial class MenuPopup
         public event Action<IMenuItem>? OnButtonClicked;
 
         private readonly Dictionary<Node, IMenuItem> _items = [];
+        private bool _isCollapsed;
+        private bool _isCollapsible;
+        private string _baseLabel = string.Empty;
 
         public string? Label {
-            get => LabelNode.NodeValue?.ToString() ?? string.Empty;
-            set => LabelNode.NodeValue = value;
+            get => _baseLabel;
+            set
+            {
+                _baseLabel = value ?? string.Empty;
+                UpdateHeaderLabel();
+            }
+        }
+
+        public bool IsCollapsed {
+            get => _isCollapsed;
+            set
+            {
+                _isCollapsed = value;
+                ContentNode.Style.IsVisible = !_isCollapsed;
+                Node.ToggleClass("collapsed", _isCollapsed);
+                UpdateHeaderLabel();
+            }
+        }
+
+        public bool IsCollapsible {
+            get => _isCollapsible;
+            set
+            {
+                _isCollapsible = value;
+                Node.ToggleClass("collapsible", value);
+                UpdateHeaderLabel();
+            }
         }
 
         public int SortIndex {
@@ -242,11 +270,31 @@ public sealed partial class MenuPopup
             Label = label;
 
             Node.BeforeDraw += _ => {
-                Node.Style.IsVisible       = ContentNode.ChildNodes.Any(c => c.IsVisible);
-                HeaderNode.Style.IsVisible = !string.IsNullOrEmpty(Label);
+                bool hasVisibleContent = ContentNode.ChildNodes.Any(c => c.IsVisible);
+                bool hasHeader = !string.IsNullOrEmpty(Label);
+
+                HeaderNode.Style.IsVisible = hasHeader;
+                ContentNode.Style.IsVisible = !IsCollapsed;
+                Node.Style.IsVisible = hasHeader || (!IsCollapsed && hasVisibleContent);
+            };
+
+            HeaderNode.OnClick += _ => {
+                if (!IsCollapsible) return;
+                IsCollapsed = !IsCollapsed;
             };
 
             Node.OnDispose += _ => Dispose();
+        }
+
+        private void UpdateHeaderLabel()
+        {
+            if (!IsCollapsible) {
+                LabelNode.NodeValue = _baseLabel;
+                return;
+            }
+
+            string prefix = IsCollapsed ? "▶ " : "▼ ";
+            LabelNode.NodeValue = $"{prefix}{_baseLabel}";
         }
 
         public void Add(IMenuItem item)
