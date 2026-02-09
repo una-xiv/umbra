@@ -65,6 +65,8 @@
   "Markers.Occult.SurveyPoints.Description": "Shows world markers for the occult survey points in the current zone. Note that markers of this type are only drawn when the player is within 100 yalms of the survey point.",
   "Markers.OccultCarrot.Name": "Carrots",
   "Markers.OccultCarrot.Description": "Shows world markers for the half-eaten Carrots you can find in the Occult Crescent",
+  "Markers.OccultCarrot.Name": "Occult Crescent Carrots",
+  "Markers.OccultCarrot.Description": "Shows world markers for the half-eaten Carrots you can find in the Occult Crescent.",
   "Markers.OccultCarrot.ItemName": "Carrot",
   "Markers.Fate.Name": "FATE Markers",
   "Markers.Fate.Description": "Shows world markers for the active FATEs in the current zone.",
