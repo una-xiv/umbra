@@ -57,6 +57,8 @@
   "Markers.EurekaCoffers.Description": "Shows world markers for the Bunny Coffers in the Eureka zones after you've used the Lucky Carrot item.",
   "Markers.EurekaCoffers.EnableMapMarkers.Name": "Enable map markers for detected coffers",
   "Markers.EurekaCoffers.EnableMapMarkers.Description": "Adds map markers for detected Eureka Bunny Coffer locations. Note that this feature is unavailable if the Eureka Linker plugin is also installed and enabled, since it also provides similar functionality.",
+  "Markers.EurekaElementals.Name": "Elementals",
+  "Markers.EurekaElementals.Description": "Shows world markers for the Elementals in the Eureka Zones.",
   "Markers.OccultCoffers.Name": "Pot Coffers",
   "Markers.OccultCoffers.Description": "Shows world markers for the Pot Coffers in the Occult Crescent zones after you've used the Magical Elixir item.",
   "Markers.OccultCoffers.EnableMapMarkers.Name": "Enable map markers for detected coffers",

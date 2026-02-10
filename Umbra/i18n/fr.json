@@ -57,6 +57,8 @@
   "Markers.EurekaCoffers.Description": "Affiche les marqueurs flottants pour les Coffres de lapin dans les zones d'Eureka après avoir utilisé l'objet Carotte porte-bonheur.",
   "Markers.EurekaCoffers.EnableMapMarkers.Name": "Activer les marqueurs de carte pour les coffres détectés",
   "Markers.EurekaCoffers.EnableMapMarkers.Description": "Ajoute des marqueurs de carte pour les emplacements des Coffres de lapin d'Eureka détectés. Notez que cette fonctionnalité n'est pas disponible si le plugin Eureka Linker est également installé et activé, car il offre également une fonctionnalité similaire.",
+  "Markers.EurekaElementals.Name": "Élémentaires",
+  "Markers.EurekaElementals.Description": "Affiche les marqueurs pour les élémentaires dans les zones d'Eurêka.",
   "Markers.OccultCoffers.Name": "Coffres au trésor en pot",
   "Markers.OccultCoffers.Description": "Affiche les marqueurs mondiaux pour les coffres au trésor en pot dans les zones de l'île de Lunule après avoir utilisé l'objet Élixir miraculeux.",
   "Markers.OccultCoffers.EnableMapMarkers.Name": "Activer les marqueurs de carte pour les coffres détectés",
