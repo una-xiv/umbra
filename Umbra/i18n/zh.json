@@ -57,6 +57,8 @@
   "Markers.EurekaCoffers.Description": "使用胡萝卜后在地图上显示兔子箱子的位置",
   "Markers.EurekaCoffers.EnableMapMarkers.Name": "显示检测到的优雷卡幸福兔箱子",
   "Markers.EurekaCoffers.EnableMapMarkers.Description": "标记检测到的优雷卡幸福兔箱子位置。若安装并启用了功能相近的Eureka Linker插件，该功能自动禁用。",
+  "Markers.EurekaElementals.Name": "优雷卡元素精灵",
+  "Markers.EurekaElementals.Description": "显示优雷卡区域内元素精灵的场景标记。",
   "Markers.OccultCoffers.Name": "诡月陶罐宝箱",
   "Markers.OccultCoffers.Description": "使用魔法药剂物品后，显示诡月区域中陶罐宝箱的世界标记。",
   "Markers.OccultCoffers.EnableMapMarkers.Name": "为探测到的宝箱启用地图标记",

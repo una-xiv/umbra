@@ -57,6 +57,8 @@
   "Markers.EurekaCoffers.Description": "ラッキーキャロットアイテムを使用した後、エウレカゾーンのバニー宝箱のワールドマーカーを表示します。",
   "Markers.EurekaCoffers.EnableMapMarkers.Name": "検出された宝箱の地図マーカーを有効にする",
   "Markers.EurekaCoffers.EnableMapMarkers.Description": "検出されたエウレカ・バニー宝箱の場所に地図マーカーを追加します。エウレカリンクプラグインがインストールされ、有効になっている場合、この機能は利用できませんのでご注意ください。同様の機能も提供します。",
+  "Markers.EurekaElementals.Name": "エウレカ・エレメンタル",
+  "Markers.EurekaElementals.Description": "エウレカエリアのエレメンタルのフィールドマーカーを表示します。",
   "Markers.OccultCoffers.Name": "クレセントアイルの壺の宝箱",
   "Markers.OccultCoffers.Description": "ミラクルエリクサーを使用した後、クレセントアイルのゾーンにある壺の宝箱のワールドマーカーを表示します。",
   "Markers.OccultCoffers.EnableMapMarkers.Name": "検出された宝箱のマップマーカーを有効にする",
