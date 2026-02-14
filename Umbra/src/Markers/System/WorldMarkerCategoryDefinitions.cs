@@ -36,7 +36,8 @@ internal static class WorldMarkerCategoryDefinitions
                 "Vista"
             ],
             [CategoryEureka] = [
-                "EurekaCoffers"
+                "EurekaCoffers",
+                "EurekaElementals"
             ],
             [CategoryOccultCrescent] = [
                 "OccultCarrots",
