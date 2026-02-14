@@ -34,16 +34,6 @@ public record WorldMarker
     public uint IconId { get; set; }
 
     /// <summary>
-    /// Specifies the width of the icon in pixels. Defaults to 32.
-    /// </summary>
-    public int IconWidth { get; set; } = 32;
-
-    /// <summary>
-    /// Specifies the height of the icon in pixels. Defaults to 32.
-    /// </summary>
-    public int IconHeight { get; set; } = 32;
-
-    /// <summary>
     /// <para>
     /// Determines where the marker is placed in the world.
     /// </para>

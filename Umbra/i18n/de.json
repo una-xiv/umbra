@@ -57,8 +57,6 @@
   "Markers.EurekaCoffers.Description": "Zeigt Weltmarkierungen für die Glückshasen-Schatztruhen in den Eureka-Zonen an, nachdem du die Wünschelmöhre verwendet hast.",
   "Markers.EurekaCoffers.EnableMapMarkers.Name": "Kartenmarkierungen für erkannte Kisten aktivieren",
   "Markers.EurekaCoffers.EnableMapMarkers.Description": "Fügt Kartenmarkierungen für erkannte Eureka Glückshasen-Schatztruhen-Standorte hinzu. Beachte, dass diese Funktion nicht verfügbar ist, wenn das Eureka Linker-Plugin ebenfalls installiert und aktiviert ist, da es ähnliche Funktionen bietet.",
-  "Markers.EurekaElementals.Name": "Elementare",
-  "Markers.EurekaElementals.Description": "Zeigt Geländemarkierungen für die Elementare in den Eureka-Zonen an.",
   "Markers.OccultCoffers.Name": "Topf-Schatzkisten",
   "Markers.OccultCoffers.Description": "Zeigt Weltmarkierungen für die Topf-Schatzkisten in den Kreszentia-Zonen an, nachdem du das Wunderelixier verwendet hast.",
   "Markers.OccultCoffers.EnableMapMarkers.Name": "Kartenmarkierungen für entdeckte Kisten aktivieren",

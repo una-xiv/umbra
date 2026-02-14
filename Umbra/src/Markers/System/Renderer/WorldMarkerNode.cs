@@ -1,4 +1,5 @@
-﻿using Una.Drawing.Clipping;
+﻿
+using Una.Drawing.Clipping;
 
 namespace Umbra.Markers.System.Renderer;
 
@@ -101,7 +102,7 @@ internal class WorldMarkerNode : Node
                 if (markers[i].IsVisible == false) {
                     ClearState(i);
                 } else {
-                    UpdateState(i, markers[i].Label, markers[i].SubLabel, markers[i].IconId, markers[i].IconWidth, markers[i].IconHeight);
+                    UpdateState(i, markers[i].Label, markers[i].SubLabel, markers[i].IconId);
 
                     minDist    = Math.Max(minDist,    markers[i].FadeDistance.X);
                     maxDist    = Math.Max(maxDist,    markers[i].FadeDistance.Y);
@@ -152,7 +153,7 @@ internal class WorldMarkerNode : Node
         }
     }
 
-    private void UpdateState(int index, string? label, string? subLabel, uint iconId, int iconWidth = 32, int iconHeight = 32)
+    private void UpdateState(int index, string? label, string? subLabel, uint iconId)
     {
         Node iconNode     = QuerySelector($"#Icon{index}")!;
         Node labelNode    = QuerySelector($"#Label{index}")!;
@@ -163,7 +164,6 @@ internal class WorldMarkerNode : Node
 
         iconNode.Style.IsVisible = iconId > 0;
         iconNode.Style.IconId    = iconId;
-        iconNode.Style.Size      = new(iconWidth, iconHeight);
 
         labelNode.Style.IsVisible    = hasLabel;
         labelNode.NodeValue          = label;
