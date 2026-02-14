@@ -61,7 +61,6 @@ internal class RelicWorldMarkerFactory : WorldMarkerFactory
             if (c == null || 0 == c->BaseId || c->IsDead()) continue;
             if (!relicNote->IsMonsterNoteTarget(c)) continue;
 
-            bool inCombat = c->InCombat;
             var (current, needed) = GetTargetKills(c);
             string name = (needed > 0 ? $"[{current}/{needed}] " : string.Empty) + c->NameString;
 
