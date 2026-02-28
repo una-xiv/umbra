@@ -1,4 +1,3 @@
-﻿using Microsoft.Win32;
 using Umbra.Markers;
 using Umbra.Markers.System;
 
@@ -14,32 +13,41 @@ public class SettingsWindowMarkerSettingsModule : SettingsWindowModule
     private WorldMarkerFactoryRegistry Registry { get; } = Framework.Service<WorldMarkerFactoryRegistry>();
 
     private readonly Dictionary<string, Node> _buttons = [];
+    private readonly Dictionary<string, MarkerCategoryGroup> _categoryGroups = [];
+    private readonly Dictionary<string, string> _markerCategories = [];
 
     protected override void OnOpen()
     {
         Node targetNode = RootNode.QuerySelector("#sidebar-buttons")!;
 
-        List<WorldMarkerFactory> factories = GetSortedFactories();
+        foreach ((string categoryId, IReadOnlyList<WorldMarkerFactory> factories) in
+                 WorldMarkerCategoryDefinitions.GetCategorizedFactories(Registry)) {
+            if (factories.Count == 0) continue;
 
-        foreach (var factory in factories) {
-            Node button = new() {
-                ClassList = ["tab-button"],
-                NodeValue = factory.Name,
-            };
+            var group = CreateCategoryGroup(targetNode, categoryId);
 
-            button.OnClick += OnTabButtonClicked;
-            _buttons.Add(factory.Id, button);
+            foreach (WorldMarkerFactory factory in factories) {
+                Node button = new() {
+                    ClassList = ["tab-button"],
+                    NodeValue = factory.Name,
+                };
 
-            targetNode.AppendChild(button);
+                button.OnClick += OnTabButtonClicked;
+                _buttons.Add(factory.Id, button);
+                _markerCategories.Add(factory.Id, categoryId);
+
+                group.BodyNode.AppendChild(button);
+            }
         }
 
-        var firstButton = targetNode.QuerySelectorAll(".tab-button").FirstOrDefault();
-        if (firstButton != null) OnTabButtonClicked(firstButton);
+        RootNode.QuerySelector("#main")!.Clear();
     }
 
     protected override void OnClose()
     {
         _buttons.Clear();
+        _categoryGroups.Clear();
+        _markerCategories.Clear();
     }
 
     private void OnTabButtonClicked(Node node)
@@ -54,6 +62,11 @@ public class SettingsWindowMarkerSettingsModule : SettingsWindowModule
         if (factoryId == null) return;
 
         WorldMarkerFactory factory = Registry.GetFactory(factoryId);
+
+        if (_markerCategories.TryGetValue(factoryId, out string? categoryId)
+            && _categoryGroups.TryGetValue(categoryId, out MarkerCategoryGroup? group)) {
+            group.IsCollapsed = false;
+        }
 
         Node mainNode = RootNode.QuerySelector("#main")!;
         Node markerEditor = Document.CreateNodeFromTemplate("marker-config", new() {
@@ -188,17 +201,66 @@ public class SettingsWindowMarkerSettingsModule : SettingsWindowModule
         }
     }
 
-    private List<WorldMarkerFactory> GetSortedFactories()
+    private MarkerCategoryGroup CreateCategoryGroup(Node targetNode, string categoryId)
     {
-        List<WorldMarkerFactory> factories = [];
+        Node groupNode = Document.CreateNodeFromTemplate("category-group", new() {
+            { "label", WorldMarkerCategoryDefinitions.GetCategoryLabel(categoryId) }
+        });
 
-        foreach (string id in Registry.GetFactoryIds()) {
-            var factory = Registry.GetFactory(id);
-            factories.Add(factory);
+        Node headerNode = groupNode.QuerySelector(".header")!;
+        Node bodyNode = groupNode.QuerySelector(".body")!;
+
+        bool isGeneral = categoryId == WorldMarkerCategoryDefinitions.CategoryGeneral;
+        var group = new MarkerCategoryGroup(categoryId, groupNode, headerNode, bodyNode) {
+            IsCollapsed = !isGeneral
+        };
+
+        headerNode.OnClick += _ => group.IsCollapsed = !group.IsCollapsed;
+        targetNode.AppendChild(groupNode);
+
+        _categoryGroups.Add(categoryId, group);
+
+        return group;
+    }
+
+    private sealed class MarkerCategoryGroup
+    {
+        public string CategoryId { get; }
+        public Node GroupNode { get; }
+        public Node HeaderNode { get; }
+        public Node BodyNode { get; }
+
+        private bool _isCollapsed;
+        private string _baseLabel;
+
+        public bool IsCollapsed {
+            get => _isCollapsed;
+            set
+            {
+                _isCollapsed = value;
+                BodyNode.Style.IsVisible = !_isCollapsed;
+                GroupNode.ToggleClass("collapsed", _isCollapsed);
+                UpdateHeaderLabel();
+            }
         }
 
-        factories.Sort((a, b) => String.Compare(a.Name, b.Name, StringComparison.OrdinalIgnoreCase));
+        public MarkerCategoryGroup(string categoryId, Node groupNode, Node headerNode, Node bodyNode)
+        {
+            CategoryId = categoryId;
+            GroupNode = groupNode;
+            HeaderNode = headerNode;
+            BodyNode = bodyNode;
+            _baseLabel = headerNode.QuerySelector(".text")?.NodeValue?.ToString() ?? string.Empty;
+            UpdateHeaderLabel();
+        }
 
-        return factories;
+        private void UpdateHeaderLabel()
+        {
+            string prefix = _isCollapsed ? "▶ " : "▼ ";
+            Node? labelNode = HeaderNode.QuerySelector(".text");
+            if (labelNode != null) {
+                labelNode.NodeValue = $"{prefix}{_baseLabel}";
+            }
+        }
     }
 }
