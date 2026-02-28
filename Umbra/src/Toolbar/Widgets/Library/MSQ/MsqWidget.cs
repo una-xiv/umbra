@@ -99,7 +99,7 @@ public class MsqWidget(
         var agent = AgentScenarioTree.Instance();
         if (agent == null || agent->Data == null) return null;
 
-        var index = agent->Data->CurrentScenarioQuest;
+        var index = agent->Data->MainScenarioQuestIds[0];
 
         if (_treeCache.TryGetValue(index, out var cachedTree)) {
             return cachedTree;

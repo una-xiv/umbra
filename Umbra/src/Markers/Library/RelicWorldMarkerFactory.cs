@@ -11,8 +11,6 @@ internal class RelicWorldMarkerFactory : WorldMarkerFactory
     private readonly IDataManager dataManager;
     private readonly IZoneManager zoneManager;
 
-    private unsafe delegate byte IsMonsterNoteTargetDelegate(RelicNote* relicNote, Character* chara);
-
     public RelicWorldMarkerFactory(IDataManager dataManager, IZoneManager zoneManager, IGameInteropProvider gameInteropProvider)
     {
         this.dataManager = dataManager;
@@ -25,9 +23,6 @@ internal class RelicWorldMarkerFactory : WorldMarkerFactory
     public override string Name        { get; } = I18N.Translate("Markers.Relic.Name");
     public override string Description { get; } = I18N.Translate("Markers.Relic.Description");
 
-    [Signature("48 89 5C 24 ?? 48 89 6C 24 ?? 48 89 74 24 ?? 57 41 54 41 55 41 56 41 57 48 83 EC ?? 48 8B DA 4C 8B F1")]
-    private readonly IsMonsterNoteTargetDelegate? IsMonsterNoteTarget = null;
-
     public override List<IMarkerConfigVariable> GetConfigVariables()
     {
         return [
@@ -35,7 +30,7 @@ internal class RelicWorldMarkerFactory : WorldMarkerFactory
             ..DefaultFadeConfigVariables,
         ];
     }
-    
+
     protected override void OnZoneChanged(IZone zone)
     {
         RemoveAllMarkers();
@@ -44,9 +39,6 @@ internal class RelicWorldMarkerFactory : WorldMarkerFactory
     [OnTick(interval: 100)]
     private unsafe void OnUpdate()
     {
-        if (IsMonsterNoteTarget == null)
-            return;
-
         if (!GetConfigValue<bool>("Enabled") || !zoneManager.HasCurrentZone) {
             RemoveAllMarkers();
             return;
@@ -67,9 +59,8 @@ internal class RelicWorldMarkerFactory : WorldMarkerFactory
             Character* c = (Character*)chara.Value;
 
             if (c == null || 0 == c->BaseId || c->IsDead()) continue;
-            if (IsMonsterNoteTarget.Invoke(relicNote, c) == 0) continue;
+            if (!relicNote->IsMonsterNoteTarget(c)) continue;
 
-            bool inCombat = c->InCombat;
             var (current, needed) = GetTargetKills(c);
             string name = (needed > 0 ? $"[{current}/{needed}] " : string.Empty) + c->NameString;
 
