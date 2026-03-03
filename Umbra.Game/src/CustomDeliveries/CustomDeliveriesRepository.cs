@@ -1,4 +1,4 @@
-﻿using Dalamud.Utility;
+using Dalamud.Utility;
 using FFXIVClientStructs.FFXIV.Client.UI;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using FFXIVClientStructs.FFXIV.Component.GUI;
@@ -90,8 +90,9 @@ internal sealed unsafe class CustomDeliveriesRepository : ICustomDeliveriesRepos
 
         var adjustedTimestamp               = ssm->TimeAdjustmentForBonusGuarantee + FFXIVClientStructs.FFXIV.Client.System.Framework.Framework.GetServerTime();
         var npcCount                        = ssm->SatisfactionRanks.Length;
-        var calculatedBonusGuaranteeRowId   = (uint)((adjustedTimestamp - 1657008000) / 604800 % npcCount);
-        var satisfactionBonusGuarentee      = DataManager.GetExcelSheet<SatisfactionBonusGuarantee>().GetRow(ssm->BonusGuaranteeRowId != 0xFF ? ssm->BonusGuaranteeRowId : calculatedBonusGuaranteeRowId);
+        var satisfactionBonusGuaranteeSheet = DataManager.GetExcelSheet<SatisfactionBonusGuarantee>();
+        var calculatedBonusGuaranteeRowId   = (uint)((adjustedTimestamp - 1657008000) / 604800 % satisfactionBonusGuaranteeSheet.Count);
+        var satisfactionBonusGuarentee      = satisfactionBonusGuaranteeSheet.GetRow(ssm->BonusGuaranteeRowId != 0xFF ? ssm->BonusGuaranteeRowId : calculatedBonusGuaranteeRowId);
 
         for (var i = 0; i < npcCount; i++) {
             byte heartCount    = ssm->SatisfactionRanks[i]; // 1 ~ 5 (Hearts in the UI)
