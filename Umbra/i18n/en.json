@@ -369,6 +369,7 @@
   "CVAR.General.ShowToolbarDuringIdleCam.Name": "Show the toolbar during idle camera (AFK) mode",
   "CVAR.General.ShowToolbarInDuty.Name": "Show the toolbar in duties",
   "CVAR.General.ShowToolbarInCombat.Name": "Show the toolbar during combat",
+  "CVAR.General.ShowToolbarInHudEditing.Name": "Show the toolbar while editing the native HUD",
   "CVAR.General.ShowMarkersInCutscenes.Name": "Show world markers while playing cutscenes",
   "CVAR.General.ShowMarkersInGPose.Name": "Show world markers while GPose is active",
   "CVAR.General.ShowMarkersOnUserHide.Name": "Show world markers when the UI is manually hidden",
