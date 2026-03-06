@@ -369,6 +369,7 @@
   "CVAR.General.ShowToolbarDuringIdleCam.Name": "Afficher la barre d'outils en mode caméra inactive (AFK)",
   "CVAR.General.ShowToolbarInDuty.Name": "Afficher la barre d'outils pendant les missions",
   "CVAR.General.ShowToolbarInCombat.Name": "Afficher la barre d'outils pendant le combat",
+  "CVAR.General.ShowToolbarInHudEditing.Name": "Show the toolbar while editing the native HUD",
   "CVAR.General.ShowMarkersInCutscenes.Name": "Afficher les marqueurs de monde pendant les cinématiques",
   "CVAR.General.ShowMarkersInGPose.Name": "Afficher les marqueurs de monde lorsque GPose est active",
   "CVAR.General.ShowMarkersOnUserHide.Name": "Afficher les marqueurs de monde lorsque l'interface utilisateur est masquée manuellement",
