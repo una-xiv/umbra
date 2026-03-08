@@ -1,4 +1,5 @@
-﻿using Dalamud.Game.ClientState.Conditions;
+using Dalamud.Game.ClientState.Conditions;
+using FFXIVClientStructs.FFXIV.Client.UI;
 
 namespace Umbra;
 
@@ -25,6 +26,9 @@ public sealed class UmbraVisibility
 
     [ConfigVariable("General.ShowToolbarInCombat", "General", "ToolbarVisibilitySettings")]
     public static bool ShowToolbarInCombat { get; set; } = true;
+
+    [ConfigVariable("General.ShowToolbarInHudEditing", "General", "ToolbarVisibilitySettings")]
+    public static bool ShowToolbarInHudEditing { get; set; } = false;
 
     [ConfigVariable("General.ShowMarkersInCutscenes", "General", "MarkersVisibilitySettings")]
     public static bool ShowMarkersInCutscenes { get; set; } = false;
@@ -65,7 +69,7 @@ public sealed class UmbraVisibility
         Framework.DalamudPlugin.UiBuilder.DisableUserUiHide      = true;
     }
 
-    public bool IsToolbarVisible()
+    public unsafe bool IsToolbarVisible()
     {
         // Always disable when visiting the aesthetician.
         if (_condition[ConditionFlag.CreatingCharacter]) return false;
@@ -83,6 +87,8 @@ public sealed class UmbraVisibility
         if (_player.IsInCombat && !ShowToolbarInCombat) return false;
 
         if (_player.IsBoundByDuty && !ShowToolbarInDuty) return false;
+
+        if (RaptureAtkUnitManager.Instance()->IsEditingHudLayout && !ShowToolbarInHudEditing) return false;
 
         return true;
     }

@@ -369,6 +369,7 @@
   "CVAR.General.ShowToolbarDuringIdleCam.Name": "在闲置相机（AFK）模式下显示工具栏",
   "CVAR.General.ShowToolbarInDuty.Name": "在任务中显示工具栏",
   "CVAR.General.ShowToolbarInCombat.Name": "在战斗中显示工具栏",
+  "CVAR.General.ShowToolbarInHudEditing.Name": "Show the toolbar while editing the native HUD",
   "CVAR.General.ShowMarkersInCutscenes.Name": "在播放过场动画时显示世界标记",
   "CVAR.General.ShowMarkersInGPose.Name": "在GPose激活时显示世界标记",
   "CVAR.General.ShowMarkersOnUserHide.Name": "在手动隐藏UI时显示世界标记",
