@@ -369,7 +369,7 @@
   "CVAR.General.ShowToolbarDuringIdleCam.Name": "アイドルカメラ（AFK）モード中にツールバーを表示する",
   "CVAR.General.ShowToolbarInDuty.Name": "任務中にツールバーを表示する",
   "CVAR.General.ShowToolbarInCombat.Name": "戦闘中にツールバーを表示する",
-  "CVAR.General.ShowToolbarInHudEditing.Name": "Show the toolbar while editing the native HUD",
+  "CVAR.General.ShowToolbarInHudEditing.Name": "ネイティブHUDを編集中にツールバーを表示する",
   "CVAR.General.ShowMarkersInCutscenes.Name": "カットシーン中にワールドマーカーを表示する",
   "CVAR.General.ShowMarkersInGPose.Name": "GPoseがアクティブな時にワールドマーカーを表示する",
   "CVAR.General.ShowMarkersOnUserHide.Name": "UIが手動で非表示にされた時にワールドマーカーを表示する",
