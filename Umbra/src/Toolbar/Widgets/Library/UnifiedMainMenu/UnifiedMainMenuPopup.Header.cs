@@ -16,15 +16,12 @@ internal sealed partial class UnifiedMainMenuPopup
 
         string[] name = Player.Name.Split(' ', StringSplitOptions.RemoveEmptyEntries);
 
-        string firstName = name.Length > 0 ? name[0] : Player.Name;
-        string lastName = name.Length > 1 ? name[1] : string.Empty;
-
         nameNode.NodeValue = BannerNameStyle switch {
-            "FirstName" => firstName,
-            "LastName" => string.IsNullOrEmpty(lastName) ? firstName : lastName,
-            "FullName" => string.IsNullOrEmpty(lastName) ? firstName : $"{firstName} {lastName}",
-            "Initials" => GetInitials(firstName, lastName),
-            _ => Player.Name
+            "FirstName" => name[0],
+            "LastName"  => name[^1],
+            "FullName"  => name.Length > 1 ? $"{name[0]} {name[1]}" : name[0],
+            "Initials"  => name.Length > 1 ? $"{name[0][0]}. {name[1][0]}." : $"{name[0][0]}.",
+            _           => Player.Name
         };
 
         StringBuilder sb = new();
@@ -44,17 +41,5 @@ internal sealed partial class UnifiedMainMenuPopup
         Node.Style.FlowOrder              = IsTopAligned ? FlowOrder.Normal : FlowOrder.Reverse;
         headNode.Style.BackgroundGradient = IsTopAligned ? new(color2, color1) : new(color1, color2);
         headNode.ToggleClass("is-top", IsTopAligned);
-    }
-
-    private static string GetInitials(string fName, string lName)
-    {
-        char fInitial = !string.IsNullOrEmpty(fName) ? fName[0] : '?';
-
-        if (string.IsNullOrEmpty(lName)) {
-            return $"{fInitial}.";
-        }
-
-        char lInitial = lName[0];
-        return $"{fInitial}. {lInitial}.";
     }
 }
