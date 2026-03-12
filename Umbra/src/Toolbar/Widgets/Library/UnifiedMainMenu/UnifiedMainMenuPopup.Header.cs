@@ -42,16 +42,4 @@ internal sealed partial class UnifiedMainMenuPopup
         headNode.Style.BackgroundGradient = IsTopAligned ? new(color2, color1) : new(color1, color2);
         headNode.ToggleClass("is-top", IsTopAligned);
     }
-
-    private static string GetInitials(string fName, string lName)
-    {
-        char fInitial = !string.IsNullOrEmpty(fName) ? fName[0] : '?';
-
-        if (string.IsNullOrEmpty(lName)) {
-            return $"{fInitial}.";
-        }
-
-        char lInitial = lName[0];
-        return $"{fInitial}. {lInitial}.";
-    }
 }
