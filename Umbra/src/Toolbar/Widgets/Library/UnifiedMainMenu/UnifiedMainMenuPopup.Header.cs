@@ -14,13 +14,13 @@ internal sealed partial class UnifiedMainMenuPopup
         JobInfo jobInfo = Player.GetJobInfo(Player.JobId);
         iconNode.Style.IconId = AvatarIconId;
 
-        string[] name = Player.Name.Split(' ');
-        
+        string[] name = Player.Name.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
         nameNode.NodeValue = BannerNameStyle switch {
-            "FirstName" => $"{name[0]}",
-            "LastName"  => $"{name[1]}",
-            "FullName"  => $"{name[0]} {name[1]}",
-            "Initials"  => $"{name[0][0]}. {name[1][0]}.",
+            "FirstName" => name[0],
+            "LastName"  => name[^1],
+            "FullName"  => name.Length > 1 ? $"{name[0]} {name[1]}" : name[0],
+            "Initials"  => name.Length > 1 ? $"{name[0][0]}. {name[1][0]}." : $"{name[0][0]}.",
             _           => Player.Name
         };
 
@@ -37,7 +37,7 @@ internal sealed partial class UnifiedMainMenuPopup
             "RoleColor"   => new(Player.GetJobInfo(Player.JobId).ColorName),
             _             => new(0),
         };
-        
+
         Node.Style.FlowOrder              = IsTopAligned ? FlowOrder.Normal : FlowOrder.Reverse;
         headNode.Style.BackgroundGradient = IsTopAligned ? new(color2, color1) : new(color1, color2);
         headNode.ToggleClass("is-top", IsTopAligned);
