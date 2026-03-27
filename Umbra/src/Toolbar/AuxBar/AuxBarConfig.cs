@@ -29,6 +29,7 @@ public class AuxBarConfig
     public bool   ShowInCombat           { get; set; } = true;
     public bool   ShowUnsheathed         { get; set; } = true;
     public bool   IsVertical             { get; set; }
+    public bool   EnableAutoHide         { get; set; }
 
     public void Update(AuxBarConfig other)
     {
@@ -55,5 +56,6 @@ public class AuxBarConfig
         ShowInCombat           = other.ShowInCombat;
         ShowUnsheathed         = other.ShowUnsheathed;
         IsVertical             = other.IsVertical;
+        EnableAutoHide         = other.EnableAutoHide;
     }
 }

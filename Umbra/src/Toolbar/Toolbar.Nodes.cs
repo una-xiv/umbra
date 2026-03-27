@@ -63,9 +63,30 @@ internal partial class Toolbar
                 _        => config.YPos,
             };
 
+            // Apply autohide effects for this auxbar if enabled
+            float auxYOffset = 0;
+            float auxOpacity = 1.0f;
+
+            if (config.EnableAutoHide && ShouldAutoHide()) {
+                auxYOffset = config.YAlign switch {
+                    "Top"    => _autoHideYOffset,
+                    "Bottom" => -_autoHideYOffset,
+                    _        => 0,
+                };
+
+                if (IsMultiMonitorSupportEnabled()) {
+                    auxOpacity = _autoHideOpacity;
+                    auxYOffset = 0;
+                } else {
+                    auxOpacity = _autoHideOpacity;
+                }
+            }
+
+            auxBarNode.Style.Opacity = auxOpacity;
+
             auxBarNode.Render(
                 ImGui.GetBackgroundDrawList(ImGui.GetMainViewport()),
-                new(xPos, yPos)
+                new(xPos, yPos + auxYOffset)
             );
         }
     }
