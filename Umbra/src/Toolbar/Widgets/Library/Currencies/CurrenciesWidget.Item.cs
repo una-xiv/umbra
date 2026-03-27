@@ -1,4 +1,4 @@
-﻿using FFXIVClientStructs.FFXIV.Client.Game;
+using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using Lumina.Excel.Sheets;
 
@@ -77,10 +77,16 @@ internal sealed partial class CurrenciesWidget
 
     private unsafe void UpdateCurrency(Currency currency)
     {
-        var item = DataManager.GetExcelSheet<Item>().FindRow(currency.Id);
+        var itemId = currency.Id;
+
+        var item = DataManager.GetExcelSheet<Item>().FindRow(itemId);
         if (item == null) return;
 
-        currency.Count = Player.GetItemCount(currency.Id);
+        if (itemId is ItemIdMaelstrom or ItemIdTwinAdder or ItemIdImmortalFlames) {
+            currency.Capacity = (uint)GcSealsCap[PlayerState.Instance()->GetGrandCompanyRank()];
+        }
+
+        currency.Count = Player.GetItemCount(itemId);
 
         if (IsLimitedTomestone(currency)) {
             currency.WeeklyCapacity = InventoryManager.GetLimitedTomestoneWeeklyLimit();
