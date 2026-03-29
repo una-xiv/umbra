@@ -1,5 +1,5 @@
 ﻿using Dalamud.Game.Text;
-using Dalamud.Memory;
+using Dalamud.Utility;
 using FFXIVClientStructs.FFXIV.Client.Game.Fate;
 
 namespace Umbra.Markers.Library;
@@ -68,7 +68,7 @@ internal class FateMarkerFactory(IZoneManager zoneManager) : WorldMarkerFactory
                     Key                = id,
                     IconId             = fate->IconId,
                     MapId              = zoneManager.CurrentZone.Id,
-                    Label              = $"{prefix}{MemoryHelper.ReadSeString(&fate->Name)}",
+                    Label              = $"{prefix}{fate->Name.AsDalamudSeString()}",
                     SubLabel           = $"{state} - {timeLeft:mm\\:ss}{progress}",
                     Position           = fate->Location + new Vector3(0, 1.8f, 0),
                     FadeDistance       = new(fadeDist, fadeDist + Math.Max(1, GetConfigValue<int>("FadeAttenuation"))),
