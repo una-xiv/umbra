@@ -67,7 +67,7 @@ internal partial class Toolbar
             float auxYOffset = 0;
             float auxOpacity = 1.0f;
 
-            if (config.EnableAutoHide && ShouldAutoHide()) {
+            if (config.EnableAutoHide && ShouldAutoHide() && !config.IsConditionallyVisible) {
                 auxYOffset = config.YAlign switch {
                     "Top"    => _autoHideYOffset,
                     "Bottom" => -_autoHideYOffset,
