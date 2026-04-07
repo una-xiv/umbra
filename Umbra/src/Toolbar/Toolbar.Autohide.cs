@@ -63,25 +63,27 @@ internal partial class Toolbar
         Vector2 mousePos = ImGui.GetMousePos();
 
         // Check main toolbar bounds
-        float nodeWidth  = RightPanel.Bounds.PaddingRect.X2 - LeftPanel.Bounds.PaddingRect.X1;
-        float nodeHeight = _toolbarNode.Height;
+        if (Enabled) {
+            float nodeWidth  = RightPanel.Bounds.PaddingRect.X2 - LeftPanel.Bounds.PaddingRect.X1;
+            float nodeHeight = _toolbarNode.Height;
 
-        float y = ToolbarYPosition - (IsTopAligned ? 0 :nodeHeight);
-        float x = LeftPanel.Bounds.PaddingRect.X1;
+            float y = ToolbarYPosition - (IsTopAligned ? 0 :nodeHeight);
+            float x = LeftPanel.Bounds.PaddingRect.X1;
 
-        var bounds = new Rect(x, y, x + nodeWidth, y + nodeHeight);
-        bounds.Expand(new(_toolbarNode.Height / 2f, 0));
+            var bounds = new Rect(x, y, x + nodeWidth, y + nodeHeight);
+            bounds.Expand(new(_toolbarNode.Height / 2f, 0));
 
-        // Change the hover area height based on visibility. This requires the user to nearly touch the edge of the
-        // screen to show the toolbar, but allows for a larger area to hide it.
-        int offset = (int)(Math.Min(Height - 8, (Height * .9f)));
-        if (IsTopAligned) {
-            bounds.Y2 = _isVisible ? bounds.Y2 : bounds.Y2 - offset;
-        } else {
-            bounds.Y1 = _isVisible ? bounds.Y1 : bounds.Y1 + offset;
+            // Change the hover area height based on visibility. This requires the user to nearly touch the edge of the
+            // screen to show the toolbar, but allows for a larger area to hide it.
+            int offset = (int)(Math.Min(Height - 8, (Height * .9f)));
+            if (IsTopAligned) {
+                bounds.Y2 = _isVisible ? bounds.Y2 : bounds.Y2 - offset;
+            } else {
+                bounds.Y1 = _isVisible ? bounds.Y1 : bounds.Y1 + offset;
+            }
+
+            if (bounds.Contains(mousePos)) return true;
         }
-
-        if (bounds.Contains(mousePos)) return true;
 
         // Check autohide-enabled auxbars
         Vector2 workPos  = ImGui.GetMainViewport().WorkPos;
