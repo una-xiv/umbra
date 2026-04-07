@@ -92,8 +92,6 @@ internal partial class Toolbar
         foreach (var (auxBarNode, config) in auxBars.VisibleAuxBarPanels) {
             if (!config.EnableAutoHide) continue;
 
-            if (config.IsConditionallyVisible) return true;
-
             float auxHeight = auxBarNode.Bounds.MarginSize.Height;
             float auxWidth  = auxBarNode.Bounds.MarginSize.Width;
 
