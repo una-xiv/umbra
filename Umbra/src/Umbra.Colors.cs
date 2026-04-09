@@ -405,6 +405,7 @@ internal class UmbraColors
         Color.AssignByName("Misc.TooltipBackground",              0xFF353535);
         Color.AssignByName("Misc.TooltipText",                    0xFFCACACA);
         Color.AssignByName("Misc.CrafterMeisterColor",            0xFFFF81AA);
+        Color.AssignByName("Misc.MarkerInactive",                 0xFF737ED5);
     }
 
     private static void OnConfigProfileChanged(string _)

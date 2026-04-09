@@ -101,7 +101,7 @@ internal class WorldMarkerNode : Node
                 if (markers[i].IsVisible == false) {
                     ClearState(i);
                 } else {
-                    UpdateState(i, markers[i].Label, markers[i].SubLabel, markers[i].IconId, markers[i].IconWidth, markers[i].IconHeight);
+                    UpdateState(i, markers[i].Label, markers[i].SubLabel, markers[i].IconId, markers[i].IconColor, markers[i].IconWidth, markers[i].IconHeight, markers[i].IsDisabled);
 
                     minDist    = Math.Max(minDist,    markers[i].FadeDistance.X);
                     maxDist    = Math.Max(maxDist,    markers[i].FadeDistance.Y);
@@ -152,7 +152,7 @@ internal class WorldMarkerNode : Node
         }
     }
 
-    private void UpdateState(int index, string? label, string? subLabel, uint iconId, int iconWidth = 32, int iconHeight = 32)
+    private void UpdateState(int index, string? label, string? subLabel, uint iconId, Color? iconColor = null, int iconWidth = 32, int iconHeight = 32, bool isDisabled = false)
     {
         Node iconNode     = QuerySelector($"#Icon{index}")!;
         Node labelNode    = QuerySelector($"#Label{index}")!;
@@ -169,6 +169,12 @@ internal class WorldMarkerNode : Node
         labelNode.NodeValue          = label;
         subLabelNode.Style.IsVisible = hasSubLabel;
         subLabelNode.NodeValue       = subLabel;
+
+        if (isDisabled) {
+            iconNode.Style.ImageColor = new(Color.GetNamedColor("Misc.MarkerInactive"));
+        } else {
+            iconNode.Style.ImageColor = iconColor;
+        }
     }
 
     private void ClearState(int index)
