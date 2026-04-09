@@ -76,7 +76,7 @@ public class VistaMarkerFactory : WorldMarkerFactory, IDisposable
 
             if (!IsVistaLogUnlocked(vista)) {
                 subLabel += (vista.RowId - 2162688) switch {
-                    < 20 => $"{I18N.Translate("Markers.Vista.Missing")} ",
+                    >= 20 => $"{I18N.Translate("Markers.Vista.Missing")} ",
                     _ => $"{I18N.Translate("Markers.Vista.Locked")} ",
                 };
             }
@@ -202,17 +202,11 @@ public class VistaMarkerFactory : WorldMarkerFactory, IDisposable
 
         if (ps == null) return false;
 
-        bool unlocked = ps->SightseeingLogUnlockState switch {
+        return ps->SightseeingLogUnlockState switch {
             0 => false,
-            1 => id < 20, // ARR first 20
+            1 => id < 20 || id >= 80, // ARR first 20
             _ => true,
         };
-        bool exUnlocked = ps->SightseeingLogUnlockStateEx switch {
-            3 => id >= 80 && id < 142, // HW
-            _ => true,
-        };
-
-        return unlocked && exUnlocked;
     }
 
     private static readonly IReadOnlyDictionary<uint, uint[]> AdventureToWeatherIds = new Dictionary<uint, uint[]> {
