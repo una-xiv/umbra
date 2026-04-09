@@ -50,8 +50,9 @@ internal unsafe class WeatherForecastProvider
         var timeString = FormatForecastTime(time);
         var name       = weather.Name.ExtractText();
         var iconId     = (uint)weather.Icon;
+        var rowId      = weather.RowId;
 
-        return new(time, timeString, name, iconId);
+        return new(time, timeString, name, iconId, rowId);
     }
 
     private static DateTime GetRootTime(double initialOffset)

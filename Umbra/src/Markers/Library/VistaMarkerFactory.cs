@@ -74,11 +74,17 @@ public class VistaMarkerFactory : WorldMarkerFactory, IDisposable
 
             string subLabel = "";
 
-            if (vista is { MinTime: > 0, MaxTime: > 0 }) {
+            if (!IsVistaLogUnlocked(vista)) {
+                subLabel += (vista.RowId - 2162688) switch {
+                    < 20 => $"{I18N.Translate("Markers.Vista.Missing")} ",
+                    _ => $"{I18N.Translate("Markers.Vista.Locked")} ",
+                };
+            }
+            if (!IsVistaTime(vista) && vista is { MinTime: > 0, MaxTime: > 0 }) {
                 subLabel += GetVistaTime(vista);
             }
 
-            if (AdventureToWeatherIds.TryGetValue(vista.RowId, out var weatherIds)) {
+            if (!IsVistaWeather(vista) && AdventureToWeatherIds.TryGetValue(vista.RowId, out var weatherIds)) {
                 var weatherString = string.Join(
                     ", ",
                     weatherIds
@@ -113,6 +119,7 @@ public class VistaMarkerFactory : WorldMarkerFactory, IDisposable
                     FadeDistance       = new(fadeDistance, fadeDistance + fadeAttenuation),
                     ShowOnCompass      = showDirection,
                     MaxVisibleDistance = maxVisDistance,
+                    IsDisabled         = !IsVistaActive(vista),
                 }
             );
         }
@@ -145,12 +152,67 @@ public class VistaMarkerFactory : WorldMarkerFactory, IDisposable
         return new(hours, mins, 0);
     }
 
+    private bool IsVistaActive(Adventure vista)
+    {
+        return IsVistaLogUnlocked(vista) && IsVistaTime(vista) && IsVistaWeather(vista);
+    }
+
+    private static bool IsVistaTime(Adventure vista)
+    {
+        if (vista.MinTime == 0 && vista.MaxTime == 0) return true;
+
+        TimeSpan? start = ConvertAdventureTime(vista.MinTime);
+        TimeSpan? end   = ConvertAdventureTime(vista.MaxTime);
+
+        if (start == null || end == null) return true;
+
+        TimeSpan now = DateTime.Now.TimeOfDay;
+        return start <= now && now <= end;
+    }
+
+    private bool IsVistaWeather(Adventure vista)
+    {
+        if (!ZoneManager!.HasCurrentZone) return false;
+        var zone = ZoneManager.CurrentZone;
+
+        var currentWeather = zone.CurrentWeather;
+        if (currentWeather == null) return false;
+
+        if (!AdventureToWeatherIds.TryGetValue(vista.RowId, out var weatherIds)) {
+            // If no weather requirement, consider it valid
+            return true;
+        }
+
+        return weatherIds.Contains(currentWeather.RowId);
+    }
+
     private unsafe bool IsAdventureComplete(Adventure adv)
     {
         uint id = adv.RowId - 2162688;
 
         PlayerState* ps = PlayerState.Instance();
         return ps != null && ps->IsAdventureComplete(id);
+    }
+
+    private unsafe bool IsVistaLogUnlocked(Adventure adv)
+    {
+        uint id = adv.RowId - 2162688;
+
+        PlayerState* ps = PlayerState.Instance();
+
+        if (ps == null) return false;
+
+        bool unlocked = ps->SightseeingLogUnlockState switch {
+            0 => false,
+            1 => id < 20, // ARR first 20
+            _ => true,
+        };
+        bool exUnlocked = ps->SightseeingLogUnlockStateEx switch {
+            3 => id >= 80 && id < 142, // HW
+            _ => true,
+        };
+
+        return unlocked && exUnlocked;
     }
 
     private static readonly IReadOnlyDictionary<uint, uint[]> AdventureToWeatherIds = new Dictionary<uint, uint[]> {

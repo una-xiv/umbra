@@ -34,6 +34,12 @@ public record WorldMarker
     public uint IconId { get; set; }
 
     /// <summary>
+    /// Specifies the color to apply to the icon. This should be a hexadecimal
+    /// RGB or RGBA value. For example, 0xFF0000 for red or 0xFF0000FF for red with full opacity.
+    /// </summary>
+    public Color? IconColor { get; set; }
+
+    /// <summary>
     /// Specifies the width of the icon in pixels. Defaults to 32.
     /// </summary>
     public int IconWidth { get; set; } = 32;
@@ -84,6 +90,12 @@ public record WorldMarker
     /// Whether the marker is visible.
     /// </summary>
     public bool IsVisible { get; set; } = true;
+
+    /// <summary>
+    /// Whether the marker is disabled. A disabled marker will typically appear
+    /// grayed out or with a different visual style to indicate it's not available.
+    /// </summary>
+    public bool IsDisabled { get; set; } = false;
 
     public Vector3 WorldPosition {
         get {

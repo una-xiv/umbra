@@ -84,9 +84,13 @@ internal sealed class CompassRenderer(
             // Skip rendering if the icon is not loaded.
             if (GetIcon(marker.IconId) is not { } icon) continue;
 
+            uint markerIconColor = marker.IsDisabled
+                ? Color.GetNamedColor("Misc.MarkerInactive")
+                : iconColor;
+
             ImGui
                .GetBackgroundDrawList()
-               .AddImage(icon.Handle, p1, p2, Vector2.Zero, Vector2.One, iconColor);
+               .AddImage(icon.Handle, p1, p2, Vector2.Zero, Vector2.One, markerIconColor);
 
             DrawDirectionArrowAt(iconPos + workPos, direction, iconSize, iconColor);
         }

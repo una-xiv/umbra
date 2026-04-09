@@ -211,7 +211,7 @@ internal sealed class Zone : IZone
                     timeString = WeatherForecast[1].TimeString;
                 }
 
-                CurrentWeather = new(time, timeString, WeatherForecast[0].Name, WeatherForecast[0].IconId);
+                CurrentWeather = new(time, timeString, WeatherForecast[0].Name, WeatherForecast[0].IconId, WeatherForecast[0].RowId);
             }
         }
     }
