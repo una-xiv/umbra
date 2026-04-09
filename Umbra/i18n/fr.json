@@ -209,7 +209,7 @@
   "Settings.WidgetsModule.Aux.WidgetContentAlignment.Description": "Lors de l'utilisation de la disposition verticale, cette option définit l'alignement des widgets de la barre auxiliaire.",
   "Settings.WidgetsModule.Aux.AutoHide": "Masquage automatique",
   "Settings.WidgetsModule.Aux.EnableAutoHide.Name": "Activer le masquage automatique",
-  "Settings.WidgetsModule.Aux.EnableAutoHide.Description": "Masque cette barre auxiliaire avec la barre d'outils principale quand elle n'est pas utilisée. La barre réapparaît lorsque la souris s'en rapproche.",
+  "Settings.WidgetsModule.Aux.EnableAutoHide.Description": "Masque cette barre auxiliaire en même temps que la barre d'outils principale lorsque le masquage automatique est activé. La barre réapparaît lorsque la souris s'approche d'une barre masquée.",
   "Settings.WidgetsModule.Aux.HideInCutscenes.Name": "Masquer dans les cinématiques",
   "Settings.WidgetsModule.Aux.HideInCutscenes.Description": "Masque la barre auxiliaire pendant les cinématiques. Cette option prévaut sur les paramètres de visibilité conditionnelle ci-dessous.",
   "Settings.WidgetsModule.Aux.HideInPvP.Name": "Masquer dans les missions PvP",
