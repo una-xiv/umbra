@@ -1,5 +1,6 @@
 ﻿using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using Lumina.Excel.Sheets;
+using Framework = FFXIVClientStructs.FFXIV.Client.System.Framework.Framework;
 
 namespace Umbra.Markers.Library;
 
@@ -76,7 +77,7 @@ public class VistaMarkerFactory : WorldMarkerFactory, IDisposable
 
             if (!IsVistaLogUnlocked(vista)) {
                 subLabel += (vista.RowId - 2162688) switch {
-                    >= 20 => $"{I18N.Translate("Markers.Vista.Missing")} ",
+                    < 20 => $"{I18N.Translate("Markers.Vista.Missing")} ",
                     _ => $"{I18N.Translate("Markers.Vista.Locked")} ",
                 };
             }
@@ -157,6 +158,22 @@ public class VistaMarkerFactory : WorldMarkerFactory, IDisposable
         return IsVistaLogUnlocked(vista) && IsVistaTime(vista) && IsVistaWeather(vista);
     }
 
+    private static unsafe DateTime GetEorzeaTime()
+    {
+        var fw = Framework.Instance();
+
+        if (fw == null) {
+            return DateTime.MinValue;
+        }
+
+        long eorzeaTime = fw->ClientTime.EorzeaTime;
+        long hours      = eorzeaTime / 3600 % 24;
+        long minutes    = eorzeaTime / 60   % 60;
+        long seconds    = eorzeaTime        % 60;
+
+        return new(1, 1, 1, (int)hours, (int)minutes, (int)seconds);
+    }
+
     private static bool IsVistaTime(Adventure vista)
     {
         if (vista.MinTime == 0 && vista.MaxTime == 0) return true;
@@ -166,8 +183,10 @@ public class VistaMarkerFactory : WorldMarkerFactory, IDisposable
 
         if (start == null || end == null) return true;
 
-        TimeSpan now = DateTime.Now.TimeOfDay;
-        return start <= now && now <= end;
+        TimeSpan now = GetEorzeaTime().TimeOfDay;
+
+        if (start <= end) return start <= now && now <= end;
+        else return now >= start || now <= end;
     }
 
     private bool IsVistaWeather(Adventure vista)
