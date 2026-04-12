@@ -158,12 +158,12 @@ public class VistaMarkerFactory : WorldMarkerFactory, IDisposable
         return IsVistaLogUnlocked(vista) && IsVistaTime(vista) && IsVistaWeather(vista);
     }
 
-    private static unsafe DateTime GetEorzeaTime()
+    private static unsafe TimeSpan GetEorzeaTime()
     {
         var fw = Framework.Instance();
 
         if (fw == null) {
-            return DateTime.MinValue;
+            return TimeSpan.Zero;
         }
 
         long eorzeaTime = fw->ClientTime.EorzeaTime;
@@ -171,7 +171,7 @@ public class VistaMarkerFactory : WorldMarkerFactory, IDisposable
         long minutes    = eorzeaTime / 60   % 60;
         long seconds    = eorzeaTime        % 60;
 
-        return new(1, 1, 1, (int)hours, (int)minutes, (int)seconds);
+        return new((int)hours, (int)minutes, (int)seconds);
     }
 
     private static bool IsVistaTime(Adventure vista)
@@ -183,7 +183,7 @@ public class VistaMarkerFactory : WorldMarkerFactory, IDisposable
 
         if (start == null || end == null) return true;
 
-        TimeSpan now = GetEorzeaTime().TimeOfDay;
+        TimeSpan now = GetEorzeaTime();
 
         if (start <= end) return start <= now && now <= end;
         else return now >= start || now <= end;
