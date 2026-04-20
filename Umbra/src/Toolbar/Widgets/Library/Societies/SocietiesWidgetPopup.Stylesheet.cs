@@ -165,7 +165,7 @@ internal sealed partial class SocietiesWidgetPopup
                 new() {
                     IsAntialiased   = false,
                     Size            = new(100, 2),
-                    BackgroundColor = new("Window.AccentColor"),
+                    BackgroundColor = new("Widget.ProgressBar"),
                 }
             ),
             new(
