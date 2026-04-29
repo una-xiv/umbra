@@ -163,11 +163,11 @@ internal sealed class CompanionManager : ICompanionManager
             // Free
             4 => true,
             // Defender.
-            5 => buddy.DefenderLevel > 0,
+            5 => buddy.Levels[0] > 0,
             // Attacker.
-            6 => buddy.AttackerLevel > 0,
+            6 => buddy.Levels[1] > 0,
             // Healer.
-            7 => buddy.HealerLevel > 0,
+            7 => buddy.Levels[2] > 0,
             // Out of range.
             _ => false
         };
