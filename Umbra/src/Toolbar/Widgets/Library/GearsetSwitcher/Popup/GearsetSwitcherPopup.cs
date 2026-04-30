@@ -34,7 +34,7 @@ internal sealed partial class GearsetSwitcherPopup : WidgetPopup
     {
         HeaderNode.Style.IsVisible = _showHeader;
         CurrentGearset             = GearsetRepository.CurrentGearset!;
-        
+
         UpdateGroupPositions();
 
         GearsetRepository.OnGearsetCreated  += OnGearsetCreatedOrUpdated;
@@ -160,7 +160,7 @@ internal sealed partial class GearsetSwitcherPopup : WidgetPopup
                     case GearsetCategory.Crafter:
                     case GearsetCategory.Gatherer:
                         node.Style.UldResource = "ui/uld/WKSScoreList";
-                        node.Style.UldPartsId  = 2;
+                        node.Style.UldPartsId  = 3;
                         break;
                     default:
                         node.Style.UldResource = "ui/uld/DeepDungeonScoreList";
