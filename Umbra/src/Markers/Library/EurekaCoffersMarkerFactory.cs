@@ -99,7 +99,7 @@ internal sealed partial class EurekaCoffersMarkerFactory : WorldMarkerFactory
         }
 
         _isListeningForNotifications = true;
-        
+
         List<string> activeIds = [];
 
         var showDirection   = GetConfigValue<bool>("ShowOnCompass");

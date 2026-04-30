@@ -39,6 +39,6 @@ internal partial class OnlineStatusWidget
         var updateDataPacket = Unsafe.AsPointer(ref InfoProxyDetail.Instance()->UpdateData);
         if (null == updateDataPacket) return;
 
-        AgentDetail.Instance()->OpenForCharacterData(characterData, (InfoProxyDetail.UpdateDataPacket*)updateDataPacket);
+        AgentDetail.Instance()->OpenForCharacterData(characterData, (InfoProxyDetail.DetailUpdateData*)updateDataPacket);
     }
 }

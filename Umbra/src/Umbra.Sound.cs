@@ -79,7 +79,7 @@ internal sealed class UmbraSound : IDisposable
         PlaySound((uint)CloseWindowId);
     }
 
-    private static void PlaySound(uint id)
+    private static unsafe void PlaySound(uint id)
     {
         if (!Enabled || id < 1) return;
 

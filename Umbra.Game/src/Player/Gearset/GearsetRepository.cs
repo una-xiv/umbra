@@ -193,7 +193,7 @@ internal sealed class GearsetRepository : IGearsetRepository, IDisposable
         RaptureGearsetModule* gsm = RaptureGearsetModule.Instance();
         if (gsm == null) return;
 
-        sbyte newId = gsm->CreateGearset();
+        int newId = gsm->CreateGearset();
 
         if (newId == -1) {
             Logger.Error($"Failed to create gearset.");
