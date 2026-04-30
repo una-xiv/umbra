@@ -77,7 +77,7 @@ internal sealed partial class GearsetSwitcherWidget(
                 switch (gearset.Category) {
                     case GearsetCategory.Crafter:
                     case GearsetCategory.Gatherer:
-                        SetUldIcon(job.GetUldIcon(type), "ui/uld/WKSScoreList", 2);
+                        SetUldIcon(job.GetUldIcon(type), "ui/uld/WKSScoreList", 3);
                         break;
                     default:
                         SetUldIcon(job.GetUldIcon(type), "ui/uld/DeepDungeonScoreList", 3);
