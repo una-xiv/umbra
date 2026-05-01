@@ -61,6 +61,7 @@ internal sealed partial class DynamicMenuPopup
                         EmptyButtonPlaceholder.Style.IsVisible = true;
                         EditModeEnabled                        = true;
                         OnEditModeChanged?.Invoke(true);
+                        RebuildMenu();
                     },
                 },
                 new("DisableEditMode") {
@@ -69,6 +70,7 @@ internal sealed partial class DynamicMenuPopup
                         EmptyButtonPlaceholder.Style.IsVisible = false;
                         EditModeEnabled                        = false;
                         OnEditModeChanged?.Invoke(false);
+                        RebuildMenu();
                         if (Entries.Count == 0) Close();
                     },
                 },

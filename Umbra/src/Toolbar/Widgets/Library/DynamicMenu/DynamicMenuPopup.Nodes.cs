@@ -53,6 +53,8 @@ internal sealed partial class DynamicMenuPopup
                 ChildNodes = [separator],
             };
 
+            separatorBase.ToggleClass("edit-mode", EditModeEnabled);
+
             if (!string.IsNullOrEmpty(entry.Sl)) {
                 separator.AppendChild(
                     new() {
@@ -66,6 +68,7 @@ internal sealed partial class DynamicMenuPopup
             }
 
             separatorBase.OnRightClick += _ => OpenContextMenu(itemIndex);
+            if (EditModeEnabled) separatorBase.OnMouseUp += _ => { };
             return separatorBase;
         }
 
