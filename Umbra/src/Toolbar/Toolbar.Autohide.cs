@@ -23,20 +23,21 @@ internal partial class Toolbar
             return;
         }
 
+        var   io        = ImGui.GetIO();
         float height    = _toolbarNode.Height;
-        float deltaTime = ImGui.GetIO().DeltaTime * 10f;
+        float deltaTime = io.DeltaTime * 10f;
 
-        if (!_isVisible && IsCursorNearToolbar()) {
+        if (!_isVisible && _cachedIsCursorNear) {
             _isVisible       = true;
             _autoHideYTarget = 0;
         }
 
-        if (_isVisible && !IsCursorNearToolbar()) {
+        if (_isVisible && !_cachedIsCursorNear) {
             _isVisible       = false;
             _autoHideYTarget = IsTopAligned ? -(height + 2) : height + 2;
         }
 
-        if (IsMultiMonitorSupportEnabled()) {
+        if ((io.ConfigFlags & ImGuiConfigFlags.ViewportsEnable) == ImGuiConfigFlags.ViewportsEnable) {
             // Don't slide the toolbar off the screen when multi-monitor
             // support is enabled, since it may cause significant drops
             // in framerate.
@@ -89,8 +90,4 @@ internal partial class Toolbar
                || (AutoHideDuringPvp && player.IsInPvP);
     }
 
-    private static bool IsMultiMonitorSupportEnabled()
-    {
-        return (ImGui.GetIO().ConfigFlags & ImGuiConfigFlags.ViewportsEnable) == ImGuiConfigFlags.ViewportsEnable;
-    }
 }

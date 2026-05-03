@@ -18,8 +18,8 @@ public class WindowManager(UmbraDelvClipRects delvClipRects) : IDisposable
 
         _instances.Clear();
 
-        foreach (var handler in OnWindowOpened?.GetInvocationList() ?? []) OnWindowOpened -= (Action<IWindow>)handler;
-        foreach (var handler in OnWindowClosed?.GetInvocationList() ?? []) OnWindowClosed -= (Action<IWindow>)handler;
+        OnWindowOpened = null;
+        OnWindowClosed = null;
     }
 
     /// <summary>
@@ -79,15 +79,22 @@ public class WindowManager(UmbraDelvClipRects delvClipRects) : IDisposable
     {
         bool hasFocusedWindow = false;
 
+        // スナップショットを取得してからロック外でレンダリングすることで、
+        // Framework.Run() による非同期追加との競合を避ける
+        List<KeyValuePair<string, IWindow>> snapshot;
         lock (_instances) {
-            foreach ((string id, IWindow window) in _instances) {
-                window.Render(id);
-                
-                if (window.IsFocused) hasFocusedWindow = true;
-                if (!window.IsClosed) delvClipRects.SetClipRect($"Umbra.Window.{id}", window.Position, window.Size);
-            }
+            snapshot = [.._instances];
         }
-        
+
+        foreach (var (id, window) in snapshot) {
+            if (window.IsClosed) continue;
+
+            window.Render(id);
+
+            if (window.IsFocused) hasFocusedWindow = true;
+            if (!window.IsClosed) delvClipRects.SetClipRect($"Umbra.Window.{id}", window.Position, window.Size);
+        }
+
         HasFocusedWindow = hasFocusedWindow;
     }
 }

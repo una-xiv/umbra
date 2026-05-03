@@ -6,6 +6,18 @@ namespace Umbra;
 [Service]
 public sealed class UmbraVisibility
 {
+    // フレームキャッシュ: 同一フレーム内での重複計算を避ける
+    private bool _cachedToolbarVisible;
+    private bool _cachedMarkersVisible;
+    private bool _visibilityCacheValid;
+
+    [OnDraw(executionOrder: int.MinValue)]
+    private void InvalidateVisibilityCache()
+    {
+        _visibilityCacheValid = false;
+    }
+
+
     [ConfigVariable("General.ShowToolbarInCutscenes", "General", "ToolbarVisibilitySettings")]
     public static bool ShowToolbarInCutscenes { get; set; } = false;
 
@@ -71,50 +83,55 @@ public sealed class UmbraVisibility
 
     public unsafe bool IsToolbarVisible()
     {
-        // Always disable when visiting the aesthetician.
-        if (_condition[ConditionFlag.CreatingCharacter]) return false;
-
-        if (_clientState.IsGPosing && !ShowToolbarInGPose) return false;
-
-        if (_gameGui.GameUiHidden && !ShowToolbarOnUserHide) return false;
-
-        if (_player.IsInCutscene && !ShowToolbarInCutscenes) return false;
-
-        if (_player.IsBetweenAreas && !ShowToolbarBetweenAreas) return false;
-
-        if (_player.IsInIdleCam && !ShowToolbarDuringIdleCam) return false;
-
-        if (_player.IsInCombat && !ShowToolbarInCombat) return false;
-
-        if (_player.IsBoundByDuty && !ShowToolbarInDuty) return false;
-
-        if (RaptureAtkUnitManager.Instance()->IsEditingHudLayout && !ShowToolbarInHudEditing) return false;
-
-        return true;
+        if (!_visibilityCacheValid) ComputeVisibilityCache();
+        return _cachedToolbarVisible;
     }
 
     public bool AreMarkersVisible()
     {
-        // Always disable when visiting the aesthetician.
-        if (_condition[ConditionFlag.CreatingCharacter]) return false;
+        if (!_visibilityCacheValid) ComputeVisibilityCache();
+        return _cachedMarkersVisible;
+    }
 
-        // Always disable markers when in PvP.
-        if (_player.IsInPvP) return false;
+    private unsafe void ComputeVisibilityCache()
+    {
+        _visibilityCacheValid = true;
 
-        if (_clientState.IsGPosing && !ShowMarkersInGPose) return false;
+        // 美容師訪問中は常に非表示
+        if (_condition[ConditionFlag.CreatingCharacter]) {
+            _cachedToolbarVisible = false;
+            _cachedMarkersVisible = false;
+            return;
+        }
 
-        if (_gameGui.GameUiHidden && !ShowMarkersOnUserHide) return false;
+        bool isGPosing       = _clientState.IsGPosing;
+        bool isUiHidden      = _gameGui.GameUiHidden;
+        bool isInCutscene    = _player.IsInCutscene;
+        bool isBetweenAreas  = _player.IsBetweenAreas;
+        bool isInIdleCam     = _player.IsInIdleCam;
+        bool isInCombat      = _player.IsInCombat;
+        bool isBoundByDuty   = _player.IsBoundByDuty;
+        bool isEditingHud    = RaptureAtkUnitManager.Instance()->IsEditingHudLayout;
+        bool isInPvP         = _player.IsInPvP;
 
-        if (_player.IsInCutscene && !ShowMarkersInCutscenes) return false;
+        _cachedToolbarVisible =
+            !(isGPosing      && !ShowToolbarInGPose)        &&
+            !(isUiHidden     && !ShowToolbarOnUserHide)     &&
+            !(isInCutscene   && !ShowToolbarInCutscenes)    &&
+            !(isBetweenAreas && !ShowToolbarBetweenAreas)   &&
+            !(isInIdleCam    && !ShowToolbarDuringIdleCam)  &&
+            !(isInCombat     && !ShowToolbarInCombat)       &&
+            !(isBoundByDuty  && !ShowToolbarInDuty)         &&
+            !(isEditingHud   && !ShowToolbarInHudEditing);
 
-        if (_player.IsBetweenAreas && !ShowMarkersBetweenAreas) return false;
-
-        if (_player.IsInIdleCam && !ShowMarkersDuringIdleCam) return false;
-
-        if (_player.IsInCombat && !ShowMarkersInCombat) return false;
-
-        if (_player.IsBoundByDuty && !ShowMarkersInDuty) return false;
-
-        return true;
+        _cachedMarkersVisible =
+            !isInPvP                                         &&
+            !(isGPosing      && !ShowMarkersInGPose)         &&
+            !(isUiHidden     && !ShowMarkersOnUserHide)      &&
+            !(isInCutscene   && !ShowMarkersInCutscenes)     &&
+            !(isBetweenAreas && !ShowMarkersBetweenAreas)    &&
+            !(isInIdleCam    && !ShowMarkersDuringIdleCam)   &&
+            !(isInCombat     && !ShowMarkersInCombat)        &&
+            !(isBoundByDuty  && !ShowMarkersInDuty);
     }
 }

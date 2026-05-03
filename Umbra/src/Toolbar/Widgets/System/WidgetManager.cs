@@ -37,7 +37,7 @@ internal sealed partial class WidgetManager : IDisposable
             }
         }
 
-        if (!_widgetProfiles.ContainsKey("Default") == false) {
+        if (!_widgetProfiles.ContainsKey("Default")) {
             _widgetProfiles["Default"] = WidgetConfigData;
             SaveProfileData();
         }
@@ -64,22 +64,14 @@ internal sealed partial class WidgetManager : IDisposable
             }
         }
 
-        foreach (var handler in OnWidgetCreated?.GetInvocationList() ?? [])
-            OnWidgetCreated -= (Action<ToolbarWidget>)handler;
-
-        foreach (var handler in OnWidgetRemoved?.GetInvocationList() ?? [])
-            OnWidgetRemoved -= (Action<ToolbarWidget>)handler;
-
-        foreach (var handler in OnWidgetRelocated?.GetInvocationList() ?? [])
-            OnWidgetRelocated -= (Action<ToolbarWidget, string>)handler;
-
-        foreach (var handler in OnPopupOpened?.GetInvocationList() ?? []) OnPopupOpened   -= (Action<WidgetPopup>)handler;
-        foreach (var handler in OnPopupClosed?.GetInvocationList() ?? []) OnPopupClosed   -= (Action<WidgetPopup>)handler;
-        foreach (var handler in ProfileCreated?.GetInvocationList() ?? []) ProfileCreated -= (Action<string>)handler;
-        foreach (var handler in ProfileRemoved?.GetInvocationList() ?? []) ProfileRemoved -= (Action<string>)handler;
-
-        foreach (var handler in ActiveProfileChanged?.GetInvocationList() ?? [])
-            ActiveProfileChanged -= (Action<string>)handler;
+        OnWidgetCreated      = null;
+        OnWidgetRemoved      = null;
+        OnWidgetRelocated    = null;
+        OnPopupOpened        = null;
+        OnPopupClosed        = null;
+        ProfileCreated       = null;
+        ProfileRemoved       = null;
+        ActiveProfileChanged = null;
 
         _instances.Clear();
         _widgetState.Clear();
@@ -358,7 +350,8 @@ internal sealed partial class WidgetManager : IDisposable
     private void InvokeInstanceQuickSettings(Node node)
     {
         if (node.ParentNode is null) return;
-        if (!(ImGui.GetIO().KeyCtrl && ImGui.GetIO().KeyShift)) return;
+        var io = ImGui.GetIO();
+        if (!(io.KeyCtrl && io.KeyShift)) return;
 
         foreach (ToolbarWidget widget in _instances.Values) {
             if (widget.Node == node) {
