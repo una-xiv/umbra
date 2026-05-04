@@ -52,7 +52,7 @@ public class VariablesEditorWindow(string title, List<Variable> variables, List<
     {
         base.OnDraw();
 
-        foreach (var (node, variable) in _variableNodes) {
+        foreach (var (node, variable) in _variableNodes.ToArray()) {
             node.Style.IsVisible = variable.DisplayIf?.Invoke() ?? true;
         }
     }
