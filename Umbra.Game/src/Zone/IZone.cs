@@ -1,12 +1,13 @@
 ﻿using System.Numerics;
 using Map = Lumina.Excel.Sheets.Map;
+using TerritoryIntendedUse = FFXIVClientStructs.FFXIV.Client.Enums.TerritoryIntendedUse;
 
 namespace Umbra.Game;
 
 public interface IZone
 {
     public uint                  Id                  { get; }
-    public TerritoryType         Type                { get; }
+    public TerritoryIntendedUse  Type                { get; }
     public uint                  TerritoryId         { get; }
     public string                Name                { get; }
     public string                SubName             { get; }

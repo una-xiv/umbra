@@ -72,6 +72,8 @@
   "Markers.Fate.Description": "Affiche les marqueurs flottants pour les ALÉAs actifs dans la zone actuelle.",
   "Markers.Flag.Name": "Marqueur de drapeau",
   "Markers.Flag.Description": "Affiche un marqueur mondial pour le drapeau placé dans la zone actuelle.",
+  "Markers.Gate.Name": "Marqueur de GATE",
+  "Markers.Gate.Description": "Affiche un marqueur mondial pour les GATE actifs au Gold Saucer.",
   "Markers.Relic.Name": "Marqueurs de cibles du grimoire de relique",
   "Markers.Relic.Description": "Affiche des marqueurs mondiaux pour les ennemis requis par votre grimoire de relique actif.",
   "Markers.GatheringNodes.Name": "Marqueurs de points de récolte",

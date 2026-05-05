@@ -1,5 +1,7 @@
 using Dalamud.Game.ClientState.Conditions;
+using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.UI;
+using TerritoryIntendedUse = FFXIVClientStructs.FFXIV.Client.Enums.TerritoryIntendedUse;
 
 namespace Umbra;
 
@@ -73,6 +75,9 @@ public sealed class UmbraVisibility
     {
         // Always disable when visiting the aesthetician.
         if (_condition[ConditionFlag.CreatingCharacter]) return false;
+
+        // Always disable when playing Air Force Once in the Gold Saucer.
+        if (GameMain.Instance()->CurrentTerritoryIntendedUseId == TerritoryIntendedUse.AirForceOne) return false;
 
         if (_clientState.IsGPosing && !ShowToolbarInGPose) return false;
 

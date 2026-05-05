@@ -1,7 +1,5 @@
 using Dalamud.Game.Chat;
 using Dalamud.Game.ClientState.Fates;
-using Dalamud.Game.Text;
-using Dalamud.Game.Text.SeStringHandling;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 
 namespace Umbra.Markers.Library;

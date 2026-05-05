@@ -1,4 +1,3 @@
-using Dalamud.Utility.Signatures;
 using FFXIVClientStructs.FFXIV.Client.Game.Character;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using RelicNoteSheet = Lumina.Excel.Sheets.RelicNote;
@@ -11,12 +10,10 @@ internal class RelicWorldMarkerFactory : WorldMarkerFactory
     private readonly IDataManager dataManager;
     private readonly IZoneManager zoneManager;
 
-    public RelicWorldMarkerFactory(IDataManager dataManager, IZoneManager zoneManager, IGameInteropProvider gameInteropProvider)
+    public RelicWorldMarkerFactory(IDataManager dataManager, IZoneManager zoneManager)
     {
         this.dataManager = dataManager;
         this.zoneManager = zoneManager;
-
-        gameInteropProvider.InitializeFromAttributes(this);
     }
 
     public override string Id          { get; } = "RelicMarkers";
