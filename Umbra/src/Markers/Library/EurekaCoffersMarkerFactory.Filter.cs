@@ -1,6 +1,4 @@
 using Dalamud.Game.Chat;
-using Dalamud.Game.Text;
-using Dalamud.Game.Text.SeStringHandling;
 
 namespace Umbra.Markers.Library;
 
