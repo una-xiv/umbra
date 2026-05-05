@@ -72,6 +72,8 @@
   "Markers.Fate.Description": "显示当前区域内进行中FATE所在地标记。",
   "Markers.Flag.Name": "标点",
   "Markers.Flag.Description": "在地图上标记标点的位置。",
+  "Markers.Gate.Name": "GATE标记",
+  "Markers.Gate.Description": "显示游乐场内进行中GATE所在地标记。",
   "Markers.Relic.Name": "遗物书目标标记",
   "Markers.Relic.Description": "为你当前激活的遗物书所需的敌人显示世界标记。",
   "Markers.GatheringNodes.Name": "采集点标记",

@@ -72,6 +72,8 @@
   "Markers.Fate.Description": "現在のゾーンでアクティブなFATEのワールドマーカーを表示します。",
   "Markers.Flag.Name": "フラッグマーカー",
   "Markers.Flag.Description": "現在のゾーンに配置されたフラッグのワールドマーカーを表示します。",
+  "Markers.Gate.Name": "GATEマーカー",
+  "Markers.Gate.Description": "ゴールドソーサーで発生中のGATEのワールドマーカーを表示します。",
   "Markers.Relic.Name": "レリックブック対象マーカー",
   "Markers.Relic.Description": "現在有効なレリックブックに必要な敵にワールドマーカーを表示します。",
   "Markers.GatheringNodes.Name": "採集ノードマーカー",
