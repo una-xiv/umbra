@@ -1,5 +1,3 @@
-using FFXIVClientStructs.FFXIV.Client.UI.Agent;
-
 namespace Umbra.Game;
 
 [Service]
