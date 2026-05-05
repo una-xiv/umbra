@@ -1,5 +1,6 @@
 using Dalamud.Game.ClientState.Conditions;
 using FFXIVClientStructs.FFXIV.Client.UI;
+using TerritoryIntendedUse = FFXIVClientStructs.FFXIV.Client.Enums.TerritoryIntendedUse;
 
 namespace Umbra;
 
@@ -55,13 +56,15 @@ public sealed class UmbraVisibility
     private readonly IGameGui     _gameGui;
     private readonly IPlayer      _player;
     private readonly ICondition   _condition;
+    private readonly IZoneManager _zoneManager;
 
-    public UmbraVisibility(IClientState clientState, IGameGui gameGui, IPlayer player, ICondition condition)
+    public UmbraVisibility(IClientState clientState, IGameGui gameGui, IPlayer player, ICondition condition, IZoneManager zoneManager)
     {
         _clientState = clientState;
         _gameGui     = gameGui;
         _player      = player;
         _condition   = condition;
+        _zoneManager = zoneManager;
 
         Framework.DalamudPlugin.UiBuilder.DisableAutomaticUiHide = true;
         Framework.DalamudPlugin.UiBuilder.DisableCutsceneUiHide  = true;
@@ -73,6 +76,9 @@ public sealed class UmbraVisibility
     {
         // Always disable when visiting the aesthetician.
         if (_condition[ConditionFlag.CreatingCharacter]) return false;
+
+        // Always disable when playing Air Force Once in the Gold Saucer.
+        if (_zoneManager.HasCurrentZone && _zoneManager.CurrentZone.Type == TerritoryIntendedUse.AirForceOne) return false;
 
         if (_clientState.IsGPosing && !ShowToolbarInGPose) return false;
 
