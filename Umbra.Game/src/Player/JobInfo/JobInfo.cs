@@ -149,6 +149,7 @@ public class JobInfo(ClassJob cj)
             40 => o + 91133u, // Sage
             41 => o + 91185u, // Viper
             42 => o + 91186u, // Pictomancer
+            43 => o + 91154u, // Beastmaster has no crest icon yet, using paw for now
             _  => o + 91169u  // Unknown
         };
     }
@@ -199,6 +200,7 @@ public class JobInfo(ClassJob cj)
             40 => 62420u, // Sage
             41 => 62421u, // Viper
             42 => 62422u, // Pictomancer
+            43 => 62423u, // Beastmaster
             _  => 62301u  // Unknown
         };
     }
@@ -249,6 +251,7 @@ public class JobInfo(ClassJob cj)
             40 => 22, // Sage
             41 => 23, // Viper
             42 => 24, // Pictomancer
+            43 => 25, // Beastmaster
             _  => 0  // Unknown
         };
     }
