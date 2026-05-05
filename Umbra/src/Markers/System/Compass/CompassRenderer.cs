@@ -51,6 +51,8 @@ internal sealed class CompassRenderer(
         Vector2 vpSize    = ImGui.GetMainViewport().Size;
         Vector2 workPos   = ImGui.GetMainViewport().WorkPos;
 
+        if ((vpSize.X - clampSize) <= float.Epsilon || (vpSize.Y - clampSize) <= float.Epsilon) return; // early return if viewport size somehow is smaller than the clampSize
+
         if (!gameCamera.WorldToScreen(player.Position, out Vector2 playerScreenPosition)) return;
 
         playerScreenPosition.X += CenterPointXOffset;
