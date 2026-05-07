@@ -20,6 +20,9 @@ internal class WorldMarkerRenderer : IDisposable
     private Dictionary<int, WorldMarkerNode> NodePool          { get; } = new();
     private Dictionary<string, int>          MarkerAssignments { get; } = new();
 
+    // フレームごとに使い捨てリストを new しないよう再利用
+    private readonly List<string> _idsToRemove = [];
+
     public WorldMarkerRenderer(
         IGameCamera         gameCamera,
         WorldMarkerRegistry registry,
@@ -132,16 +135,16 @@ internal class WorldMarkerRenderer : IDisposable
 
     private void RemoveMarkersExcept(HashSet<string> usedMarkerIds)
     {
-        List<string> idsToRemove = [];
+        _idsToRemove.Clear();
 
         foreach ((string id, int nodeId) in MarkerAssignments) {
             if (!usedMarkerIds.Contains(id)) {
-                idsToRemove.Add(id);
+                _idsToRemove.Add(id);
                 NodePool[nodeId].RemoveMarker(id);
             }
         }
 
-        foreach (string id in idsToRemove) {
+        foreach (string id in _idsToRemove) {
             MarkerAssignments.Remove(id);
         }
     }

@@ -56,11 +56,17 @@ internal class WorldMarkerNode : Node
 
     public void RemoveMarker(string id)
     {
-        var index = _markers.Keys.ToList().IndexOf(id);
-        if (index == -1) return;
+        // ToList().IndexOf() を避け、Dictionary を直接走査して挿入順インデックスを取得
+        int index = 0;
+        bool found = false;
+        foreach (var key in _markers.Keys) {
+            if (key == id) { found = true; break; }
+            index++;
+        }
+
+        if (!found) return;
 
         _markers.Remove(id);
-
         ClearState(index);
     }
 
@@ -75,8 +81,12 @@ internal class WorldMarkerNode : Node
     {
         if (!_markers.ContainsKey(marker.Key)) return false;
 
-        return _markers.Count != 0
-            && _markers.Values.All(t => !(Vector3.Distance(t.WorldPosition, marker.WorldPosition) > AggregateDistance));
+        // 既存の全マーカーが集約距離以内に収まっているかを確認
+        foreach (var existing in _markers.Values) {
+            if (Vector3.Distance(existing.WorldPosition, marker.WorldPosition) > AggregateDistance) return false;
+        }
+
+        return true;
     }
 
     public Vector3? WorldPosition => _markers.Count > 0 ? _markers.Values.First().WorldPosition : null;

@@ -7,6 +7,9 @@ public class AuxBarNode : UdtNode
     private bool _isVertical;
     private int  _width;
 
+    // レイアウト関連の値が変わったときだけウィジェット走査を行うためのダーティフラグ
+    private bool _layoutDirty = true;
+
     public AuxBarNode(AuxBarConfig config) : base("umbra.auxbar.xml")
     {
         QuerySelector(".section")!.Id = config.Id;
@@ -18,11 +21,19 @@ public class AuxBarNode : UdtNode
         ToggleClass("toolbar", config.Decorate);
         ToggleClass("shadow", config.EnableShadow);
         ToggleClass("rounded", config.RoundedCorners);
-        ToggleClass("vertical", _isVertical = config.IsVertical);
+
+        bool newVertical = config.IsVertical;
+        int  newWidth    = config.Width;
+
+        if (newVertical != _isVertical || newWidth != _width) {
+            _isVertical  = newVertical;
+            _width       = newWidth;
+            _layoutDirty = true;
+        }
+
+        ToggleClass("vertical", _isVertical);
 
         QuerySelector(".section")!.Style.Gap = config.ItemSpacing;
-
-        _width = config.Width;
 
         ToggleClass("align-content-left", config.WidgetContentAlignment == "Left");
         ToggleClass("align-content-center", config.WidgetContentAlignment == "Center");
@@ -34,6 +45,10 @@ public class AuxBarNode : UdtNode
         Style.Size = _isVertical
             ? new(0, 0)
             : new(_width, Toolbar.Height);
+
+        // 縦横切り替えや幅変更があった場合のみウィジェットの AutoSize を更新する
+        if (!_layoutDirty) return;
+        _layoutDirty = false;
 
         foreach (var widget in QuerySelectorAll(".widget-instance")) {
             if (_isVertical) {

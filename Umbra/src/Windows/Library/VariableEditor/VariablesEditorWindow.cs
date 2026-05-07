@@ -212,7 +212,7 @@ public class VariablesEditorWindow(string title, List<Variable> variables, List<
         node.SupportsScripting = variable.SupportsScripting;
         
         node.OnValueChanged   += (v) => variable.Value = v;
-        variable.ValueChanged += (v) => variable.Value = v;
+        variable.ValueChanged += (v) => node.Value     = v;
 
         _variableNodes[node] = variable;
 
@@ -231,7 +231,7 @@ public class VariablesEditorWindow(string title, List<Variable> variables, List<
         );
 
         node.OnValueChanged   += (v) => variable.Value = v;
-        variable.ValueChanged += (v) => variable.Value = v;
+        variable.ValueChanged += (v) => node.Value     = v;
 
         _variableNodes[node] = variable;
 

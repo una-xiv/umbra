@@ -48,15 +48,16 @@ internal static class UmbraDrawing
     internal static UdtDocument DocumentFrom(string resourceName)
     {
         foreach (var assembly in Framework.Assemblies) {
+            // 大文字小文字を無視して一致するリソース名を検索し、見つかった実際の名前を使用する
             var resource = assembly
                           .GetManifestResourceNames()
                           .FirstOrDefault(r => r.EndsWith(resourceName, StringComparison.OrdinalIgnoreCase));
-            
+
             if (resource == null) continue;
-            
-            return UdtLoader.LoadFromAssembly(assembly, resourceName);
+
+            return UdtLoader.LoadFromAssembly(assembly, resource);
         }
-        
+
         throw new Exception($"No UDT document with the name \"{resourceName}\" exists in any assembly.");
     }
     

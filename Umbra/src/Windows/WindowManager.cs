@@ -41,9 +41,13 @@ public class WindowManager(UmbraDelvClipRects delvClipRects) : IDisposable
 
                 window.RequestClose += () => {
                     delvClipRects.RemoveClipRect($"Umbra.Window.{id}");
-                    _callbacks[id]?.Invoke(window);
-                    _instances.Remove(id);
-                    _callbacks.Remove(id);
+                    Action<IWindow>? callback;
+                    lock (_instances) {
+                        _callbacks.TryGetValue(id, out callback);
+                        _instances.Remove(id);
+                        _callbacks.Remove(id);
+                    }
+                    callback?.Invoke(window);
                     OnWindowClosed?.Invoke(window);
                 };
 

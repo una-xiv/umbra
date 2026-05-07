@@ -69,6 +69,8 @@ public sealed class UmbraDelvClipRects : IDisposable
             foreach (var key in _managedRects) {
                 _clipRects.Remove(key);
             }
+            // _clipRects と _managedRects を同期させる。再有効化時に古いエントリが残らないようにする
+            _managedRects.Clear();
         }
     }
 }
