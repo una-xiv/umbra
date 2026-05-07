@@ -79,6 +79,10 @@ internal unsafe class EquipmentRepository : IEquipmentRepository
     [OnTick(interval: 1000)]
     public void Update()
     {
+        if (_inventoryManager == null || _equipmentContainer == null) {
+            return;
+        }
+
         ushort lowestDurability  = ushort.MaxValue;
         ushort lowestSpiritbond  = ushort.MaxValue;
         ushort highestDurability = 0;
@@ -113,6 +117,11 @@ internal unsafe class EquipmentRepository : IEquipmentRepository
 
             var item = _dataManager.GetExcelSheet<Item>().GetRow(equipment->ItemId);
 
+            if (item.RowId == 0) {
+                Slots[slot] = new("", 0, (byte)slot, 0, 0);
+                continue;
+            }
+
             Slots[slot] = new(
                 item.Name.ExtractText(),
                 item.Icon,
@@ -130,7 +139,9 @@ internal unsafe class EquipmentRepository : IEquipmentRepository
 
         if (filledSlots > 0) {
             AverageDurability = (byte)((totalDurability / (float)filledSlots) / DurabilityRatioPercentage);
-            AverageSpiritbond = (byte)((totalSpiritbond / (float)spiritbondFilled) / SpiritbondRatioPercentage);
+            AverageSpiritbond = spiritbondFilled > 0 
+                ? (byte)((totalSpiritbond / (float)spiritbondFilled) / SpiritbondRatioPercentage)
+                : (byte)0;
         } else {
             AverageDurability = 0;
             AverageSpiritbond = 0;
