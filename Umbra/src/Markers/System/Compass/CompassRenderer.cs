@@ -1,4 +1,4 @@
-﻿using Dalamud.Interface.Textures.TextureWraps;
+using Dalamud.Interface.Textures.TextureWraps;
 
 using Umbra.Interface;
 using Una.Drawing.Clipping;
@@ -49,16 +49,18 @@ internal sealed class CompassRenderer(
         float   iconSize  = 24 * (IconScaleFactor / 100f) * Node.ScaleFactor;
         float   clampSize = iconSize * 2.5f;
         uint    iconColor = (0xFFFFFFFFu).ApplyAlphaComponent(IconOpacity / 100f);
-        Vector2 vpSize    = ImGui.GetMainViewport().Size;
-        Vector2 workPos   = ImGui.GetMainViewport().WorkPos;
+        var     viewport  = ImGui.GetMainViewport();
+        Vector2 vpSize    = viewport.Size;
+        Vector2 workPos   = viewport.WorkPos;
         vpSize.X -= clampSize;
         vpSize.Y -= clampSize;
 
-        if (vpSize.X <= float.Epsilon || vpSize.Y <= float.Epsilon) {
-            if (!viewportErrorLogged) {
-                Logger.Error($"Viewport size is too small for compass rendering: {vpSize}");
-                viewportErrorLogged = true;
-            }
+        if (vpSize.X <= clampSize || vpSize.Y <= clampSize) {
+            if (viewportErrorLogged)
+                return;
+
+            Logger.Error($"Viewport size is too small for compass rendering: ({viewport.ID}, {viewport.PlatformRequestClose}, {viewport.PlatformRequestMove}, {viewport.PlatformRequestResize}, {viewport.Pos}, {viewport.Size}, {viewport.WorkPos}, {viewport.WorkSize}, {viewport.Flags:G})");
+            viewportErrorLogged = true;
             return; // early return if viewport size somehow is smaller than the clampSize
         }
 
