@@ -17,12 +17,11 @@ public class ColorInputPopupNode : Node
         }
     }
 
-    private uint  _value;
-    private uint? _originalValue;
-    private uint? _copiedValue;
+    private uint   _value;
+    private uint?  _originalValue;
+    private string _hexInput = "";
 
     private ButtonNode RevertButton => QuerySelector<ButtonNode>("#revert")!;
-    private ButtonNode CopyButton   => QuerySelector<ButtonNode>("#copy")!;
 
     public ColorInputPopupNode(uint value)
     {
@@ -35,15 +34,11 @@ public class ColorInputPopupNode : Node
         AppendChild(doc.RootNode!);
 
         RevertButton.IsDisabled = true;
+        _hexInput = $"{_value:X8}";
 
         RevertButton.OnMouseUp += _ => {
             Value                   = _originalValue ?? _value;
             RevertButton.IsDisabled = true;
-        };
-
-        CopyButton.OnMouseUp += _ => {
-            ImGui.SetClipboardText($"#{_value:X8}");
-            _copiedValue = _value;
         };
     }
 
@@ -89,14 +84,24 @@ public class ColorInputPopupNode : Node
 
         ImGui.PopStyleColor(2);
 
+        ImGui.SetNextItemWidth(250);
+        ImGui.SetCursorPosX(8);
+        _hexInput = $"{_value:X8}";
+        if (ImGui.InputText("##HexInput", ref _hexInput, 9)) {
+            if (uint.TryParse(_hexInput, System.Globalization.NumberStyles.HexNumber, null, out uint parsed)) {
+                Value = parsed;
+            }
+        }
+        if (ImGui.IsItemHovered()) {
+            ImGui.SetTooltip("AARRGGBB");
+        }
+
         if (null == _originalValue && _originalValue != _value) {
             _originalValue          = _value;
             RevertButton.IsDisabled = false;
         } else {
             RevertButton.IsDisabled = _originalValue == _value;
         }
-
-        CopyButton.IsDisabled = _copiedValue == _value;
     }
 
     protected override void OnDisposed()
@@ -116,7 +121,6 @@ public class ColorInputPopupNode : Node
                 <node class="dummy"/>
                 <node class="info">
                     <node class="buttons">
-                        <button-node id="copy" label="_L(CopyToClipboard)"/>
                         <button-node id="revert" label="_L(Undo)"/>
                     </node>
                 </node>
