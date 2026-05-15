@@ -1,4 +1,5 @@
-﻿using Dalamud.Interface.Textures.TextureWraps;
+using System.Runtime.CompilerServices;
+using Dalamud.Interface.Textures.TextureWraps;
 
 using Umbra.Interface;
 using Una.Drawing.Clipping;
@@ -40,6 +41,7 @@ internal sealed class CompassRenderer(
     private static int CenterPointXOffset { get; set; } = 0;
 
     [OnDraw(executionOrder: int.MaxValue)]
+    [MethodImpl(MethodImplOptions.NoOptimization)]
     private void OnUpdate()
     {
         if (!Enabled || !visibility.AreMarkersVisible()) return;
@@ -74,9 +76,8 @@ internal sealed class CompassRenderer(
             Vector2 iconPos   = playerScreenPosition + direction * CompassRadius;
 
             // Clamp the icon position to the screen bounds.
-            // Math.Clamp keeps crashing for some people, may depend on timings / optimizations?
-            iconPos.X = Math.Max(clampSize, Math.Min(iconPos.X, vpSize.X));
-            iconPos.Y = Math.Max(clampSize, Math.Min(iconPos.Y, vpSize.Y));
+            iconPos.X = Math.Clamp(iconPos.X, clampSize, vpSize.X);
+            iconPos.Y = Math.Clamp(iconPos.Y, clampSize, vpSize.Y);
 
             Vector2 p1 = iconPos - new Vector2(iconSize / 2) + workPos;
             Vector2 p2 = iconPos + new Vector2(iconSize / 2) + workPos;
