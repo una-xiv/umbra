@@ -34,7 +34,7 @@ public class ColorInputPopupNode : Node
         AppendChild(doc.RootNode!);
 
         RevertButton.IsDisabled = true;
-        _hexInput = $"{_value:X8}";
+        _hexInput = AbgrToRgba(_value);
 
         RevertButton.OnMouseUp += _ => {
             Value                   = _originalValue ?? _value;
@@ -86,14 +86,15 @@ public class ColorInputPopupNode : Node
 
         ImGui.SetNextItemWidth(250);
         ImGui.SetCursorPosX(8);
-        _hexInput = $"{_value:X8}";
-        if (ImGui.InputText("##HexInput", ref _hexInput, 9)) {
-            if (uint.TryParse(_hexInput, System.Globalization.NumberStyles.HexNumber, null, out uint parsed)) {
-                Value = parsed;
+        _hexInput = AbgrToRgba(_value);
+        if (ImGui.InputText("##HexInput", ref _hexInput, 10)) {
+            var hex = _hexInput.TrimStart('#');
+            if (hex.Length == 8 && uint.TryParse(hex, System.Globalization.NumberStyles.HexNumber, null, out uint parsed)) {
+                Value = RgbaToAbgr(parsed);
             }
         }
         if (ImGui.IsItemHovered()) {
-            ImGui.SetTooltip("AARRGGBB");
+            ImGui.SetTooltip("RRGGBBAA");
         }
 
         if (null == _originalValue && _originalValue != _value) {
@@ -113,7 +114,25 @@ public class ColorInputPopupNode : Node
 
         base.OnDisposed();
     }
-    
+
+    private static string AbgrToRgba(uint abgr)
+    {
+        uint r = abgr & 0xFF;
+        uint g = (abgr >> 8) & 0xFF;
+        uint b = (abgr >> 16) & 0xFF;
+        uint a = (abgr >> 24) & 0xFF;
+        return $"{r:X2}{g:X2}{b:X2}{a:X2}";
+    }
+
+    private static uint RgbaToAbgr(uint rgba)
+    {
+        uint r = (rgba >> 24) & 0xFF;
+        uint g = (rgba >> 16) & 0xFF;
+        uint b = (rgba >> 8) & 0xFF;
+        uint a = rgba & 0xFF;
+        return r | (g << 8) | (b << 16) | (a << 24);
+    }
+
     private const string UdtSource =
         """
         <udt>
@@ -125,10 +144,10 @@ public class ColorInputPopupNode : Node
                     </node>
                 </node>
             </node>
-        
+
             <![CDATA[
                 @import "globals";
-                
+
                 .color-input-popup {
                     size: 266 0;
                     border-radius: 8;
@@ -137,20 +156,20 @@ public class ColorInputPopupNode : Node
                     stroke-width: 1;
                     stroke-inset: 1;
                 }
-                
+
                 #picker {
                     auto-size: grow;
                     flow: vertical;
                     gap: 10;
-                    
+
                     & > .dummy {
-                        size: 250;    
+                        size: 250;
                     }
-                    
+
                     & > .info {
                         auto-size: grow fit;
                         padding: 8;
-                        
+
                         & > .buttons {
                             anchor: middle-right;
                             gap: 8;
