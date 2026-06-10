@@ -1062,6 +1062,8 @@
   "Widget.Teleport.Config.ShowTeleportCost.Description": "Zeigt die Teleportationskosten neben dem Zielnamen an. Diese Einstellung umfasst auch die Anzahl der Gegenstände und die Abklingzeit. (Nein, dies macht die Teleportation nicht kostenlos)",
   "Widget.Teleport.Config.ShowNotification.Name": "Teleport-Benachrichtigung anzeigen",
   "Widget.Teleport.Config.ShowNotification.Description": "Zeigt eine Benachrichtigung auf deinem Bildschirm an, um zu bestätigen, wohin du nach dem Klicken auf ein Teleport-Ziel im Menü teleportierst.",
+  "Widget.Teleport.Config.ShowTicketCount.Name": "Verfügbare Tickets anzeigen",
+  "Widget.Teleport.Config.ShowTicketCount.Description": "Zeigt die Anzahl der verfügbaren Teleport-Tickets im Widget an.",
   "Widget.Teleport.Config.DefaultOpenedGroupName.Name": "Liste, die standardmäßig geöffnet wird",
   "Widget.Teleport.Config.DefaultOpenedGroupName.Description": "Liste, die standardmäßig geöffnet wird, wenn das Teleport-Widget angeklickt wird",
   "Widget.Teleport.Config.DefaultOpenedGroupName.Option.Auto": "Öffne die Liste der aktuellen Erweiterung",

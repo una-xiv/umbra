@@ -1062,6 +1062,8 @@
   "Widget.Teleport.Config.ShowTeleportCost.Description": "Affiche le coût de la téléportation à côté du nom de la destination. Ce paramètre inclut également le nombre d’objets et le temps de recharge. (Non, cela ne rend pas la téléportation gratuite)",
   "Widget.Teleport.Config.ShowNotification.Name": "Afficher la notification de téléportation",
   "Widget.Teleport.Config.ShowNotification.Description": "Affiche une notification sur votre écran pour confirmer votre destination de téléportation après avoir cliqué sur une destination de téléportation dans le menu.",
+  "Widget.Teleport.Config.ShowTicketCount.Name": "Afficher le nombre de tickets",
+  "Widget.Teleport.Config.ShowTicketCount.Description": "Affiche le nombre de tickets de téléportation disponibles sur le widget.",
   "Widget.Teleport.Config.DefaultOpenedGroupName.Name": "Liste à ouvrir par défaut",
   "Widget.Teleport.Config.DefaultOpenedGroupName.Description": "Liste à ouvrir par défaut lorsque le widget de téléportation est cliqué",
   "Widget.Teleport.Config.DefaultOpenedGroupName.Option.Auto": "Ouvrir la liste de l'extension actuelle",

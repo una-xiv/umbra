@@ -1,12 +1,12 @@
-﻿using Lumina.Excel.Sheets;
+using Lumina.Excel.Sheets;
 using Umbra.Widgets.Popup;
 
 namespace Umbra.Widgets;
 
 [ToolbarWidget(
-    "Teleport", 
-    "Widget.Teleport.Name", 
-    "Widget.Teleport.Description", 
+    "Teleport",
+    "Widget.Teleport.Name",
+    "Widget.Teleport.Description",
     ["teleport", "travel", "favorites", "locations", "housing", "estate"]
 )]
 internal sealed partial class TeleportWidget(
@@ -19,21 +19,26 @@ internal sealed partial class TeleportWidget(
 
     protected override StandardWidgetFeatures Features =>
         StandardWidgetFeatures.Text |
+        StandardWidgetFeatures.SubText |
         StandardWidgetFeatures.Icon |
         StandardWidgetFeatures.CustomizableIcon;
-    
+
     protected override string DefaultIconType   => IconTypeGameIcon;
     protected override uint   DefaultGameIconId => 60453;
+    protected override bool   DefaultShowSubText => false;
 
     private IPlayer Player { get; } = Framework.Service<IPlayer>();
 
     private string TeleportName { get; set; } = null!;
+    private string AetheryteTicketName { get; set; } = null!;
+    private static uint AetheryteTicketItemId => 7569;
 
     /// <inheritdoc/>
     protected override void OnLoad()
     {
-        var teleportAction = Framework.Service<IDataManager>().GetExcelSheet<GeneralAction>().GetRow(7);
-        TeleportName = teleportAction.Name.ToString();
+        var dataManager = Framework.Service<IDataManager>();
+        TeleportName = dataManager.GetExcelSheet<GeneralAction>().GetRow(7).Name.ToString();
+        AetheryteTicketName = dataManager.GetExcelSheet<Item>().GetRow(AetheryteTicketItemId).Name.ToString();
 
         Node.OnClick += OpenPopupMenu;
         Node.OnRightClick += OpenTeleportWindow;
@@ -49,6 +54,9 @@ internal sealed partial class TeleportWidget(
     {
         SetDisabled(!Player.CanUseTeleportAction);
         SetText(TeleportName);
+        var text = $"{AetheryteTicketName}: x{Player.GetItemCount(AetheryteTicketItemId)}";
+        SetSubText(text);
+        SetTooltip(text);
     }
 
     private ExpansionListPosition GetExpansionMenuPosition()
@@ -65,7 +73,7 @@ internal sealed partial class TeleportWidget(
     {
         Popup.ReverseCondensedElements = GetExpansionMenuPosition() == ExpansionListPosition.Right;
     }
-    
+
     private void OpenTeleportWindow(Node _)
     {
         Player.UseGeneralAction(7);
