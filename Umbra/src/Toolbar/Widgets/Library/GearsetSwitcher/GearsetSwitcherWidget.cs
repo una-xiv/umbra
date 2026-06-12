@@ -30,6 +30,7 @@ internal sealed partial class GearsetSwitcherWidget(
     protected override void OnLoad()
     {
         SetProgressBarConstraint(0, 100);
+        Node.OnRightClick += _ => Framework.Service<IChatSender>().Send("/character");
     }
 
     protected override void OnDraw()
