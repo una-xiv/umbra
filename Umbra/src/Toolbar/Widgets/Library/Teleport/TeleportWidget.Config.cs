@@ -7,7 +7,12 @@ internal sealed partial class TeleportWidget
     protected override IEnumerable<IWidgetConfigVariable> GetConfigVariables()
     {
         return [
-            ..base.GetConfigVariables(),
+            ..base.GetConfigVariables().Select(v => v.Id == "ShowSubText" ? new BooleanWidgetConfigVariable(
+                "ShowSubText",
+                I18N.Translate("Widget.Teleport.Config.ShowTicketCount.Name"),
+                I18N.Translate("Widget.Teleport.Config.ShowTicketCount.Description"),
+                false
+            ) { Category = I18N.Translate("Widgets.Standard.Config.Category.Text") } : v),
 
             new EnumWidgetConfigVariable<PopupDisplayMode>(
                 "PopupDisplayMode",

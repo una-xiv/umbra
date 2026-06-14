@@ -1062,6 +1062,8 @@
   "Widget.Teleport.Config.ShowTeleportCost.Description": "目的地の名前の横にテレポートのコストを表示します。この設定にはアイテム数とクールダウンも含まれます。（いいえ、これはテレポートを無料にするものではありません）",
   "Widget.Teleport.Config.ShowNotification.Name": "テレポート通知を表示",
   "Widget.Teleport.Config.ShowNotification.Description": "メニューでテレポート先をクリックした後、どこにテレポートするかを確認するために画面に通知を表示します。",
+  "Widget.Teleport.Config.ShowTicketCount.Name": "チケット数を表示",
+  "Widget.Teleport.Config.ShowTicketCount.Description": "利用可能なテレポチケットの数をウィジェットに表示します。",
   "Widget.Teleport.Config.DefaultOpenedGroupName.Name": "デフォルトで開くリスト",
   "Widget.Teleport.Config.DefaultOpenedGroupName.Description": "テレポートウィジェットをクリックした時にデフォルトで開くリスト",
   "Widget.Teleport.Config.DefaultOpenedGroupName.Option.Auto": "現在の拡張リストを開く",
