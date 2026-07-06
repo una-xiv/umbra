@@ -49,6 +49,14 @@ internal sealed partial class DynamicMenuWidget(
         Popup.OnEntriesChanged  -= OnEntriesChanged;
     }
 
+    protected override void OnDraw()
+    {
+        SetText(GetConfigValue<string>("ButtonLabel"));
+
+        string tooltip = GetConfigValue<string>("ButtonTooltip").Trim();
+        Node.Tooltip = string.IsNullOrEmpty(tooltip) ? null : tooltip;
+    }
+
     protected override void OnConfigurationChanged()
     {
         Popup.WidgetInstanceId = Id;
@@ -58,11 +66,6 @@ internal sealed partial class DynamicMenuWidget(
         Popup.AltEntryFontSize = GetConfigValue<int>("MenuAltFontSize");
         Popup.ShowSubIcons     = GetConfigValue<bool>("ShowSubIcons");
         Popup.ShowItemCount    = GetConfigValue<bool>("ShowItemCount");
-
-        SetText(GetConfigValue<string>("ButtonLabel"));
-
-        string tooltip = GetConfigValue<string>("ButtonTooltip").Trim();
-        Node.Tooltip = string.IsNullOrEmpty(tooltip) ? null : tooltip;
     }
 
     private void OnEditModeChanged(bool state)
