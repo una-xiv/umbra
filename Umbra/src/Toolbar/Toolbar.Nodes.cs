@@ -34,7 +34,7 @@ internal partial class Toolbar
     public Node CenterPanel => GetPanel("Center")!;
     public Node RightPanel  => GetPanel("Right")!;
 
-    private void RenderAuxBarNodes()
+    private void RenderAuxBarNodes(ImDrawListPtr drawList)
     {
         foreach (var (auxBarNode, config) in auxBars.VisibleAuxBarPanels) {
             auxBarNode.ToggleClass("left-aligned", config.XAlign == "Left");
@@ -63,17 +63,14 @@ internal partial class Toolbar
                 _        => config.YPos,
             };
 
-            auxBarNode.Render(
-                ImGui.GetBackgroundDrawList(ImGui.GetMainViewport()),
-                new(xPos, yPos)
-            );
+            auxBarNode.Render(drawList, new(xPos, yPos));
         }
     }
 
     /// <summary>
     /// Renders the toolbar.
     /// </summary>
-    private void RenderToolbarNode()
+    private void RenderToolbarNode(ImDrawListPtr drawList)
     {
         _toolbarNode.Style.Gap     = ItemSpacing * 2;
         _toolbarNode.Style.Opacity = player.IsEditingHud ? 0.66f : _autoHideOpacity;
@@ -103,10 +100,7 @@ internal partial class Toolbar
             RightPanel.Style.AutoSize  = (AutoSize.Fit, AutoSize.Grow);
         }
 
-        _toolbarNode.Render(
-            ImGui.GetBackgroundDrawList(ImGui.GetMainViewport()),
-            new(ToolbarXPosition, (int)(ToolbarYPosition + _autoHideYOffset))
-        );
+        _toolbarNode.Render(drawList, new(ToolbarXPosition, (int)(ToolbarYPosition + _autoHideYOffset)));
     }
 
     /// <summary>
@@ -144,6 +138,39 @@ internal partial class Toolbar
         _toolbarNode.ToggleClass("top", IsTopAligned);
         _toolbarNode.ToggleClass("bottom", !IsTopAligned);
         _toolbarNode.ToggleClass("rounded", !IsStretched && RoundedCorners);
+    }
+
+    /// <summary>
+    /// Opens the toolbar host window if UseWindowDrawList is enabled and returns its draw list.
+    /// Returns false if using the background draw list (no window was opened).
+    /// </summary>
+    private static unsafe bool BeginWindowDrawList(out ImDrawListPtr drawList)
+    {
+        if (!UseWindowDrawList) {
+            drawList = ImGui.GetBackgroundDrawList(ImGui.GetMainViewport());
+            Node.PassthroughDrawListHandles.Clear();
+            return false;
+        }
+
+        var vp    = ImGui.GetMainViewport();
+        var flags = ImGuiWindowFlags.NoTitleBar    | ImGuiWindowFlags.NoResize     | ImGuiWindowFlags.NoScrollbar
+                  | ImGuiWindowFlags.NoInputs      | ImGuiWindowFlags.NoBackground | ImGuiWindowFlags.NoFocusOnAppearing
+                  | ImGuiWindowFlags.NoDecoration  | ImGuiWindowFlags.NoSavedSettings | ImGuiWindowFlags.NoDocking
+                  | ImGuiWindowFlags.NoNavFocus    | ImGuiWindowFlags.NoNavInputs   | ImGuiWindowFlags.NoCollapse
+                  | ImGuiWindowFlags.NoMove        | ImGuiWindowFlags.NoScrollWithMouse;
+
+        ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, Vector2.Zero);
+        ImGui.PushStyleVar(ImGuiStyleVar.WindowBorderSize, 0f);
+        ImGui.SetNextWindowPos(vp.WorkPos);
+        ImGui.SetNextWindowSize(vp.WorkSize);
+        ImGui.SetNextWindowViewport(vp.ID);
+        ImGui.Begin("##UmbraToolbarHost", flags);
+        ImGui.PopStyleVar(2);
+        ImGui.SetCursorScreenPos(Vector2.Zero);
+        drawList = ImGui.GetWindowDrawList();
+        Node.PassthroughDrawListHandles.Clear();
+        Node.PassthroughDrawListHandles.Add((nint)drawList.Handle);
+        return true;
     }
 
     /// <summary>

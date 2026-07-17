@@ -17,11 +17,15 @@ internal sealed partial class Toolbar(AuxBarManager auxBars, IPlayer player, Umb
         UpdateToolbarNodeClassList();
         UpdateToolbarAutoHideOffset();
 
+        bool usingWindow = BeginWindowDrawList(out var drawList);
+
         if (Enabled) {
-            RenderToolbarNode();
+            RenderToolbarNode(drawList);
         }
 
-        RenderAuxBarNodes();
+        RenderAuxBarNodes(drawList);
+
+        if (usingWindow) ImGui.End();
     }
 
     public void Dispose()

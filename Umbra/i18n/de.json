@@ -411,6 +411,8 @@
   "CVAR.Toolbar.MarginRight.Description": "Der Abstand zwischen dem rechten Bildschirmrand und der Symbolleiste in Pixeln.",
   "CVAR.Toolbar.YOffset.Name": "Vertikaler Versatz der Symbolleiste",
   "CVAR.Toolbar.YOffset.Description": "Der vertikale Versatz der Symbolleiste vom oberen oder unteren Bildschirmrand in Pixeln.",
+  "CVAR.Toolbar.UseWindowDrawList.Name": "Window draw list verwenden",
+  "CVAR.Toolbar.UseWindowDrawList.Description": "Rendert die Symbolleiste in einer ImGui-Window draw list anstelle der Background draw list. Aktiviere dies, wenn andere Plugins (z.B. Gaolbreak) Spiel-UI-Elemente über der Symbolleiste zeichnen.",
   "Widget.ConfigCategory.WidgetAppearance": "Widget-Optionen",
   "Widget.ConfigCategory.MenuAppearance": "Popup-Menü-Optionen",
   "Widget.ConfigCategory.GearsetRoleOptions": "{0}-Optionen",

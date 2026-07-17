@@ -411,6 +411,8 @@
   "CVAR.Toolbar.MarginRight.Description": "The distance between the right edge of the screen and the toolbar in pixels.",
   "CVAR.Toolbar.YOffset.Name": "Toolbar vertical offset",
   "CVAR.Toolbar.YOffset.Description": "The vertical offset of the toolbar from the top or bottom of the screen in pixels.",
+  "CVAR.Toolbar.UseWindowDrawList.Name": "Use window draw list",
+  "CVAR.Toolbar.UseWindowDrawList.Description": "Renders the toolbar in an ImGui window draw list instead of the background draw list. Enable this if other plugins (e.g. Gaolbreak) draw game UI elements above the toolbar.",
   "Widget.ConfigCategory.WidgetAppearance": "Widget Options",
   "Widget.ConfigCategory.MenuAppearance": "Popup Menu Options",
   "Widget.ConfigCategory.GearsetRoleOptions": "{0} Options",

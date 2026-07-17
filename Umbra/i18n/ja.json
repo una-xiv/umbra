@@ -411,6 +411,8 @@
   "CVAR.Toolbar.MarginRight.Description": "画面の右端とツールバーの間の距離（ピクセル単位）。",
   "CVAR.Toolbar.YOffset.Name": "ツールバーの垂直オフセット",
   "CVAR.Toolbar.YOffset.Description": "画面の上部または下部からのツールバーの垂直オフセット（ピクセル単位）。",
+  "CVAR.Toolbar.UseWindowDrawList.Name": "ウィンドウ描画リストを使用",
+  "CVAR.Toolbar.UseWindowDrawList.Description": "ツールバーをバックグラウンド描画リストの代わりに ImGui ウィンドウ描画リストでレンダリングします。他のプラグイン（例：Gaolbreak）がツールバーの上にゲームUI要素を描画する場合に有効にしてください。",
   "Widget.ConfigCategory.WidgetAppearance": "ウィジェットオプション",
   "Widget.ConfigCategory.MenuAppearance": "ポップアップメニューオプション",
   "Widget.ConfigCategory.GearsetRoleOptions": "{0}オプション",
