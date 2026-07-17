@@ -28,16 +28,18 @@ internal class PluginLoadContext(DirectoryInfo directoryInfo) : AssemblyLoadCont
         foreach (var name in assembly.GetReferencedAssemblies()) {
             if (null == name.Name || !KnownAssemblies.TryGetValue(name.Name, out var referencedKnownAssembly)) continue;
 
-            if (name.Name == "Umbra") hasUmbraReference = true;
+            // Allow any of the following references to be seen as a valid Umbra plugin.
+            hasUmbraReference = name.Name switch {
+                "Umbra" or "Umbra.Common" or "Umbra.Game" => true,
+                _                                         => hasUmbraReference,
+            };
 
             ValidateReferencedAssembly(name, referencedKnownAssembly.GetName());
         }
 
-        if (!hasUmbraReference) {
-            throw new ("This is not an Umbra plugin.");
-        }
-
-        return assembly;
+        return !hasUmbraReference
+            ? throw new($"The plugin \"{filePath}\" is not a valid Umbra plugin.")
+            : assembly;
     }
 
     private Assembly LoadFromFileInternal(string filePath)
@@ -84,7 +86,8 @@ internal class PluginLoadContext(DirectoryInfo directoryInfo) : AssemblyLoadCont
 
         if (usedMa < refMa || usedMi < refMi) {
             // I18N isn't available here.
-            throw new ($"This plugin cannot be loaded because it was made using {refAsm.Name} version {usedMa}.{usedMi}, but {refMa}.{refMi} is required. This plugin should be updated by the author.");
+            throw new(
+                $"This plugin cannot be loaded because it was made using {refAsm.Name} version {usedMa}.{usedMi}, but {refMa}.{refMi} is required. This plugin should be updated by the author.");
         }
     }
 }

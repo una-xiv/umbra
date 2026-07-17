@@ -41,7 +41,7 @@ public abstract class SettingsWindowModule
 
     internal void Activate(Node contentNode)
     {
-        Document = UdtLoader.LoadFromAssembly(Assembly.GetExecutingAssembly(), UdtResourceName);
+        Document = UdtLoader.Load(UdtResourceName);
         RootNode = Document.RootNode ??
                    throw new Exception($"The UDT resource \"{UdtResourceName}\" does not contain a root node.");
 
@@ -53,9 +53,9 @@ public abstract class SettingsWindowModule
     internal void Deactivate()
     {
         if (RootNode == null!) return;
-        
+
         OnClose();
-        
+
         RootNode.Dispose();
         RootNode = null!;
         Document = null!;
