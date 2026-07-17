@@ -411,6 +411,8 @@
   "CVAR.Toolbar.MarginRight.Description": "屏幕右边缘和工具栏之间的距离（像素）。",
   "CVAR.Toolbar.YOffset.Name": "工具栏垂直偏移",
   "CVAR.Toolbar.YOffset.Description": "工具栏距屏幕顶部或底部的垂直偏移（像素）。",
+  "CVAR.Toolbar.UseWindowDrawList.Name": "使用窗口绘制列表",
+  "CVAR.Toolbar.UseWindowDrawList.Description": "将工具栏渲染到 ImGui 窗口绘制列表而非背景绘制列表。如果其他插件（如 Gaolbreak）在工具栏上方绘制游戏 UI 元素，请启用此选项。",
   "Widget.ConfigCategory.WidgetAppearance": "小组件选项",
   "Widget.ConfigCategory.MenuAppearance": "弹出菜单选项",
   "Widget.ConfigCategory.GearsetRoleOptions": "{0} 选项",

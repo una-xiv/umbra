@@ -46,6 +46,9 @@ internal partial class Toolbar
 
     [ConfigVariable("Toolbar.YOffset", "General", "Toolbar", min: -16384, max: 16384)]
     private static int YOffset { get; set; } = 0;
+
+    [ConfigVariable("Toolbar.UseWindowDrawList", "General", "Toolbar")]
+    private static bool UseWindowDrawList { get; set; } = false;
     
     #region Legacy Aux Bar - DO NOT USE
 
