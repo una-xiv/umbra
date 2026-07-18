@@ -14,8 +14,6 @@
  *     GNU Affero General Public License for more details.
  */
 
-using Dalamud.Game.ClientState.Keys;
-using FFXIVClientStructs.FFXIV.Client.Game;
 using Umbra.Widgets.System;
 
 namespace Umbra;
@@ -44,11 +42,12 @@ internal partial class Toolbar
             auxBarNode.ToggleClass("middle-aligned", config.YAlign == "Center");
             auxBarNode.ToggleClass("bottom-aligned", config.YAlign == "Bottom");
 
-            Vector2 workPos  = ImGui.GetMainViewport().WorkPos;
-            Vector2 workSize = ImGui.GetMainViewport().WorkSize;
+            var     viewport = ImGui.GetMainViewport();
+            Vector2 workPos  = viewport.WorkPos;
+            Vector2 workSize = viewport.WorkSize;
 
-            auxBarNode.ComputeBoundingSize();
-
+            // Render() 内の Reflow() で ComputeBounds() が走るため事前呼び出しは不要。
+            // 前フレームのキャッシュ済みサイズを使用（1フレーム遅延は視覚的に無問題）。
             float xPos = config.XAlign switch {
                 "Center" => (ToolbarXPosition - (auxBarNode.Bounds.MarginSize.Width / 2f)) + config.XPos,
                 "Left"   => config.XPos,
@@ -125,16 +124,16 @@ internal partial class Toolbar
     private void UpdateToolbarNodeClassList()
     {
         if (EnableInactiveColors) {
-            if (!IsCursorNearToolbar() && !_toolbarNode.TagsList.Contains("blur")) {
+            if (!_cachedIsCursorNear && !_toolbarNode.TagsList.Contains("blur")) {
                 _toolbarNode.TagsList.Add("blur");
-            } else if (IsCursorNearToolbar() && _toolbarNode.TagsList.Contains("blur")) {
+            } else if (_cachedIsCursorNear && _toolbarNode.TagsList.Contains("blur")) {
                 _toolbarNode.TagsList.Remove("blur");
             }
         } else {
             _toolbarNode.TagsList.Remove("blur");
         }
 
-        _toolbarNode.ToggleClass("shadow", EnableShadow && (!EnableInactiveColors || IsCursorNearToolbar()));
+        _toolbarNode.ToggleClass("shadow", EnableShadow && (!EnableInactiveColors || _cachedIsCursorNear));
         _toolbarNode.ToggleClass("top", IsTopAligned);
         _toolbarNode.ToggleClass("bottom", !IsTopAligned);
         _toolbarNode.ToggleClass("rounded", !IsStretched && RoundedCorners);
@@ -176,14 +175,22 @@ internal partial class Toolbar
     /// <summary>
     /// Returns the horizontal position of the toolbar.
     /// </summary>
-    private static float ToolbarXPosition =>
-        (ImGui.GetMainViewport().WorkPos.X + (ImGui.GetMainViewport().WorkSize.X / 2));
+    private static float ToolbarXPosition {
+        get {
+            var vp = ImGui.GetMainViewport();
+            return vp.WorkPos.X + (vp.WorkSize.X / 2);
+        }
+    }
 
     /// <summary>
     /// Returns the vertical position of the toolbar.
     /// </summary>
-    private static float ToolbarYPosition =>
-        IsTopAligned
-            ? ImGui.GetMainViewport().WorkPos.Y + YOffset
-            : ImGui.GetMainViewport().WorkPos.Y + (int)ImGui.GetMainViewport().WorkSize.Y - YOffset;
+    private static float ToolbarYPosition {
+        get {
+            var vp = ImGui.GetMainViewport();
+            return IsTopAligned
+                ? vp.WorkPos.Y + YOffset
+                : vp.WorkPos.Y + (int)vp.WorkSize.Y - YOffset;
+        }
+    }
 }

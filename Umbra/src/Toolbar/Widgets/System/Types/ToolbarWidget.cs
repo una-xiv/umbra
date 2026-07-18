@@ -79,7 +79,8 @@ public abstract class ToolbarWidget(
         Node.OnMouseDown += _ => {
             if (Node.IsDisabled) return;
 
-            if (WidgetManager.EnableQuickSettingAccess && ImGui.GetIO().KeyCtrl && ImGui.GetIO().KeyShift) {
+            var io = ImGui.GetIO();
+            if (WidgetManager.EnableQuickSettingAccess && io.KeyCtrl && io.KeyShift) {
                 return;
             }
 
@@ -162,18 +163,6 @@ public abstract class ToolbarWidget(
     {
         if (IsDisposed) return;
         IsDisposed = true;
-
-        foreach (var handler in OnConfigValueChanged?.GetInvocationList() ?? []) {
-            OnConfigValueChanged -= (Action<IWidgetConfigVariable>)handler;
-        }
-
-        foreach (var handler in OpenPopup?.GetInvocationList() ?? []) {
-            OpenPopup -= (Action<ToolbarWidget, WidgetPopup>)handler;
-        }
-
-        foreach (var handler in OpenPopupDelayed?.GetInvocationList() ?? []) {
-            OpenPopupDelayed -= (Action<ToolbarWidget, WidgetPopup>)handler;
-        }
 
         OnConfigValueChanged = null;
         OpenPopup            = null;

@@ -52,7 +52,7 @@ public class VariablesEditorWindow(string title, List<Variable> variables, List<
     {
         base.OnDraw();
 
-        foreach (var (node, variable) in _variableNodes) {
+        foreach (var (node, variable) in _variableNodes.ToArray()) {
             node.Style.IsVisible = variable.DisplayIf?.Invoke() ?? true;
         }
     }
@@ -212,7 +212,7 @@ public class VariablesEditorWindow(string title, List<Variable> variables, List<
         node.SupportsScripting = variable.SupportsScripting;
         
         node.OnValueChanged   += (v) => variable.Value = v;
-        variable.ValueChanged += (v) => variable.Value = v;
+        variable.ValueChanged += (v) => node.Value     = v;
 
         _variableNodes[node] = variable;
 
@@ -231,7 +231,7 @@ public class VariablesEditorWindow(string title, List<Variable> variables, List<
         );
 
         node.OnValueChanged   += (v) => variable.Value = v;
-        variable.ValueChanged += (v) => variable.Value = v;
+        variable.ValueChanged += (v) => node.Value     = v;
 
         _variableNodes[node] = variable;
 

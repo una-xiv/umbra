@@ -88,7 +88,6 @@ public abstract class WidgetPopup : IDisposable
         ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, Vector2.Zero);
         ImGui.PushStyleVar(ImGuiStyleVar.WindowRounding, 0f);
         ImGui.PushStyleVar(ImGuiStyleVar.WindowBorderSize, 0f);
-        ImGui.PushStyleVar(ImGuiStyleVar.WindowBorderSize, 0f);
 
         bool keepOpen = false;
 
@@ -100,13 +99,15 @@ public abstract class WidgetPopup : IDisposable
             Logger.Error(e.StackTrace);
         }
 
-        ImGui.PopStyleVar(4);
+        ImGui.PopStyleVar(3);
 
         return keepOpen;
     }
 
     public void Reset()
     {
+        _isCrashed = false;
+
         if (_isOpen) {
             _isOpen      = false;
             _shouldClose = false;
@@ -162,8 +163,8 @@ public abstract class WidgetPopup : IDisposable
         _opacityDest = 1;
         _yOffsetDest = 0;
 
-        _opacity = _opacity += (_opacityDest - _opacity) * deltaTime;
-        _yOffset = _yOffset += (_yOffsetDest - _yOffset) * deltaTime;
+        _opacity += (_opacityDest - _opacity) * deltaTime;
+        _yOffset += (_yOffsetDest - _yOffset) * deltaTime;
 
         switch (IsPopupOpenDownward(activator)) {
             case true when _yOffset > -1:
@@ -199,11 +200,11 @@ public abstract class WidgetPopup : IDisposable
 
         bool hasFocus = true;
 
-        try {
-            ImGui.SetNextWindowPos(new(Position.X, Position.Y));
-            ImGui.SetNextWindowSize(new(Size.X, Size.Y));
-            ImGui.Begin($"###Popup_{activator.Id.GetHashCode():X}", PopupWindowFlags);
+        ImGui.SetNextWindowPos(new(Position.X, Position.Y));
+        ImGui.SetNextWindowSize(new(Size.X, Size.Y));
+        ImGui.Begin($"###Popup_{activator.Id.GetHashCode():X}", PopupWindowFlags);
 
+        try {
             hasFocus = ImGui.IsWindowFocused(ImGuiFocusedFlags.RootAndChildWindows);
 
             _popupNode.Render(ImGui.GetWindowDrawList(), new(0, _yOffset));
@@ -211,11 +212,12 @@ public abstract class WidgetPopup : IDisposable
             if (ContextMenu is { ShouldRender: true }) {
                 _contextMenuManager.Draw();
             }
-
-            ImGui.End();
         } catch (Exception e) {
             Logger.Error(e.Message);
             Logger.Error(e.StackTrace);
+            _shouldClose = true;
+        } finally {
+            ImGui.End();
         }
 
         bool keepOpen = !_shouldClose && hasFocus;

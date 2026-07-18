@@ -112,12 +112,21 @@ internal sealed class AuxBarManager : IDisposable
 
     public List<AuxBarConfig> All => AuxBarConfigs.ToList(); // Shallow copy.
 
-    public List<(AuxBarNode, AuxBarConfig)> VisibleAuxBarPanels =>
-        AuxBarConfigs
-           .Where(config => config.IsEnabled && ShouldRenderAuxBar(config) && AuxBarNodes.ContainsKey(config.Id))
-           .Select(config => (AuxBarNodes[config.Id], config))
-           .Where(node => node.Item1.WidgetCount > 0)
-           .ToList();
+    private readonly List<(AuxBarNode, AuxBarConfig)> _visiblePanelsCache = [];
+
+    public List<(AuxBarNode, AuxBarConfig)> VisibleAuxBarPanels {
+        get {
+            _visiblePanelsCache.Clear();
+            foreach (var config in AuxBarConfigs) {
+                if (!config.IsEnabled) continue;
+                if (!AuxBarNodes.TryGetValue(config.Id, out var node)) continue;
+                if (!ShouldRenderAuxBar(config)) continue;
+                if (node.WidgetCount == 0) continue;
+                _visiblePanelsCache.Add((node, config));
+            }
+            return _visiblePanelsCache;
+        }
+    }
 
     public AuxBarConfig CreateBar(string id)
     {

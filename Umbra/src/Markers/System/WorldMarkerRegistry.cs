@@ -32,10 +32,12 @@ internal sealed class WorldMarkerRegistry : IDisposable
 
     public List<WorldMarker> GetMarkers()
     {
-        if (! _zoneManager.HasCurrentZone) return [];
+        if (!_zoneManager.HasCurrentZone) return [];
+        if (!_visibility.AreMarkersVisible()) return [];
 
-        return _visibility.AreMarkersVisible()
-            ? WorldMarkers[_zoneManager.CurrentZone.Id].Values.ToList()
+        // TryGetValue でキー不在時の KeyNotFoundException を防ぐ
+        return WorldMarkers.TryGetValue(_zoneManager.CurrentZone.Id, out var markers)
+            ? [..markers.Values]
             : [];
     }
 

@@ -100,12 +100,14 @@ internal sealed class CompassRenderer(
     {
         if (GetIcon(60541) is not { } arrow) return;
 
-        float angle    = MathF.Atan2(direction.Y, direction.X);
-        float halfSize = 16 * (IconScaleFactor / 100f) * Node.ScaleFactor;
-        var   arrowPos = new Vector2(screenPos.X - halfSize, screenPos.Y - halfSize);
+        float angle       = MathF.Atan2(direction.Y, direction.X);
+        float arrowSize   = 16 * (IconScaleFactor / 100f) * Node.ScaleFactor;
+        float halfSize    = arrowSize / 2f;
+        float arrowOffset = (iconSize + arrowSize - halfSize);
+        var   arrowPos    = new Vector2(screenPos.X - halfSize, screenPos.Y - halfSize);
 
-        arrowPos.X += ((iconSize + (16 * (IconScaleFactor / 100f) * Node.ScaleFactor)) - halfSize) * MathF.Cos(angle);
-        arrowPos.Y += ((iconSize + (16 * (IconScaleFactor / 100f) * Node.ScaleFactor)) - halfSize) * MathF.Sin(angle);
+        arrowPos.X += arrowOffset * MathF.Cos(angle);
+        arrowPos.Y += arrowOffset * MathF.Sin(angle);
 
         ImGui
            .GetBackgroundDrawList()
@@ -122,11 +124,25 @@ internal sealed class CompassRenderer(
         return ClipRectProvider.FindClipRectsIntersectingWith(rect).Count == 0;
     }
 
+    // アイコンを毎フレーム取得しないようにキャッシュする
+    private readonly Dictionary<uint, IDalamudTextureWrap?> _iconCache    = [];
+    private readonly HashSet<uint>                          _failedIconIds = [];
+
     private IDalamudTextureWrap? GetIcon(uint iconId)
     {
+        if (_failedIconIds.Contains(iconId)) return null;
+        if (_iconCache.TryGetValue(iconId, out var cached)) return cached;
+
         try {
-            return textureProvider.GetFromGameIcon(new(iconId)).GetWrapOrDefault();
+            var wrap = textureProvider.GetFromGameIcon(new(iconId)).GetWrapOrDefault();
+            if (wrap == null) {
+                _failedIconIds.Add(iconId);
+                return null;
+            }
+            _iconCache[iconId] = wrap;
+            return wrap;
         } catch {
+            _failedIconIds.Add(iconId);
             return null;
         }
     }
