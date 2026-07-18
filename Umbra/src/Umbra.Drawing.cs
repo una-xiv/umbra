@@ -17,11 +17,15 @@ internal static class UmbraDrawing
 
         UdtLoader.RegisterAttributeValueParser(new I18NAttributeValueParser());
         UdtLoader.RegisterDirectiveParser(new ImageSourceDirectiveParser());
-        
-        UdtDocument doc = UdtLoader.LoadFromAssembly(Assembly.GetExecutingAssembly(), "umbra.globals.xml");
-        
+
+        foreach (var assembly in Framework.Assemblies) {
+            UdtLoader.AddAssembly(assembly);
+        }
+
+        UdtDocument doc = UdtLoader.Load("umbra.globals.xml");
+
         StylesheetRegistry.Register("globals", doc.Stylesheet!);
-        
+
         ElementRegistry.Register<ButtonNode>();
         ElementRegistry.Register<CheckboxNode>();
         ElementRegistry.Register<ColorInputNode>();
@@ -45,31 +49,24 @@ internal static class UmbraDrawing
         DrawingLib.Dispose();
     }
 
+    /// <summary>
+    /// Deprecated. Use <see cref="UdtLoader.Load"/> instead.
+    /// </summary>
     internal static UdtDocument DocumentFrom(string resourceName)
     {
-        foreach (var assembly in Framework.Assemblies) {
-            var resource = assembly
-                          .GetManifestResourceNames()
-                          .FirstOrDefault(r => r.EndsWith(resourceName, StringComparison.OrdinalIgnoreCase));
-            
-            if (resource == null) continue;
-            
-            return UdtLoader.LoadFromAssembly(assembly, resourceName);
-        }
-        
-        throw new Exception($"No UDT document with the name \"{resourceName}\" exists in any assembly.");
+        return UdtLoader.Load(resourceName);
     }
-    
+
     /// <summary>
     /// Sets the image bytes of a node from an embedded resource.
     /// </summary>
     /// <param name="node"></param>
     /// <param name="resourceName"></param>
     /// <exception cref="InvalidOperationException"></exception>
-    internal static void SetImageFromResource(this Node node, string resourceName)
+    public static void SetImageFromResource(this Node node, string resourceName)
     {
         resourceName = resourceName.ToLowerInvariant();
-        
+
         foreach (var asm in Framework.Assemblies) {
             foreach (var name in asm.GetManifestResourceNames()) {
                 if (name.ToLowerInvariant().EndsWith(resourceName)) {

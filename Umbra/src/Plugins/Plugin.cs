@@ -38,6 +38,7 @@ internal class Plugin : IDisposable
             Assembly = _context.LoadFromFile(File.FullName);
 
             Framework.Assemblies.Add(Assembly);
+            UdtLoader.AddAssembly(Assembly);
         } catch (Exception e) {
             Entry.LoadError = e.Message;
             Dispose();
@@ -49,6 +50,7 @@ internal class Plugin : IDisposable
     {
         if (Assembly != null) {
             Framework.Assemblies.Remove(Assembly);
+            UdtLoader.RemoveAssembly(Assembly);
         }
 
         _context?.Unload();

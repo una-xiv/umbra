@@ -40,10 +40,10 @@ internal sealed class Plugin : IDalamudPlugin
         PluginInterface = plugin;
         plugin.Inject(this);
 
+        RegisterServices();
+
         UmbraDrawing.Initialize(plugin);
         Node.UseThreadedStyleComputation = true;
-
-        RegisterServices();
 
         ClientState.Login  += OnLogin;
         ClientState.Logout += OnLogout;
