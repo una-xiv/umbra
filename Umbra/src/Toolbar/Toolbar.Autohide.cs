@@ -62,30 +62,36 @@ internal partial class Toolbar
 
         Vector2 mousePos = ImGui.GetMousePos();
 
-        // Check main toolbar bounds
-        if (Enabled) {
-            float nodeWidth  = RightPanel.Bounds.PaddingRect.X2 - LeftPanel.Bounds.PaddingRect.X1;
-            float nodeHeight = _toolbarNode.Height;
+        return IsCursorNearMainToolbar(mousePos) || IsCursorNearAuxBars(mousePos);
+    }
 
-            float y = ToolbarYPosition - (IsTopAligned ? 0 :nodeHeight);
-            float x = LeftPanel.Bounds.PaddingRect.X1;
+    private bool IsCursorNearMainToolbar(Vector2 mousePos)
+    {
+        if (!Enabled) return false;
 
-            var bounds = new Rect(x, y, x + nodeWidth, y + nodeHeight);
-            bounds.Expand(new(_toolbarNode.Height / 2f, 0));
+        float nodeWidth  = RightPanel.Bounds.PaddingRect.X2 - LeftPanel.Bounds.PaddingRect.X1;
+        float nodeHeight = _toolbarNode.Height;
 
-            // Change the hover area height based on visibility. This requires the user to nearly touch the edge of the
-            // screen to show the toolbar, but allows for a larger area to hide it.
-            int offset = (int)(Math.Min(Height - 8, (Height * .9f)));
-            if (IsTopAligned) {
-                bounds.Y2 = _isVisible ? bounds.Y2 : bounds.Y2 - offset;
-            } else {
-                bounds.Y1 = _isVisible ? bounds.Y1 : bounds.Y1 + offset;
-            }
+        float y = ToolbarYPosition - (IsTopAligned ? 0 :nodeHeight);
+        float x = LeftPanel.Bounds.PaddingRect.X1;
 
-            if (bounds.Contains(mousePos)) return true;
+        var bounds = new Rect(x, y, x + nodeWidth, y + nodeHeight);
+        bounds.Expand(new(_toolbarNode.Height / 2f, 0));
+
+        // Change the hover area height based on visibility. This requires the user to nearly touch the edge of the
+        // screen to show the toolbar, but allows for a larger area to hide it.
+        int offset = (int)(Math.Min(Height - 8, (Height * .9f)));
+        if (IsTopAligned) {
+            bounds.Y2 = _isVisible ? bounds.Y2 : bounds.Y2 - offset;
+        } else {
+            bounds.Y1 = _isVisible ? bounds.Y1 : bounds.Y1 + offset;
         }
 
-        // Check autohide-enabled auxbars
+        return bounds.Contains(mousePos);
+    }
+
+    private bool IsCursorNearAuxBars(Vector2 mousePos)
+    {
         Vector2 workPos  = ImGui.GetMainViewport().WorkPos;
         Vector2 workSize = ImGui.GetMainViewport().WorkSize;
 
@@ -112,7 +118,6 @@ internal partial class Toolbar
             var auxBounds = new Rect(auxXPos, auxYPos, auxXPos + auxWidth, auxYPos + auxHeight);
             auxBounds.Expand(new(auxHeight / 2f, 0));
 
-            // Apply same hover logic to auxbars
             int auxOffset = (int)(Math.Min(auxHeight - 2, (auxHeight * .9f)));
             if (config.YAlign == "Top") {
                 auxBounds.Y2 = _isVisible ? auxBounds.Y2 : auxBounds.Y2 - auxOffset;
@@ -120,7 +125,7 @@ internal partial class Toolbar
                 auxBounds.Y1 = _isVisible ? auxBounds.Y1 : auxBounds.Y1 + auxOffset;
             }
 
-            if (auxBounds.Contains(mousePos)) return true;
+            return auxBounds.Contains(mousePos);
         }
 
         return false;
