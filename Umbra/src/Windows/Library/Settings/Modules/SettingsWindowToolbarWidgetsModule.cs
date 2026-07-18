@@ -124,6 +124,7 @@ internal class SettingsWindowToolbarWidgetsModule : SettingsWindowModule
         var ctrlShadow                 = configNode.QuerySelector<CheckboxNode>(".input-shadow")!;
         var ctrlRounded                = configNode.QuerySelector<CheckboxNode>(".input-rounded-corners")!;
         var ctrlSpacing                = configNode.QuerySelector<IntegerInputNode>(".input-item-spacing")!;
+        var ctrlEnableAutoHide         = configNode.QuerySelector<CheckboxNode>(".input-enable-auto-hide")!;
         var ctrlHideInCutscenes        = configNode.QuerySelector<CheckboxNode>(".input-hide-in-cutscenes")!;
         var ctrlHideInPvP              = configNode.QuerySelector<CheckboxNode>(".input-hide-in-pvp")!;
         var ctrlHideInDuty             = configNode.QuerySelector<CheckboxNode>(".input-hide-in-duty")!;
@@ -149,6 +150,7 @@ internal class SettingsWindowToolbarWidgetsModule : SettingsWindowModule
         ctrlShadow.Value                 = config.EnableShadow;
         ctrlRounded.Value                = config.RoundedCorners;
         ctrlSpacing.Value                = config.ItemSpacing;
+        ctrlEnableAutoHide.Value         = config.EnableAutoHide;
         ctrlHideInCutscenes.Value        = config.HideInCutscenes;
         ctrlHideInPvP.Value              = config.HideInPvP;
         ctrlHideInDuty.Value             = config.HideInDuty;
@@ -208,6 +210,10 @@ internal class SettingsWindowToolbarWidgetsModule : SettingsWindowModule
         };
         ctrlSpacing.OnValueChanged += spacing => {
             config.ItemSpacing = spacing;
+            AuxBarManager.Persist();
+        };
+        ctrlEnableAutoHide.OnValueChanged += enableAutoHide => {
+            config.EnableAutoHide = enableAutoHide;
             AuxBarManager.Persist();
         };
         ctrlHideInCutscenes.OnValueChanged += hide => {

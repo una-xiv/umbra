@@ -60,25 +60,60 @@ internal partial class Toolbar
     {
         if (!AllowAutoHide) return true;
 
+        Vector2 mousePos = ImGui.GetMousePos();
+
+        return IsCursorNearMainToolbar(mousePos) || IsCursorNearAuxBars(mousePos);
+    }
+
+    private bool IsCursorNearMainToolbar(Vector2 mousePos)
+    {
+        if (!Enabled) return false;
+
         float nodeWidth  = RightPanel.Bounds.PaddingRect.X2 - LeftPanel.Bounds.PaddingRect.X1;
         float nodeHeight = _toolbarNode.Height;
 
-        float y = ToolbarYPosition - (IsTopAligned ? 0 :nodeHeight);
+        float y = ToolbarYPosition - (IsTopAligned ? 0 : nodeHeight);
         float x = LeftPanel.Bounds.PaddingRect.X1;
 
-        var bounds = new Rect(x, y, x + nodeWidth, y + nodeHeight);
-        bounds.Expand(new(_toolbarNode.Height / 2f, 0));
+        var bounds = CalculateBounds(x, y, nodeWidth, nodeHeight, IsTopAligned);
+
+        return bounds.Contains(mousePos);
+    }
+
+    private bool IsCursorNearAuxBars(Vector2 mousePos)
+    {
+        foreach (var (auxBarNode, config) in auxBars.VisibleAuxBarPanels) {
+            if (!config.EnableAutoHide) continue;
+
+            float auxHeight = auxBarNode.Bounds.PaddingRect.Height;
+            float auxWidth  = auxBarNode.Bounds.PaddingRect.Width;
+
+            float auxYPos = auxBarNode.Bounds.PaddingRect.Y1 - (config.YAlign == "Top" ? _autoHideYOffset : -_autoHideYOffset);
+            float auxXPos = auxBarNode.Bounds.PaddingRect.X1;
+
+            var auxBounds = CalculateBounds(auxXPos, auxYPos, auxWidth, auxHeight, config.YAlign == "Top");
+
+            if (auxBounds.Contains(mousePos)) return true;
+        }
+
+        return false;
+    }
+
+    private Rect CalculateBounds(float x, float y, float width, float height, bool isTopAligned)
+    {
+        var bounds = new Rect(x, y, x + width, y + height);
+        bounds.Expand(new(height / 2f, 0));
+        int offset = (int)(Math.Min(height - 8, height * .9f));
 
         // Change the hover area height based on visibility. This requires the user to nearly touch the edge of the
-        // screen to show the toolbar, but allows for a larger area to hide it.
-        int offset = (int)(Math.Min(Height - 8, (Height * .9f)));
-        if (IsTopAligned) {
+        // toolbar to unhide, but allows for a larger area to hide it.
+        if (isTopAligned) {
             bounds.Y2 = _isVisible ? bounds.Y2 : bounds.Y2 - offset;
         } else {
             bounds.Y1 = _isVisible ? bounds.Y1 : bounds.Y1 + offset;
         }
 
-        return bounds.Contains(ImGui.GetMousePos());
+        return bounds;
     }
 
     private bool ShouldAutoHide()
