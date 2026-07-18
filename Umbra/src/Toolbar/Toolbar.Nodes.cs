@@ -1,4 +1,4 @@
-﻿/* Umbra | (c) 2024 by Una              ____ ___        ___.
+/* Umbra | (c) 2024 by Una              ____ ___        ___.
  * Licensed under the terms of AGPL-3  |    |   \ _____ \_ |__ _______ _____
  *                                     |    |   //     \ | __ \\_  __ \\__  \
  * https://github.com/una-xiv/umbra    |    |  /|  Y Y  \| \_\ \|  | \/ / __ \_
@@ -82,7 +82,8 @@ internal partial class Toolbar
                 }
             }
 
-            auxBarNode.Style.Opacity = auxOpacity;
+            auxBarNode.Style.Opacity   = auxOpacity;
+            auxBarNode.Style.IsVisible = auxOpacity > 0.01f;
 
             auxBarNode.Render(drawList, new(xPos, yPos + auxYOffset));
         }
