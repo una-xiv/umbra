@@ -205,7 +205,7 @@ internal sealed class Zone : IZone
 
             if (WeatherForecast.Count > 0) {
                 var    time       = WeatherForecast[0].Time;
-                string timeString = I18N.Translate("TimeAgo.Always");
+                string timeString = I18N.Translate("Time.Always");
 
                 if (WeatherForecast.Count > 1) {
                     time       = WeatherForecast[1].Time;

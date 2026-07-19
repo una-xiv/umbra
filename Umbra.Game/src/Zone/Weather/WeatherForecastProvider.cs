@@ -67,6 +67,6 @@ internal unsafe class WeatherForecastProvider
 
     private static string FormatForecastTime(DateTime forecastTime)
     {
-        return I18N.FormatTimeAgo(forecastTime - DateTime.UtcNow);
+        return I18N.FormatTime(forecastTime - DateTime.UtcNow);
     }
 }
