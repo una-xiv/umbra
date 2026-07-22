@@ -11,6 +11,13 @@ internal class FreeCompanyTagPlaceholder(IObjectTable objectTable) : ScriptPlace
     [OnTick]
     public void Update()
     {
-        Value = objectTable.LocalPlayer is ICharacter c ? c.CompanyTag.TextValue : "";
+        // The fc tag is not available in some cases e.g. world visiting or between areas.
+        // This also keeps the placeholder from being updated when the player leaves their fc.
+        if (objectTable.LocalPlayer is not ICharacter c || string.IsNullOrEmpty(c.CompanyTag.TextValue))
+        {
+            return;
+        }
+
+        Value = c.CompanyTag.TextValue;
     }
 }
