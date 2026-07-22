@@ -3,13 +3,23 @@
     
     <sidebar-layout>
         <node slot="side" class="sidebar">
-            <node class="category-group">
-                <node class="body" id="sidebar-buttons"/>
-            </node>
+			<node id="sidebar-buttons"/>
         </node>
         <node id="main"/>
     </sidebar-layout>
     
+	<template name="category-group">
+		<argument name="label" default="Category"/>
+		<node class="category-group">
+			<node class="header">
+				<node class="line"/>
+				<node class="text" value="${label}"/>
+				<node class="line"/>
+			</node>
+			<node class="body"/>
+		</node>
+	</template>
+	
     <template name="marker-config">
         <argument name="name"/>
         <argument name="description"/>
