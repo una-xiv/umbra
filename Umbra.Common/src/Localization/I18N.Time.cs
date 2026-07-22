@@ -37,7 +37,7 @@ public static partial class I18N
         }
 
         DateTime targetTime = DateTime.Now.Add(timeSpan);
-        return targetTime.ToString("hh:mm tt", CultureInfo.InvariantCulture);
+        return targetTime.ToString("h:mm tt", CultureInfo.InvariantCulture);
     }
 
     private static string FormatTimeLocalTime24H(TimeSpan timeSpan)
