@@ -12,6 +12,7 @@ internal sealed partial class GearsetSwitcherPopup : WidgetPopup
     private IPlayer            Player            { get; } = Framework.Service<IPlayer>();
     private UdtDocument        Document          { get; }
     private Gearset            CurrentGearset    { get; set; } = null!;
+    public List<string> PrefixList { get; internal set; } = [];
 
     public GearsetSwitcherPopup()
     {
@@ -88,7 +89,7 @@ internal sealed partial class GearsetSwitcherPopup : WidgetPopup
     private void UpdateHeaderNodes()
     {
         SetIcon(HeaderIconNode, _headerIconType, CurrentGearset);
-        HeaderNameNode.NodeValue       = CurrentGearset.Name;
+        HeaderNameNode.NodeValue       = GetGearsetName(CurrentGearset);
         HeaderInfoNode.NodeValue       = GearsetSwitcherInfoDisplayProvider.GetInfoText(GearsetSwitcherInfoDisplayType.JobLevel, CurrentGearset, true);
         HeaderIlvlNode.NodeValue       = $"{CurrentGearset.ItemLevel}";
         BackgroundNode.Style.IsVisible = _showGradientBackground;
@@ -180,6 +181,20 @@ internal sealed partial class GearsetSwitcherPopup : WidgetPopup
     }
 
     #endregion
+
+    private string GetGearsetName(Gearset gearset)
+    {
+        bool hidePrefixFromNames = _hidePrefixFromNames;
+        if (!hidePrefixFromNames) return gearset.Name;
+
+        foreach (string prefix in PrefixList) {
+            if (gearset.Name.StartsWith(prefix)) {
+                return gearset.Name[prefix.Length..].TrimStart();
+            }
+        }
+
+        return gearset.Name;
+    }
 
     private void UpdateColumns()
     {
