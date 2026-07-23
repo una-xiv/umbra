@@ -2,8 +2,6 @@
 
 internal sealed partial class GearsetSwitcherPopup
 {
-    public List<string> PrefixList { get; internal set; } = [];
-
     private readonly Dictionary<Node, Gearset> _nodeToGearset = [];
 
     private void UpdateGearsetButtons()
@@ -112,20 +110,6 @@ internal sealed partial class GearsetSwitcherPopup
 
         group.QuerySelector(".body")!.AppendChild(node);
         UpdateColumns();
-    }
-
-    private string GetGearsetName(Gearset gearset)
-    {
-        bool hidePrefixFromNames = _hidePrefixFromNames;
-        if (!hidePrefixFromNames) return gearset.Name;
-
-        foreach (string prefix in PrefixList) {
-            if (gearset.Name.StartsWith(prefix)) {
-                return gearset.Name[prefix.Length..].TrimStart();
-            }
-        }
-
-        return gearset.Name;
     }
 
     private void OnGearsetRemoved(Gearset gearset)
