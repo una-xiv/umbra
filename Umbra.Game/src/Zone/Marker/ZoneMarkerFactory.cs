@@ -138,6 +138,11 @@ internal sealed class ZoneMarkerFactory(IDataManager dataManager)
 
     private readonly Dictionary<uint, ZoneMarkerType> _iconToTypeMap = [];
 
+    private readonly Dictionary<uint, uint> _placeNameToAetheryteId =
+        dataManager.GetExcelSheet<Sheet.Aetheryte>()
+            .Where(a => !a.IsAetheryte && a.AethernetName.RowId > 0)
+            .ToDictionary(a => a.AethernetName.RowId, a => a.RowId);
+
     public ZoneMarker FromMinimapGatheringMarker(Sheet.Map map, MiniMapGatheringMarker marker)
     {
         var type = DetermineMarkerType(marker.MapMarker.IconId, "");
@@ -181,13 +186,18 @@ internal sealed class ZoneMarkerFactory(IDataManager dataManager)
         var name     = GetStaticMarkerName(marker);
         var type     = DetermineMarkerType(marker.Icon, name);
 
+        var dataId = type == ZoneMarkerType.Aethernet
+            && _placeNameToAetheryteId.TryGetValue(marker.DataKey.RowId, out var aetheryteId)
+                ? aetheryteId
+                : marker.DataKey.RowId;
+
         return new(
             type,
             name,
             position,
             MarkerToWorldPosition(map, position),
             type == ZoneMarkerType.Area ? 0u : marker.Icon,
-            marker.DataKey.RowId
+            dataId
         );
     }
 

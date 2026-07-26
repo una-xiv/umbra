@@ -1,4 +1,6 @@
-﻿namespace Umbra.Markers.Library;
+using FFXIVClientStructs.FFXIV.Client.Game.UI;
+
+namespace Umbra.Markers.Library;
 
 [Service]
 public sealed class MapLinkMarkerFactory(IZoneManager zoneManager) : WorldMarkerFactory
@@ -113,10 +115,19 @@ public sealed class MapLinkMarkerFactory(IZoneManager zoneManager) : WorldMarker
                     FadeDistance       = new(fadeDistance, fadeDistance + fadeAttenuation),
                     MaxVisibleDistance = maxVisDistance,
                     ShowOnCompass      = showDirection,
+                    IsDisabled         = !IsUnlocked(marker),
                 }
             );
         }
 
         RemoveMarkersExcept(usedIds);
+    }
+
+    private unsafe bool IsUnlocked(ZoneMarker marker)
+    {
+        return marker.Type switch {
+            ZoneMarkerType.Aetheryte or ZoneMarkerType.Aethernet => UIState.Instance()->IsAetheryteUnlocked(marker.DataId),
+            _ => true,
+        };
     }
 }
