@@ -102,9 +102,9 @@ public sealed class MapLinkMarkerFactory(IZoneManager zoneManager) : WorldMarker
             .ToList();
 
         foreach (ZoneMarker marker in markers) {
-            string id = $"{marker.Type}_{marker.IconId}_{marker.Position.X}_{marker.Position.Y}";
+            string id       = $"{marker.Type}_{marker.IconId}_{marker.Position.X}_{marker.Position.Y}";
+            bool   unlocked = IsUnlocked(marker);
             usedIds.Add(id);
-
             SetMarker(
                 new() {
                     Key                = id,
@@ -115,7 +115,8 @@ public sealed class MapLinkMarkerFactory(IZoneManager zoneManager) : WorldMarker
                     FadeDistance       = new(fadeDistance, fadeDistance + fadeAttenuation),
                     MaxVisibleDistance = maxVisDistance,
                     ShowOnCompass      = showDirection,
-                    IsDisabled         = !IsUnlocked(marker),
+                    IsDisabled         = !unlocked,
+                    SubLabel           = unlocked ? "" : "Unavailable", // TODO: Translate
                 }
             );
         }
@@ -125,9 +126,15 @@ public sealed class MapLinkMarkerFactory(IZoneManager zoneManager) : WorldMarker
 
     private unsafe bool IsUnlocked(ZoneMarker marker)
     {
-        return marker.Type switch {
-            ZoneMarkerType.Aetheryte or ZoneMarkerType.Aethernet => UIState.Instance()->IsAetheryteUnlocked(marker.DataId),
-            _ => true,
-        };
+        if (marker.DataId == 0) return true;
+
+        try {
+            return marker.Type switch {
+                ZoneMarkerType.Aetheryte or ZoneMarkerType.Aethernet => UIState.Instance()->IsAetheryteUnlocked(marker.DataId),
+                _ => true,
+            };
+        } catch {
+            return true;
+        }
     }
 }

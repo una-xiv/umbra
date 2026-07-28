@@ -234,7 +234,11 @@ internal sealed class ZoneMarkerFactory(IDataManager dataManager)
         if (!string.IsNullOrEmpty(label)) return SanitizeMarkerName(label);
         if (marker.Icon == 0) return "";
 
-        if (marker.DataType == 4) {
+        if (marker.DataType == 3) {
+            var aetheryte = dataManager.GetExcelSheet<Sheet.Aetheryte>().FindRow(marker.DataKey.RowId);
+            if (aetheryte != null) return SanitizeMarkerName(aetheryte.Value.PlaceName.Value.Name.ToString());
+        }
+        else if (marker.DataType == 4) {
             var placeName = dataManager.GetExcelSheet<Sheet.PlaceName>().FindRow(marker.DataKey.RowId);
             if (placeName != null) return SanitizeMarkerName(placeName.Value.Name.ExtractText());
         }

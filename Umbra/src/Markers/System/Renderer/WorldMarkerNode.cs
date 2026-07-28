@@ -170,10 +170,13 @@ internal class WorldMarkerNode : Node
         subLabelNode.Style.IsVisible = hasSubLabel;
         subLabelNode.NodeValue       = subLabel;
 
+
         if (isDisabled) {
             iconNode.Style.ImageColor = new(Color.GetNamedColor("Misc.MarkerInactive"));
+            subLabelNode.Style.Color = new(Color.GetNamedColor("Misc.MarkerInactive"));
         } else {
             iconNode.Style.ImageColor = iconColor;
+            subLabelNode.Style.Color = new(0xD0FFFFFF); // TODO: use real default color
         }
     }
 
