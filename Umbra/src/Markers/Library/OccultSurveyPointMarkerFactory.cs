@@ -9,6 +9,9 @@ namespace Umbra.Markers.Library;
 [Service]
 public class OccultSurveyPointMarkerFactory(IZoneManager zoneManager) : WorldMarkerFactory
 {
+    private const uint SouthHorn = 1252;
+    private const uint NorthHorn = 1346;
+
     public override string Id          { get; } = "OccultSurveyPointMarkers";
     public override string Name        { get; } = I18N.Translate("Markers.Occult.SurveyPoints.Name");
     public override string Description { get; } = I18N.Translate("Markers.Occult.SurveyPoints.Description");
@@ -26,7 +29,7 @@ public class OccultSurveyPointMarkerFactory(IZoneManager zoneManager) : WorldMar
     {
         if (!GetConfigValue<bool>("Enabled") || 
             !zoneManager.HasCurrentZone ||
-            zoneManager.CurrentZone.TerritoryId != 1252 // South Horn
+            zoneManager.CurrentZone.TerritoryId is not (SouthHorn or NorthHorn)
         ) {
             RemoveAllMarkers();
             return;
