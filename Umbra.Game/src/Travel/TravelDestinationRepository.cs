@@ -49,26 +49,14 @@ public sealed class TravelDestinationRepository : ITravelDestinationRepository, 
     {
         if (!_zoneManager.HasCurrentZone) return;
 
+        Destinations.Clear();
+
         foreach (var entry in _aetheryteList)
         {
-            if (!IsListedAetheryteEntry(entry))
-            {
-                Destinations.RemoveAll(d => d.Id == entry.AetheryteId && d.SubId == entry.SubIndex);
-                continue;
-            }
+            if (!IsListedAetheryteEntry(entry)) continue;
 
             bool isHousing = entry.IsSharedHouse || entry.IsApartment || _estateAetherytes.Contains(entry.AetheryteId);
-            TravelDestination? destination = Destinations.FirstOrDefault(d => d.Id == entry.AetheryteId && d.SubId == entry.SubIndex);
-
-            if (destination == null)
-            {
-                destination = new(entry, isHousing, _freeAetheryteId == entry.AetheryteId);
-                Destinations.Add(destination);
-            }
-            else
-            {
-                destination.Update(entry, isHousing, _freeAetheryteId == entry.AetheryteId);
-            }
+            Destinations.Add(new(entry, isHousing, _freeAetheryteId == entry.AetheryteId));
         }
     }
 

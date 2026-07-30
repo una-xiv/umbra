@@ -29,16 +29,7 @@ public class TravelDestination
     private static readonly Dictionary<uint, string> InterfaceTexts = [];
     private static readonly Dictionary<uint, string> TerritoryNames = [];
 
-    internal TravelDestination(IAetheryteEntry entry, bool isEstate, bool isFree)
-    {
-        Update(entry, isEstate, isFree);
-    }
-
-    /// <summary>
-    /// Updates this travel destination with the data from the given aetheryte
-    /// entry.
-    /// </summary>
-    internal void Update(IAetheryteEntry entry, bool isHousing, bool isFree)
+    internal TravelDestination(IAetheryteEntry entry, bool isHousing, bool isFree)
     {
         Id             = entry.AetheryteId;
         SubId          = entry.SubIndex;
