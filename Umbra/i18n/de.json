@@ -1255,7 +1255,7 @@
   "Widget.PhantomJobs.Title": "Phantom-Jobs",
   "Widget.PhantomJobs.Description": "Ermöglicht den schnellen Zugriff auf Ihre Phantom-Jobs für das Gebiet des Okkulten Sichels.",
   "Widget.PhantomJobs.DisplayMode.Name": "Anzeigemodus",
-  "Widget.PhantomJobs.DisplayMode.Description": "Wählen Sie, wie Phantom-Jobs im Popup angezeigt werden.",
+  "Widget.PhantomJobs.DisplayMode.Description": "Wähle, wie Phantom-Jobs im Popup angezeigt werden.",
   "Widget.PhantomJobs.DisplayMode.ListLegacy": "Liste (Legacy)",
   "Widget.PhantomJobs.DisplayMode.ListNew": "Liste (Neu)",
   "Widget.PhantomJobs.DisplayMode.Columns": "Spalten",
