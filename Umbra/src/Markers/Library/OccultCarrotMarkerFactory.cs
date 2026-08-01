@@ -23,7 +23,7 @@ internal class OccultCarrotMarkerFactory(IObjectTable objectTable, IZoneManager 
     {
         if (!GetConfigValue<bool>("Enabled") || 
             !zoneManager.HasCurrentZone ||
-            zoneManager.CurrentZone.TerritoryId != 1252) {
+            (zoneManager.CurrentZone.TerritoryId != 1252 && zoneManager.CurrentZone.TerritoryId != 1346)) {
             RemoveAllMarkers();
             return;
         }
