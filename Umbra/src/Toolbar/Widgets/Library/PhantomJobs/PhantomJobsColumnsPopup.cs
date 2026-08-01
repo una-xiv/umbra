@@ -19,18 +19,6 @@ public class PhantomJobsColumnsPopup : WidgetPopup
         _node = _document.RootNode!;
     }
 
-    protected override void OnOpen()
-    {
-    }
-
-    protected override void OnClose()
-    {
-    }
-
-    protected override void OnUpdate()
-    {
-    }
-
     public MenuPopup GetMenuPopup()
     {
         return _menuPopup;
