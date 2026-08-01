@@ -22,7 +22,6 @@
     .job-column {
         flow: vertical;
         gap: 4;
-        background-color: "Widget.PopupBackground.Gradient2";
         border-radius: 5;
         padding: 4;
         auto-size: fit fit;
@@ -53,7 +52,7 @@
         flow: horizontal;
         gap: 4;
         padding: 2 4;
-        background-color: "Widget.PopupBackground.Gradient2";
+        background-color: 0;
         transition-type: ease-out-sine;
         transition-duration: 200;
 
