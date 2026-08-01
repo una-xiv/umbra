@@ -1,0 +1,214 @@
+<udt>
+    <node class="phantom-jobs-popup">
+        <node class="list-container"/>
+        <node class="condensed-container"/>
+    </node>
+
+    <![CDATA[
+    @import "globals";
+
+    .phantom-jobs-popup {
+        flow: vertical;
+        gap: 2;
+        padding: 2;
+
+        .list-container {
+            flow: vertical;
+            auto-size: grow fit;
+            gap: 2;
+
+            .job-button {
+                auto-size: grow fit;
+                padding: 4 8;
+                gap: 4;
+                border-radius: 2;
+                background-color: 0;
+                transition-type: ease-in-sine;
+                transition-duration: 150;
+                flow: horizontal;
+
+                .job-icon {
+                    anchor: middle-left;
+                    size: 22;
+                    font-size: 13;
+                    text-align: middle-center;
+                    color: "Widget.PopupMenuText";
+                    outline-color: "Widget.PopupMenuTextOutline";
+                    outline-size: 1;
+                }
+
+                .job-name {
+                    anchor: middle-left;
+                    auto-size: grow fit;
+                    font-size: 13;
+                    color: "Widget.PopupMenuText";
+                    outline-color: "Widget.PopupMenuTextOutline";
+                    outline-size: 1;
+                    text-align: middle-left;
+                }
+
+                .job-level {
+                    anchor: middle-left;
+                    auto-size: fit;
+                    font-size: 11;
+                    color: "Widget.PopupMenuTextMuted";
+                    outline-color: "Widget.PopupMenuTextOutline";
+                    outline-size: 1;
+                    text-align: middle-left;
+                    padding: 0 0 0 24;
+                }
+
+                &:hover {
+                    background-color: "Widget.PopupMenuBackgroundHover";
+                    transition-duration: 1;
+
+                    .job-icon {
+                        color: "Widget.PopupMenuTextHover";
+                        outline-color: "Widget.PopupMenuTextOutlineHover";
+                    }
+
+                    .job-name {
+                        color: "Widget.PopupMenuTextHover";
+                        outline-color: "Widget.PopupMenuTextOutlineHover";
+                    }
+
+                    .job-level {
+                        color: "Widget.PopupMenuTextHover";
+                        outline-color: "Widget.PopupMenuTextOutlineHover";
+                    }
+                }
+
+                &:disabled {
+                    opacity: 0.7;
+
+                    .job-icon {
+                        color: "Widget.PopupMenuTextDisabled";
+                        outline-color: "Widget.PopupMenuTextOutlineDisabled";
+                        image-grayscale: true;
+                    }
+
+                    .job-name {
+                        color: "Widget.PopupMenuTextDisabled";
+                        outline-color: "Widget.PopupMenuTextOutlineDisabled";
+                    }
+
+                    .job-level {
+                        color: "Widget.PopupMenuTextDisabled";
+                        outline-color: "Widget.PopupMenuTextOutlineDisabled";
+                    }
+                }
+            }
+        }
+
+        .condensed-container {
+            flow: horizontal;
+            auto-size: grow fit;
+            gap: 8;
+
+            .job-column {
+                flow: vertical;
+                auto-size: grow fit;
+                gap: 2;
+
+                .column-header {
+                    auto-size: grow fit;
+                    font-size: 12;
+                    color: "Widget.PopupMenuTextMuted";
+                    outline-color: "Widget.PopupMenuTextOutline";
+                    outline-size: 1;
+                    padding: 4 0 2 0;
+                    text-align: middle-left;
+                }
+
+                .column-content {
+                    flow: vertical;
+                    auto-size: grow fit;
+                    gap: 2;
+
+                    .job-button {
+                        auto-size: grow fit;
+                        padding: 4 8;
+                        gap: 4;
+                        border-radius: 2;
+                        background-color: 0;
+                        transition-type: ease-in-sine;
+                        transition-duration: 150;
+                        flow: horizontal;
+
+                        .job-icon {
+                            anchor: middle-left;
+                            size: 22;
+                            font-size: 13;
+                            text-align: middle-center;
+                            color: "Widget.PopupMenuText";
+                            outline-color: "Widget.PopupMenuTextOutline";
+                            outline-size: 1;
+                        }
+
+                        .job-name {
+                            anchor: middle-left;
+                            auto-size: grow fit;
+                            font-size: 13;
+                            color: "Widget.PopupMenuText";
+                            outline-color: "Widget.PopupMenuTextOutline";
+                            outline-size: 1;
+                            text-align: middle-left;
+                        }
+
+                        .job-level {
+                            anchor: middle-left;
+                            auto-size: fit;
+                            font-size: 11;
+                            color: "Widget.PopupMenuTextMuted";
+                            outline-color: "Widget.PopupMenuTextOutline";
+                            outline-size: 1;
+                            text-align: middle-left;
+                            padding: 0 0 0 24;
+                        }
+
+                        &:hover {
+                            background-color: "Widget.PopupMenuBackgroundHover";
+                            transition-duration: 1;
+
+                            .job-icon {
+                                color: "Widget.PopupMenuTextHover";
+                                outline-color: "Widget.PopupMenuTextOutlineHover";
+                            }
+
+                            .job-name {
+                                color: "Widget.PopupMenuTextHover";
+                                outline-color: "Widget.PopupMenuTextOutlineHover";
+                            }
+
+                            .job-level {
+                                color: "Widget.PopupMenuTextHover";
+                                outline-color: "Widget.PopupMenuTextOutlineHover";
+                            }
+                        }
+
+                        &:disabled {
+                            opacity: 0.7;
+
+                            .job-icon {
+                                color: "Widget.PopupMenuTextDisabled";
+                                outline-color: "Widget.PopupMenuTextOutlineDisabled";
+                                image-grayscale: true;
+                            }
+
+                            .job-name {
+                                color: "Widget.PopupMenuTextDisabled";
+                                outline-color: "Widget.PopupMenuTextOutlineDisabled";
+                            }
+
+                            .job-level {
+                                color: "Widget.PopupMenuTextDisabled";
+                                outline-color: "Widget.PopupMenuTextOutlineDisabled";
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    ]]>
+</udt>

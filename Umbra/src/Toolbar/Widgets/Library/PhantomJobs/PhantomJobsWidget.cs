@@ -15,7 +15,10 @@ public class PhantomJobsWidget(
     Dictionary<string, object>? configValues = null
 ) : StandardToolbarWidget(info, guid, configValues)
 {
-    public override MenuPopup Popup { get; } = new();
+    private MenuPopup MenuPopup { get; } = new();
+    private PhantomJobsColumnsPopup ColumnsPopup { get; } = new();
+
+    public override WidgetPopup Popup => _currentDisplayMode == "Columns" ? ColumnsPopup : MenuPopup;
 
     protected override StandardWidgetFeatures Features =>
         StandardWidgetFeatures.Icon |
@@ -36,34 +39,47 @@ public class PhantomJobsWidget(
                 Info.Name,
                 1024,
                 true
+            ),
+            new SelectWidgetConfigVariable(
+                "DisplayMode",
+                I18N.Translate("Widget.PhantomJobs.DisplayMode.Name"),
+                I18N.Translate("Widget.PhantomJobs.DisplayMode.Description"),
+                "ListNew",
+                new() {
+                    { "ListLegacy", I18N.Translate("Widget.PhantomJobs.DisplayMode.ListLegacy") },
+                    { "ListNew", I18N.Translate("Widget.PhantomJobs.DisplayMode.ListNew") },
+                    { "Columns", I18N.Translate("Widget.PhantomJobs.DisplayMode.Columns") }
+                }
             )
         ];
     }
 
     private readonly Dictionary<byte, PhantomJob>       _jobs    = [];
     private readonly Dictionary<byte, MenuPopup.Button> _buttons = [];
+    private string _currentDisplayMode = "ListNew";
 
     private bool        _isInfoAvailable;
     private PhantomJob? _selectedJob;
 
-    /// <inheritdoc/>
-    protected override void OnLoad()
-    {
-        foreach (var job in Framework.Service<IDataManager>().GetExcelSheet<MKDSupportJob>()) {
-            var phJob  = new PhantomJob((byte)job.RowId, job.NameShort.ExtractText(), job.RowId + 82271u);
-            var button = new MenuPopup.Button(phJob.Name) { Icon = phJob.IconId };
+     /// <inheritdoc/>
+     protected override void OnLoad()
+     {
+         foreach (var job in Framework.Service<IDataManager>().GetExcelSheet<MKDSupportJob>()) {
+             var phJob  = new PhantomJob((byte)job.RowId, job.NameShort.ExtractText(), job.RowId + 82271u);
+             var button = new MenuPopup.Button(phJob.Name) { Icon = phJob.IconId };
 
-            button.OnClick += () => {
-                if (phJob.Level > 0) {
-                    PublicContentOccultCrescent.ChangeSupportJob(phJob.Id);
-                }
-            };
+             button.OnClick += () => {
+                 if (phJob.Level > 0) {
+                     PublicContentOccultCrescent.ChangeSupportJob(phJob.Id);
+                 }
+             };
 
-            _buttons.Add(phJob.Id, button);
-            _jobs.Add((byte)job.RowId, phJob);
-            Popup.Add(button);
-        }
-    }
+             _buttons.Add(phJob.Id, button);
+             _jobs.Add((byte)job.RowId, phJob);
+         }
+
+         RebuildPopupMenu();
+     }
 
     /// <inheritdoc/>
     protected override void OnUnload()
@@ -74,6 +90,12 @@ public class PhantomJobsWidget(
     protected override void OnDraw()
     {
         UpdatePhantomJobs();
+
+        var displayMode = GetConfigValue<string>("DisplayMode");
+        if (displayMode != _currentDisplayMode) {
+            _currentDisplayMode = displayMode;
+            RebuildPopupMenu();
+        }
 
         if (!_isInfoAvailable || null == _selectedJob) {
             IsVisible = false;
@@ -92,25 +114,102 @@ public class PhantomJobsWidget(
         var state = PublicContentOccultCrescent.GetState();
         if (state == null) {
             _isInfoAvailable = false;
-            Popup.IsDisabled = true;
+            MenuPopup.IsDisabled = true;
+            ColumnsPopup.IsDisabled = true;
             return;
         }
-        
+
         _selectedJob = _jobs.GetValueOrDefault(state->CurrentSupportJob);
         if (null == _selectedJob) return;
 
-        Popup.IsDisabled = false;
+        MenuPopup.IsDisabled = false;
+        ColumnsPopup.IsDisabled = false;
         _isInfoAvailable = true;
-        _selectedJob     = _jobs.GetValueOrDefault(state->CurrentSupportJob);
 
         foreach (var job in _jobs.Values) {
             job.Experience = state->SupportJobExperience[job.Id];
             job.Level = (state->SupportJobLevels[job.Id]);
-            var button = _buttons[job.Id];
-            
-            button.IsVisible = job.Level > 0;
-            button.AltText = I18N.Translate("Widget.GearsetSwitcher.JobLevel", job.Level);
+
+            if (_buttons.TryGetValue(job.Id, out var button)) {
+                button.IsVisible = job.Level > 0;
+                button.AltText = I18N.Translate("Widget.GearsetSwitcher.JobLevel", job.Level);
+            }
         }
+    }
+
+    private void RebuildPopupMenu()
+    {
+        if (_currentDisplayMode == "Columns") {
+            BuildColumnsMenu();
+        } else {
+            MenuPopup.Clear(false);
+
+            if (_currentDisplayMode == "ListNew") {
+                BuildListNewMenu();
+            } else {
+                BuildListLegacyMenu();
+            }
+        }
+    }
+
+    private void BuildListLegacyMenu()
+    {
+        foreach (var button in _buttons.Values) {
+            MenuPopup.Add(button);
+        }
+    }
+
+    private void BuildListNewMenu()
+    {
+        var categories = new Dictionary<string, List<byte>> {
+            { I18N.Translate("Widget.PhantomJobs.JobCategory.Tank"), new() { 1 } },
+            { I18N.Translate("Widget.PhantomJobs.JobCategory.MainDPS"), new() { 2, 3, 5, 9, 13, 14, 19, 16 } },
+            { I18N.Translate("Widget.PhantomJobs.JobCategory.SupportDPS"), new() { 6, 12, 4, 15 } },
+            { I18N.Translate("Widget.PhantomJobs.JobCategory.Caster"), new() { 8, 11, 18, 21, 22, 20, 23 } },
+            { I18N.Translate("Widget.PhantomJobs.JobCategory.PureSupport"), new() { 7, 10, 17 } },
+            { I18N.Translate("Widget.PhantomJobs.JobCategory.Other"), new() { 0 } }
+        };
+
+        foreach (var (categoryName, jobIds) in categories) {
+            var group = new MenuPopup.Group(categoryName);
+
+            foreach (var jobId in jobIds) {
+                if (_buttons.TryGetValue(jobId, out var button)) {
+                    group.Add(button);
+                }
+            }
+
+            MenuPopup.Add(group);
+        }
+    }
+
+    private void BuildColumnsMenu()
+    {
+        var categoriesDict = new Dictionary<string, List<byte>> {
+            { I18N.Translate("Widget.PhantomJobs.JobCategory.Tank"), new() { 1 } },
+            { I18N.Translate("Widget.PhantomJobs.JobCategory.MainDPS"), new() { 2, 3, 5, 9, 13, 14, 19, 16 } },
+            { I18N.Translate("Widget.PhantomJobs.JobCategory.SupportDPS"), new() { 6, 12, 4, 15 } },
+            { I18N.Translate("Widget.PhantomJobs.JobCategory.Caster"), new() { 8, 11, 18, 21, 22, 20, 23 } },
+            { I18N.Translate("Widget.PhantomJobs.JobCategory.PureSupport"), new() { 7, 10, 17 } },
+            { I18N.Translate("Widget.PhantomJobs.JobCategory.Other"), new() { 0 } }
+        };
+
+        var jobDataDict = new Dictionary<byte, (string name, uint iconId, string level, Action<byte> onClick)>();
+
+        foreach (var job in _jobs.Values) {
+            jobDataDict[job.Id] = (
+                job.Name,
+                job.IconId,
+                $"Lv. {job.Level}",
+                _ => {
+                    if (job.Level > 0) {
+                        PublicContentOccultCrescent.ChangeSupportJob(job.Id);
+                    }
+                }
+            );
+        }
+
+        ColumnsPopup.BuildColumnsView(categoriesDict, jobDataDict);
     }
 
     private class PhantomJob(byte id, string name, uint iconId)

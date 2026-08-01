@@ -1,0 +1,103 @@
+<udt>
+    <node class="popup">
+        <node class="columns-container"/>
+    </node>
+
+    <![CDATA[
+    @import "globals";
+
+    .popup {
+        is-visible: true;
+        flow: horizontal;
+        gap: 8;
+        padding: 8;
+    }
+
+    .columns-container {
+        flow: horizontal;
+        gap: 8;
+        auto-size: fit fit;
+    }
+
+    .job-column {
+        flow: vertical;
+        gap: 4;
+        background-color: "Widget.PopupBackground.Gradient2";
+        border-radius: 5;
+        padding: 4;
+        auto-size: fit fit;
+    }
+
+    .column-header {
+        auto-size: grow fit;
+        padding: 4;
+        border-color: "Window.AccentColor";
+        border-width: 0 0 1 0;
+        text-overflow: false;
+        word-wrap: false;
+        text-align: middle-center;
+        font-size: 12;
+        color: "Widget.PopupMenuText";
+        outline-color: "Widget.PopupMenuTextOutline";
+        outline-size: 1;
+    }
+
+    .column-content {
+        flow: vertical;
+        gap: 2;
+        auto-size: fit fit;
+    }
+
+    .job-button {
+        auto-size: grow fit;
+        flow: horizontal;
+        gap: 4;
+        padding: 2 4;
+        background-color: "Widget.PopupBackground.Gradient2";
+        transition-type: ease-out-sine;
+        transition-duration: 200;
+
+        &:hover {
+            background-color: "Widget.PopupMenuBackgroundHover";
+            transition-duration: 1;
+
+            & > .job-name {
+                color: "Widget.PopupMenuTextHover";
+                outline-color: "Widget.PopupMenuTextOutlineHover";
+            }
+
+            & > .job-level {
+                color: "Widget.PopupMenuTextHover";
+                outline-color: "Widget.PopupMenuTextOutlineHover";
+            }
+        }
+    }
+
+    .job-icon {
+        size: 16 16;
+        color: "Widget.PopupMenuText";
+        outline-color: "Widget.PopupMenuTextOutline";
+        font-size: 12;
+        text-align: middle-center;
+    }
+
+    .job-name {
+        auto-size: grow fit;
+        text-overflow: false;
+        word-wrap: false;
+        text-align: middle-left;
+        font-size: 11;
+        color: "Widget.PopupMenuText";
+        outline-color: "Widget.PopupMenuTextOutline";
+        outline-size: 1;
+    }
+
+    .job-level {
+        text-align: middle-right;
+        font-size: 10;
+        color: "Widget.PopupMenuTextMuted";
+        outline-color: "Widget.PopupMenuTextOutline";
+        outline-size: 1;
+    }
+    ]]>
+</udt>
