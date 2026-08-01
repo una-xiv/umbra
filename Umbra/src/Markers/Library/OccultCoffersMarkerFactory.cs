@@ -46,6 +46,13 @@ internal sealed partial class OccultCoffersMarkerFactory : WorldMarkerFactory
                 { 1976, new(200f, 111.7266f, -215f) }, // Persistent Pots
                 { 1977, new(-481f, 75f, 528f) },       // Pleading Pots
             }
+        },
+        {
+            1346, new() {
+                // North Horn
+                { 2072, new(233f, 7.729229f, -470f) },       // Daylight Pottery
+                { 2073, new(-505.2822f, 53.14409f, 244.041f) }, // In a Pot of Bother
+            }
         }
     };
 
