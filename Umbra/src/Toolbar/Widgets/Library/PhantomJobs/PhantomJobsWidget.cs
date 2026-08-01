@@ -159,9 +159,9 @@ public class PhantomJobsWidget(
         }
     }
 
-    private void BuildListNewMenu()
+    private Dictionary<string, List<byte>> GetJobCategories()
     {
-        var categories = new Dictionary<string, List<byte>> {
+        return new() {
             { I18N.Translate("Widget.PhantomJobs.JobCategory.Tank"), new() { 1 } },
             { I18N.Translate("Widget.PhantomJobs.JobCategory.MainDPS"), new() { 2, 3, 5, 9, 13, 14, 19, 16 } },
             { I18N.Translate("Widget.PhantomJobs.JobCategory.SupportDPS"), new() { 6, 12, 4, 15 } },
@@ -169,6 +169,11 @@ public class PhantomJobsWidget(
             { I18N.Translate("Widget.PhantomJobs.JobCategory.PureSupport"), new() { 7, 10, 17 } },
             { I18N.Translate("Widget.PhantomJobs.JobCategory.Other"), new() { 0 } }
         };
+    }
+
+    private void BuildListNewMenu()
+    {
+        var categories = GetJobCategories();
 
         foreach (var (categoryName, jobIds) in categories) {
             var group = new MenuPopup.Group(categoryName);
@@ -185,14 +190,7 @@ public class PhantomJobsWidget(
 
     private void BuildColumnsMenu()
     {
-        var categoriesDict = new Dictionary<string, List<byte>> {
-            { I18N.Translate("Widget.PhantomJobs.JobCategory.Tank"), new() { 1 } },
-            { I18N.Translate("Widget.PhantomJobs.JobCategory.MainDPS"), new() { 2, 3, 5, 9, 13, 14, 19, 16 } },
-            { I18N.Translate("Widget.PhantomJobs.JobCategory.SupportDPS"), new() { 6, 12, 4, 15 } },
-            { I18N.Translate("Widget.PhantomJobs.JobCategory.Caster"), new() { 8, 11, 18, 21, 22, 20, 23 } },
-            { I18N.Translate("Widget.PhantomJobs.JobCategory.PureSupport"), new() { 7, 10, 17 } },
-            { I18N.Translate("Widget.PhantomJobs.JobCategory.Other"), new() { 0 } }
-        };
+        var categoriesDict = GetJobCategories();
 
         var jobDataDict = new Dictionary<byte, (string name, uint iconId, string level, Action<byte> onClick)>();
 
