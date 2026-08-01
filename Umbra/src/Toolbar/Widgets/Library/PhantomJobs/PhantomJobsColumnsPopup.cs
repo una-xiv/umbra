@@ -67,7 +67,8 @@ public class PhantomJobsColumnsPopup : WidgetPopup
                 }
             }
 
-            container.AppendChild(columnNode);
+            if (contentNode.ChildNodes.Count > 0)
+                container.AppendChild(columnNode);
         }
     }
 

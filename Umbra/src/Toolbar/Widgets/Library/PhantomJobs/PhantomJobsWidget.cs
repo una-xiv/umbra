@@ -195,16 +195,16 @@ public class PhantomJobsWidget(
         var jobDataDict = new Dictionary<byte, (string name, uint iconId, string level, Action<byte> onClick)>();
 
         foreach (var job in _jobs.Values) {
-            jobDataDict[job.Id] = (
-                job.Name,
-                job.IconId,
-                $"Lv. {job.Level}",
-                _ => {
-                    if (job.Level > 0) {
-                        PublicContentOccultCrescent.ChangeSupportJob(job.Id);
-                    }
-                }
-            );
+            if (job.Level > 0) {
+                jobDataDict[job.Id] = (
+                    job.Name,
+                    job.IconId,
+                    $"Lv. {job.Level}",
+                    _ => {
+                            PublicContentOccultCrescent.ChangeSupportJob(job.Id);
+                        }
+                );
+            }
         }
 
         ColumnsPopup.BuildColumnsView(categoriesDict, jobDataDict);
