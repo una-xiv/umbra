@@ -41,7 +41,7 @@ public class PhantomJobsWidget(
                 true
             ),
             new SelectWidgetConfigVariable(
-                "DisplayMode",
+                "PopupDisplayMode",
                 I18N.Translate("Widget.PhantomJobs.DisplayMode.Name"),
                 I18N.Translate("Widget.PhantomJobs.DisplayMode.Description"),
                 "ListNew",
@@ -50,7 +50,7 @@ public class PhantomJobsWidget(
                     { "ListNew", I18N.Translate("Widget.PhantomJobs.DisplayMode.ListNew") },
                     { "Columns", I18N.Translate("Widget.PhantomJobs.DisplayMode.Columns") }
                 }
-            )
+            ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") }
         ];
     }
 
@@ -61,29 +61,26 @@ public class PhantomJobsWidget(
     private bool        _isInfoAvailable;
     private PhantomJob? _selectedJob;
 
-     /// <inheritdoc/>
-     protected override void OnLoad()
-     {
-         foreach (var job in Framework.Service<IDataManager>().GetExcelSheet<MKDSupportJob>()) {
-             var phJob  = new PhantomJob((byte)job.RowId, job.NameShort.ExtractText(), job.RowId + 82271u);
-             var button = new MenuPopup.Button(phJob.Name) { Icon = phJob.IconId };
-
-             button.OnClick += () => {
-                 if (phJob.Level > 0) {
-                     PublicContentOccultCrescent.ChangeSupportJob(phJob.Id);
-                 }
-             };
-
-             _buttons.Add(phJob.Id, button);
-             _jobs.Add((byte)job.RowId, phJob);
-         }
-
-         RebuildPopupMenu();
-     }
-
     /// <inheritdoc/>
-    protected override void OnUnload()
+    protected override void OnLoad()
     {
+        foreach (var job in Framework.Service<IDataManager>().GetExcelSheet<MKDSupportJob>()) {
+            var phJob  = new PhantomJob((byte)job.RowId, job.NameShort.ExtractText(), job.RowId + 82271u);
+            var button = new MenuPopup.Button(phJob.Name) {
+                Icon = phJob.IconId
+            };
+
+            button.OnClick += () => {
+                if (phJob.Level > 0) {
+                    PublicContentOccultCrescent.ChangeSupportJob(phJob.Id);
+                }
+            };
+
+            _buttons.Add(phJob.Id, button);
+            _jobs.Add((byte)job.RowId, phJob);
+        }
+
+        RebuildPopupMenu();
     }
 
     /// <inheritdoc/>
@@ -91,7 +88,7 @@ public class PhantomJobsWidget(
     {
         UpdatePhantomJobs();
 
-        var displayMode = GetConfigValue<string>("DisplayMode");
+        var displayMode = GetConfigValue<string>("PopupDisplayMode");
         if (displayMode != _currentDisplayMode) {
             _currentDisplayMode = displayMode;
             RebuildPopupMenu();
