@@ -67,7 +67,7 @@ internal partial class DtrSingleWidget(
         }
 
         SetDisabled(false);
-        SetText(DtrBarEntry.Text);
+        SetText(DtrBarEntry.Text?.Encode() ?? []);
         SetTooltip(DtrBarEntry.Tooltip?.TextValue);
     }
 

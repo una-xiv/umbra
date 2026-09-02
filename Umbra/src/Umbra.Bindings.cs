@@ -1,4 +1,5 @@
 ﻿using Dalamud.Game.Text.SeStringHandling;
+using Dalamud.Utility;
 using Umbra.AuxBar;
 using Umbra.Widgets.System;
 using Umbra.Windows;
@@ -170,7 +171,7 @@ internal sealed class UmbraBindings : IDisposable
 
     private void ShowCvarToggleHelp()
     {
-        SeStringBuilder builder = new();
+        using var rssb = new RentedSeStringBuilder();
 
         foreach (string category in ConfigManager.GetCategories()) {
             if (!I18N.Has($"CVAR.Group.{category}")) continue;
@@ -178,14 +179,29 @@ internal sealed class UmbraBindings : IDisposable
             var cvars = ConfigManager.GetVariablesFromCategory(category).Where(c => c.Default is bool && I18N.Has($"CVAR.{c.Id}.Name")).ToList();
             if (cvars.Count == 0) continue;
 
-            builder.AddText("Category: ").AddUiForeground(I18N.Translate($"CVAR.Group.{category}"), 42).AddText("\n");
+            rssb.Builder.Append("Category: ")
+                        .PushColorType(42)
+                        .Append(I18N.Translate($"CVAR.Group.{category}"))
+                        .PopColorType()
+                        .Append("\n");
 
             foreach (var cvar in cvars) {
-                builder.AddText("    \"").AddUiForeground(cvar.Id, 32).AddText("\" - ").AddUiForeground(I18N.Translate($"CVAR.{cvar.Id}.Name"), 4).AddText("\n");
+                rssb.Builder.Append("    \"")
+                            .PushColorType(32)
+                            .Append(cvar.Id)
+                            .PopColorType()
+                            .Append(" \" - ")
+                            .PushColorType(4)
+                            .Append(I18N.Translate($"CVAR.{cvar.Id}.Name"))
+                            .PopColorType()
+                            .Append("\n");
             }
         }
 
-        builder.AddText("Usage: ").AddUiForeground("/umbra-toggle <setting>", 32);
-        _chatGui.Print(builder.Build());
+        rssb.Builder.Append("Usage: ")
+                    .PushColorType(32)
+                    .Append("/umbra-toggle <setting>")
+                    .PopColorType();
+        _chatGui.Print(rssb.Builder.ToReadOnlySeString());
     }
 }

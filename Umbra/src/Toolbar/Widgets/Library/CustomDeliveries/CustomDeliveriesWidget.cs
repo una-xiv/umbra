@@ -94,7 +94,7 @@ internal sealed class CustomDeliveriesWidget(
 
         if (npcId == 0 || npc == null) {
             SetText(GetConfigValue<string>("ButtonLabel"));
-            SetSubText(null);
+            SetSubText(default);
         } else {
             SetText(npc.Name);
             SetSubText($"{npc.DeliveriesThisWeek} / {npc.MaxDeliveriesPerWeek}");

@@ -1,5 +1,6 @@
 ﻿using Dalamud.Game.Text;
 using Dalamud.Game.Text.SeStringHandling;
+using Lumina.Text.ReadOnly;
 using System.Collections.Immutable;
 
 namespace Umbra.Widgets;
@@ -33,13 +34,13 @@ public sealed partial class MenuPopup
             set => Node.SortIndex = value;
         }
 
-        public string Label {
-            get => Node.QuerySelector(".text")!.NodeValue?.ToString() ?? string.Empty;
+        public ReadOnlySeString Label {
+            get => Node.QuerySelector(".text")!.NodeValue;
             set => Node.QuerySelector(".text")!.NodeValue = value;
         }
 
-        public string? AltText {
-            get => Node.QuerySelector(".alt-text")!.NodeValue?.ToString() ?? string.Empty;
+        public ReadOnlySeString AltText {
+            get => Node.QuerySelector(".alt-text")!.NodeValue;
             set => Node.QuerySelector(".alt-text")!.NodeValue = value;
         }
 
@@ -80,7 +81,7 @@ public sealed partial class MenuPopup
                 bool isBitmapIcon = false;
 
                 if (value is uint iconId) {
-                    IconNode.NodeValue            = null;
+                    IconNode.NodeValue            = default;
                     IconNode.Style.IconId         = iconId;
                     IconNode.Style.BitmapFontIcon = null;
                     isGameIcon                    = true;
@@ -97,13 +98,13 @@ public sealed partial class MenuPopup
                     IconNode.Style.BitmapFontIcon = null;
                     isGlyphIcon                   = true;
                 } else if (value is BitmapFontIcon bitmap) {
-                    IconNode.NodeValue            = null;
+                    IconNode.NodeValue            = default;
                     IconNode.Style.Font           = 0;
                     IconNode.Style.IconId         = null;
                     IconNode.Style.BitmapFontIcon = bitmap;
                     isBitmapIcon                  = true;
                 } else {
-                    IconNode.NodeValue            = null;
+                    IconNode.NodeValue            = default;
                     IconNode.Style.Font           = 0;
                     IconNode.Style.IconId         = null;
                     IconNode.Style.BitmapFontIcon = null;
@@ -182,8 +183,8 @@ public sealed partial class MenuPopup
             set => Node.Style.IsVisible = value;
         }
 
-        public string Label {
-            get => Node.QuerySelector(".text")!.NodeValue?.ToString() ?? string.Empty;
+        public ReadOnlySeString Label {
+            get => Node.QuerySelector(".text")!.NodeValue;
             set => Node.QuerySelector(".text")!.NodeValue = value;
         }
 
@@ -208,8 +209,8 @@ public sealed partial class MenuPopup
 
         private readonly Dictionary<Node, IMenuItem> _items = [];
 
-        public string? Label {
-            get => LabelNode.NodeValue?.ToString() ?? string.Empty;
+        public ReadOnlySeString Label {
+            get => LabelNode.NodeValue;
             set => LabelNode.NodeValue = value;
         }
 
@@ -243,7 +244,7 @@ public sealed partial class MenuPopup
 
             Node.BeforeDraw += _ => {
                 Node.Style.IsVisible       = ContentNode.ChildNodes.Any(c => c.IsVisible);
-                HeaderNode.Style.IsVisible = !string.IsNullOrEmpty(Label);
+                HeaderNode.Style.IsVisible = !Label.IsEmpty;
             };
 
             Node.OnDispose += _ => Dispose();

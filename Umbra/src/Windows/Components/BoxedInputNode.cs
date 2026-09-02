@@ -1,12 +1,13 @@
 ﻿
+using Lumina.Text.ReadOnly;
 using Una.Drawing.Templating.StyleParser;
 
 namespace Umbra.Windows.Components;
 
 public abstract class BoxedInputNode : Node
 {
-    public string? Label {
-        get => (string)(LabelNode.NodeValue ?? "");
+    public ReadOnlySeString Label {
+        get => LabelNode.NodeValue;
         set => LabelNode.NodeValue = value;
     }
 
@@ -16,11 +17,11 @@ public abstract class BoxedInputNode : Node
         {
             _description = value;
             if (UmbraBindings.ShowInputControlDescriptions) {
-                LabelNode.Tooltip         = null;
+                LabelNode.Tooltip         = default;
                 DescriptionNode.NodeValue = _description;
             } else {
                 LabelNode.Tooltip         = _description;
-                DescriptionNode.NodeValue = null;
+                DescriptionNode.NodeValue = default;
             }
         }
     }
@@ -78,18 +79,18 @@ public abstract class BoxedInputNode : Node
             _showDescription = UmbraBindings.ShowInputControlDescriptions;
             switch (_showDescription) {
                 case true:
-                    LabelNode.Tooltip         = null;
+                    LabelNode.Tooltip         = default;
                     DescriptionNode.NodeValue = _description;
                     break;
                 case false:
                     LabelNode.Tooltip         = _description;
-                    DescriptionNode.NodeValue = null;
+                    DescriptionNode.NodeValue = default;
                     break;
             }
         }
         
-        LabelNode.Style.IsVisible       = LabelNode.NodeValue is not null;
-        DescriptionNode.Style.IsVisible = _showDescription && !string.IsNullOrEmpty((string?)DescriptionNode.NodeValue);
+        LabelNode.Style.IsVisible       = !LabelNode.NodeValue.IsEmpty;
+        DescriptionNode.Style.IsVisible = _showDescription && !DescriptionNode.NodeValue.IsEmpty;
         TextNode.ToggleClass("has-description", DescriptionNode.Style.IsVisible);
         
         base.OnDraw(drawList);

@@ -1,5 +1,5 @@
 ﻿using Dalamud.Game.Text.SeStringHandling;
-
+using Dalamud.Utility;
 using Umbra.Widgets;
 using Umbra.Widgets.System;
 using Umbra.Windows.Dialogs;
@@ -30,7 +30,8 @@ public class WidgetControlNode : UdtNode
         if (widget.Info.IsDeprecated) {
             var d = QuerySelector(".deprecated")!;
             d.Style.IsVisible = true;
-            d.NodeValue       = new SeStringBuilder().AddIcon(BitmapFontIcon.Warning).Build();
+            using var rssb = new RentedSeStringBuilder();
+            d.NodeValue       = rssb.Builder.AppendIcon((uint)BitmapFontIcon.Warning).ToReadOnlySeString();
             d.Tooltip         = widget.Info.DeprecatedMessage;
         }
 

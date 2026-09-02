@@ -9,8 +9,8 @@ internal partial class I18NAttributeValueParser : IUdtAttributeValueParser
     /// </summary>
     public string Parse(string value)
     {
-        while (I18nRegex().IsMatch(value)) {
-            Match  match = I18nRegex().Match(value);
+        while (I18nRegex.IsMatch(value)) {
+            Match  match = I18nRegex.Match(value);
             string name  = match.Groups[1].Value;
 
             // TODO: Add i18n parameter support.
@@ -27,7 +27,7 @@ internal partial class I18NAttributeValueParser : IUdtAttributeValueParser
     public void Dispose()
     {
     }
-    
+
     [GeneratedRegex(@"_L\(([A-Za-z0-9_.]+)\)")]
-    private static partial Regex I18nRegex();
+    private static partial Regex I18nRegex { get; }
 }

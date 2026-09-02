@@ -1,4 +1,6 @@
-﻿namespace Umbra.Widgets;
+﻿using Lumina.Text.ReadOnly;
+
+namespace Umbra.Widgets;
 
 public sealed class ContextMenuEntry(string? id) : IDisposable
 {
@@ -21,8 +23,8 @@ public sealed class ContextMenuEntry(string? id) : IDisposable
 
     public string Id { get; init; } = id ?? $"CME_{Guid.NewGuid().ToString()}";
 
-    public string? Label {
-        get => (string)Node.FindById("Label")!.NodeValue!;
+    public ReadOnlySeString Label {
+        get => Node.FindById("Label")!.NodeValue;
         set => Node.FindById("Label")!.NodeValue = value;
     }
 
@@ -41,7 +43,7 @@ public sealed class ContextMenuEntry(string? id) : IDisposable
         set => Node.Style.IsVisible = value;
     }
 
-    public string? Tooltip {
+    public ReadOnlySeString Tooltip {
         get => Node.Tooltip;
         set => Node.Tooltip = value;
     }

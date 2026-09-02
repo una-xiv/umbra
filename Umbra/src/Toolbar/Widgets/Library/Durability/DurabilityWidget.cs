@@ -97,37 +97,37 @@ internal partial class DurabilityWidget(
         switch (GetConfigValue<string>("WidgetDisplayMode")) {
             case "Short":
                 SetText($"{displayableDurability}% / {displayableSpiritbond}%");
-                SetSubText(null);
+                SetSubText(default);
                 SetBarsVisibility(false);
-                Node.Tooltip = null;
+                Node.Tooltip = default;
                 break;
             case "ShortStacked":
                 SetText($"{displayableDurability}%");
                 SetSubText($"{displayableSpiritbond}%");
                 SetBarsVisibility(false);
-                Node.Tooltip = null;
+                Node.Tooltip = default;
                 break;
             case "DurabilityOnly":
                 SetText($"{displayableDurability}%");
-                SetSubText(null);
+                SetSubText(default);
                 SetBarsVisibility(false);
-                Node.Tooltip = null;
+                Node.Tooltip = default;
                 break;
             case "SpiritbondOnly":
                 SetText($"{displayableSpiritbond}%");
-                SetSubText(null);
+                SetSubText(default);
                 SetBarsVisibility(false);
-                Node.Tooltip = null;
+                Node.Tooltip = default;
                 break;
             case "IconOnly":
-                SetText(null);
-                SetSubText(null);
+                SetText(default);
+                SetSubText(default);
                 SetBarsVisibility(false);
                 Node.Tooltip = tooltipString;
                 break;
             case "StackedBars":
-                SetText(null);
-                SetSubText(null);
+                SetText(default);
+                SetSubText(default);
                 SetBarsVisibility(true);
                 UpdateBars(displayableDurability, displayableSpiritbond);
                 UseStackedBars();
@@ -137,7 +137,7 @@ internal partial class DurabilityWidget(
                 SetText($"{I18N.Translate("Widget.Durability.Durability")}: {displayableDurability}%");
                 SetSubText($"{I18N.Translate("Widget.Durability.Spiritbond")}: {displayableSpiritbond}%");
                 SetBarsVisibility(false);
-                Node.Tooltip = null;
+                Node.Tooltip = default;
                 break;
         }
 
@@ -179,7 +179,7 @@ internal partial class DurabilityWidget(
         MenuPopup.Button button = _actionsGroup.Get<MenuPopup.Button>("Repair");
 
         if (!Player.IsGeneralActionUnlocked(6)) {
-            button.AltText = null;
+            button.AltText = default;
             return false;
         }
 
@@ -196,7 +196,7 @@ internal partial class DurabilityWidget(
         }
 
         if (0 == highestDarkMatterType) {
-            button.AltText = null;
+            button.AltText = default;
             return false;
         }
 

@@ -115,7 +115,7 @@ internal sealed partial class DtrBarWidget(
         };
 
         if (entry.IsInteractive) {
-            node.Tooltip =  entry.TooltipText?.TextValue;
+            node.Tooltip =  entry.TooltipText;
             node.OnClick += _ => entry.InvokeClickAction(MouseClickType.Left, GetModifierKeyState());
             node.OnRightClick += _ => entry.InvokeClickAction(MouseClickType.Right, GetModifierKeyState());
         }
@@ -161,7 +161,7 @@ internal sealed partial class DtrBarWidget(
             SetNodeLabel(node, entry);
         }
 
-        node.Tooltip   = entry.TooltipText?.TextValue;
+        node.Tooltip   = entry.TooltipText;
         node.SortIndex = entry.SortIndex;
     }
 
@@ -171,7 +171,7 @@ internal sealed partial class DtrBarWidget(
         if (labelNode == null) return;
 
         labelNode.NodeValue = GetConfigValue<bool>("PlainText")
-            ? entry.Text?.TextValue ?? ""
+            ? entry.Text.ToString()
             : entry.Text;
     }
 

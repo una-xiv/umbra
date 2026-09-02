@@ -1,4 +1,5 @@
 ﻿using Dalamud.Game.Text.SeStringHandling;
+using Dalamud.Utility;
 using Lumina.Excel.Sheets;
 using Lumina.Misc;
 using Umbra.Widgets.System;
@@ -155,11 +156,12 @@ public class ToolbarProfileManagerWindow : Window
         };
 
         var player = Framework.Service<IPlayer>();
+        using var rssb = new RentedSeStringBuilder();
 
         Node jobAssociationMessage = new() {
             Id        = "JobAssociationWarning",
             ClassList = ["job-association-message"],
-            NodeValue = new SeStringBuilder().AddIcon(BitmapFontIcon.Warning).AddText(" ").AddText(I18N.Translate("ToolbarProfilesWindow.JobAssociationWarning", player.GetJobInfo(player.JobId).Name)).Build(),
+            NodeValue = rssb.Builder.AppendIcon((uint)BitmapFontIcon.Warning).Append(" ").Append(I18N.Translate("ToolbarProfilesWindow.JobAssociationWarning", player.GetJobInfo(player.JobId).Name)).ToReadOnlySeString(),
         };
 
         jobAssociationMessage.Style.IsVisible = WidgetManager.UseJobAssociatedProfiles;

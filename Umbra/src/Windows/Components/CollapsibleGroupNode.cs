@@ -1,9 +1,11 @@
-﻿namespace Umbra.Windows.Components;
+﻿using Lumina.Text.ReadOnly;
+
+namespace Umbra.Windows.Components;
 
 public class CollapsibleGroupNode : UdtNode
 {
-    public string? Label {
-        get => LabelNode.NodeValue?.ToString(); 
+    public ReadOnlySeString Label {
+        get => LabelNode.NodeValue;
         set => LabelNode.NodeValue = value;
     }
 

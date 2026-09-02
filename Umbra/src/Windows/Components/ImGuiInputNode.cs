@@ -1,12 +1,13 @@
 ﻿
+using Lumina.Text.ReadOnly;
 using Una.Drawing.Templating.StyleParser;
 
 namespace Umbra.Windows.Components;
 
 public abstract class ImGuiInputNode : Node
 {
-    public string? Label {
-        get => (string?)LabelNode.NodeValue;
+    public ReadOnlySeString Label {
+        get => LabelNode.NodeValue;
         set => LabelNode.NodeValue = value;
     }
 
@@ -16,11 +17,11 @@ public abstract class ImGuiInputNode : Node
         {
             _description = value;
             if (UmbraBindings.ShowInputControlDescriptions) {
-                LabelNode.Tooltip         = null;
+                LabelNode.Tooltip         = default;
                 DescriptionNode.NodeValue = _description;
             } else {
                 LabelNode.Tooltip         = _description;
-                DescriptionNode.NodeValue = null;
+                DescriptionNode.NodeValue = default;
             }
         }
     }
@@ -75,18 +76,18 @@ public abstract class ImGuiInputNode : Node
             _showDescription = UmbraBindings.ShowInputControlDescriptions;
             switch (_showDescription) {
                 case true:
-                    LabelNode.Tooltip         = null;
+                    LabelNode.Tooltip         = default;
                     DescriptionNode.NodeValue = _description;
                     break;
                 case false:
                     LabelNode.Tooltip         = _description;
-                    DescriptionNode.NodeValue = null;
+                    DescriptionNode.NodeValue = default;
                     break;
             }
         }
 
-        bool hasLabel       = LabelNode.NodeValue is not null;
-        bool hasDescription = _showDescription && DescriptionNode.NodeValue is not null;
+        bool hasLabel       = !LabelNode.NodeValue.IsEmpty;
+        bool hasDescription = _showDescription && !DescriptionNode.NodeValue.IsEmpty;
 
         LabelNode.Style.IsVisible       = hasLabel;
         DescriptionNode.Style.IsVisible = hasDescription;

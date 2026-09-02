@@ -107,7 +107,7 @@ internal partial class RetainerListPopup : WidgetPopup
                 },
                 new() {
                     ClassList = ["cell", "gil"],
-                    NodeValue = retainer.Gil
+                    NodeValue = retainer.Gil.ToString()
                 },
                 new() {
                     ClassList = ["cell", "items", "inv"],

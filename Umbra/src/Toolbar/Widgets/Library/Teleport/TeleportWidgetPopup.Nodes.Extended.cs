@@ -72,7 +72,7 @@ internal partial class TeleportWidgetPopup
                     switch (item.Icon) {
                         case uint iconId:
                             menuItemNode.QuerySelector(".icon")!.Style.IconId = iconId;
-                            menuItemNode.QuerySelector(".icon")!.NodeValue    = null;
+                            menuItemNode.QuerySelector(".icon")!.NodeValue    = default;
                             break;
                         case SeIconChar seIconChar:
                             menuItemNode.QuerySelector(".icon")!.Style.IconId = null;

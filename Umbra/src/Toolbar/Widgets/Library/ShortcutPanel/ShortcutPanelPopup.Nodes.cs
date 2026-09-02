@@ -97,11 +97,11 @@ internal sealed partial class ShortcutPanelPopup
 
     private void ClearSlot(Node slotNode, byte categoryId, int slotId)
     {
-        slotNode.Tooltip = null;
+        slotNode.Tooltip = default;
 
         slotNode.QuerySelector(".icon")!.Style.IconId     = null;
         slotNode.QuerySelector(".sub-icon")!.Style.IconId = null;
-        slotNode.QuerySelector(".count")!.NodeValue       = null;
+        slotNode.QuerySelector(".count")!.NodeValue       = default;
 
         slotNode.TagsList.Add($"empty-{(ShowEmptySlots ? "visible" : "hidden")}");
         slotNode.TagsList.Remove($"empty-{(ShowEmptySlots ? "hidden" : "visible")}");
