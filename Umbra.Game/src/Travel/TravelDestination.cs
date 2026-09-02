@@ -1,7 +1,7 @@
 ﻿using Dalamud.Game.ClientState.Aetherytes;
-using Dalamud.Memory;
 using FFXIVClientStructs.FFXIV.Client.UI;
 using FFXIVClientStructs.FFXIV.Client.UI.Misc;
+using Lumina.Text.ReadOnly;
 
 namespace Umbra.Game;
 
@@ -99,7 +99,7 @@ public class TravelDestination
             return "???";
         }
 
-        return InterfaceTexts[id] = MemoryHelper.ReadSeStringNullTerminated(new(sp)).ToString();
+        return InterfaceTexts[id] = new ReadOnlySeStringSpan(sp).ToString();
     }
 
     private static string GetTerritoryName(uint territoryId)
