@@ -68,7 +68,7 @@ internal class FateMarkerFactory(IZoneManager zoneManager) : WorldMarkerFactory
                     Key                = id,
                     IconId             = fate->IconId,
                     MapId              = zoneManager.CurrentZone.Id,
-                    Label              = $"{prefix}{fate->Name.AsDalamudSeString()}",
+                    Label              = prefix + fate->Name.AsReadOnlySeStringSpan().ToString(),
                     SubLabel           = $"{state} - {timeLeft:mm\\:ss}{progress}",
                     Position           = fate->Location + new Vector3(0, 1.8f, 0),
                     FadeDistance       = new(fadeDist, fadeDist + Math.Max(1, GetConfigValue<int>("FadeAttenuation"))),

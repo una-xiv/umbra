@@ -348,10 +348,10 @@ internal sealed class Player : IPlayer
 
         // Unknown57 is the transient state the player is in after casting and before being actually mounted.
         CanUseTeleportAction  = ActionManager.Instance()->GetActionStatus(ActionType.Action, 5) == 0;
-        HomeWorldName         = _objectTable.LocalPlayer.HomeWorld.Value.Name.ExtractText();
-        CurrentWorldName      = _objectTable.LocalPlayer.CurrentWorld.Value.Name.ExtractText();
-        HomeDataCenterName    = _objectTable.LocalPlayer.HomeWorld.Value.DataCenter.Value.Name.ExtractText();
-        CurrentDataCenterName = _objectTable.LocalPlayer.CurrentWorld.Value.DataCenter.Value.Name.ExtractText();
+        HomeWorldName         = _objectTable.LocalPlayer.HomeWorld.Value.Name.ToString();
+        CurrentWorldName      = _objectTable.LocalPlayer.CurrentWorld.Value.Name.ToString();
+        HomeDataCenterName    = _objectTable.LocalPlayer.HomeWorld.Value.DataCenter.Value.Name.ToString();
+        CurrentDataCenterName = _objectTable.LocalPlayer.CurrentWorld.Value.DataCenter.Value.Name.ToString();
 
         var ps = PlayerState.Instance();
 
@@ -424,10 +424,10 @@ internal sealed class Player : IPlayer
     public ResolvedItem? FindResolvedItem(uint itemId)
     {
         Item? item = _dataManager.GetExcelSheet<Item>().FindRow(itemId);
-        if (item != null) return new(item.Value.RowId, item.Value.Name.ExtractText(), item.Value.Icon);
+        if (item != null) return new(item.Value.RowId, item.Value.Name.ToString(), item.Value.Icon);
 
         EventItem? eventItem = _dataManager.GetExcelSheet<EventItem>().FindRow(itemId);
-        if (eventItem != null) return new(eventItem.Value.RowId, eventItem.Value.Name.ExtractText(), eventItem.Value.Icon);
+        if (eventItem != null) return new(eventItem.Value.RowId, eventItem.Value.Name.ToString(), eventItem.Value.Icon);
 
         return null;
     }

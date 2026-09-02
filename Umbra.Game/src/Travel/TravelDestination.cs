@@ -1,7 +1,7 @@
 ﻿using Dalamud.Game.ClientState.Aetherytes;
-using Dalamud.Memory;
 using FFXIVClientStructs.FFXIV.Client.UI;
 using FFXIVClientStructs.FFXIV.Client.UI.Misc;
+using Lumina.Text.ReadOnly;
 
 namespace Umbra.Game;
 
@@ -48,7 +48,7 @@ public class TravelDestination
     private string GetDestinationName(IAetheryteEntry entry)
     {
         if (!IsHousing) {
-            return entry.AetheryteData.Value.PlaceName.Value.Name.ExtractText();
+            return entry.AetheryteData.Value.PlaceName.Value.Name.ToString();
         }
 
         // Apartment.
@@ -99,7 +99,7 @@ public class TravelDestination
             return "???";
         }
 
-        return InterfaceTexts[id] = MemoryHelper.ReadSeStringNullTerminated(new(sp)).ToString();
+        return InterfaceTexts[id] = new ReadOnlySeStringSpan(sp).ToString();
     }
 
     private static string GetTerritoryName(uint territoryId)
@@ -110,14 +110,14 @@ public class TravelDestination
 
         var territory = Framework
             .Service<IDataManager>()
-            .GetExcelSheet<Lumina.Excel.Sheets.TerritoryType>()
+            .GetExcelSheet<TerritoryType>()
             .FindRow(territoryId);
 
         if (null == territory) {
             return TerritoryNames[territoryId] = "???";
         }
 
-        return TerritoryNames[territoryId] = territory.Value.PlaceName.Value.Name.ExtractText();
+        return TerritoryNames[territoryId] = territory.Value.PlaceName.Value.Name.ToString();
     }
 
     public override string ToString()

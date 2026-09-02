@@ -161,7 +161,7 @@ internal sealed class ZoneMarkerFactory(IDataManager dataManager)
     public unsafe ZoneMarker FromMapMarkerData(Sheet.Map map, MapMarkerData data)
     {
         var position = MapUtil.WorldToMap(new(data.Position.X, data.Position.Z), map);
-        var name     = SanitizeMarkerName(data.TooltipString->AsDalamudSeString().ToString());
+        var name     = SanitizeMarkerName(data.TooltipString->AsReadOnlySeStringSpan().ToString());
         var type     = DetermineMarkerType(data.IconId, name);
 
         return new(
@@ -175,7 +175,7 @@ internal sealed class ZoneMarkerFactory(IDataManager dataManager)
         );
     }
 
-    public ZoneMarker FromMapMarkerSheet(Sheet.Map map, Sheet.MapMarker marker)
+    public ZoneMarker FromMapMarkerSheet(Sheet.Map map, MapMarker marker)
     {
         var position = new Vector2(marker.X, marker.Y);
         var name     = GetStaticMarkerName(marker);
@@ -218,27 +218,27 @@ internal sealed class ZoneMarkerFactory(IDataManager dataManager)
         return v;
     }
 
-    private string GetStaticMarkerName(Sheet.MapMarker marker)
+    private string GetStaticMarkerName(MapMarker marker)
     {
-        var label = marker.PlaceNameSubtext.Value.Name.ExtractText();
+        var label = marker.PlaceNameSubtext.Value.Name.ToString();
         if (!string.IsNullOrEmpty(label)) return SanitizeMarkerName(label);
         if (marker.Icon == 0) return "";
 
         if (marker.DataType == 4) {
-            var placeName = dataManager.GetExcelSheet<Sheet.PlaceName>().FindRow(marker.DataKey.RowId);
-            if (placeName != null) return SanitizeMarkerName(placeName.Value.Name.ExtractText());
+            var placeName = dataManager.GetExcelSheet<PlaceName>().FindRow(marker.DataKey.RowId);
+            if (placeName != null) return SanitizeMarkerName(placeName.Value.Name.ToString());
         }
 
-        var symbol = dataManager.GetExcelSheet<Sheet.MapSymbol>().FindRow(marker.Icon);
+        var symbol = dataManager.GetExcelSheet<MapSymbol>().FindRow(marker.Icon);
         if (symbol == null) return "";
 
-        return SanitizeMarkerName(symbol.Value.PlaceName.Value.Name.ExtractText());
+        return SanitizeMarkerName(symbol.Value.PlaceName.Value.Name.ToString());
     }
 
     private static string SanitizeMarkerName(string name)
     {
         // If name solely consists of digits, prefix it with "Plot ".
-        if (name.All(char.IsDigit)) return $"Plot {name}";
+        if (name.All(char.IsDigit)) return $"{I18N.Translate("Housing.Plot")} {name}";
 
         return name;
     }

@@ -68,7 +68,7 @@ public sealed class MainMenuItem : IDisposable
         if (agentHud == null) return;
 
         ThreadSafety.AssertMainThread();
-        Name = agentHud->GetMainCommandString(commandId).ExtractText().StripSoftHyphen();
+        Name = agentHud->GetMainCommandString(commandId).AsReadOnlySeStringSpan().ToString();
 
         if (Name.Contains('[')) {
             var tmp = Name.Split('[');

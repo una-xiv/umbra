@@ -1,3 +1,4 @@
+using Dalamud.Game.ClientState.Objects.Enums;
 using Dalamud.Utility;
 using FFXIVClientStructs.FFXIV.Client.UI;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
@@ -25,8 +26,9 @@ internal sealed unsafe class CustomDeliveriesRepository : ICustomDeliveriesRepos
         { 12, 216 }, // Tiisol Ja -- Tuliyollal
     };
 
-    private IDataManager DataManager { get; }
-    private IPlayer      Player      { get; }
+    private IDataManager       DataManager       { get; }
+    private ISeStringEvaluator SeStringEvaluator { get; }
+    private IPlayer            Player            { get; }
 
     /// <inheritdoc />
     public Dictionary<int, CustomDeliveryNpc> Npcs { get; } = [];
@@ -34,10 +36,11 @@ internal sealed unsafe class CustomDeliveriesRepository : ICustomDeliveriesRepos
     /// <inheritdoc />
     public int DeliveriesRemainingThisWeek { get; private set; }
 
-    public CustomDeliveriesRepository(IDataManager dataManager, IPlayer player)
+    public CustomDeliveriesRepository(IDataManager dataManager, ISeStringEvaluator seStringEvaluator, IPlayer player)
     {
-        DataManager = dataManager;
-        Player      = player;
+        DataManager       = dataManager;
+        SeStringEvaluator = seStringEvaluator;
+        Player            = player;
 
         HydrateStaticData();
         OnTick();
@@ -210,7 +213,7 @@ internal sealed unsafe class CustomDeliveriesRepository : ICustomDeliveriesRepos
                     s.QuestRequired.RowId,
                     s.RankParams.Select(t => (uint)t.ImageId).ToArray(),
                     s.DeliveriesPerWeek,
-                    s.Npc.Value.Singular.ExtractText(),
+                    SeStringEvaluator.EvaluateObjStr(ObjectKind.EventNpc, s.Npc.RowId),
                     s.SatisfactionNpcParams.Select(t => (uint)t.SupplyIndex).ToArray()
                 )
             );

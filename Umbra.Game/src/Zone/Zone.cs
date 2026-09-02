@@ -49,16 +49,16 @@ internal sealed class Zone : IZone
         MapSheet            = dataManager.GetExcelSheet<Sheet.Map>().GetRow(zoneId);
         Type                = (TerritoryIntendedUse)MapSheet.TerritoryType.Value.TerritoryIntendedUse.RowId;
         TerritoryId         = MapSheet.TerritoryType.RowId;
-        Name                = GetHousingZoneName() ?? MapSheet.PlaceName.Value.Name.ExtractText();
-        SubName             = MapSheet.PlaceNameSub.Value.Name.ExtractText();
-        RegionName          = MapSheet.PlaceNameRegion.Value.Name.ExtractText();
+        Name                = GetHousingZoneName() ?? MapSheet.PlaceName.Value.Name.ToString();
+        SubName             = MapSheet.PlaceNameSub.Value.Name.ToString();
+        RegionName          = MapSheet.PlaceNameRegion.Value.Name.ToString();
         Offset              = new(MapSheet.OffsetX, MapSheet.OffsetY);
         SizeFactor          = MapSheet.SizeFactor;
         IsSanctuary         = false;
         CurrentDistrictName = "-";
 
         StaticMarkers = dataManager
-            .GetSubrowExcelSheet<Sheet.MapMarker>()
+            .GetSubrowExcelSheet<MapMarker>()
             .Where(m => m.RowId == MapSheet.MapMarkerRange)
             .SelectMany(m => m)
             .Where(m => m is { X: > 0, Y: > 0 })
@@ -88,15 +88,15 @@ internal sealed class Zone : IZone
 
         IsSanctuary = territoryInfo->InSanctuary;
         InstanceId  = UIState.Instance()->PublicInstance.InstanceId;
-        Name = GetHousingZoneName() ?? MapSheet.PlaceName.Value.Name.ExtractText();
+        Name = GetHousingZoneName() ?? MapSheet.PlaceName.Value.Name.ToString();
 
         HousingManager* housingManager = HousingManager.Instance();
 
         if (housingManager == null || housingManager->CurrentTerritory == null) {
             CurrentDistrictName = _dataManager
-                    .GetExcelSheet<Sheet.PlaceName>()
+                    .GetExcelSheet<PlaceName>()
                     .FindRow(territoryInfo->AreaPlaceNameId)
-                    ?.Name.ExtractText()
+                    ?.Name.ToString()
                 ?? "???";
         } else {
             CurrentDistrictName = GetHousingDistrictName();
@@ -118,90 +118,79 @@ internal sealed class Zone : IZone
                 DynamicMarkers.Add(m);
             }
 
-            DynamicMarkers.AddRange(
-                map->ActiveLevequestMarker
-                    .MarkerData
-                    .ToList()
-                    .Where(m => m.MapId == Id)
-                    .Select(m => _markerFactory.FromMapMarkerData(MapSheet, m))
-                    .ToList()
-            );
+            foreach (var markerData in map->ActiveLevequestMarker.MarkerData) {
+                if (markerData.MapId == Id) {
+                    DynamicMarkers.Add(_markerFactory.FromMapMarkerData(MapSheet, markerData));
+                }
+            }
 
-            DynamicMarkers.AddRange(
-                map->CustomTalkMarkers
-                    .ToList()
-                    .SelectMany(i => i.MarkerData.ToList())
-                    .Where(m => m.MapId == Id)
-                    .Select(m => _markerFactory.FromMapMarkerData(MapSheet, m))
-                    .ToList()
-            );
+            foreach (ref readonly var marker in map->CustomTalkMarkers) {
+                foreach (var markerData in marker.MarkerData) {
+                    if (markerData.MapId == Id) {
+                        DynamicMarkers.Add(_markerFactory.FromMapMarkerData(MapSheet, markerData));
+                    }
+                }
+            }
 
-            DynamicMarkers.AddRange(
-                map->GemstoneTraderMarkers
-                    .ToList()
-                    .SelectMany(i => i.MarkerData.ToList())
-                    .Where(m => m.MapId == Id)
-                    .Select(m => _markerFactory.FromMapMarkerData(MapSheet, m))
-                    .ToList()
-            );
+            foreach (ref readonly var marker in map->GemstoneTraderMarkers) {
+                foreach (var markerData in marker.MarkerData) {
+                    if (markerData.MapId == Id) {
+                        DynamicMarkers.Add(_markerFactory.FromMapMarkerData(MapSheet, markerData));
+                    }
+                }
+            }
 
-            DynamicMarkers.AddRange(
-                map->GuildLeveAssignmentMarkers
-                    .ToList()
-                    .SelectMany(i => i.MarkerData.ToList())
-                    .Where(m => m.MapId == Id)
-                    .Select(m => _markerFactory.FromMapMarkerData(MapSheet, m))
-                    .ToList()
-            );
+            foreach (ref readonly var marker in map->GuildLeveAssignmentMarkers) {
+                foreach (var markerData in marker.MarkerData) {
+                    if (markerData.MapId == Id) {
+                        DynamicMarkers.Add(_markerFactory.FromMapMarkerData(MapSheet, markerData));
+                    }
+                }
+            }
 
-            DynamicMarkers.AddRange(
-                map->HousingMarkers
-                    .ToArray()
-                    .SelectMany(i => i.MarkerData.ToList())
-                    .Where(m => m.MapId == Id)
-                    .Select(m => _markerFactory.FromMapMarkerData(MapSheet, m))
-                    .ToList()
-            );
+            foreach (ref readonly var marker in map->HousingMarkers) {
+                foreach (var markerData in marker.MarkerData) {
+                    if (markerData.MapId == Id) {
+                        DynamicMarkers.Add(_markerFactory.FromMapMarkerData(MapSheet, markerData));
+                    }
+                }
+            }
 
-            DynamicMarkers.AddRange(
-                map->LevequestMarkers
-                    .ToArray()
-                    .SelectMany(i => i.MarkerData.ToList())
-                    .Where(m => m.MapId == Id)
-                    .Select(m => _markerFactory.FromMapMarkerData(MapSheet, m))
-                    .ToList()
-            );
+            foreach (ref readonly var marker in map->LevequestMarkers) {
+                foreach (var markerData in marker.MarkerData) {
+                    if (markerData.MapId == Id) {
+                        DynamicMarkers.Add(_markerFactory.FromMapMarkerData(MapSheet, markerData));
+                    }
+                }
+            }
 
-            DynamicMarkers.AddRange(
-                map->QuestMarkers
-                    .ToArray()
-                    .SelectMany(i => i.MarkerData.ToList())
-                    .Where(m => m.MapId == Id)
-                    .Select(m => _markerFactory.FromMapMarkerData(MapSheet, m))
-                    .ToList()
-            );
+            foreach (ref readonly var marker in map->QuestMarkers) {
+                foreach (var markerData in marker.MarkerData) {
+                    if (markerData.MapId == Id) {
+                        DynamicMarkers.Add(_markerFactory.FromMapMarkerData(MapSheet, markerData));
+                    }
+                }
+            }
 
-            DynamicMarkers.AddRange(
-                map->TripleTriadMarkers
-                    .ToList()
-                    .SelectMany(i => i.MarkerData.ToList())
-                    .Where(m => m.MapId == Id)
-                    .Select(m => _markerFactory.FromMapMarkerData(MapSheet, m))
-                    .ToList()
-            );
+            foreach (ref readonly var marker in map->TripleTriadMarkers) {
+                foreach (var markerData in marker.MarkerData) {
+                    if (markerData.MapId == Id) {
+                        DynamicMarkers.Add(_markerFactory.FromMapMarkerData(MapSheet, markerData));
+                    }
+                }
+            }
 
-            DynamicMarkers.AddRange(
-                map->UnacceptedQuestMarkers
-                    .ToList()
-                    .SelectMany(i => i.MarkerData.ToList())
-                    .Where(m => m.MapId == Id)
-                    .Select(m => _markerFactory.FromMapMarkerData(MapSheet, m))
-                    .ToList()
-            );
+            foreach (ref readonly var marker in map->UnacceptedQuestMarkers) {
+                foreach (var markerData in marker.MarkerData) {
+                    if (markerData.MapId == Id) {
+                        DynamicMarkers.Add(_markerFactory.FromMapMarkerData(MapSheet, markerData));
+                    }
+                }
+            }
         }
 
         lock (WeatherForecast) {
-            WeatherForecast = _forecastProvider.GetWeatherForecast((ushort)TerritoryId);
+            _forecastProvider.UpdateWeatherForecast(WeatherForecast, (ushort)TerritoryId);
 
             if (WeatherForecast.Count > 0) {
                 var    time       = WeatherForecast[0].Time;
@@ -226,10 +215,10 @@ internal sealed class Zone : IZone
         if (housingTerritoryTypeId == 0)
             return null;
 
-        if (!_dataManager.Excel.GetSheet<Sheet.TerritoryType>().TryGetRow(housingTerritoryTypeId, out var territory))
+        if (!_dataManager.Excel.GetSheet<TerritoryType>().TryGetRow(housingTerritoryTypeId, out var territory))
             return null;
 
-        return territory.Map.ValueNullable?.PlaceName.ValueNullable?.Name.ExtractText();
+        return territory.Map.ValueNullable?.PlaceName.ValueNullable?.Name.ToString();
     }
 
     private unsafe string GetHousingDistrictName()

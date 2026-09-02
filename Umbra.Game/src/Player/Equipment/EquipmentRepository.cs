@@ -123,7 +123,7 @@ internal unsafe class EquipmentRepository : IEquipmentRepository
             }
 
             Slots[slot] = new(
-                item.Name.ExtractText(),
+                item.Name.ToString(),
                 item.Icon,
                 (byte)slot,
                 (byte)(equipment->Condition / DurabilityRatioPercentage),
