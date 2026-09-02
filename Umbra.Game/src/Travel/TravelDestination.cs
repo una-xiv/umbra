@@ -48,7 +48,7 @@ public class TravelDestination
     private string GetDestinationName(IAetheryteEntry entry)
     {
         if (!IsHousing) {
-            return entry.AetheryteData.Value.PlaceName.Value.Name.ExtractText();
+            return entry.AetheryteData.Value.PlaceName.Value.Name.ToString();
         }
 
         // Apartment.
@@ -117,7 +117,7 @@ public class TravelDestination
             return TerritoryNames[territoryId] = "???";
         }
 
-        return TerritoryNames[territoryId] = territory.Value.PlaceName.Value.Name.ExtractText();
+        return TerritoryNames[territoryId] = territory.Value.PlaceName.Value.Name.ToString();
     }
 
     public override string ToString()

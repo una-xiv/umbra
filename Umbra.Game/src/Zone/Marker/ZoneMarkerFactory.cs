@@ -220,19 +220,19 @@ internal sealed class ZoneMarkerFactory(IDataManager dataManager)
 
     private string GetStaticMarkerName(MapMarker marker)
     {
-        var label = marker.PlaceNameSubtext.Value.Name.ExtractText();
+        var label = marker.PlaceNameSubtext.Value.Name.ToString();
         if (!string.IsNullOrEmpty(label)) return SanitizeMarkerName(label);
         if (marker.Icon == 0) return "";
 
         if (marker.DataType == 4) {
             var placeName = dataManager.GetExcelSheet<PlaceName>().FindRow(marker.DataKey.RowId);
-            if (placeName != null) return SanitizeMarkerName(placeName.Value.Name.ExtractText());
+            if (placeName != null) return SanitizeMarkerName(placeName.Value.Name.ToString());
         }
 
         var symbol = dataManager.GetExcelSheet<MapSymbol>().FindRow(marker.Icon);
         if (symbol == null) return "";
 
-        return SanitizeMarkerName(symbol.Value.PlaceName.Value.Name.ExtractText());
+        return SanitizeMarkerName(symbol.Value.PlaceName.Value.Name.ToString());
     }
 
     private static string SanitizeMarkerName(string name)

@@ -49,9 +49,9 @@ internal sealed class Zone : IZone
         MapSheet            = dataManager.GetExcelSheet<Sheet.Map>().GetRow(zoneId);
         Type                = (TerritoryIntendedUse)MapSheet.TerritoryType.Value.TerritoryIntendedUse.RowId;
         TerritoryId         = MapSheet.TerritoryType.RowId;
-        Name                = GetHousingZoneName() ?? MapSheet.PlaceName.Value.Name.ExtractText();
-        SubName             = MapSheet.PlaceNameSub.Value.Name.ExtractText();
-        RegionName          = MapSheet.PlaceNameRegion.Value.Name.ExtractText();
+        Name                = GetHousingZoneName() ?? MapSheet.PlaceName.Value.Name.ToString();
+        SubName             = MapSheet.PlaceNameSub.Value.Name.ToString();
+        RegionName          = MapSheet.PlaceNameRegion.Value.Name.ToString();
         Offset              = new(MapSheet.OffsetX, MapSheet.OffsetY);
         SizeFactor          = MapSheet.SizeFactor;
         IsSanctuary         = false;
@@ -88,7 +88,7 @@ internal sealed class Zone : IZone
 
         IsSanctuary = territoryInfo->InSanctuary;
         InstanceId  = UIState.Instance()->PublicInstance.InstanceId;
-        Name = GetHousingZoneName() ?? MapSheet.PlaceName.Value.Name.ExtractText();
+        Name = GetHousingZoneName() ?? MapSheet.PlaceName.Value.Name.ToString();
 
         HousingManager* housingManager = HousingManager.Instance();
 
@@ -96,7 +96,7 @@ internal sealed class Zone : IZone
             CurrentDistrictName = _dataManager
                     .GetExcelSheet<PlaceName>()
                     .FindRow(territoryInfo->AreaPlaceNameId)
-                    ?.Name.ExtractText()
+                    ?.Name.ToString()
                 ?? "???";
         } else {
             CurrentDistrictName = GetHousingDistrictName();
@@ -229,7 +229,7 @@ internal sealed class Zone : IZone
         if (!_dataManager.Excel.GetSheet<TerritoryType>().TryGetRow(housingTerritoryTypeId, out var territory))
             return null;
 
-        return territory.Map.ValueNullable?.PlaceName.ValueNullable?.Name.ExtractText();
+        return territory.Map.ValueNullable?.PlaceName.ValueNullable?.Name.ToString();
     }
 
     private unsafe string GetHousingDistrictName()

@@ -48,7 +48,7 @@ internal unsafe class WeatherForecastProvider
     private static WeatherForecast BuildResultObject(Weather weather, DateTime time)
     {
         var timeString = FormatForecastTime(time);
-        var name       = weather.Name.ExtractText();
+        var name       = weather.Name.ToString();
         var iconId     = (uint)weather.Icon;
 
         return new(time, timeString, name, iconId);

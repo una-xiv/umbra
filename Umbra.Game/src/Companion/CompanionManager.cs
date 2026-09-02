@@ -113,7 +113,7 @@ internal sealed class CompanionManager : ICompanionManager
 
     public string GetStanceName(uint id)
     {
-        return _dataManager.GetExcelSheet<BuddyAction>().FindRow(id)!.Value.Name.ExtractText();
+        return _dataManager.GetExcelSheet<BuddyAction>().FindRow(id)!.Value.Name.ToString();
     }
 
     public uint GetStanceIcon(uint id)

@@ -78,7 +78,7 @@ internal sealed class SocietiesRepository : ISocietiesRepository, IDisposable
                     RankName       = rankName,
                     RankColor      = rankRow.Color.RowId,
                     ExpansionId    = tribe.Expansion.RowId,
-                    ExpansionName  = tribe.Expansion.Value.Name.ExtractText(),
+                    ExpansionName  = tribe.Expansion.Value.Name.ToString(),
                     IconId         = tribe.Icon,
                     CurrencyItemId = tribe.CurrencyItem.RowId,
                     CurrentRep     = currentRep,
@@ -115,17 +115,17 @@ internal sealed class SocietiesRepository : ISocietiesRepository, IDisposable
         var                 tribeRow   = DataManager.GetExcelSheet<BeastTribe>().GetRow(index);
         BeastReputationRank rankRow    = DataManager.GetExcelSheet<BeastReputationRank>().GetRow(rank);
         byte                maxRank    = tribeRow.MaxRank;
-        string              rankName   = rankRow.AlliedNames.ExtractText();
+        string              rankName   = rankRow.AlliedNames.ToString();
         ushort              neededRep  = rankRow.RequiredReputation;
 
         if (tribeRow.Expansion.RowId != 0
             && tribeRow.IntersocietalQuest.IsValid
             && QuestManager.IsQuestComplete(tribeRow.IntersocietalQuest.RowId)) {
             rank++;
-            rankName  = rankRow.Name.ExtractText();
+            rankName  = rankRow.Name.ToString();
             neededRep = 0;
         } else if (tribeRow.Expansion.RowId == 0) {
-            rankName = rankRow.Name.ExtractText();
+            rankName = rankRow.Name.ToString();
         }
 
         if (rank > maxRank) maxRank = rank;

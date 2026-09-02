@@ -210,7 +210,7 @@ internal sealed unsafe class CustomDeliveriesRepository : ICustomDeliveriesRepos
                     s.QuestRequired.RowId,
                     s.RankParams.Select(t => (uint)t.ImageId).ToArray(),
                     s.DeliveriesPerWeek,
-                    s.Npc.Value.Singular.ExtractText(),
+                    s.Npc.Value.Singular.ToString(),
                     s.SatisfactionNpcParams.Select(t => (uint)t.SupplyIndex).ToArray()
                 )
             );

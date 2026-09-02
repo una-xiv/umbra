@@ -3,8 +3,8 @@ namespace Umbra.Game;
 public class JobInfo(ClassJob cj)
 {
     public byte   Id           { get; } = (byte)cj.RowId;
-    public string Name         { get; } = Capitalize(cj.Name.ExtractText());
-    public string Abbreviation { get; } = cj.Abbreviation.ExtractText().ToUpper();
+    public string Name         { get; } = Capitalize(cj.Name.ToString());
+    public string Abbreviation { get; } = cj.Abbreviation.ToString().ToUpper();
     public short  Level        { get; set; }
     public byte   XpPercent    { get; set; }
     public bool   IsMaxLevel   { get; set; }

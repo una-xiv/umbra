@@ -6,7 +6,7 @@ public static class ReadOnlySeStringExtensions
 {
     public static string ToNameString(this ReadOnlySeString seString)
     {
-        var str = seString.ExtractText();
+        var str = seString.ToString();
         if (string.IsNullOrWhiteSpace(str)) return string.Empty;
         return str[0].ToString().ToUpper() + str[1..];
     }
