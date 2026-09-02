@@ -1,4 +1,5 @@
-﻿using Umbra.Markers.System;
+﻿using Umbra.Markers;
+using Umbra.Markers.System;
 
 namespace Umbra.Widgets;
 
@@ -27,27 +28,41 @@ internal class MarkerControlWidget(
     private WorldMarkerFactoryRegistry Registry { get; } = Framework.Service<WorldMarkerFactoryRegistry>();
 
     private readonly Dictionary<string, MenuPopup.Button> _buttons = [];
+    private readonly List<MenuPopup.Group> _groups = [];
 
     protected override void OnLoad()
     {
-        foreach (string id in Registry.GetFactoryIds()) {
-            var factory = Registry.GetFactory(id);
-            var button = new MenuPopup.Button(id) {
-                Icon              = FontAwesomeIcon.Check,
-                Label             = factory.Name,
-                Selected          = true,
-                ClosePopupOnClick = false,
-                OnClick           = () => factory.SetConfigValue("Enabled", !factory.GetConfigValue<bool>("Enabled")),
+        foreach ((string categoryId, IReadOnlyList<WorldMarkerFactory> factories) in
+                 WorldMarkerCategoryDefinitions.GetCategorizedFactories(Registry)) {
+            bool isGeneral = categoryId == WorldMarkerCategoryDefinitions.CategoryGeneral;
+            var group = new MenuPopup.Group(WorldMarkerCategoryDefinitions.GetCategoryLabel(categoryId)) {
+                IsCollapsible = true,
+                IsCollapsed = !isGeneral
             };
 
-            Popup.Add(button);
-            _buttons.Add(id, button);
+            foreach (WorldMarkerFactory factory in factories) {
+                var button = new MenuPopup.Button(factory.Id) {
+                    Icon = FontAwesomeIcon.Check,
+                    Label = factory.Name,
+                    Selected = true,
+                    ClosePopupOnClick = false,
+                    OnClick = () => factory.SetConfigValue("Enabled", !factory.GetConfigValue<bool>("Enabled")),
+                };
+
+                group.Add(button);
+                _buttons.Add(factory.Id, button);
+            }
+
+            _groups.Add(group);
+            Popup.Add(group);
         }
     }
 
     protected override void OnUnload()
     {
         _buttons.Clear();
+        _groups.Clear();
+        Popup.Clear(true);
     }
 
     protected override void OnDraw()

@@ -33,6 +33,15 @@
                 }
             }
             
+            &.collapsible > .header {
+                padding: 2 4;
+                border-radius: 2;
+                
+                &:hover {
+                    background-color: "Widget.PopupMenuBackgroundHover";
+                }
+            }
+			
             & > .content {
                 flow: vertical;
                 auto-size: grow fit;
