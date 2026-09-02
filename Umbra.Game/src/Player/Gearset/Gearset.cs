@@ -1,5 +1,7 @@
 using FFXIVClientStructs.FFXIV.Client.UI.Misc;
 using Action = System.Action;
+using GearsetFlag = FFXIVClientStructs.FFXIV.Client.UI.Misc.RaptureGearsetModule.GearsetFlag;
+using GearsetItemFlag = FFXIVClientStructs.FFXIV.Client.UI.Misc.RaptureGearsetModule.GearsetItemFlag;
 
 namespace Umbra.Game;
 
@@ -72,7 +74,7 @@ public sealed class Gearset(ushort id, IGearsetCategoryRepository categoryReposi
         string jobName         = player.GetJobInfo(jobId).Name;
         short  jobLevel        = player.GetJobInfo(jobId).Level;
         bool   isMaxLevel      = player.GetJobInfo(jobId).IsMaxLevel;
-        bool   mainHandMissing = gearset->Flags.HasFlag(RaptureGearsetModule.GearsetFlag.MainHandMissing);
+        bool   mainHandMissing = (gearset->Flags & GearsetFlag.MainHandMissing) != 0;
         byte   glamourSetLink  = gearset->GlamourSetLink;
 
         // Check for missing items.
@@ -81,12 +83,12 @@ public sealed class Gearset(ushort id, IGearsetCategoryRepository categoryReposi
 
         foreach (var item in gearset->Items)
         {
-            if (item.Flags.HasFlag(RaptureGearsetModule.GearsetItemFlag.ItemMissing))
+            if ((item.Flags & GearsetItemFlag.ItemMissing) != 0)
             {
                 hasMissingItems = true;
             }
 
-            if (item.Flags.HasFlag(RaptureGearsetModule.GearsetItemFlag.AppearanceDiffers))
+            if ((item.Flags & GearsetItemFlag.AppearanceDiffers) != 0)
             {
                 appearanceDiffers = true;
             }
