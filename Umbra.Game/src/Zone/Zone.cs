@@ -118,86 +118,75 @@ internal sealed class Zone : IZone
                 DynamicMarkers.Add(m);
             }
 
-            DynamicMarkers.AddRange(
-                map->ActiveLevequestMarker
-                    .MarkerData
-                    .ToList()
-                    .Where(m => m.MapId == Id)
-                    .Select(m => _markerFactory.FromMapMarkerData(MapSheet, m))
-                    .ToList()
-            );
+            foreach (var markerData in map->ActiveLevequestMarker.MarkerData) {
+                if (markerData.MapId == Id) {
+                    DynamicMarkers.Add(_markerFactory.FromMapMarkerData(MapSheet, markerData));
+                }
+            }
 
-            DynamicMarkers.AddRange(
-                map->CustomTalkMarkers
-                    .ToList()
-                    .SelectMany(i => i.MarkerData.ToList())
-                    .Where(m => m.MapId == Id)
-                    .Select(m => _markerFactory.FromMapMarkerData(MapSheet, m))
-                    .ToList()
-            );
+            foreach (ref readonly var marker in map->CustomTalkMarkers) {
+                foreach (var markerData in marker.MarkerData) {
+                    if (markerData.MapId == Id) {
+                        DynamicMarkers.Add(_markerFactory.FromMapMarkerData(MapSheet, markerData));
+                    }
+                }
+            }
 
-            DynamicMarkers.AddRange(
-                map->GemstoneTraderMarkers
-                    .ToList()
-                    .SelectMany(i => i.MarkerData.ToList())
-                    .Where(m => m.MapId == Id)
-                    .Select(m => _markerFactory.FromMapMarkerData(MapSheet, m))
-                    .ToList()
-            );
+            foreach (ref readonly var marker in map->GemstoneTraderMarkers) {
+                foreach (var markerData in marker.MarkerData) {
+                    if (markerData.MapId == Id) {
+                        DynamicMarkers.Add(_markerFactory.FromMapMarkerData(MapSheet, markerData));
+                    }
+                }
+            }
 
-            DynamicMarkers.AddRange(
-                map->GuildLeveAssignmentMarkers
-                    .ToList()
-                    .SelectMany(i => i.MarkerData.ToList())
-                    .Where(m => m.MapId == Id)
-                    .Select(m => _markerFactory.FromMapMarkerData(MapSheet, m))
-                    .ToList()
-            );
+            foreach (ref readonly var marker in map->GuildLeveAssignmentMarkers) {
+                foreach (var markerData in marker.MarkerData) {
+                    if (markerData.MapId == Id) {
+                        DynamicMarkers.Add(_markerFactory.FromMapMarkerData(MapSheet, markerData));
+                    }
+                }
+            }
 
-            DynamicMarkers.AddRange(
-                map->HousingMarkers
-                    .ToArray()
-                    .SelectMany(i => i.MarkerData.ToList())
-                    .Where(m => m.MapId == Id)
-                    .Select(m => _markerFactory.FromMapMarkerData(MapSheet, m))
-                    .ToList()
-            );
+            foreach (ref readonly var marker in map->HousingMarkers) {
+                foreach (var markerData in marker.MarkerData) {
+                    if (markerData.MapId == Id) {
+                        DynamicMarkers.Add(_markerFactory.FromMapMarkerData(MapSheet, markerData));
+                    }
+                }
+            }
 
-            DynamicMarkers.AddRange(
-                map->LevequestMarkers
-                    .ToArray()
-                    .SelectMany(i => i.MarkerData.ToList())
-                    .Where(m => m.MapId == Id)
-                    .Select(m => _markerFactory.FromMapMarkerData(MapSheet, m))
-                    .ToList()
-            );
+            foreach (ref readonly var marker in map->LevequestMarkers) {
+                foreach (var markerData in marker.MarkerData) {
+                    if (markerData.MapId == Id) {
+                        DynamicMarkers.Add(_markerFactory.FromMapMarkerData(MapSheet, markerData));
+                    }
+                }
+            }
 
-            DynamicMarkers.AddRange(
-                map->QuestMarkers
-                    .ToArray()
-                    .SelectMany(i => i.MarkerData.ToList())
-                    .Where(m => m.MapId == Id)
-                    .Select(m => _markerFactory.FromMapMarkerData(MapSheet, m))
-                    .ToList()
-            );
+            foreach (ref readonly var marker in map->QuestMarkers) {
+                foreach (var markerData in marker.MarkerData) {
+                    if (markerData.MapId == Id) {
+                        DynamicMarkers.Add(_markerFactory.FromMapMarkerData(MapSheet, markerData));
+                    }
+                }
+            }
 
-            DynamicMarkers.AddRange(
-                map->TripleTriadMarkers
-                    .ToList()
-                    .SelectMany(i => i.MarkerData.ToList())
-                    .Where(m => m.MapId == Id)
-                    .Select(m => _markerFactory.FromMapMarkerData(MapSheet, m))
-                    .ToList()
-            );
+            foreach (ref readonly var marker in map->TripleTriadMarkers) {
+                foreach (var markerData in marker.MarkerData) {
+                    if (markerData.MapId == Id) {
+                        DynamicMarkers.Add(_markerFactory.FromMapMarkerData(MapSheet, markerData));
+                    }
+                }
+            }
 
-            DynamicMarkers.AddRange(
-                map->UnacceptedQuestMarkers
-                    .ToList()
-                    .SelectMany(i => i.MarkerData.ToList())
-                    .Where(m => m.MapId == Id)
-                    .Select(m => _markerFactory.FromMapMarkerData(MapSheet, m))
-                    .ToList()
-            );
+            foreach (ref readonly var marker in map->UnacceptedQuestMarkers) {
+                foreach (var markerData in marker.MarkerData) {
+                    if (markerData.MapId == Id) {
+                        DynamicMarkers.Add(_markerFactory.FromMapMarkerData(MapSheet, markerData));
+                    }
+                }
+            }
         }
 
         lock (WeatherForecast) {
