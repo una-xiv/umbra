@@ -15,43 +15,52 @@ internal unsafe class WeatherForecastProvider
         interopProvider.InitializeFromAttributes(this);
     }
 
-    public List<WeatherForecast> GetWeatherForecast(ushort territoryId)
+    public void UpdateWeatherForecast(List<WeatherForecast> list, ushort territoryId)
     {
         WeatherManager* wm = WeatherManager.Instance();
-        if (null == wm) return [];
+        if (null == wm) {
+            list.Clear();
+            return;
+        }
 
-        byte currentWeatherId = wm->GetCurrentWeather();
-
+        byte currentWeatherId  = wm->GetCurrentWeather();
         Weather currentWeather = _dataManager.GetExcelSheet<Weather>().GetRow(currentWeatherId);
         Weather lastWeather    = currentWeather;
 
-        List<WeatherForecast> result = [BuildResultObject(currentWeather, GetRootTime(0))];
+        void UpdateForecastEntry(int index, Weather weather, DateTime time)
+        {
+            var timeString = FormatForecastTime(time);
+            var name       = weather.Name.ToString();
+            var iconId     = (uint)weather.Icon;
+
+            if (index < list.Count) {
+                list[index].Update(time, timeString, name, iconId);
+            } else {
+                list.Add(new WeatherForecast(time, timeString, name, iconId));
+            }
+        }
+
+        UpdateForecastEntry(0, currentWeather, GetRootTime(0));
 
         try {
-            for (var i = 1; i < 24; i++) {
-                byte weatherId = wm->GetWeatherForDaytime(territoryId, i);
-                var  weather   = _dataManager.GetExcelSheet<Weather>().FindRow(weatherId)!;
-                var  time      = GetRootTime(i * WeatherPeriod);
+            var index = 1;
+            for (; index < 24; index++) {
+                byte weatherId = wm->GetWeatherForDaytime(territoryId, index);
+                var weather    = _dataManager.GetExcelSheet<Weather>().FindRow(weatherId)!;
+                var time       = GetRootTime(index * WeatherPeriod);
 
                 if (lastWeather.RowId != weather.Value.RowId) {
                     lastWeather = weather.Value;
-                    result.Add(BuildResultObject(weather.Value, time));
+                    UpdateForecastEntry(index, weather.Value, time);
                 }
+            }
+
+            if (list.Count > index) {
+                list.RemoveRange(index, list.Count - index);
             }
         } catch (Exception e) {
             Logger.Error(e.Message);
         }
-
-        return result;
-    }
-
-    private static WeatherForecast BuildResultObject(Weather weather, DateTime time)
-    {
-        var timeString = FormatForecastTime(time);
-        var name       = weather.Name.ToString();
-        var iconId     = (uint)weather.Icon;
-
-        return new(time, timeString, name, iconId);
     }
 
     private static DateTime GetRootTime(double initialOffset)
@@ -60,9 +69,7 @@ internal unsafe class WeatherForecastProvider
         var rootTime = now.AddMilliseconds(-now.Millisecond).AddSeconds(initialOffset);
         var seconds  = (long)(rootTime - DateTime.UnixEpoch).TotalSeconds % WeatherPeriod;
 
-        rootTime = rootTime.AddSeconds(-seconds);
-
-        return rootTime;
+        return rootTime.AddSeconds(-seconds);
     }
 
     private static string FormatForecastTime(DateTime forecastTime)

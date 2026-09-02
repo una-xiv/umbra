@@ -190,7 +190,7 @@ internal sealed class Zone : IZone
         }
 
         lock (WeatherForecast) {
-            WeatherForecast = _forecastProvider.GetWeatherForecast((ushort)TerritoryId);
+            _forecastProvider.UpdateWeatherForecast(WeatherForecast, (ushort)TerritoryId);
 
             if (WeatherForecast.Count > 0) {
                 var    time       = WeatherForecast[0].Time;
