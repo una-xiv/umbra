@@ -175,7 +175,7 @@ internal sealed class ZoneMarkerFactory(IDataManager dataManager)
         );
     }
 
-    public ZoneMarker FromMapMarkerSheet(Sheet.Map map, Sheet.MapMarker marker)
+    public ZoneMarker FromMapMarkerSheet(Sheet.Map map, MapMarker marker)
     {
         var position = new Vector2(marker.X, marker.Y);
         var name     = GetStaticMarkerName(marker);
@@ -218,18 +218,18 @@ internal sealed class ZoneMarkerFactory(IDataManager dataManager)
         return v;
     }
 
-    private string GetStaticMarkerName(Sheet.MapMarker marker)
+    private string GetStaticMarkerName(MapMarker marker)
     {
         var label = marker.PlaceNameSubtext.Value.Name.ExtractText();
         if (!string.IsNullOrEmpty(label)) return SanitizeMarkerName(label);
         if (marker.Icon == 0) return "";
 
         if (marker.DataType == 4) {
-            var placeName = dataManager.GetExcelSheet<Sheet.PlaceName>().FindRow(marker.DataKey.RowId);
+            var placeName = dataManager.GetExcelSheet<PlaceName>().FindRow(marker.DataKey.RowId);
             if (placeName != null) return SanitizeMarkerName(placeName.Value.Name.ExtractText());
         }
 
-        var symbol = dataManager.GetExcelSheet<Sheet.MapSymbol>().FindRow(marker.Icon);
+        var symbol = dataManager.GetExcelSheet<MapSymbol>().FindRow(marker.Icon);
         if (symbol == null) return "";
 
         return SanitizeMarkerName(symbol.Value.PlaceName.Value.Name.ExtractText());

@@ -110,7 +110,7 @@ public class TravelDestination
 
         var territory = Framework
             .Service<IDataManager>()
-            .GetExcelSheet<Lumina.Excel.Sheets.TerritoryType>()
+            .GetExcelSheet<TerritoryType>()
             .FindRow(territoryId);
 
         if (null == territory) {

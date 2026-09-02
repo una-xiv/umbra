@@ -58,7 +58,7 @@ internal sealed class Zone : IZone
         CurrentDistrictName = "-";
 
         StaticMarkers = dataManager
-            .GetSubrowExcelSheet<Sheet.MapMarker>()
+            .GetSubrowExcelSheet<MapMarker>()
             .Where(m => m.RowId == MapSheet.MapMarkerRange)
             .SelectMany(m => m)
             .Where(m => m is { X: > 0, Y: > 0 })
@@ -94,7 +94,7 @@ internal sealed class Zone : IZone
 
         if (housingManager == null || housingManager->CurrentTerritory == null) {
             CurrentDistrictName = _dataManager
-                    .GetExcelSheet<Sheet.PlaceName>()
+                    .GetExcelSheet<PlaceName>()
                     .FindRow(territoryInfo->AreaPlaceNameId)
                     ?.Name.ExtractText()
                 ?? "???";
@@ -226,7 +226,7 @@ internal sealed class Zone : IZone
         if (housingTerritoryTypeId == 0)
             return null;
 
-        if (!_dataManager.Excel.GetSheet<Sheet.TerritoryType>().TryGetRow(housingTerritoryTypeId, out var territory))
+        if (!_dataManager.Excel.GetSheet<TerritoryType>().TryGetRow(housingTerritoryTypeId, out var territory))
             return null;
 
         return territory.Map.ValueNullable?.PlaceName.ValueNullable?.Name.ExtractText();
