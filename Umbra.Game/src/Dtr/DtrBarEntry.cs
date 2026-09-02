@@ -1,17 +1,17 @@
 ﻿using Dalamud.Game.Gui.Dtr;
 using Dalamud.Game.Text.SeStringHandling;
-using Action = System.Action;
+using Lumina.Text.ReadOnly;
 
 namespace Umbra.Game;
 
 public class DtrBarEntry(IReadOnlyDtrBarEntry entry, int sortIndex)
 {
-    public string    Name          => DtrEntry.Title;
-    public SeString? Text          => DtrEntry.Text;
-    public SeString? TooltipText   => DtrEntry.Tooltip;
-    public bool      IsInteractive => DtrEntry.HasClickAction;
-    public int       SortIndex     { get; private set; } = sortIndex;
-    public bool      IsVisible     { get; private set; } = entry is { Shown: true, UserHidden: false };
+    public string           Name          => DtrEntry.Title;
+    public ReadOnlySeString Text          => DtrEntry.Text?.Encode() ?? [];
+    public ReadOnlySeString TooltipText   => DtrEntry.Tooltip?.Encode() ?? [];
+    public bool             IsInteractive => DtrEntry.HasClickAction;
+    public int              SortIndex     { get; private set; } = sortIndex;
+    public bool             IsVisible     { get; private set; } = entry is { Shown: true, UserHidden: false };
 
 
     private IReadOnlyDtrBarEntry DtrEntry { get; set; } = entry;

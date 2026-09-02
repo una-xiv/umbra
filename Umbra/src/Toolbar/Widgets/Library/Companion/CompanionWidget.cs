@@ -59,7 +59,7 @@ internal sealed class CompanionWidget(
     private void UpdateWidgetText()
     {
         if (Companion.TimeLeft == 0) {
-            SetText(null);
+            SetText(default);
             return;
         }
 

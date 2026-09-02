@@ -78,7 +78,7 @@ public class MsqWidget(
         } else {
             SetProgressBarConstraint(0, 0);
             SetProgressBarValue(0);
-            SetSubText(null);
+            SetSubText(default);
         }
     }
 

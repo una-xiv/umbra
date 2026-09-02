@@ -1,5 +1,6 @@
 ﻿using Dalamud.Game.Text;
 using Dalamud.Game.Text.SeStringHandling;
+using Lumina.Text.ReadOnly;
 
 namespace Umbra.Widgets;
 
@@ -237,13 +238,13 @@ public abstract class StandardToolbarWidget(
         Node.IsDisabled = disabled;
     }
 
-    protected void SetText(object? text)
+    protected void SetText(ReadOnlySeString text)
     {
         SingleLabelTextNode.NodeValue   = text;
         MultiLabelTextTopNode.NodeValue = text;
     }
 
-    protected void SetSubText(object? text)
+    protected void SetSubText(ReadOnlySeString text)
     {
         MultiLabelTextBottomNode.NodeValue = text;
     }
@@ -269,7 +270,7 @@ public abstract class StandardToolbarWidget(
 
     protected void SetGameIconId(uint iconId)
     {
-        IconNode.NodeValue            = null;
+        IconNode.NodeValue            = default;
         IconNode.Style.IconId         = iconId;
         IconNode.Style.BitmapFontIcon = null;
         IconNode.Style.UldPartId      = null;
@@ -329,7 +330,7 @@ public abstract class StandardToolbarWidget(
 
     protected void SetUldIcon(int uldPartId, string uldResource, int uldPartsId)
     {
-        IconNode.NodeValue            = null;
+        IconNode.NodeValue            = default;
         IconNode.Style.IconId         = null;
         IconNode.Style.BitmapFontIcon = null;
         IconNode.Style.UldPartId      = uldPartId;
@@ -344,7 +345,7 @@ public abstract class StandardToolbarWidget(
 
     protected void ClearIcon()
     {
-        IconNode.NodeValue            = null;
+        IconNode.NodeValue            = default;
         IconNode.Style.IconId         = null;
         IconNode.Style.BitmapFontIcon = null;
         IconNode.Style.UldPartId      = null;
@@ -439,18 +440,18 @@ public abstract class StandardToolbarWidget(
     private bool HasProgressBarFeature() => Features.HasFlag(StandardWidgetFeatures.ProgressBar);
     private bool HasIconAndTextFeature() => HasIconFeature() && (IsSingleLabelFeature() || IsMultiLabelFeature());
 
-    private bool HasIcon() => IconNode.NodeValue != null || IconNode.Style.IconId > 0 || IconNode.Style.BitmapFontIcon != null || HasUldIcon();
+    private bool HasIcon() => !IconNode.NodeValue.IsEmpty || IconNode.Style.IconId > 0 || IconNode.Style.BitmapFontIcon != null || HasUldIcon();
 
     private bool HasIconAndText() => HasIcon() && HasText();
 
     private bool HasUldIcon() => IconNode.Style.UldPartId != null && IconNode.Style.UldPartsId != null && IconNode.Style.UldResource != null;
 
     private bool HasMainText() =>
-        (IsSingleLabelFeature() && !string.IsNullOrWhiteSpace(SingleLabelTextNode.NodeValue?.ToString())) ||
-        (IsMultiLabelFeature() && !string.IsNullOrWhiteSpace(MultiLabelTextTopNode.NodeValue?.ToString()));
+        (IsSingleLabelFeature() && !SingleLabelTextNode.NodeValue.IsEmpty) ||
+        (IsMultiLabelFeature() && !MultiLabelTextTopNode.NodeValue.IsEmpty);
 
     private bool HasSubText() =>
-        IsMultiLabelFeature() && !string.IsNullOrWhiteSpace(MultiLabelTextBottomNode.NodeValue?.ToString());
+        IsMultiLabelFeature() && !MultiLabelTextBottomNode.NodeValue.IsEmpty;
 
     private bool HasText() => HasMainText() || HasSubText();
 

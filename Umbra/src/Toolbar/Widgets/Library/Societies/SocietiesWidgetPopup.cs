@@ -1,4 +1,5 @@
 ﻿using Dalamud.Game.Text.SeStringHandling;
+using Dalamud.Utility;
 using Umbra.Game.Societies;
 
 namespace Umbra.Widgets.Library.Societies;
@@ -64,17 +65,19 @@ internal sealed partial class SocietiesWidgetPopup : WidgetPopup
             int expWidth = society.RequiredRep > 0 ? (barWidth * society.CurrentRep / society.RequiredRep) : barWidth;
             int expPct = society.RequiredRep > 0 ? (100 * society.CurrentRep / society.RequiredRep) : 100;
 
-            SeStringBuilder rankStr = new();
+            using var rssb = new RentedSeStringBuilder();
 
-            if (society.RankColor > 0) {
-                rankStr.AddUiForeground((ushort)society.RankColor);
-            }
+            if (society.RankColor > 0)
+                rssb.Builder.PushColorType(society.RankColor);
 
-            rankStr.AddText($"{society.RankName} ({society.Rank} / {society.MaxRank})");
+            rssb.Builder.Append($"{society.RankName} ({society.Rank} / {society.MaxRank})");
+
+            if (society.RankColor > 0)
+                rssb.Builder.PopColorType();
 
             societyNode.QuerySelector(".society--exp-bar--bar")!.Style.Size = new(expWidth, 2);
             societyNode.QuerySelector(".society--rank--value")!.NodeValue   = $"{expPct}%";
-            societyNode.QuerySelector(".society--rank")!.NodeValue          = rankStr.Build();
+            societyNode.QuerySelector(".society--rank")!.NodeValue          = rssb.Builder.ToReadOnlySeString();
 
             societyNode.QuerySelector(".society--currency--value")!.NodeValue =
                 $"{Player.GetItemCount(society.CurrencyItemId)}";

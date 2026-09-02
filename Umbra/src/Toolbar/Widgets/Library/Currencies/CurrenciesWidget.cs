@@ -82,7 +82,7 @@ internal sealed partial class CurrenciesWidget(
 
         string customLabel = GetConfigValue<string>("CustomLabel").Trim();
         SetText(string.IsNullOrEmpty(customLabel) ? I18N.Translate("Widget.Currencies.Name") : customLabel);
-        SetSubText(null);
+        SetSubText(default);
         SetProgressBarValue(0);
         SetProgressBarConstraint(0, 1);
         ClearIcon();
@@ -98,7 +98,7 @@ internal sealed partial class CurrenciesWidget(
             SetSubText(showName ? capText : null);
         } else {
             SetText(showName ? $"{capText} {currency.Name}" : capText);
-            SetSubText(null);
+            SetSubText(default);
         }
 
         SetGameIconId(currency.IconId);

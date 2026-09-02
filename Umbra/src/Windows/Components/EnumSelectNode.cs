@@ -1,4 +1,5 @@
 ﻿
+using Lumina.Text.ReadOnly;
 using System.Reflection;
 using Umbra.Common.Extensions;
 
@@ -81,8 +82,8 @@ public class EnumSelectNode<T> : ImGuiInputNode, IEnumSelectNode where T : struc
 
 public interface IEnumSelectNode
 {
-    public string? Id          { get; set; }
-    public string? Label       { get; set; }
-    public string? Description { get; set; }
-    public float?  LeftMargin  { get; set; }
+    public string?          Id          { get; set; }
+    public ReadOnlySeString Label       { get; set; }
+    public string?          Description { get; set; }
+    public float?           LeftMargin  { get; set; }
 }

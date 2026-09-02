@@ -1,5 +1,5 @@
 ﻿using Dalamud.Game.Text.SeStringHandling;
-
+using Dalamud.Utility;
 using Lumina.Misc;
 using Umbra.Widgets;
 using Umbra.Widgets.System;
@@ -88,7 +88,8 @@ public class WidgetBrowserWindow : Window
         
         if (widget.IsDeprecated) {
             node.QuerySelector(".deprecated")!.Style.IsVisible = true;
-            node.QuerySelector(".deprecated")!.NodeValue = new SeStringBuilder().AddIcon(BitmapFontIcon.Warning).AddText(widget.DeprecatedMessage).Build();
+            using var rssb = new RentedSeStringBuilder();
+            node.QuerySelector(".deprecated")!.NodeValue = rssb.Builder.AppendIcon((uint)BitmapFontIcon.Warning).Append(widget.DeprecatedMessage).ToReadOnlySeString();
         }
         
         _widgetNodes[node] = widget;

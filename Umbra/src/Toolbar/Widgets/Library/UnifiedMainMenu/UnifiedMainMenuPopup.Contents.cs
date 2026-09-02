@@ -128,7 +128,7 @@ internal sealed partial class UnifiedMainMenuPopup
                 node.Style.IconId         = iconId;
                 node.Style.BitmapFontIcon = null;
                 node.Style.Font           = 0;
-                node.NodeValue            = null;
+                node.NodeValue            = default;
                 break;
             case SeIconChar iconChar:
                 node.Style.IconId         = null;
@@ -146,13 +146,13 @@ internal sealed partial class UnifiedMainMenuPopup
                 node.Style.IconId         = null;
                 node.Style.BitmapFontIcon = bitmapFontIcon;
                 node.Style.Font           = 0;
-                node.NodeValue            = null;
+                node.NodeValue            = default;
                 break;
             default:
                 node.Style.IconId         = 0;
                 node.Style.BitmapFontIcon = null;
                 node.Style.Font           = 0;
-                node.NodeValue            = null;
+                node.NodeValue            = default;
                 break;
         }
 
