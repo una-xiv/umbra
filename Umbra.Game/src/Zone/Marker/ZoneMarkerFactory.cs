@@ -161,7 +161,7 @@ internal sealed class ZoneMarkerFactory(IDataManager dataManager)
     public unsafe ZoneMarker FromMapMarkerData(Sheet.Map map, MapMarkerData data)
     {
         var position = MapUtil.WorldToMap(new(data.Position.X, data.Position.Z), map);
-        var name     = SanitizeMarkerName(data.TooltipString->AsDalamudSeString().ToString());
+        var name     = SanitizeMarkerName(data.TooltipString->AsReadOnlySeStringSpan().ToString());
         var type     = DetermineMarkerType(data.IconId, name);
 
         return new(
