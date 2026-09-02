@@ -238,7 +238,7 @@ internal sealed class ZoneMarkerFactory(IDataManager dataManager)
     private static string SanitizeMarkerName(string name)
     {
         // If name solely consists of digits, prefix it with "Plot ".
-        if (name.All(char.IsDigit)) return $"Plot {name}";
+        if (name.All(char.IsDigit)) return $"{I18N.Translate("Housing.Plot")} {name}";
 
         return name;
     }
