@@ -190,7 +190,7 @@ internal sealed class UmbraBindings : IDisposable
                             .PushColorType(32)
                             .Append(cvar.Id)
                             .PopColorType()
-                            .Append(" \" - ")
+                            .Append("\" - ")
                             .PushColorType(4)
                             .Append(I18N.Translate($"CVAR.{cvar.Id}.Name"))
                             .PopColorType()
