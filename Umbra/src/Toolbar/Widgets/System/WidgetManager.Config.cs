@@ -1,4 +1,4 @@
-﻿using Lumina.Excel.Sheets;
+using Lumina.Excel.Sheets;
 using System.IO;
 using System.IO.Compression;
 using System.Text;
@@ -141,8 +141,6 @@ internal partial class WidgetManager
 
         var data2 = JsonConvert.DeserializeObject<Dictionary<byte, string>>(JobToProfileData);
         if (data2 is null) return;
-
-        JobToProfileName.Clear();
 
         foreach ((byte job, string profile) in data2) {
             JobToProfileName[job] = _widgetProfiles.ContainsKey(profile) ? profile : "Default";
