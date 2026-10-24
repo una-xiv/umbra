@@ -40,34 +40,31 @@ internal sealed class JobInfoRepository : IDisposable
         PlayerState* ps = PlayerState.Instance();
         if (ps == null) return;
 
+        var currentRestore = ps->CurrentClassJobId;
+
         foreach (var jobInfo in _jobInfos.Values)
         {
             if (_expArrayId[jobInfo.Id] == -1) continue;
 
+            ps->CurrentClassJobId = jobInfo.Id;
+
             jobInfo.Level     = ps->ClassJobLevels[_expArrayId[jobInfo.Id]];
             jobInfo.IsMeister = ps->IsMeisterFlag(jobInfo.Id);
 
-            // Blue Mage hack.
-            if (jobInfo is { Id: 36, Level: 80 })
+            if (jobInfo.Level == ps->GetCurrentClassJobMaxLevel())
             {
                 jobInfo.XpPercent  = 0;
                 jobInfo.IsMaxLevel = true;
                 continue;
             }
 
-            var grow = _dataManager.GetExcelSheet<ParamGrow>().FindRow((uint)jobInfo.Level);
-
-            // Hardcoded max level.
-            if (jobInfo.Level == 100 || grow == null || grow.Value.ExpToNext == 0)
-            {
-                jobInfo.XpPercent  = 0;
-                jobInfo.IsMaxLevel = true;
-                continue;
-            }
+            var grow = _dataManager.GetExcelSheet<ParamGrow>().GetRow((uint)jobInfo.Level);
 
             int currentXp = ps->ClassJobExperience[_expArrayId[jobInfo.Id]];
-            jobInfo.XpPercent  = (byte)(currentXp / (float)grow.Value.ExpToNext * 100);
+            jobInfo.XpPercent  = (byte)(currentXp / (float)grow.ExpToNext * 100);
             jobInfo.IsMaxLevel = false;
         }
+
+        ps->CurrentClassJobId = currentRestore;
     }
 }
