@@ -79,6 +79,9 @@ public sealed class UmbraVisibility
         // Always disable when playing Air Force One in the Gold Saucer.
         if (GameMain.Instance()->CurrentTerritoryIntendedUseId == TerritoryIntendedUse.AirForceOne) return false;
 
+        // Always disable when playing Keybound Brawler in the Gold Saucer.
+        if (GameMain.Instance()->CurrentTerritoryIntendedUseId == TerritoryIntendedUse.KeyboundBrawler) return false;
+
         if (_clientState.IsGPosing && !ShowToolbarInGPose) return false;
 
         if (_gameGui.GameUiHidden && !ShowToolbarOnUserHide) return false;
@@ -108,6 +111,9 @@ public sealed class UmbraVisibility
 
         // Always disable when playing Air Force One in the Gold Saucer.
         if (GameMain.Instance()->CurrentTerritoryIntendedUseId == TerritoryIntendedUse.AirForceOne) return false;
+
+        // Always disable when playing Keybound Brawler in the Gold Saucer.
+        if (GameMain.Instance()->CurrentTerritoryIntendedUseId == TerritoryIntendedUse.KeyboundBrawler) return false;
 
         if (_clientState.IsGPosing && !ShowMarkersInGPose) return false;
 
