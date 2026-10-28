@@ -32,6 +32,15 @@ internal sealed class Zone : IZone
     private readonly WeatherForecastProvider _forecastProvider;
     private readonly IPlayer                 _player;
 
+    // Names, dynamic markers and the weather forecast are comparatively expensive
+    // to rebuild and are read far less often than once per frame, so they are
+    // refreshed on an interval instead.
+    private const long ZoneInfoUpdateIntervalMs = 250;
+    private const long WeatherUpdateIntervalMs  = 1000;
+
+    private long _nextZoneInfoUpdate;
+    private long _nextWeatherUpdate;
+
     public Zone(
         IDataManager            dataManager,
         WeatherForecastProvider forecastProvider,
@@ -80,6 +89,7 @@ internal sealed class Zone : IZone
 
         if (agentMap->CurrentMapId != Id) {
             DynamicMarkers.Clear();
+            _nextZoneInfoUpdate = 0;
             return;
         }
 
@@ -88,6 +98,22 @@ internal sealed class Zone : IZone
 
         IsSanctuary = territoryInfo->InSanctuary;
         InstanceId  = UIState.Instance()->PublicInstance.InstanceId;
+
+        long now = Environment.TickCount64;
+
+        if (now >= _nextZoneInfoUpdate) {
+            _nextZoneInfoUpdate = now + ZoneInfoUpdateIntervalMs;
+            UpdateZoneInfo(agentMap, territoryInfo);
+        }
+
+        if (now >= _nextWeatherUpdate) {
+            _nextWeatherUpdate = now + WeatherUpdateIntervalMs;
+            UpdateWeather();
+        }
+    }
+
+    private unsafe void UpdateZoneInfo(AgentMap* agentMap, TerritoryInfo* territoryInfo)
+    {
         Name = GetHousingZoneName() ?? MapSheet.PlaceName.Value.Name.ToString();
 
         HousingManager* housingManager = HousingManager.Instance();
@@ -188,7 +214,10 @@ internal sealed class Zone : IZone
                 }
             }
         }
+    }
 
+    private void UpdateWeather()
+    {
         lock (WeatherForecast) {
             _forecastProvider.UpdateWeatherForecast(WeatherForecast, (ushort)TerritoryId);
 
