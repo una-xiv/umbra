@@ -1,5 +1,6 @@
 using Dalamud.Game.Chat;
 using Dalamud.Game.ClientState.Fates;
+using Dalamud.Plugin.Ipc;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 
 namespace Umbra.Markers.Library;
@@ -13,6 +14,9 @@ internal sealed partial class OccultCoffersMarkerFactory : WorldMarkerFactory
 
     private const uint MagicalElixirItemId = 2003296;
     private const int  PotFateRespawn      = 1800;
+
+    private readonly ICallGateSubscriber<(uint FateId, long SpawnUnix, long LastSeenUnix, bool Alive)[]>? _getPotTimers =
+        Framework.DalamudPlugin.GetIpcSubscriber<(uint FateId, long SpawnUnix, long LastSeenUnix, bool Alive)[]>("EurekaLinker.Pot.GetTimers");
 
     private readonly IZoneManager _zoneManager;
     private readonly IChatGui     _chatGui;
@@ -84,6 +88,7 @@ internal sealed partial class OccultCoffersMarkerFactory : WorldMarkerFactory
             || !_zoneManager.HasCurrentZone
             || !OccultCofferPositions.ContainsKey(_zoneManager.CurrentZone.TerritoryId)) {
             _lastPotFateSpawnTime        = 0;
+            _lastPotFateId               = 0;
             _isListeningForNotifications = false;
             RemoveAllMarkers();
             return;
@@ -143,12 +148,84 @@ internal sealed partial class OccultCoffersMarkerFactory : WorldMarkerFactory
             return;
         }
 
-        string? subLabel        = null;
-        IFate?  potFate         = GetActivePotFate();
-        var     showDirection   = GetConfigValue<bool>("ShowOnCompass");
-        var     fadeDistance    = GetConfigValue<int>("FadeDistance");
-        var     fadeAttenuation = GetConfigValue<int>("FadeAttenuation");
-        var     maxVisDistance  = GetConfigValue<int>("MaxVisibleDistance");
+        if (TryGetPotFateMarkerFromIpc(fates, out var position, out var subLabel)) {
+            SetPotFateMarker(position, subLabel);
+            return;
+        }
+
+        GetPotFateSpawnMarkerFallback(fates);
+    }
+
+    private bool TryGetPotFateMarkerFromIpc(
+        Dictionary<uint, Vector3> fates,
+        out Vector3 position,
+        out string? subLabel
+    )
+    {
+        position = default;
+        subLabel = null;
+
+        var timers = GetPotTimersFromIpc();
+        if (timers is null || timers.Length == 0) {
+            return false;
+        }
+
+        var activeTimer   = timers.FirstOrDefault(t => t.Alive);
+        var activePotFate = GetActivePotFate();
+
+        if (activeTimer.Alive || activePotFate is not null) {
+            var activeFateId = activePotFate?.FateId ?? activeTimer.FateId;
+            _lastPotFateId = activeFateId;
+
+            if (activePotFate is not null) {
+                position = activePotFate.Position;
+                subLabel = $@"{activePotFate.Progress}% - {TimeSpan.FromSeconds(activePotFate.TimeRemaining):mm\:ss} remaining";
+                return true;
+            }
+
+            if (fates.TryGetValue(activeFateId, out var activePos)) {
+                position = activePos;
+                subLabel = "Active";
+                return true;
+            }
+
+            return false;
+        }
+
+        var sortedFates = timers.OrderBy(t => t.LastSeenUnix).ToArray();
+        var nextSpawn   = sortedFates[0];
+        var lastAlive   = sortedFates[^1];
+
+        // If LastSeenUnix is -1 or SpawnUnix <= 0, Eureka Linker has no recorded spawn yet
+        if (lastAlive.LastSeenUnix == -1 || lastAlive.SpawnUnix <= 0) {
+            return false;
+        }
+
+        _lastPotFateId        = lastAlive.FateId;
+        _lastPotFateSpawnTime = lastAlive.SpawnUnix;
+
+        long currentTime    = DateTimeOffset.Now.ToUnixTimeSeconds();
+        var  potRespawnTime = TimeSpan.FromSeconds(lastAlive.SpawnUnix + PotFateRespawn - currentTime);
+
+        if (potRespawnTime.TotalSeconds > 0) {
+            var min = potRespawnTime.ToString(potRespawnTime.TotalSeconds > 59 ? @"%m\ \m\i\n" : @"%s\ \s\e\c");
+            subLabel = $"Respawn in {min}";
+        } else {
+            subLabel = "Respawning soon";
+        }
+
+        if (fates.TryGetValue(nextSpawn.FateId, out var nextPos)) {
+            position = nextPos;
+            return true;
+        }
+
+        return false;
+    }
+
+    private void GetPotFateSpawnMarkerFallback(Dictionary<uint, Vector3> fates)
+    {
+        string? subLabel = null;
+        IFate?  potFate  = GetActivePotFate();
 
         if (null == potFate && 0 == _lastPotFateSpawnTime) {
             // No pot fate is active, and we have no spawn time recorded.
@@ -177,7 +254,17 @@ internal sealed partial class OccultCoffersMarkerFactory : WorldMarkerFactory
         if (_lastPotFateId == 0 && potFate is null) return;
 
         // Track the _other_ pot fate in the zone if the current one is not active.
-        var position = potFate?.Position ?? fates.FirstOrDefault(pos => pos.Value != fates[_lastPotFateId]).Value;
+        var position = potFate?.Position ?? fates.FirstOrDefault(pos => !fates.ContainsKey(_lastPotFateId) || pos.Value != fates[_lastPotFateId]).Value;
+
+        SetPotFateMarker(position, subLabel);
+    }
+
+    private void SetPotFateMarker(Vector3 position, string? subLabel)
+    {
+        var showDirection   = GetConfigValue<bool>("ShowOnCompass");
+        var fadeDistance    = GetConfigValue<int>("FadeDistance");
+        var fadeAttenuation = GetConfigValue<int>("FadeAttenuation");
+        var maxVisDistance  = GetConfigValue<int>("MaxVisibleDistance");
 
         SetMarker(
             new() {
@@ -192,6 +279,15 @@ internal sealed partial class OccultCoffersMarkerFactory : WorldMarkerFactory
                 MaxVisibleDistance = maxVisDistance,
             }
         );
+    }
+
+    private (uint FateId, long SpawnUnix, long LastSeenUnix, bool Alive)[]? GetPotTimersFromIpc()
+    {
+        try {
+            return _getPotTimers?.InvokeFunc();
+        } catch {
+            return null;
+        }
     }
 
     private IFate? GetActivePotFate()
