@@ -1,5 +1,6 @@
 using Dalamud.Utility;
 using System.Reflection;
+using Umbra.Windows.Components;
 using Umbra.Windows.Library.Installer;
 
 namespace Umbra.Windows.Settings;
@@ -19,6 +20,8 @@ public class SettingsWindow : Window
 
     private SettingsWindowModule? ActiveModule { get; set; }
 
+    private ButtonNode? _disableMultiMonitorButton;
+
     protected override void OnOpen()
     {
         var version = Assembly.GetExecutingAssembly().GetName().Version;
@@ -36,6 +39,22 @@ public class SettingsWindow : Window
 
         SwitchActiveMainTab(Modules.First().Id);
 
+        var notificationNode = RootNode.QuerySelector(".ui-window-notification")!;
+        notificationNode.Style.IsVisible = IsMultiMonitorActive();
+        if (IsMultiMonitorActive()) {
+            notificationNode.QuerySelector(".notification-text")!.NodeValue = I18N.Translate("Settings.Window.MultiMonitorActive");
+            var disableBtn = new ButtonNode("btn-disable-multimonitor", I18N.Translate("Settings.Window.DisableMultiMonitor"));
+            disableBtn.Style.Anchor  = Anchor.MiddleLeft;
+            disableBtn.IsDisabled    = true;
+            disableBtn.Tooltip       = I18N.Translate("Settings.Window.DisableMultiMonitor.Tooltip");
+            notificationNode.AppendChild(disableBtn);
+            _disableMultiMonitorButton = disableBtn;
+            disableBtn.OnMouseUp += _ => {
+                Framework.Service<IChatSender>().Send("/xltogglemultimonitor");
+                notificationNode.Style.IsVisible = false;
+            };
+        }
+
         RootNode.QuerySelector(".ui-window-footer .logo")!.OnRightClick += _ => {
             DrawingLib.ShowDebugWindow = !DrawingLib.ShowDebugWindow;
         };
@@ -49,6 +68,8 @@ public class SettingsWindow : Window
     protected override void OnDraw()
     {
         ActiveModule?.Draw();
+        if (_disableMultiMonitorButton != null)
+            _disableMultiMonitorButton.IsDisabled = !ImGui.GetIO().KeyShift;
     }
 
     private void CreateMainTab(string name, string id)
@@ -126,5 +147,10 @@ public class SettingsWindow : Window
     {
         Framework.Service<WindowManager>().Present("Installer", new InstallerWindow());
         Close();
+    }
+
+    private bool IsMultiMonitorActive()
+    {
+        return ImGui.GetIO().ConfigFlags.HasFlag(ImGuiConfigFlags.ViewportsEnable);
     }
 }

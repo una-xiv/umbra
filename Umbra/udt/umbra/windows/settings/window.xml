@@ -3,9 +3,12 @@
 
     <node id="settings-window">
         <tab-bar/>
-        
+
         <node id="tab-content"/>
 
+        <node class="ui-window-notification">
+            <node class="notification-text"/>
+        </node>
         <node class="ui-window-footer">
             <node class="version">
                 <node class="logo" img-src="logo.png"/>
@@ -29,50 +32,70 @@
 
     <![CDATA[
     @import "globals";
-    
+
     #settings-window {
         flow: vertical;
         auto-size: grow;
     }
-    
+
     #tab-content {
         auto-size: grow;
     }
-    
+
+    .ui-window-notification {
+        flow: horizontal;
+        auto-size: grow fit;
+        size: 0 32;
+        is-visible: false;
+        padding: 4 8;
+        gap: 8;
+        background-color: "Window.Notification";
+        border-width: 0 0 1 0;
+
+        & > .notification-text {
+            anchor: middle-left;
+            font-size: 12;
+            color: "Window.Text";
+            outline-color: "Window.TextOutline";
+            outline-size: 1;
+        }
+
+    }
+
     .ui-window-footer {
         auto-size: grow fit;
         size: 0 40;
-        
+
         & > .version {
             anchor: middle-left;
             gap: 4;
             padding: 4 0 0 0;
-            
+
             & > .logo {
                 anchor: middle-left;
                 size: 32;
             }
-            
+
             & > .info {
                 anchor: middle-left;
                 flow: vertical;
                 gap: -2;
-                
+
                 & > .text {
                     anchor: middle-left;
                     color: "Window.Text";
                     opacity: 0.75;
                     font-size: 12;
-                    
+
                     &.version {
                         text-offset: 0 2;
                     }
-                    
+
                     &.link {
                         font-size: 11;
                         opacity: 0.75;
                         color: "Window.AccentColor";
-                        
+
                         &:hover {
                             opacity: 1;
                         }
@@ -80,21 +103,21 @@
                 }
             }
         }
-        
+
         & > .spacer {
             anchor: middle-left;
             auto-size: grow;
         }
-        
+
         & > .buttons {
             anchor: middle-left;
             auto-size: fit;
             gap: 8;
-            
+
             & > .wrapper {
                 anchor: middle-right;
                 gap: 10;
-                
+
                 & > .separator {
                     size: 9 28;
                     margin: 4 8 4 0;

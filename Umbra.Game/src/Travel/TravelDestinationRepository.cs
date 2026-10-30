@@ -31,7 +31,7 @@ public sealed class TravelDestinationRepository : ITravelDestinationRepository, 
             .ToList();
 
         Sync();
-        
+
         _zoneManager.ZoneChanged += OnZoneChanged;
     }
 
@@ -44,7 +44,7 @@ public sealed class TravelDestinationRepository : ITravelDestinationRepository, 
     {
         Sync();
     }
-    
+
     public void Sync()
     {
         if (!_zoneManager.HasCurrentZone) return;
@@ -73,7 +73,7 @@ public sealed class TravelDestinationRepository : ITravelDestinationRepository, 
 
     private static unsafe ushort? GetFreeAetheryteId()
     {
-        ushort id = PlayerState.Instance()->FreeAetheryteId;
+        ushort id = PlayerState.Instance()->FreeAetheryteIds[0];
         return id > 0 ? id : null;
     }
 }
