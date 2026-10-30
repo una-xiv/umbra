@@ -343,6 +343,7 @@ internal class UmbraColors
         Color.AssignByName("Window.TextOutline",                  0xC0000000);
         Color.AssignByName("Window.TextDisabled",                 0xA0A0A0A0);
         Color.AssignByName("Window.AccentColor",                  0xFF4c8eb9);
+        Color.AssignByName("Window.Notification",                 0xFF085489);
         Color.AssignByName("Input.Background",                    0xFF151515);
         Color.AssignByName("Input.Border",                        0xFF404040);
         Color.AssignByName("Input.Text",                          0xFFD0D0D0);
