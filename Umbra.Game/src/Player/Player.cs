@@ -347,11 +347,15 @@ internal sealed class Player : IPlayer
             && _condition[ConditionFlag.OccupiedInCutSceneEvent];
 
         // Unknown57 is the transient state the player is in after casting and before being actually mounted.
-        CanUseTeleportAction  = ActionManager.Instance()->GetActionStatus(ActionType.Action, 5) == 0;
-        HomeWorldName         = _objectTable.LocalPlayer.HomeWorld.Value.Name.ToString();
-        CurrentWorldName      = _objectTable.LocalPlayer.CurrentWorld.Value.Name.ToString();
-        HomeDataCenterName    = _objectTable.LocalPlayer.HomeWorld.Value.DataCenter.Value.Name.ToString();
-        CurrentDataCenterName = _objectTable.LocalPlayer.CurrentWorld.Value.DataCenter.Value.Name.ToString();
+        CanUseTeleportAction = ActionManager.Instance()->GetActionStatus(ActionType.Action, 5) == 0;
+
+        World? homeWorld    = _objectTable.LocalPlayer.HomeWorld.ValueNullable;
+        World? currentWorld = _objectTable.LocalPlayer.CurrentWorld.ValueNullable;
+
+        HomeWorldName         = homeWorld?.Name.ToString() ?? "";
+        CurrentWorldName      = currentWorld?.Name.ToString() ?? "";
+        HomeDataCenterName    = GetDataCenterName(homeWorld);
+        CurrentDataCenterName = GetDataCenterName(currentWorld);
 
         var ps = PlayerState.Instance();
 
@@ -573,6 +577,20 @@ internal sealed class Player : IPlayer
     {
         var layout = AtkStage.Instance()->RaptureAtkUnitManager->GetAddonByName("HudLayout");
         IsEditingHud = layout != null && layout->IsVisible;
+    }
+
+    private string GetDataCenterName(World? world)
+    {
+        if (world == null) return "";
+
+        if (world.Value.Unknown0 != 0) {
+            WorldDCGroupType? logicalDc = _dataManager.GetExcelSheet<WorldDCGroupType>().FindRow(world.Value.Unknown0);
+            if (logicalDc != null) {
+                return logicalDc.Value.Name.ToString();
+            }
+        }
+
+        return world.Value.DataCenter.ValueNullable?.Name.ToString() ?? "";
     }
 }
 
