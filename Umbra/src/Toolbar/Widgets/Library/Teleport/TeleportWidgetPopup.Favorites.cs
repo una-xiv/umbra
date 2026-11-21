@@ -67,5 +67,8 @@ internal sealed partial class TeleportWidgetPopup
     private void PersistFavorites()
     {
         ConfigManager.Set("Teleport.Favorites", string.Join(",", Favorites));
+
+        // Buttons were updated in place, so a rebuild isn't needed.
+        if (_builtInterfaceKey != null) _builtInterfaceKey = GetInterfaceKey();
     }
 }

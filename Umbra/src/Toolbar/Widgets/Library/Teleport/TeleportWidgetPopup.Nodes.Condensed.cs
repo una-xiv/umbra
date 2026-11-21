@@ -34,7 +34,11 @@ internal partial class TeleportWidgetPopup
         CondensedSidePanelNode.AppendChild(new() { ClassList = ["side-panel-separator"], SortIndex = int.MaxValue - 10 });
         BuildMiscellaneousEntries();
         BuildCondensedFavoriteEntries();
+        ActivateDefaultExpansion();
+    }
 
+    private void ActivateDefaultExpansion()
+    {
         switch (DefaultOpenedGroupName) {
             case "Favorites" when Favorites.Count > 0:
                 ActivateExpansion("Favorites");
@@ -82,16 +86,19 @@ internal partial class TeleportWidgetPopup
             });
             node.AppendChild(regionNode);
 
+            Node regionList = regionNode.QuerySelector(".list")!;
+
             foreach (var map in region.Maps.Values) {
                 foreach (var destination in map.Destinations.Values) {
 
                     Node destinationNode = Document.CreateNodeFromTemplate("condensed-teleport", new() {
                         { "label", GetDestinationName(map, destination) },
-                        { "cost", $"{SeIconChar.Gil.ToIconChar()} {I18N.FormatNumber(destination.GilCost)}" }
+                        { "cost", FormatGilCost(destination) }
                     });
 
-                    regionNode.QuerySelector(".list")!.AppendChild(destinationNode);
+                    regionList.AppendChild(destinationNode);
                     destinationNode.QuerySelector(".icon")!.Style.UldPartId = destination.UldPartId;
+                    RegisterCostNode(destinationNode, destination);
 
                     destinationNode.OnClick      += _ => Teleport(destination);
                     destinationNode.OnRightClick += _ => OpenContextMenu(destination);
@@ -128,41 +135,22 @@ internal partial class TeleportWidgetPopup
         Node regionNode = Document.CreateNodeFromTemplate("condensed-region", new() { { "label", I18N.Translate("Widget.Teleport.Misc") } });
         expansionNode.AppendChild(regionNode);
 
-        foreach (MainMenuItem item in Framework.Service<IMainMenuRepository>().GetCategory(MenuCategory.Travel).Items) {
-            switch (item.Type) {
-                case MainMenuItemType.MainCommand when item.CommandId != 36:
-                case MainMenuItemType.Separator:
-                    continue;
-                case MainMenuItemType.ChatCommand:
-                case MainMenuItemType.Callback:
-                default: {
-                    var menuItemNode = Document.CreateNodeFromTemplate("condensed-teleport", new() {
-                        { "label", item.Name },
-                        { "cost", item.ShortKey }
-                    });
+        Node regionList = regionNode.QuerySelector(".list")!;
 
-                    menuItemNode.Id        = item.Id;
-                    menuItemNode.SortIndex = item.SortIndex;
+        foreach (MainMenuItem item in GetTravelMenuItems()) {
+            var menuItemNode = Document.CreateNodeFromTemplate("condensed-teleport", new() {
+                { "label", item.Name },
+                { "cost", item.ShortKey }
+            });
 
-                    switch (item.Icon) {
-                        case uint iconId:
-                            menuItemNode.QuerySelector(".icon")!.Style.IconId = iconId;
-                            menuItemNode.QuerySelector(".icon")!.NodeValue    = default;
-                            break;
-                        case SeIconChar seIconChar:
-                            menuItemNode.QuerySelector(".icon")!.Style.IconId = null;
-                            menuItemNode.QuerySelector(".icon")!.Style.Color  = item.IconColor != null ? new(item.IconColor.Value) : null;
-                            menuItemNode.QuerySelector(".icon")!.NodeValue    = seIconChar.ToIconString();
-                            break;
-                    }
+            menuItemNode.Id        =  item.Id;
+            menuItemNode.SortIndex =  item.SortIndex;
+            menuItemNode.OnClick   += _ => { item.Invoke(); Close(); };
 
-                    menuItemNode.SortIndex =  item.SortIndex;
-                    menuItemNode.OnClick   += _ => { item.Invoke(); Close(); };
+            ApplyMenuItem(menuItemNode, item);
+            _menuItemNodes.Add((menuItemNode, item));
 
-                    regionNode.QuerySelector(".list")!.AppendChild(menuItemNode);
-                    break;
-                }
-            }
+            regionList.AppendChild(menuItemNode);
         }
     }
 
@@ -207,11 +195,13 @@ internal partial class TeleportWidgetPopup
 
         Node node = Document.CreateNodeFromTemplate("condensed-teleport", new() {
             { "label", destination.Name },
-            { "cost", $"{SeIconChar.Gil.ToIconChar()} {I18N.FormatNumber(destination.GilCost)}" }
+            { "cost", FormatGilCost(destination) }
         });
 
         node.Id        = $"SortableCondensed_{destination.NodeId}";
         node.SortIndex = Favorites.IndexOf(destination.NodeId);
+
+        RegisterCostNode(node, destination);
 
         var icon = node.QuerySelector(".icon");
         if (icon != null) {

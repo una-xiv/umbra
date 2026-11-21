@@ -66,6 +66,9 @@ public abstract class WidgetPopup : IDisposable
 
     protected ContextMenu? ContextMenu { get; set; }
 
+    private const float AnimationSpeed        = 10f;
+    private const float MaxAnimationDeltaTime = 1f / 20f;
+
     private float _opacityDest;
     private float _opacity;
     private float _yOffsetDest;
@@ -116,7 +119,7 @@ public abstract class WidgetPopup : IDisposable
 
         _opacity     = 0;
         _opacityDest = 0;
-        _yOffset     = Toolbar.IsTopAligned ? -32 : 32;
+        _yOffset     = 0;
         _yOffsetDest = 0;
     }
 
@@ -133,17 +136,19 @@ public abstract class WidgetPopup : IDisposable
             wrapper.AppendChild(Node);
         }
 
-        if (!_isOpen) {
+        bool isAuxWidget = activator.Node.ParentNode?.Id?.StartsWith("aux") ?? false;
+        bool isDownward  = IsPopupOpenDownward(activator);
+        bool isFloating  = !Toolbar.IsStretched || WidgetManager.EnforceFloatingPopups || isAuxWidget;
+        bool isOpening   = !_isOpen;
+
+        if (isOpening) {
             _isOpen      = true;
             _shouldClose = false;
+            _yOffset     = isDownward ? -32 : 32;
             OnPopupOpen?.Invoke();
             OnOpen();
             _popupNode.ComputeBoundingSize();
         }
-
-        bool isAuxWidget = activator.Node.ParentNode?.Id?.StartsWith("aux") ?? false;
-        bool isDownward  = IsPopupOpenDownward(activator);
-        bool isFloating  = !Toolbar.IsStretched || WidgetManager.EnforceFloatingPopups || isAuxWidget;
 
         _popupNode.ToggleTag("top", !isFloating && isDownward);
         _popupNode.ToggleTag("bottom", !isFloating && !isDownward);
@@ -157,22 +162,28 @@ public abstract class WidgetPopup : IDisposable
             ? GetPopupPositionAligned(activator, Size)
             : GetPopupPositionCentered(activator, Size);
 
-        float deltaTime = ImGui.GetIO().DeltaTime * 10;
-
         _opacityDest = 1;
         _yOffsetDest = 0;
 
-        _opacity = _opacity += (_opacityDest - _opacity) * deltaTime;
-        _yOffset = _yOffset += (_yOffsetDest - _yOffset) * deltaTime;
+        if (isOpening) {
+            // Nodes created in OnOpen have no computed style yet, so this
+            // frame's layout is wrong.
+            _opacity = 0;
+        } else {
+            // A hitch, e.g. from OnOpen, would otherwise skip the animation.
+            float deltaTime = MathF.Min(ImGui.GetIO().DeltaTime, MaxAnimationDeltaTime);
+            float t         = 1f - MathF.Exp(-AnimationSpeed * deltaTime);
 
-        switch (IsPopupOpenDownward(activator)) {
-            case true when _yOffset > -1:
-            case false when _yOffset < 1:
-                _yOffset = 0;
-                break;
+            _opacity += (_opacityDest - _opacity) * t;
+            _yOffset += (_yOffsetDest - _yOffset) * t;
         }
 
-        if (_opacity > 0.9) _opacity = 1;
+        if (MathF.Abs(_yOffset) < 1) _yOffset = 0;
+        if (_opacity > 0.99f) _opacity = 1;
+
+        // Threaded style computation lags a frame behind, which makes the
+        // animation stutter.
+        bool isAnimating = _opacity < 1 || _yOffset != 0;
 
         _popupNode.Style.Opacity = _opacity;
 
@@ -206,7 +217,7 @@ public abstract class WidgetPopup : IDisposable
 
             hasFocus = ImGui.IsWindowFocused(ImGuiFocusedFlags.RootAndChildWindows);
 
-            _popupNode.Render(ImGui.GetWindowDrawList(), new(0, _yOffset));
+            _popupNode.Render(ImGui.GetWindowDrawList(), new(0, MathF.Round(_yOffset)), isAnimating);
 
             if (ContextMenu is { ShouldRender: true }) {
                 _contextMenuManager.Draw();

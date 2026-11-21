@@ -18,8 +18,18 @@ internal partial class TeleportWidgetPopup : WidgetPopup
     {
         HydrateAetherytePoints();
         LoadFavorites();
-        BuildContextMenu();
-        BuildInterfaces();
+
+        if (ContextMenu == null) BuildContextMenu();
+
+        // Rebuilding is expensive.
+        string interfaceKey = GetInterfaceKey();
+
+        if (interfaceKey != _builtInterfaceKey) {
+            BuildInterfaces();
+            _builtInterfaceKey = interfaceKey;
+        } else {
+            RefreshInterface();
+        }
     }
 
     protected override void OnClose()
